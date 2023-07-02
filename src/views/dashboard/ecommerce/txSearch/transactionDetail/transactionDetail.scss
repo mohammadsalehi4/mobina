@@ -1,0 +1,39 @@
+#TransactionDetail{
+    border-radius: 10px;
+    .row2{
+    }
+}
+#rightCard{
+    box-sizing: border-box;
+    background: rgb(248, 248, 248);
+    box-shadow: none;
+    border-radius: 8px;
+    #cardBlockNumber{
+        margin-top: -10px;
+
+    }
+    #cardLink{
+        border-width: 1px;
+        border-color: rgb(124, 124, 124);;
+        border-style: solid;
+        color: rgb(124, 124, 124);
+        padding: 4px 12px;
+        border-radius: 8px;
+        ion-icon{
+            margin-bottom: -3px;
+        }
+    }
+    img{
+        width: 30px;
+    }
+
+}
+#leftCard{
+    margin: 0px;
+    box-shadow: none;
+    .option{
+        margin-bottom: -10px;
+    }
+    .amountOption{
+    }
+}

@@ -1,0 +1,286 @@
+import Graph from "react-graph-vis"
+import React, { useState } from "react"
+import { useDispatch } from "react-redux"
+// eslint-disable-next-line no-duplicate-imports
+import { useSelector } from "react-redux"
+const GraphDraw = (props) => {
+  const States = useSelector(state => state)
+  const dispatch = useDispatch()
+  const [state] = useState({
+
+    counter: 5,
+    _graph: {
+      nodes: [
+        {
+          id: 1,
+          group: "main",
+          label: props.address,
+          x: 0,
+          y: 800
+        },
+        {
+          id: -2,
+          group: "senderMain",
+          label: props.address,
+          x: 300,
+          y: 800
+        },
+        {
+          id: -3,
+          group: "senderMain",
+          label: props.address,
+          x: 300,
+          y: 720
+        },
+        {
+          id: 2,
+          group: "middle",
+          x: -150,
+          y: 801,
+          fixed: true
+        },
+        {
+          id: -1,
+          group: "middle",
+          x: 150,
+          y: 799,
+          fixed: true
+        },
+        {
+          id: 3,
+          label: props.address,
+          group: "reciverMain",
+          x: -300,
+          y: 802
+        },
+        {
+          id: 4,
+          label: props.address,
+          group: "reciverMain",
+          x: -300,
+          y: 720
+        },
+        {
+          id: 5,
+          label: props.address,
+          group: "reciverMain",
+          x: 0,
+          y: 720
+        }
+      ],
+      edges: [
+        {
+          from: 1,
+          to: 2,
+          label: "2520$",
+          font: { size: 16, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
+          color: { color: '#000000', highlight: '#00ff00' },
+          strokeWidth: 2,
+          color: "blue",
+          shadow: true,
+          fixed: true,
+          smooth: true
+        },
+        {
+          from: 2,
+          to: 3,
+          label: "1520$",
+          font: { size: 16, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
+          color: { color: '#000000', highlight: '#00ff00' },
+          strokeWidth: 2,
+          color: "blue",
+          shadow: true,
+          fixed: true,
+          smooth: true
+        },
+        {
+          from: 2,
+          to: 4,
+          label: "1000$",
+          font: { size: 16, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
+          color: { color: '#000000', highlight: '#00ff00' },
+          strokeWidth: 2,
+          color: "blue",
+          shadow: true,
+          fixed: true,
+          smooth: true
+        },
+        {
+          from: -1,
+          to: 1,
+          label: "1000$",
+          font: { size: 16, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
+          color: { color: '#000000', highlight: '#00ff00' },
+          strokeWidth: 2,
+          color: "blue",
+          shadow: true,
+          fixed: true,
+          smooth: true
+        },
+        {
+          from: -2,
+          to: -1,
+          label: "300$",
+          font: { size: 16, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
+          color: { color: '#000000', highlight: '#00ff00' },
+          strokeWidth: 2,
+          color: "blue",
+          shadow: true,
+          fixed: true,
+          smooth: true
+        },
+
+        {
+          from: -3,
+          to: -1,
+          label: "700$",
+          font: { size: 16, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
+          color: { color: '#000000', highlight: '#00ff00' },
+          strokeWidth: 2,
+          color: "blue",
+          shadow: true,
+          fixed: true,
+          smooth: true
+        },
+        {
+          from: -1,
+          to: 5,
+          label: "700$",
+          font: { size: 16, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
+          color: { color: '#000000', highlight: '#00ff00' },
+          strokeWidth: 2,
+          color: "blue",
+          shadow: true,
+          fixed: true,
+          smooth: true
+        }
+      ]
+    },
+    get graph() {
+      return this._graph
+    },
+    set graph(value) {
+      this._graph = value
+    },
+    events: {
+      select: ({ nodes }) => {
+        for (let i = 0; i < state.graph.nodes.length; i++) {
+          if (state.graph.nodes[i].id === nodes[0]) {
+            if (state.graph.nodes[i].group === 'middle') {
+              dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
+              console.log('yes')
+            }
+          }
+        }
+      }
+
+    }
+  })
+
+  
+  const options = {
+    layout: {
+      hierarchical: false
+    },
+    edges: {
+      color: "#000000",
+      width:1.2,
+      smooth: {
+        type: "cubicBezier",
+
+        roundness: 0.4
+      },
+      font: { align: "horizontal", size:10 },
+      strokeWidth: 2,
+      arrows: {
+        to: {
+            enabled: true
+        }
+    }
+    },
+    nodes:{
+        borderWidth:1,
+
+        color: {
+            border: "white",
+            background:"white"
+          },
+        size:15,
+        font:{
+            
+        }
+    },
+    groups: {
+        //گره های واسط
+        middle:{
+          shape:'dot',
+          size:6,
+          font: { size: 3, family:"Arial", color:'rgb(18, 73, 175)'  },
+          color:{
+              border: 'rgb(18, 73, 175)',
+              background:'rgb(18, 73, 175)',
+              highlight: {
+                background: 'rgb(18, 73, 175)',
+                border: 'rgb(18, 73, 175)'
+              }
+          },
+          borderWidth: 0,
+          borderColor:"blue"
+
+        },
+        //گره اصلی
+        main:{
+          font: { size: 13, family:"Arial", color:'rgb(18, 73, 175)' },
+          color:{
+              border: 'rgb(18, 73, 175)'
+          },
+          borderWidth: 3,
+          align: 'horizontal',
+          image:"/images/location.png",
+          borderColor:"blue",            
+          fixed:true,
+          shape:'circularImage'
+        },
+        //فرستنده ها
+        senderMain:{
+          font: { size: 13, family:"Arial", color:'rgb(18, 73, 175)'  },
+          color:{
+              border: 'rgb(18, 73, 175)'
+          },
+          borderWidth: 3,
+          align: 'horizontal',
+          image:"/images/greenLocation.png",
+          borderColor:"blue",            
+          fixed:true,
+          shape:'circularImage'
+        },
+        //گیرنده ها
+        reciverMain:{
+          font: { size: 13, family:"Arial", color:'rgb(18, 73, 175)'  },
+          color:{
+              border: 'rgb(18, 73, 175)'
+          },
+          borderWidth: 3,
+          align: 'horizontal',
+          image:"/images/redLocation.png",
+          borderColor:"blue",            
+          fixed:true,
+          shape:'circularImage'
+        },
+        eStyle:{
+
+        }
+      }
+  }
+
+  const { graph, events } = state
+
+  return (
+    <div>
+      <Graph graph={graph} options={options} events={events} style={{height:"700px", width:"100%"}}/>
+    </div>
+  )
+
+}
+
+export default GraphDraw

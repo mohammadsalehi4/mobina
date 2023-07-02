@@ -1,0 +1,62 @@
+#rightCard1{
+    box-sizing: border-box;
+    background: rgb(248, 248, 248);
+    box-shadow: none;
+    border-radius: 8px;
+    #cardBlockNumber{
+        margin-top: -10px;
+
+    }
+    #cardLink{
+        border-width:2px;
+        border-style: solid;
+        color: rgb(124, 124, 124);
+        padding: 8px 12px;
+        border-radius: 8px;
+        ion-icon{
+            margin-bottom: -3px;
+        }
+        width: 35%;
+        margin-right: 10%;
+        background: rgb(248, 248, 248);
+        margin-top: 10px;
+        @media only screen and (max-width:500px) {
+            width: 90%;
+            margin-right: 5%;
+            display: block;
+        }
+    }
+    .cardLink1{
+        border-color: rgb(255, 204, 0);
+        margin-right: 0px;
+    }
+    .cardLink2{
+        border-color: red;
+    }
+    #showOwner{
+        background: rgb(37, 0, 110);
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 10px;
+        button{
+            display: block;
+            margin-top: 8px;
+            border: none;
+            background: rgb(255, 183, 0);
+            padding: 5px 15px;
+            border-radius: 8px;
+            padding: 10px 20px;
+        }
+    }
+
+}
+#leftCard1{
+    margin: 0px;
+    box-shadow: none;
+    .option{
+        margin-bottom: -10px;
+    }
+    .amountOption{
+    }
+}

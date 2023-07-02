@@ -1,0 +1,6 @@
+#niceAddress:hover div{
+    transform: translateY(1px);
+}
+#niceAddress div{
+    transform: translateY(5px);
+}

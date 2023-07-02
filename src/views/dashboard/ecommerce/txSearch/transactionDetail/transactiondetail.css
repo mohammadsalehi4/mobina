@@ -1,0 +1,36 @@
+#TransactionDetail {
+  border-radius: 10px;
+}
+#rightCard {
+  box-sizing: border-box;
+  background: #f8f8f8;
+  box-shadow: none;
+  border-radius: 8px;
+}
+#rightCard #cardBlockNumber {
+  margin-top: -10px;
+}
+#rightCard #cardLink {
+  border-width: 1px;
+  border-color: #7c7c7c;
+  border-style: solid;
+  color: #7c7c7c;
+  padding: 4px 12px;
+  border-radius: 8px;
+}
+#rightCard #cardLink ion-icon {
+  margin-bottom: -3px;
+}
+#rightCard img {
+  width: 30px;
+}
+
+#leftCard {
+  margin: 0px;
+  box-shadow: none;
+}
+#leftCard .option {
+  margin-bottom: -10px;
+}
+
+/*# sourceMappingURL=transactiondetail.css.map */

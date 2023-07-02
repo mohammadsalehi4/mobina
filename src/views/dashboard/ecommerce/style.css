@@ -1,0 +1,64 @@
+#dashboard .main_row1 input {
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  border-radius: 8px;
+  background: url("../../../../public/images/search.png") no-repeat scroll 7px 7px;
+  background-size: 30px;
+  background-position: 10px 10px;
+}
+#dashboard .main_row1 h1 {
+  width: 100%;
+  text-align: center;
+}
+@media only screen and (max-width: 992px) {
+  #dashboard .main_row1 h1 {
+    font-size: 15px;
+  }
+}
+#dashboard .main_row1 #searchExample11 {
+  display: block;
+  margin-right: 0%;
+  margin-top: 10px;
+  width: 100%;
+}
+#dashboard .main_row1 #searchExample11 span, #dashboard .main_row1 #searchExample11 ion-icon, #dashboard .main_row1 #searchExample11 p {
+  display: inline-block;
+}
+@media only screen and (max-width: 992px) {
+  #dashboard .main_row1 #searchExample11 {
+    font-size: 13px;
+  }
+}
+#dashboard .main_row1 #searchExample11 span {
+  margin-right: 10px;
+  transition: 0.1s;
+}
+#dashboard .main_row1 #searchExample11 span:hover {
+  color: #00008e;
+  cursor: pointer;
+}
+#dashboard .main_row1 #searchExample11 ion-icon {
+  margin-right: 4px;
+  color: #00008e;
+}
+@media only screen and (max-width: 768px) {
+  #dashboard .main_row1 {
+    margin-top: -80px;
+  }
+}
+
+#mainTable #CardTitle {
+  width: 100%;
+}
+#mainTable img {
+  width: 50px;
+  display: inline-block;
+}
+@media only screen and (max-width: 992px) {
+  #mainTable img {
+    width: 40px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

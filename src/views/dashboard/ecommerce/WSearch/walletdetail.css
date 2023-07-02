@@ -1,0 +1,63 @@
+#rightCard1 {
+  box-sizing: border-box;
+  background: #f8f8f8;
+  box-shadow: none;
+  border-radius: 8px;
+}
+#rightCard1 #cardBlockNumber {
+  margin-top: -10px;
+}
+#rightCard1 #cardLink {
+  border-width: 2px;
+  border-style: solid;
+  color: #7c7c7c;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 35%;
+  margin-right: 10%;
+  background: #f8f8f8;
+  margin-top: 10px;
+}
+#rightCard1 #cardLink ion-icon {
+  margin-bottom: -3px;
+}
+@media only screen and (max-width: 500px) {
+  #rightCard1 #cardLink {
+    width: 90%;
+    margin-right: 5%;
+    display: block;
+  }
+}
+#rightCard1 .cardLink1 {
+  border-color: #ffcc00;
+  margin-right: 0px;
+}
+#rightCard1 .cardLink2 {
+  border-color: red;
+}
+#rightCard1 #showOwner {
+  background: #25006e;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+#rightCard1 #showOwner button {
+  display: block;
+  margin-top: 8px;
+  border: none;
+  background: #ffb700;
+  padding: 5px 15px;
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+
+#leftCard1 {
+  margin: 0px;
+  box-shadow: none;
+}
+#leftCard1 .option {
+  margin-bottom: -10px;
+}
+
+/*# sourceMappingURL=walletdetail.css.map */
