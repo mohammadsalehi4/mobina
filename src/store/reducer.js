@@ -3,10 +3,14 @@ const initialState = {
     showMobileMenu:false,
     witchPage:1,
     showTransactionData:false,
+    showWalletData:false,
     isAdmin:true,
     notifNumber:0,
     showAdminAccessBox:false,
-    TransactionDetailCurrencyMode:0
+    TransactionDetailCurrencyMode:0,
+    
+    //joziate tarakonesh baraye safhe graph
+    WDetail:{}
 }
 
 const reducer = (state = initialState, action) => {
@@ -40,6 +44,12 @@ const reducer = (state = initialState, action) => {
             showTransactionData:action.value
         }
     }
+    if (action.type === "SETshowWalletData") {
+        return {
+            ...state,
+            showWalletData:action.value
+        }
+    }
     if (action.type === "SETISADMIN") {
         return {
             ...state,
@@ -62,6 +72,12 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             TransactionDetailCurrencyMode:action.value
+        }
+    }
+    if (action.type === "SETWDetail") {
+        return {
+            ...state,
+            WDetail:action.value
         }
     }
     return state

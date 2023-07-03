@@ -159,7 +159,7 @@ export const columns = [
     selector: row => (
       <div className='d-flex align-items-end '>
         <div className='user-info text-truncate'>
-          <NiceAddress text={row.address} number={8}/>
+          <NiceAddress text={row.address} number={8} start={5}/>
         </div>
       </div>
     )
@@ -176,7 +176,6 @@ export const columns = [
     minWidth: '150px',
     selector: row => row.USDAmount
   },
-
   {
     name: 'هزینه تراکنش',
     sortable: true,

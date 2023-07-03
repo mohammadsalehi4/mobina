@@ -1,7 +1,7 @@
 import React from 'react'
 import './transactiondetail.css'
 import CardContentTypes from './rightCard'
-import Cards from '../../../../ui-elements/cards/advance'
+import Cards from '../../../../views/ui-elements/cards/advance'
 import CardTransactions from './leftcard'
 import RightDataTableWithButtons from './rightTable/TableWithButtons'
 import LeftDataTableWithButtons from './leftTable/TableWithButtons'

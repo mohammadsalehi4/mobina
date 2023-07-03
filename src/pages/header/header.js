@@ -133,7 +133,7 @@ function Header() {
               <div class="container-xxl d-flex h-100">
                 <ul class="menu-inner">
 
-                <li class="menu-item ">
+                <li class="menu-item">
                   <a class="menu-link">
                   <ion-icon name="home-outline"></ion-icon>
                     <div data-i18n="Dashboards" className='vazir'>داشبورد</div>

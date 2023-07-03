@@ -1,0 +1,45 @@
+#TransactionPage {
+  background: #f8f8f8;
+  min-height: 100vh;
+  width: 100%;
+}
+
+#CurrencyDetail {
+  width: 400px;
+  height: 70vh;
+  position: fixed;
+  top: 150px;
+  border-radius: 10px;
+  right: 20px;
+  box-sizing: border-box;
+  padding: 15px;
+  background: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+#CurrencyDetail #closeIcon {
+  float: left;
+  font-size: 20px;
+  padding: 1px;
+  border-radius: 5px;
+}
+#CurrencyDetail #closeIcon:hover {
+  background: whitesmoke;
+  cursor: pointer;
+}
+#CurrencyDetail #address {
+  display: inline-block;
+}
+#CurrencyDetail #address p {
+  display: inline-block;
+}
+#CurrencyDetail #address ion-icon {
+  margin-right: 10px;
+  font-size: 18px;
+  margin-bottom: -4px;
+  cursor: pointer;
+}
+#CurrencyDetail #address ion-icon:hover {
+  color: black;
+}
+
+/*# sourceMappingURL=tracker.css.map */

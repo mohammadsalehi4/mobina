@@ -3,10 +3,10 @@ import { useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"
 import './App.css'
 
-import EcommerceDashboard from './views/dashboard/ecommerce'
-import Main from './views/main/main'
-import Header from './views/header/header'
-import Tracker from './views/pages/tracker/tracker'
+import EcommerceDashboard from '../src/pages/dashboard/index'
+import Main from '../src/pages/main/main'
+import Header from '../src/pages/header/header'
+import Tracker from '../src/pages/tracker/tracker'
 
 const App = () => {
   const States = useSelector(state => state)

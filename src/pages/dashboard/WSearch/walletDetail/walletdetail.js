@@ -1,7 +1,7 @@
 import React from 'react'
 import CardTransactions from '../leftcard'
 import CardContentTypes from '../rightCard'
-import Pickers from '../../../../forms/form-elements/datepicker'
+import Pickers from '../../../../views/forms/form-elements/datepicker'
 import DataTableWithButtons from './TableWithButtons'
 const Walletdetail = () => {
   return (

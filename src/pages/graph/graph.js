@@ -6,6 +6,44 @@ import { useSelector } from "react-redux"
 const GraphDraw = (props) => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
+  const WalletData = {
+    address:"sdufgsdjfgjsadgfjasdgjfksdgkjfsdgfjksadgfkjsdgfjhbkj",
+    in:[
+        {
+            address:"wqdugwygqweuifgwuaysbgauskdbguksdfguaskdgfuakjsdfa",
+            date:"2021/01/12",
+            time:"14:25",
+            amount:0.23
+        },
+        {
+            address:"sdafuisdgfuasydgbfusadybfcjsfadbausdgfsakjdgfjasdfkj",
+            date:"2022/11/17",
+            time:"18:45",
+            amount:2.98
+        }
+    ],
+    out:[
+        {
+            address:"sdufgsadujfgsajkdgfasudygfasjkdfbajksdgfjsdhjbsjgdf",
+            date:"2021/01/16",
+            time:"17:23",
+            amount:0.26
+        },
+        {
+            address:"SAKDNasuduiASDGASUGDFAUSDGFSDJGjhsgdfkjdsgjfksgadkjf",
+            date:"2022/09/12",
+            time:"19:35",
+            amount:1.19
+        },
+        {
+            address:"sdfsdabfjkasdgfsgadfjkasdgfjsbsadkjgfsbfaskjdfbsjdfds",
+            date:"2023/06/22",
+            time:"09:23",
+            amount:1.11
+        }
+    ]
+}
+
   const [state] = useState({
 
     counter: 5,
@@ -166,9 +204,17 @@ const GraphDraw = (props) => {
       select: ({ nodes }) => {
         for (let i = 0; i < state.graph.nodes.length; i++) {
           if (state.graph.nodes[i].id === nodes[0]) {
-            if (state.graph.nodes[i].group === 'middle') {
-              dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
-              console.log('yes')
+            if (state.graph.nodes[i].group === 'main') {
+              dispatch({type:"SETshowWalletData", value:true})
+              dispatch({type:"SETWDetail", value:WalletData})
+            }
+            if (state.graph.nodes[i].group === 'senderMain') {
+              dispatch({type:"SETshowWalletData", value:true})
+              dispatch({type:"SETWDetail", value:WalletData})
+            }
+            if (state.graph.nodes[i].group === 'reciverMain') {
+              dispatch({type:"SETshowWalletData", value:true})
+              dispatch({type:"SETWDetail", value:WalletData})
             }
           }
         }
