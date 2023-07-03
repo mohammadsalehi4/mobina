@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-invalid-this */
 import React, { useState } from 'react'
-import NiceAddress1 from './niceAddress/niceAddress'
+import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import { useSelector, useDispatch } from "react-redux"
+import PickerRange from '../../components/timeRangePicker/PickerRange'
+import DataTablesBasic from '../../components/walletDetailTable/TableZeroConfig'
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -22,7 +24,7 @@ const CurrencyDetail = () => {
         <div className='row'>
           <div className='col-12' >
             <div id='address'>
-              <NiceAddress1 href={'#'} text={States.WDetail.address} number={8}/>
+              <NiceAddress2 href={'#'} text={States.WDetail.address} number={12}/>
               <ion-icon name="copy-outline"></ion-icon>
               <ion-icon name="git-network-outline"></ion-icon>
             </div>
@@ -41,63 +43,86 @@ const CurrencyDetail = () => {
             <button type="button" class="btn btn-outline-danger me-3">گزارش آدرس <ion-icon name="alert-circle-outline"></ion-icon></button>
           </div>
         </div>
-        <div className='row mt-3' style={{borderColor:"rgb(240, 240, 240)", borderRadius:"8px", borderWidth:"2px", borderStyle:"solid"}}>
-          <div className='row me-0 p-2' style={{background:"rgb(240, 240, 240)", borderTopLeftRadius:"8px", borderTopRightRadius:"8px"}}>
-            <div className='col-4'>
-              اطلاعات
+        <div className='row' id='scrollingWalletDetail' style={{boxSizing:"border-box"}}>
+          <div className='col-12 p-4'>
+            <div className='row' style={{boxSizing:"border-box", borderStyle:"solid", borderWidth:"2px", borderColor:"rgb(242,242,242)", borderRadius:"8px", overflow:"hidden"}}>
+              <div className='col-12'>
+                <div className='row p-2' style={{background:"rgb(242,242,242)"}}>
+                  <div className='col-4'>
+                    اطلاعات
+                  </div>
+                  <div className='col-4'>
+                    مجموع
+                  </div>
+                  <div className='col-4'>
+                    انتخاب شده
+                  </div>
+                </div>
+                <div className='row me-0 p-1' style={{ width:"100%"}}>
+                  <div className='col-4'>
+                    تراکنش ها
+                  </div>
+                  <div className='col-4'>
+                    5
+                  </div>
+                  <div className='col-4'>
+                    2
+                  </div>
+                </div>
+                <div className='row me-0 p-1' style={{ width:"100%"}}>
+                  <div className='col-4'>
+                    دریافت شده
+                  </div>
+                  <div className='col-4'>
+                    2.29
+                  </div>
+                  <div className='col-4'>
+                    0.97
+                  </div>
+                </div>
+                <div className='row me-0 p-1' style={{ width:"100%"}}>
+                  <div className='col-4'>
+                    ارسال شده
+                  </div>
+                  <div className='col-4'>
+                    2.29
+                  </div>
+                  <div className='col-4'>
+                    0.97
+                  </div>
+                </div>
+                <div className='row me-0 p-1' style={{ width:"100%"}}>
+                  <div className='col-4'>
+                    مجموع
+                  </div>
+                  <div className='col-4'>
+                    1.34
+                  </div>
+                  <div className='col-4'>
+                    
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className='col-4'>
-              مجموع
+            <div className='row mt-3' style={{borderBottomStyle:"solid", borderColor:"rgb(242,242,242)", borderWidth:"2px"}}>
+              <div className='col-4' style={{borderBottomStyle:"solid", borderColor:"orange", borderWidth:"2px"}}>
+                <h6  >تراکنش ها</h6>
+              </div>
             </div>
-            <div className='col-4'>
-              انتخاب شده
+            <div className='row mt-3'>
+              <div className='col-6'>
+                <PickerRange/>
+              </div>
+              <div className='col-6'>
+                {/* bayad jaygozin shavad */}
+                <PickerRange/>
+              </div>
             </div>
-          </div>
-          <div className='row me-0 p-1' style={{ width:"100%"}}>
-            <div className='col-4'>
-              تراکنش ها
+            <div className='row mt-3'>
+              <div className='col-12'>
+                <DataTablesBasic/>
+              </div>
             </div>
-            <div className='col-4'>
-              5
-            </div>
-            <div className='col-4'>
-              2
-            </div>
-          </div>
-          <div className='row me-0 p-1' style={{ width:"100%"}}>
-            <div className='col-4'>
-              دریافت شده
-            </div>
-            <div className='col-4'>
-              2.29
-            </div>
-            <div className='col-4'>
-              0.97
-            </div>
-          </div>
-          <div className='row me-0 p-1' style={{ width:"100%"}}>
-            <div className='col-4'>
-              ارسال شده
-            </div>
-            <div className='col-4'>
-              2.29
-            </div>
-            <div className='col-4'>
-              0.97
-            </div>
-          </div>
-          <div className='row me-0 p-1' style={{ width:"100%"}}>
-            <div className='col-4'>
-              مجموع
-            </div>
-            <div className='col-8'>
-              1.23
-            </div>
-          </div>
-        </div>
-        <div className='row mt-3' style={{borderColor:"rgb(240, 240, 240)", borderBottomStyle:"solid", borderBottomWidth:"1px"}}>
-          <div className='col-3' style={{borderColor:"rgb(255, 191, 0)", borderBottomStyle:"solid", borderBottomWidth:"2px"}}>
-            <h6 >تراکنش ها</h6>
           </div>
         </div>
     </div>

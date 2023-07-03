@@ -1,3 +1,4 @@
+@charset "UTF-8";
 #TransactionPage {
   background: #f8f8f8;
   min-height: 100vh;
@@ -5,8 +6,8 @@
 }
 
 #CurrencyDetail {
-  width: 400px;
-  height: 70vh;
+  width: 500px;
+  max-height: 70vh;
   position: fixed;
   top: 150px;
   border-radius: 10px;
@@ -40,6 +41,21 @@
 }
 #CurrencyDetail #address ion-icon:hover {
   color: black;
+}
+
+#CurrencyDetail::-webkit-scrollbar {
+  width: 3px;
+}
+
+#CurrencyDetail::-webkit-scrollbar-track {
+  background-color: #d1d1d1;
+}
+
+#CurrencyDetail::-webkit-scrollbar-thumb {
+  background-color: #3d3d3d;
+  /* رنگ نوار اسکرول */
+  border-radius: 5px;
+  /* شکل گرد نوار اسکرول */
 }
 
 /*# sourceMappingURL=tracker.css.map */

@@ -3,9 +3,10 @@ import { Fragment, useState, forwardRef } from 'react'
 
 // ** Table Data & Columns
 import { data, columns } from '../data'
-
+console.log(data)
 // ** Add New Modal Component
 import AddNewModal from './AddNewModal'
+
 
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
