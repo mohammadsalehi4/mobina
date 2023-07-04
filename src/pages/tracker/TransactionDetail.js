@@ -6,25 +6,28 @@ import { useSelector, useDispatch } from "react-redux"
 import PickerRange from '../../components/timeRangePicker/PickerRange'
 import DataTablesBasic from '../../components/walletDetailTable/TableZeroConfig'
 import DataTablesBasic2 from '../../components/walletDetailTopTable/topTableZeroConfig'
-const CurrencyDetail = () => {
+import Switch from '../../components/switch/switch'
+const TransactionDetail1 = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
   const close = () => {
-    dispatch({type:"SETshowWalletData", value:false})
+    dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
   }
   // eslint-disable-next-line no-return-assign
   return (
     
     <div id='CurrencyDetail' className='container-fluid' style={{overflowY:"auto"}}>
-        <div className='row'>
+        <div className='row mb-4'>
           <div className='col-12'>
-            <h6 style={{display:"inline-block"}}>جزئیات آدرس بیت کوین</h6>
+            <h6 style={{display:"inline-block"}}>جزئیات تراکنش بیت کوین</h6>
             <span onClick={close}><ion-icon name="close-outline" id="closeIcon" ></ion-icon></span>
           </div>
+          <Switch options={["BTC", "USD", "IRR"]} specialProps="TransactionDetailCurrencyMode"/>
         </div>
+
         <div className='row'>
           <div className='col-12' >
-            <div id='address'>
+            <div id='address' style={{background:"rgb(248,248,248)", padding:"15px", borderRadius:"10px"}}>
               <a>{States.WDetail.address}</a>
               <ion-icon name="copy-outline"></ion-icon>
               <ion-icon name="git-network-outline"></ion-icon>
@@ -33,41 +36,39 @@ const CurrencyDetail = () => {
         </div>
         <div className='row'>
           <div className='col-12 mt-3' >
-            <div style={{background:"rgb(38, 6, 110)", height:"75px", borderRadius:"10px"}}>
-              <a className='text-whit mt-3 me-3' style={{transition:"0.2s", color:"black", background:"rgb(255, 191, 0)", borderRadius:"8px", padding:"10px 15px", display:"inline-block"}}>نمایش مالک</a>
-            </div>
-          </div>
-        </div>
-        <div className='row'>
-          <div className='col-12 mt-3' >
             <button type="button" class="btn btn-outline-warning">نمایش آدرس <ion-icon name="open-outline"></ion-icon></button>
-            <button type="button" class="btn btn-outline-danger me-3">گزارش آدرس <ion-icon name="alert-circle-outline"></ion-icon></button>
           </div>
         </div>
         <div className='row' id='scrollingWalletDetail' style={{boxSizing:"border-box"}}>
           <div className='col-12 p-4'>
             <div className='row' >
               <div className='col-12'>
-                <DataTablesBasic2/>
+                <h6 style={{borderColor:"rgb(200,200,200)", borderBottomStyle:"solid", borderWidth:"1px"}} className='pb-1'>آدرس ها</h6>
               </div>
             </div>
-            <div className='row mt-3' style={{borderBottomStyle:"solid", borderColor:"rgb(242,242,242)", borderWidth:"2px"}}>
-              <div className='col-4' style={{borderBottomStyle:"solid", borderColor:"orange", borderWidth:"2px"}}>
-                <h6  >تراکنش ها</h6>
-              </div>
-            </div>
-            <div className='row mt-3'>
+            <div className='row' >
               <div className='col-6'>
-                <PickerRange/>
+                <p>حجم، اندازه</p>
               </div>
-              <div className='col-6'>
-                {/* bayad jaygozin shavad */}
-                <PickerRange/>
+              <div className='col-6' style={{float:"left", direction:"ltr"}}>
+                <span>2.37</span> <small>BTC</small>
               </div>
             </div>
-            <div className='row mt-3'>
-              <div className='col-12'>
-                <DataTablesBasic/>
+            <div className='row' >
+              <div className='col-6'>
+                <p>کارمزد</p>
+              </div>
+              <div className='col-6' style={{float:"left", direction:"ltr"}}>
+                <span>0.003</span> <small>BTC</small>
+              </div>
+            </div>
+            <div className='row' >
+              <div className='col-6'>
+                <p>تاریخ بلاک</p>
+              </div>
+              <div className='col-6' style={{float:"left", direction:"ltr"}}>
+                <span>2023/02/03</span><br/>
+                <small>13:23</small>
               </div>
             </div>
           </div>
@@ -76,4 +77,4 @@ const CurrencyDetail = () => {
   )
 }
 
-export default CurrencyDetail
+export default TransactionDetail1

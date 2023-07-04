@@ -216,6 +216,10 @@ const GraphDraw = (props) => {
               dispatch({type:"SETshowWalletData", value:true})
               dispatch({type:"SETWDetail", value:WalletData})
             }
+            if (state.graph.nodes[i].group === 'middle') {
+              dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
+              dispatch({type:"SETWDetail", value:WalletData})
+            }
           }
         }
       }

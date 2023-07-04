@@ -69,12 +69,10 @@ export const basicColumns = [
       return (
         <div>
           <NiceAddress2 text={row.address} number={8}/>
-          <input type='checkbox' style={{marginRight:"10px", width:"15px", height:"15px"}}></input>
         </div>
       )
     }
   }
-
 ]
 // ** Third Party Components
 import { ChevronDown } from 'react-feather'

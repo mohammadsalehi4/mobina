@@ -1,16 +1,19 @@
 const initialState = {
+    //eleman haye header
     showNavbar:false,
     showMobileMenu:false,
     witchPage:1,
-    showTransactionData:false,
-    showWalletData:false,
     isAdmin:true,
     notifNumber:0,
     showAdminAccessBox:false,
-    TransactionDetailCurrencyMode:0,
     
-    //joziate tarakonesh baraye safhe graph
-    WDetail:{}
+    //safhe graph ha
+    showTransactionData:false,
+    showWalletData:false,
+    WDetail:{},
+
+    //noe arz dar switch
+    TransactionDetailCurrencyMode:0
 }
 
 const reducer = (state = initialState, action) => {

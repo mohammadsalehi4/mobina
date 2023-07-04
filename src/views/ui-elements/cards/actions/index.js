@@ -62,7 +62,7 @@ const CardActions = () => {
         </Col>
       </Row>
       <Row>
-        <Col md='6' sm='12'>
+        <Col md='12' sm='12'>
           <CardAction title='Collapse' actions='collapse'>
             <CardBody className='pt-0'>
               <CardText>
