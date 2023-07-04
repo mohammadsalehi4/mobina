@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-invalid-this */
 import React, { useState } from 'react'
-import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import { useSelector, useDispatch } from "react-redux"
-import PickerRange from '../../components/timeRangePicker/PickerRange'
-import DataTablesBasic from '../../components/walletDetailTable/TableZeroConfig'
-import DataTablesBasic2 from '../../components/walletDetailTopTable/topTableZeroConfig'
 import Switch from '../../components/switch/switch'
+import TransactionTablleWithCheckbox from '../../components/TransactionDetailTable/transactionTablleWithCheckbox'
+import TransactionTablleWithCheckbox2 from '../../components/TransactionDetailTableOut/transactionTablleWithCheckbox'
+
 const TransactionDetail1 = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -71,6 +70,12 @@ const TransactionDetail1 = () => {
                 <small>13:23</small>
               </div>
             </div>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col-12'>
+            <TransactionTablleWithCheckbox/>
+            <TransactionTablleWithCheckbox2/>
           </div>
         </div>
     </div>

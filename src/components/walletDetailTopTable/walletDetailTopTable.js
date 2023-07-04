@@ -16,7 +16,7 @@ const data = [
     col3:1.90
   },
   {
-    col1:"برایند",
+    col1:"برآیند",
     col2:1.01
   }
 
@@ -50,7 +50,7 @@ import DataTable from 'react-data-table-component'
 // ** Reactstrap Imports
 import { Card, CardHeader, CardTitle } from 'reactstrap'
 
-const DataTablesBasic2 = () => {
+const WalletDetailTopTable = () => {
   return (
     <Card className='overflow-hidden'>
       <div className='react-dataTable'>
@@ -66,4 +66,4 @@ const DataTablesBasic2 = () => {
   )
 }
 
-export default DataTablesBasic2
+export default WalletDetailTopTable

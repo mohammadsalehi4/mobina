@@ -2,8 +2,38 @@
 import { Fragment, useState, forwardRef } from 'react'
 
 // ** Table Data & Columns
-import { data, columns } from '../data'
+const data = [
+  {
 
+  }
+]
+const columns = [
+  {
+    name: 'Email',
+    sortable: true,
+    minWidth: '250px',
+    selector: row => row.email
+  },
+  {
+    name: 'Date',
+    sortable: true,
+    minWidth: '150px',
+    selector: row => row.start_date
+  },
+
+  {
+    name: 'Salary',
+    sortable: true,
+    minWidth: '150px',
+    selector: row => row.salary
+  },
+  {
+    name: 'Age',
+    sortable: true,
+    minWidth: '100px',
+    selector: row => row.age
+  }
+]
 // ** Add New Modal Component
 import AddNewModal from './AddNewModal'
 
@@ -35,7 +65,7 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
-const DataTableWithButtons = () => {
+const DataTableWithButtons1 = () => {
   // ** States
   const [modal, setModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
@@ -239,4 +269,4 @@ const DataTableWithButtons = () => {
   )
 }
 
-export default DataTableWithButtons
+export default DataTableWithButtons1

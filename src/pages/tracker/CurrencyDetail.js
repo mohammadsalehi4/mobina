@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-invalid-this */
 import React, { useState } from 'react'
-import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import { useSelector, useDispatch } from "react-redux"
 import PickerRange from '../../components/timeRangePicker/PickerRange'
-import DataTablesBasic from '../../components/walletDetailTable/TableZeroConfig'
-import DataTablesBasic2 from '../../components/walletDetailTopTable/topTableZeroConfig'
+import WalletDetailTopTable from '../../components/walletDetailTopTable/walletDetailTopTable'
+import WalletDetailTableBottom from '../../components/WalletDetailTableIn/transactionTablleWithCheckbox'
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -48,7 +47,7 @@ const CurrencyDetail = () => {
           <div className='col-12 p-4'>
             <div className='row' >
               <div className='col-12'>
-                <DataTablesBasic2/>
+                <WalletDetailTopTable/>
               </div>
             </div>
             <div className='row mt-3' style={{borderBottomStyle:"solid", borderColor:"rgb(242,242,242)", borderWidth:"2px"}}>
@@ -67,7 +66,7 @@ const CurrencyDetail = () => {
             </div>
             <div className='row mt-3'>
               <div className='col-12'>
-                <DataTablesBasic/>
+                <WalletDetailTableBottom/>
               </div>
             </div>
           </div>
