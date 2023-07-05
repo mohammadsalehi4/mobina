@@ -6,7 +6,7 @@ import GraphDraw from '../graph/graph'
 import CurrencyDetail from './CurrencyDetail'
 import TransactionDetail1 from './TransactionDetail'
 import VisualizationDetail from './visualizationDetail'
-import CardActions from '../../views/ui-elements/cards/actions'
+import Guide from './guide'
 import { useSelector, useDispatch } from "react-redux"
 
 const Tracker = () => {
@@ -29,6 +29,7 @@ const Tracker = () => {
                 States.showTransactionData ? <TransactionDetail1/> : null
             }
             <VisualizationDetail/>
+            <Guide/>
         </div>
     )
 }

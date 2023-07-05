@@ -9,13 +9,25 @@
   width: 500px;
   max-height: 70vh;
   position: fixed;
-  top: 150px;
+  top: 130px;
   border-radius: 10px;
-  right: 20px;
+  right: 10px;
   box-sizing: border-box;
   padding: 15px;
   background: white;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  z-index: 10;
+}
+@media only screen and (max-width: 1200px) {
+  #CurrencyDetail {
+    top: 70px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  #CurrencyDetail {
+    width: 96%;
+    right: 2%;
+  }
 }
 #CurrencyDetail #closeIcon {
   float: left;
@@ -42,6 +54,11 @@
 #CurrencyDetail #address ion-icon:hover {
   color: black;
 }
+@media only screen and (max-width: 500px) {
+  #CurrencyDetail #address {
+    width: 80%;
+  }
+}
 
 #CurrencyDetail::-webkit-scrollbar {
   width: 2px;
@@ -60,9 +77,14 @@
 
 #visualizationDetail {
   position: fixed;
-  top: 140px;
-  left: 20px;
+  top: 130px;
+  left: 10px;
   width: 300px;
+}
+@media only screen and (max-width: 1200px) {
+  #visualizationDetail {
+    top: 70px;
+  }
 }
 @media only screen and (max-width: 500px) {
   #visualizationDetail {
@@ -70,6 +92,24 @@
     left: 5%;
     top: 70px;
   }
+}
+
+#Guide {
+  position: fixed;
+  direction: ltr;
+  background: white;
+  padding: 5px;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 10px;
+}
+#Guide svg {
+  cursor: pointer;
+  stroke: gray;
+  transition: 0.2s;
+}
+#Guide svg:hover {
+  stroke: black;
 }
 
 /*# sourceMappingURL=tracker.css.map */
