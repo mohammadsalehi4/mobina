@@ -7,6 +7,7 @@ import CurrencyDetail from './CurrencyDetail'
 import TransactionDetail1 from './TransactionDetail'
 import VisualizationDetail from './visualizationDetail'
 import Guide from './guide'
+import TopGuide from './topGuide'
 import { useSelector, useDispatch } from "react-redux"
 
 const Tracker = () => {
@@ -21,6 +22,7 @@ const Tracker = () => {
     }, [])
     return (
         <div id='TransactionPage'>
+            <TopGuide/>
             <GraphDraw address="address"/>
             {
                 States.showWalletData ? <CurrencyDetail/> : null
