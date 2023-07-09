@@ -3,7 +3,7 @@ export let data
 // eslint-disable-next-line prefer-const
 data = [
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -13,7 +13,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:false,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -23,7 +23,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -33,7 +33,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -43,7 +43,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -53,7 +53,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:false,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -63,7 +63,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:false,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -73,7 +73,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:false,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -83,7 +83,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:false,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -93,7 +93,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -103,7 +103,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -113,7 +113,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -123,7 +123,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -133,7 +133,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -143,7 +143,7 @@ data = [
     outNumber:43
   },
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
+    address:"adsyfusdfuasdgifusgduifyasgdiugdf",
     mode:true,
     BTCAmount:4.354,
     Date:'12/3/2021',
@@ -184,7 +184,7 @@ export const columns = [
   },
   {
     name: 'آدرس',
-    minWidth: '450px',
+    minWidth: '270px',
     selector: row => (
       <div className='d-flex align-items-end '>
         <div className='user-info text-truncate'>
@@ -224,7 +224,7 @@ export const columns = [
   {
     name: 'حجم تراکنش',
     sortable: true,
-    minWidth: '150px',
+    minWidth: '120px',
     selector: row => (
         row.BTCAmount
     )
@@ -234,7 +234,7 @@ export const columns = [
   {
     name: 'هزینه تراکنش',
     sortable: true,
-    minWidth: '150px',
+    minWidth: '120px',
     selector: row => row.Fee
   }
 ]

@@ -54,9 +54,15 @@
 #CurrencyDetail #address ion-icon:hover {
   color: black;
 }
+#CurrencyDetail #address #niceAddress2 {
+  display: none;
+}
 @media only screen and (max-width: 500px) {
-  #CurrencyDetail #address {
-    width: 80%;
+  #CurrencyDetail #address #justUp500 {
+    display: none;
+  }
+  #CurrencyDetail #address #niceAddress2 {
+    display: inline-block;
   }
 }
 
@@ -107,8 +113,8 @@
   cursor: pointer;
   stroke: gray;
   transition: 0.2s;
-  width: 44px;
-  height: 44px;
+  width: 30px;
+  height: 30px;
   margin-right: 10px;
 }
 #Guide svg:hover {
@@ -143,6 +149,7 @@
   }
   #TopGuide svg {
     cursor: pointer;
+    padding: 3px;
     stroke: gray;
     transition: 0.2s;
     border-radius: 4px;
@@ -169,6 +176,7 @@
   }
   #TopGuide svg {
     cursor: pointer;
+    padding: 3px;
     stroke: gray;
     transition: 0.2s;
     border-radius: 4px;
@@ -195,6 +203,7 @@
   }
   #TopGuide svg {
     cursor: pointer;
+    padding: 3px;
     stroke: gray;
     transition: 0.2s;
     border-radius: 4px;
@@ -221,6 +230,7 @@
   }
   #TopGuide svg {
     cursor: pointer;
+    padding: 3px;
     stroke: gray;
     transition: 0.2s;
     border-radius: 4px;

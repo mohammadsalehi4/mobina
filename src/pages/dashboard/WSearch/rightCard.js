@@ -24,17 +24,17 @@ const CardContentTypes = () => {
           <Card className='mt-4 mb-1' id='rightCard1'>
             <CardBody>
               <CardTitle tag='h4'>آدرس بیت کوین</CardTitle>
-              <CardSubtitle className='text-muted mb-1'><ion-icon name="copy-outline"></ion-icon> dsfasdiashasbd,bfam,sdbf,dkfisdifasdkfgasdjkgdfgf</CardSubtitle>
+              <CardSubtitle className='text-muted mb-1'><ion-icon name="copy-outline"></ion-icon> sdbf,dkfisdifasdkfgasdjkgdfgf</CardSubtitle>
               <CardText id='showOwner'>
                 مالک
                 <button>نمایش مالک</button>
               </CardText>
 
               <button href='/' onClick={e => e.preventDefault()} id='cardLink' className='cardLink1'>
-                نمایش آدرس <ion-icon name="git-compare-outline"></ion-icon>
+                نمایش <ion-icon name="git-compare-outline"></ion-icon>
               </button>
               <button href='/' onClick={e => e.preventDefault()} id='cardLink' className='cardLink2'>
-                گزارش آدرس <ion-icon name="git-compare-outline"></ion-icon>
+                گزارش <ion-icon name="git-compare-outline"></ion-icon>
               </button>
             </CardBody>
           </Card>

@@ -3,6 +3,7 @@ $BlueColor:rgb(0, 0, 83);
 $BlueBorderColor:rgb(0, 0, 54);
 $borderColor:rgb(220, 220, 220);
 #dashboard{
+    height: calc(100vh - 120px);
     .main_row1{
         input{
             width: 100%;
@@ -22,6 +23,11 @@ $borderColor:rgb(220, 220, 220);
                 font-size: 15px;
             }
         }
+        h3{
+            @media only screen and (max-width:600px) {
+                font-size: 18px;
+            }
+        }
         #searchExample11{
             display: block;
             margin-right: 0%;
@@ -38,12 +44,12 @@ $borderColor:rgb(220, 220, 220);
                 transition: 0.1s;
             }
             span:hover{
-                color: rgb(0, 0, 142);
+                color: #2f4f4f;
                 cursor: pointer;
             }
             ion-icon{
                 margin-right: 4px;
-                color: rgb(0, 0, 142);
+                color: #2f4f4f;
             }
         }
         @media only screen and (max-width:768px) {

@@ -4,7 +4,6 @@ import '../../assets/vendor/fonts/fontawesome.css'
 import '../../assets/vendor/fonts/tabler-icons.css'
 import '../../assets/vendor/fonts/flag-icons.css'
 import '../../assets/vendor/css/rtl/core.css'
-import '../../assets/vendor/css/rtl/theme-default.css'
 import '../../assets/css/demo.css'
 import '../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css'
 import '../../assets/vendor/libs/node-waves/node-waves.css'
@@ -28,6 +27,7 @@ function Header() {
 	const closeMobileMenu = () => {
 		dispatch({type:"SHOWMOBILEMENU", value:false})
 	}
+  
   useEffect(() => {
 		if (States.showMobileMenu) {
 			document.getElementById('MobileHeaderBox').style.right = "0%"
@@ -43,24 +43,34 @@ function Header() {
     if (States.showAdminAccessBox) {
       document.getElementById('adminOptionBox').style.display = "block"
       myElement.onmouseover = function() {
-        myElement.style.backgroundColor = "rgb(248, 248, 248)"
+        myElement.style.backgroundColor = "#497979"
       }
       myElement.onmouseout = function() {
-        myElement.style.backgroundColor = "rgb(248, 248, 248)"
+        myElement.style.backgroundColor = "#497979"
       }
       
     } else {
-      document.getElementById('openAdminaccessBoxIcon').style.background = "white"
       document.getElementById('adminOptionBox').style.display = "none"
       myElement.onmouseover = function() {
-        myElement.style.backgroundColor = "rgb(248, 248, 248)"
+        myElement.style.backgroundColor = "#497979"
       }
       myElement.onmouseout = function() {
-        myElement.style.backgroundColor = "white"
+        myElement.style.backgroundColor = "#2f4f4f"
+        myElement.style.color = "#dcdcdc"
       }
     }
   }, [States.showAdminAccessBox])
-  
+
+  useEffect(() => {
+    if (States.witchPage) {
+      for (let i = 0; i < 6; i++) {
+        document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
+      }
+      document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
+
+    }
+  }, [States.witchPage])
+
   const changeAdminAccessShow = () => {
     const show = States.showAdminAccessBox
 		dispatch({type:"SHOWADMINACCESSBOX", value:!show})
@@ -80,33 +90,33 @@ function Header() {
 
             </div>
 
-            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none" onClick={openMobileMenu}>
-              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
-                <i class="ti ti-menu-2 ti-sm"></i>
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none" style={{color:"#f8f8f8"}} onClick={openMobileMenu}>
+              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" style={{color:"#f8f8f8"}}>
+                <i class="ti ti-menu-2 ti-sm" style={{color:"#f8f8f8"}}></i>
               </a>
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center " id="navbar-collapse">
               <ul class="navbar-nav flex-row ms-auto rightheaderItems">
-                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon" onClick={changeAdminAccessShow} id='openAdminaccessBoxIcon'>
                     <i class="ti ti-layout-grid-add ti-md "></i>
                   </a>
                 </li>
 
-                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
                     <ion-icon name="moon-outline" className="topHeaderIcon"></ion-icon>
                   </a>
                 </li>
 
-                <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+                <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1">
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
                     <ion-icon name="notifications-outline" className="topHeaderIcon"></ion-icon>
                   </a>
                 </li>
 
-                <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1" onClick={() => { window.location.assign('/') }}>
+                <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1" onClick={() => { window.location.assign('/') }}>
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
                     <ion-icon name="exit-outline" id="signoutIcon" className="topHeaderIcon"></ion-icon>
                   </a>
@@ -127,48 +137,48 @@ function Header() {
         </nav>
 
 
-        <div class="layout-page" id='row2HeaderBox'>
+        <div class="layout-page " id='row2HeaderBox' >
           <div class="content-wrapper">
             <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0">
               <div class="container-xxl d-flex h-100">
                 <ul class="menu-inner">
 
-                <li class="menu-item">
+                <li id='MenuBottomItem0' class="menu-item thisNotActive">
                   <a class="menu-link">
                   <ion-icon name="home-outline"></ion-icon>
                     <div data-i18n="Dashboards" className='vazir'>داشبورد</div>
                   </a>
                 </li>
 
-                  <li class="menu-item thisActive">
+                  <li id='MenuBottomItem1' class="menu-item thisActive">
                     <a class="menu-link">
                       <ion-icon name="locate-outline"></ion-icon>
                       <div data-i18n="Layouts" className='vazir'>کاوشگر</div>
                     </a>
                   </li>
 
-                  <li class="menu-item">
+                  <li id='MenuBottomItem2' class="menu-item thisNotActive">
                     <a class="menu-link">
                     <ion-icon name="radio-outline"></ion-icon>
                       <div data-i18n="Apps" className='vazir'>ردیابی</div>
                     </a>
                   </li>
 
-                  <li class="menu-item">
+                  <li id='MenuBottomItem3' class="menu-item thisNotActive">
                     <a class="menu-link">
                     <ion-icon name="diamond-outline"></ion-icon>
                       <div data-i18n="Pages" className='vazir'>استخراج</div>
                     </a>
                   </li>
 
-                  <li class="menu-item">
-                    <a class="menu-link">
+                  <li id='MenuBottomItem4' class="menu-item thisNotActive">
+                    <a class="menu-link" href='/tax'>
                     <ion-icon name="cash-outline"></ion-icon>
                       <div data-i18n="Components" className='vazir'>مالیات</div>
                     </a>
                   </li>
 
-                  <li class="menu-item">
+                  <li id='MenuBottomItem5' class="menu-item thisNotActive">
                     <a class="menu-link">
                     <ion-icon name="reader-outline"></ion-icon>
                       <div data-i18n="Forms" className='vazir'>گزارش ها</div>

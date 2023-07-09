@@ -2,10 +2,27 @@
     font-family: vazir;
     src: url('../public/fonts/Vazir.ttf');
 }
+@font-face {
+    font-family: sans;
+    src: url('../public/fonts/IRANSansXMedium.ttf');
+}
 .vazir{
     font-family: vazir;
 }
 *{
-    font-family: vazir;
+    font-family: sans;
     direction: rtl;
+}
+.thisIsActivePageForce{
+    background: none !important;
+}
+
+.thisIsActivePageForce a{
+    background: #2f4f4f !important;
+}
+.nextLinkHoverForce{
+    /* background: red !important */
+}
+body{
+    background: url('/public/images/background2.png');
 }

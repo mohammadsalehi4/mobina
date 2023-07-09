@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Switch from '../../components/switch/switch'
 import TransactionTablleWithCheckbox from '../../components/TransactionDetailTable/transactionTablleWithCheckbox'
 import TransactionTablleWithCheckbox2 from '../../components/TransactionDetailTableOut/transactionTablleWithCheckbox'
-
+import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 const TransactionDetail1 = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -27,7 +27,8 @@ const TransactionDetail1 = () => {
         <div className='row'>
           <div className='col-12' >
             <div id='address' style={{background:"rgb(248,248,248)", padding:"15px", borderRadius:"10px"}}>
-              <a>{States.WDetail.address}</a>
+              <a id='justUp500'>{States.WDetail.address}</a>
+              <NiceAddress2 text={States.WDetail.address} number={8}/>
               <ion-icon name="copy-outline"></ion-icon>
               <ion-icon name="git-network-outline"></ion-icon>
             </div>

@@ -156,7 +156,7 @@ export const columns = [
   {
     name: 'آدرس',
     minWidth: '100px',
-    maxWidth:"130px",
+    maxWidth:"140px",
     selector: row => (
       <div className='d-flex align-items-end '>
         <div className='user-info text-truncate'>

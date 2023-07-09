@@ -14,7 +14,7 @@ import TableAdvSearch from './TableAdvSearch'
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-const Tables = () => {
+const Tables1 = () => {
   return (
     <Fragment>
       <Breadcrumbs title='Datatables Advance' data={[{ title: 'Datatables' }, { title: 'Datatables Advance' }]} />
@@ -30,4 +30,4 @@ const Tables = () => {
   )
 }
 
-export default Tables
+export default Tables1

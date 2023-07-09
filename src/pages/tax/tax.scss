@@ -1,0 +1,33 @@
+#Tax{
+    #getExelFormat{
+
+        float: left;
+        cursor: pointer;
+        margin-bottom: -20px;
+    }
+    .taxTableDownloadDropDownOption{
+        width: 90% !important;
+    }
+    .taxTableDownloadDropDownOption:hover span{
+        color: #2f4f4f
+    }
+    #taxTableDownloadDropDown{
+        float: left;
+        #taxTableDownloadDropDownButton{
+            padding: 5px 8px !important;
+            font-size: 13px;
+            border-radius: 5px;
+            border-color: rgb(176, 176, 176) !important;
+            span{
+                margin: 0px !important;
+                padding: 0px !important;
+                margin-left: 5px;
+            }
+            ion-icon{
+                font-size: 17px;
+                margin-bottom: 2px;
+                margin-right: 3px;
+            }
+        }
+    }
+}

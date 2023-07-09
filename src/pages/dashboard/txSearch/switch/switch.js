@@ -8,10 +8,10 @@ const Switch = (props) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        document.getElementById('option0').style.borderBottomLeftRadius = "5px"
-        document.getElementById('option0').style.borderTopLeftRadius = "5px"
-        document.getElementById(`option${props.options.length - 1}`).style.borderTopRightRadius = "5px"
-        document.getElementById(`option${props.options.length - 1}`).style.borderBottomRightRadius = "5px"
+        document.getElementById('option0').style.borderBottomRightRadius = "5px"
+        document.getElementById('option0').style.borderTopRightRadius = "5px"
+        document.getElementById(`option${props.options.length - 1}`).style.borderTopLeftRadius = "5px"
+        document.getElementById(`option${props.options.length - 1}`).style.borderBottomLeftRadius = "5px"
         document.getElementById(`option${0}`).className = 'option even selected'
         dispatch({type:props.specialProps, value:0})
     }, [])

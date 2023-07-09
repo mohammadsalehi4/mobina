@@ -5,7 +5,8 @@
   border-radius: 0;
   .rdt_TableHead {
     .rdt_TableHeadRow {
-      background-color: $table-head-bg;
+      // background-color: $table-head-bg;
+      background-color: #dcdcdc;
       border-top: 1px solid;
       border-color: $border-color;
       min-height: 0;
@@ -15,7 +16,7 @@
         padding: 0.72rem 1.5rem;
         .rdt_TableCol_Sortable {
           color: $body-color;
-          font-weight: bold;
+          font-weight:bold;
           font-style: 0.857rem;
           letter-spacing: 0.5px;
           text-transform: uppercase;
@@ -28,7 +29,7 @@
         }
         &:first-child {
           .form-check {
-            transform: translateX(-10px);
+            transform: translateX(0px);
           }
         }
       }
@@ -36,6 +37,11 @@
   }
 
   .rdt_TableBody {
+    //yeki dar mian
+    .rdt_TableRow:nth-child(even) {
+      background: rgb(248, 248, 248);
+    }
+
     .rdt_TableRow {
       color: $body-color;
       .rdt_TableCell {
@@ -50,6 +56,7 @@
           .dropdown-item:hover {
             svg {
               stroke: $primary;
+              stroke: black;
             }
           }
 
@@ -64,6 +71,7 @@
   }
 
   .react-paginate {
+    margin-top: 10px;
     &.separated-pagination {
       .page-item:first-child .page-link,
       .page-item:last-child .page-link {

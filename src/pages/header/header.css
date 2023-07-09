@@ -7,11 +7,16 @@
   position: absolute;
   left: 5%;
 }
+@media only screen and (max-width: 500px) {
+  #header .rightheaderItems li {
+    font-size: 12px;
+  }
+}
 #header li.thisActive a {
-  background: linear-gradient(135deg, #c1c1c1 0%, #7a7a7a 100%);
+  background: linear-gradient(135deg, #d0d0d0 0%, #f7f7f7 100%);
 }
 #header li.thisActive a div, #header li.thisActive a ion-icon {
-  color: white;
+  color: #2f4f4f;
 }
 #header #logo {
   width: 40px;
@@ -22,6 +27,7 @@
   margin-top: 20px;
   font-weight: lighter;
   margin-right: 10px;
+  color: #dcdcdc;
 }
 #header #signoutIcon {
   transform: rotate(180deg);
@@ -35,26 +41,44 @@
   width: 45px;
   text-align: center;
   margin-left: 0px;
+  transition: 0.2s;
   border-radius: 50%;
+  color: #dcdcdc;
 }
 #header .topHeaderIcon:hover {
-  background: #f8f8f8;
+  background: #497979;
 }
 #header #layout-navbar {
   position: fixed;
   left: 0px;
   top: 0px;
   width: 100%;
+  background: #2f4f4f;
+  box-shadow: rgba(234, 234, 234, 0.5) 0px 0px 0px 1px;
 }
 #header #row2HeaderBox {
   position: absolute;
   left: 0px;
   top: 60px;
+  background: #2f4f4f;
   width: 100%;
+  box-shadow: #2f4f4f 0px 1px 4px;
+}
+#header #row2HeaderBox li {
+  margin: 8px;
+  margin-top: 12px;
+}
+#header #row2HeaderBox li a {
+  border-radius: 5px;
+  color: #dcdcdc;
+  transition: 0.2s;
+}
+#header #row2HeaderBox .thisNotActive:hover a {
+  background: #497979;
 }
 #header .menu-item ion-icon {
   font-size: 20px;
-  margin-left: 3px;
+  margin-left: 9px;
 }
 #header #openAdminaccessBoxIcon i {
   padding: 0px;

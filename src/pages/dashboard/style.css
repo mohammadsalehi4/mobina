@@ -1,3 +1,6 @@
+#dashboard {
+  height: calc(100vh - 120px);
+}
 #dashboard .main_row1 input {
   width: 100%;
   height: 50px;
@@ -14,6 +17,11 @@
 @media only screen and (max-width: 992px) {
   #dashboard .main_row1 h1 {
     font-size: 15px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #dashboard .main_row1 h3 {
+    font-size: 18px;
   }
 }
 #dashboard .main_row1 #searchExample11 {
@@ -35,12 +43,12 @@
   transition: 0.1s;
 }
 #dashboard .main_row1 #searchExample11 span:hover {
-  color: #00008e;
+  color: #2f4f4f;
   cursor: pointer;
 }
 #dashboard .main_row1 #searchExample11 ion-icon {
   margin-right: 4px;
-  color: #00008e;
+  color: #2f4f4f;
 }
 @media only screen and (max-width: 768px) {
   #dashboard .main_row1 {

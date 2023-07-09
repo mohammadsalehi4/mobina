@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState, useEffect, memo } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 
 // ** Table Columns
 import { serverSideColumns } from '../data'
@@ -181,4 +181,4 @@ const DataTableServerSide = () => {
   )
 }
 
-export default memo(DataTableServerSide)
+export default DataTableServerSide

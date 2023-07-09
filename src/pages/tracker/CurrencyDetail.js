@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 import PickerRange from '../../components/timeRangePicker/PickerRange'
 import WalletDetailTopTable from '../../components/walletDetailTopTable/walletDetailTopTable'
 import WalletDetailTableBottom from '../../components/WalletDetailTableIn/transactionTablleWithCheckbox'
+import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -24,7 +25,8 @@ const CurrencyDetail = () => {
         <div className='row'>
           <div className='col-12' >
             <div id='address'>
-              <a>{States.WDetail.address}</a>
+              <a id='justUp500'>{States.WDetail.address}</a>
+              <NiceAddress2 text={States.WDetail.address} number={8}/>
               <ion-icon name="copy-outline"></ion-icon>
               <ion-icon name="git-network-outline"></ion-icon>
             </div>
@@ -32,8 +34,8 @@ const CurrencyDetail = () => {
         </div>
         <div className='row'>
           <div className='col-12 mt-3' >
-            <div style={{background:"rgb(38, 6, 110)", height:"75px", borderRadius:"10px"}}>
-              <a className='text-whit mt-3 me-3' style={{transition:"0.2s", color:"black", background:"rgb(255, 191, 0)", borderRadius:"8px", padding:"10px 15px", display:"inline-block"}}>نمایش مالک</a>
+            <div style={{background:"#2f4f4f", height:"75px", borderRadius:"10px"}}>
+              <a className='text-whit mt-3 me-3' style={{transition:"0.2s", color:"black", background:"#daa520", borderRadius:"8px", padding:"10px 15px", display:"inline-block"}}>نمایش مالک</a>
             </div>
           </div>
         </div>

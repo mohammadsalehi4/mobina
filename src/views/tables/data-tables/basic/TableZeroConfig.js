@@ -49,6 +49,7 @@ import DataTable from 'react-data-table-component'
 // ** Reactstrap Imports
 import { Card, CardHeader, CardTitle } from 'reactstrap'
 
+
 const DataTablesBasic = () => {
   return (
     <Card className='overflow-hidden'>

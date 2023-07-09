@@ -54,6 +54,7 @@ const DataTableWithButtons = () => {
         <DataTable
           noHeader
           pagination
+          selectableRows
           data={data}
           expandableRows
           columns={columns}
