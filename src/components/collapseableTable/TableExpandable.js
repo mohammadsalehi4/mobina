@@ -71,7 +71,7 @@ const columns = [
   {
     name: <p style={{marginBottom:"0px"}}>میانگین مدت نگهداری<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    minWidth: '210px',
+    minWidth: '220px',
     selector: row => row.timeLength,
     cell: row => {
       return (

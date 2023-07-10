@@ -151,7 +151,7 @@ function Header() {
                 </li>
 
                   <li id='MenuBottomItem1' class="menu-item thisActive">
-                    <a class="menu-link">
+                    <a class="menu-link" href='researcher'>
                       <ion-icon name="locate-outline"></ion-icon>
                       <div data-i18n="Layouts" className='vazir'>کاوشگر</div>
                     </a>
@@ -165,7 +165,7 @@ function Header() {
                   </li>
 
                   <li id='MenuBottomItem3' class="menu-item thisNotActive">
-                    <a class="menu-link">
+                    <a class="menu-link" href='mining'>
                     <ion-icon name="diamond-outline"></ion-icon>
                       <div data-i18n="Pages" className='vazir'>استخراج</div>
                     </a>

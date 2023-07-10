@@ -13,7 +13,10 @@ const initialState = {
     WDetail:{},
 
     //noe arz dar switch
-    TransactionDetailCurrencyMode:0
+    TransactionDetailCurrencyMode:0,
+
+    //mining
+    miningMode:0
 }
 
 const reducer = (state = initialState, action) => {
@@ -81,6 +84,18 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             WDetail:action.value
+        }
+    }
+    if (action.type === "SETWDetail") {
+        return {
+            ...state,
+            WDetail:action.value
+        }
+    }
+    if (action.type === "miningMode") {
+        return {
+            ...state,
+            miningMode:action.value
         }
     }
     return state

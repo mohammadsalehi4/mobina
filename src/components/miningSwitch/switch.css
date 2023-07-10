@@ -1,0 +1,33 @@
+#switch1 .option {
+  display: inline-block;
+  margin-right: 0px;
+  border-width: 1px;
+  border-color: #9b9b9b;
+  border-style: solid;
+  width: 55px;
+  direction: rtl;
+  height: 30px;
+  cursor: pointer;
+  height: 30px;
+}
+@media only screen and (max-width: 992px) {
+  #switch1 .option {
+    width: 30px;
+    font-size: 13px;
+  }
+}
+#switch1 .option p {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  padding-top: 3px;
+}
+#switch1 .selected {
+  background: #2f4f4f;
+  border-color: #2f4f4f;
+}
+#switch1 .selected p {
+  color: white;
+}
+
+/*# sourceMappingURL=switch.css.map */

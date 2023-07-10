@@ -24,13 +24,13 @@ export const basicColumns = [
   {
     name: <p style={{marginBottom:"0px"}}>شناسه UTXO<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    maxWidth: '240px',
+    minWidth:'180px',
     selector: row => row.utxo
   },
   {
     name: <p style={{marginBottom:"0px"}}>دارایی BTC<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    maxWidth: '210px',
+    minWidth:'150px',
     selector: row => row.assets,
     cell: row => {
       return (
@@ -41,7 +41,7 @@ export const basicColumns = [
   {
     name: <p style={{marginBottom:"0px"}}>تاریخ خرید<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    maxWidth: '210px',
+    minWidth:'150px',
     selector: row => row.buyTime,
     cell: row => {
       return (
@@ -52,7 +52,7 @@ export const basicColumns = [
   {
     name: <p style={{marginBottom:"0px"}}>قیمت خرید<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    maxWidth: '210px',
+    minWidth:'150px',
     selector: row => row.buyPrice,
     cell: row => {
       return (
@@ -63,8 +63,7 @@ export const basicColumns = [
   {
     name: <p style={{marginBottom:"0px"}}>مدت نگهداری<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    maxWidth: '350px',
-    minWidth:'160px',
+    minWidth:'170px',
     selector: row => row.holdingPeriod,
     cell: row => {
       return (
@@ -75,7 +74,7 @@ export const basicColumns = [
   {
     name: <p style={{marginBottom:"0px"}}>درصد اعمال<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    maxWidth: '210px',
+    minWidth:'150px',
     selector: row => row.applyPercentage,
     cell: row => {
       return (
@@ -86,7 +85,7 @@ export const basicColumns = [
   {
     name: <p style={{marginBottom:"0px"}}>مالیات<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    maxWidth: '210px',
+    minWidth: '150px',
     selector: row => row.tax,
     cell: row => {
       return (

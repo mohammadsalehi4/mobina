@@ -4,7 +4,6 @@ import React, { useState, useEffect} from 'react'
 import { useDispatch } from 'react-redux'
 import './tax.css'
 import DataTableWithButtons from '../../components/collapseableTable/TableExpandable'
-import DataTableWithButtons1 from '../../views/tables/data-tables/basic/TableWithButtons'
 import { Input } from 'reactstrap'
 import { useParams } from "react-router-dom"
 

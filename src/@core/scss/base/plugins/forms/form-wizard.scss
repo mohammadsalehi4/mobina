@@ -28,6 +28,7 @@ $step-box-width: 38px;
       padding: 0 1.75rem;
       color: $body-color;
       font-size: 1.5rem;
+      transform: rotate(180deg);
     }
     .step {
       margin-bottom: .25rem;
@@ -53,11 +54,12 @@ $step-box-width: 38px;
           text-align: left;
           margin: 0;
           margin-top: 0.5rem;
-          margin-left: 1rem;
+          margin-right: 1rem;
+          direction: rtl;
 
           .bs-stepper-title {
             display: inherit;
-            color: $body-color;
+            color: #2f4f4f;
             font-weight: 600;
             line-height: 1rem;
             margin-bottom: 0rem;
@@ -67,6 +69,9 @@ $step-box-width: 38px;
             font-weight: 400;
             font-size: 0.85rem;
             color: $text-muted;
+            direction: rtl;
+            float: right;
+            margin-top: 4px;
           }
         }
 
@@ -79,12 +84,13 @@ $step-box-width: 38px;
         .step-trigger {
           .bs-stepper-box {
             background-color: $primary;
+            background-color: #2f4f4f;
             color: $white;
             box-shadow: 0 3px 6px 0 rgba($primary, 0.4);
           }
           .bs-stepper-label {
             .bs-stepper-title {
-              color: $primary;
+              // color: $primary;
             }
           }
         }
@@ -94,16 +100,18 @@ $step-box-width: 38px;
         .step-trigger {
           .bs-stepper-box {
             background-color: rgba($color: $primary, $alpha: 0.12);
-            color: $primary !important;
+            // color: $primary !important;
+            // color: #2f4f4f !important;
           }
           .bs-stepper-label {
             .bs-stepper-title {
-              color: $text-muted;
+              color: #2f4f4f;
             }
           }
         }
         & + .line {
-          color: $primary;
+          color: #2f4f4f !important;
+
         }
       }
 
@@ -122,8 +130,8 @@ $step-box-width: 38px;
   .bs-stepper-content {
     padding: $content-padding-y $content-padding-x;
     .content {
-      margin-left: 0;
-
+      margin-right: 0px;
+      margin-left: 0px;
       .content-header {
         margin-bottom: 1rem;
       }
@@ -168,8 +176,11 @@ $step-box-width: 38px;
     }
     .bs-stepper-content {
       background-color: $white;
-      border-radius: 0.5rem;
-      box-shadow: $box-shadow;
+      // box-shadow: $box-shadow;
+      margin-top: 0px;
+      border-color: #dcdcdc;
+      border-width: 1px;
+      border-top-style: solid;
     }
   }
 }
