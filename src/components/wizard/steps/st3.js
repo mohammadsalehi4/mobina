@@ -3,7 +3,7 @@
 import { Fragment, useState } from 'react'
 import Switch from '../../switch/switch'
 // ** Icons Imports
-import { ArrowLeft, ArrowRight } from 'react-feather'
+import { ArrowLeft, ArrowRight, Check } from 'react-feather'
 import Select from 'react-select'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -116,8 +116,9 @@ const St3 = ({ stepper, type }) => {
             <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
             <span className='align-middle d-sm-inline-block d-none'>قبلی</span>
           </button>
-          <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 28px"}} type='submit' className='btn-next' onClick={() => stepper.next()}>
+          <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} type='submit' className='btn-next' onClick={() => stepper.next()}>
             <span className='align-middle d-sm-inline-block d-none'>اتمام</span>
+            <Check size={14} className='align-middle ms-sm-25 ms-0 me-1'></Check>
           </button>
         </div>
       </Form>

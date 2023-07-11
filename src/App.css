@@ -26,3 +26,9 @@
 body{
     background: url('/public/images/background2.png');
 }
+input:focus {
+    outline: none !important;
+  }
+Input:focus{
+    outline: none !important;
+}

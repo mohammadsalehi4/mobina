@@ -4,7 +4,6 @@ import '@styles/react/libs/charts/apex-charts.scss'
 import '@styles/base/pages/dashboard-ecommerce.scss'
 import './style.css'
 import { useState, useEffect } from 'react'
-import DataTableWithButtons from './TableWithButtons'
 import TransactionDetail from './txSearch/transactionDetail/transactionDetail'
 import Walletdetail from './WSearch/walletDetail/walletdetail'
 import { useDispatch } from 'react-redux'
@@ -42,7 +41,6 @@ const EcommerceDashboard = () => {
               <div class="row main_row1">
                 <div class="col-lg-3">
                 </div>
-              
                 <div class="col-lg-6 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
                   {
                     // eslint-disable-next-line multiline-ternary
@@ -59,12 +57,12 @@ const EcommerceDashboard = () => {
                       <Label className='form-label' for='transactionValue'>
                         <p class="vazir" id='searchExample11'>
                           نمونه کاوش:
-                          <span class="ms-1" onClick={() => { SetMode(1) }}>
+                          <span class="ms-1" onClick={() => { SetMode(2) }}>
                             <ion-icon name="file-tray-stacked-outline"></ion-icon>
                             {' '}
                             <p> آدرس </p>
                           </span>
-                          <span onClick={() => { SetMode(2) }}>
+                          <span onClick={() => { SetMode(1) }}>
                             <ion-icon name="git-compare-outline"></ion-icon>
                             {' '}
                             <p> تراکنش </p>
@@ -80,7 +78,6 @@ const EcommerceDashboard = () => {
               <div class="row main_row1">
                 <div class="col-lg-2">
                 </div>
-            
                 <div class="col-lg-8 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
                 {
                   // eslint-disable-next-line multiline-ternary

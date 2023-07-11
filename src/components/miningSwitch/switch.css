@@ -1,32 +1,30 @@
-#switch1 .option {
+#switch2 .option {
   display: inline-block;
   margin-right: 0px;
   border-width: 1px;
   border-color: #9b9b9b;
   border-style: solid;
-  width: 55px;
-  direction: rtl;
+  width: 50px;
+  float: right;
   height: 30px;
   cursor: pointer;
-  height: 30px;
 }
 @media only screen and (max-width: 992px) {
-  #switch1 .option {
-    width: 30px;
+  #switch2 .option {
     font-size: 13px;
   }
 }
-#switch1 .option p {
+#switch2 .option p {
   width: 100%;
   text-align: center;
   font-size: 12px;
   padding-top: 3px;
 }
-#switch1 .selected {
-  background: #2f4f4f;
-  border-color: #2f4f4f;
+#switch2 .selected {
+  background: #2d4d4d;
+  border-color: #2d4d4d;
 }
-#switch1 .selected p {
+#switch2 .selected p {
   color: white;
 }
 

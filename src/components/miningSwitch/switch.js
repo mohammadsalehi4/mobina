@@ -24,7 +24,7 @@ const Switch = (props) => {
         dispatch({type:props.specialProps, value:index})
     }
   return (
-    <div id='switch1'>
+    <div id='switch2'>
         {
             props.options.map((item, index) => {
                 return (

@@ -1,17 +1,11 @@
-// ** React Imports
 import { Fragment, useState, forwardRef } from 'react'
 import './style.css'
-// ** Table Data & Columns
 import { data, columns } from './data'
-
-// ** Add New Modal Component
-
-// ** Third Party Components
+import Pickers from '../../../../views/forms/form-elements/datepicker'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
 import { ChevronDown, Share, Printer, FileText, File, Grid, Copy, Plus } from 'react-feather'
 
-// ** Reactstrap Imports
 import {
   Row,
   Col,
@@ -74,7 +68,27 @@ const DataTableWithButtons = () => {
       <Card>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom' id="mainTable">
           <CardTitle tag='h3' id="CardTitle">آخرین تراکنش ها<img src='../images/bitcoin.png' style={{ marginTop:"-10px", float:"left"}}/></CardTitle>
-          
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-lg-3'>
+                <Pickers/>
+              </div>
+              <div className='col-lg-3'>
+                <label for="customRange1" class="form-label">حداقل انتقال</label>
+                <form class="multi-range-field">
+                  <input placeholder='بدون محدودیت' id="multi" class="multi-range" type="number" style={{width:"100%", height:"37px", borderRadius:"5px", borderWidth:"1px", borderColor:"rgb(215,215,215)", borderStyle:"solid", paddingRight:"15px"}}/>
+                </form>
+              </div>
+              <div className='col-lg-3'>
+                <label for="customRange1" class="form-label">حداکثر انتقال</label>
+                <form class="multi-range-field">
+                  <input placeholder='بدون محدودیت' id="multi" class="multi-range" type="number" style={{width:"100%", height:"37px", borderRadius:"5px", borderWidth:"1px", borderColor:"rgb(215,215,215)", borderStyle:"solid", paddingRight:"15px"}}/>
+                </form>
+              </div>
+              <div className='col-lg-3'>
+              </div>
+            </div>
+          </div>
 
         </CardHeader>
         <div className='react-dataTable react-dataTable-selectable-rows'>

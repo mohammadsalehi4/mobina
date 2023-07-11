@@ -104,7 +104,7 @@ function Header() {
                   </a>
                 </li>
 
-                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
+                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-1">
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
                     <ion-icon name="moon-outline" className="topHeaderIcon"></ion-icon>
                   </a>
@@ -135,7 +135,6 @@ function Header() {
             </div>
           </div>
         </nav>
-
 
         <div class="layout-page " id='row2HeaderBox' >
           <div class="content-wrapper">

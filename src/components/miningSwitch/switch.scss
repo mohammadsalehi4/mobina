@@ -1,17 +1,15 @@
-#switch1{
+#switch2{
     .option{
         display: inline-block;
         margin-right: 0px;
         border-width: 1px;
         border-color: rgb(155, 155, 155);
         border-style: solid;
-        width: 35px;
-        float: left;
+        width: 50px;
+        float: right;
         height: 30px;
-            cursor: pointer;
-            height: 25px;
+        cursor: pointer;
         @media only screen and (max-width:992px) {
-            width: 30px;
             font-size: 13px;
         }
         p{
@@ -22,8 +20,8 @@
         }
     }
     .selected{
-        background: #F8A035;
-        border-color: #F8A035;
+        background: #2d4d4d;
+        border-color: #2d4d4d;
         p{
             color: white;
         }
