@@ -51,11 +51,11 @@ const Main = () => {
                                     <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
                                         <h2 class="card-title fw-bold mb-1 gray">به پنتا خوش آمدید!</h2>
                                         <div class="auth-login-form mt-5" >
-                                            <div class="mb-1">
+                                            <div class="mb-2 mt-3">
                                                 <label class="form-label gray" for="login_username">نام کاربری</label>
                                                 <input class="form-control login_form gray" id="login_username" type="text" name="login_username" placeholder="نام کاربری..." aria-describedby="login-email" autofocus="" tabindex="1" />
                                             </div>
-                                            <div class="mb-1">
+                                            <div class="mb-2 mt-3">
                                                 <div class="d-flex mt-2">
                                                     <label class="form-label gray" for="login_password">رمز عبور</label><a href="auth-forgot-password-cover.html " class='login_forgote_password_link text-primary'></a>
                                                 </div>
@@ -63,7 +63,7 @@ const Main = () => {
                                                     <input class="form-control form-control-merge login_form gray" id="login_password" type="password" name="login_password" placeholder="············" aria-describedby="login_password" tabindex="2" />
                                                 </div>
                                             </div>
-                                            <div class="mb-1">
+                                            <div class="mb-2 mt-3">
                                                 <div class="form-check mt-2" id='login_remember_me'>
                                                     <input class="form-check-input " id="remember_me" type="checkbox" tabindex="3"/>
                                                     <label for="remember_me" className='gray vazir'>به خاطر داشته باش</label>

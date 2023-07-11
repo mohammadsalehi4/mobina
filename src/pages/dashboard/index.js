@@ -18,16 +18,22 @@ const EcommerceDashboard = () => {
     // eslint-disable-next-line eqeqeq
     if (document.getElementById("transactionValue").value != '') {
       SetMode(2)
-      document.getElementById('hamoniKeBayadBiadBala').style.marginTop = "50px"
     } else {
       SetMode(0)
-      document.getElementById('hamoniKeBayadBiadBala').style.marginTop = "160px"
     }
   }
   useEffect(() => {
     dispatch({type:"SHOWNAVBAR"})
     dispatch({type:"SETWITCHPAGE", value:1})
   }, [])
+
+  useEffect(() => {
+    if (mode === 0) {
+      document.getElementById('hamoniKeBayadBiadBala').style.marginTop = "160px"
+    } else {
+      document.getElementById('hamoniKeBayadBiadBala').style.marginTop = "50px"
+    }
+  }, [mode])
 
   return (
     <div id='dashboard' class='container-fluid'>
@@ -53,12 +59,12 @@ const EcommerceDashboard = () => {
                       <Label className='form-label' for='transactionValue'>
                         <p class="vazir" id='searchExample11'>
                           نمونه کاوش:
-                          <span class="ms-1">
+                          <span class="ms-1" onClick={() => { SetMode(1) }}>
                             <ion-icon name="file-tray-stacked-outline"></ion-icon>
                             {' '}
                             <p> آدرس </p>
                           </span>
-                          <span>
+                          <span onClick={() => { SetMode(2) }}>
                             <ion-icon name="git-compare-outline"></ion-icon>
                             {' '}
                             <p> تراکنش </p>

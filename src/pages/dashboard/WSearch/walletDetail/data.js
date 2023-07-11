@@ -174,7 +174,8 @@ export const columns = [
   {
     name: 'تاریخ',
     sortable: true,
-    maxWidth: '100px',
+    maxWidth: '120px',
+    minWidth: '120px',
     selector: row => (
         <div>
           <p style={{marginTop:"10px"}}>{row.Date}</p>
@@ -234,7 +235,8 @@ export const columns = [
   {
     name: 'هزینه تراکنش',
     sortable: true,
-    minWidth: '120px',
+    minWidth: '130px',
+    maxWidth: '130px',
     selector: row => row.Fee
   }
 ]
