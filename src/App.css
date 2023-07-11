@@ -34,4 +34,7 @@ Input:focus{
 }
 input::placeholder {
     color: rgb(180, 180, 180);
-  }
+}
+.mainPollete{
+    background: #2f4f4f !important;
+}

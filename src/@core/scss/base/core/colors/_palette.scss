@@ -352,7 +352,7 @@
           .page-item {
             &.active {
               .page-link {
-                background: $color-value !important;
+                background: $red!important;
                 color: $white;
 
                 &:hover {

@@ -1,5 +1,6 @@
 @import '../../../base/bootstrap-extended/include';
 @import '../../../base/components/include';
+@import '/public/color.scss';
 
 .react-dataTable {
   border-radius: 0;
@@ -8,7 +9,7 @@
       // background-color: $table-head-bg;
       background-color: #dcdcdc;
       border-top: 1px solid;
-      border-color: $border-color;
+      border-color: #dcdcdc;
       min-height: 0;
       height: 38px;
 
@@ -76,6 +77,22 @@
       .page-item:first-child .page-link,
       .page-item:last-child .page-link {
         border-radius: 50%;
+      }
+      .page-item{
+        background: none !important;
+      }
+
+      .page-item.active a{
+        background: $MainSiteGreen !important;
+        box-shadow: none !important;
+      }
+
+      .page-item:not(.active):hover a{
+        background: $MainSiteGray !important;
+      }
+
+      .page-item:not(.active):hover a{
+        color: $MainSiteGreen !important;
       }
     }
   }
