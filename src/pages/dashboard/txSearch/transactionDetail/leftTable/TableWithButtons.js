@@ -61,8 +61,8 @@ const LeftDataTableWithButtons = () => {
       pageLinkClassName='page-link'
       breakLinkClassName='page-link'
       previousLinkClassName='page-link'
-      nextClassName='page-item prev-item'
-      previousClassName='page-item next-item'
+      nextClassName='page-item next-item'
+      previousClassName='page-item prev-item'
       containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-end pe-1 mt-1'
     />
   )

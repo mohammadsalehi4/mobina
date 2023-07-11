@@ -32,3 +32,6 @@ input:focus {
 Input:focus{
     outline: none !important;
 }
+input::placeholder {
+    color: rgb(180, 180, 180);
+  }
