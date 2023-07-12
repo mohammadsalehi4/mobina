@@ -20,7 +20,7 @@ const App = () => {
           <Routes>
             <Route path="/" exact element={<Main/>}/>
             <Route path="/researcher" exact element={<EcommerceDashboard/>}/>
-            <Route path="/tracker/:address" exact element={<Tracker/>}/>
+            <Route path="/tracker" exact element={<Tracker/>}/>
             <Route path="/tax" exact element={<Tax/>}/>
             <Route path="/mining" exact element={<Mining/>}/>
             <Route path="/tax/:txid" exact element={<Tax/>}/>

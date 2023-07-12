@@ -157,7 +157,7 @@ function Header() {
                   </li>
 
                   <li id='MenuBottomItem2' class="menu-item thisNotActive">
-                    <a class="menu-link">
+                    <a class="menu-link" href='/tracker'>
                     <ion-icon name="radio-outline"></ion-icon>
                       <div data-i18n="Apps" className='vazir'>ردیابی</div>
                     </a>
@@ -199,9 +199,9 @@ function Header() {
           <a class="vazir" id='MobileheaderLink3' href="#"><ion-icon name="diamond-outline" className="headerIonIcon"></ion-icon> استخراج</a>
           <a class="vazir" id='MobileheaderLink4' href="#"><ion-icon name="locate-outline"></ion-icon>ردیابی</a>
           <a class="vazir" id='MobileheaderLink5' href="#"><ion-icon name="cash-outline" className="headerIonIcon"></ion-icon> مالیات</a>
-          <a class="vazir" id='MobileheaderLink5' href="#"><ion-icon name="reader-outline" className="headerIonIcon"></ion-icon> گزارش ها</a>
+          <a class="vazir" id='MobileheaderLink6' href="#"><ion-icon name="reader-outline" className="headerIonIcon"></ion-icon> گزارش ها</a>
           <div id='mobileOptionsSeprator'></div>
-          <a class="vazir" id='MobileheaderLink5' href="#"><ion-icon name="exit-outline"></ion-icon> خروج</a>
+          <a class="vazir" id='MobileheaderLink7' href="#"><ion-icon name="exit-outline"></ion-icon> خروج</a>
 
         </div>
       </div>
