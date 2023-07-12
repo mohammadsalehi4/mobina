@@ -34,7 +34,7 @@ const GraphDraw = () => {
     const network = new Network(networkRef.current, data, options)
   }, [])
 
-  return <div ref={networkRef} style={{ height: '400px' }}></div>
+return <div ref={networkRef} style={{ height: '400px' }}></div>
 //   const States = useSelector(state => state)
 //   const dispatch = useDispatch()
 //   const WalletData = {

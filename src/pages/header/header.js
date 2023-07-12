@@ -74,8 +74,8 @@ function Header() {
   const changeAdminAccessShow = () => {
     const show = States.showAdminAccessBox
 		dispatch({type:"SHOWADMINACCESSBOX", value:!show})
-    
   }
+
   return (
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu" id='header'>
       <div class="layout-container">
@@ -194,15 +194,18 @@ function Header() {
       </div>
       <div id='MobileHeaderBox'>
         <div id='menuItems'>
+          <div style={{display:"block", marginRight:"15px", width:"calc(100% - 30px)"}}>
+          <img src='images/logoPanta.png' id='logo' style={{display:"inline-block", marginRight:"15px"}}/>
+              <h1 onClick={() => { window.location.assign('/researcher') }} style={{ cursor:"pointer", display:"inline-block", marginRight:"20px", paddingTop:"10px"}}>پنتا</h1>
+          </div>
           <a class="vazir" id='MobileheaderLink1' href="#"><ion-icon name="people-outline" className="headerIonIcon"></ion-icon> حساب کاربری</a>
-          <a class="vazir" id='MobileheaderLink2' href="#"><ion-icon name="radio-outline" className="headerIonIcon"></ion-icon> کاوشگر</a>
+          <a class="vazir" id='MobileheaderLink2' href="#"><ion-icon name="radio-outline" className="headerIonIcon "></ion-icon> کاوشگر</a>
           <a class="vazir" id='MobileheaderLink3' href="#"><ion-icon name="diamond-outline" className="headerIonIcon"></ion-icon> استخراج</a>
           <a class="vazir" id='MobileheaderLink4' href="#"><ion-icon name="locate-outline"></ion-icon>ردیابی</a>
           <a class="vazir" id='MobileheaderLink5' href="#"><ion-icon name="cash-outline" className="headerIonIcon"></ion-icon> مالیات</a>
           <a class="vazir" id='MobileheaderLink6' href="#"><ion-icon name="reader-outline" className="headerIonIcon"></ion-icon> گزارش ها</a>
           <div id='mobileOptionsSeprator'></div>
           <a class="vazir" id='MobileheaderLink7' href="#"><ion-icon name="exit-outline"></ion-icon> خروج</a>
-
         </div>
       </div>
       <div id='adminOptionBox'>
@@ -225,7 +228,6 @@ function Header() {
               <p className='vazir'>رخداد ها</p>
             </div>
           </a>
-
         </div>
         <div className='adminOptionBox adminOptionBox3'>
           <a>
