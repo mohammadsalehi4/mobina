@@ -83,7 +83,7 @@
       }
 
       .page-item.active a{
-        background: $MainSiteGreen !important;
+        background: rgb(190, 190, 190) !important;
         box-shadow: none !important;
       }
 
@@ -92,7 +92,7 @@
       }
 
       .page-item:not(.active):hover a{
-        color: $MainSiteGreen !important;
+        // color: $MainSiteGray !important;
       }
     }
   }

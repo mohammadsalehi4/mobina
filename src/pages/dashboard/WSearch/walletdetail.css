@@ -1,6 +1,6 @@
 #rightCard1 {
   box-sizing: border-box;
-  background: #f8f8f8;
+  background: rgb(248, 248, 248);
   box-shadow: none;
   border-radius: 8px;
 }
@@ -10,12 +10,12 @@
 #rightCard1 #cardLink {
   border-width: 2px;
   border-style: solid;
-  color: #7c7c7c;
-  padding: 6px 12px;
+  color: rgb(124, 124, 124);
+  padding: 8px 12px;
   border-radius: 8px;
-  width: 45%;
-  margin-right: 3%;
-  background: #f8f8f8;
+  width: 47%;
+  margin-right: 2%;
+  background: rgb(248, 248, 248);
   margin-top: 10px;
 }
 #rightCard1 #cardLink ion-icon {
@@ -29,14 +29,9 @@
   }
 }
 #rightCard1 .cardLink1 {
-  border-color: #ffcc00;
   margin-right: 0px;
 }
-#rightCard1 .cardLink2 {
-  border-color: red;
-}
 #rightCard1 #showOwner {
-  background: #2f4f4f;
   color: white;
   padding: 10px;
   border-radius: 8px;
@@ -46,7 +41,6 @@
   display: block;
   margin-top: 8px;
   border: none;
-  background: #ffbe00;
   padding: 5px 15px;
   border-radius: 8px;
   padding: 10px 20px;

@@ -63,7 +63,7 @@ const columns = [
     selector: row => row.address,
     cell: row => {
       return (
-        <NiceAddress2 text={row.address} number={8}/>
+        <NiceAddress2 text={row.address} number={6}/>
       )
     }
   },

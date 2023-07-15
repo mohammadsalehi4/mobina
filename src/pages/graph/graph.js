@@ -1,9 +1,6 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-duplicate-imports
 import React, { useRef, useEffect } from "react"
-// import Graph from "react-graph-vis"
-// import { useDispatch } from "react-redux"
-// import { useSelector } from "react-redux"
 import { DataSet, Network } from 'vis'
 const GraphDraw = () => {
   const networkRef = useRef(null)
@@ -35,6 +32,18 @@ const GraphDraw = () => {
   }, [])
 
 return <div ref={networkRef} style={{ height: '400px' }}></div>
+
+
+}
+
+export default GraphDraw
+
+// import Graph from "react-graph-vis"
+// import React, { useState } from "react"
+// import { useDispatch } from "react-redux"
+// // eslint-disable-next-line no-duplicate-imports
+// import { useSelector } from "react-redux"
+// const GraphDraw = (props) => {
 //   const States = useSelector(state => state)
 //   const dispatch = useDispatch()
 //   const WalletData = {
@@ -83,21 +92,21 @@ return <div ref={networkRef} style={{ height: '400px' }}></div>
 //         {
 //           id: 1,
 //           group: "main",
-//           label: "props.address",
+//           label: props.address,
 //           x: 0,
 //           y: 800
 //         },
 //         {
 //           id: -2,
 //           group: "senderMain",
-//           label: "props.address",
+//           label: props.address,
 //           x: 300,
 //           y: 800
 //         },
 //         {
 //           id: -3,
 //           group: "senderMain",
-//           label: "props.address",
+//           label: props.address,
 //           x: 300,
 //           y: 720
 //         },
@@ -117,21 +126,21 @@ return <div ref={networkRef} style={{ height: '400px' }}></div>
 //         },
 //         {
 //           id: 3,
-//           label: "props.address",
+//           label: props.address,
 //           group: "reciverMain",
 //           x: -300,
 //           y: 802
 //         },
 //         {
 //           id: 4,
-//           label: "props.address",
+//           label: props.address,
 //           group: "reciverMain",
 //           x: -300,
 //           y: 720
 //         },
 //         {
 //           id: 5,
-//           label: "props.address",
+//           label: props.address,
 //           group: "reciverMain",
 //           x: 0,
 //           y: 720
@@ -258,7 +267,7 @@ return <div ref={networkRef} style={{ height: '400px' }}></div>
 //     }
 //   })
 
-
+  
 //   const options = {
 //     layout: {
 //       hierarchical: false
@@ -288,7 +297,7 @@ return <div ref={networkRef} style={{ height: '400px' }}></div>
 //           },
 //         size:15,
 //         font:{
-
+            
 //         }
 //     },
 //     groups: {
@@ -318,7 +327,7 @@ return <div ref={networkRef} style={{ height: '400px' }}></div>
 //           borderWidth: 3,
 //           align: 'horizontal',
 //           image:"/images/location.png",
-//           borderColor:"blue",
+//           borderColor:"blue",            
 //           fixed:true,
 //           shape:'circularImage'
 //         },
@@ -331,7 +340,7 @@ return <div ref={networkRef} style={{ height: '400px' }}></div>
 //           borderWidth: 3,
 //           align: 'horizontal',
 //           image:"/images/greenLocation.png",
-//           borderColor:"blue",
+//           borderColor:"blue",            
 //           fixed:true,
 //           shape:'circularImage'
 //         },
@@ -344,7 +353,7 @@ return <div ref={networkRef} style={{ height: '400px' }}></div>
 //           borderWidth: 3,
 //           align: 'horizontal',
 //           image:"/images/redLocation.png",
-//           borderColor:"blue",
+//           borderColor:"blue",            
 //           fixed:true,
 //           shape:'circularImage'
 //         },
@@ -362,7 +371,6 @@ return <div ref={networkRef} style={{ height: '400px' }}></div>
 //     </div>
 //   )
 
+// }
 
-}
-
-export default GraphDraw
+// export default GraphDraw

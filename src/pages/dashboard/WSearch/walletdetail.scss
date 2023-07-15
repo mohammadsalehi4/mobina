@@ -16,8 +16,8 @@
         ion-icon{
             margin-bottom: -3px;
         }
-        width: 35%;
-        margin-right: 10%;
+        width: 47%;
+        margin-right: 2%;
         background: rgb(248, 248, 248);
         margin-top: 10px;
         @media only screen and (max-width:500px) {
@@ -27,14 +27,9 @@
         }
     }
     .cardLink1{
-        border-color: rgb(255, 204, 0);
         margin-right: 0px;
     }
-    .cardLink2{
-        border-color: red;
-    }
     #showOwner{
-        background: rgb(37, 0, 110);
         color: white;
         padding: 10px;
         border-radius: 8px;
@@ -43,7 +38,6 @@
             display: block;
             margin-top: 8px;
             border: none;
-            background: rgb(255, 183, 0);
             padding: 5px 15px;
             border-radius: 8px;
             padding: 10px 20px;

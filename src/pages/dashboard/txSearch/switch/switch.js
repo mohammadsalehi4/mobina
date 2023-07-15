@@ -8,10 +8,10 @@ const Switch = (props) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        document.getElementById('option0').style.borderBottomRightRadius = "5px"
-        document.getElementById('option0').style.borderTopRightRadius = "5px"
-        document.getElementById(`option${props.options.length - 1}`).style.borderTopLeftRadius = "5px"
-        document.getElementById(`option${props.options.length - 1}`).style.borderBottomLeftRadius = "5px"
+        document.getElementById('option0').style.borderBottomLeftRadius = "5px"
+        document.getElementById('option0').style.borderTopLeftRadius = "5px"
+        document.getElementById(`option${props.options.length - 1}`).style.borderTopRightRadius = "5px"
+        document.getElementById(`option${props.options.length - 1}`).style.borderBottomRightRadius = "5px"
         document.getElementById(`option${0}`).className = 'option even selected'
         dispatch({type:props.specialProps, value:0})
     }, [])
@@ -24,7 +24,7 @@ const Switch = (props) => {
         dispatch({type:props.specialProps, value:index})
     }
   return (
-    <div id='switch1'>
+    <div id='switch11'>
         {
             props.options.map((item, index) => {
                 return (

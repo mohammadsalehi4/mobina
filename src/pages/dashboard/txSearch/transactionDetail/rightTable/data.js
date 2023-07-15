@@ -1,5 +1,6 @@
 import './style.css'
 export let data
+import NiceAddress from '../../../../../components/niceAddress/niceAddress'
 // eslint-disable-next-line prefer-const
 data = [
   {
@@ -155,12 +156,12 @@ export const columns = [
   },
   {
     name: 'آدرس',
-    minWidth: '100px',
+    minWidth: '140px',
     maxWidth:"140px",
     selector: row => (
       <div className='d-flex align-items-end '>
         <div className='user-info text-truncate'>
-          <span className='d-block text-truncate ms-0' style={{direction:"ltr"}}>{row.address}</span>
+          <NiceAddress text={row.address} number={4}/>
         </div>
       </div>
     )
@@ -182,7 +183,6 @@ export const columns = [
 
   {
     name: 'مالک',
-    sortable: true,
     maxWidth: '50px',
     cell: () => {
       return (

@@ -82,12 +82,10 @@ function Header() {
         <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
           <div class="container-xxl">
             <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
-              <a href="index.html" class="app-brand-link gap-2">
+              <a href="/" class="app-brand-link gap-2">
                 <img src='images/logo.png' id='logo'/>
                 <p className='vazir' id='brandName'>پنتا</p>
               </a>
-
-
             </div>
 
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none" style={{color:"#f8f8f8"}} onClick={openMobileMenu}>
