@@ -1,55 +1,53 @@
-import * as Icon from 'react-feather'
 import './transactionDetail.css'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import Switch from '../switch/switch'
+import { digitsEnToFa } from 'persian-tools'
 
-const CardTransactions = () => {
-  const transactionsArr = [
-    {
-      title: 'مجموع ورودی',
-      color: 'light-primary',
-      subtitle: 'Starbucks',
-      amount: '3.92 BTC',
-      Icon: Icon['Pocket'],
-      down: true
-    },
-    {
-      title: 'مجموع خروجی',
-      color: 'light-success',
-      subtitle: 'Add Money',
-      amount: '3.92 BTC',
-      Icon: Icon['Check']
-    },
-    {
-      title: 'تاریخ بلاک',
-      color: 'light-danger',
-      subtitle: 'Add Money',
-      amount: '2021/03/01',
-      Icon: Icon['DollarSign']
-    },
-    {
-      title: 'تاییدیه',
-      color: 'light-warning',
-      subtitle: 'Ordered Food',
-      amount: '121778',
-      Icon: Icon['CreditCard'],
-      down: true
-    }
-  ]
+const CardTransactions = (props) => {
 
   const renderTransactions = () => {
-    return transactionsArr.map(item => {
-      return (
-        <div key={item.title} className='transaction-item'>
+    return (
+      <div>
+        <div className='transaction-item'>
           <div className='d-flex option'>
             <div>
-              <h6 className='transaction-title'>{item.title}</h6>
+              <p style={{fontSize:"14px"}} className='transaction-title'>شماره بلاک</p>
             </div>
           </div>
-          <div className={` amountOption`}>{item.amount}</div>
+          <div className={` amountOption`} style={{direction:"ltr", fontSize:"14px"}}>{digitsEnToFa(props.data.blockNumber)}</div>
         </div>
-      )
-    })
+
+        <div className='transaction-item'>
+          <div className='d-flex option'>
+            <div>
+              <p style={{fontSize:"14px"}} className='transaction-title'>مجموع ورودی</p>
+            </div>
+          </div>
+          <div className={` amountOption`} style={{direction:"ltr", fontSize:"14px"}}>
+            {digitsEnToFa(props.data.TotalInput)}
+            <small style={{fontSize:"13px"}}> BTC</small>  
+          </div>
+        </div>
+
+        <div className='transaction-item'>
+          <div className='d-flex option'>
+            <div>
+              <p style={{fontSize:"14px"}} className='transaction-title'>مجموع خروجی</p>
+            </div>
+          </div>
+          <div className={` amountOption`} style={{direction:"ltr", fontSize:"14px"}}>{digitsEnToFa(props.data.TotalOutput)}<small style={{fontSize:"13px"}}> BTC</small>  </div>
+        </div>
+
+        <div className='transaction-item'>
+          <div className='d-flex option'>
+            <div>
+              <p style={{fontSize:"14px"}} className='transaction-title'>تاریخ بلاک</p>
+            </div>
+          </div>
+          <div className={` amountOption`} style={{direction:"ltr", fontSize:"14px"}}>{digitsEnToFa(props.data.BlockDate)}</div>
+        </div>
+      </div>
+    )
   }
 
   return (

@@ -9,7 +9,7 @@ import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import SelectReact from '../../views/forms/form-elements/select/SelectReact'
 // ** Custom Components
 import CardAction from '@components/card-actions'
-
+import { digitsEnToFa } from 'persian-tools'
 
 // ** Custom Components
 import Breadcrumbs from '@components/breadcrumbs'
@@ -49,7 +49,7 @@ const VisualizationDetail = () => {
               <div className='row'>
                 <div className='col-md-12'>
                   <p style={{display:"inline-block", marginLeft:"20px"}}>تعداد آیتم ها</p>
-                  <small>{used} از 200</small>
+                  <small>{digitsEnToFa(used)} از {digitsEnToFa(200)}</small>
                 </div>
                 <hr/>
               </div>

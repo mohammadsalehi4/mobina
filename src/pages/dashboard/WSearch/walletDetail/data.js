@@ -1,4 +1,5 @@
 import './style.css'
+import { digitsEnToFa } from 'persian-tools'
 export let data
 // eslint-disable-next-line prefer-const
 data = [
@@ -178,8 +179,8 @@ export const columns = [
     minWidth: '120px',
     selector: row => (
         <div>
-          <p style={{marginTop:"10px"}}>{row.Date}</p>
-          <p style={{marginTop:"-20px", marginBottom:"-2px"}}>{row.Time}</p>
+          <p style={{marginTop:"10px"}}>{digitsEnToFa(row.Date)}</p>
+          <p style={{marginTop:"-20px", marginBottom:"-2px"}}>{digitsEnToFa(row.Time)}</p>
         </div>
       )
   },
@@ -227,7 +228,7 @@ export const columns = [
     sortable: true,
     minWidth: '120px',
     selector: row => (
-        row.BTCAmount
+      digitsEnToFa(row.BTCAmount)
     )
   },
 
@@ -237,7 +238,7 @@ export const columns = [
     sortable: true,
     minWidth: '130px',
     maxWidth: '130px',
-    selector: row => row.Fee
+    selector: row => digitsEnToFa(row.Fee)
   }
 ]
 

@@ -6,6 +6,8 @@ import PickerRange from '../../components/timeRangePicker/PickerRange'
 import WalletDetailTopTable from '../../components/walletDetailTopTable/walletDetailTopTable'
 import WalletDetailTableBottom from '../../components/WalletDetailTableIn/transactionTablleWithCheckbox'
 import NiceAddress2 from '../../components/niceAddress2/niceAddress'
+import AmountPickerRange from '../../components/amountRangePicker/PickerRange'
+import { MainSiteOrange } from '../../../public/colors'
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -35,7 +37,7 @@ const CurrencyDetail = () => {
         <div className='row'>
           <div className='col-12 mt-3' >
             <div style={{background:"#2f4f4f", height:"75px", borderRadius:"10px"}}>
-              <a className='text-whit mt-3 me-3' style={{transition:"0.2s", color:"black", background:"#daa520", borderRadius:"8px", padding:"10px 15px", display:"inline-block"}}>نمایش مالک</a>
+              <a className='text-whit mt-3 me-3' style={{transition:"0.2s", color:"black", background:MainSiteOrange, borderRadius:"8px", padding:"10px 15px", display:"inline-block"}}>نمایش مالک</a>
             </div>
           </div>
         </div>
@@ -63,7 +65,7 @@ const CurrencyDetail = () => {
               </div>
               <div className='col-6'>
                 {/* bayad jaygozin shavad */}
-                <PickerRange/>
+                <AmountPickerRange/>
               </div>
             </div>
             <div className='row mt-3'>

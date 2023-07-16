@@ -1,70 +1,79 @@
-import * as Icon from 'react-feather'
+/* eslint-disable no-unused-vars */
+/* eslint-disable arrow-spacing */
 import './walletdetail.css'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
+import { digitsEnToFa } from 'persian-tools'
 
-const CardTransactions = () => {
-  const transactionsArr = [
-    {
-      title: 'مجموع',
-      color: 'light-primary',
-      subtitle: 'Starbucks',
-      amount: '8.82 BTC',
-      Icon: Icon['Pocket'],
-      down: true
-    },
-    {
-      title: 'دریافت شده',
-      color: 'light-success',
-      subtitle: 'Add Money',
-      amount: '3.92 BTC',
-      Icon: Icon['Check']
-    },
-    {
-      title: 'ارسال شده',
-      color: 'light-danger',
-      subtitle: 'Add Money',
-      amount: '5.39 BTC',
-      Icon: Icon['DollarSign']
-    },
-    {
-      title: 'تعداد تراکنش',
-      color: 'light-warning',
-      subtitle: 'Ordered Food',
-      amount: '35',
-      Icon: Icon['CreditCard'],
-      down: true
-    },
-    {
-      title: 'اولین فعالیت',
-      color: 'light-warning',
-      subtitle: 'Ordered Food',
-      amount: '11/6/2013',
-      Icon: Icon['CreditCard'],
-      down: true
-    },
-    {
-      title: 'آخرین فعالیت',
-      color: 'light-warning',
-      subtitle: 'Ordered Food',
-      amount: '12/2/2023',
-      Icon: Icon['CreditCard'],
-      down: true
-    }
-  ]
-
+const CardTransactions = (props) => {
   const renderTransactions = () => {
-    return transactionsArr.map(item => {
-      return (
-        <div key={item.title} className='transaction-item'>
+    return (
+      <div>
+        <div className='transaction-item'>
           <div className='d-flex option'>
             <div>
-              <h6 className='transaction-title'>{item.title}</h6>
+              <p style={{fontSize:"14px"}} className='transaction-title'>{'مجموع'}</p>
             </div>
           </div>
-          <div className={` amountOption`}>{item.amount}</div>
+          <div style={{direction:"ltr", fontSize:"14px"}} className={` amountOption`}>
+            {digitsEnToFa(props.data.Total)}
+            <small> BTC</small>
+          </div>
         </div>
-      )
-    })
+        <div className='transaction-item'>
+          <div className='d-flex option'>
+            <div>
+              <p style={{fontSize:"14px"}} className='transaction-title'>{'دریافت شده'}</p>
+            </div>
+          </div>
+          <div style={{direction:"ltr", fontSize:"14px"}} className={` amountOption`}>
+            {digitsEnToFa(props.data.InCome)}
+            <small> BTC</small>
+          </div>
+        </div>
+        <div className='transaction-item'>
+          <div className='d-flex option'>
+            <div>
+              <p style={{fontSize:"14px"}} className='transaction-title'>{'ارسال شده'}</p>
+            </div>
+          </div>
+          <div style={{direction:"ltr", fontSize:"14px"}} className={` amountOption`}>
+            {digitsEnToFa(props.data.OutCome)}
+            <small> BTC</small>
+          </div>
+        </div>
+        <div className='transaction-item'>
+          <div className='d-flex option'>
+            <div>
+              <p style={{fontSize:"14px"}} className='transaction-title'>{'تعداد تراکنش'}</p>
+            </div>
+          </div>
+          <div style={{direction:"ltr", fontSize:"14px"}} className={` amountOption`}>
+            {digitsEnToFa(props.data.TrNumber)}
+          </div>
+        </div>
+        <div className='transaction-item'>
+          <div className='d-flex option'>
+            <div>
+              <p style={{fontSize:"14px"}} className='transaction-title'>{'اولین فعالیت'}</p>
+            </div>
+          </div>
+          <div style={{direction:"ltr", fontSize:"14px"}} className={` amountOption`}>
+            {digitsEnToFa(props.data.FirstActivity)}
+          </div>
+        </div>
+        <div className='transaction-item'>
+          <div className='d-flex option'>
+            <div>
+              <p style={{fontSize:"14px"}} className='transaction-title'>{'آخرین فعالیت'}</p>
+            </div>
+          </div>
+          <div style={{direction:"ltr", fontSize:"14px"}} className={` amountOption`}>
+            {digitsEnToFa(props.data.LastActivity)}
+          </div>
+        </div>
+      </div>
+
+    )
   }
 
   return (

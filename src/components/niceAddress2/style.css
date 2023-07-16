@@ -1,13 +1,13 @@
-#niceAddress2{
+#niceAddress3{
     text-decoration: none;
 }
 
-#niceAddress2 div{
-    transform: translateY(1px);
+#niceAddress3 div{
+    transform: translateY(0px);
 }
 
-#niceAddress2:hover div{
-    transform: translateY(-3px);
+#niceAddress3:hover div{
+    transform: translateY(-4px);
 }
 
 #test{

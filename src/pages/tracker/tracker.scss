@@ -48,14 +48,14 @@ $GrayColor:rgb(248, 248, 248);
         ion-icon:hover{
             color: black;
         }
-        #niceAddress2{
+        #niceAddress3{
             display: none;
         }
         @media only screen and (max-width:500px) {
             #justUp500{
                 display: none;
             }
-            #niceAddress2{
+            #niceAddress3{
                 display: inline-block;
             }
         }

@@ -3,7 +3,7 @@
 }
 #rightCard {
   box-sizing: border-box;
-  background: #f8f8f8;
+  background: rgb(248, 248, 248);
   box-shadow: none;
   border-radius: 8px;
 }
@@ -12,9 +12,7 @@
 }
 #rightCard #cardLink {
   border-width: 1px;
-  border-color: #7c7c7c;
   border-style: solid;
-  color: #7c7c7c;
   padding: 4px 12px;
   border-radius: 8px;
 }

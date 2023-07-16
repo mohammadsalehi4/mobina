@@ -80,8 +80,8 @@ function Header() {
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu" id='header'>
       <div class="layout-container">
         <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
-          <div class="container-xxl">
-            <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
+          <div class="container-fluid  ">
+            <div class="navbar-brand app-brand demo d-none d-xl-flex py-0"  style={{marginRight:"60px"}}>
               <a href="/" class="app-brand-link gap-2">
                 <img src='images/logo.png' id='logo'/>
                 <p className='vazir' id='brandName'>پنتا</p>
@@ -94,7 +94,7 @@ function Header() {
               </a>
             </div>
 
-            <div class="navbar-nav-right d-flex align-items-center " id="navbar-collapse">
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <ul class="navbar-nav flex-row ms-auto rightheaderItems">
                 <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon" onClick={changeAdminAccessShow} id='openAdminaccessBoxIcon'>
@@ -137,10 +137,10 @@ function Header() {
         <div class="layout-page " id='row2HeaderBox' >
           <div class="content-wrapper">
             <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0">
-              <div class="container-xxl d-flex h-100">
+              <div class="container-fluid d-flex h-100" style={{marginRight:"50px"}}>
                 <ul class="menu-inner">
 
-                <li id='MenuBottomItem0' class="menu-item thisNotActive">
+                <li id='MenuBottomItem0' class="menu-item thisNotActive" style={{marginRight:"0px"}}>
                   <a class="menu-link">
                   <ion-icon name="home-outline"></ion-icon>
                     <div data-i18n="Dashboards" className='vazir'>داشبورد</div>

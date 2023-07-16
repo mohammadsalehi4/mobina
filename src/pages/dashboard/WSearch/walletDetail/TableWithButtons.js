@@ -1,6 +1,7 @@
-import { Fragment, useState, forwardRef } from 'react'
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-vars */
+import { Fragment, useState, forwardRef, useEffect } from 'react'
 import './style.css'
-import { data, columns } from './data'
 import Pickers from '../../../../views/forms/form-elements/datepicker'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
@@ -20,6 +21,7 @@ import {
   DropdownToggle,
   UncontrolledButtonDropdown
 } from 'reactstrap'
+import { MainSiteGray, MainSiteGreen } from '../../../../../public/colors'
 
 // ** Bootstrap Checkbox Component
 const BootstrapCheckbox = forwardRef((props, ref) => (
@@ -28,40 +30,97 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
-const DataTableWithButtons = () => {
-  // ** States
-  const [currentPage, setCurrentPage] = useState(0)
-  const [searchValue] = useState('')
-  const [filteredData] = useState([])
+const columns = [
+  {
+    name: 'تاریخ',
+    sortable: true,
+    maxWidth: '120px',
+    minWidth: '120px',
+    selector: row => (
+        <div>
+          <p style={{marginTop:"10px"}}>{digitsEnToFa(row.Date)}</p>
+          <p style={{marginTop:"-20px", marginBottom:"-2px"}}>{digitsEnToFa(row.Time)}</p>
+        </div>
+      )
+  },
+  {
+    name: 'آدرس',
+    minWidth: '270px',
+    selector: row => (
+      <div className='d-flex align-items-end '>
+        <div className='user-info text-truncate'>
+          <span className='d-block text-truncate ms-0'>{row.address}</span>
+        </div>
 
-  const handlePagination = page => {
-    setCurrentPage(page.selected)
+      </div>
+    )
+  },
+  {
+    name: '',
+    minWidth: '30px',
+    selector: row =>  (
+      
+        row.mode ? <div className='d-flex align-items-end '>
+          <ion-icon name="arrow-forward-outline" className="mb-1" id="inkouft"></ion-icon>
+        </div> : <div className='d-flex align-items-end '>
+          <ion-icon name="arrow-back-outline" className="mb-1" id="outkouft"></ion-icon>
+        </div>
+      
+
+    )
+  },
+  // {
+  //   name: '',
+  //   allowOverflow: true,
+  //   width:"20px",
+  //   cell: () => {
+  //     return (
+  //       <div style={{cursor:"pointer", direction:"ltr"}} >
+  //         <ion-icon style={{color:"blue", direction:"ltr"}} name="copy-outline"></ion-icon>
+  //       </div>
+  //     )
+  //   }
+  // },
+
+  {
+    name: 'حجم تراکنش',
+    sortable: true,
+    minWidth: '120px',
+    selector: row => (
+      digitsEnToFa(row.BTCAmount)
+    )
+  },
+
+
+  {
+    name: 'هزینه تراکنش',
+    sortable: true,
+    minWidth: '130px',
+    maxWidth: '130px',
+    selector: row => digitsEnToFa(row.Fee)
   }
+]
 
-  // ** Custom Pagination
-  const CustomPagination = () => (
-    <ReactPaginate
-      previousLabel=''
-      nextLabel=''
-      forcePage={currentPage}
-      onPageChange={page => handlePagination(page)}
-      pageCount={searchValue.length ? Math.ceil(filteredData.length / 7) : Math.ceil(data.length / 7) || 1}
-      breakLabel='...'
-      pageRangeDisplayed={2}
-      marginPagesDisplayed={2}
-      activeClassName='active'
-      pageClassName='page-item'
-      breakClassName='page-item'
-      nextLinkClassName='page-link'
-      pageLinkClassName='page-link'
-      breakLinkClassName='page-link'
-      previousLinkClassName='page-link'
-      nextClassName='page-item next-item'
-      previousClassName='page-item prev-item'
-      containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-end pe-1 mt-1'
-    />
-  )
+const DataTableWithButtons = (props) => {
 
+  const [numberOfShow, SetNumberofShow] = useState(0)
+  const [showData, SetShowData] = useState([])
+  let filteredData = []
+  useEffect(() => {
+    const a = 5 * (numberOfShow + 1)
+    filteredData = []
+    for (let i = 0; i < a; i++) {
+      if (props.data.LastTransactions[i]) {
+        filteredData.push(props.data.LastTransactions[i])
+        if (filteredData.length === props.data.LastTransactions.length) {
+          document.getElementById('PaginationButton').style.color = MainSiteGray
+        }
+      }
+    }
+    SetShowData(filteredData)
+    console.log(filteredData)
+    console.log(props.data.LastTransactions)
+  }, [, numberOfShow])
 
   return (
     <Fragment >
@@ -93,16 +152,23 @@ const DataTableWithButtons = () => {
         </CardHeader>
         <div className='react-dataTable react-dataTable-selectable-rows'>
           <DataTable
-            pagination
             columns={columns}
-            paginationPerPage={7}
             className='react-dataTable'
             sortIcon={<ChevronDown size={10} />}
-            paginationComponent={CustomPagination}
-            paginationDefaultPage={currentPage + 1}
             selectableRowsComponent={BootstrapCheckbox}
-            data={searchValue.length ? filteredData : data}
+            data={ showData}
           />
+        </div>
+        <div className='container-fluid'>
+          <div className='row'>
+            <div className='col-lg-4'>
+            </div>
+            <div className='col-lg-4 mt-3 mb-3'>
+              <button id='PaginationButton' onClick={() => { SetNumberofShow(numberOfShow + 1) }} style={{width:"100%", borderWidth:"1px", borderColor:MainSiteGray, borderStyle:"solid"}} type="button" class="btn">نمایش بیشتر...</button>
+            </div>
+            <div className='col-lg-4'>
+            </div>
+          </div>
         </div>
       </Card>
     </Fragment>

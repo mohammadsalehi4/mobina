@@ -10,11 +10,10 @@
 #rightCard1 #cardLink {
   border-width: 2px;
   border-style: solid;
-  color: rgb(124, 124, 124);
+  color: rgb(60, 60, 60);
   padding: 8px 12px;
   border-radius: 8px;
   width: 47%;
-  margin-right: 2%;
   background: rgb(248, 248, 248);
   margin-top: 10px;
 }
@@ -31,6 +30,11 @@
 #rightCard1 .cardLink1 {
   margin-right: 0px;
 }
+
+#rightCard1 .cardLink2 {
+  margin-right: 6%;
+}
+
 #rightCard1 #showOwner {
   color: white;
   padding: 10px;

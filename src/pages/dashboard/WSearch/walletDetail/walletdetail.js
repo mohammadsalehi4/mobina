@@ -1,24 +1,173 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import CardTransactions from '../leftcard'
 import CardContentTypes from '../rightCard'
-import Pickers from '../../../../views/forms/form-elements/datepicker'
 import DataTableWithButtons from './TableWithButtons'
 const Walletdetail = () => {
+  
+  const data = {
+    address:"5407317937e50337c72187b13d14eca1e2f77e439436c616e64d128dcd4dc721",
+    Total: 8.82,
+    InCome: 3.92,
+    OutCome: 5.39,
+    TrNumber: 35,
+    FirstActivity: '11/6/2013',
+    LastActivity: '12/2/2023',
+    LastTransactions:[
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:false,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:false,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:false,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:false,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:false,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      },
+      {
+        address:"adsyfusdfuasdgifusgduifyasgdiugdf",
+        mode:true,
+        BTCAmount:4.354,
+        Date:'12/3/2021',
+        Time:'14:30',
+        Fee:0.004
+      }
+    ]
+  }
+
   return (
     <div className='container-fluid bg-white mt-5' style={{borderRadius:"8px", boxSizing:"border-box"}}>
         <div className='row ' style={{borderRadius:"8px"}}>
           <div className='col-lg-6'>
-            <CardContentTypes/>
+            <CardContentTypes data={data}/>
           </div>
           <div className='col-lg-6'>
-            <CardTransactions/>
+            <CardTransactions data={data}/>
           </div>
         </div>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='row mt-3'>
               <div className='col-lg-12'>
-                <DataTableWithButtons/>
+                <DataTableWithButtons data={data}/>
               </div>
             </div>
           </div>

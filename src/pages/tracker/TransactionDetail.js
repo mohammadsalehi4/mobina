@@ -26,7 +26,7 @@ const TransactionDetail1 = () => {
 
         <div className='row'>
           <div className='col-12' >
-            <div id='address' style={{background:"rgb(248,248,248)", padding:"15px", borderRadius:"10px"}}>
+            <div id='address' style={{background:"rgb(248,248,248)", width:"100%", padding:"15px", borderRadius:"10px"}}>
               <a id='justUp500'>{States.WDetail.address}</a>
               <NiceAddress2 text={States.WDetail.address} number={8}/>
               <ion-icon name="copy-outline"></ion-icon>
