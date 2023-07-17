@@ -1,0 +1,88 @@
+#Reports {
+  margin-top: 20px;
+  width: 80%;
+  border-radius: 10px;
+}
+@media only screen and (max-width: 1200px) {
+  #Reports {
+    margin-top: -40px;
+    width: 92%;
+  }
+}
+#Reports #cardMain {
+  margin-top: 10px;
+}
+@media only screen and (max-width: 500px) {
+  #Reports #cardMain h5 {
+    font-size: 14px;
+  }
+  #Reports #cardMain p {
+    font-size: 12px;
+  }
+  #Reports #cardMain Button {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}
+#Reports #cardSubMain {
+  cursor: pointer;
+  transition: 0.2s;
+  padding: 10px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+@media only screen and (max-width: 990px) and (min-width: 400px) {
+  #Reports #cardSubMain {
+    margin-top: 20px;
+    margin-right: 0px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  #Reports #cardSubMain {
+    margin-right: 0px;
+  }
+  #Reports #cardSubMain small {
+    font-size: 10px;
+    margin-top: -10px;
+  }
+  #Reports #cardSubMain h6 {
+    font-size: 12px;
+    margin-top: -8px;
+  }
+}
+@media only screen and (max-width: 320px) {
+  #Reports #cardSubMain small {
+    font-size: 8px;
+  }
+  #Reports #cardSubMain h6 {
+    font-size: 10px;
+  }
+}
+#Reports #cardSubMain:hover {
+  background: #f4f4f4;
+}
+#Reports #CardNews Button {
+  float: left;
+}
+@media only screen and (max-width: 500px) {
+  #Reports #CardNews p {
+    font-size: 13px;
+  }
+  #Reports #CardNews h4 {
+    font-size: 16px;
+  }
+  #Reports #CardNews Button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  #Reports #CardNews p {
+    font-size: 12px;
+  }
+  #Reports #CardNews h4 {
+    font-size: 14px;
+  }
+}
+
+/*# sourceMappingURL=reports.css.map */

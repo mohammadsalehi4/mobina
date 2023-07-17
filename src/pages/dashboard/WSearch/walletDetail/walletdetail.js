@@ -6,7 +6,7 @@ import DataTableWithButtons from './TableWithButtons'
 const Walletdetail = () => {
   
   const data = {
-    address:"5407317937e50337c72187b13d14eca1e2f77e439436c616e64d128dcd4dc721",
+    address:"TWBAPzpPiZarfVsY2BLXeaLhNHurn4wkWG",
     Total: 8.82,
     InCome: 3.92,
     OutCome: 5.39,

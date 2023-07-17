@@ -9,6 +9,7 @@ import Header from '../src/pages/header/header'
 import Tracker from '../src/pages/tracker/tracker'
 import Tax from './pages/tax/tax'
 import Mining from './pages/mining/mining'
+import Reports from './pages/reports/reports'
 
 const App = () => {
   const States = useSelector(state => state)
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/tracker" exact element={<Tracker/>}/>
             <Route path="/tax" exact element={<Tax/>}/>
             <Route path="/mining" exact element={<Mining/>}/>
+            <Route path="/reports" exact element={<Reports/>}/>
             <Route path="/tax/:txid" exact element={<Tax/>}/>
           </Routes>
     </div>

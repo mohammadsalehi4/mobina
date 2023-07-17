@@ -176,7 +176,7 @@ function Header() {
                   </li>
 
                   <li id='MenuBottomItem5' class="menu-item thisNotActive">
-                    <a class="menu-link">
+                    <a class="menu-link" href='/reports'>
                     <ion-icon name="reader-outline"></ion-icon>
                       <div data-i18n="Forms" className='vazir'>گزارش ها</div>
                     </a>

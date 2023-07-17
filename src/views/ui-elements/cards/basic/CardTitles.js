@@ -23,7 +23,7 @@ const CardTitles = () => {
           </CardBody>
         </Card>
       </Col>
-      <Col lg='4' md='6'>
+      <Col lg='6' md='6'>
         <Card>
           <CardBody>
             <CardTitle tag='h4'>Card Title</CardTitle>

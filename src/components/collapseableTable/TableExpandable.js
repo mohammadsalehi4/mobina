@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { digitsEnToFa } from 'persian-tools'
 import DataTablesBasic from '../basicTable/TableZeroConfig'
+import PickerRange from '../../components/taxRangePicker/PickerRange'
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -165,12 +166,12 @@ const DataTableWithButtons = (props) => {
     <Card>
       <CardHeader>
         <div style={{ width:"100%", float:"left"}}>
-          <h6 style={{float:"right"}}>تراکنش</h6>
+          <h6 style={{float:"right"}}>اطلاعات محاسبه شده مالیات تراکنش</h6>
           <span style={{float:"left"}}>{props.trAddress}</span>
         </div>
         <div style={{height:"1px", width:"100%", display:"block", background:"rgb(220,220,220)"}}></div>
         <div style={{ width:"100%", float:"left", marginTop:"10px"}}>
-          <span>اطلاعات محاسبه شده</span>
+          <span style={{float:"right"}}><PickerRange/></span>
           <div id='getExelFormat'>
               {/* <span>دانلود</span>
               <ion-icon name="download-outline"></ion-icon> */}
