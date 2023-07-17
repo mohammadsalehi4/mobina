@@ -4,7 +4,7 @@ import { Button, Card, CardTitle, CardBody, CardText, CardSubtitle, CardLink, Ca
 // ** Images
 import img2 from '@src/assets/images/slider/03.jpg'
 
-const CardSubMain = () => {
+const CardSubMain = (props) => {
   return (
     <div id='cardSubMain' className='container-fluid' style={{ width:"100%"}}>
         <div className='row'>
@@ -13,11 +13,10 @@ const CardSubMain = () => {
             </div>
             <div className='col-6 p-2'>
                 <h6>
-                    عنوان خبر
+                    {props.data.title}
                 </h6>
-                <small style={{display:"block"}}>
-                    در این بخش یک توضیح کوتاه چند جمله ای درباره خبر انجام می شود.
-                    این یک متن تستی جهت نمایش بلاگ است.
+                <small style={{display:"block"}}>              
+                    {props.data.description}
                 </small>
             </div>
         </div>

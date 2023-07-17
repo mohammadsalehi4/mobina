@@ -4,17 +4,16 @@ import { Button, Card, CardTitle, CardBody, CardText, CardSubtitle, CardLink, Ca
 // ** Images
 import img1 from '@src/assets/images/slider/04.jpg'
 import img2 from '@src/assets/images/slider/03.jpg'
-const CardMain = () => {
+const CardMain = (props) => {
   return (
     <div id='cardMain' style={{background:"white", width:"100%"}}>
         <CardImg src={img1} style={{height:"33%", borderRadius:"10px"}} />
         <CardBody className='p-3'>
-            <h5>عنوان خبر</h5>
+            <h5>{props.data.title}</h5>
             <p>
-                در این بخش یک توضیح کوتاه چند جمله ای درباره خبر انجام می شود.
-                این یک متن تستی جهت نمایش بلاگ است.
+              {props.data.description}
             </p>
-            <Button className='mt-2 mb-3' style={{float:"left"}} outline>مشاهده خبر</Button>
+            <Button className='mt-2 mb-3' style={{float:"left"}} outline>ادامه</Button>
         </CardBody>
     </div>
 

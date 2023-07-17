@@ -58,6 +58,9 @@
     #CardNews{
         Button{
             float: left;
+            position: absolute;
+            left: 5%;
+            bottom: 20px;
         }
         @media only screen and (max-width:500px) {
             p{
@@ -78,6 +81,10 @@
             h4{
                 font-size: 14px;
             }
+        }
+        @media only screen and (min-width:990px) {
+            height: 100%;
+            margin-bottom: 20px;
         }
     }
 }
