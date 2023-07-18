@@ -9,8 +9,8 @@ import TransactionDetail from './txSearch/transactionDetail/transactionDetail'
 import Walletdetail from './WSearch/walletDetail/walletdetail'
 import { useDispatch } from 'react-redux'
 import { Label, Input } from 'reactstrap'
-import { MainSiteyellow } from '../../../public/colors'
 import { MainSiteOrange } from '../../../public/colors'
+
 const EcommerceDashboard = () => {
   const dispatch = useDispatch()
   const [mode, SetMode] = useState(0)
@@ -34,7 +34,6 @@ const EcommerceDashboard = () => {
       document.getElementById('hamoniKeBayadBiadBala').style.marginTop = "50px"
     }
   }, [mode])
-
   return (
     <div id='dashboard' class='container-fluid'>
       {
@@ -46,16 +45,16 @@ const EcommerceDashboard = () => {
               {
 
                 // eslint-disable-next-line multiline-ternary
-                mode === 0 ? 
+                mode === 0 ?
                   // eslint-disable-next-line multiline-ternary
                   <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}>آدرس یا شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3>
-              : 
+              :
                   null
               }
               <Input type='email' id='transactionValue' onChange={isTextInInput} class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
               {
                 // eslint-disable-next-line multiline-ternary
-                mode === 0 ? 
+                mode === 0 ?
                   <Label className='form-label' for='transactionValue'>
                     <p class="vazir" id='searchExample11'>
                       نمونه کاوش:
@@ -83,16 +82,16 @@ const EcommerceDashboard = () => {
             <div class="col-lg-8 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
             {
               // eslint-disable-next-line multiline-ternary
-              mode === 0 ? 
+              mode === 0 ?
                 // eslint-disable-next-line multiline-ternary
                 <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}>آدرس یا شناسه تراکنش را به کمک <span class="vazir" style={{color:"#2f4f4f"}}>پنتا</span> جست و جو کنید!</h3>
-            : 
+            :
                 null
             }
             <Input type='email' id='transactionValue' onChange={isTextInInput} class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
             {
               // eslint-disable-next-line multiline-ternary
-              mode === 0 ? 
+              mode === 0 ?
                 <Label className='form-label' for='transactionValue'>
                   <p class="vazir" id='searchExample11'>
                     نمونه کاوش:
@@ -131,6 +130,7 @@ const EcommerceDashboard = () => {
         <div class="col-lg-2">
         </div>
       </div>
+        
     </div>
   )
 }

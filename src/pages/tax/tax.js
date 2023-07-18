@@ -6,6 +6,7 @@ import './tax.css'
 import DataTableWithButtons from '../../components/collapseableTable/TableExpandable'
 import { Input } from 'reactstrap'
 import { useParams } from "react-router-dom"
+import { MainSiteOrange } from '../../../public/colors'
 
 const Tax = () => {
     const { txid } = useParams()
@@ -46,7 +47,7 @@ const Tax = () => {
                             </div>
                             <div className='col-lg-6 mt-5'>
                                 <form onSubmit={checkinput}>
-                                    <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}> شناسه تراکنش را به کمک <span class="vazir" style={{color:"#2f4f4f"}}>پنتا</span> جست و جو کنید!</h3><br/>
+                                    <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}> شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3><br/>
                                     <Input id='trAddressValue' type='text'  class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{backgroundColor:"white", height:"50px", borderRadius:"8px"}}/>
                                 </form>
                             </div>

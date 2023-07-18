@@ -16,10 +16,19 @@ const initialState = {
     TransactionDetailCurrencyMode:0,
 
     //mining
-    miningMode:0
+    miningMode:0,
+
+    //modal
+    basicModal:false
 }
 
 const reducer = (state = initialState, action) => {
+    if (action.type === "SETBASICMODAL") {
+        return {
+            ...state,
+            basicModal:action.value
+        }
+    }
     if (action.type === "SHOWNAVBAR") {
         return {
             ...state,

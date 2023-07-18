@@ -9,7 +9,7 @@ const CardSubMain = (props) => {
     <div id='cardSubMain' className='container-fluid' style={{ width:"100%"}}>
         <div className='row'>
             <div className='col-6'>
-                <CardImg src={img2} style={{width:"100%", borderRadius:"5px"}} />
+                <CardImg src={`../../../public/images/${props.data.img}`} style={{width:"100%", borderRadius:"5px"}} />
             </div>
             <div className='col-6 p-2'>
                 <h6>

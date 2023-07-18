@@ -144,11 +144,12 @@ const columns = [
   {
     name: '',
     allowOverflow: true,
-    width:"20px",
+    width:"10px",
+    maxWidth:"10px",
     cell: () => {
       return (
-        <div style={{cursor:"pointer", padding:"2px", background:"rgb(238,238,238)", borderRadius:"8px", padding:"2px 6px"}} >
-          <ion-icon name="chevron-back-outline" id="qq112"></ion-icon>
+        <div  style={{background:"#dcdcdc", padding:"2px 4px", borderRadius:"6px", cursor:"pointer"}} >
+          <ion-icon style={{marginBottom:"-3px", marginRight:"-2px"}} name="chevron-forward-outline"></ion-icon>
         </div>
       )
     }

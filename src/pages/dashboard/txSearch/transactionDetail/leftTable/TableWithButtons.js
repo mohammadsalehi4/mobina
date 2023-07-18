@@ -140,26 +140,15 @@ let data = [
 ]
 
 const columns = [
-  {
-    name: '',
-    allowOverflow: true,
-    width:"20px",
-    cell: () => {
-      return (
-        <div style={{cursor:"pointer", padding:"2px", background:"rgb(238,238,238)", borderRadius:"8px", padding:"2px 6px"}} >
-          <ion-icon name="chevron-back-outline" id="qq112"></ion-icon>
-        </div>
-      )
-    }
-  },
+
   {
     name: 'آدرس',
-    minWidth: '140px',
+    minWidth: '120px',
     maxWidth:"140px",
     selector: row => (
       <div className='d-flex mt-2 align-items-end '>
         <div className='user-info text-truncate'>
-          <NiceAddress text={row.address} number={4}/>
+          <NiceAddress text={row.address} number={3}/>
         </div>
       </div>
     )
@@ -167,21 +156,21 @@ const columns = [
   {
     name: 'ریسک',
     sortable: true,
-    minWidth: '90px',
+    minWidth: '10px',
     maxWidth:'90px',
     selector: row => digitsEnToFa(row.RiskScore)
     },
     {
     name: 'حجم',
     sortable: true,
-    minWidth: '50px',
-    maxWidth:'180px',
+    minWidth: '100px',
+    maxWidth:'120px',
     selector: row => digitsEnToFa(row.BTCAmount)
   },
 
   {
     name: 'مالک',
-    maxWidth: '50px',
+    maxWidth: '40px',
     cell: () => {
       return (
           // <button style={{background:"white", margin:"none", borderColor:"rgb(200,200,200)", color:"rgb(100,100,100)", borderStyle:"solid", borderRadius:"5px"}}>نمایش</button>
@@ -189,6 +178,19 @@ const columns = [
           <path d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
           <circle cx="256" cy="256" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="24"/>
         </svg>
+      )
+    }
+  },
+  {
+    name: '',
+    allowOverflow: true,
+    width:"120px",
+    maxWidth:"120px",
+    cell: () => {
+      return (
+        <div  style={{background:"#dcdcdc", padding:"2px 4px", borderRadius:"6px", marginRight:"-10px", cursor:"pointer"}} >
+          <ion-icon style={{marginBottom:"-3px", marginRight:"-2px"}} name="chevron-back-outline"></ion-icon>
+        </div>
       )
     }
   }
