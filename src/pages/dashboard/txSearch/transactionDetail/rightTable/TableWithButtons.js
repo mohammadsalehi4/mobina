@@ -17,25 +17,6 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
-let data = [
-  {
-    address:"bc1q7cyrfmck2ffu2ud3rn5l5a8yv6f0chkp0zpemf",
-    RiskScore:25,
-    BTCAmount:0.322005,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"bc1qwfuuas9z9je6ugffyfva3n7jrr4jnnrnf32522",
-    RiskScore:50,
-    BTCAmount:0.882198,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  }
-]
-
 const columns = [
   {
     name: '',
@@ -92,7 +73,7 @@ const columns = [
   }
 ]
 
-const RightDataTableWithButtons = () => {
+const RightDataTableWithButtons = (props) => {
 
   const [numberOfShow, SetNumberofShow] = useState(0)
   const [showData, SetShowData] = useState([])
@@ -101,16 +82,16 @@ const RightDataTableWithButtons = () => {
     const a = 5 * (numberOfShow + 1)
     filteredData = []
     for (let i = 0; i < a; i++) {
-      if (data[i]) {
-        filteredData.push(data[i])
-        if (filteredData.length === data.length) {
+      if (props.data.inputData[i]) {
+        filteredData.push(props.data.inputData[i])
+        if (filteredData.length === props.data.inputData.length) {
           document.getElementById('PaginationButton').style.color = MainSiteGray
         }
       }
     }
     SetShowData(filteredData)
     console.log(filteredData)
-    console.log(data)
+    console.log(props.data.inputData)
   }, [, numberOfShow])
 
   return (

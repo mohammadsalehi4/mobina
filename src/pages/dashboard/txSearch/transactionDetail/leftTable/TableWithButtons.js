@@ -16,16 +16,6 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
     <Input type='checkbox' ref={ref} {...props} />
   </div>
 ))
-let data = [
-  {
-    address:"bc1qe7x4de224kt0rjkhy8n0glk03uf9ta4jyr6xxy",
-    RiskScore:10,
-    BTCAmount:1.214203,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  }
-]
 
 const columns = [
 
@@ -84,7 +74,7 @@ const columns = [
   }
 ]
 
-const LeftDataTableWithButtons = () => {
+const LeftDataTableWithButtons = (props) => {
 
   const [numberOfShow, SetNumberofShow] = useState(0)
   const [showData, SetShowData] = useState([])
@@ -93,16 +83,16 @@ const LeftDataTableWithButtons = () => {
     const a = 5 * (numberOfShow + 1)
     filteredData = []
     for (let i = 0; i < a; i++) {
-      if (data[i]) {
-        filteredData.push(data[i])
-        if (filteredData.length === data.length) {
+      if (props.data.outputData[i]) {
+        filteredData.push(props.data.outputData[i])
+        if (filteredData.length === props.data.outputData.length) {
           document.getElementById('LeftPaginationButton').style.color = MainSiteGray
         }
       }
     }
     SetShowData(filteredData)
     console.log(filteredData)
-    console.log(data)
+    console.log(props.data.outputData)
   }, [, numberOfShow])
 
   return (
