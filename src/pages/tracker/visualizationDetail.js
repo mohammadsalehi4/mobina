@@ -42,7 +42,7 @@ const VisualizationDetail = () => {
               <div className='row'>
                 <div className='col-md-12'>
                   <p style={{display:"inline-block", marginLeft:"20px"}}>آدرس </p>
-                  <NiceAddress2 text={"asdjasdlaskdjlasjdlkasjdaslkdjlasdjl"} number={8}/>
+                  <NiceAddress2 text={"bc1qt96tjcgx4evjhklg2g7829lp2wxwvuv8r4dljz"} number={8}/>
                 </div>
                 <hr/>
               </div>

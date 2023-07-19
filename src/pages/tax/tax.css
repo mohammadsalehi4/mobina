@@ -10,6 +10,7 @@
   color: #2f4f4f;
 }
 #Tax #taxTableDownloadDropDown {
+  margin-top: -8px;
   float: left;
 }
 #Tax #taxTableDownloadDropDown #taxTableDownloadDropDownButton {
@@ -25,6 +26,12 @@
 }
 #Tax #taxTableDownloadDropDown #taxTableDownloadDropDownButton ion-icon {
   font-size: 17px;
+  margin-bottom: 2px;
+  margin-right: 3px;
+}
+
+#taxTableDownloadDropDownSpan span{
+  padding: 5px 8px !important;
   margin-bottom: 2px;
   margin-right: 3px;
 }

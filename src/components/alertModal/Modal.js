@@ -13,7 +13,7 @@ const MyModal = () => {
   return (
     <div id='ModalAlert' className='basic-modal'>
         <Modal isOpen={States.basicModal} toggle={() => dispatch({type:"SETBASICMODAL", value:false})}>
-            <ModalHeader>اتمام فعالیت</ModalHeader>
+            <ModalHeader>پردازش ماینر</ModalHeader>
             <ModalBody>
                 <Success text={"تایید مسیر های دریافت پاداش اعلامی"}/>
                 <Error text="عدم انطباق با توان پردازشی اعلامی"/>

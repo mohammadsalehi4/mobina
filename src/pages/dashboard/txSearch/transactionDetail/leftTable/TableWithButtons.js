@@ -18,121 +18,9 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 ))
 let data = [
   {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:4.8325,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:4.8325,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:4.8325,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:4.8325,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:4.8325,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:4.8325,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
-    Fee:0.004,
-    inNumber:12,
-    outNumber:43
-  },
-  {
-    address:"adsyfusdfuasdgifusgduifyasgdiugdfgauisdygfisdgfiusygf",
-    RiskScore:2,
-    BTCAmount:2.83,
+    address:"bc1qe7x4de224kt0rjkhy8n0glk03uf9ta4jyr6xxy",
+    RiskScore:10,
+    BTCAmount:1.214203,
     Fee:0.004,
     inNumber:12,
     outNumber:43
@@ -143,7 +31,7 @@ const columns = [
 
   {
     name: 'آدرس',
-    minWidth: '120px',
+    minWidth: '130px',
     maxWidth:"140px",
     selector: row => (
       <div className='d-flex mt-2 align-items-end '>
@@ -163,14 +51,14 @@ const columns = [
     {
     name: 'حجم',
     sortable: true,
-    minWidth: '100px',
+    minWidth: '110px',
     maxWidth:'120px',
     selector: row => digitsEnToFa(row.BTCAmount)
   },
 
   {
     name: 'مالک',
-    maxWidth: '40px',
+    maxWidth: '20px',
     cell: () => {
       return (
           // <button style={{background:"white", margin:"none", borderColor:"rgb(200,200,200)", color:"rgb(100,100,100)", borderStyle:"solid", borderRadius:"5px"}}>نمایش</button>
@@ -188,7 +76,7 @@ const columns = [
     maxWidth:"120px",
     cell: () => {
       return (
-        <div  style={{background:"#dcdcdc", padding:"2px 4px", borderRadius:"6px", marginRight:"-10px", cursor:"pointer"}} >
+        <div  style={{background:"#dcdcdc", padding:"2px 4px", borderRadius:"6px", marginRight:"-20px", cursor:"pointer"}} >
           <ion-icon style={{marginBottom:"-3px", marginRight:"-2px"}} name="chevron-back-outline"></ion-icon>
         </div>
       )

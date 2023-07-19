@@ -14,7 +14,7 @@ const Mining = () => {
             <div className='row'>
                 <div className='col-lg-1'>
                 </div>
-                <div className='col-lg-10 mt-5'  style={{background:"white"}}>
+                <div className='col-lg-10 '  style={{background:"white"}}>
                     <WizardModern/>
                 </div>
                 <div className='col-lg-1'>

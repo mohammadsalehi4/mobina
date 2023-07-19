@@ -65,7 +65,7 @@ const ModalGraph = (props) => {
         {
           from: 3,
           to: 4,
-          label: "2520$",
+          label: "1000$",
           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
           color: { color: '#000000', highlight: '#00ff00' },
           strokeWidth: 2,
@@ -89,7 +89,7 @@ const ModalGraph = (props) => {
         {
           from: 4,
           to: 6,
-          label: "1000$",
+          label: "2520$",
           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
           color: { color: '#000000', highlight: '#00ff00' },
           strokeWidth: 2,
@@ -101,7 +101,7 @@ const ModalGraph = (props) => {
         {
           from: 1,
           to: 5,
-          label: "1520$",
+          label: "800$",
           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
           color: { color: '#000000', highlight: '#00ff00' },
           strokeWidth: 2,
@@ -113,7 +113,7 @@ const ModalGraph = (props) => {
         {
           from: 5,
           to: 7,
-          label: "1000$",
+          label: "800$",
           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
           color: { color: '#000000', highlight: '#00ff00' },
           strokeWidth: 2,

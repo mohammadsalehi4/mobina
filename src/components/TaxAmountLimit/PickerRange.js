@@ -15,18 +15,19 @@ import {
   DropdownToggle,
   UncontrolledButtonDropdown
 } from 'reactstrap'
+import './style.css'
 const TaxDayLimit = (props) => {
 
   return (
     <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%"}}>
     <DropdownToggle color='secondary' id='TaxLimitButton' outline>
-      <span className='align-middle ms-50'>محدوده زمانی</span>
+      <span className='align-middle ms-50'>محدوده حجم</span>
     </DropdownToggle>
     <DropdownMenu style={{padding:"5px 10px"}}>
         <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
-        <Input  id={`AmountGetStartAmountValue`}  type='date'/>
+        <Input  id={`AmountGetStartAmountValue`}  type='number'/>
         <Label style={{float:"right"}} className='mt-1 mb-1'>تا</Label>
-        <Input  id={`AmountGetEndAmountValue`} type='date'/>
+        <Input  id={`AmountGetEndAmountValue`} type='number'/>
     </DropdownMenu>
   </UncontrolledButtonDropdown>
 

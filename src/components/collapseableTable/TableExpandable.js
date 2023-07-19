@@ -4,6 +4,11 @@ import { useState } from 'react'
 import { digitsEnToFa } from 'persian-tools'
 import DataTablesBasic from '../basicTable/TableZeroConfig'
 import PickerRange from '../../components/taxRangePicker/PickerRange'
+import TaxAmountLimit from '../TaxAmountLimit/PickerRange'
+import TaxDayLimit from '../TaxDayLimit/PickerRange'
+import TaxMPriceLimit from '../TaxPriceLimit/PickerRange'
+import NiceAddress2 from '../niceAddress2/niceAddress'
+
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -11,41 +16,61 @@ import PickerRange from '../../components/taxRangePicker/PickerRange'
 ////////////////////////////////////////////////////////////////////////////
 const data = [
   {
-    address:"asdasdsfasdfsdfsdfasdfasdfasdfasdf",
-    totalAmount:3.87,
-    buyPrice:27878.98,
-    timeLength:35,
-    tax:123000000
+    address:"bc1qa33q7cplz54zcm66huuv9e8vuct98mzadzvg",
+    totalAmount:0.785563,
+    buyPrice:12356.25,
+    timeLength:180,
+    tax:"180,650,522"
   },
   {
-    address:"asdasdsfasdfsdfsdfasdfasdfasdfasdf",
-    totalAmount:3.87,
-    buyPrice:27878.98,
-    timeLength:35,
-    tax:123000000
+    address:"bc1qlc6yxdvkpem4uv0y5s86rc8wn4ehpfzpu647c5",
+    totalAmount:0.147489,
+    buyPrice:25878.23,
+    timeLength:180,
+    tax:"4,600,184"
   },
   {
-    address:"asdasdsfasdfsdfsdfasdfasdfasdfasdf",
-    totalAmount:3.87,
-    buyPrice:27878.98,
-    timeLength:35,
-    tax:123000000
-  },
-  {
-    address:"asdasdsfasdfsdfsdfasdfasdfasdfasdf",
-    totalAmount:3.87,
-    buyPrice:27878.98,
-    timeLength:35,
-    tax:123000000
+    address:"bc1q93d8x6q5ywlccwzsgq3aeshupex7vxpngc8s",
+    totalAmount:1.336698,
+    buyPrice:35693.02,
+    timeLength:180,
+    tax:"0"
   }
 
 ]
+
+const underData = [
+  {
+    utxo:"a239763a0395f3a7c0d5a139333fac53445fca8a30381deb7b0f98f6aa7b1627",
+    assets:0.336987,
+    buyTime:"1401/07/07",
+    buyPrice:"12356.25",
+    holdingPeriod:180,
+    applyPercentage:30,
+    tax:"77,494,583"
+  },
+  {
+    utxo:"fecafd75051baea32322fc74930a91f8ad8174e2a2e5d6e562537f1d0883d230",
+    assets:0.448576,
+    buyTime:"1401/07/07",
+    buyPrice:"12356.25",
+    holdingPeriod:180,
+    applyPercentage:30,
+    tax:"103,155,939"
+  }
+]
+
 const columns = [
   {
     name: <p  style={{marginBottom:"0px"}}>شناسه آدرس<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
     minWidth: '300px',
-    selector: row => row.address
+    selector: row => row.address,
+    cell: row => {
+      return (
+        <NiceAddress2 text={row.address} number={8}/>
+      )
+    }
   },
   {
     name: <p style={{marginBottom:"0px"}}>مجموع دارایی<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
@@ -76,7 +101,7 @@ const columns = [
     selector: row => row.timeLength,
     cell: row => {
       return (
-        <p style={{marginBottom:"-3px"}}>{digitsEnToFa(row.buyPrice)}</p>
+        <p style={{marginBottom:"-3px"}}>{digitsEnToFa(row.timeLength)}</p>
       )
     }
   },
@@ -93,12 +118,13 @@ const columns = [
   }
 
 ]
+
 const ExpandableTable = () => {
   return (
     <div className="container-fluid mt-3">
       <div className="row">
         <div className="col-12">
-          <DataTablesBasic/>
+          <DataTablesBasic data={underData}/>
         </div>
       </div>
     </div>
@@ -122,6 +148,7 @@ import {
   Card,
   Input,
   Label,
+  UncontrolledPopover, PopoverBody, 
   Button,
   CardTitle,
   CardHeader,
@@ -152,10 +179,8 @@ const DataTableWithButtons = (props) => {
       activeClassName='active thisIsActivePageForce'
       pageClassName='page-item'
       breakClassName='page-item'
-      // nextLinkClassName='page-link  nextLinkHoverForce'
       pageLinkClassName='page-link '
       breakLinkClassName='page-link'
-      // previousLinkClassName='page-link nextLinkHoverForce'
       nextClassName='page-item next-item'
       previousClassName='page-item prev-item'
       containerClassName={'pagination react-paginate separated-pagination pagination-sm justify-content-end pe-1'}
@@ -166,16 +191,9 @@ const DataTableWithButtons = (props) => {
     <Card>
       <CardHeader>
         <div style={{ width:"100%", float:"left"}}>
-          <h6 style={{float:"right"}}>اطلاعات محاسبه شده مالیات تراکنش</h6>
-          <span style={{float:"left"}}>{props.trAddress}</span>
-        </div>
-        <div style={{height:"1px", width:"100%", display:"block", background:"rgb(220,220,220)"}}></div>
-        <div style={{ width:"100%", float:"left", marginTop:"10px"}}>
-          <span style={{float:"right"}}><PickerRange/></span>
+          <h6 style={{float:"right"}}>اطلاعات محاسبه شده مالیات</h6>
           <div id='getExelFormat'>
-              {/* <span>دانلود</span>
-              <ion-icon name="download-outline"></ion-icon> */}
-          <UncontrolledButtonDropdown id='taxTableDownloadDropDown'>
+                <UncontrolledButtonDropdown id='taxTableDownloadDropDown' style={{float:"left"}}>
                 <DropdownToggle color='secondary' id='taxTableDownloadDropDownButton' outline>
                   <span className='align-middle ms-50'>دریافت</span>
                   <ion-icon name="download-outline"></ion-icon>
@@ -188,8 +206,31 @@ const DataTableWithButtons = (props) => {
                     <span className='align-middle ms-50'>PDF</span>
                   </DropdownItem>
                 </DropdownMenu>
-              </UncontrolledButtonDropdown>
+                </UncontrolledButtonDropdown>
           </div>
+        </div>
+        <div style={{height:"1px", width:"100%", display:"block", background:"rgb(220,220,220)"}}></div>
+        <div style={{ width:"100%", float:"left", marginTop:"10px"}}>
+            <div className='container-fluid'>
+              <div className='row'>
+              <div className='col-lg-1'>
+                  <h6 style={{marginBottom:"-10px", marginTop:"6px"}}>تعیین بازه:</h6>
+                </div>
+                <div className='col-lg-2'>
+                  <PickerRange/>
+                </div>
+                <div className='col-lg-2'>
+                  <TaxAmountLimit/>
+                </div>
+                <div className='col-lg-2'>
+                  <TaxMPriceLimit/>
+                </div>
+                <div className='col-lg-2'>
+                  <TaxDayLimit/>
+                </div>
+              </div>
+            </div>
+
 
         </div>
       

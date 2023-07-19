@@ -5,6 +5,7 @@ import './style.css'
 import Pickers from '../../../../views/forms/form-elements/datepicker'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
+import NiceAddress from '../../../../components/niceAddress/niceAddress'
 import { ChevronDown, Share, Printer, FileText, File, Grid, Copy, Plus } from 'react-feather'
 
 import {
@@ -49,7 +50,9 @@ const columns = [
     selector: row => (
       <div className='d-flex align-items-end '>
         <div className='user-info text-truncate'>
-          <span className='d-block text-truncate ms-0'>{row.address}</span>
+          <span className='d-block text-truncate ms-0' style={{marginBottom:"-10px"}}>
+            <NiceAddress  text={row.address} number={8}/>
+          </span>
         </div>
 
       </div>
@@ -69,19 +72,6 @@ const columns = [
 
     )
   },
-  // {
-  //   name: '',
-  //   allowOverflow: true,
-  //   width:"20px",
-  //   cell: () => {
-  //     return (
-  //       <div style={{cursor:"pointer", direction:"ltr"}} >
-  //         <ion-icon style={{color:"blue", direction:"ltr"}} name="copy-outline"></ion-icon>
-  //       </div>
-  //     )
-  //   }
-  // },
-
   {
     name: 'حجم تراکنش',
     sortable: true,
@@ -90,8 +80,6 @@ const columns = [
       digitsEnToFa(row.BTCAmount)
     )
   },
-
-
   {
     name: 'هزینه تراکنش',
     sortable: true,

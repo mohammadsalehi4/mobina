@@ -9,10 +9,10 @@ import RightDataTableWithButtons from './rightTable/TableWithButtons'
 import LeftDataTableWithButtons from './leftTable/TableWithButtons'
 const TransactionDetail = () => {
   const data={
-    address:"sadashdasdsakugdakskljhjklhukh",
-    blockNumber:128750,
-    TotalInput:9.89,
-    TotalOutput:6.09,
+    address:"3bf80a46ee08b7da13026827cadec449608fdb785ddf405e47ba1908ad686c9c",
+    blockNumber:799226,
+    TotalInput:"۱.۲۱۴۲۰۳",
+    TotalOutput:"۱.۲۱۴۲۰۳",
     BlockDate:"1401/02/03"
   }
   return (

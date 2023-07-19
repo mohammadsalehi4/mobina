@@ -42,7 +42,7 @@ const CardContentTypes = (props) => {
     <Fragment>
           <Card className='mt-4 mb-1 p-3' id='rightCard1'>
               <CardTitle tag='h4'>
-                آدرس ترون
+                آدرس بیت کوین
                 {
                   !isCleared ? 
                     <div style={{display:"inline-block", cursor:"pointer"}} className='me-2'>
@@ -55,8 +55,8 @@ const CardContentTypes = (props) => {
                     </div>
                 }
                 <div style={{float:"left"}} title={"ریسک"}>
-                  <span style={{fontSize:"24px"}}>100%</span>
-                  <ion-icon style={{color:"red"}} name="flash"></ion-icon>
+                  <span style={{fontSize:"24px"}}>25%</span>
+                  <ion-icon style={{color:"green"}} name="flash"></ion-icon>
                 </div>
               </CardTitle>
 
@@ -100,15 +100,15 @@ const CardContentTypes = (props) => {
                       <small style={{background:MainSiteyellow, fontSize:"10px", padding:"0px 3px", borderRadius:"5px"}}>برچسب دوم</small>
                     </div>
                 }
-                <span style={{float:"left"}}>NBCTF: ASO - 29/23<ion-icon name="information-circle-outline" style={{marginBottom:"-6px", marginRight:"3px", fontSize:"18px"}}></ion-icon></span>
+                <span style={{float:"left"}}>آریا کوین<ion-icon name="information-circle-outline" style={{marginBottom:"-6px", marginRight:"3px", fontSize:"18px"}}></ion-icon></span>
               </div>
               <div className="">
                 <h6 style={{display:"inline-block"}}>نوع:</h6>
-                <span style={{float:"left", fontSize:"13px"}}>کیف پول تحریمی</span>
+                <span style={{float:"left", fontSize:"13px"}}>صرافی بدون مجوز رسمی</span>
               </div>
               <div className="">
                 <h6 style={{display:"inline-block"}}>وبسایت:</h6>
-                <span style={{float:"left", fontSize:"13px"}}><a>___________</a></span>
+                <span style={{float:"left", fontSize:"13px"}}><a>ariacoin.ir</a></span>
               </div>
               <div className='mt-1'>
                 <button href='/' onClick={e => e.preventDefault()} id='cardLink' style={{borderColor:MainSiteOrange}} className='cardLink1'>

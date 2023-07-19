@@ -39,7 +39,7 @@ const Tax = () => {
     }, [mode])
 
   return (
-    <div id='Tax' className='container-fluid mt-5'>
+    <div id='Tax' className='container-fluid' style={{marginTop:"90px"}}>
                 {
                     mode === 0 ?
                         <div className='row'>
@@ -47,8 +47,8 @@ const Tax = () => {
                             </div>
                             <div className='col-lg-6 mt-5'>
                                 <form onSubmit={checkinput}>
-                                    <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}> شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3><br/>
-                                    <Input id='trAddressValue' type='text'  class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{backgroundColor:"white", height:"50px", borderRadius:"8px"}}/>
+                                    <h3 style={{marginBottom:"-12px", marginTop:"18px", display:"block", textAlign:"center", color:"#497979"}}> شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3><br/>
+                                    <Input id='trAddressValue' type='text'  class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{ backgroundColor:"white", height:"50px", borderRadius:"8px"}}/>
                                 </form>
                             </div>
                             <div className='col-lg-3'>

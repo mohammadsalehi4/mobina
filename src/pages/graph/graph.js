@@ -50,13 +50,13 @@ const GraphDraw = (props) => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
   const WalletData = {
-    address:"sdufgsdjfgjsadgfjasdgjfksdgkjfsdgfjksad",
+    address:"bc1qt96tjcgx4evjhklg2g7829lp2wxwvuv8r4dljz",
     in:[
         {
             address:"wqdugwygqweuifgwuaysbgauskdbguksdfguaskdgfuakjsdfa",
             date:"2021/01/12",
             time:"14:25",
-            amount:0.23
+            amount:0.001785
         },
         {
             address:"sdafuisdgfuasydgbfusadybfcjsfadbausdgfsakjdgfjasdfkj",
@@ -95,21 +95,21 @@ const GraphDraw = (props) => {
         {
           id: 1,
           group: "main",
-          label: props.address,
+          label: "...bc1qt96",
           x: 0,
           y: 800
         },
         {
           id: -2,
           group: "senderMain",
-          label: props.address,
+          label: "...bc1qlc6",
           x: 300,
           y: 800
         },
         {
           id: -3,
           group: "senderMain",
-          label: props.address,
+          label: "...bc1qyfj",
           x: 300,
           y: 720
         },
@@ -129,21 +129,21 @@ const GraphDraw = (props) => {
         },
         {
           id: 3,
-          label: props.address,
+          label: "...bc1q7cy",
           group: "reciverMain",
           x: -300,
           y: 802
         },
         {
           id: 4,
-          label: props.address,
+          label: "...bc1qwfu",
           group: "reciverMain",
           x: -300,
           y: 720
         },
         {
           id: 5,
-          label: props.address,
+          label: "...bc1qpdt",
           group: "reciverMain",
           x: 0,
           y: 720
@@ -189,7 +189,7 @@ const GraphDraw = (props) => {
         {
           from: -1,
           to: 1,
-          label: "1000$",
+          label: "500$",
           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
           color: { color: '#000000', highlight: '#00ff00' },
           strokeWidth: 2,
@@ -226,7 +226,7 @@ const GraphDraw = (props) => {
         {
           from: -1,
           to: 5,
-          label: "700$",
+          label: "500$",
           font: {padding: 11, strokeWidth: 2, size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
           color: { color: '#000000', highlight: '#00ff00' },
           strokeWidth: 2,

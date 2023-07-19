@@ -1,3 +1,13 @@
+@media only screen and (min-width:500px){
+    #mining{
+        margin-top: 60px;
+    }
+}
 
+@media only screen and (max-width:500px){
+    #mining{
+        margin-bottom: 60px;
+    }
+}
 
 /*# sourceMappingURL=mining.css.map */

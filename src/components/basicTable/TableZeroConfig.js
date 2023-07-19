@@ -1,31 +1,18 @@
 import { digitsEnToFa } from 'persian-tools'
+import NiceAddress2 from '../niceAddress2/niceAddress'
 // ** Table Columns
-const data = [
-  {
-    utxo:"sdakshfkdjshfkjsdfsdf",
-    assets:0.28,
-    buyTime:"2021/07/07",
-    buyPrice:"12987",
-    holdingPeriod:39,
-    applyPercentage:50,
-    tax:12000000
-  },
-  {
-    utxo:"sdakshfkdjshfkjsdfsdf",
-    assets:0.28,
-    buyTime:"2021/07/07",
-    buyPrice:"12987",
-    holdingPeriod:39,
-    applyPercentage:50,
-    tax:12000000
-  }
-]
+
 export const basicColumns = [
   {
     name: <p style={{marginBottom:"0px"}}>شناسه UTXO<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
     minWidth:'180px',
-    selector: row => row.utxo
+    selector: row => row.utxo,
+    cell: row => {
+      return (
+        <NiceAddress2 text={row.utxo} number={6}/>
+      )
+    }
   },
   {
     name: <p style={{marginBottom:"0px"}}>دارایی BTC<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
@@ -102,14 +89,14 @@ import DataTable from 'react-data-table-component'
 import { Card } from 'reactstrap'
 
 
-const DataTablesBasic = () => {
+const DataTablesBasic = (props) => {
   return (
     <Card className='overflow-hidden'>
       <div className='react-dataTable'>
         <DataTable
           selectableRows
           noHeader
-          data={data}
+          data={props.data}
           columns={basicColumns}
           className='react-dataTable'
           sortIcon={<ChevronDown size={10} />}

@@ -65,7 +65,7 @@ const CurrencyDetail = () => {
               </div>
               <div className='col-6'>
                 {/* bayad jaygozin shavad */}
-                <AmountPickerRange/>
+                <AmountPickerRange title="محدودیت حجم" symbole="BTC"/>
               </div>
             </div>
             <div className='row mt-3'>
