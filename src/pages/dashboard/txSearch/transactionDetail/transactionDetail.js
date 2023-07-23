@@ -1,14 +1,19 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable space-infix-ops */
-import React from 'react'
+import React, {useState, Fragment} from 'react'
 import './transactiondetail.css'
 import CardContentTypes from './rightCard'
 import CardTransactions from './leftcard'
 import RightDataTableWithButtons from './rightTable/TableWithButtons'
 import LeftDataTableWithButtons from './leftTable/TableWithButtons'
+import DashboardAccWallet from '../../../../components/dashboardAccWallet/dashboardAccWallet'
+
 const TransactionDetail = () => {
+
   const data={
     address:"3bf80a46ee08b7da13026827cadec449608fdb785ddf405e47ba1908ad686c9c",
+    name:"اتریوم",
     blockNumber:799226,
     TotalInput:"۱.۲۱۴۲۰۳",
     TotalOutput:"۱.۲۱۴۲۰۳",
@@ -17,7 +22,10 @@ const TransactionDetail = () => {
     TotalInput2:"1,665,886,516",
     TotalOutput2:"1,665,886,516",
     BlockDate:"1401/02/03",
-    symbol:"BTC",
+    symbole:"ETH",
+    color:"#4000ff",
+    isUTXOBase:false,
+    image:'../../images/ethereum.png',
     inputData:[
       {
         address:"bc1q7cyrfmck2ffu2ud3rn5l5a8yv6f0chkp0zpemf",
@@ -26,15 +34,16 @@ const TransactionDetail = () => {
         Fee:0.004,
         inNumber:12,
         outNumber:43
-      },
-      {
-        address:"bc1qwfuuas9z9je6ugffyfva3n7jrr4jnnrnf32522",
-        RiskScore:50,
-        BTCAmount:0.882198,
-        Fee:0.004,
-        inNumber:12,
-        outNumber:43
       }
+      // ,
+      // {
+      //   address:"bc1qwfuuas9z9je6ugffyfva3n7jrr4jnnrnf32522",
+      //   RiskScore:50,
+      //   BTCAmount:0.882198,
+      //   Fee:0.004,
+      //   inNumber:12,
+      //   outNumber:43
+      // }
     ],
     outputData:[
       {
@@ -59,12 +68,22 @@ const TransactionDetail = () => {
             </div>
         </div>
         <div class="row vazir row2 bg-white ">
-            <div className='col-lg-6 mt-2'>
-              <RightDataTableWithButtons data={data}/>
-            </div>
-            <div className='col-lg-6 mt-2'>
-              <LeftDataTableWithButtons data={data} />
-            </div>
+            {
+              data.isUTXOBase ? 
+              <div className='col-lg-6 mt-2'>
+                <RightDataTableWithButtons data={data}/>
+              </div>
+              :
+              <DashboardAccWallet data={data.inputData[0]} symbole={data.symbole}/>
+            }
+            {
+              data.isUTXOBase ? 
+                <div className='col-lg-6 mt-2'>
+                  <LeftDataTableWithButtons data={data}/>
+                </div>
+              :
+              <DashboardAccWallet data={data.outputData[0]} symbole={data.symbole}/>
+            }
         </div>
 
     </div>

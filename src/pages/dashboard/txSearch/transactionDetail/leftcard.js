@@ -49,7 +49,7 @@ const CardTransactions = (props) => {
             }
             {
               States.TransactionDetailCurrencyMode === 0 ?
-                <small style={{fontSize:"13px"}}> {props.data.symbol}</small>  
+                <small style={{fontSize:"13px"}}> {props.data.symbole}</small>  
               :
               null
             }
@@ -98,7 +98,7 @@ const CardTransactions = (props) => {
             }
             {
               States.TransactionDetailCurrencyMode === 0 ?
-                <small style={{fontSize:"13px"}}> {props.data.symbol}</small>  
+                <small style={{fontSize:"13px"}}> {props.data.symbole}</small>  
               :
               null
             }
@@ -133,7 +133,7 @@ const CardTransactions = (props) => {
     <Card className='card-transaction' id='leftCard'>
       <CardHeader>
         <CardTitle tag='h4'>جزئیات</CardTitle>
-        <Switch options={['BTC', 'USD', 'IRR']} specialProps={'TransactionDetailCurrencyMode'}/>
+        <Switch options={[`${props.data.symbole}`, 'USD', 'IRR']} color={props.data.color} specialProps={'TransactionDetailCurrencyMode'}/>
       </CardHeader>
       <CardBody>{renderTransactions()}</CardBody>
     </Card>

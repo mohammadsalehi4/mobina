@@ -31,65 +31,66 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
-const columns = [
-  {
-    name: 'تاریخ',
-    sortable: true,
-    maxWidth: '120px',
-    minWidth: '120px',
-    selector: row => (
-        <div>
-          <p style={{marginTop:"10px"}}>{digitsEnToFa(row.Date)}</p>
-          <p style={{marginTop:"-20px", marginBottom:"-2px"}}>{digitsEnToFa(row.Time)}</p>
-        </div>
-      )
-  },
-  {
-    name: 'شناسه تراکنش',
-    minWidth: '270px',
-    selector: row => (
-      <div className='d-flex align-items-end '>
-        <div className='user-info text-truncate'>
-          <span className='d-block text-truncate ms-0' style={{marginBottom:"-10px"}}>
-            <NiceAddress  text={row.address} number={8}/>
-          </span>
-        </div>
-
-      </div>
-    )
-  },
-  {
-    name: '',
-    minWidth: '30px',
-    selector: row =>  (
-      
-        row.mode ? <div className='d-flex align-items-end '>
-          <ion-icon name="arrow-forward-outline" className="mb-1" id="inkouft"></ion-icon>
-        </div> : <div className='d-flex align-items-end '>
-          <ion-icon name="arrow-back-outline" className="mb-1" id="outkouft"></ion-icon>
-        </div>
-      
-
-    )
-  },
-  {
-    name: 'حجم تراکنش (BTC)',
-    sortable: true,
-    minWidth: '120px',
-    selector: row => (
-      digitsEnToFa(row.BTCAmount)
-    )
-  },
-  {
-    name: 'کارمزد (BTC) ',
-    sortable: true,
-    minWidth: '130px',
-    maxWidth: '130px',
-    selector: row => digitsEnToFa(row.Fee)
-  }
-]
 
 const DataTableWithButtons = (props) => {
+
+  const columns = [
+    {
+      name: 'تاریخ',
+      sortable: true,
+      maxWidth: '120px',
+      minWidth: '120px',
+      selector: row => (
+          <div>
+            <p style={{marginTop:"10px"}}>{digitsEnToFa(row.Date)}</p>
+            <p style={{marginTop:"-20px", marginBottom:"-2px"}}>{digitsEnToFa(row.Time)}</p>
+          </div>
+        )
+    },
+    {
+      name: 'شناسه تراکنش',
+      minWidth: '270px',
+      selector: row => (
+        <div className='d-flex align-items-end '>
+          <div className='user-info text-truncate'>
+            <span className='d-block text-truncate ms-0' style={{marginBottom:"-10px"}}>
+              <NiceAddress  text={row.address} number={8}/>
+            </span>
+          </div>
+  
+        </div>
+      )
+    },
+    {
+      name: '',
+      minWidth: '30px',
+      selector: row =>  (
+        
+          row.mode ? <div className='d-flex align-items-end '>
+            <ion-icon name="arrow-forward-outline" className="mb-1" id="inkouft"></ion-icon>
+          </div> : <div className='d-flex align-items-end '>
+            <ion-icon name="arrow-back-outline" className="mb-1" id="outkouft"></ion-icon>
+          </div>
+        
+  
+      )
+    },
+    {
+      name: `حجم تراکنش (${props.data.symbole})`,
+      sortable: true,
+      minWidth: '120px',
+      selector: row => (
+        digitsEnToFa(row.BTCAmount)
+      )
+    },
+    {
+      name: `کارمزد (${props.data.symbole}) `,
+      sortable: true,
+      minWidth: '130px',
+      maxWidth: '130px',
+      selector: row => digitsEnToFa(row.Fee)
+    }
+  ]
 
   const [numberOfShow, SetNumberofShow] = useState(0)
   const [showData, SetShowData] = useState([])
@@ -114,7 +115,7 @@ const DataTableWithButtons = (props) => {
     <Fragment >
       <Card>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom' id="mainTable">
-          <CardTitle tag='h3' id="CardTitle">آخرین تراکنش ها<img src='../images/bitcoin.png' style={{ marginTop:"-10px", float:"left"}}/></CardTitle>
+          <CardTitle tag='h3' id="CardTitle">آخرین تراکنش ها<img src={props.data.image} style={{ marginTop:"-10px", float:"left"}}/></CardTitle>
           <div className='container-fluid'>
             <div className='row'>
               <div className='col-lg-3'>

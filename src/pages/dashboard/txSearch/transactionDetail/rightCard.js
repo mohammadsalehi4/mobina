@@ -21,7 +21,7 @@ const CardContentTypes = (props) => {
     <Fragment id='rightOutCard'>
           <Card className='mt-3 mb-1' id='rightCard'>
             <CardBody>
-              <CardTitle tag='h4'><img src='../../images/bitcoin.png'/> تراکنش بیت کوین  </CardTitle>
+              <CardTitle tag='h4'><img src={props.data.image}/> تراکنش {props.data.name}  </CardTitle>
               <CardSubtitle className='text-muted mb-1'><ion-icon name="copy-outline" style={{marginLeft:"5px", marginBottom:"-3px"}}></ion-icon>
                 <NiceAddress2 text={props.data.address} number={8}/>
               </CardSubtitle>

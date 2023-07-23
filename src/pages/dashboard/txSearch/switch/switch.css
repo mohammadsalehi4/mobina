@@ -23,7 +23,7 @@
   padding-top: 2px;
 }
 #switch11 .selected {
-  background: #daa520;
+  /* background: #daa520; */
   border-color: #daa520;
 }
 #switch11 .selected p {

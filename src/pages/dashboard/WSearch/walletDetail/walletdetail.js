@@ -4,15 +4,21 @@ import CardTransactions from '../leftcard'
 import CardContentTypes from '../rightCard'
 import DataTableWithButtons from './TableWithButtons'
 const Walletdetail = () => {
-  
   const data = {
     address:"bc1qyfjj7npyc863lqzqkenxt0ydhfqtfuermur8ph",
-    Total: 2.110041,
+    name:"بیت کوین",
+    Total: 1.025879,
     InCome: 1.56796,
     OutCome: 0.542081,
     TrNumber: 7,
     FirstActivity: '1398/03/01',
     LastActivity: '1401/05/27',
+    symbole:"BTC",
+    risk:"25%",
+    owner:"آریان کوین",
+    ownerMode:"صرافی بدون مجوز رسمی",
+    website:"www.ariancoin.com",
+    image:'../images/bitcoin.png',
     LastTransactions:[
       {
         address:"5be51c891894736a2992c08610ca5caf0daf95a192cc1ce4f3876fdeb58d2fe1",

@@ -13,14 +13,20 @@ const Switch = (props) => {
         document.getElementById(`option${props.options.length - 1}`).style.borderTopRightRadius = "5px"
         document.getElementById(`option${props.options.length - 1}`).style.borderBottomRightRadius = "5px"
         document.getElementById(`option${0}`).className = 'option even selected'
+        document.getElementById(`option${0}`).style.background = props.color
+        document.getElementById(`option${0}`).style.borderColor = props.color
         dispatch({type:props.specialProps, value:0})
     }, [])
 
     const changeOption = (index) => {
         for (let i = 0; i < props.options.length; i++) {
             document.getElementById(`option${i}`).className = 'option even'
+            document.getElementById(`option${i}`).style.background = 'white'
+            document.getElementById(`option${i}`).style.borderColor = "rgb(155, 155, 155)"
         }
         document.getElementById(`option${index}`).className = 'option even selected'
+        document.getElementById(`option${index}`).style.background = props.color
+        document.getElementById(`option${index}`).style.borderColor = props.color
         dispatch({type:props.specialProps, value:index})
     }
   return (
