@@ -7,3 +7,5 @@ export const MainSitePurple = "#43077b"
 export const MainSiteLightBlue = "#00ffff"
 export const MainSiteLightGreen = "#32cd32"
 export const MainSiteRed = "red"
+export const MainSiteLightOrange = "#fcf5e4"
+

@@ -32,7 +32,7 @@ const CardContentTypes = (props) => {
                 {digitsEnToFa(props.data.blockNumber)}
               </CardText>
               <CardLink href='/' style={{background:MainSiteOrange, color:"white", borderColor:MainSiteOrange}} onClick={e => e.preventDefault()} id='cardLink'>
-                ترسیم گر <ion-icon name="git-compare-outline"></ion-icon>
+                ردیابی <ion-icon name="git-compare-outline"></ion-icon>
               </CardLink>
             </CardBody>
           </Card>

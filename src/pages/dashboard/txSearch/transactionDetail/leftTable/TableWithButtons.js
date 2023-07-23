@@ -39,9 +39,9 @@ const columns = [
     selector: row => digitsEnToFa(row.RiskScore)
     },
     {
-    name: 'حجم',
+    name: 'حجم (BTC)',
     sortable: true,
-    minWidth: '110px',
+    minWidth: '120px',
     maxWidth:'120px',
     selector: row => digitsEnToFa(row.BTCAmount)
   },
@@ -66,7 +66,7 @@ const columns = [
     maxWidth:"120px",
     cell: () => {
       return (
-        <div  style={{background:"#dcdcdc", padding:"2px 4px", borderRadius:"6px", marginRight:"-20px", cursor:"pointer"}} >
+        <div  style={{background:"#dcdcdc", padding:"2px 4px", borderRadius:"6px", marginRight:"-30px", cursor:"pointer"}} >
           <ion-icon style={{marginBottom:"-3px", marginRight:"-2px"}} name="chevron-back-outline"></ion-icon>
         </div>
       )

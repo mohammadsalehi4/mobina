@@ -2,7 +2,7 @@
 import React from 'react'
 import { Button, Card, CardTitle, CardBody, CardText, CardSubtitle, CardLink, CardImg, Row, Col } from 'reactstrap'
 // ** Images
-import img1 from '../../../public/images/1.jpg'
+import img1 from '../../../public/images/news/1.jpeg'
 import img2 from '@src/assets/images/slider/03.jpg'
 const CardMain = (props) => {
   return (

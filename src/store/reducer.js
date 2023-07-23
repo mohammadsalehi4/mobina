@@ -1,5 +1,5 @@
 const initialState = {
-    //eleman haye header
+    //header
     showNavbar:false,
     showMobileMenu:false,
     witchPage:1,
@@ -7,12 +7,12 @@ const initialState = {
     notifNumber:0,
     showAdminAccessBox:false,
     
-    //safhe graph ha
+    //tracker
     showTransactionData:false,
     showWalletData:false,
     WDetail:{},
 
-    //noe arz dar switch
+    //researcher-transaction
     TransactionDetailCurrencyMode:0,
 
     //mining
@@ -83,7 +83,7 @@ const reducer = (state = initialState, action) => {
             showAdminAccessBox:action.value
         }
     }
-    if (action.type === "SETTransactionDetailCurrencyMode") {
+    if (action.type === "TransactionDetailCurrencyMode") {
         return {
             ...state,
             TransactionDetailCurrencyMode:action.value

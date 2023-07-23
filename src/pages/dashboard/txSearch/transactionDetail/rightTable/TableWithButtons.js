@@ -51,7 +51,7 @@ const columns = [
     selector: row => digitsEnToFa(row.RiskScore)
     },
     {
-    name: 'حجم',
+    name: 'حجم (BTC)',
     sortable: true,
     minWidth: '50px',
     maxWidth:'180px',

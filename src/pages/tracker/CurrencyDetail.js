@@ -8,6 +8,8 @@ import WalletDetailTableBottom from '../../components/WalletDetailTableIn/transa
 import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import AmountPickerRange from '../../components/amountRangePicker/PickerRange'
 import { MainSiteOrange } from '../../../public/colors'
+import TrackerTimeLimit from '../../components/trackerTimeLimit/trackerTimeLimit'
+import TrackerAmountLimit from '../../components/trackerAmountLimit/trackerAmountLimit'
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -59,13 +61,13 @@ const CurrencyDetail = () => {
                 <h6  >تراکنش ها</h6>
               </div>
             </div>
-            <div className='row mt-3'>
+            <div className='row mt-3 mb-3'>
               <div className='col-6'>
-                <PickerRange/>
+                <TrackerTimeLimit/>
               </div>
-              <div className='col-6'>
+              <div className='col-6 mb-3'>
                 {/* bayad jaygozin shavad */}
-                <AmountPickerRange title="محدودیت حجم" symbole="BTC"/>
+                <TrackerAmountLimit/>
               </div>
             </div>
             <div className='row mt-3'>

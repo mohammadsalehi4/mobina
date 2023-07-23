@@ -59,9 +59,9 @@ const St3 = ({ stepper, type }) => {
           </Col>
           <Col md='6' className='mb-1'>
             <Label className='form-label' for={`city-${type}`}>
-              نرخ هش
+              توان هش
             </Label>
-            <Input type='number' name={`city-${type}`} id={`city-${type}`} placeholder='نرخ هش...' />
+            <Input type='number' name={`city-${type}`} id={`city-${type}`} placeholder='توان هش...' />
           </Col>
         </Row>
         <Row>

@@ -39,7 +39,7 @@ const Tax = () => {
     }, [mode])
 
   return (
-    <div id='Tax' className='container-fluid' style={{marginTop:"90px"}}>
+    <div id='Tax' className='container-fluid' style={{marginTop:"20px"}}>
                 {
                     mode === 0 ?
                         <div className='row'>
@@ -60,13 +60,13 @@ const Tax = () => {
 
             {
             mode === 1 ?
-                <div className='row mt-5'>
-                    <div className='col-lg-1'>
+                <div className='row'>
+                    <div className='col-lg-0'>
                     </div>
-                    <div className='col-lg-10'>
+                    <div className='col-lg-12'>
                         <DataTableWithButtons trAddress={address}/>
                     </div>
-                    <div className='col-lg-1'>
+                    <div className='col-lg-0'>
                     </div>
                 </div>
             :

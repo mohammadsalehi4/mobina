@@ -100,7 +100,7 @@ const CardContentTypes = (props) => {
                       <small style={{background:MainSiteyellow, fontSize:"10px", padding:"0px 3px", borderRadius:"5px"}}>برچسب دوم</small>
                     </div>
                 }
-                <span style={{float:"left"}}>آریا کوین<ion-icon name="information-circle-outline" style={{marginBottom:"-6px", marginRight:"3px", fontSize:"18px"}}></ion-icon></span>
+                <span style={{float:"left"}}>آریان کوین<ion-icon name="information-circle-outline" style={{marginBottom:"-6px", marginRight:"3px", fontSize:"18px"}}></ion-icon></span>
               </div>
               <div className="">
                 <h6 style={{display:"inline-block"}}>نوع:</h6>
@@ -108,7 +108,7 @@ const CardContentTypes = (props) => {
               </div>
               <div className="">
                 <h6 style={{display:"inline-block"}}>وبسایت:</h6>
-                <span style={{float:"left", fontSize:"13px"}}><a>ariacoin.ir</a></span>
+                <span style={{float:"left", fontSize:"13px"}}><a>ariancoin.ir</a></span>
               </div>
               <div className='mt-1'>
                 <button href='/' onClick={e => e.preventDefault()} id='cardLink' style={{borderColor:MainSiteOrange}} className='cardLink1'>

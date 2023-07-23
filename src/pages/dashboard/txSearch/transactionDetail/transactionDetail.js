@@ -12,7 +12,12 @@ const TransactionDetail = () => {
     blockNumber:799226,
     TotalInput:"۱.۲۱۴۲۰۳",
     TotalOutput:"۱.۲۱۴۲۰۳",
+    TotalInput1:"33997",
+    TotalOutput1:"33997",
+    TotalInput2:"1,665,886,516",
+    TotalOutput2:"1,665,886,516",
     BlockDate:"1401/02/03",
+    symbol:"BTC",
     inputData:[
       {
         address:"bc1q7cyrfmck2ffu2ud3rn5l5a8yv6f0chkp0zpemf",

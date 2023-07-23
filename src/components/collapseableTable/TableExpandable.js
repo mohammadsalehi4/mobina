@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-unused-vars */
 // ** React Imports
 import { useState } from 'react'
@@ -18,21 +19,21 @@ const data = [
   {
     address:"bc1qa33q7cplz54zcm66huuv9e8vuct98mzadzvg",
     totalAmount:0.785563,
-    buyPrice:12356.25,
+    buyPrice:"12,356.25",
     timeLength:180,
-    tax:"180,650,522"
+    tax:"1,806,505,220"
   },
   {
     address:"bc1qlc6yxdvkpem4uv0y5s86rc8wn4ehpfzpu647c5",
     totalAmount:0.147489,
-    buyPrice:25878.23,
+    buyPrice:"25,878.23",
     timeLength:180,
-    tax:"4,600,184"
+    tax:"46,001,840"
   },
   {
     address:"bc1q93d8x6q5ywlccwzsgq3aeshupex7vxpngc8s",
     totalAmount:1.336698,
-    buyPrice:35693.02,
+    buyPrice:"35,693.02",
     timeLength:180,
     tax:"0"
   }
@@ -44,19 +45,19 @@ const underData = [
     utxo:"a239763a0395f3a7c0d5a139333fac53445fca8a30381deb7b0f98f6aa7b1627",
     assets:0.336987,
     buyTime:"1401/07/07",
-    buyPrice:"12356.25",
+    buyPrice:"12,356.25",
     holdingPeriod:180,
     applyPercentage:30,
-    tax:"77,494,583"
+    tax:"774,945,830"
   },
   {
     utxo:"fecafd75051baea32322fc74930a91f8ad8174e2a2e5d6e562537f1d0883d230",
     assets:0.448576,
     buyTime:"1401/07/07",
-    buyPrice:"12356.25",
+    buyPrice:"12,356.25",
     holdingPeriod:180,
     applyPercentage:30,
-    tax:"103,155,939"
+    tax:"1,031,559,390"
   }
 ]
 
@@ -73,7 +74,7 @@ const columns = [
     }
   },
   {
-    name: <p style={{marginBottom:"0px"}}>مجموع دارایی<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
+    name: <p style={{marginBottom:"0px"}}>مجموع دارایی (BTC)<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
     minWidth: '210px',
     selector: row => row.totalAmount,
@@ -84,9 +85,9 @@ const columns = [
     }
   },
   {
-    name: <p style={{marginBottom:"0px"}}>میانگین قیمت خرید<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
+    name: <p style={{marginBottom:"0px"}}>میانگین قیمت خرید (USD)<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    minWidth: '210px',
+    minWidth: '230px',
     selector: row => row.buyPrice,
     cell: row => {
       return (
@@ -95,9 +96,9 @@ const columns = [
     }
   },
   {
-    name: <p style={{marginBottom:"0px"}}>میانگین مدت نگهداری<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
+    name: <p style={{marginBottom:"0px"}}>میانگین مدت نگهداری (روز)<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    minWidth: '220px',
+    minWidth: '250px',
     selector: row => row.timeLength,
     cell: row => {
       return (
@@ -106,9 +107,9 @@ const columns = [
     }
   },
   {
-    name: <p style={{marginBottom:"0px"}}>مالیات<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
+    name: <p style={{marginBottom:"0px"}}>مالیات (ريال)<ion-icon title='توضیحات' style={{fontSize:"10px", color:"rgb(130,130,130)", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
-    minWidth: '150px',
+    minWidth: '180px',
     selector: row => row.tax,
     cell: row => {
       return (
@@ -157,6 +158,7 @@ import {
   DropdownToggle,
   UncontrolledButtonDropdown
 } from 'reactstrap'
+import { MainSiteGray, MainSiteGreen, MainSiteLightGreen, MainSiteOrange, MainSiteLightOrange, MainSiteyellow } from '../../../public/colors'
 
 const DataTableWithButtons = (props) => {
   const number = 12345
@@ -190,26 +192,120 @@ const DataTableWithButtons = (props) => {
   return (
     <Card>
       <CardHeader>
-        <div style={{ width:"100%", float:"left"}}>
-          <h6 style={{float:"right"}}>اطلاعات محاسبه شده مالیات</h6>
-          <div id='getExelFormat'>
-                <UncontrolledButtonDropdown id='taxTableDownloadDropDown' style={{float:"left"}}>
-                <DropdownToggle color='secondary' id='taxTableDownloadDropDownButton' outline>
+        <div className='container-fluid'>
+          <div className='row'>
+            <div className='col-8'>
+              <h6 style={{float:"right"}}>مالیات محاسبه شده تراکنش</h6>
+            </div>
+            <div className='col-4' style={{textAlign:"left"}}>
+              <UncontrolledButtonDropdown style={{}}>
+                <DropdownToggle color={MainSiteLightOrange} style={{borderRadius:"6px", background:MainSiteOrange, borderColor:MainSiteOrange, borderStyle:"solid", borderWidth:"1px", color:"white", borderRadius:"6px", marginBottom:"10px", marginTop:"-10px"}}>
                   <span className='align-middle ms-50'>دریافت</span>
                   <ion-icon name="download-outline"></ion-icon>
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem className='w-100 taxTableDownloadDropDownOption'>
+                  <DropdownItem className='w-100 '>
                     <span className='align-middle ms-50'>Excel</span>
                   </DropdownItem>
-                  <DropdownItem className='w-100 taxTableDownloadDropDownOption'>
+                  <DropdownItem className='w-100 '>
                     <span className='align-middle ms-50'>PDF</span>
                   </DropdownItem>
                 </DropdownMenu>
-                </UncontrolledButtonDropdown>
+              </UncontrolledButtonDropdown>
+            </div>
           </div>
         </div>
         <div style={{height:"1px", width:"100%", display:"block", background:"rgb(220,220,220)"}}></div>
+        <div style={{ width:"100%", float:"left", marginTop:"10px"}}>
+            <div className='container-fluid'>
+              <div className='row'>
+                <div className='col-lg-4'>
+                  <div className='row'>
+                    <div className='col-4'>
+                      <p>شناسه تراکنش</p>
+                    </div>
+                    <div className='col-8' style={{textAlign:"left"}}>
+                      <NiceAddress2 text="asdhaskdhakldkjaghkldfjshgkldsfgkjsdfhgklfdgkljhdfklgdfgsfdg" number={8}/>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col-6'>
+                      <p>تاریخ تراکنش</p>
+                    </div>
+                    <div className='col-6' style={{textAlign:"left"}}>
+                      <p>{digitsEnToFa("1400/02/03")}</p>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col-6'>
+                      <p>قیمت فروش (USD)</p>
+                    </div>
+                    <div className='col-6' style={{textAlign:"left"}}>
+                      <p>{digitsEnToFa("28,000")}</p>
+                    </div>
+                  </div>
+                  <div className='row mt-1'>
+
+                    <div className='col-6' style={{textAlign:"left"}}>
+
+                    </div>
+                    <div className='col-6'>
+                    </div>
+                    </div>
+                </div>
+                <div className='col-lg-4' style={{textAlign:"left"}}>
+                </div>
+                <div className='col-lg-4'>
+                  <div className='row'>
+                    <div className='col-6'>
+                      <p>نوع ارز</p>
+                    </div>
+                    <div className='col-6' style={{textAlign:"left"}}>
+                      <p>بیت کوین</p>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col-6'>
+                      <p>قیمت دلار (ریال)</p>
+                    </div>
+                    <div className='col-6' style={{textAlign:"left"}}>
+                      <Input type='number' placeholder='قیمت...'/>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col-6'>
+                      <p>تاریخ اعمال محاسبات</p>
+                    </div>
+                    <div className='col-6' style={{textAlign:"left"}}>
+                      <Input type='date' placeholder='' style={{color:"rgb(200,200,200)"}}/>
+                    </div>
+                  </div>
+                  <div className='row mt-1'>
+
+                    <div className='col-6' style={{textAlign:"left"}}>
+                    </div>
+                    <div className='col-6'>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='row'>
+                <div className='col-lg-10'>
+
+                </div>
+                <div className='col-lg-2' style={{textAlign:"left"}}>
+                  <button style={{ background:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:"solid", color:"white", borderRadius:"6px", padding:"7px 12px" }} outline>
+                    بروزرسانی
+                    <ion-icon style={{marginBottom:"-4px", marginRight:"8px"}} name="refresh-outline"></ion-icon>  
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+        </div>
+        <div style={{height:"1px", width:"100%", display:"block", background:"rgb(220,220,220)", marginTop:"25px"}}></div>
         <div style={{ width:"100%", float:"left", marginTop:"10px"}}>
             <div className='container-fluid'>
               <div className='row'>

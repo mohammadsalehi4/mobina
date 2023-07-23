@@ -45,7 +45,7 @@ const columns = [
       )
   },
   {
-    name: 'آدرس',
+    name: 'شناسه تراکنش',
     minWidth: '270px',
     selector: row => (
       <div className='d-flex align-items-end '>
@@ -73,7 +73,7 @@ const columns = [
     )
   },
   {
-    name: 'حجم تراکنش',
+    name: 'حجم تراکنش (BTC)',
     sortable: true,
     minWidth: '120px',
     selector: row => (
@@ -81,7 +81,7 @@ const columns = [
     )
   },
   {
-    name: 'هزینه تراکنش',
+    name: 'کارمزد (BTC) ',
     sortable: true,
     minWidth: '130px',
     maxWidth: '130px',

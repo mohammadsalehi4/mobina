@@ -15,7 +15,7 @@ export const basicColumns = [
     }
   },
   {
-    name: <p style={{marginBottom:"0px"}}>دارایی BTC<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
+    name: <p style={{marginBottom:"0px"}}>دارایی (BTC)<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
     minWidth:'150px',
     selector: row => row.assets,
@@ -37,7 +37,7 @@ export const basicColumns = [
     }
   },
   {
-    name: <p style={{marginBottom:"0px"}}>قیمت خرید<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
+    name: <p style={{marginBottom:"0px"}}>قیمت خرید (USD)<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
     minWidth:'150px',
     selector: row => row.buyPrice,
@@ -48,7 +48,7 @@ export const basicColumns = [
     }
   },
   {
-    name: <p style={{marginBottom:"0px"}}>مدت نگهداری<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
+    name: <p style={{marginBottom:"0px"}}>مدت نگهداری (روز)<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
     minWidth:'170px',
     selector: row => row.holdingPeriod,
@@ -70,7 +70,7 @@ export const basicColumns = [
     }
   },
   {
-    name: <p style={{marginBottom:"0px"}}>مالیات<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
+    name: <p style={{marginBottom:"0px"}}>مالیات (ريال)<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,
     minWidth: '150px',
     selector: row => row.tax,

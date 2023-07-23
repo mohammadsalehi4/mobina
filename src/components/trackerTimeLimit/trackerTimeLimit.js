@@ -15,7 +15,7 @@ import {
   DropdownToggle,
   UncontrolledButtonDropdown
 } from 'reactstrap'
-const TaxDayLimit = (props) => {
+const TrackerTimeLimit = (props) => {
 
   return (
     <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%"}}>
@@ -33,4 +33,4 @@ const TaxDayLimit = (props) => {
   )
 }
 
-export default TaxDayLimit
+export default TrackerTimeLimit
