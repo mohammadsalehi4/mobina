@@ -10,6 +10,8 @@ import Tracker from '../src/pages/tracker/tracker'
 import Tax from './pages/tax/tax'
 import Mining from './pages/mining/mining'
 import Reports from './pages/reports/reports'
+import Recovery from './pages/passwordRecovery/recovery'
+import ChangePassword from './pages/changePassword/changePassword'
 
 const App = () => {
   const States = useSelector(state => state)
@@ -20,12 +22,14 @@ const App = () => {
           }
           <Routes>
             <Route path="/" exact element={<Main/>}/>
-            <Route path="/researcher" exact element={<EcommerceDashboard/>}/>
-            <Route path="/tracker" exact element={<Tracker/>}/>
-            <Route path="/tax" exact element={<Tax/>}/>
-            <Route path="/mining" exact element={<Mining/>}/>
-            <Route path="/reports" exact element={<Reports/>}/>
-            <Route path="/tax/:txid" exact element={<Tax/>}/>
+            <Route path="/recovery"  element={<Recovery/>}/>
+            <Route path="/researcher"  element={<EcommerceDashboard/>}/>
+            <Route path="/tracker"  element={<Tracker/>}/>
+            <Route path="/newpassword/:username/:token"  element={<ChangePassword/>}/>
+            <Route path="/tax"  element={<Tax/>}/>
+            <Route path="/mining"  element={<Mining/>}/>
+            <Route path="/reports"  element={<Reports/>}/>
+            <Route path="/tax/:txid"  element={<Tax/>}/>
           </Routes>
     </div>
   )

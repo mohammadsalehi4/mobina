@@ -23,7 +23,7 @@ const TransactionDetail = () => {
     TotalOutput2:"1,665,886,516",
     BlockDate:"1401/02/03",
     symbole:"ETH",
-    color:"#4000ff",
+    color:"#627eea",
     isUTXOBase:false,
     image:'../../images/ethereum.png',
     inputData:[
@@ -74,7 +74,7 @@ const TransactionDetail = () => {
                 <RightDataTableWithButtons data={data}/>
               </div>
               :
-              <DashboardAccWallet data={data.inputData[0]} symbole={data.symbole}/>
+              <DashboardAccWallet data={data.inputData[0]} symbole={data.symbole} mode={1}/>
             }
             {
               data.isUTXOBase ? 
@@ -82,7 +82,7 @@ const TransactionDetail = () => {
                   <LeftDataTableWithButtons data={data}/>
                 </div>
               :
-              <DashboardAccWallet data={data.outputData[0]} symbole={data.symbole}/>
+              <DashboardAccWallet data={data.outputData[0]} symbole={data.symbole} mode={2}/>
             }
         </div>
 

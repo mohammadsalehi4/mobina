@@ -28,7 +28,6 @@ const St3 = ({ stepper, type }) => {
     <Fragment>
       <div className='content-header'>
       </div>
-      <MyModal/>
 
       <Form onSubmit={e => e.preventDefault()}>
         <Row>
@@ -132,7 +131,10 @@ const St3 = ({ stepper, type }) => {
             <Check size={14} className='align-middle ms-sm-25 ms-0 me-1'></Check>
           </button>
         </div>
+
       </Form>
+      <MyModal/>
+
     </Fragment>
   )
 }

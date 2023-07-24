@@ -45,11 +45,11 @@ const DashboardAccWallet = (props) => {
                         </div>
                         <div className='col-8' style={{textAlign:"left"}}>
                         <Fragment>
-                            <ion-icon id='ControlledExample' style={{fontSize:"25px", cursor:"pointer"}} name="eye-outline"></ion-icon>
+                            <ion-icon id={`ControlledExample${props.mode}`} style={{fontSize:"25px", cursor:"pointer"}} name="eye-outline"></ion-icon>
                             <Tooltip
                             placement='top'
                             isOpen={tooltipOpen}
-                            target='ControlledExample'
+                            target={`ControlledExample${props.mode}`}
                             toggle={() => setTooltipOpen(!tooltipOpen)}
                             >
                             مشاهده مالک

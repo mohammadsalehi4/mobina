@@ -2,8 +2,7 @@
 import React from 'react'
 import { Button, Card, CardTitle, CardBody, CardText, CardSubtitle, CardLink, CardImg, Row, Col } from 'reactstrap'
 // ** Images
-import img1 from '../../../public/images/news/1.jpeg'
-import img2 from '@src/assets/images/slider/03.jpg'
+import img1 from '../../../public/images/news/1.jpg'
 const CardMain = (props) => {
   return (
     <div id='cardMain' style={{background:"white", width:"100%"}}>
@@ -13,7 +12,7 @@ const CardMain = (props) => {
             <p>
               {props.data.description}
             </p>
-            <Button className='mt-2 mb-3' style={{float:"left"}} outline>ادامه</Button>
+            <Button className=' mb-3' style={{float:"left"}} outline>ادامه</Button>
         </CardBody>
     </div>
 
