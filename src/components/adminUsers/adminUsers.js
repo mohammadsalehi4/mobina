@@ -33,7 +33,7 @@ const AdminUsers = () => {
                 toggle('1')
               }}
             >
-              افزودن کاربر جدید
+              مشاهده کاربران
             </a>
           </NavItem>
           <NavItem  style={{ marginRight:"-40px", marginBottom:"16px"}}>
@@ -44,15 +44,15 @@ const AdminUsers = () => {
                 toggle('2')
               }}
             >
-              مشاهده کاربران
+              افزودن کاربر جدید
             </a>
           </NavItem>
         </Nav>
         <TabContent activeTab={active}>
-          <TabPane tabId='1'>
+          <TabPane tabId='2'>
             <AdminAddNewUser/>
           </TabPane>
-          <TabPane tabId='2'>
+          <TabPane tabId='1'>
             <p>
               box2
             </p>

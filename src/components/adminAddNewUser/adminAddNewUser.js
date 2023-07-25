@@ -91,11 +91,12 @@ const AdminAddNewUser = () => {
               </Label>
               <Input  value={inputLastValue} onChange={handleInputLastChange} type='text' name='lastname' id='lastNameMulti' placeholder='نام خانوادگی...' />
             </Col>
+
             <Col md='6' sm='12' className='mb-1'>
-              <Label className='form-label' for='cityMulti'>
-                نام کاربری
+              <Label className='form-label' for='AdminAddUserEmailInput'>
+                ایمیل
               </Label>
-              <Input  value={inputUsernameValue} onChange={handleInputUsernameChange} type='text' name='city' id='cityMulti' placeholder='نام کاربری...' />
+              <Input id="AdminAddUserEmailInput" type='text' name='company' placeholder='example@example.com' />
             </Col>
             <Col md='6' sm='12' className='mb-1'>
                 <Label className='form-label'>
@@ -114,22 +115,22 @@ const AdminAddNewUser = () => {
                 />
             </Col>
             <Col md='6' sm='12' className='mb-1'>
-              <Label className='form-label' for='AdminAddUserEmailInput'>
-                ایمیل
+              <Label className='form-label' for='cityMulti'>
+                نام کاربری
               </Label>
-              <Input id="AdminAddUserEmailInput" type='text' name='company' placeholder='example@example.com' />
-            </Col>
-            <Col md='6' sm='12' className='mb-1'>
-              <Label className='form-label' for='AdminAddUserPhoneNumber'>
-                شماره همراه
-              </Label>
-              <Input type='text' name='Email' id='AdminAddUserPhoneNumber' placeholder='09121234567' />
+              <Input  value={inputUsernameValue} onChange={handleInputUsernameChange} type='text' name='city' id='cityMulti' placeholder='نام کاربری...' />
             </Col>
             <Col md='6' sm='12' className='mb-1'>
             <Label className='form-label' for='CountryMulti'>
                 رمز عبور
               </Label>
               <Input type='text' name='country' id='CountryMulti' placeholder='رمز عبور...' />
+            </Col>
+            <Col md='6' sm='12' className='mb-1'>
+              <Label className='form-label' for='AdminAddUserPhoneNumber'>
+                شماره همراه
+              </Label>
+              <Input type='text' name='Email' id='AdminAddUserPhoneNumber' placeholder='09121234567' />
             </Col>
             <Col md='6' sm='12' className='mb-1'>
               <Label className='form-label' for='EmailMulti'>
