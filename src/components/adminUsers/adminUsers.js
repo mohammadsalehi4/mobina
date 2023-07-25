@@ -1,7 +1,7 @@
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import { Fragment, useState, useEffect } from 'react'
 import { MainSiteGray, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
-
+import AdminAddNewUser from '../adminAddNewUser/adminAddNewUser'
 // ** Reactstrap Imports
 const AdminUsers = () => {
   const [active, setActive] = useState('1')
@@ -23,7 +23,7 @@ const AdminUsers = () => {
   return (
     <div className='nav-vertical mt-3 '>
       <div className='JDAdmin'>
-        <Nav tabs className='nav-left' style={{marginRight:"0px", width:"160px"}}>
+        <Nav tabs className='nav-left' style={{marginRight:"0px", width:"140px", border:"none"}}>
           <NavItem style={{ marginRight:"-40px", marginBottom:"16px"}}>
             <a
               active={active === '1'}
@@ -50,9 +50,7 @@ const AdminUsers = () => {
         </Nav>
         <TabContent activeTab={active}>
           <TabPane tabId='1'>
-            <p>
-              box1
-            </p>
+            <AdminAddNewUser/>
           </TabPane>
           <TabPane tabId='2'>
             <p>
@@ -97,7 +95,7 @@ const AdminUsers = () => {
           </Nav>
           <TabContent className='py-50' activeTab={active}>
             <TabPane tabId='1'>
-              box1
+              <AdminAddNewUser/>
             </TabPane>
             <TabPane tabId='2'>
               box2

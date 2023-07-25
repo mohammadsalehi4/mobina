@@ -32,6 +32,11 @@
             border-bottom-width: 3px;
             border-bottom-style: solid;
         }
+        #AdminNavItem{
+            @media only screen and (min-width:990px) {
+                margin-right: 140px;
+            }
+        }
     }
     .JDAdmin{
         @media only screen and (max-width:990px) {

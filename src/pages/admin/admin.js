@@ -8,6 +8,7 @@ import {
   NavItem,
   TabContent
 } from 'reactstrap'
+import { Home, FileText, Trello, User, Hexagon } from 'react-feather'
 import { MainSiteOrange } from '../../../public/colors'
 
 import AdminEvents from '../../components/adminEvents/adminEvents'
@@ -40,20 +41,19 @@ const Admin = () => {
     <div className='container-fluid' id='Admin'>
         <div className='row'>
             <div className='col-sm-1'>
-
             </div>
             <div className='col-sm-10' style={{background:"white", borderRadius:"8px"}}>
                 <Fragment>
                     <Nav pills style={{background:"white"}} id='adminNav'>
-                        <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
+                        <NavItem style={{marginTop:"16px", marginBottom:"10px"}} id='AdminNavItem'>
                             <a
                                 id='Link1'
                                 active={active === '1'}
                                 onClick={() => {
                                 toggle('1')
-                                }}
-                            >
-                                کاربران
+                                }}>
+                                <span className='align-middle'>کاربران</span>
+                                <User style={{marginRight:"5px"}} size={14} />
                             </a>
                         </NavItem>
                         <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
@@ -62,9 +62,10 @@ const Admin = () => {
                                 active={active === '2'}
                                 onClick={() => {
                                 toggle('2')
-                                }}
-                            >
-                                نقش ها
+                                }}>
+
+                                <span className='align-middle'>نقش ها</span>
+                                <Hexagon style={{marginRight:"5px"}} size={14} />
                             </a>
                         </NavItem>
                         <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
@@ -73,9 +74,9 @@ const Admin = () => {
                                 active={active === '3'}
                                 onClick={() => {
                                 toggle('3')
-                                }}
-                            >
-                                رخداد ها
+                                }}>
+                                <span className='align-middle'>رخداد ها</span>
+                                <Trello style={{marginRight:"5px"}} size={14} />
                             </a>
                         </NavItem>
                         <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
@@ -84,9 +85,9 @@ const Admin = () => {
                                 active={active === '4'}
                                 onClick={() => {
                                 toggle('4')
-                                }}
-                            >
-                                گزارش ها
+                                }}>
+                                <span className='align-middle'>گزارش ها</span>
+                                <FileText style={{marginRight:"5px"}} size={14} />
                             </a>
                         </NavItem>
                     </Nav>
@@ -108,7 +109,6 @@ const Admin = () => {
             </div>
         </div>
     </div>
-    
   )
 }
 export default Admin
