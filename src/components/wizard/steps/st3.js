@@ -26,8 +26,6 @@ const St3 = ({ stepper, type }) => {
   }
   return (
     <Fragment>
-      <div className='content-header'>
-      </div>
 
       <Form onSubmit={e => e.preventDefault()}>
         <Row>

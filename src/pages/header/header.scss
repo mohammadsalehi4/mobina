@@ -257,3 +257,23 @@
     }
   }
 }
+
+.dropdown-toggle1 {
+  background-color: transparent !important;
+  border: transparent !important;
+  box-shadow: none !important;
+  padding: 0px !important;
+  border-radius: 50% !important;
+  i{
+    color: #dcdcdc;
+
+  }
+}
+
+.dropdown-toggle1:hover {
+  background: #497979 !important;
+}
+
+.dropdown-toggle1:active {
+  background: #497979 !important;
+}

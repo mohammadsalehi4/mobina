@@ -1,0 +1,52 @@
+#Admin {
+  margin-top: 60px;
+}
+@media only screen and (max-width: 1200px) {
+  #Admin {
+    margin-top: 0px;
+  }
+}
+#Admin #adminNav a {
+  margin-right: 24px;
+  font-size: 18px;
+  padding-bottom: 5px;
+  transition: 0.1s;
+}
+@media only screen and (max-width: 500px) {
+  #Admin #adminNav a {
+    font-size: 14px;
+    margin-right: 12px;
+  }
+}
+@media only screen and (max-width: 330px) {
+  #Admin #adminNav a {
+    font-size: 12px;
+    margin-right: 8px;
+  }
+}
+#Admin #adminNav #Link1 {
+  margin-right: -16px;
+}
+#Admin #adminNav .ActiveAdmin {
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+}
+@media only screen and (max-width: 990px) {
+  #Admin .JDAdmin {
+    display: none;
+  }
+}
+@media only screen and (min-width: 990px) {
+  #Admin .JMAdmin {
+    display: none;
+  }
+}
+#Admin .JMAdmin .ActiveAdmin {
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+}
+#Admin .JMAdmin #AdminUsersDesktopLink1 {
+  border-color: black !important;
+}
+
+/*# sourceMappingURL=admin.css.map */

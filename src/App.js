@@ -12,6 +12,7 @@ import Mining from './pages/mining/mining'
 import Reports from './pages/reports/reports'
 import Recovery from './pages/passwordRecovery/recovery'
 import ChangePassword from './pages/changePassword/changePassword'
+import Admin from './pages/admin/admin'
 
 const App = () => {
   const States = useSelector(state => state)
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/mining"  element={<Mining/>}/>
             <Route path="/reports"  element={<Reports/>}/>
             <Route path="/tax/:txid"  element={<Tax/>}/>
+            <Route path="/admin"  element={<Admin/>}/>
           </Routes>
     </div>
   )

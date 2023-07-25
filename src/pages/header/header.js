@@ -1,5 +1,5 @@
 /* eslint-disable no-tabs */
-import React, {useEffect} from 'react'
+import React, {useEffect, useRef} from 'react'
 import '../../assets/vendor/fonts/fontawesome.css'
 import '../../assets/vendor/fonts/tabler-icons.css'
 import '../../assets/vendor/fonts/flag-icons.css'
@@ -27,6 +27,8 @@ function Header() {
 	const closeMobileMenu = () => {
 		dispatch({type:"SHOWMOBILEMENU", value:false})
 	}
+
+  const myElementRef = useRef(null)
   
   useEffect(() => {
 		if (States.showMobileMenu) {
@@ -38,28 +40,13 @@ function Header() {
 		}
 	}, [States.showMobileMenu])
 
-  useEffect(() => {
-    const myElement = document.getElementById('openAdminaccessBoxIcon')
-    if (States.showAdminAccessBox) {
-      document.getElementById('adminOptionBox').style.display = "block"
-      myElement.onmouseover = function() {
-        myElement.style.backgroundColor = "#497979"
-      }
-      myElement.onmouseout = function() {
-        myElement.style.backgroundColor = "#497979"
-      }
-      
-    } else {
-      document.getElementById('adminOptionBox').style.display = "none"
-      myElement.onmouseover = function() {
-        myElement.style.backgroundColor = "#497979"
-      }
-      myElement.onmouseout = function() {
-        myElement.style.backgroundColor = "#2f4f4f"
-        myElement.style.color = "#dcdcdc"
-      }
-    }
-  }, [States.showAdminAccessBox])
+  // useEffect(() => {
+  //   if (States.showAdminAccessBox) {
+  //     document.getElementById('adminOptionBox').style.display = "block"
+  //   } else {
+  //     document.getElementById('adminOptionBox').style.display = "none"
+  //   }
+  // }, [States.showAdminAccessBox])
 
   useEffect(() => {
     if (States.witchPage) {
@@ -71,10 +58,23 @@ function Header() {
     }
   }, [States.witchPage])
 
-  const changeAdminAccessShow = () => {
-    const show = States.showAdminAccessBox
-		dispatch({type:"SHOWADMINACCESSBOX", value:!show})
+  const handleClickOutside = (e) => {
+    if (myElementRef.current && !myElementRef.current.contains(e.target)) {
+      dispatch({type:"SHOWADMINACCESSBOX", value:false})
+    }
   }
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
+  // const changeAdminAccessShow = () => {
+  //   const show = States.showAdminAccessBox
+	// 	dispatch({type:"SHOWADMINACCESSBOX", value:!show})
+  // }
 
   return (
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu" id='header'>
@@ -97,7 +97,8 @@ function Header() {
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <ul class="navbar-nav flex-row ms-auto rightheaderItems">
                 <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
-                  <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon" onClick={changeAdminAccessShow} id='openAdminaccessBoxIcon'>
+                  {/* <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon"  ref={myElementRef} onClick={changeAdminAccessShow} id='openAdminaccessBoxIcon'> */}
+                  <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon" href='/admin'>
                     <i class="ti ti-layout-grid-add ti-md "></i>
                   </a>
                 </li>

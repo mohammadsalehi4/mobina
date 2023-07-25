@@ -5,7 +5,7 @@ const initialState = {
     witchPage:1,
     isAdmin:true,
     notifNumber:0,
-    showAdminAccessBox:false,
+    // showAdminAccessBox:false,
     
     //tracker
     showTransactionData:false,
@@ -77,12 +77,12 @@ const reducer = (state = initialState, action) => {
             notifNumber:action.value
         }
     }
-    if (action.type === "SHOWADMINACCESSBOX") {
-        return {
-            ...state,
-            showAdminAccessBox:action.value
-        }
-    }
+    // if (action.type === "SHOWADMINACCESSBOX") {
+    //     return {
+    //         ...state,
+    //         showAdminAccessBox:action.value
+    //     }
+    // }
     if (action.type === "TransactionDetailCurrencyMode") {
         return {
             ...state,
