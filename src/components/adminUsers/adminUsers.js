@@ -44,7 +44,7 @@ const AdminUsers = () => {
                 toggle('2')
               }}
             >
-              افزودن کاربر جدید
+              افزودن کاربر
             </a>
           </NavItem>
         </Nav>
@@ -74,7 +74,7 @@ const AdminUsers = () => {
                   toggle('1')
                 }}
               >
-              افزودن کاربر جدید
+              افزودن کاربر
               </a>
             </NavItem>
             <NavItem style={{ }}>

@@ -28,33 +28,40 @@ const Main = () => {
         //save username and password on local database
 
         //movaghati
-        const response = await fetch(serverAddress, {
+        try {
+            const response = await fetch(serverAddress, {
      
-        method: "POST",
-         
-        body: JSON.stringify({
-            username: username,
-            password: password
-        }),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-        }
-        })
-        const getData = await response.json()
-        if (getData.success===true) {
-            if (document.getElementById('remember_me').checked) {
-                if (username && password) {
-                    localStorage.setItem('username', JSON.stringify(username))
-                    localStorage.setItem('password', JSON.stringify(password))
+                method: "POST",
+                 
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
                 }
-            }
-            window.location.assign('/researcher') 
-        } else {
-            event.preventDefault()
-            toast.error('نام کاربری یا رمز عبور اشتباه است!', {
+                })
+                const getData = await response.json()
+                if (getData.success===true) {
+                    if (document.getElementById('remember_me').checked) {
+                        if (username && password) {
+                            localStorage.setItem('username', JSON.stringify(username))
+                            localStorage.setItem('password', JSON.stringify(password))
+                        }
+                    }
+                    window.location.assign('/researcher') 
+                } else {
+                    event.preventDefault()
+                    toast.error('نام کاربری یا رمز عبور اشتباه است!', {
+                        position: 'bottom-left'
+                      })
+                }
+        } catch (error) {
+            toast.error('عدم ارتباط با سرور!', {
                 position: 'bottom-left'
               })
         }
+        
     }
     
 

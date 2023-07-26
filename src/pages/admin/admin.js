@@ -53,7 +53,6 @@ const Admin = () => {
                                 toggle('1')
                                 }}>
                                 <span className='align-middle'>کاربران</span>
-                                <User style={{marginRight:"5px"}} size={14} />
                             </a>
                         </NavItem>
                         <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
@@ -65,7 +64,6 @@ const Admin = () => {
                                 }}>
 
                                 <span className='align-middle'>نقش ها</span>
-                                <Hexagon style={{marginRight:"5px"}} size={14} />
                             </a>
                         </NavItem>
                         <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
@@ -76,7 +74,6 @@ const Admin = () => {
                                 toggle('3')
                                 }}>
                                 <span className='align-middle'>رخداد ها</span>
-                                <Trello style={{marginRight:"5px"}} size={14} />
                             </a>
                         </NavItem>
                         <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
@@ -87,7 +84,6 @@ const Admin = () => {
                                 toggle('4')
                                 }}>
                                 <span className='align-middle'>گزارش ها</span>
-                                <FileText style={{marginRight:"5px"}} size={14} />
                             </a>
                         </NavItem>
                     </Nav>
