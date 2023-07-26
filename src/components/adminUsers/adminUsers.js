@@ -63,10 +63,10 @@ const AdminUsers = () => {
       <div className='JMAdmin'>
         <Fragment>
           <Nav tabs style={{fontSize:"12px", marginRight:"-40px", paddingBottom:"12px"}}>
-            <NavItem style={{ marginBottom:"10px"}}>
+            <NavItem style={{ }}>
               <a
-                id='AdminUsersMobileLink1'
                 active={active === '1'}
+                id='AdminUsersMobileLink1'
                 style={{
                   paddingBottom:"5px"
                 }}
@@ -74,13 +74,13 @@ const AdminUsers = () => {
                   toggle('1')
                 }}
               >
-              افزودن کاربر
+              مشاهده کاربران
               </a>
             </NavItem>
-            <NavItem style={{ }}>
+            <NavItem style={{ marginBottom:"10px"}}>
               <a
-                active={active === '2'}
                 id='AdminUsersMobileLink2'
+                active={active === '2'}
                 style={{
                   marginRight:"12px",
                   paddingBottom:"5px"
@@ -89,15 +89,15 @@ const AdminUsers = () => {
                   toggle('2')
                 }}
               >
-              مشاهده کاربران
+              افزودن کاربر
               </a>
             </NavItem>
           </Nav>
           <TabContent className='py-50' activeTab={active}>
-            <TabPane tabId='1'>
+            <TabPane tabId='2'>
               <AdminAddNewUser/>
             </TabPane>
-            <TabPane tabId='2'>
+            <TabPane tabId='1'>
               box2
             </TabPane>
           </TabContent>
