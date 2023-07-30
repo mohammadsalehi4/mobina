@@ -13,6 +13,8 @@ import Reports from './pages/reports/reports'
 import Recovery from './pages/passwordRecovery/recovery'
 import ChangePassword from './pages/changePassword/changePassword'
 import Admin from './pages/admin/admin'
+import Owner from './pages/owner/owner'
+import Entities from './pages/entities/entities'
 
 const App = () => {
   const States = useSelector(state => state)
@@ -32,6 +34,8 @@ const App = () => {
             <Route path="/reports"  element={<Reports/>}/>
             <Route path="/tax/:txid"  element={<Tax/>}/>
             <Route path="/admin"  element={<Admin/>}/>
+            <Route path="/owner"  element={<Owner/>}/>
+            <Route path="/entities"  element={<Entities/>}/>
           </Routes>
     </div>
   )

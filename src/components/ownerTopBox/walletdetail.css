@@ -1,0 +1,52 @@
+#OwnerTopBox {
+  box-sizing: border-box;
+  background: rgb(248, 248, 248);
+  box-shadow: none;
+  border-radius: 8px;
+}
+#OwnerTopBox #cardBlockNumber {
+  margin-top: -10px;
+}
+#OwnerTopBox #cardLink {
+  border-width: 2px;
+  border-style: solid;
+  color: rgb(60, 60, 60);
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 57%;
+  background: rgb(248, 248, 248);
+  margin-top: 10px;
+}
+#OwnerTopBox #cardLink ion-icon {
+  margin-bottom: -3px;
+}
+@media only screen and (max-width: 500px) {
+  #OwnerTopBox #cardLink {
+    width: 90%;
+    margin-right: 5%;
+    display: block;
+  }
+}
+#OwnerTopBox .cardLink1 {
+  margin-right: 0px;
+}
+
+#OwnerTopBox .cardLink2 {
+  margin-right: 6%;
+}
+
+#OwnerTopBox #showOwner {
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+#OwnerTopBox #showOwner button {
+  display: block;
+  margin-top: 8px;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+

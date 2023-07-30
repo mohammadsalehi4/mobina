@@ -1,17 +1,19 @@
+/* eslint-disable no-duplicate-imports */
 /* eslint-disable no-var */
 /* eslint-disable prefer-const */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react'
-import {  Row, Col, Input, Form, Label } from 'reactstrap'
+import {  Row, Col, Input, Label } from 'reactstrap'
 import { MainSiteGray, MainSiteOrange } from '../../../public/colors'
 import CreatableSelect from 'react-select/creatable'
-import toast from 'react-hot-toast'
+import { Alert } from 'reactstrap'
 
 const AdminAddNewUser = () => {
     const [inputValue, setInputValue] = useState('')
     const [inputLastValue, setInputLastValue] = useState('')
     const [selectedOption, setSelectedOption] = useState(null)
+    const [inputUsernameValue, setInputUsernameValue] = useState('')
     
     //Errors
     const [NameErr, SetNameErr] = useState(false)
@@ -83,6 +85,13 @@ const AdminAddNewUser = () => {
 
     const handleSelectChange = (newValue) => {
       setSelectedOption(newValue)
+      if (selectedOption === null) {
+        SetRollErr(true)
+        SetRollErrText('نقش مورد نظر خود را وارد کنید!')
+      } else {
+        SetRollErr(false)
+        SetRollErrText('')
+      }
     }
 
     const handleInputChange = (event) => {
@@ -112,8 +121,6 @@ const AdminAddNewUser = () => {
         SetLastNameErrText('نام خانوادگی کاربر باید تنها از حروف فارسی تشکیل شده باشد!')
       }
     }
-
-    const [inputUsernameValue, setInputUsernameValue] = useState('')
 
     const handleInputUsernameChange = (event) => {
       const value = event.target.value
@@ -203,142 +210,173 @@ const AdminAddNewUser = () => {
       }
     }
 
+    const numberHandler = () => {
+      const inputNumberElement = document.getElementById('AdminAddUserPhoneNumber')
+      const phoneRegex = /^09[0-9]{9}$/
+      if (!(phoneRegex.test(inputNumberElement.value))) {
+        SetNumberErr(true)
+        SetNumberErrText('شماره مورد نظر را به درستی وارد کنید!')
+      } else {
+        SetNumberErr(false)
+        SetNumberErrText('')
+      }
+    }
+
+    const EmailHandler = () => {
+      const inputEmailElement = document.getElementById('AdminAddUserEmailInput')
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!(emailRegex.test(inputEmailElement.value))) {
+        SetEmailErr(true)
+        SetEmailErrText('ایمیل مورد نظر را به درستی وارد کنید!')
+      } else {
+        SetEmailErr(false)
+        SetEmailErrText('')
+      }
+    }
   return (
-        <form onSubmit={(event) => { handleSubmit(event) }}>
-          <Row>
-            <Col md='6' sm='12' className='mb-1 mt-1'>
-              <Label className='form-label' for='NameAddUserAdmin'>
-                نام
-              </Label>
-              <Input value={inputValue} onChange={handleInputChange} type='text' name='name' id='NameAddUserAdmin'/>
-              {
-                NameErr ? 
-                  <small style={{color:"red"}} id='NameErrTag'>
-                    {NameErrText}
+    <form onSubmit={(event) => { handleSubmit(event) }}>
+      <Row>
+        <Col md='6' sm='12' className='mb-1 mt-1'>
+          <Label className='form-label' for='NameAddUserAdmin'>
+            نام
+            <span style={{color:"red"}}>*</span>
+          </Label>
+          <Input value={inputValue} onChange={handleInputChange} type='text' name='name' id='NameAddUserAdmin'/>
+          {
+            NameErr ? 
+              <small style={{color:"red"}} id='NameErrTag'>
+                {NameErrText}
+              </small>
+            :
+              null
+          }
+
+        </Col>
+        <Col md='6' sm='12' className='mb-1 mt-1'>
+          <Label className='form-label' for='lastNameMulti'>
+            نام خانوادگی
+            <span style={{color:"red"}}>*</span>
+          </Label>
+          <Input value={inputLastValue} onChange={handleInputLastChange} type='text' name='lastname' id='lastNameMulti' />
+          {
+            LastnameErr ?
+              <small style={{color:"red"}} id='LastNameErrTag'>
+                {LastnameErrText}
+              </small>
+            :
+              null
+          }
+
+        </Col>
+
+        <Col md='6' sm='12' className='mb-1 mt-1'>
+          <Label className='form-label' for='AdminAddUserEmailInput'>
+            ایمیل
+            <span style={{color:"red"}}>*</span>
+          </Label>
+          <Input onBlur={EmailHandler} id="AdminAddUserEmailInput" type='text' name='company' placeholder='example@example.com' />
+          {
+            EmailErr ? 
+              <small style={{color:"red"}} id='EmailErrTag'>
+                {EmailErrText}
+              </small>
+            :
+              null
+          }
+
+        </Col>
+        <Col md='6' sm='12' className='mb-1 mt-1'>
+            <Label className='form-label'>
+                نقش
+                <span style={{color:"red"}}>*</span>
+            </Label>
+            {
+              RollErr ? 
+                <div>
+                  <CreatableSelect 
+                    value={selectedOption}
+                    onChange={handleSelectChange}
+                    styles={ErrcustomStyles}
+                    
+                    placeholder="انتخاب نقش"
+                    options={[
+                    { value: 'option1', label: 'Option 1' },
+                    { value: 'option2', label: 'Option 2' },
+                    { value: 'option3', label: 'Option 3' }
+                    ]}
+                    id='AdminAddUserRollSelect' 
+                  />
+                  <small style={{color:"red"}} id='RollErrTag'>
+                    {RollErrText}
                   </small>
-                :
-                  null
-              }
+                </div>
 
-            </Col>
-            <Col md='6' sm='12' className='mb-1 mt-1'>
-              <Label className='form-label' for='lastNameMulti'>
-                نام خانوادگی
-              </Label>
-              <Input value={inputLastValue} onChange={handleInputLastChange} type='text' name='lastname' id='lastNameMulti' />
-              {
-                LastnameErr ?
-                  <small style={{color:"red"}} id='LastNameErrTag'>
-                    {LastnameErrText}
-                  </small>
-                :
-                  null
-              }
+              :
+                <CreatableSelect 
+                  value={selectedOption}
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+                  
+                  placeholder="انتخاب نقش"
+                  options={[
+                  { value: 'option1', label: 'Option 1' },
+                  { value: 'option2', label: 'Option 2' },
+                  { value: 'option3', label: 'Option 3' }
+                  ]}
+                  id='AdminAddUserRollSelect' 
+                />
+            }
 
-            </Col>
+        </Col>
+        <Col md='6' sm='12' className='mb-1 mt-1'>
+          <Label className='form-label' for='cityMulti'>
+            نام کاربری
+            <span style={{color:"red"}}>*</span>
+          </Label>
+          <Input id="AdminAddUserUsernameInput" value={inputUsernameValue} onChange={handleInputUsernameChange} type='text' name='city' />
+          {
+            UsernameErr ?
+              <small style={{color:"red"}} id='UsernameErrTag'>
+                {UsernameErrText}
+              </small>
+            :
+              null
+          }
 
-            <Col md='6' sm='12' className='mb-1 mt-1'>
-              <Label className='form-label' for='AdminAddUserEmailInput'>
-                ایمیل
-              </Label>
-              <Input id="AdminAddUserEmailInput" type='text' name='company' placeholder='example@example.com' />
-              {
-                EmailErr ? 
-                  <small style={{color:"red"}} id='EmailErrTag'>
-                    {EmailErrText}
-                  </small>
-                :
-                  null
-              }
+        </Col>
+        <Col md='6' sm='12' className='mb-1 mt-1'>
+          <Label className='form-label' for='AdminAddUserPhoneNumber'>
+            شماره همراه
+            <span style={{color:"red"}}>*</span>
+          </Label>
+          <Input onBlur={numberHandler} type='text' name='Email' id='AdminAddUserPhoneNumber' placeholder='09121234567' />
+          {
+            NumberErr ?
+              <small style={{color:"red"}} id='NumberErrTag'>
+                {NumberErrText}
+              </small>
+            :
+              null
+          }
 
-            </Col>
-            <Col md='6' sm='12' className='mb-1 mt-1'>
-                <Label className='form-label'>
-                    نقش
-                </Label>
-                {
-                  RollErr ? 
-                    <div>
-                      <CreatableSelect 
-                        value={selectedOption}
-                        onChange={handleSelectChange}
-                        styles={ErrcustomStyles}
-                        
-                        placeholder="انتخاب نقش"
-                        options={[
-                        { value: 'option1', label: 'Option 1' },
-                        { value: 'option2', label: 'Option 2' },
-                        { value: 'option3', label: 'Option 3' }
-                        ]}
-                        id='AdminAddUserRollSelect' 
-                      />
-                      <small style={{color:"red"}} id='RollErrTag'>
-                        {RollErrText}
-                      </small>
-                    </div>
-
-                  :
-                    <CreatableSelect 
-                      value={selectedOption}
-                      onChange={handleSelectChange}
-                      styles={customStyles}
-                      
-                      placeholder="انتخاب نقش"
-                      options={[
-                      { value: 'option1', label: 'Option 1' },
-                      { value: 'option2', label: 'Option 2' },
-                      { value: 'option3', label: 'Option 3' }
-                      ]}
-                      id='AdminAddUserRollSelect' 
-                    />
-                }
-
-            </Col>
-            <Col md='6' sm='12' className='mb-1 mt-1'>
-              <Label className='form-label' for='cityMulti'>
-                نام کاربری
-              </Label>
-              <Input id="AdminAddUserUsernameInput" value={inputUsernameValue} onChange={handleInputUsernameChange} type='text' name='city' />
-              {
-                UsernameErr ?
-                  <small style={{color:"red"}} id='UsernameErrTag'>
-                    {UsernameErrText}
-                  </small>
-                :
-                  null
-              }
-
-            </Col>
-            <Col md='6' sm='12' className='mb-1 mt-1'>
-              <Label className='form-label' for='AdminAddUserPhoneNumber'>
-                شماره همراه
-              </Label>
-              <Input type='text' name='Email' id='AdminAddUserPhoneNumber' placeholder='09121234567' />
-              {
-                NumberErr ?
-                  <small style={{color:"red"}} id='NumberErrTag'>
-                    {NumberErrText}
-                  </small>
-                :
-                  null
-              }
-
-            </Col>
-            <Col md='6' sm='12' className='mb-1 mt-1'>
-              <Label className='form-label'>
+        </Col>
+        <Col md='6' sm='12' className='mb-1 mt-3'>
+          <Alert color='secondary'>
+            <Label className='form-label'>
               *رمز عبور توسط سیستم به طور خودکار تولید شده و برای کاربر ارسال (پیامک، ایمیل) میشود.
-              </Label>
-            </Col>
-            <Col md='6' sm='12' className='mb-1 mt-1'>
-              <Label className='form-label' for='EmailMulti'>
-                
-              </Label>
-              <div style={{textAlign:"left"}}>
-                <button style={{border:"none", float:"left", background:MainSiteOrange, color:"white", padding:"6px 16px", borderRadius:"6px", marginTop:"4px"}}>افزودن</button>
-              </div>
-            </Col>
-          </Row>
-        </form>
+            </Label>
+          </Alert>
+        </Col>
+        <Col md='6' sm='12' className='mb-1 mt-3'>
+          <Label className='form-label' for='EmailMulti'>
+            
+          </Label>
+          <div style={{textAlign:"left"}}>
+            <button style={{border:"none", float:"left", background:MainSiteOrange, color:"white", padding:"6px 16px", borderRadius:"6px", marginTop:"4px"}}>افزودن</button>
+          </div>
+        </Col>
+      </Row>
+    </form>
   )
 }
 
