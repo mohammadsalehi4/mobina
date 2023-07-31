@@ -25,7 +25,7 @@ const Entityfilters = () => {
               <Label className='form-label' for='payment-cvv'>
                 پشتیبانی از فیات
               </Label>
-              <Input type='number' placeholder='آری' id='payment-cvv' />
+              <Input type='text' placeholder='آری' id='payment-cvv' />
             </Col>
             <Col sm='12' className='mb-2'>
               <Label className='form-label' for='payment-input-name'>

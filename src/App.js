@@ -1,8 +1,6 @@
 import React from 'react'
 import { useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"
-import './App.css'
-
 import EcommerceDashboard from '../src/pages/dashboard/index'
 import Main from '../src/pages/main/main'
 import Header from '../src/pages/header/header'
@@ -16,6 +14,7 @@ import Admin from './pages/admin/admin'
 import Owner from './pages/owner/owner'
 import Entities from './pages/entities/entities'
 import Folders from './pages/folders/folders'
+import './App.css'
 
 const App = () => {
   const States = useSelector(state => state)

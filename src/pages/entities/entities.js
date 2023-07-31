@@ -7,6 +7,7 @@ import EntityList from '../../components/entities/entityList'
 import EntityDynamicList from '../../components/entities/entityDynamicList'
 import EntityCurrencies from '../../components/entities/entityCurrencies'
 import { MainSiteOrange } from '../../../public/colors'
+import { digitsEnToFa } from 'persian-tools'
 import './entities.css'
 const Entities = () => {
     const dispatch = useDispatch()
@@ -19,7 +20,7 @@ const Entities = () => {
             <div className='row' style={{background:"rgb(240,240,240)", borderRadius:"8px"}}>
                 <div className='col-lg-3 p-3' style={{}}>
                     <div className='bg-white p-2' style={{borderRadius:"8px", borderStyle:"solid", borderWidth:"2px", borderColor:"rgb(210,210,210)"}}>
-                        <h5 className='me-1 mt-1'>موجودیت ها <small style={{color:"gray"}}>(44787)</small></h5>
+                        <h5 className='me-1 mt-1'>موجودیت‌ها <small style={{color:"gray"}}>{digitsEnToFa("(44787)")}</small></h5>
                         <hr/>
                         <div className='row'>
                             <div className='col-8'>
