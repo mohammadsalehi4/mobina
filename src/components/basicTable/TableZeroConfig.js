@@ -2,7 +2,7 @@ import { digitsEnToFa } from 'persian-tools'
 import NiceAddress2 from '../niceAddress2/niceAddress'
 // ** Table Columns
 
-export const basicColumns = [
+const basicColumns = [
   {
     name: <p style={{marginBottom:"0px"}}>شناسه UTXO<ion-icon title='توضیحات' style={{fontSize:"10px", borderRadius:"50%", marginRight:"4px", marginBottom:"-3px", borderStyle:"solid", borderWidth:"1px" }} name="help-outline"></ion-icon></p>,
     sortable: true,

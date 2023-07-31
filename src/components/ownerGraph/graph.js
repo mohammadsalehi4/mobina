@@ -8,7 +8,7 @@
 // eslint-disable-next-line no-duplicate-imports
 // eslint-disable-next-line no-duplicate-imports
 
-// import Graph from "react-graph-vis"
+import Graph from "react-graph-vis"
 import React from "react"
 const OwnerGraph = () => {
   const randomNodeCount = 50
@@ -224,7 +224,7 @@ const options = {
   
   return (
     <div id="mynetwork" style={{marginTop:"35px"}}>
-      {/* <Graph graph={graph} options={options}  style={{height:"630px", width:"100%" }}/> */}
+      <Graph graph={graph} options={options}  style={{height:"630px", width:"100%" }}/>
     </div>
   )
 

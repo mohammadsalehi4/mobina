@@ -23,9 +23,9 @@ const Entityfilters = () => {
             </Col>
             <Col sm='6' className='mb-2'>
               <Label className='form-label' for='payment-cvv'>
-                پشتیبانی از ارز
+                پشتیبانی از فیات
               </Label>
-              <Input type='number' placeholder='پشتیبانی از ارز' id='payment-cvv' />
+              <Input type='number' placeholder='آری' id='payment-cvv' />
             </Col>
             <Col sm='12' className='mb-2'>
               <Label className='form-label' for='payment-input-name'>

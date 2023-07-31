@@ -168,12 +168,12 @@ const Owner = () => {
 
                     </div>
 
-                    {/* <h6 style={{position:"absolute", float:"left", left:"110px", top:"330px"}}>ارسال شده: 293,238,230.675 <small>ETH</small></h6>
+                    <h6 style={{position:"absolute", float:"left", left:"110px", top:"330px"}}>ارسال شده: 293,238,230.675 <small>ETH</small></h6>
                     <h6 style={{position:"absolute", top:"330px", marginRight:"10px"}}>دریافت شده: 293,238,986.910 <small>ETH</small></h6>
 
                     <OwnerListRight/>
                     <OwnerGraph/>
-                    <OwnerList/> */}
+                    <OwnerList/>
                 </div>
             </div>
         </div>
