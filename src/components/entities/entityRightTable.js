@@ -6,7 +6,7 @@ const data = [
         name:"آریان کوین",
         type:{
             risk:20,
-            icon:<Box  width={20} height={16}/>,
+            icon:<Box color='green' width={20} height={16}/>,
             color:"green"
         }
     },
@@ -14,7 +14,7 @@ const data = [
         name:"سبد آریان کوین",
         type:{
             risk:16,
-            icon:<ShoppingCart width={20} height={16}/>,
+            icon:<ShoppingCart color='green' width={20} height={16}/>,
             color:"green"
         }
     },
@@ -22,7 +22,7 @@ const data = [
         name:"ارز آریان کوین",
         type:{
             risk:60,
-            icon:<DollarSign width={20} height={16}/>,
+            icon:<DollarSign color='red' width={20} height={16}/>,
 
             color:"red"
         }
@@ -31,20 +31,20 @@ const data = [
         name:"تحریم شده ها",
         type:{
             risk:100,
-            icon:<Slash width={20} height={16}/>,
+            icon:<Slash color='red' width={20} height={16}/>,
             color:"red"
         }
     }
   ]
   export const basicColumns = [
     {
-      name: 'نام موجودیت',
+      name: <p style={{marginTop:"15px"}}>نام موجودیت</p>,
       sortable: true,
       maxWidth: '300px',
       selector: row => row.name
     },
     {
-      name: 'نوع',
+      name: <p style={{marginTop:"15px"}}>نوع</p>,
       sortable: true,
       maxWidth: '30px',
       selector: row => row.type.risk,

@@ -50,7 +50,7 @@ function Header() {
 
   useEffect(() => {
     if (States.witchPage) {
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 7; i++) {
         document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
       }
       document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
@@ -180,6 +180,13 @@ function Header() {
                     <a class="menu-link" href='/reports'>
                     <ion-icon name="reader-outline"></ion-icon>
                       <div data-i18n="Forms" className='vazir'>گزارش ها</div>
+                    </a>
+                  </li>
+
+                  <li id='MenuBottomItem6' class="menu-item thisNotActive">
+                    <a class="menu-link" href='/folders'>
+                    <ion-icon name="folder-open-outline"></ion-icon>
+                      <div data-i18n="Forms" className='vazir'>پرونده ها</div>
                     </a>
                   </li>
                 </ul>

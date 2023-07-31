@@ -234,7 +234,7 @@ const AdminAddNewUser = () => {
       }
     }
   return (
-    <form onSubmit={(event) => { handleSubmit(event) }}>
+    <form onSubmit={(event) => { handleSubmit(event) }} >
       <Row>
         <Col md='6' sm='12' className='mb-1 mt-1'>
           <Label className='form-label' for='NameAddUserAdmin'>

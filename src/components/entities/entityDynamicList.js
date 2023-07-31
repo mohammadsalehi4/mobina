@@ -13,7 +13,7 @@ const EntityDynamicList = () => {
         </span>
         <span style={{float:"left"}}>
             صرافی دارای مجوز
-            <p style={{display:"inline-block", marginRight:"10px", marginBottom:"0px", borderColor:"green", borderWidth:"2px", borderStyle:"solid", borderRadius:"50%", padding:"2px 4px", fontSize:"10px"}}><Box  width={20} height={16}/></p>
+            <p style={{display:"inline-block", marginRight:"10px", marginBottom:"0px", borderColor:"green", borderWidth:"2px", borderStyle:"solid", borderRadius:"50%", padding:"2px 4px", fontSize:"10px"}}><Box color='green' width={20} height={16}/></p>
         </span>
       </ListGroupItem>
       <ListGroupItem style={{width:"100%"}}>

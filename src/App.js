@@ -15,6 +15,7 @@ import ChangePassword from './pages/changePassword/changePassword'
 import Admin from './pages/admin/admin'
 import Owner from './pages/owner/owner'
 import Entities from './pages/entities/entities'
+import Folders from './pages/folders/folders'
 
 const App = () => {
   const States = useSelector(state => state)
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="/admin"  element={<Admin/>}/>
             <Route path="/owner"  element={<Owner/>}/>
             <Route path="/entities"  element={<Entities/>}/>
+            <Route path="/folders"  element={<Folders/>}/>
           </Routes>
     </div>
   )
