@@ -1,7 +1,6 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import { Fragment, useState, forwardRef } from 'react'
-import { data } from './data'
 import { digitsEnToFa } from 'persian-tools'
 import AddNewModal from './AddNewModal'
 import DataTable from 'react-data-table-component'
@@ -26,6 +25,48 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
+const data = [
+  {
+    name:"کیس کلاهبرداری",
+    currency:"BTC",
+    Amount:"31.2931291",
+    Changes:"+9.27839201",
+    mode:"green",
+    risk:"80",
+    MadeWith:"م‌ص",
+    notifs:"متعادل",
+    LastChangeDate:"1402/02/03",
+    LastChangeTime:"13:29",
+    Status:"open"
+  },
+  {
+    name:"پرونده آریان کوین",
+    currency:"ETH",
+    Amount:"980.11231",
+    Changes:"-122.39201",
+    mode:"red",
+    risk:"30",
+    MadeWith:"س‌ق",
+    notifs:"متعادل",
+    LastChangeDate:"1400/12/04",
+    LastChangeTime:"19:34",
+    Status:"done"
+  },
+  {
+    name:"پرونده خیلی مهم",
+    currency:"BNB",
+    Amount:"18,567.2619",
+    Changes:"+1,200.3602",
+    mode:"green",
+    risk:"50",
+    MadeWith:"ک‌ت",
+    notifs:"متعادل",
+    LastChangeDate:"1402/02/03",
+    LastChangeTime:"13:29",
+    Status:"ongoing"
+  }
+]
+
 const status = {
     1: { title: 'Current', color: 'light-primary' },
     2: { title: 'Professional', color: 'light-success' },
@@ -45,13 +86,13 @@ const columns = [
     },
     {
       name: <p style={{marginTop:"15px", margin:"0px"}}>نام</p>,
-      minWidth: '150px',
-      maxWidth: '150px',
-      sortable: row => row.full_name,
+      minWidth: '170px',
+      maxWidth: '170px',
+      sortable: row => row.name,
       cell: row => (
         <div className='d-flex'>
           <div className='user-info text-truncate ms-1'>
-            <span className='d-block fw-bold text-truncate'>پرونده خیلی مهم</span>
+            <span className='d-block fw-bold text-truncate'>{row.name}</span>
           </div>
         </div>
       )
@@ -61,10 +102,10 @@ const columns = [
       sortable: true,
       minWidth: '100px',
       maxWidth: '100px',
-      selector: row => row.email,
+      selector: row => row.currency,
       cell: row => (
         <p style={{marginTop:"15px", margin:"0px"}}>
-            ETH
+            {row.currency}
         </p>
       )
     },
@@ -73,23 +114,23 @@ const columns = [
       sortable: true,
       minWidth: '200px',
       maxWidth: '200px',
-      selector: row => row.email,
+      selector: row => row.Amount,
       cell: row => (
         <p style={{marginTop:"15px", margin:"0px", direction:"ltr"}}>
-            {digitsEnToFa("2,059.326235718")} <small>ETH</small>
+            {digitsEnToFa(row.Amount)} <small>{row.currency}</small>
         </p>
       )
     },
   
     {
-        name: <p style={{marginTop:"15px", margin:"0px"}}>تغییرات</p>,
+        name: <p style={{marginTop:"15px", margin:"0px"}}>تغییرات ({digitsEnToFa(24)} ساعت)</p>,
         sortable: true,
         minWidth: '200px',
         maxWidth: '200px',
-        selector: row => row.email,
+        selector: row => row.Changes,
         cell: row => (
-          <p style={{marginTop:"15px", margin:"0px", direction:"ltr", color:"green"}}>
-              {digitsEnToFa("+2,059.326235718")} <small>ETH</small>
+          <p style={{marginTop:"15px", margin:"0px", direction:"ltr", color:row.mode}}>
+              {digitsEnToFa(row.Changes)} <small>{row.currency}</small>
           </p>
         )
     },
@@ -103,7 +144,7 @@ const columns = [
         <p style={{marginTop:"15px", margin:"0px", direction:"ltr"}}>
             <ion-icon style={{color:MainSiteOrange}} name="flash"></ion-icon>
             
-            {digitsEnToFa("30%")}
+            {digitsEnToFa(`${row.risk}%`)}
         </p>
       )
     },
@@ -114,8 +155,8 @@ const columns = [
         maxWidth: '150px',
         selector: row => row.age,
         cell: row => (
-          <p style={{marginTop:"15px", margin:"0px", direction:"ltr", background:MainSiteyellow, color:"white", borderRadius:"50%", padding:"5px"}}>
-              م‌ص
+          <p style={{marginTop:"15px", margin:"0px", direction:"ltr", background:MainSiteyellow, color:"white", borderRadius:"50%", padding:"5px", marginRight:"30px"}}>
+              {row.MadeWith}
           </p>
         )
       },
@@ -127,7 +168,7 @@ const columns = [
         selector: row => row.age,
         cell: row => (
             <p style={{marginTop:"15px", margin:"0px", direction:"ltr"}}>
-                متعادل
+                {row.notifs}
             </p>
         )
       },
@@ -139,48 +180,42 @@ const columns = [
         cell: row => (
           <div className='d-flex'>
             <div className='user-info text-truncate ms-1'>
-              <span className='d-block fw-bold text-truncate'>{digitsEnToFa("2023/01/03")}</span>
-              <small>{digitsEnToFa("18:45")}</small>
+              <span className='d-block fw-bold text-truncate'>{digitsEnToFa(row.LastChangeDate)}</span>
+              <small>{digitsEnToFa(row.LastChangeTime)}</small>
             </div>
           </div>
         )
       },
     {
-      name: 'Status',
-      minWidth: '130px',
-      maxWidth: '130px',
-      sortable: row => row.status.title,
+      name: 'وضعیت',
+      minWidth: '150px',
+      maxWidth: '150px',
+      sortable: row => row.Status.title,
       cell: row => {
         return (
-          <Badge color={status[row.status].color} pill>
-            {/* {status[row.status].title} */}
-            {
-                status[row.status].title === "Professional" ?
-                    <span>باز</span>
+                row.Status === "done" ?
+                    <span style={{fontSize:"12px", background:"rgb(255, 176, 176)", color:"red", padding:"2px 6px", borderRadius:"10px"}}>بسته</span>
                 :
-                    status[row.status].title === "Rejected" ?
-                        <span>بسته</span>
+                    row.Status === "ongoing" ?
+                        <span style={{fontSize:"12px", background:"rgb(176, 204, 255)", color:"blue", padding:"2px 6px", borderRadius:"10px"}}>در حال بررسی</span>
                     :
-                        status[row.status].title === "Current" ?
-                            <span>در حال بررسی</span>
-                    :
-                    <span>نمیدونم</span>
-            }
-          </Badge>
+                        row.Status === "open" ?
+                            <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 16px", borderRadius:"10px"}}>باز</span>
+                        :
+                            <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 6px", borderRadius:"10px"}}>نمیدونم</span>
         )
       }
     },
     {
         sortable: true,
-        minWidth: '100px',
-        maxWidth: '100px',
-        selector: row => row.age,
+        minWidth: '20px',
+        maxWidth: '20px',
         cell: row => (
             <UncontrolledDropdown>
             <DropdownToggle className='pe-1' tag='span' style={{cursor:"pointer"}}>
               <MoreVertical size={15} />
             </DropdownToggle>
-            <DropdownMenu end>
+            <DropdownMenu end style={{zIndex:12}}>
               <DropdownItem tag='a' href='/' className='w-100'>
                 <span className='align-middle ms-50'>Details</span>
               </DropdownItem>
@@ -317,6 +352,7 @@ const MainFolderTable = () => {
                 <span className='align-middle ms-50'>دریافت</span>
                 <Share size={15} />
               </button>
+              
             </div>
           </Col>
         </Row>
