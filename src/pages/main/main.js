@@ -4,7 +4,7 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable prefer-template */
 /* eslint-disable space-infix-ops */
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import '../../app-assets/vendors/css/vendors-rtl.min.css'
 import '../../app-assets/css-rtl/bootstrap-extended.css'
 import '../../app-assets/css-rtl/components.css'
@@ -19,13 +19,18 @@ import '../../app-assets/css-rtl/core/menu/menu-types/vertical-menu.css'
 import '../../app-assets/css-rtl/themes/bordered-layout.css'
 import '../../app-assets/css-rtl/colors.css'
 import './main.css'
+
+import UILoader from '@components/ui-loader'
+import Spinner from '@components/spinner/Loading-spinner'
+
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 
 const Main = () => {
+    const [Loading, SetLoading]=useState(false)
     const login = (event) => {
-        
+        SetLoading(true)
         const username = document.getElementById('login_username').value
         const password = document.getElementById('login_password').value
         //save username and password on local database
@@ -36,16 +41,36 @@ const Main = () => {
             password:password
         })
         .then((response) => {
-            if (response.statusText) {
+            if (response.statusText === 'OK') {
+                SetLoading(false)
+                return toast.success('با موفقیت وارد شدید.', {
+                    position: 'bottom-left'
+                  })
+            } else {
+                SetLoading(false)
 
+                return toast.error('ورود ناموفق', {
+                    position: 'bottom-left'
+                })
             }
+            SetLoading(false)
         })
         .catch((err) => {
-            console.log(err.response)
+            console.log(err.response.statusText)
+            if (err.response.statusText === 'Unauthorized') {
+                SetLoading(false)
+                return toast.error('ورود ناموفق', {
+                    position: 'bottom-left'
+                })
+            } else {
+                SetLoading(false)
+                return toast.error('ورود ناموفق', {
+                    position: 'bottom-left'
+                })
+            }
         })
         
     }
-    
 
     useEffect(() => {
         if (localStorage.getItem('username') && localStorage.getItem('password')) {
@@ -54,6 +79,7 @@ const Main = () => {
         }
     }, [])
     return (
+        <UILoader blocking={Loading} loader={<Spinner />}>
         <body id='main' class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static vazir " data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">
             <div class="app-content content ">
                 <div class="content-wrapper">
@@ -101,6 +127,7 @@ const Main = () => {
                 </div>
             </div>
         </body>
+        </UILoader>
     )
 }
 
