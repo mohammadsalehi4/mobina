@@ -49,7 +49,8 @@
         "i18next-browser-languagedetector": "^7.0.1",
         "i18next-http-backend": "^2.0.1",
         "jquery": "^3.6.0",
-        "jsonwebtoken": "8.5.1",
+        "js-cookie": "^3.0.5",
+        "jsonwebtoken": "^8.5.1",
         "moment": "^2.29.3",
         "nouislider": "^15.5.0",
         "nouislider-react": "^3.4.1",
@@ -4635,6 +4636,14 @@
       "version": "3.6.1",
       "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.6.1.tgz",
       "integrity": "sha512-opJeO4nCucVnsjiXOE+/PcCgYw9Gwpvs/a6B1LL/lQhwWwpbVEVYDZ1FokFr8PRc7ghYlrFPuyHuiiDNTQxmcw=="
+    },
+    "node_modules/js-cookie": {
+      "version": "3.0.5",
+      "resolved": "https://registry.npmjs.org/js-cookie/-/js-cookie-3.0.5.tgz",
+      "integrity": "sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==",
+      "engines": {
+        "node": ">=14"
+      }
     },
     "node_modules/js-sdsl": {
       "version": "4.2.0",
@@ -10994,6 +11003,11 @@
       "version": "3.6.1",
       "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.6.1.tgz",
       "integrity": "sha512-opJeO4nCucVnsjiXOE+/PcCgYw9Gwpvs/a6B1LL/lQhwWwpbVEVYDZ1FokFr8PRc7ghYlrFPuyHuiiDNTQxmcw=="
+    },
+    "js-cookie": {
+      "version": "3.0.5",
+      "resolved": "https://registry.npmjs.org/js-cookie/-/js-cookie-3.0.5.tgz",
+      "integrity": "sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw=="
     },
     "js-sdsl": {
       "version": "4.2.0",

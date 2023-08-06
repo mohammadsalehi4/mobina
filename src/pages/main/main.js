@@ -26,58 +26,74 @@ import Spinner from '@components/spinner/Loading-spinner'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
+import Cookies from 'js-cookie'
+import jwt from 'jsonwebtoken'
 
 const Main = () => {
     const [Loading, SetLoading]=useState(false)
     const login = (event) => {
-        SetLoading(true)
         const username = document.getElementById('login_username').value
         const password = document.getElementById('login_password').value
-        //save username and password on local database
 
-        //movaghat
-        axios.post(serverAddress+"/accounts/api/token/", {
-            username:username,
-            password:password
-        })
-        .then((response) => {
-            if (response.statusText === 'OK') {
+        if (username === '' || password === '') {
+            return toast.error('مقادیر را به درستی وارد کنید!', {
+                position: 'bottom-left'
+            })
+        } else {
+            SetLoading(true)
+            axios.post(serverAddress+"/accounts/api/token/", {
+                username:username,
+                password:password
+            })
+            .then((response) => {
+                if (response.statusText === 'OK') {
+                    SetLoading(false)
+                      Cookies.set('refresh', response.data.refresh, { expires: 1 })
+                      Cookies.set('access', response.data.access, { expires: 1 })
+                      window.location.assign('/researcher')
+                } else {
+                    SetLoading(false)
+                    return toast.error('ورود ناموفق', {
+                        position: 'bottom-left'
+                    })
+                }
                 SetLoading(false)
-                return toast.success('با موفقیت وارد شدید.', {
-                    position: 'bottom-left'
-                  })
-            } else {
-                SetLoading(false)
+            })
+            .catch((err) => {
+                console.log(err)
 
-                return toast.error('ورود ناموفق', {
-                    position: 'bottom-left'
-                })
-            }
-            SetLoading(false)
-        })
-        .catch((err) => {
-            console.log(err.response.statusText)
-            if (err.response.statusText === 'Unauthorized') {
+                if (err.response.statusText === 'Unauthorized') {
+                    SetLoading(false)
+                    return toast.error('ورود ناموفق', {
+                        position: 'bottom-left'
+                    })
+                    console.log(err)
+                } else {
+                    SetLoading(false)
+                    return toast.error('ورود ناموفق', {
+                        position: 'bottom-left'
+                    })
+                }
                 SetLoading(false)
-                return toast.error('ورود ناموفق', {
-                    position: 'bottom-left'
-                })
-            } else {
-                SetLoading(false)
-                return toast.error('ورود ناموفق', {
-                    position: 'bottom-left'
-                })
-            }
-        })
+            })
+        }
+
         
     }
 
     useEffect(() => {
-        if (localStorage.getItem('username') && localStorage.getItem('password')) {
-            document.getElementById('login_username').value = JSON.parse(localStorage.getItem('username'))
-            document.getElementById('login_password').value = JSON.parse(localStorage.getItem('password'))
+        try {
+            const refresh = Cookies.get('refresh')
+            const access = Cookies.get('access')
+            const decoded = jwt.decode(access)
+            if (decoded.token_type === 'access') {
+                window.location.assign('/researcher')
+            }
+        } catch {
         }
+
     }, [])
+
     return (
         <UILoader blocking={Loading} loader={<Spinner />}>
         <body id='main' class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static vazir " data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">

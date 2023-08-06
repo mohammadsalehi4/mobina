@@ -13,6 +13,7 @@ import '../../assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css'
 import '../../assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css'
 import '../../assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css'
 import './header.css'
+import Cookies from 'js-cookie'
 import { useSelector } from "react-redux"
 // eslint-disable-next-line no-duplicate-imports
 import { useDispatch } from "react-redux"
@@ -115,7 +116,11 @@ function Header() {
                   </a>
                 </li>
 
-                <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1" onClick={() => { window.location.assign('/') }}>
+                <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1" onClick={() => {                  
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '') 
+                    window.location.assign('/') 
+                  }}>
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
                     <ion-icon name="exit-outline" id="signoutIcon" className="topHeaderIcon"></ion-icon>
                   </a>
