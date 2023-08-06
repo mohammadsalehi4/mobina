@@ -1,13 +1,15 @@
 FROM node:18.16.1-bullseye
-
-RUN addgroup app && adduser -S -G app app
-USER app
-
+# Set the working directory in the container
 WORKDIR /app
+
+# Copy the package.json and package-lock.json to the container
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+
+# Install dependencies in the container
+RUN npm install
+
+# Copy the rest of the application to the container
 COPY . .
 
-EXPOSE 3000 
-
+# Specify the command to run when the container starts
 CMD ["npm", "start"]
