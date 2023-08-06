@@ -22,13 +22,12 @@ const CardContentTypes = (props) => {
   //tag
   const [TagValues, setTagValues] = useState([])
 
-  //messages
-
   //add new tag
   const GetTag = () => {
     const userInput = prompt('تگ مورد نظر را وارد کنید:')
-    setTagValues(prevTags => [...prevTags, userInput])
-    console.log(TagValues)
+    if (userInput) {
+      setTagValues(prevTags => [...prevTags, userInput])
+    }
   }
 
   //set address mark
@@ -87,7 +86,10 @@ const CardContentTypes = (props) => {
                     <ion-icon style={{ borderRadius:"50%", zIndex:2, color:"black", marginRight:"0px", marginTop:"8px", background:MainSiteOrange, fontSize:"8px", cursor:"pointer", position:"absolute"}} name="add-outline"></ion-icon>
                     <ion-icon style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}} name="pricetag-outline"></ion-icon>
                   </div>
-                  <ion-icon title={"کپی"} name="copy-outline" style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}}></ion-icon>
+                  <ion-icon id="copyIcon" name="copy-outline" onClick={() => { navigator.clipboard.writeText(props.data.address) }} style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}}></ion-icon>
+                  <UncontrolledTooltip placement='top' target='copyIcon'>
+                    کپی آدرس
+                  </UncontrolledTooltip>
                   <NiceAddress2 text={props.data.address} title={props.data.address} number={7}/>
                 </div>
                 <div style={{float:"right"}}>
@@ -95,12 +97,22 @@ const CardContentTypes = (props) => {
                       TagValues.map((item, index) => {
                         return (
                           index === 0 ?
-                            <div style={{display:"inline-block", marginRight:"0px"}}>
-                              <small style={{background:"white", padding:"1px 5px", borderRadius:"5px"}}><ion-icon style={{marginBottom:"-2px"}} name="ticket-outline"></ion-icon> {item}</small>
+                            <div style={{display:"inline-block"}}>
+                              <div style={{display:"inline-block", marginRight:"0px", cursor:"pointer"}} id={`tag` + index}>
+                                <small style={{background:"white", padding:"1px 5px", borderRadius:"5px"}}><ion-icon style={{marginBottom:"-2px"}} name="ticket-outline"></ion-icon> {item}</small>
+                              </div>
+                              <UncontrolledTooltip placement='top' target={`tag` + index}>
+                                در نسخه دمو قابل انجام نیست!
+                              </UncontrolledTooltip>
                             </div>
                           :
-                            <div style={{display:"inline-block", marginRight:"5px"}}>
-                              <small style={{background:"white", padding:"1px 5px", borderRadius:"5px"}}><ion-icon style={{marginBottom:"-2px"}} name="ticket-outline"></ion-icon> {item}</small>
+                            <div style={{display:"inline-block"}}>
+                              <div style={{display:"inline-block", marginRight:"5px", cursor:"pointer"}} id={`tag` + index}>
+                                <small style={{background:"white", padding:"1px 5px", borderRadius:"5px"}}><ion-icon style={{marginBottom:"-2px"}} name="ticket-outline"></ion-icon> {item}</small>
+                              </div>
+                              <UncontrolledTooltip placement='top' target={`tag` + index}>
+                                در نسخه دمو قابل انجام نیست!
+                              </UncontrolledTooltip>
                             </div>
                         )
                       })

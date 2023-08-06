@@ -12,10 +12,10 @@ const CardTransactions = (props) => {
         <div className='transaction-item'>
           <div className='d-flex option'>
             <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>{'دریافت شده'}</p>
+              <p  className='transaction-title'>{'دریافت شده'}</p>
             </div>
           </div>
-          <div style={{direction:"ltr", fontSize:"14px", marginBottom:'-10px'}} className={` amountOption`}>
+          <div style={{direction:"ltr", marginBottom:'-10px'}} className={` amountOption`}>
             {digitsEnToFa(props.data.InCome)}
             <small> {props.data.symbole}</small>
           </div>
@@ -23,10 +23,10 @@ const CardTransactions = (props) => {
         <div className='transaction-item'>
           <div className='d-flex option'>
             <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>{'ارسال شده'}</p>
+              <p  className='transaction-title'>{'ارسال شده'}</p>
             </div>
           </div>
-          <div style={{direction:"ltr", fontSize:"14px", marginBottom:'-10px'}} className={` amountOption`}>
+          <div style={{direction:"ltr", marginBottom:'-10px'}} className={` amountOption`}>
             {digitsEnToFa(props.data.OutCome)}
             <small> {props.data.symbole}</small>
           </div>
@@ -34,10 +34,10 @@ const CardTransactions = (props) => {
         <div className='transaction-item'>
           <div className='d-flex option'>
             <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>{'موجودی'}</p>
+              <p  className='transaction-title'>{'موجودی'}</p>
             </div>
           </div>
-          <div style={{direction:"ltr", fontSize:"14px", marginBottom:'-10px'}} className={` amountOption`}>
+          <div style={{direction:"ltr", marginBottom:'-10px'}} className={` amountOption`}>
             {digitsEnToFa(props.data.Total)}
             <small> {props.data.symbole}</small>
           </div>
@@ -45,30 +45,30 @@ const CardTransactions = (props) => {
         <div className='transaction-item'>
           <div className='d-flex option'>
             <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>{'تعداد تراکنش'}</p>
+              <p  className='transaction-title'>{'تعداد تراکنش'}</p>
             </div>
           </div>
-          <div style={{direction:"ltr", fontSize:"14px", marginBottom:'-10px'}} className={` amountOption`}>
+          <div style={{direction:"ltr", marginBottom:'-10px'}} className={` amountOption`}>
             {digitsEnToFa(props.data.TrNumber)}
           </div>
         </div>
         <div className='transaction-item'>
           <div className='d-flex option'>
             <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>{'اولین فعالیت'}</p>
+              <p  className='transaction-title'>{'اولین فعالیت'}</p>
             </div>
           </div>
-          <div style={{direction:"ltr", fontSize:"14px", marginBottom:'-10px'}} className={` amountOption`}>
+          <div style={{direction:"ltr", marginBottom:'-10px'}} className={` amountOption`}>
             {digitsEnToFa(props.data.FirstActivity)}
           </div>
         </div>
         <div className='transaction-item'>
           <div className='d-flex option'>
             <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>{'آخرین فعالیت'}</p>
+              <p  className='transaction-title'>{'آخرین فعالیت'}</p>
             </div>
           </div>
-          <div style={{direction:"ltr", fontSize:"14px", marginBottom:'-10px'}} className={` amountOption`}>
+          <div style={{direction:"ltr", marginBottom:'-10px'}} className={` amountOption`}>
             {digitsEnToFa(props.data.LastActivity)}
           </div>
         </div>

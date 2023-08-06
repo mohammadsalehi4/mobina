@@ -4,6 +4,11 @@
   box-shadow: none;
   border-radius: 8px;
 }
+@media only screen and (max-width: 500px) {
+  #rightCard1 {
+    font-size: 13px;
+  }
+}
 #rightCard1 #cardBlockNumber {
   margin-top: -10px;
 }
@@ -22,16 +27,28 @@
 }
 @media only screen and (max-width: 500px) {
   #rightCard1 .cardLink {
-    width: 90%;
-    margin-right: 5%;
-    display: block;
+    font-size: 13px;
   }
 }
 #rightCard1 #cardLink1 {
   margin-right: 0px;
 }
+@media only screen and (max-width: 500px) {
+  #rightCard1 #cardLink1 {
+    width: 100%;
+    margin-right: 0%;
+    display: block;
+  }
+}
 #rightCard1 #cardLink2 {
   margin-right: 6%;
+}
+@media only screen and (max-width: 500px) {
+  #rightCard1 #cardLink2 {
+    width: 100%;
+    margin-right: 0%;
+    display: block;
+  }
 }
 #rightCard1 #showOwner {
   color: white;
@@ -47,13 +64,29 @@
   border-radius: 8px;
   padding: 10px 20px;
 }
+@media only screen and (max-width: 500px) {
+  #rightCard1 h4 {
+    font-size: 18px;
+  }
+}
 
 #leftCard1 {
   margin: 0px;
   box-shadow: none;
+  font-size: 14px;
 }
 #leftCard1 .option {
   margin-bottom: -10px;
+}
+@media only screen and (max-width: 500px) {
+  #leftCard1 {
+    font-size: 12px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  #leftCard1 h4 {
+    font-size: 18px;
+  }
 }
 
 /*# sourceMappingURL=walletdetail.css.map */
