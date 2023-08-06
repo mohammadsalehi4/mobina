@@ -1,42 +1,63 @@
 /* eslint-disable prefer-template */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-// ** React Imports
 import { Fragment, useState, useEffect } from 'react'
 import NiceAddress2 from '../../../components/niceAddress2/niceAddress'
 import './walletdetail.css'
-// ** Reactstrap Imports
 import {
   Card,
-  CardBody,
-  CardText,
   CardTitle,
-  CardSubtitle
+  UncontrolledTooltip
 } from 'reactstrap'
-import { MainSiteGreen, MainSiteOrange, MainSiteRed, MainSiteyellow } from '../../../../public/colors'
-
-// ** Images
+import { MainSiteOrange, MainSiteyellow } from '../../../../public/colors'
 
 const CardContentTypes = (props) => {
-  const [isCleared, setIsCleared] = useState(false)
-  const [change, setIschange] = useState(false)
+  
+  //barchasb ha
+  const [ownerMark, setOwnerMark] = useState(false)
+  const [ownerText, setOwnerText] = useState('')
+  const [addressMark, SetAddressMark] = useState(false)
+  const [addressText, SetAddressText] = useState('')
 
-  const [inputValue, setInputValue] = useState(['تگ اول', 'تگ دوم'])
-  const [showValue, setshowValue] = useState([])
+  //tag
+  const [TagValues, setTagValues] = useState([])
 
-  const handleClick = () => {
+  //messages
+
+  //add new tag
+  const GetTag = () => {
     const userInput = prompt('تگ مورد نظر را وارد کنید:')
-    const a = inputValue
-    a.push(userInput)
-    setInputValue(a)
-    console.log(inputValue)
-    console.log(inputValue.length)
+    setTagValues(prevTags => [...prevTags, userInput])
+    console.log(TagValues)
   }
 
-  useEffect(() => {
-    setshowValue(inputValue)
-    setIschange(!change)
-  }, [, inputValue])
+  //set address mark
+  const getAddressMark = () => {
+    if (addressMark) {
+      SetAddressMark(false)
+      SetAddressText('')
+    } else {
+      const userInput = prompt('برچسب مورد نظر را وارد کنید:')
+      if (userInput) {
+        SetAddressMark(true)
+        SetAddressText(userInput)
+      }
+    }
+  }
+
+  //set owner mark
+  const getOwnerMark = () => {
+    if (ownerMark) {
+      setOwnerMark(false)
+      setOwnerText('')
+    } else {
+      const userInput = prompt('برچسب مورد نظر را وارد کنید:')
+      if (userInput) {
+        setOwnerMark(true)
+        setOwnerText(userInput)
+      }
+    }
+  }
 
   return (
     <Fragment>
@@ -44,14 +65,14 @@ const CardContentTypes = (props) => {
               <CardTitle tag='h4'>
                 آدرس {props.data.name}
                 {
-                  !isCleared ? 
-                    <div style={{display:"inline-block", cursor:"pointer"}} className='me-2'>
-                      <ion-icon onClick={() => { setIsCleared(true) }} style={{marginBottom:"-7px" }} name="bookmark-outline"></ion-icon>
+                  !addressMark ? 
+                    <div style={{display:"inline-block"}} className='me-2'>
+                      <ion-icon onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", cursor:"pointer" }} name="bookmark-outline"></ion-icon>
                     </div>
                   :
                     <div style={{display:"inline-block"}} className='me-2'>
-                      <ion-icon style={{marginBottom:"-7px", color:MainSiteOrange}} name="bookmark"></ion-icon>
-                      <small style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px"}}>برچسب اول</small>
+                      <ion-icon  onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon>
+                      <small style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px"}}>{addressText}</small>
                     </div>
                 }
                 <div style={{float:"left"}} title={"ریسک"}>
@@ -62,7 +83,7 @@ const CardContentTypes = (props) => {
 
               <div className='text-muted mb-1' style={{float:"left", display:"inline-block"}} >
                 <div style={{float:"left"}}>
-                  <div style={{display:"inline-block"}} onClick={handleClick}>
+                  <div style={{display:"inline-block"}} onClick={GetTag}>
                     <ion-icon style={{ borderRadius:"50%", zIndex:2, color:"black", marginRight:"0px", marginTop:"8px", background:MainSiteOrange, fontSize:"8px", cursor:"pointer", position:"absolute"}} name="add-outline"></ion-icon>
                     <ion-icon style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}} name="pricetag-outline"></ion-icon>
                   </div>
@@ -71,7 +92,7 @@ const CardContentTypes = (props) => {
                 </div>
                 <div style={{float:"right"}}>
                   {
-                      showValue.map((item, index) => {
+                      TagValues.map((item, index) => {
                         return (
                           index === 0 ?
                             <div style={{display:"inline-block", marginRight:"0px"}}>
@@ -90,14 +111,14 @@ const CardContentTypes = (props) => {
               <div className="mt-1">
                 <h6 style={{display:"inline-block"}}>مالک:</h6>
                 {
-                  !isCleared ? 
+                  !ownerMark ? 
                     <div style={{display:"inline-block", cursor:"pointer"}} className='me-2'>
-                      <ion-icon onClick={() => { setIsCleared(true) }} style={{marginBottom:"-4px" }} name="bookmark-outline"></ion-icon>
+                      <ion-icon onClick={() => { getOwnerMark() }} style={{marginBottom:"-4px" }} name="bookmark-outline"></ion-icon>
                     </div>
                   :
                     <div style={{display:"inline-block"}} className='me-2'>
-                      <ion-icon style={{marginBottom:"-4px", color:MainSiteOrange}} name="bookmark"></ion-icon>
-                      <small style={{background:MainSiteyellow, fontSize:"10px", padding:"0px 3px", borderRadius:"5px"}}>برچسب دوم</small>
+                      <ion-icon onClick={() => { getOwnerMark() }} style={{marginBottom:"-4px", color:MainSiteOrange}} name="bookmark"></ion-icon>
+                      <small style={{background:MainSiteyellow, fontSize:"10px", padding:"0px 3px", borderRadius:"5px"}}>{ownerText}</small>
                     </div>
                 }
                 <span style={{float:"left"}}>{props.data.owner}<ion-icon name="information-circle-outline" style={{marginBottom:"-6px", marginRight:"3px", fontSize:"18px"}}></ion-icon></span>
@@ -111,14 +132,21 @@ const CardContentTypes = (props) => {
                 <span style={{float:"left", fontSize:"13px"}}><a>{props.data.website}</a></span>
               </div>
               <div className='mt-1'>
-                <button href='/' onClick={e => e.preventDefault()} id='cardLink' style={{borderColor:MainSiteOrange}} className='cardLink1'>
+                <button href='/' onClick={e => e.preventDefault()} className='cardLink' style={{borderColor:MainSiteOrange}} id='cardLink1'>
                   انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
                 </button>
-                <button href='/' onClick={e => e.preventDefault()} id='cardLink' style={{borderColor:MainSiteOrange}} className='cardLink2'>
+                <button href='/' onClick={e => e.preventDefault()} className='cardLink' style={{borderColor:MainSiteOrange}} id='cardLink2'>
                   افزودن به پرونده <ion-icon name="alert-circle-outline"></ion-icon>
                 </button>
+                
+                {/* movaghati baraye noskhe demo */}
+                <UncontrolledTooltip placement='top' target='cardLink1'>
+                  در نسخه دمو قابل انجام نیست!
+                </UncontrolledTooltip>
+                <UncontrolledTooltip placement='top' target='cardLink2'>
+                  در نسخه دمو قابل انجام نیست!
+                </UncontrolledTooltip>
               </div>
-
           </Card>
     </Fragment>
   )

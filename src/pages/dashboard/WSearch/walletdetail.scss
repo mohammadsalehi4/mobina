@@ -7,7 +7,7 @@
         margin-top: -10px;
 
     }
-    #cardLink{
+    .cardLink{
         border-width:2px;
         border-style: solid;
         color: rgb(60, 60, 60);
@@ -25,10 +25,10 @@
             display: block;
         }
     }
-    .cardLink1{
+    #cardLink1{
         margin-right: 0px;
     }
-    .cardLink2{
+    #cardLink2{
         margin-right: 6%;
     }
     #showOwner{

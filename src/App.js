@@ -14,6 +14,7 @@ import Admin from './pages/admin/admin'
 import Owner from './pages/owner/owner'
 import Entities from './pages/entities/entities'
 import Folders from './pages/folders/folders'
+import SingleCase from './components/folders/singleCase/singleCase'
 import './App.css'
 
 const App = () => {
@@ -37,6 +38,8 @@ const App = () => {
             <Route path="/owner"  element={<Owner/>}/>
             <Route path="/entities"  element={<Entities/>}/>
             <Route path="/folders"  element={<Folders/>}/>
+            <Route path="/case"  element={<SingleCase/>}/>
+            
           </Routes>
     </div>
   )

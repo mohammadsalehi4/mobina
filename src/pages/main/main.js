@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable quote-props */
 /* eslint-disable brace-style */
 /* eslint-disable object-shorthand */
 /* eslint-disable prefer-template */
@@ -17,50 +19,28 @@ import '../../app-assets/css-rtl/core/menu/menu-types/vertical-menu.css'
 import '../../app-assets/css-rtl/themes/bordered-layout.css'
 import '../../app-assets/css-rtl/colors.css'
 import './main.css'
+import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 
 const Main = () => {
-    const login = async (event) => {
+    const login = (event) => {
         
         const username = document.getElementById('login_username').value
         const password = document.getElementById('login_password').value
         //save username and password on local database
 
-        //movaghati
-        try {
-            const response = await fetch(serverAddress, {
-     
-                method: "POST",
-                 
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-                })
-                const getData = await response.json()
-                if (getData.success===true) {
-                    if (document.getElementById('remember_me').checked) {
-                        if (username && password) {
-                            localStorage.setItem('username', JSON.stringify(username))
-                            localStorage.setItem('password', JSON.stringify(password))
-                        }
-                    }
-                    window.location.assign('/researcher') 
-                } else {
-                    event.preventDefault()
-                    toast.error('نام کاربری یا رمز عبور اشتباه است!', {
-                        position: 'bottom-left'
-                      })
-                }
-        } catch (error) {
-            toast.error('عدم ارتباط با سرور!', {
-                position: 'bottom-left'
-              })
-        }
+        //movaghat
+        axios.post(serverAddress+"/accounts/api/token/", {
+            username:"admin",
+            password:"admin"
+        })
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
         
     }
     

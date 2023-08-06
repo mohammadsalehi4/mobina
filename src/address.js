@@ -1,1 +1,1 @@
-export const serverAddress = "http://localhost:4002"
+export const serverAddress = "https://panel.pantachain.com"

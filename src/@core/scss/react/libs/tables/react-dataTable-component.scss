@@ -12,16 +12,14 @@
       border-color: #dcdcdc;
       min-height: 0;
       height: 38px;
-
       .rdt_TableCol {
-        padding: 0.72rem 1.5rem;
         .rdt_TableCol_Sortable {
-          color: $body-color;
+        color: $body-color;
           font-weight:bold;
           font-style: 0.857rem;
           letter-spacing: 0.5px;
           text-transform: uppercase;
-          &:hover {
+            &:hover {
             opacity: 1;
           }
           span {
@@ -34,6 +32,7 @@
           }
         }
       }
+
     }
   }
 
@@ -41,13 +40,13 @@
     //yeki dar mian
     .rdt_TableRow:nth-child(even) {
       background: rgb(248, 248, 248);
+      
     }
 
     .rdt_TableRow {
       color: $body-color;
       .rdt_TableCell {
         height: 53px;
-        padding: 0.72rem 1.5rem;
 
         .column-action {
           svg {
@@ -110,7 +109,7 @@
     .rdt_TableHead {
       .rdt_TableHeadRow {
         .rdt_TableCol:not(:first-child) {
-          padding-left: 0.2rem;
+          padding-left: 0rem;
         }
       }
     }
@@ -142,8 +141,6 @@
 .dataTable-select {
   width: 5rem;
   &:not([multiple='multiple']) {
-    margin-left: 0.25rem;
-    margin-right: 0.25rem;
     background-position: calc(100% - 12px) 10px, calc(100% - 20px) 12px, 100% 0;
     background-size: 10px 10px, 10px 10px;
   }

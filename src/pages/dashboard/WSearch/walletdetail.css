@@ -7,7 +7,7 @@
 #rightCard1 #cardBlockNumber {
   margin-top: -10px;
 }
-#rightCard1 #cardLink {
+#rightCard1 .cardLink {
   border-width: 2px;
   border-style: solid;
   color: rgb(60, 60, 60);
@@ -17,24 +17,22 @@
   background: rgb(248, 248, 248);
   margin-top: 10px;
 }
-#rightCard1 #cardLink ion-icon {
+#rightCard1 .cardLink ion-icon {
   margin-bottom: -3px;
 }
 @media only screen and (max-width: 500px) {
-  #rightCard1 #cardLink {
+  #rightCard1 .cardLink {
     width: 90%;
     margin-right: 5%;
     display: block;
   }
 }
-#rightCard1 .cardLink1 {
+#rightCard1 #cardLink1 {
   margin-right: 0px;
 }
-
-#rightCard1 .cardLink2 {
+#rightCard1 #cardLink2 {
   margin-right: 6%;
 }
-
 #rightCard1 #showOwner {
   color: white;
   padding: 10px;

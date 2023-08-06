@@ -149,7 +149,7 @@ function Header() {
                 </li>
 
                   <li id='MenuBottomItem1' class="menu-item thisActive">
-                    <a class="menu-link" href='researcher'>
+                    <a class="menu-link" href='/researcher'>
                       <ion-icon name="locate-outline"></ion-icon>
                       <div data-i18n="Layouts" className='vazir'>کاوشگر</div>
                     </a>

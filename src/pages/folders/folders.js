@@ -1,10 +1,10 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux'
 import MainFolderTable from '../../components/folders/mainFolderTable'
 const Folders = () => {
     const dispatch = useDispatch()
-    
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})
         dispatch({type:"SETWITCHPAGE", value:6})
