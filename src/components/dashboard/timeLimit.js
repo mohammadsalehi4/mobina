@@ -7,7 +7,11 @@ import {
   DropdownToggle,
   UncontrolledButtonDropdown
 } from 'reactstrap'
+import { useDispatch } from "react-redux"
 const TimeLimit = (props) => {
+
+  const dispatch = useDispatch()
+  
   const [min, SetMin] = useState(0)
   const [max, SetMax] = useState(0)
   const [title, SetTitle] = useState('محدوده زمانی')
@@ -28,9 +32,11 @@ const TimeLimit = (props) => {
 
   const setMin = () => {
     SetMin(Number(document.getElementById('GetStartDayValue').value))
+    dispatch({type:"SETSTARTTIME", value:min})
   }
   const setMax = () => {
     SetMax(Number(document.getElementById('GetEndDayValue').value))
+    dispatch({type:"SETENDTIME", value:max})
   }
   return (
     <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%"}}>

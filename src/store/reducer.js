@@ -19,10 +19,45 @@ const initialState = {
     miningMode:0,
 
     //modal
-    basicModal:false
+    basicModal:false,
+
+    //researcher states
+    starttime:0,
+    endtime:0,
+    startAmount:0,
+    endAmount:0
 }
 
 const reducer = (state = initialState, action) => {
+
+
+    //researcher states
+    if (action.type === 'SETSTARTTIME') {
+        return {
+            ...state,
+            starttime:action.value
+        }
+    }
+    if (action.type === 'SETENDTIME') {
+        return {
+            ...state,
+            endtime:action.value
+        }
+    }
+    if (action.type === 'SETSTARTAMOUNT') {
+        return {
+            ...state,
+            startAmount:action.value
+        }
+    }
+    if (action.type === 'SETENDAMOUNT') {
+        return {
+            ...state,
+            endAmount:action.value
+        }
+    }
+
+
     if (action.type === "SETBASICMODAL") {
         return {
             ...state,

@@ -1,3 +1,4 @@
+/* eslint-disable no-tabs */
 /* eslint-disable no-unused-vars */
 import { Fragment, useState, useEffect } from 'react'
 import {
@@ -7,11 +8,15 @@ import {
   DropdownToggle,
   UncontrolledButtonDropdown
 } from 'reactstrap'
+import { useDispatch } from "react-redux"
 const AmountLimit = (props) => {
+
+	const dispatch = useDispatch()
+
   const [min, SetMin] = useState(0)
   const [max, SetMax] = useState(0)
   const [title, SetTitle] = useState('محدوده حجمی')
-
+  
   useEffect(() => {
     let text = ''
     if (min !== 0) {
@@ -28,9 +33,11 @@ const AmountLimit = (props) => {
 
   const setMin = () => {
     SetMin(Number(document.getElementById('GetStartAmountValue').value))
+    dispatch({type:"SETSTARTAMOUNT", value:min})
   }
   const setMax = () => {
     SetMax(Number(document.getElementById('GetEndAmountValue').value))
+    dispatch({type:"SETENDAMOUNT", value:max})
   }
   return (
     <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%"}}>
