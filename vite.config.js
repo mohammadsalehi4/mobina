@@ -20,7 +20,6 @@ export default () => {
         allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
       }
     },
-    
     css: {
       preprocessorOptions: {
         scss: {
