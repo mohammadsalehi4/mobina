@@ -599,6 +599,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@majidh1/jalalidatepicker@^0.9.3":
+  version "0.9.3"
+  resolved "https://registry.npmjs.org/@majidh1/jalalidatepicker/-/jalalidatepicker-0.9.3.tgz"
+  integrity sha512-DSq+licz4c2v+hThGBwTpO21YDzF2Q7T8e4E62bixDq5KC4P+TXKapokn6uCilWaM5/YGwSo66dsbkd0FU8W0w==
+
 "@mui/base@5.0.0-beta.5":
   version "5.0.0-beta.5"
   resolved "https://registry.npmjs.org/@mui/base/-/base-5.0.0-beta.5.tgz"
@@ -3492,6 +3497,11 @@ react-data-table-component@^7.5.2:
   dependencies:
     deepmerge "^4.2.2"
 
+react-date-object@^2.1.5:
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/react-date-object/-/react-date-object-2.1.7.tgz"
+  integrity sha512-810eaGk/xvQBJNncPvhwXaKcSwPRKX48jtY/5U5T1bSUnGFqmBdMvl4EVl76cyzQ8U3KX6hpF6xZ1c0eY9vvJA==
+
 react-datepicker@^4.15.0:
   version "4.15.0"
   resolved "https://registry.npmjs.org/react-datepicker/-/react-datepicker-4.15.0.tgz"
@@ -3531,6 +3541,11 @@ react-dropzone@^14.2.1:
     attr-accept "^2.2.2"
     file-selector "^0.6.0"
     prop-types "^15.8.1"
+
+react-element-popper@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.npmjs.org/react-element-popper/-/react-element-popper-2.1.6.tgz"
+  integrity sha512-8va7mUmrKIkUnaM2t5Dyctd8cjgVgVcrv5vVD0FRay0sN6EPBCKa0bDi1/KmVDAjfgSIn7zQnjtc4VojcGrkgQ==
 
 react-fast-compare@^3.0.1:
   version "3.2.0"
@@ -3602,6 +3617,14 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-multi-date-picker@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.npmjs.org/react-multi-date-picker/-/react-multi-date-picker-4.1.2.tgz"
+  integrity sha512-slpfl4uzXs9mA31WvJQGqbOVbFVUR+dogSya2SEjC2AVvIKPMHf3fAaEmF6OKpgd7NDldlSpfVG7Ubhju/wB8w==
+  dependencies:
+    react-date-object "^2.1.5"
+    react-element-popper "^2.1.6"
 
 react-onclickoutside@^6.12.2:
   version "6.13.0"

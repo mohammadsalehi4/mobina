@@ -21,6 +21,7 @@
         "@fullcalendar/timegrid": "^5.11.0",
         "@fullcalendar/timeline": "^5.11.0",
         "@hookform/resolvers": "^2.8.10",
+        "@majidh1/jalalidatepicker": "^0.9.3",
         "@mui/icons-material": "^5.13.7",
         "@mui/material": "^5.13.6",
         "@mui/styled-engine-sc": "^5.12.0",
@@ -79,6 +80,7 @@
         "react-hook-form": "^7.39.4",
         "react-hot-toast": "^2.4.0",
         "react-i18next": "^12.0.0",
+        "react-multi-date-picker": "^4.1.2",
         "react-paginate": "^8.1.3",
         "react-perfect-scrollbar": "^1.5.8",
         "react-rating": "2.0.5",
@@ -1054,6 +1056,11 @@
         "@jridgewell/resolve-uri": "3.1.0",
         "@jridgewell/sourcemap-codec": "1.4.14"
       }
+    },
+    "node_modules/@majidh1/jalalidatepicker": {
+      "version": "0.9.3",
+      "resolved": "https://registry.npmjs.org/@majidh1/jalalidatepicker/-/jalalidatepicker-0.9.3.tgz",
+      "integrity": "sha512-DSq+licz4c2v+hThGBwTpO21YDzF2Q7T8e4E62bixDq5KC4P+TXKapokn6uCilWaM5/YGwSo66dsbkd0FU8W0w=="
     },
     "node_modules/@mui/base": {
       "version": "5.0.0-beta.5",
@@ -5807,6 +5814,11 @@
         "styled-components": ">= 4"
       }
     },
+    "node_modules/react-date-object": {
+      "version": "2.1.7",
+      "resolved": "https://registry.npmjs.org/react-date-object/-/react-date-object-2.1.7.tgz",
+      "integrity": "sha512-810eaGk/xvQBJNncPvhwXaKcSwPRKX48jtY/5U5T1bSUnGFqmBdMvl4EVl76cyzQ8U3KX6hpF6xZ1c0eY9vvJA=="
+    },
     "node_modules/react-datepicker": {
       "version": "4.15.0",
       "resolved": "https://registry.npmjs.org/react-datepicker/-/react-datepicker-4.15.0.tgz",
@@ -5868,6 +5880,15 @@
       },
       "peerDependencies": {
         "react": ">= 16.8 || 18.0.0"
+      }
+    },
+    "node_modules/react-element-popper": {
+      "version": "2.1.6",
+      "resolved": "https://registry.npmjs.org/react-element-popper/-/react-element-popper-2.1.6.tgz",
+      "integrity": "sha512-8va7mUmrKIkUnaM2t5Dyctd8cjgVgVcrv5vVD0FRay0sN6EPBCKa0bDi1/KmVDAjfgSIn7zQnjtc4VojcGrkgQ==",
+      "peerDependencies": {
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
       }
     },
     "node_modules/react-fast-compare": {
@@ -5973,6 +5994,19 @@
       "version": "3.0.4",
       "resolved": "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz",
       "integrity": "sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA=="
+    },
+    "node_modules/react-multi-date-picker": {
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/react-multi-date-picker/-/react-multi-date-picker-4.1.2.tgz",
+      "integrity": "sha512-slpfl4uzXs9mA31WvJQGqbOVbFVUR+dogSya2SEjC2AVvIKPMHf3fAaEmF6OKpgd7NDldlSpfVG7Ubhju/wB8w==",
+      "dependencies": {
+        "react-date-object": "^2.1.5",
+        "react-element-popper": "^2.1.6"
+      },
+      "peerDependencies": {
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
+      }
     },
     "node_modules/react-onclickoutside": {
       "version": "6.13.0",
@@ -8461,6 +8495,11 @@
         "@jridgewell/resolve-uri": "3.1.0",
         "@jridgewell/sourcemap-codec": "1.4.14"
       }
+    },
+    "@majidh1/jalalidatepicker": {
+      "version": "0.9.3",
+      "resolved": "https://registry.npmjs.org/@majidh1/jalalidatepicker/-/jalalidatepicker-0.9.3.tgz",
+      "integrity": "sha512-DSq+licz4c2v+hThGBwTpO21YDzF2Q7T8e4E62bixDq5KC4P+TXKapokn6uCilWaM5/YGwSo66dsbkd0FU8W0w=="
     },
     "@mui/base": {
       "version": "5.0.0-beta.5",
@@ -11877,6 +11916,11 @@
         "deepmerge": "^4.2.2"
       }
     },
+    "react-date-object": {
+      "version": "2.1.7",
+      "resolved": "https://registry.npmjs.org/react-date-object/-/react-date-object-2.1.7.tgz",
+      "integrity": "sha512-810eaGk/xvQBJNncPvhwXaKcSwPRKX48jtY/5U5T1bSUnGFqmBdMvl4EVl76cyzQ8U3KX6hpF6xZ1c0eY9vvJA=="
+    },
     "react-datepicker": {
       "version": "4.15.0",
       "resolved": "https://registry.npmjs.org/react-datepicker/-/react-datepicker-4.15.0.tgz",
@@ -11920,6 +11964,11 @@
         "file-selector": "^0.6.0",
         "prop-types": "^15.8.1"
       }
+    },
+    "react-element-popper": {
+      "version": "2.1.6",
+      "resolved": "https://registry.npmjs.org/react-element-popper/-/react-element-popper-2.1.6.tgz",
+      "integrity": "sha512-8va7mUmrKIkUnaM2t5Dyctd8cjgVgVcrv5vVD0FRay0sN6EPBCKa0bDi1/KmVDAjfgSIn7zQnjtc4VojcGrkgQ=="
     },
     "react-fast-compare": {
       "version": "3.2.0",
@@ -11986,6 +12035,15 @@
       "version": "3.0.4",
       "resolved": "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz",
       "integrity": "sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA=="
+    },
+    "react-multi-date-picker": {
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/react-multi-date-picker/-/react-multi-date-picker-4.1.2.tgz",
+      "integrity": "sha512-slpfl4uzXs9mA31WvJQGqbOVbFVUR+dogSya2SEjC2AVvIKPMHf3fAaEmF6OKpgd7NDldlSpfVG7Ubhju/wB8w==",
+      "requires": {
+        "react-date-object": "^2.1.5",
+        "react-element-popper": "^2.1.6"
+      }
     },
     "react-onclickoutside": {
       "version": "6.13.0",

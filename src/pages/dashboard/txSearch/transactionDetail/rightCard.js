@@ -2,7 +2,7 @@
 import { Fragment } from 'react'
 import { digitsEnToFa } from 'persian-tools'
 import NiceAddress2 from '../../../../components/niceAddress2/niceAddress'
-import './transactionDetail.css'
+import './transactiondetail.css'
 // ** Reactstrap Imports
 import {
   Card,

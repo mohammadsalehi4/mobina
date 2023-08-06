@@ -1,5 +1,5 @@
 /* eslint-disable multiline-ternary */
-import './transactionDetail.css'
+import './transactiondetail.css'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import Switch from '../switch/switch'
 import { digitsEnToFa } from 'persian-tools'
