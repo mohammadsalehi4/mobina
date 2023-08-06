@@ -8,9 +8,9 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap'
 import { useDispatch } from "react-redux"
-import DatePicker from "react-multi-date-picker"
-import persian from "react-date-object/calendars/persian"
-import persian_fa from "react-date-object/locales/persian_fa"
+// import DatePicker from "react-multi-date-picker"
+// import persian from "react-date-object/calendars/persian"
+// import persian_fa from "react-date-object/locales/persian_fa"
 
 const TimeLimit = (props) => {
 
@@ -49,7 +49,7 @@ const TimeLimit = (props) => {
     </DropdownToggle>
     <DropdownMenu style={{padding:"5px 10px"}}>
         <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
-        <DatePicker
+        {/* <DatePicker
             calendar={persian}
             locale={persian_fa}
             placeholder='بدون محدودیت'
@@ -57,9 +57,9 @@ const TimeLimit = (props) => {
             style={{
               height:"40px"
             }}
-        />
+        /> */}
         <Label style={{float:"right"}} className='mt-1 mb-1'>تا</Label>
-        <DatePicker
+        {/* <DatePicker
             calendar={persian}
             locale={persian_fa}
             calendarPosition="bottom-right"
@@ -67,7 +67,7 @@ const TimeLimit = (props) => {
             style={{
               height:"40px"
             }}
-        />
+        /> */}
 
     </DropdownMenu>
   </UncontrolledButtonDropdown>
