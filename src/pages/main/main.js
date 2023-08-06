@@ -22,7 +22,6 @@ import './main.css'
 
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
-
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'

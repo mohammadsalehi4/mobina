@@ -1,7 +1,7 @@
 /* eslint-disable array-bracket-newline */
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import OwnerGraph from '../../components/ownerGraph/graph'
+// import OwnerGraph from '../../components/ownerGraph/graph'
 import OwnerList from '../../components/ownerList/ownerList'
 import OwnerListRight from '../../components/ownerListRight/ownerList'
 import Select from 'react-select'
@@ -172,7 +172,7 @@ const Owner = () => {
                     <h6 style={{position:"absolute", top:"330px", marginRight:"10px"}}>دریافت شده: 293,238,986.910 <small>ETH</small></h6>
 
                     <OwnerListRight/>
-                    <OwnerGraph/>
+                    {/* <OwnerGraph/> */}
                     <OwnerList/>
                 </div>
             </div>

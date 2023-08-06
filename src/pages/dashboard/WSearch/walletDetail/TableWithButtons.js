@@ -3,7 +3,8 @@
 import { Fragment, useState, forwardRef, useEffect } from 'react'
 import './style.css'
 import Pickers from '../../../../views/forms/form-elements/datepicker'
-import ReactPaginate from 'react-paginate'
+import AmountLimit from '../../../../components/dashboard/amountLimit'
+import TimeLimit from '../../../../components/dashboard/timeLimit'
 import DataTable from 'react-data-table-component'
 import NiceAddress from '../../../../components/niceAddress/niceAddress'
 import { ChevronDown, Share, Printer, FileText, File, Grid, Copy, Plus } from 'react-feather'
@@ -119,19 +120,12 @@ const DataTableWithButtons = (props) => {
           <div className='container-fluid'>
             <div className='row'>
               <div className='col-lg-3'>
-                <Pickers/>
+                <TimeLimit/>
               </div>
               <div className='col-lg-3'>
-                <label for="customRange1" class="form-label">حداقل انتقال</label>
-                <form class="multi-range-field">
-                  <input placeholder='بدون محدودیت' id="multi" class="multi-range" type="number" style={{width:"100%", height:"37px", borderRadius:"5px", borderWidth:"1px", borderColor:"rgb(215,215,215)", borderStyle:"solid", paddingRight:"15px"}}/>
-                </form>
+                <AmountLimit/>
               </div>
               <div className='col-lg-3'>
-                <label for="customRange1" class="form-label">حداکثر انتقال</label>
-                <form class="multi-range-field">
-                  <input placeholder='بدون محدودیت' id="multi" class="multi-range" type="number" style={{width:"100%", height:"37px", borderRadius:"5px", borderWidth:"1px", borderColor:"rgb(215,215,215)", borderStyle:"solid", paddingRight:"15px"}}/>
-                </form>
               </div>
               <div className='col-lg-3'>
               </div>
