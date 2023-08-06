@@ -12,6 +12,7 @@ export default () => {
       global: 'globalThis'
     },
     server: {
+      host: '0.0.0.0',
       port: 3000,
       proxy: 'https://pixinvent.com/',
       cors: {
