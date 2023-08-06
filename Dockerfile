@@ -1,4 +1,4 @@
-FROM node:18.16.1-alpine3.18
+FROM node:18.16.1-bullseye
 
 RUN addgroup app && adduser -S -G app app
 USER app
