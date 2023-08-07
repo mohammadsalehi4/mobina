@@ -10,6 +10,7 @@ RUN npm install --legacy-peer-deps
 
 # Copy the rest of the application to the container
 COPY . .
+RUN npm run build
 
 # Specify the command to run when the container starts
-CMD ["npm", "start"]
+CMD ["npm", "run", "preview"]

@@ -2901,7 +2901,7 @@ lodash.once@^4.0.0:
   resolved "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz"
   integrity sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==
 
-lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.21:
+lodash@^4.17.11, lodash@^4.17.19, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -3566,17 +3566,6 @@ react-flatpickr@^3.10.12:
   dependencies:
     flatpickr "^4.6.2"
     prop-types "^15.5.10"
-
-react-graph-vis@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/react-graph-vis/-/react-graph-vis-1.0.7.tgz"
-  integrity sha512-FI35zlBMKU22JEvG1ukd1DDwW185y4YrDvHm6Bom9EGdA+UNMrZrIV/lyPIRWPcRkzbKaA1w1NvOYcRApD4KdQ==
-  dependencies:
-    lodash "^4.17.15"
-    prop-types "^15.5.10"
-    uuid "^2.0.1"
-    vis-data "^7.1.2"
-    vis-network "^9.0.0"
 
 react-hook-form@^7.39.4:
   version "7.39.5"
@@ -4492,21 +4481,6 @@ util-deprecate@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
-
-uuid@^2.0.1:
-  version "2.0.3"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-2.0.3.tgz"
-  integrity sha512-FULf7fayPdpASncVy4DLh3xydlXEJJpvIELjYjNeQWYUZ9pclcpvCZSr2gkmN2FrrGcI7G/cJsIEwk5/8vfXpg==
-
-vis-data@^7.1.2:
-  version "7.1.6"
-  resolved "https://registry.npmjs.org/vis-data/-/vis-data-7.1.6.tgz"
-  integrity sha512-lG7LJdkawlKSXsdcEkxe/zRDyW29a4r7N7PMwxCPxK12/QIdqxJwcMxwjVj9ozdisRhP5TyWDHZwsgjmj0g6Dg==
-
-vis-network@^9.0.0:
-  version "9.1.6"
-  resolved "https://registry.npmjs.org/vis-network/-/vis-network-9.1.6.tgz"
-  integrity sha512-Eiwx1JleAsUqfy4pzcsFngCVlCEdjAtRPB/OwCV7PHBm+o2jtE4IZPcPITAEGUlxvL4Fdw7/lZsfD32dL+IL6g==
 
 vis@^4.21.0-EOL:
   version "4.21.0-EOL"

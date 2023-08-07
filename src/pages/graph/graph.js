@@ -68,6 +68,31 @@ const GraphDraw = () => {
       }
     ])
 
+    // events: {
+    //   select: ({ nodes }) => {
+    //     for (let i = 0; i < state.graph.nodes.length; i++) {
+    //       if (state.graph.nodes[i].id === nodes[0]) {
+    //         if (state.graph.nodes[i].group === 'main') {
+    //           dispatch({type:"SETshowWalletData", value:true})
+    //           dispatch({type:"SETWDetail", value:WalletData})
+    //         }
+    //         if (state.graph.nodes[i].group === 'senderMain') {
+    //           dispatch({type:"SETshowWalletData", value:true})
+    //           dispatch({type:"SETWDetail", value:WalletData})
+    //         }
+    //         if (state.graph.nodes[i].group === 'reciverMain') {
+    //           dispatch({type:"SETshowWalletData", value:true})
+    //           dispatch({type:"SETWDetail", value:WalletData})
+    //         }
+    //         if (state.graph.nodes[i].group === 'middle') {
+    //           dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
+    //           dispatch({type:"SETWDetail", value:WalletData})
+    //         }
+    //       }
+    //     }
+    //   }
+
+
     const edges = new DataSet([
       { from: 2, to: -1 },
       { from: 3, to: -1 },
@@ -87,6 +112,7 @@ const GraphDraw = () => {
     layout: {
       hierarchical: false
     },
+
 
     edges: {
         color: "#000000",
@@ -125,9 +151,9 @@ const GraphDraw = () => {
         }
     },
     interaction: {
-      selectable: true,
-      hover: false,
-      hoverConnectedEdges: false
+        selectable: true,
+        hover: false,
+        hoverConnectedEdges: false
     },
     groups: {
         //گره های واسط
@@ -193,6 +219,16 @@ const GraphDraw = () => {
     }
 
     const network = new Network(networkRef.current, data, options)
+    network.on("click", function(params) {
+        // پیدا کردن شناسه گره‌ای که روی آن کلیک شده
+        const nodeId = params.nodes[0];
+        if (nodeId) {
+          // دریافت اطلاعات گره از طریق شناسه آن
+          const clickedNode = nodes.get(nodeId);
+          // نمایش برچسب گره در یک پیام
+          alert(`Clicked node label: ${clickedNode.label}`);
+        }
+    });
   }, [])
 
   return <div ref={networkRef} style={{height:"700px", width:"100%" }}></div>
@@ -200,350 +236,3 @@ const GraphDraw = () => {
 
 export default GraphDraw
 
-// import Graph from "react-graph-vis"
-// import React, { useState } from "react"
-// import { useDispatch } from "react-redux"
-// // eslint-disable-next-line no-duplicate-imports
-// import { useSelector } from "react-redux"
-// const GraphDraw = (props) => {
-//   const States = useSelector(state => state)
-//   const dispatch = useDispatch()
-//   const WalletData = {
-//     address:"bc1qt96tjcgx4evjhklg2g7829lp2wxwvuv8r4dljz",
-//     in:[
-//         {
-//             address:"wqdugwygqweuifgwuaysbgauskdbguksdfguaskdgfuakjsdfa",
-//             date:"2021/01/12",
-//             time:"14:25",
-//             amount:0.001785
-//         },
-//         {
-//             address:"sdafuisdgfuasydgbfusadybfcjsfadbausdgfsakjdgfjasdfkj",
-//             date:"2022/11/17",
-//             time:"18:45",
-//             amount:2.98
-//         }
-//     ],
-//     out:[
-//         {
-//             address:"sdufgsadujfgsajkdgfasudygfasjkdfbajksdgfjsdhjbsjgdf",
-//             date:"2021/01/16",
-//             time:"17:23",
-//             amount:0.26
-//         },
-//         {
-//             address:"SAKDNasuduiASDGASUGDFAUSDGFSDJGjhsgdfkjdsgjfksgadkjf",
-//             date:"2022/09/12",
-//             time:"19:35",
-//             amount:1.19
-//         },
-//         {
-//             address:"sdfsdabfjkasdgfsgadfjkasdgfjsbsadkjgfsbfaskjdfbsjdfds",
-//             date:"2023/06/22",
-//             time:"09:23",
-//             amount:1.11
-//         }
-//     ]
-// }
-
-//   const [state] = useState({
-
-//     counter: 5,
-//     _graph: {
-//       nodes: [
-//         {
-//           id: 1,
-//           group: "main",
-//           label: "...bc1qt96",
-//           x: 0,
-//           y: 800
-//         },
-//         {
-//           id: -2,
-//           group: "senderMain",
-//           label: "...bc1qlc6",
-//           x: 300,
-//           y: 800
-//         },
-//         {
-//           id: -3,
-//           group: "senderMain",
-//           label: "...bc1qyfj",
-//           x: 300,
-//           y: 720
-//         },
-//         {
-//           id: 2,
-//           group: "middle",
-//           x: -150,
-//           y: 801,
-//           fixed: true
-//         },
-//         {
-//           id: -1,
-//           group: "middle",
-//           x: 150,
-//           y: 799,
-//           fixed: true
-//         },
-//         {
-//           id: 3,
-//           label: "...bc1q7cy",
-//           group: "reciverMain",
-//           x: -300,
-//           y: 802
-//         },
-//         {
-//           id: 4,
-//           label: "...bc1qwfu",
-//           group: "reciverMain",
-//           x: -300,
-//           y: 720
-//         },
-//         {
-//           id: 5,
-//           label: "...bc1qpdt",
-//           group: "reciverMain",
-//           x: 0,
-//           y: 720
-//         }
-//       ],
-//       edges: [
-//         {
-//           from: 1,
-//           to: 2,
-//           label: "2520$",
-//           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
-//           color: { color: '#000000', highlight: '#00ff00' },
-//           strokeWidth: 2,
-//           color: "#2f4f4f",
-//           shadow: true,
-//           fixed: true,
-//           smooth: true
-//         },
-//         {
-//           from: 2,
-//           to: 3,
-//           label: "1520$",
-//           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
-//           color: { color: '#000000', highlight: '#00ff00' },
-//           strokeWidth: 2,
-//           color: "#2f4f4f",
-//           shadow: true,
-//           fixed: true,
-//           smooth: true
-//         },
-//         {
-//           from: 2,
-//           to: 4,
-//           label: "1000$",
-//           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
-//           color: { color: '#000000', highlight: '#00ff00' },
-//           strokeWidth: 2,
-//           color: "#2f4f4f",
-//           shadow: true,
-//           fixed: true,
-//           smooth: true
-//         },
-//         {
-//           from: -1,
-//           to: 1,
-//           label: "500$",
-//           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
-//           color: { color: '#000000', highlight: '#00ff00' },
-//           strokeWidth: 2,
-//           color: "#2f4f4f",
-//           shadow: true,
-//           fixed: true,
-//           smooth: true
-//         },
-//         {
-//           from: -2,
-//           to: -1,
-//           label: "300$",
-//           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
-//           color: { color: '#000000', highlight: '#00ff00' },
-//           strokeWidth: 2,
-//           color: "#2f4f4f",
-//           shadow: true,
-//           fixed: true,
-//           smooth: true
-//         },
-
-//         {
-//           from: -3,
-//           to: -1,
-//           label: "700$",
-//           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal', borderWidth: 2, borderColor:"black" },
-//           color: { color: '#000000', highlight: '#00ff00' },
-//           strokeWidth: 2,
-//           color: "#2f4f4f",
-//           shadow: true,
-//           fixed: true,
-//           smooth: true
-//         },
-//         {
-//           from: -1,
-//           to: 5,
-//           label: "500$",
-//           font: {padding: 11, strokeWidth: 2, size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
-//           color: { color: '#000000', highlight: '#00ff00' },
-//           strokeWidth: 2,
-//           color: "#2f4f4f",
-//           shadow: true,
-//           fixed: true,
-//           smooth: true
-//         }
-//       ]
-//     },
-//     get graph() {
-//       return this._graph
-//     },
-//     set graph(value) {
-//       this._graph = value
-//     },
-//     events: {
-//       select: ({ nodes }) => {
-//         for (let i = 0; i < state.graph.nodes.length; i++) {
-//           if (state.graph.nodes[i].id === nodes[0]) {
-//             if (state.graph.nodes[i].group === 'main') {
-//               dispatch({type:"SETshowWalletData", value:true})
-//               dispatch({type:"SETWDetail", value:WalletData})
-//             }
-//             if (state.graph.nodes[i].group === 'senderMain') {
-//               dispatch({type:"SETshowWalletData", value:true})
-//               dispatch({type:"SETWDetail", value:WalletData})
-//             }
-//             if (state.graph.nodes[i].group === 'reciverMain') {
-//               dispatch({type:"SETshowWalletData", value:true})
-//               dispatch({type:"SETWDetail", value:WalletData})
-//             }
-//             if (state.graph.nodes[i].group === 'middle') {
-//               dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
-//               dispatch({type:"SETWDetail", value:WalletData})
-//             }
-//           }
-//         }
-//       }
-
-//     }
-//   })
-
-  
-//   const options = {
-//     layout: {
-//       hierarchical: false
-//     },
-
-//     edges: {
-//       color: "#000000",
-//       width:1.2,
-//       border: {
-//         color: "String",
-//         width: "Number",
-//         style: "String"
-//       },
-//       smooth: {
-//         type: "cubicBezier",
-        
-//         roundness: 0.4
-//       },
-//       font: { align: "horizontal", size:10 },
-//       strokeWidth: 2,
-//       arrows: {
-//         to: {
-//             enabled: true
-//         }
-//       }
-//     },
-//     nodes:{
-//         borderWidth:1,
-//         color: {
-//             border: "white",
-//             background:"white"
-//           },
-//         size:15,
-//         font:{
-            
-//         }
-//     },
-//     interaction: {
-//       selectable: true,
-//       hover: false,
-//       hoverConnectedEdges: false
-//     },
-//     groups: {
-//         //گره های واسط
-//         middle:{
-//           shape:'dot',
-//           size:6,
-//           font: { size: 3, family:"Arial", color:'#2f4f4f'  },
-//           color:{
-//               border: '#2f4f4f',
-//               background:'#2f4f4f',
-//               highlight: {
-//                 background: '#2f4f4f',
-//                 border: '#2f4f4f'
-//               }
-//           },
-//           borderWidth: 0,
-//           borderColor:"#2f4f4f"
-
-//         },
-//         //گره اصلی
-//         main:{
-//           font: { size: 13, family:"Arial", color:'#2f4f4f' },
-//           color:{
-//               border: '#2f4f4f'
-//           },
-//           borderWidth: 3,
-//           align: 'horizontal',
-//           image:"/images/location.png",
-//           borderColor:"#2f4f4f",            
-//           fixed:true,
-//           shape:'circularImage'
-//         },
-//         //فرستنده ها
-//         senderMain:{
-//           font: { size: 13, family:"Arial", color:'#2f4f4f'  },
-//           color:{
-//               border: '#2f4f4f'
-//           },
-//           borderWidth: 3,
-//           align: 'horizontal',
-//           image:"/images/greenLocation.png",
-//           borderColor:"#2f4f4f",            
-//           fixed:true,
-//           shape:'circularImage'
-//         },
-//         //گیرنده ها
-//         reciverMain:{
-//           font: { size: 13, family:"Arial", color:'#2f4f4f'  },
-//           color:{
-//               border: '#2f4f4f'
-//           },
-//           borderWidth: 3,
-//           align: 'horizontal',
-//           image:"/images/redLocation.png",
-//           borderColor:"#2f4f4f",            
-//           fixed:true,
-//           shape:'circularImage'
-//         },
-//         eStyle:{
-
-//         }
-//       }
-//   }
-
-//   const { graph, events } = state
-//   console.log(document.getElementById("mynetwork"))
-  
-//   return (
-//     <div id="mynetwork">
-//       <Graph id="hello" graph={graph} options={options} events={events} style={{height:"700px", width:"100%" }}/>
-//     </div>
-//   )
-
-// }
-
-// export default GraphDraw
