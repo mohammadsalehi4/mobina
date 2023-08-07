@@ -5,8 +5,47 @@
 // eslint-disable-next-line no-duplicate-imports
 import React, { useRef, useEffect } from "react"
 import { DataSet, Network } from 'vis'
+import { useSelector, useDispatch } from "react-redux"
+  const WalletData = {
+    address:"bc1qt96tjcgx4evjhklg2g7829lp2wxwvuv8r4dljz",
+    in:[
+        {
+            address:"wqdugwygqweuifgwuaysbgauskdbguksdfguaskdgfuakjsdfa",
+            date:"2021/01/12",
+            time:"14:25",
+            amount:0.001785
+        },
+        {
+            address:"sdafuisdgfuasydgbfusadybfcjsfadbausdgfsakjdgfjasdfkj",
+            date:"2022/11/17",
+            time:"18:45",
+            amount:2.98
+        }
+    ],
+    out:[
+        {
+            address:"sdufgsadujfgsajkdgfasudygfasjkdfbajksdgfjsdhjbsjgdf",
+            date:"2021/01/16",
+            time:"17:23",
+            amount:0.26
+        },
+        {
+            address:"SAKDNasuduiASDGASUGDFAUSDGFSDJGjhsgdfkjdsgjfksgadkjf",
+            date:"2022/09/12",
+            time:"19:35",
+            amount:1.19
+        },
+        {
+            address:"sdfsdabfjkasdgfsgadfjkasdgfjsbsadkjgfsbfaskjdfbsjdfds",
+            date:"2023/06/22",
+            time:"09:23",
+            amount:1.11
+        }
+    ]
+}
 const GraphDraw = () => {
   const networkRef = useRef(null)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const nodes = new DataSet([
@@ -226,7 +265,22 @@ const GraphDraw = () => {
           // دریافت اطلاعات گره از طریق شناسه آن
           const clickedNode = nodes.get(nodeId);
           // نمایش برچسب گره در یک پیام
-          alert(`Clicked node label: ${clickedNode.label}`);
+            if (clickedNode.group === 'main') {
+                dispatch({type:"SETshowWalletData", value:true})
+                dispatch({type:"SETWDetail", value:WalletData})
+            }
+            if (clickedNode.group === 'sender') {
+                dispatch({type:"SETshowWalletData", value:true})
+                dispatch({type:"SETWDetail", value:WalletData})
+            }
+            if (clickedNode.group === 'reciver') {
+                dispatch({type:"SETshowWalletData", value:true})
+                dispatch({type:"SETWDetail", value:WalletData})
+            }
+            if (clickedNode.group === 'mid') {
+                dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
+                dispatch({type:"SETWDetail", value:WalletData})
+            }
         }
     });
   }, [])
