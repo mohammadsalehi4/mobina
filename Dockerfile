@@ -13,7 +13,10 @@ RUN npm install --legacy-peer-deps
 # Copy the rest of the application to the container
 COPY . .
 
-RUN npm run build -- --max-old-space-size=8192
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+RUN export NODE_OPTIONS="--max-old-space-size=8192"
+
+RUN npm run build
 
 # Specify the command to run when the container starts
 CMD ["npm", "run", "preview"]

@@ -5,7 +5,6 @@ const initialState = {
     witchPage:1,
     isAdmin:true,
     notifNumber:0,
-    // showAdminAccessBox:false,
     
     //tracker
     showTransactionData:false,
@@ -25,11 +24,21 @@ const initialState = {
     starttime:0,
     endtime:0,
     startAmount:0,
-    endAmount:0
+    endAmount:0,
+
+    //Loadin-All
+    isLoading:false
 }
 
 const reducer = (state = initialState, action) => {
 
+    //loading effect
+    if (action.type === 'SETISLOADING') {
+        return {
+            ...state,
+            isLoading:action.value
+        }
+    }
 
     //researcher states
     if (action.type === 'SETSTARTTIME') {

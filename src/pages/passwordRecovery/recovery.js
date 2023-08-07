@@ -65,9 +65,6 @@ const Recovery = () => {
                     <div class="content-body">
                         <div class="auth-wrapper auth-cover">
                             <div class="auth-inner row m-0">
-                                <a class="brand-logo" href="/">
-                                    <h2 class="brand-text text-primary ms-1 vazir text-decoration-none">پنتا</h2>
-                                </a>
                                 <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5" id='login_form_content'>
                                     <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
                                         <h3 class="card-title fw-bold mb-1 gray">نام کاربری خود را وارد کنید.</h3>

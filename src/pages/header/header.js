@@ -105,12 +105,6 @@ function Header() {
                   </a>
                 </li>
 
-                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-1">
-                  <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
-                    <ion-icon name="moon-outline" className="topHeaderIcon"></ion-icon>
-                  </a>
-                </li>
-
                 <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1">
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
                     <ion-icon name="notifications-outline" className="topHeaderIcon"></ion-icon>

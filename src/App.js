@@ -1,6 +1,9 @@
-import React from 'react'
+/* eslint-disable no-unused-vars */
+import React, {useEffect, useState} from 'react'
 import { useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"
+import jwt from 'jsonwebtoken'
+import Cookies from 'js-cookie'
 import EcommerceDashboard from '../src/pages/dashboard/index'
 import Main from '../src/pages/main/main'
 import Header from '../src/pages/header/header'
