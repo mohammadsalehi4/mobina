@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react'
 // import { useParams } from "react-router-dom"
 import './tracker.css'
-// import GraphDraw from '../graph/graph'
+import GraphDraw from '../graph/graph'
 import CurrencyDetail from './CurrencyDetail'
 import TransactionDetail1 from './TransactionDetail'
 import VisualizationDetail from './visualizationDetail'
@@ -27,7 +27,7 @@ const Tracker = () => {
     return (
         <div id='TransactionPage'>
             <TopGuide/>
-            {/* <GraphDraw address="address"/> */}
+            <GraphDraw address="address"/>
             {
                 States.showWalletData ? <CurrencyDetail/> : null
             }
