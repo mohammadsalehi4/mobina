@@ -1,3 +1,5 @@
+/* eslint-disable prefer-template */
+/* eslint-disable space-infix-ops */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 import { Fragment, useState, forwardRef, useEffect } from 'react'
@@ -10,18 +12,10 @@ import NiceAddress from '../../../../components/niceAddress/niceAddress'
 import { ChevronDown, Share, Printer, FileText, File, Grid, Copy, Plus } from 'react-feather'
 
 import {
-  Row,
-  Col,
   Card,
   Input,
-  Label,
-  Button,
   CardTitle,
-  CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledButtonDropdown
+  CardHeader
 } from 'reactstrap'
 import { MainSiteGray, MainSiteGreen } from '../../../../../public/colors'
 
@@ -108,9 +102,8 @@ const DataTableWithButtons = (props) => {
       }
     }
     SetShowData(filteredData)
-    console.log(filteredData)
-    console.log(props.data.LastTransactions)
   }, [, numberOfShow])
+
 
   return (
     <Fragment>

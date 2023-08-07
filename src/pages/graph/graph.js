@@ -259,12 +259,9 @@ const GraphDraw = () => {
 
     const network = new Network(networkRef.current, data, options)
     network.on("click", function(params) {
-        // پیدا کردن شناسه گره‌ای که روی آن کلیک شده
         const nodeId = params.nodes[0];
         if (nodeId) {
-          // دریافت اطلاعات گره از طریق شناسه آن
           const clickedNode = nodes.get(nodeId);
-          // نمایش برچسب گره در یک پیام
             if (clickedNode.group === 'main') {
                 dispatch({type:"SETshowWalletData", value:true})
                 dispatch({type:"SETWDetail", value:WalletData})
