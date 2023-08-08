@@ -1,26 +1,20 @@
 #rightCard1{
     box-sizing: border-box;
-    background: rgb(248, 248, 248);
     box-shadow: none;
     border-radius: 8px;
     @media only screen and (max-width:500px) {
         font-size: 13px;
     }
-    #cardBlockNumber{
-        margin-top: -10px;
-
-    }
     .cardLink{
-        border-width:2px;
-        border-style: solid;
-        color: rgb(60, 60, 60);
+        border-style: none;
+        color: white;
         padding: 8px 12px;
         border-radius: 8px;
         ion-icon{
             margin-bottom: -3px;
         }
         width: 47%;
-        background: rgb(248, 248, 248);
+        background: "white";
         margin-top: 10px;
         @media only screen and (max-width:500px) {
             font-size: 13px;
@@ -40,26 +34,6 @@
             width: 100%;
             margin-right: 0%;
             display: block;
-        }
-    }
-
-    #showOwner{
-        color: white;
-        padding: 10px;
-        border-radius: 8px;
-        margin-top: 10px;
-        button{
-            display: block;
-            margin-top: 8px;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 8px;
-            padding: 10px 20px;
-        }
-    }
-    h4{
-        @media only screen and (max-width:500px) {
-            font-size: 18px;
         }
     }
 }

@@ -80,7 +80,7 @@ const Walletdetail = () => {
   }
 
   return (
-    <div className='container-fluid bg-white mt-5' style={{borderRadius:"8px", boxSizing:"border-box"}}>
+    <div className='container-fluid mt-5' style={{borderRadius:"8px", boxSizing:"border-box", background:"rgb(248,248,248)"}}>
         <div className='row ' style={{borderRadius:"8px"}}>
           <div className='col-lg-6'>
             <CardContentTypes data={data}/>
@@ -91,7 +91,7 @@ const Walletdetail = () => {
         </div>
         <div className='row'>
           <div className='col-lg-12'>
-            <div className='row mt-3'>
+            <div className='row'>
               <div className='col-lg-12'>
                 <DataTableWithButtons data={data}/>
               </div>

@@ -61,7 +61,7 @@ const App = () => {
             <Route path="/tax/:txid"  element={<Demo/>}/>
             <Route path="/admin"  element={<Admin/>}/>
             <Route path="/owner"  element={<Demo/>}/>
-            <Route path="/entities"  element={<Demo/>}/>
+            <Route path="/entities"  element={<Entities/>}/>
             <Route path="/folders"  element={<Demo/>}/>
             <Route path="/case"  element={<Demo/>}/>
             <Route path="/demo"  element={<Demo/>}/>

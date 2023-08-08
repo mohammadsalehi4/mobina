@@ -107,10 +107,10 @@ const DataTableWithButtons = (props) => {
 
   return (
     <Fragment>
-      <Card  style={{boxShadow:"none", borderStyle:"solid", borderWidth:"2px", borderColor:"rgb(210,210,210)"}}>
+      <Card  style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom' id="mainTable">
           <CardTitle tag='h3' id="CardTitle">آخرین تراکنش ها<img src={props.data.image} style={{ marginTop:"-10px", float:"left"}}/></CardTitle>
-          <div className='container-fluid'>
+          <div style={{width:"100%"}}>
             <div className='row'>
               <div className='col-lg-3'>
                 <TimeLimit/>

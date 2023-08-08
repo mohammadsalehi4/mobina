@@ -9,6 +9,7 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap'
 import { useDispatch } from "react-redux"
+import {Filter, ChevronDown} from 'react-feather'
 const AmountLimit = (props) => {
 
 	const dispatch = useDispatch()
@@ -42,7 +43,11 @@ const AmountLimit = (props) => {
   return (
     <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%"}}>
     <DropdownToggle color='secondary' id='TaxLimitButton' outline>
-      <span  className='align-middle ms-50'>{title}</span>
+      <span  className='align-middle ms-50'>
+        <Filter size={14} style={{marginLeft:"8px"}} />
+        {title}
+        <ChevronDown size={15} style={{marginRight:"8px"}} />
+      </span>
     </DropdownToggle>
     <DropdownMenu style={{padding:"5px 10px"}}>
         <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
