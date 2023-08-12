@@ -29,9 +29,14 @@ const EcommerceDashboard = () => {
     if (inputValue.length === 66) {
       axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`)
       .then((response) => {
-        SetLoading(false)
-        SetTrData(response.data)
-        SetMode(1)
+        if (response.data.blockHash) {
+          SetLoading(false)
+          console.log(response.data)
+          SetTrData(response.data)
+          SetMode(1)
+        } else {
+          SetLoading(false)
+        }
       })
       .catch(err => {
         SetLoading(false)
