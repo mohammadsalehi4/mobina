@@ -30,7 +30,7 @@ const Switch = (props) => {
         dispatch({type:props.specialProps, value:index})
     }
   return (
-    <div id='switch11'>
+    <div id='switch11' style={{display:"inline-block", float:"left"}}>
         {
             props.options.map((item, index) => {
                 return (

@@ -4,139 +4,137 @@ import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import Switch from '../switch/switch'
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector } from "react-redux"
+import {ArrowDownCircle, ArrowUpCircle, AlertOctagon, Calendar} from 'react-feather'
 const CardTransactions = (props) => {
 
   const renderTransactions = () => {
     const States = useSelector(state => state)
     return (
       <div>
-        <div className='transaction-item'>
-          <div className='d-flex option'>
-            <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>شماره بلاک</p>
-            </div>
-          </div>
-          <div className={` amountOption`} style={{direction:"ltr", fontSize:"14px"}}>{digitsEnToFa(props.data.blockNumber)}</div>
-        </div>
 
-        <div className='transaction-item'>
-          <div className='d-flex option'>
-            <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>مجموع ورودی</p>
-            </div>
+        <div className='row mt-3'>
+          <div className='col-6'>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'شماره بلاک'}</p>
+              <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                {digitsEnToFa(props.data.blockNumber)}
+                <AlertOctagon size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+              </div>
           </div>
-          <div className={` amountOption`} style={{direction:"ltr", fontSize:"14px"}}>
-            {
-                States.TransactionDetailCurrencyMode === 0 ?
-              
-                digitsEnToFa(props.data.TotalInput)
-              :
-              null
-            }
-            {
-                States.TransactionDetailCurrencyMode === 1 ?
-              
-                digitsEnToFa(props.data.TotalInput1)
-              :
-              null
-            }
-            {
-                States.TransactionDetailCurrencyMode === 2 ?
-              
-                digitsEnToFa(props.data.TotalInput2)
-              :
-              null
-            }
-            {
-              States.TransactionDetailCurrencyMode === 0 ?
-                <small style={{fontSize:"13px"}}> {props.data.symbole}</small>  
-              :
-              null
-            }
-            {
-              States.TransactionDetailCurrencyMode === 1 ?
-                <small style={{fontSize:"13px"}}> USD</small>  
-              :
-              null
-            }
-            {
-              States.TransactionDetailCurrencyMode === 2 ?
-                <small style={{fontSize:"13px"}}> IRR</small>  
-              :
-              null
-            }
+          <div style={{ marginBottom:'-10px'}} className={` col-6`}>
+          <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'تاریخ بلاک'}</p>
+              <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                {digitsEnToFa(props.data.BlockDate)}
+                <Calendar size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+              </div>
           </div>
         </div>
 
-        <div className='transaction-item'>
-          <div className='d-flex option'>
-            <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>مجموع خروجی</p>
-            </div>
+        <div className='row mt-3'>
+          <div className='col-6'>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'مجموع ورودی'}</p>
+              <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                {
+                  States.TransactionDetailCurrencyMode === 0 ?
+                
+                  digitsEnToFa(props.data.TotalInput)
+                :
+                  null
+                }
+                {
+                    States.TransactionDetailCurrencyMode === 1 ?
+                  
+                    digitsEnToFa(props.data.TotalInput1)
+                  :
+                  null
+                }
+                {
+                    States.TransactionDetailCurrencyMode === 2 ?
+                  
+                    digitsEnToFa(props.data.TotalInput2)
+                  :
+                  null
+                }
+                {
+                  States.TransactionDetailCurrencyMode === 0 ?
+                    <small style={{fontSize:"13px"}}> {props.data.symbole}</small>  
+                  :
+                  null
+                }
+                {
+                  States.TransactionDetailCurrencyMode === 1 ?
+                    <small style={{fontSize:"13px"}}> USD</small>  
+                  :
+                  null
+                }
+                {
+                  States.TransactionDetailCurrencyMode === 2 ?
+                    <small style={{fontSize:"13px"}}> IRR</small>  
+                  :
+                  null
+                }
+                <ArrowDownCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+              </div>
           </div>
-          <div className={` amountOption`} style={{direction:"ltr", fontSize:"14px"}}>
-            {
-                States.TransactionDetailCurrencyMode === 0 ?
-              
-                digitsEnToFa(props.data.TotalOutput)
-              :
-              null
-            }
-            {
-                States.TransactionDetailCurrencyMode === 1 ?
-              
-                digitsEnToFa(props.data.TotalOutput1)
-              :
-              null
-            }
-            {
-                States.TransactionDetailCurrencyMode === 2 ?
-              
-                digitsEnToFa(props.data.TotalOutput2)
-              :
-              null
-            }
-            {
-              States.TransactionDetailCurrencyMode === 0 ?
-                <small style={{fontSize:"13px"}}> {props.data.symbole}</small>  
-              :
-              null
-            }
-            {
-              States.TransactionDetailCurrencyMode === 1 ?
-                <small style={{fontSize:"13px"}}> USD</small>  
-              :
-              null
-            }
-            {
-              States.TransactionDetailCurrencyMode === 2 ?
-                <small style={{fontSize:"13px"}}> IRR</small>  
-              :
-              null
-            }
+          <div style={{ marginBottom:'-10px'}} className={` col-6`}>
+            <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'مجموع خروجی'}</p>
+              <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+              {
+                  States.TransactionDetailCurrencyMode === 0 ?
+                
+                  digitsEnToFa(props.data.TotalOutput)
+                :
+                  null
+                }
+                {
+                    States.TransactionDetailCurrencyMode === 1 ?
+                  
+                    digitsEnToFa(props.data.TotalOutput1)
+                  :
+                  null
+                }
+                {
+                    States.TransactionDetailCurrencyMode === 2 ?
+                  
+                    digitsEnToFa(props.data.TotalOutput2)
+                  :
+                  null
+                }
+                {
+                  States.TransactionDetailCurrencyMode === 0 ?
+                    <small style={{fontSize:"13px"}}> {props.data.symbole}</small>  
+                  :
+                  null
+                }
+                {
+                  States.TransactionDetailCurrencyMode === 1 ?
+                    <small style={{fontSize:"13px"}}> USD</small>  
+                  :
+                  null
+                }
+                {
+                  States.TransactionDetailCurrencyMode === 2 ?
+                    <small style={{fontSize:"13px"}}> IRR</small>  
+                  :
+                  null
+                }
+                <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+              </div>
           </div>
-        </div>
-
-        <div className='transaction-item'>
-          <div className='d-flex option'>
-            <div>
-              <p style={{fontSize:"14px"}} className='transaction-title'>تاریخ بلاک</p>
-            </div>
-          </div>
-          <div className={` amountOption`} style={{direction:"ltr", fontSize:"14px"}}>{digitsEnToFa(props.data.BlockDate)}</div>
         </div>
       </div>
     )
   }
 
   return (
-    <Card className='card-transaction' id='leftCard'>
-      <CardHeader>
-        <CardTitle tag='h4'>جزئیات</CardTitle>
-        <Switch options={[`${props.data.symbole}`, 'USD', 'IRR']} color={props.data.color} specialProps={'TransactionDetailCurrencyMode'}/>
-      </CardHeader>
-      <CardBody>{renderTransactions()}</CardBody>
-    </Card>
+      <Card className='card-transaction' id='leftCard1' style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)", minHeight:"100%"}}>
+        <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
+          <CardTitle tag='h4' style={{width:"100%"}}>
+            جزئیات
+            <Switch  options={[`${props.data.symbole}`, 'USD', 'IRR']} color={props.data.color} specialProps={'TransactionDetailCurrencyMode'}/>
+          </CardTitle>
+        </CardHeader>
+        <CardBody>{renderTransactions()}</CardBody>
+      </Card>
   )
 }
 

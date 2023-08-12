@@ -9,47 +9,39 @@ import RightDataTableWithButtons from './rightTable/TableWithButtons'
 import LeftDataTableWithButtons from './leftTable/TableWithButtons'
 import DashboardAccWallet from '../../../../components/dashboardAccWallet/dashboardAccWallet'
 
-const TransactionDetail = () => {
+const TransactionDetail = (props) => {
 
   const data={
-    address:"3bf80a46ee08b7da13026827cadec449608fdb785ddf405e47ba1908ad686c9c",
+    address:props.data.transactionHash,
     name:"اتریوم",
-    blockNumber:799226,
-    TotalInput:"۱.۲۱۴۲۰۳",
-    TotalOutput:"۱.۲۱۴۲۰۳",
-    TotalInput1:"33997",
-    TotalOutput1:"33997",
-    TotalInput2:"1,665,886,516",
-    TotalOutput2:"1,665,886,516",
-    BlockDate:"1401/02/03",
+    ethUSDPrice:1900,
+    blockNumber:props.data.blockNumber,
+    TotalInput:(props.data.value*Math.pow(10, -18)).toFixed(5).toLocaleString(),
+    TotalOutput:(props.data.value*Math.pow(10, -18)).toFixed(5).toLocaleString(),
+    TotalInput1:((props.data.value*Math.pow(10, -18))*1900).toFixed(2).toLocaleString(),
+    TotalOutput1:((props.data.value*Math.pow(10, -18))*1900).toFixed(2).toLocaleString(),
+    TotalInput2:(((props.data.value*Math.pow(10, -18))*1900).toFixed(2)*490000).toLocaleString(),
+    TotalOutput2:(((props.data.value*Math.pow(10, -18))*1900).toFixed(2)*490000).toLocaleString(),
+    BlockDate:"اینو سرور نمیده",
     symbole:"ETH",
     color:"#627eea",
     isUTXOBase:false,
     image:'../../images/ethereum.png',
     inputData:[
       {
-        address:"bc1q7cyrfmck2ffu2ud3rn5l5a8yv6f0chkp0zpemf",
-        RiskScore:25,
-        BTCAmount:0.322005,
+        address:props.data.from,
+        RiskScore:'سرور نمیده',
+        BTCAmount:(props.data.value*Math.pow(10, -18)).toFixed(5),
         Fee:0.004,
         inNumber:12,
         outNumber:43
       }
-      // ,
-      // {
-      //   address:"bc1qwfuuas9z9je6ugffyfva3n7jrr4jnnrnf32522",
-      //   RiskScore:50,
-      //   BTCAmount:0.882198,
-      //   Fee:0.004,
-      //   inNumber:12,
-      //   outNumber:43
-      // }
     ],
     outputData:[
       {
-        address:"bc1qe7x4de224kt0rjkhy8n0glk03uf9ta4jyr6xxy",
-        RiskScore:10,
-        BTCAmount:1.214203,
+        address:props.data.to,
+        RiskScore:'سرور نمیده',
+        BTCAmount:(props.data.value*Math.pow(10, -18)).toFixed(5),
         Fee:0.004,
         inNumber:12,
         outNumber:43
@@ -59,7 +51,7 @@ const TransactionDetail = () => {
 
   return (
     <div id='TransactionDetail' class="container-fluid vazir mt-5">
-        <div class="row vazir bg-white">
+        <div class="row vazir">
             <div className='col-lg-6'>
               <CardContentTypes data={data}/>
             </div>
@@ -67,22 +59,26 @@ const TransactionDetail = () => {
               <CardTransactions data={data}/>
             </div>
         </div>
-        <div class="row vazir row2 bg-white ">
+        <div class="row vazir row2 ">
             {
               data.isUTXOBase ? 
               <div className='col-lg-6 mt-2'>
                 <RightDataTableWithButtons data={data}/>
               </div>
               :
-              <DashboardAccWallet data={data.inputData[0]} symbole={data.symbole} mode={1}/>
-            }
+              <div className='col-lg-6 mt-2'>
+                <DashboardAccWallet data={data.inputData[0]} symbole={data.symbole} mode={1} title={"آدرس های ورودی"}/>
+              </div>
+            }              
             {
               data.isUTXOBase ? 
                 <div className='col-lg-6 mt-2'>
                   <LeftDataTableWithButtons data={data}/>
                 </div>
               :
-              <DashboardAccWallet data={data.outputData[0]} symbole={data.symbole} mode={2}/>
+              <div className='col-lg-6 mt-2'>
+                <DashboardAccWallet data={data.outputData[0]} symbole={data.symbole} mode={1} title={"آدرس های خروجی"}/>
+              </div>
             }
         </div>
 

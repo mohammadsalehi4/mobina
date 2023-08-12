@@ -10,16 +10,27 @@ import Walletdetail from './WSearch/walletDetail/walletdetail'
 import { useDispatch } from 'react-redux'
 import { Label, Input } from 'reactstrap'
 import { MainSiteOrange } from '../../../public/colors'
-
+import axios from 'axios'
+import { serverAddress } from '../../address'
 const EcommerceDashboard = () => {
   const dispatch = useDispatch()
   const [mode, SetMode] = useState(0)
-  const isTextInInput = () => {
+  const [trData, SetTrData] = useState({})
+  const [adData, SetAdData] = useState({})
+
+  const onSubmit = (event) => {
+    event.preventDefault()
     // eslint-disable-next-line eqeqeq
-    if (document.getElementById("transactionValue").value != '') {
-      SetMode(2)
-    } else {
-      SetMode(0)
+    const inputValue = document.getElementById("transactionValue").value
+    if (inputValue.length === 66) {
+      axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`)
+      .then((response) => {
+        console.log(response)
+        SetTrData(response.data)
+        SetMode(1)
+      })
+    } else if (inputValue.length === 42) {
+
     }
   }
   useEffect(() => {
@@ -51,7 +62,9 @@ const EcommerceDashboard = () => {
               :
                   null
               }
-              <Input type='email' id='transactionValue' onChange={isTextInInput} class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
+              <form onSubmit={ (event) => { onSubmit(event) } }>
+                <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
+              </form>
               {
                 // eslint-disable-next-line multiline-ternary
                 mode === 0 ?
@@ -88,7 +101,9 @@ const EcommerceDashboard = () => {
             :
                 null
             }
-            <Input type='email' id='transactionValue' onChange={isTextInInput} class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
+            <form onSubmit={ (event) => { onSubmit(event) } }>
+              <Input type='email' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
+            </form>
             {
               // eslint-disable-next-line multiline-ternary
               mode === 0 ?
@@ -121,10 +136,10 @@ const EcommerceDashboard = () => {
             mode === 0 ? <DataTableWithButtons/> : null
           } */}
           {
-            mode === 1 ? <TransactionDetail/> : null
+            mode === 1 ? <TransactionDetail data={trData}/> : null
           }
           {
-            mode === 2 ? <Walletdetail/> : null
+            mode === 2 ? <Walletdetail data={adData}/> : null
           }
         </div>
         <div class="col-lg-2">
