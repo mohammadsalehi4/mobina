@@ -5,6 +5,8 @@ import '@styles/react/libs/charts/apex-charts.scss'
 import '@styles/base/pages/dashboard-ecommerce.scss'
 import './style.css'
 import { useState, useEffect } from 'react'
+import UILoader from '@components/ui-loader'
+import Spinner from '@components/spinner/Loading-spinner'
 import TransactionDetail from './txSearch/transactionDetail/transactionDetail'
 import Walletdetail from './WSearch/walletDetail/walletdetail'
 import { useDispatch } from 'react-redux'
@@ -17,17 +19,22 @@ const EcommerceDashboard = () => {
   const [mode, SetMode] = useState(0)
   const [trData, SetTrData] = useState({})
   const [adData, SetAdData] = useState({})
+  const [Loading, SetLoading] = useState(false)
 
   const onSubmit = (event) => {
+    SetLoading(true)
     event.preventDefault()
     // eslint-disable-next-line eqeqeq
     const inputValue = document.getElementById("transactionValue").value
     if (inputValue.length === 66) {
       axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`)
       .then((response) => {
-        console.log(response)
+        SetLoading(false)
         SetTrData(response.data)
         SetMode(1)
+      })
+      .catch(err => {
+        SetLoading(false)
       })
     } else if (inputValue.length === 42) {
 
@@ -46,6 +53,7 @@ const EcommerceDashboard = () => {
     }
   }, [mode])
   return (
+    <UILoader blocking={Loading} loader={<Spinner />} style={{height:"100vh"}}>
     <div id='dashboard' class='container-fluid'>
       {
         mode === 0 ?
@@ -76,7 +84,7 @@ const EcommerceDashboard = () => {
                         {' '}
                         <p> آدرس </p>
                       </span>
-                      <span onClick={() => { SetMode(1) }}>
+                      <span onClick={() => { document.getElementById('transactionValue').value = '0xb515742dc2065871c98c411a5e55c4cca102cb7c7cd48b093a2a659c546e8035' }}>
                         <ion-icon name="git-compare-outline"></ion-icon>
                         {' '}
                         <p> تراکنش </p>
@@ -92,7 +100,7 @@ const EcommerceDashboard = () => {
           <div class="row main_row1">
             <div class="col-lg-2">
             </div>
-            <div class="col-lg-8 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
+            <div class="col-lg-8 middleBox container-fluid" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
             {
               // eslint-disable-next-line multiline-ternary
               mode === 0 ?
@@ -102,7 +110,7 @@ const EcommerceDashboard = () => {
                 null
             }
             <form onSubmit={ (event) => { onSubmit(event) } }>
-              <Input type='email' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
+              <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
             </form>
             {
               // eslint-disable-next-line multiline-ternary
@@ -128,13 +136,10 @@ const EcommerceDashboard = () => {
       </div>
       }
 
-      <div class="row row2">
+    <div class="row row2 pb-2">
       <div class="col-lg-2">
         </div>
-        <div class="col-lg-8 p-1 ">
-          {/* {
-            mode === 0 ? <DataTableWithButtons/> : null
-          } */}
+        <div class="col-lg-8 p-0">
           {
             mode === 1 ? <TransactionDetail data={trData}/> : null
           }
@@ -147,6 +152,7 @@ const EcommerceDashboard = () => {
       </div>
         
     </div>
+    </UILoader>
   )
 }
 

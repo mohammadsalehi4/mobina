@@ -50,12 +50,12 @@ const TransactionDetail = (props) => {
   }
 
   return (
-    <div id='TransactionDetail' class="container-fluid vazir mt-5">
+    <div id='TransactionDetail' class="container-fluid vazir">
         <div class="row vazir">
-            <div className='col-lg-6'>
+            <div className='col-lg-6 mt-2'>
               <CardContentTypes data={data}/>
             </div>
-            <div className='col-lg-6'>
+            <div className='col-lg-6 mt-2'>
               <CardTransactions data={data}/>
             </div>
         </div>
@@ -77,7 +77,7 @@ const TransactionDetail = (props) => {
                 </div>
               :
               <div className='col-lg-6 mt-2'>
-                <DashboardAccWallet data={data.outputData[0]} symbole={data.symbole} mode={1} title={"آدرس های خروجی"}/>
+                <DashboardAccWallet data={data.outputData[0]} symbole={data.symbole} mode={2} title={"آدرس های خروجی"}/>
               </div>
             }
         </div>
