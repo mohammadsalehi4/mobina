@@ -25,7 +25,7 @@ const App = () => {
   const States = useSelector(state => state)
   return (
     <div>
-          {/* {
+          {
             States.showNavbar ? < Header/> : null
           }
           <Routes>
@@ -45,8 +45,8 @@ const App = () => {
             <Route path="/case"  element={<SingleCase/>}/>
             <Route path="/demo"  element={<Demo/>}/>
             
-          </Routes> */}
-                    {
+          </Routes>
+                    {/* {
             States.showNavbar ? < Header/> : null
           }
           <Routes>
@@ -66,7 +66,7 @@ const App = () => {
             <Route path="/case"  element={<Demo/>}/>
             <Route path="/demo"  element={<Demo/>}/>
             
-          </Routes>
+          </Routes> */}
     </div>
   )
 }

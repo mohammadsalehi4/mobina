@@ -80,22 +80,18 @@ const Walletdetail = () => {
   }
 
   return (
-    <div className='container-fluid mt-5' style={{borderRadius:"8px", boxSizing:"border-box", background:"rgb(248,248,248)"}}>
-        <div className='row ' style={{borderRadius:"8px"}}>
-          <div className='col-lg-6'>
+    <div className='container-fluid mt-0' style={{borderRadius:"8px", boxSizing:"border-box", background:"rgb(248,248,248)"}}>
+        <div className='row mb-0' style={{borderRadius:"8px"}}>
+          <div className='col-lg-6  mt-2'>
             <CardContentTypes data={data}/>
           </div>
-          <div className='col-lg-6'>
+          <div className='col-lg-6  mt-2'>
             <CardTransactions data={data}/>
           </div>
         </div>
-        <div className='row'>
-          <div className='col-lg-12'>
-            <div className='row'>
-              <div className='col-lg-12'>
-                <DataTableWithButtons data={data}/>
-              </div>
-            </div>
+        <div className='row mt-0'>
+          <div className='col-lg-12 mt-2'>
+            <DataTableWithButtons data={data}/>
           </div>
         </div>
     </div>
