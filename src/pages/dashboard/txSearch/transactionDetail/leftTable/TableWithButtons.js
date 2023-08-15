@@ -91,8 +91,6 @@ const LeftDataTableWithButtons = (props) => {
       }
     }
     SetShowData(filteredData)
-    console.log(filteredData)
-    console.log(props.data.outputData)
   }, [, numberOfShow])
 
   return (

@@ -57,14 +57,12 @@ const Recovery = () => {
                 SetLoading(false)
             })
             .catch((err) => {
-                console.log(err)
 
                 if (err.response.statusText === 'Unauthorized') {
                     SetLoading(false)
                     return toast.error('بازیابی ناموفق!', {
                         position: 'bottom-left'
                     })
-                    console.log(err)
                 } else {
                     SetLoading(false)
                     return toast.error('بازیابی ناموفق!', {

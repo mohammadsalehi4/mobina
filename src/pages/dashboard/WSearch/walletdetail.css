@@ -8,7 +8,7 @@
     font-size: 13px;
   }
 }
-#rightCard1 .cardLink {
+#rightCard1 .cardLink22 {
   border-style: none;
   color: white;
   padding: 8px 12px;
@@ -17,31 +17,42 @@
   background: "white";
   margin-top: 10px;
 }
-#rightCard1 .cardLink ion-icon {
+#rightCard1 .cardLink22 ion-icon {
   margin-bottom: -3px;
-}
-@media only screen and (max-width: 500px) {
-  #rightCard1 .cardLink {
-    font-size: 13px;
-  }
 }
 #rightCard1 #cardLink1 {
   margin-right: 0px;
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (min-width: 992px) and (max-width: 1210px) {
   #rightCard1 #cardLink1 {
     width: 100%;
     margin-right: 0%;
     display: block;
   }
 }
+@media only screen and (max-width: 500px) {
+  #rightCard1 #cardLink1 {
+    width: 100%;
+    margin-right: 0%;
+    font-size: 13px;
+    display: block;
+  }
+}
 #rightCard1 #cardLink2 {
   margin-right: 6%;
+}
+@media only screen and (min-width: 992px) and (max-width: 1210px) {
+  #rightCard1 #cardLink2 {
+    width: 100%;
+    margin-right: 0%;
+    display: block;
+  }
 }
 @media only screen and (max-width: 500px) {
   #rightCard1 #cardLink2 {
     width: 100%;
     margin-right: 0%;
+    font-size: 13px;
     display: block;
   }
 }

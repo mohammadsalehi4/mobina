@@ -6,7 +6,8 @@
   height: 50px;
   margin-top: 10px;
   border-radius: 8px;
-  background: url("../../../../public/images/search.png") no-repeat scroll 7px 7px;
+  background: url("../../../public/images/search.png") no-repeat scroll 7px 7px;
+  padding-left: 48px;
   background-size: 30px;
   background-position: 10px 10px;
 }
@@ -49,8 +50,8 @@
 #dashboard .main_row1 #searchExample11 ion-icon {
   margin-right: 4px;
   color: #2f4f4f;
-  font-size: 15px;
   margin-bottom: -3px;
+  font-size: 20px;
 }
 @media only screen and (max-width: 768px) {
   #dashboard .main_row1 {

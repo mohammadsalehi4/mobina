@@ -28,8 +28,7 @@ const OwnerTopBox = (props) => {
     const a = inputValue
     a.push(userInput)
     setInputValue(a)
-    console.log(inputValue)
-    console.log(inputValue.length)
+
   }
 
   useEffect(() => {

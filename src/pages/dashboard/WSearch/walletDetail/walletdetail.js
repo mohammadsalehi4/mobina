@@ -15,6 +15,7 @@ const Walletdetail = (props) => {
   const [totalSum, SetTotalSum] = useState(0)
   const [MinTime, SetMinTime] = useState(0)
   const [MaxTime, SetMaxTime] = useState(0)
+  const [TrNumber, SetTrNumber] = useState(0)
   const [GetTr, SetTr]=useState([])
 
   const getMyTime=(index) => {
@@ -24,7 +25,7 @@ const Walletdetail = (props) => {
     let hour
     let minute
 
-    if (String(date.getMonth()).length === 1) {
+    if (String(Number(date.getMonth())+1).length === 1) {
       month = `0${date.getMonth()}`
     } else {
       month = date.getMonth()
@@ -67,10 +68,11 @@ const Walletdetail = (props) => {
     let transactions=[]
 
     for (let i=0; i<props.data.length; i++) {
-      if(props.data[i].from===props.address){
-        get=get+(props.data[i].value/1000000000000000000)
-      } else if (props.data[i].to===props.address) {
-        send=send+(props.data[i].value/1000000000000000000)
+      
+      if((props.data[i].from).toLowerCase()===(props.address).toLowerCase()){
+        get=get+(Number(props.data[i].value)/1000000000000000000)
+      } else if ((props.data[i].to).toLowerCase()===(props.address).toLowerCase()) {
+        send=send+(Number(props.data[i].value)/1000000000000000000)
       }
       if(props.data[i].timeStamp > SetMinTime){
         SetMinTime(Number(props.data[i].timeStamp))
@@ -82,7 +84,7 @@ const Walletdetail = (props) => {
         transactions.push({
           address:props.data[i].hash,
           mode:false,
-          BTCAmount:Number(props.data[i].value/1000000000000000000),
+          BTCAmount:Number(Number(props.data[i].value)/1000000000000000000),
           Date:props.data[i].timeStamp,
           Time:props.data[i].timeStamp,
           Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))/1000000000000000000).toFixed(5)
@@ -103,6 +105,12 @@ const Walletdetail = (props) => {
     SetTotalsend(send)
     SetTotalSum(get-send)
     SetTr(transactions)
+    if(props.data.length < 10000){
+      SetTrNumber(props.data.length)
+    } else {
+      SetTrNumber('+10000')
+
+    }
   }, [, props.data])
 
   const data = {
@@ -111,9 +119,9 @@ const Walletdetail = (props) => {
     Total: String(parseFloat(totalSum.toFixed(5)).toString()),
     InCome: String(parseFloat(totalget.toFixed(5)).toString()),
     OutCome: String(parseFloat(totalsend.toFixed(5)).toString()),
-    TrNumber: props.data.length,
-    FirstActivity:(`${getMyTime(MinTime).year}/${getMyTime(MinTime).month}/${getMyTime(MinTime).day}`),
-    LastActivity:(`${getMyTime(MaxTime).year}/${getMyTime(MaxTime).month}/${getMyTime(MaxTime).day}`),
+    TrNumber,
+    FirstActivity:(`${getMyTime(MinTime).year}/${Number(getMyTime(MinTime).month)+1}/${getMyTime(MinTime).day}`),
+    LastActivity:(`${getMyTime(MaxTime).year}/${Number(getMyTime(MaxTime).month)+1}/${getMyTime(MaxTime).day}`),
     symbole:"ETH",
     risk:"0%",
     owner:"بدون اطلاعات",

@@ -14,6 +14,9 @@ import { Label, Input } from 'reactstrap'
 import { MainSiteOrange } from '../../../public/colors'
 import axios from 'axios'
 import { serverAddress } from '../../address'
+import toast from 'react-hot-toast'
+
+
 const EcommerceDashboard = () => {
   const dispatch = useDispatch()
   const [mode, SetMode] = useState(0)
@@ -32,7 +35,6 @@ const EcommerceDashboard = () => {
       .then((response) => {
         if (response.data.blockHash) {
           SetLoading(false)
-          console.log(response.data)
           SetTrData(response.data)
           SetMode(1)
         } else {
@@ -46,9 +48,15 @@ const EcommerceDashboard = () => {
       axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${inputValue}&startblock=0&endblock=99999999&page=1&offset=10000&sort=asc&apikey=CM8I5HVMDCCCSJU32BD3AJ39IHCQATS53Q`)
       .then((response) => {
         SetLoading(false)
-        SetAdData(response.data.result)
-        SetAddress(inputValue)
-        SetMode(2)
+        if (response.data.result.length >= 1) {
+          SetAdData(response.data.result)
+          SetAddress(inputValue)
+          SetMode(2)
+        } else {
+          toast.error('بدون اطلاعات!', {
+            position: 'bottom-left'
+          })
+        }
       })
       .catch((err) => {
         SetLoading(false)

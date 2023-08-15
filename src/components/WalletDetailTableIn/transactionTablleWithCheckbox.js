@@ -38,8 +38,6 @@ const data = [
 
 ]
 
-console.log(Number((data[0].year) + (data[0].month) + (data[0].day) + (data[0].hour) + (data[0].minute)))
-
 
 const columns = [
   {

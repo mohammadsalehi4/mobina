@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // ** React Imports
 import { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -163,7 +164,6 @@ const SecurityTab = () => {
 
   const onSubmit = data => {
     trigger()
-    console.log(data)
   }
   const handleContinue = () => {
     setShow(false)

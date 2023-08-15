@@ -90,8 +90,7 @@ const RightDataTableWithButtons = (props) => {
       }
     }
     SetShowData(filteredData)
-    console.log(filteredData)
-    console.log(props.data.inputData)
+
   }, [, numberOfShow])
 
   return (
