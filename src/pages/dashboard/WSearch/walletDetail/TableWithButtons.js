@@ -54,7 +54,7 @@ const DataTableWithButtons = (props) => {
       hour = date.getHours()
     }
 
-    if (String(date.getFullYear()).length === 1) {
+    if (String(date.getMinutes()).length === 1) {
       minute = `0${date.getMinutes()}`
     } else {
       minute = date.getMinutes()

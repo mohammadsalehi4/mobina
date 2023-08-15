@@ -19,12 +19,41 @@ const Walletdetail = (props) => {
 
   const getMyTime=(index) => {
     const date = new Date(index*1000)
-    return({
+    let month
+    let day
+    let hour
+    let minute
+
+    if (String(date.getMonth()).length === 1) {
+      month = `0${date.getMonth()}`
+    } else {
+      month = date.getMonth()
+    }
+
+    if (String(date.getDate()).length === 1) {
+      day = `0${date.getDate()}`
+    } else {
+      day = date.getDate()
+    }
+
+    if (String(date.getHours()).length === 1) {
+      hour = `0${date.getHours()}`
+    } else {
+      hour = date.getHours()
+    }
+
+    if (String(date.getMinutes()).length === 1) {
+      minute = `0${date.getMinutes()}`
+    } else {
+      minute = date.getMinutes()
+    }
+
+    return ({
       year:date.getFullYear(),
-      month:date.getMonth(),
-      day:date.getDate(),
-      hour:date.getHours(),
-      minute:date.getMinutes()
+      month,
+      day,
+      hour,
+      minute
     })
   }
 
