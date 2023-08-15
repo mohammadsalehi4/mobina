@@ -29,18 +29,61 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 
 const DataTableWithButtons = (props) => {
 
+  const getMyTime=(index) => {
+    const date = new Date(index*1000)
+    let month
+    let day
+    let hour
+    let minute
+
+    if (String(date.getMonth()).length === 1) {
+      month = `0${date.getMonth()}`
+    } else {
+      month = date.getMonth()
+    }
+
+    if (String(date.getDate()).length === 1) {
+      day = `0${date.getDate()}`
+    } else {
+      day = date.getDate()
+    }
+
+    if (String(date.getHours()).length === 1) {
+      hour = `0${date.getHours()}`
+    } else {
+      hour = date.getHours()
+    }
+
+    if (String(date.getFullYear()).length === 1) {
+      minute = `0${date.getMinutes()}`
+    } else {
+      minute = date.getMinutes()
+    }
+
+    return ({
+      year:date.getFullYear(),
+      month,
+      day,
+      hour,
+      minute
+    })
+  }
+
   const columns = [
     {
       name: 'تاریخ',
       sortable: true,
       maxWidth: '120px',
       minWidth: '120px',
-      selector: row => (
-          <div>
-            <p style={{marginTop:"10px"}}>{digitsEnToFa(row.Date)}</p>
-            <p style={{marginTop:"-20px", marginBottom:"-2px"}}>{digitsEnToFa(row.Time)}</p>
-          </div>
+      selector: row => row.Date,
+      cell:row => {
+        return (
+        <div>
+          <p style={{marginTop:"10px"}}>{digitsEnToFa(getMyTime(row.Date).year+'/'+getMyTime(row.Date).month+'/'+getMyTime(row.Date).day)}</p>
+          <p style={{marginTop:"-20px", marginBottom:"-2px"}}>{digitsEnToFa(getMyTime(row.Date).hour+':'+getMyTime(row.Date).minute)}</p>
+        </div>
         )
+      }
     },
     {
       name: 'شناسه تراکنش',
@@ -75,7 +118,8 @@ const DataTableWithButtons = (props) => {
       sortable: true,
       minWidth: '120px',
       selector: row => (
-        digitsEnToFa(row.BTCAmount)
+        digitsEnToFa(String(parseFloat(Number(row.BTCAmount).toFixed(5)).toString()))
+        
       )
     },
     {
@@ -94,15 +138,15 @@ const DataTableWithButtons = (props) => {
     const a = 5 * (numberOfShow + 1)
     filteredData = []
     for (let i = 0; i < a; i++) {
-      if (props.data.LastTransactions[i]) {
-        filteredData.push(props.data.LastTransactions[i])
-        if (filteredData.length === props.data.LastTransactions.length) {
+      if (props.transactions[i]) {
+        filteredData.push(props.transactions[i])
+        if (filteredData.length === props.transactions.length) {
           document.getElementById('PaginationButton').style.color = MainSiteGray
         }
       }
     }
     SetShowData(filteredData)
-  }, [, numberOfShow])
+  }, [, numberOfShow, props.transactions])
 
 
   return (

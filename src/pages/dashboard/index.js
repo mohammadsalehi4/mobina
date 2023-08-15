@@ -20,6 +20,7 @@ const EcommerceDashboard = () => {
   const [trData, SetTrData] = useState({})
   const [adData, SetAdData] = useState({})
   const [Loading, SetLoading] = useState(false)
+  const [address, SetAddress] = useState('')
 
   const onSubmit = (event) => {
     SetLoading(true)
@@ -42,9 +43,19 @@ const EcommerceDashboard = () => {
         SetLoading(false)
       })
     } else if (inputValue.length === 42) {
-
+      axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${inputValue}&startblock=0&endblock=99999999&page=1&offset=10000&sort=asc&apikey=CM8I5HVMDCCCSJU32BD3AJ39IHCQATS53Q`)
+      .then((response) => {
+        SetLoading(false)
+        SetAdData(response.data.result)
+        SetAddress(inputValue)
+        SetMode(2)
+      })
+      .catch((err) => {
+        SetLoading(false)
+      })
     }
   }
+
   useEffect(() => {
     dispatch({type:"SHOWNAVBAR"})
     dispatch({type:"SETWITCHPAGE", value:1})
@@ -57,6 +68,7 @@ const EcommerceDashboard = () => {
       document.getElementById('hamoniKeBayadBiadBala').style.marginTop = "50px"
     }
   }, [mode])
+
   return (
     <UILoader blocking={Loading} loader={<Spinner />} style={{height:"100vh"}}>
     <div id='dashboard' class='container-fluid'>
@@ -84,7 +96,7 @@ const EcommerceDashboard = () => {
                   <Label className='form-label' for='transactionValue'>
                     <p class="vazir" id='searchExample11'>
                       نمونه کاوش:
-                      <span class="ms-1" onClick={() => { SetMode(2) }}>
+                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0xd55dac2f76ff813ccbb779501d544e9e97f0fef9' }}>
                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                         {' '}
                         <p> آدرس </p>
@@ -149,7 +161,7 @@ const EcommerceDashboard = () => {
             mode === 1 ? <TransactionDetail data={trData}/> : null
           }
           {
-            mode === 2 ? <Walletdetail data={adData}/> : null
+            mode === 2 ? <Walletdetail data={adData} address={address}/> : null
           }
         </div>
         <div class="col-lg-2">

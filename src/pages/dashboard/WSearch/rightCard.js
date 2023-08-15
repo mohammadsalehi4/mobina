@@ -122,7 +122,6 @@ const CardContentTypes = (props) => {
             <div style={{textAlign:"left", float:"left"}}>
               <span style={{}}>
                 {props.data.owner}
-                <ion-icon name="information-circle-outline" style={{marginBottom:"-6px", marginRight:"3px", fontSize:"18px"}}></ion-icon>
               </span>
             </div>
           </div>
