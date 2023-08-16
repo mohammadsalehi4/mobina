@@ -39,34 +39,13 @@ const App = () => {
             <Route path="/reports"  element={<Reports/>}/>
             <Route path="/tax/:txid"  element={<Tax/>}/>
             <Route path="/admin"  element={<Admin/>}/>
-            <Route path="/owner"  element={<Owner/>}/>
-            <Route path="/entities"  element={<Entities/>}/>
+            {/* <Route path="/owner"  element={<Owner/>}/> */}
+            {/* <Route path="/entities"  element={<Entities/>}/> */}
             <Route path="/folders"  element={<Folders/>}/>
             <Route path="/case"  element={<SingleCase/>}/>
             <Route path="/demo"  element={<Demo/>}/>
             
           </Routes>
-                    {/* {
-            States.showNavbar ? < Header/> : null
-          }
-          <Routes>
-            <Route path="/" exact element={<Main/>}/>
-            <Route path="/recovery"  element={<Recovery/>}/>
-            <Route path="/researcher"  element={<EcommerceDashboard/>}/>
-            <Route path="/tracker"  element={<Tracker/>}/>
-            <Route path="/newpassword/:username/:token"  element={<ChangePassword/>}/>
-            <Route path="/tax"  element={<Demo/>}/>
-            <Route path="/mining"  element={<Demo/>}/>
-            <Route path="/reports"  element={<Demo/>}/>
-            <Route path="/tax/:txid"  element={<Demo/>}/>
-            <Route path="/admin"  element={<Admin/>}/>
-            <Route path="/owner"  element={<Demo/>}/>
-            <Route path="/entities"  element={<Entities/>}/>
-            <Route path="/folders"  element={<Demo/>}/>
-            <Route path="/case"  element={<Demo/>}/>
-            <Route path="/demo"  element={<Demo/>}/>
-            
-          </Routes> */}
     </div>
   )
 }

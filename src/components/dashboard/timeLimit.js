@@ -13,6 +13,7 @@ import {
 } from 'reactstrap'
 import { useDispatch, useSelector } from "react-redux"
 import {Filter, ChevronDown} from 'react-feather'
+import { digitsEnToFa } from 'persian-tools'
 
 // import DatePicker from "react-multi-date-picker"
 // import persian from "react-date-object/calendars/persian"
@@ -29,17 +30,15 @@ const TimeLimit = (props) => {
   const [ShowTitle, SetShowTitle] = useState(0)
 
   useEffect(() => {
+    let text = ''
     if (States.starttime === 0 && States.endtime === 0) {
       SetShowTitle(0)
     } else {
-      let text = ''
       if (States.starttime !== 0) {
-        text = (`${getMyTime(States.starttime).day}/${getMyTime(States.starttime).month}/${getMyTime(States.starttime).year}`)
+        text = `${text  } از ${getMyTime(States.starttime).day}-${getMyTime(States.starttime).month}-${getMyTime(States.starttime).year}`
       }
       if (States.endtime !== 0) {
-        text = ` ${ text  } تا ${getMyTime(States.endtime).day}/${getMyTime(States.endtime).month}/${getMyTime(States.endtime).year} `
-      } else {
-        text = `از ${ text  }`
+        text = `${text  } تا ${getMyTime(States.endtime).day}-${getMyTime(States.endtime).month}-${getMyTime(States.endtime).year}`
       }
       SetShowTitle(text)
     }
@@ -95,6 +94,7 @@ const TimeLimit = (props) => {
   const setMin = () => {
     SetMin((document.getElementById('GetStartTimeValue').value))
   }
+
   const setMax = () => {
     SetMax((document.getElementById('GetEndTimeValue').value))
   }
@@ -114,17 +114,17 @@ const TimeLimit = (props) => {
   }, [States.starttime, States.endtime])
 
   return (
-    <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%"}}>
+    <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%", height:"100%"}}>
     <DropdownToggle color='secondary' id='TaxLimitButton' outline>
-      <span  className='align-middle'>
+      <span  className='align-middle' style={{direction:"ltr"}}>
         {
           ShowTitle === 0 ?
             <div>
               <Filter size={14} style={{marginLeft:"8px"}} />
-                محدوده زمانی
+              محدوده زمانی
             </div>
           :
-            ShowTitle
+          digitsEnToFa(ShowTitle)
         }
       </span>
     </DropdownToggle>
