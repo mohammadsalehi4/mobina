@@ -4,8 +4,9 @@ import './walletdetail.css'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import { digitsEnToFa } from 'persian-tools'
 import {CornerLeftDown, CornerUpRight, Crop, CreditCard, Circle, Aperture} from 'react-feather'
-
+import CalendarSwitch from '../../../components/dashboard/switch/switch'
 const CardTransactions = (props) => {
+
   const renderTransactions = () => {
     return (
       <div className=''>
@@ -62,7 +63,6 @@ const CardTransactions = (props) => {
               </div>
           </div>
         </div>
-
       </div>
 
     )
@@ -74,6 +74,7 @@ const CardTransactions = (props) => {
         <CardTitle tag='h4'>
           جزئیات
         </CardTitle>
+        <CalendarSwitch options={['میلادی', 'شمسی']} color="#627eea"/>
       </CardHeader>
       <CardBody>{renderTransactions()}</CardBody>
     </Card>

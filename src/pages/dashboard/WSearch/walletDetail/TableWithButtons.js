@@ -13,12 +13,14 @@ import NiceAddress from '../../../../components/niceAddress/niceAddress'
 import { ChevronDown, Download } from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
 import moment from 'jalali-moment'
+import { DatePicker } from "zaman"
 
 import {
   Card,
   Input,
   CardTitle,
-  CardHeader
+  CardHeader,
+  UncontrolledTooltip
 } from 'reactstrap'
 
 import { MainSiteGray } from '../../../../../public/colors'
@@ -291,8 +293,14 @@ const DataTableWithButtons = (props) => {
               <div className='col-lg-3 mt-3'>
                 <AmountLimit/>
               </div>
-              <div className='col-lg-6 mt-3' style={{textAlign:"left"}}>
-                <Download style={{cursor:"pointer", marginTop:"12px"}} onClick={() => { downloadCSV(DownloadData) }} />
+              <div className='col-lg-3 mt-3'>
+                <DatePicker onChange={(e) => console.log(e)} />
+              </div>
+              <div className='col-lg-3 mt-3' style={{textAlign:"left"}}>
+                <Download id='AddressDownloadIcon' style={{cursor:"pointer", marginTop:"12px"}} onClick={() => { downloadCSV(DownloadData) }} />
+                <UncontrolledTooltip placement='top' target='AddressDownloadIcon'>
+                  دریافت
+                </UncontrolledTooltip>
               </div>
             </div>
           </div>
