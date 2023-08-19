@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-use-before-define */
 /* eslint-disable prefer-template */
 /* eslint-disable space-infix-ops */
@@ -11,6 +12,7 @@ import DataTable from 'react-data-table-component'
 import NiceAddress from '../../../../components/niceAddress/niceAddress'
 import { ChevronDown, Download } from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
+import moment from 'jalali-moment'
 
 import {
   Card,
@@ -18,6 +20,7 @@ import {
   CardTitle,
   CardHeader
 } from 'reactstrap'
+
 import { MainSiteGray } from '../../../../../public/colors'
 import { useSelector } from "react-redux"
 // ** Bootstrap Checkbox Component
@@ -85,13 +88,14 @@ const DataTableWithButtons = (props) => {
       selector: row => row.Date,
       cell:row => {
         return (
-        // <div>
-        //   <p style={{marginTop:"8px"}}>{digitsEnToFa(getMyTime(row.Date).year+'/'+getMyTime(row.Date).month+'/'+getMyTime(row.Date).day)}</p>
-        //   <p style={{marginTop:"-20px", marginBottom:"-2px"}}>{digitsEnToFa(getMyTime(row.Date).hour+':'+getMyTime(row.Date).minute)}</p>
-        // </div>
           <div>
-          <p style={{marginTop:"20px"}}>{digitsEnToFa(getMyTime(row.Date).hour+':'+getMyTime(row.Date).minute+' - '+getMyTime(row.Date).year+'/'+getMyTime(row.Date).month+'/'+getMyTime(row.Date).day)}</p>
-        </div>
+            {
+              States.jalaliCalendar ? 
+                <p style={{marginTop:"20px"}}>{digitsEnToFa(getMyTime(row.Date).hour+':'+getMyTime(row.Date).minute+' - '+moment(getMyTime(row.Date).year+'-'+getMyTime(row.Date).month+'-'+getMyTime(row.Date).day, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))}</p>
+              :
+                <p style={{marginTop:"20px"}}>{digitsEnToFa(getMyTime(row.Date).hour+':'+getMyTime(row.Date).minute+' - '+getMyTime(row.Date).year+'/'+getMyTime(row.Date).month+'/'+getMyTime(row.Date).day)}</p>
+            }
+          </div>
         )
       }
     },
@@ -118,8 +122,6 @@ const DataTableWithButtons = (props) => {
           </div> : <div className='d-flex align-items-end '>
             <ion-icon name="arrow-back-outline" className="mb-1" id="outkouft"></ion-icon>
           </div>
-        
-  
       )
     },
     {
@@ -283,13 +285,13 @@ const DataTableWithButtons = (props) => {
           <CardTitle className='mb-2' tag='h3' id="CardTitle">آخرین تراکنش ها<img src={props.data.image} style={{ marginTop:"-10px", float:"left", width:"30px"}}/></CardTitle>
           <div style={{width:"100%"}}>
             <div className='row'>
-              <div className='col-lg-3'>
+              <div className='col-lg-3 mt-3'>
                 <TimeLimit/>
               </div>
-              <div className='col-lg-3'>
+              <div className='col-lg-3 mt-3'>
                 <AmountLimit/>
               </div>
-              <div className='col-lg-6' style={{textAlign:"left"}}>
+              <div className='col-lg-6 mt-3' style={{textAlign:"left"}}>
                 <Download style={{cursor:"pointer", marginTop:"12px"}} onClick={() => { downloadCSV(DownloadData) }} />
               </div>
             </div>

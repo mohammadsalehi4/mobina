@@ -7,8 +7,11 @@ import React, {useEffect, useState} from 'react'
 import CardTransactions from '../leftcard'
 import CardContentTypes from '../rightCard'
 import DataTableWithButtons from './TableWithButtons'
+import { useSelector } from "react-redux"
+import moment from 'jalali-moment'
 
 const Walletdetail = (props) => {
+  const States = useSelector(state => state)
 
   const [totalsend, SetTotalsend] = useState(0.0)
   const [totalget, SetTotalget] = useState(0)
@@ -16,6 +19,8 @@ const Walletdetail = (props) => {
   const [MinTime, SetMinTime] = useState(0)
   const [MaxTime, SetMaxTime] = useState(0)
   const [TrNumber, SetTrNumber] = useState(0)
+  const [FirstActivity, SetFirstActivity] = useState('')
+  const [LastActivity, SetLastActivity] = useState('')
   const [GetTr, SetTr]=useState([])
 
   const getMyTime=(index) => {
@@ -57,7 +62,6 @@ const Walletdetail = (props) => {
       minute
     })
   }
-
 
   useEffect(() => {
     let get=0
@@ -109,9 +113,20 @@ const Walletdetail = (props) => {
       SetTrNumber(props.data.length)
     } else {
       SetTrNumber('+10000')
-
     }
   }, [, props.data])
+
+  useEffect(() => {
+    const first=`${getMyTime(MinTime).year}-${Number(getMyTime(MinTime).month)+1}-${getMyTime(MinTime).day}`
+    const last=`${getMyTime(MaxTime).year}-${Number(getMyTime(MaxTime).month)+1}-${getMyTime(MaxTime).day}`
+    if(States.jalaliCalendar){
+      SetFirstActivity(moment(first, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))
+      SetLastActivity(moment(last, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))
+    } else {
+      SetFirstActivity(first)
+      SetLastActivity(last)
+    }
+  }, [States.jalaliCalendar, MinTime])
 
   const data = {
     address:props.address,
@@ -120,8 +135,8 @@ const Walletdetail = (props) => {
     InCome: String(parseFloat(totalget.toFixed(5)).toString()),
     OutCome: String(parseFloat(totalsend.toFixed(5)).toString()),
     TrNumber,
-    FirstActivity:(`${getMyTime(MinTime).year}/${Number(getMyTime(MinTime).month)+1}/${getMyTime(MinTime).day}`),
-    LastActivity:(`${getMyTime(MaxTime).year}/${Number(getMyTime(MaxTime).month)+1}/${getMyTime(MaxTime).day}`),
+    FirstActivity,
+    LastActivity,
     symbole:"ETH",
     risk:"0%",
     owner:"بدون اطلاعات",

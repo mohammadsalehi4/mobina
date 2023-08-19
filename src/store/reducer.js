@@ -27,10 +27,20 @@ const initialState = {
     endAmount:0,
 
     //Loadin-All
-    isLoading:false
+    isLoading:false,
+
+    //calendar
+    jalaliCalendar:true
 }
 
 const reducer = (state = initialState, action) => {
+    //jalali calendar
+    if (action.type === 'JALALICALENDAR') {
+        return {
+            ...state,
+            jalaliCalendar:action.value
+        }
+    }
 
     //loading effect
     if (action.type === 'SETISLOADING') {
