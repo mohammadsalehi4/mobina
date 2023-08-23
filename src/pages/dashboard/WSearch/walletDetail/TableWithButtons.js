@@ -13,7 +13,6 @@ import NiceAddress from '../../../../components/niceAddress/niceAddress'
 import { ChevronDown, Download } from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
 import moment from 'jalali-moment'
-import { DatePicker } from "zaman"
 
 import {
   Card,
@@ -39,6 +38,7 @@ const DataTableWithButtons = (props) => {
   const [showData, SetShowData] = useState([])
   const [NoNumberData, SetNoNumberData] = useState([])
   const [DownloadData, SetDownloadData] = useState([])
+  
 
   const getMyTime=(index) => {
     
@@ -190,24 +190,22 @@ const DataTableWithButtons = (props) => {
     const myData=[]
     if (NoNumberData.length > 0) {
       for (let i = 0; i < NoNumberData.length; i++) {
-        if (NoNumberData[i].mode) {
-          myData.push({
-            Address:NoNumberData[i].address,
-            Mode:'in',
-            Amount:NoNumberData[i].BTCAmount,
-            Time:(getMyTime(NoNumberData[i].Date).year+'/'+getMyTime(NoNumberData[i].Date).month+'/'+getMyTime(NoNumberData[i].Date).day)+' '+getMyTime(NoNumberData[i].Date).hour+':'+getMyTime(NoNumberData[i].Date).minute,
-            Fee:NoNumberData[i].Fee
-          })
+        let date=''
+        let mode='in'
+        if (States.jalaliCalendar) {
+          date=(moment(getMyTime(NoNumberData[i].Date).year+'-'+getMyTime(NoNumberData[i].Date).month+'-'+getMyTime(NoNumberData[i].Date).day, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD')+' '+getMyTime(NoNumberData[i].Date).hour+':'+getMyTime(NoNumberData[i].Date).minute)
         } else {
-          myData.push({
-            Address:NoNumberData[i].address,
-            Mode:'out',
-            Amount:NoNumberData[i].BTCAmount,
-            Time:(getMyTime(NoNumberData[i].Date).year+'/'+getMyTime(NoNumberData[i].Date).month+'/'+getMyTime(NoNumberData[i].Date).day)+' '+getMyTime(NoNumberData[i].Date).hour+':'+getMyTime(NoNumberData[i].Date).minute,
-            Fee:NoNumberData[i].Fee
-          })
+          date=(getMyTime(NoNumberData[i].Date).year+'/'+getMyTime(NoNumberData[i].Date).month+'/'+getMyTime(NoNumberData[i].Date).day)+' '+getMyTime(NoNumberData[i].Date).hour+':'+getMyTime(NoNumberData[i].Date).minute
         }
-
+        if (NoNumberData[i].mode) { mode='in' } else { mode='out' }
+        
+        myData.push({
+          Address:NoNumberData[i].address,
+          Mode:mode,
+          Amount:NoNumberData[i].BTCAmount,
+          Time:date,
+          Fee:NoNumberData[i].Fee
+        })
       }
       SetDownloadData(myData)
     } else {
@@ -284,17 +282,17 @@ const DataTableWithButtons = (props) => {
     <Fragment>
       <Card  style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom' id="mainTable">
-          <CardTitle className='mb-2' tag='h3' id="CardTitle">آخرین تراکنش ها<img src={props.data.image} style={{ marginTop:"-10px", float:"left", width:"30px"}}/></CardTitle>
+          <CardTitle className='mb-2' tag='h3' id="CardTitle">آخرین تراکنش ها<img src={`../../../../../public/images/${props.data.image}`} style={{ marginTop:"-10px", float:"left", width:"30px"}}/></CardTitle>
           <div style={{width:"100%"}}>
             <div className='row'>
               <div className='col-lg-3 mt-3'>
                 <TimeLimit/>
               </div>
               <div className='col-lg-3 mt-3'>
-                <AmountLimit/>
+                <AmountLimit name={props.data.name}/>
               </div>
               <div className='col-lg-3 mt-3'>
-                <DatePicker onChange={(e) => console.log(e)} />
+
               </div>
               <div className='col-lg-3 mt-3' style={{textAlign:"left"}}>
                 <Download id='AddressDownloadIcon' style={{cursor:"pointer", marginTop:"12px"}} onClick={() => { downloadCSV(DownloadData) }} />

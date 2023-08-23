@@ -5,6 +5,24 @@ import Switch from '../switch/switch'
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector } from "react-redux"
 import {ArrowDownCircle, ArrowUpCircle, AlertOctagon, Calendar} from 'react-feather'
+
+function formatNumber(num, index) {
+  // اول: تا حداکثر 5 رقم اعشار
+  num = parseFloat(num.toFixed(index))
+
+  // دوم: برای افزودن ویرگول به اعداد بزرگتر از 1000
+  const parts = num.toString().split(".")
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+  // سوم: حذف اعداد 0 از انتهای قسمت اعشار
+  if (parts[1]) {
+      parts[1] = parts[1].replace(/0+$/, '')
+  }
+
+  return parts.join(".")
+}
+
+
 const CardTransactions = (props) => {
 
   const renderTransactions = () => {
@@ -36,21 +54,21 @@ const CardTransactions = (props) => {
                 {
                   States.TransactionDetailCurrencyMode === 0 ?
                 
-                  digitsEnToFa(props.data.TotalInput)
+                  digitsEnToFa(formatNumber(Number(props.data.TotalInput), 5))
                 :
                   null
                 }
                 {
                     States.TransactionDetailCurrencyMode === 1 ?
                   
-                    digitsEnToFa(props.data.TotalInput1)
+                    digitsEnToFa(formatNumber(Number(props.data.TotalInput1), 2))
                   :
                   null
                 }
                 {
                     States.TransactionDetailCurrencyMode === 2 ?
                   
-                    digitsEnToFa(props.data.TotalInput2)
+                    digitsEnToFa(formatNumber(Number(props.data.TotalInput2), 0))
                   :
                   null
                 }
@@ -81,21 +99,21 @@ const CardTransactions = (props) => {
               {
                   States.TransactionDetailCurrencyMode === 0 ?
                 
-                  digitsEnToFa(props.data.TotalOutput)
+                  digitsEnToFa(formatNumber(Number(props.data.TotalOutput), 5))
                 :
                   null
                 }
                 {
                     States.TransactionDetailCurrencyMode === 1 ?
                   
-                    digitsEnToFa(props.data.TotalOutput1)
+                    digitsEnToFa(formatNumber(Number(props.data.TotalOutput1), 2))
                   :
                   null
                 }
                 {
                     States.TransactionDetailCurrencyMode === 2 ?
                   
-                    digitsEnToFa(props.data.TotalOutput2)
+                    digitsEnToFa(formatNumber(Number(props.data.TotalOutput2), 0))
                   :
                   null
                 }

@@ -81,7 +81,7 @@ const CardContentTypes = (props) => {
     <Card className='card-transaction' id='leftCard1' style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)", height:"100%"}}>
       <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
         <CardTitle tag='h4' style={{width:"100%"}}>
-        <img src={props.data.image} style={{width:"25px"}}/> تراکنش {props.data.name}  
+        <img src={`../../../../../public/images/${props.data.image}`} style={{width:"25px"}}/> تراکنش {props.data.name}  
         </CardTitle>
       </CardHeader>
       <CardBody>{renderTransactions()}</CardBody>

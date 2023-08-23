@@ -5,6 +5,15 @@ import { Card, CardBody, Tooltip, CardText, CardHeader, CardTitle } from 'reacts
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector } from "react-redux"
 import {ArrowDownCircle, ArrowUpCircle, AlertOctagon, Calendar} from 'react-feather'
+function formatNumber(num) {
+  num = parseFloat(num.toFixed(5))
+  const parts = num.toString().split(".")
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  if (parts[1]) {
+      parts[1] = parts[1].replace(/0+$/, '')
+  }
+  return parts.join(".")
+}
 const DashboardAccWallet = (props) => {
     const [tooltipOpen, setTooltipOpen] = useState(false)
 
@@ -31,7 +40,7 @@ const DashboardAccWallet = (props) => {
                 حجم
               </div>
               <div className='col-8' style={{ textAlign: "left" }}>
-                <p style={{ direction: "ltr" }}>{props.data.BTCAmount}<small> {props.symbole}</small></p>
+                <p style={{ direction: "ltr" }}>{digitsEnToFa(formatNumber(props.data.BTCAmount))}<small> {props.symbole}</small></p>
               </div>
             </div><div className='row'>
               <div className='col-4'>

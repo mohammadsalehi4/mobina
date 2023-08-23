@@ -17,6 +17,19 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
+function formatNumber(num, index) {
+  num = parseFloat(num.toFixed(index))
+
+  const parts = num.toString().split(".")
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+  if (parts[1]) {
+      parts[1] = parts[1].replace(/0+$/, '')
+  }
+
+  return parts.join(".")
+}
+
 const columns = [
   {
     name: '',
@@ -55,7 +68,7 @@ const columns = [
     sortable: true,
     minWidth: '50px',
     maxWidth:'180px',
-    selector: row => digitsEnToFa(row.BTCAmount)
+    selector: row => digitsEnToFa(formatNumber(row.BTCAmount, 5))
   },
 
   {
@@ -95,7 +108,7 @@ const RightDataTableWithButtons = (props) => {
 
   return (
     <Fragment >
-      <Card>
+      <Card  style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)", height:"100%"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom' id="mainTable">
           <CardTitle tag='h3' id="CardTitle">کیف های ورودی</CardTitle>
         </CardHeader>

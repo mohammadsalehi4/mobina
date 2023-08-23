@@ -9,15 +9,12 @@ import {
   Label,
   DropdownMenu,
   DropdownToggle,
+  DropdownItem,
   UncontrolledButtonDropdown
 } from 'reactstrap'
 import { useDispatch, useSelector } from "react-redux"
 import {Filter, ChevronDown} from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
-
-// import DatePicker from "react-multi-date-picker"
-// import persian from "react-date-object/calendars/persian"
-// import persian_fa from "react-date-object/locales/persian_fa"
 
 const TimeLimit = (props) => {
   const States = useSelector(state => state)
@@ -91,14 +88,6 @@ const TimeLimit = (props) => {
     dispatch({type:"SETENDTIME", value:EndDate})
   }, [min, max])
 
-  const setMin = () => {
-    SetMin((document.getElementById('GetStartTimeValue').value))
-  }
-
-  const setMax = () => {
-    SetMax((document.getElementById('GetEndTimeValue').value))
-  }
-
   useEffect(() => {
     if (States.starttime === 0) {
       SetStartPlaceHolder('0')
@@ -115,28 +104,24 @@ const TimeLimit = (props) => {
 
   return (
     <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%", height:"100%"}}>
-    <DropdownToggle color='secondary' id='TaxLimitButton' outline>
-      <span  className='align-middle' style={{direction:"ltr"}}>
-        {
-          ShowTitle === 0 ?
-            <div>
-              <Filter size={14} style={{marginLeft:"8px"}} />
-              محدوده زمانی
-            </div>
-          :
-          digitsEnToFa(ShowTitle)
-        }
-      </span>
-    </DropdownToggle>
-    <DropdownMenu style={{padding:"5px 10px"}}>
-        <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
-        <Input style={{width:"100%"}} defaultValue={StartPlaceHolder} onChange={setMin} id={`GetStartTimeValue`} type='date'/>
-        <Label style={{float:"right"}} className='mt-1 mb-1'>تا</Label>
-        <Input style={{width:"100%"}}  defaultValue={EndPlaceHolder} onChange={setMax} id={`GetEndTimeValue`} type='date'/>
-        <span style={{fontSize:"12px", float:"right", color:"blue", cursor:"pointer"}} className='m-1' onClick={() => { SetMin(0), SetMax(0) }}>حذف محدودیت</span>
-    </DropdownMenu>
-  </UncontrolledButtonDropdown>
+      <DropdownToggle color='secondary' id='TaxLimitButton' outline>
+        <span  className='align-middle' style={{direction:"ltr"}}>
+          {
+            ShowTitle === 0 ?
+              <div>
+                <Filter size={14} style={{marginLeft:"8px"}} />
+                محدوده زمانی
+              </div>
+            :
+            digitsEnToFa(ShowTitle)
+          }
+        </span>
+      </DropdownToggle>
 
+      <DropdownMenu style={{padding:"5px 10px", width:"220px"}}>
+
+      </DropdownMenu>
+    </UncontrolledButtonDropdown>
   )
 }
 

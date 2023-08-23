@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable space-infix-ops */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
@@ -16,51 +18,274 @@ import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 
-
 const EcommerceDashboard = () => {
+  
   const dispatch = useDispatch()
   const [mode, SetMode] = useState(0)
   const [trData, SetTrData] = useState({})
   const [adData, SetAdData] = useState({})
   const [Loading, SetLoading] = useState(false)
   const [address, SetAddress] = useState('')
+  const [coinData, SetCoinData] = useState({})
+
+  const BitcoinAddress =(getData, address) => {
+    let data=[]
+    for (let i=0; i<getData.length; i++) {
+      let input=0
+      let output=0
+
+      let timeStamp
+      let from
+      let to
+      let gasUsed
+      let gasPrice
+      let value
+      let hash
+
+      for (let j=0; j<getData[i].inputs.length; j++) {
+        if (getData[i].inputs[j].coin.address===address) {
+          input=input+Number(getData[i].inputs[j].coin.value)
+        }
+      }  
+      for (let j=0; j<getData[i].outputs.length; j++) {
+        if (getData[i].outputs[j].address===address) {
+          output=output+Number(getData[i].outputs[j].value)
+        }
+      }
+
+      if ((input-output) > 0) {
+        from=address
+        to=''
+      }  else {
+        to=address
+        from=''
+      }
+      value=Number(Math.abs(output-input))/100000000
+      timeStamp=getData[i].time
+      gasUsed=Number(getData[i].fee)/100000000
+      gasPrice=1
+      hash=getData[i].hash
+
+      data.push({
+        timeStamp,
+        from,
+        to,
+        gasUsed,
+        gasPrice,
+        value,
+        hash
+      })
+    }
+
+    return data
+  }
+
+  const EthereumAddress =(getData) => {
+    let data=[]
+    for (let i=0; i<getData.length; i++) {
+      data.push({
+        timeStamp:getData[i].timestamp,
+        from:getData[i].from,
+        to:getData[i].to,
+        gasUsed:getData[i].gasUsed,
+        gasPrice:Number(getData[i].gasPrice)/1000000000000000000,
+        value:Number(getData[i].value)/1000000000000000000,
+        hash:getData[i].transactionHash
+      })
+    }
+    return data
+  }
+
+  const BitcoinTransaction =(data) => {
+    const CurrencyPrice=28000
+    const USDPrice=490000
+
+    const address=data.hash
+    const blockNumber=data.blockNumber
+    const name='بیت کوین'
+    const image='bitcoin.png'
+    const BlockDate='سرور نمیده'
+    const symbole="BTC"
+    const color='#f8a23a'
+    let TotalOutput=0
+    let TotalInput=0
+    const inputData=[]
+    const outputData=[]
+    for (let i=0; i<data.inputs.length; i++) {
+      TotalInput=TotalInput+((data.inputs[i].coin.value)/100000000)
+      inputData.push({
+        BTCAmount:((data.inputs[i].coin.value)/100000000),
+        RiskScore:"0%",
+        address:data.inputs[i].coin.address
+      })
+    }
+    for (let i=0; i<data.outputs.length; i++) {
+      TotalOutput=TotalOutput+((data.outputs[i].value)/100000000)
+      outputData.push({
+        BTCAmount:((data.outputs[i].value)/100000000),
+        RiskScore:"0%",
+        address:data.outputs[i].address
+      })
+    }
+    const TotalOutput1=TotalOutput*CurrencyPrice
+    const TotalOutput2=TotalOutput1*USDPrice
+    const TotalInput1=TotalInput*CurrencyPrice
+    const TotalInput2=TotalInput1*USDPrice
+    const RiskScore='0%'
+    const BTCAmount=(Number(data.value)/1000000000000000000)
+    const isUTXOBase=true
+
+    return ({
+      address,
+      blockNumber,
+      name,
+      image,
+      BlockDate,
+      symbole,
+      color,
+      TotalOutput,
+      TotalOutput1,
+      TotalOutput2,
+      TotalInput,
+      TotalInput1,
+      TotalInput2,
+      RiskScore,
+      BTCAmount,
+      inputData,
+      outputData,
+      isUTXOBase
+    })
+  }
+
+  const EthereumTransaction =(data) => {
+
+    const CurrencyPrice=1900
+    const USDPrice=490000
+
+    const address=data.blockHash
+    const blockNumber=data.blockNumber
+    const name='اتریوم'
+    const image='ethereum.png'
+    const BlockDate='سرور نمیده'
+    const symbole="ETH"
+    const color='#627eea'
+    const TotalOutput=(Number(data.value)/1000000000000000000)
+    const TotalOutput1=TotalOutput*CurrencyPrice
+    const TotalOutput2=TotalOutput1*USDPrice
+    const TotalInput=(Number(data.value)/1000000000000000000)
+    const TotalInput1=TotalInput*CurrencyPrice
+    const TotalInput2=TotalInput1*USDPrice
+    const RiskScore='0%'
+    const BTCAmount=(Number(data.value)/1000000000000000000)
+    const inputData=[
+      {
+        address:data.from,
+        RiskScore:'0%',
+        BTCAmount:(Number(data.value)/1000000000000000000)
+      }
+    ]
+    const outputData=[
+      {
+        address:data.to,
+        RiskScore:'0%',
+        BTCAmount:(Number(data.value)/1000000000000000000)
+      }
+    ]
+
+    return ({
+      address,
+      blockNumber,
+      name,
+      image,
+      BlockDate,
+      symbole,
+      color,
+      TotalOutput,
+      TotalOutput1,
+      TotalOutput2,
+      RiskScore,
+      BTCAmount,
+      inputData,
+      outputData,
+      TotalInput,
+      TotalInput1,
+      TotalInput2
+    })
+  }
 
   const onSubmit = (event) => {
     SetLoading(true)
     event.preventDefault()
-    // eslint-disable-next-line eqeqeq
     const inputValue = document.getElementById("transactionValue").value
-    if (inputValue.length === 66) {
-      axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`)
-      .then((response) => {
-        if (response.data.blockHash) {
+    SetAddress(inputValue)
+    if (inputValue.length === 66 || inputValue.length === 64) {
+      if (inputValue.startsWith("0x")) {
+        axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`)
+        .then((response) => {
+          SetTrData(EthereumTransaction(response.data))
           SetLoading(false)
-          SetTrData(response.data)
           SetMode(1)
-        } else {
+        })
+        .catch(err => {
           SetLoading(false)
-        }
-      })
-      .catch(err => {
-        SetLoading(false)
-      })
-    } else if (inputValue.length === 42) {
-      axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${inputValue}&startblock=0&endblock=99999999&page=1&offset=10000&sort=asc&apikey=CM8I5HVMDCCCSJU32BD3AJ39IHCQATS53Q`)
-      .then((response) => {
-        SetLoading(false)
-        if (response.data.result.length >= 1) {
-          SetAdData(response.data.result)
+        })
+      } else {
+        axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${inputValue}`)
+        .then((response) => {
+          alert('BTC tr')
+          SetTrData(BitcoinTransaction(response.data))
+          SetMode(1)
+          SetLoading(false)
+        })
+        .catch(err => {
+          SetLoading(false)
+        })
+      }
+    } else {
+      if (inputValue.startsWith("0x")) {
+        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=ETH&page_size=50&offset=1`)
+        .then((response) => {
+          console.log(response.data)
+          SetLoading(false)
+          SetCoinData({
+            name:'اتریوم',
+            symbole:"ETH",
+            risk:"0%",
+            owner:"بدون اطلاعات",
+            ownerMode:"بدون اطلاعات",
+            website:"بدون اطلاعات",
+            color:"#627eea",
+            image:"ethereum.png"
+          })
+          SetAdData(EthereumAddress(response.data))
+          
           SetAddress(inputValue)
           SetMode(2)
-        } else {
-          toast.error('بدون اطلاعات!', {
-            position: 'bottom-left'
+        })
+        .catch((err) => {
+          SetLoading(false)
+        })
+      } else {
+        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=BTC&page_size=50&offset=0`)
+        .then((response) => {
+          SetLoading(false)
+          SetCoinData({
+            name:'بیت کوین',
+            symbole:"BTC",
+            risk:"0%",
+            owner:"بدون اطلاعات",
+            ownerMode:"بدون اطلاعات",
+            website:"بدون اطلاعات",
+            color:"#f8a23a",
+            image:"bitcoin.png"
           })
-        }
-      })
-      .catch((err) => {
-        SetLoading(false)
-      })
+          SetAdData(BitcoinAddress(response.data, inputValue))
+          SetMode(2)
+        })
+        .catch((err) => {
+          SetLoading(false)
+        })
+      }
     }
   }
 
@@ -82,7 +307,7 @@ const EcommerceDashboard = () => {
     <div id='dashboard' class='container-fluid'>
       {
         mode === 0 ?
-          <div class="row main_row1">
+        <div class="row main_row1">
             <div class="col-lg-3">
             </div>
             <div class="col-lg-6 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
@@ -122,7 +347,7 @@ const EcommerceDashboard = () => {
           </div>
         </div>
         :
-          <div class="row main_row1">
+        <div class="row main_row1">
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8 middleBox container-fluid" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
@@ -158,7 +383,7 @@ const EcommerceDashboard = () => {
             </div>
         <div class="col-lg-2">
         </div>
-      </div>
+        </div>
       }
 
     <div class="row row2 pb-2">
@@ -169,7 +394,7 @@ const EcommerceDashboard = () => {
             mode === 1 ? <TransactionDetail data={trData}/> : null
           }
           {
-            mode === 2 ? <Walletdetail data={adData} address={address}/> : null
+            mode === 2 ? <Walletdetail data={adData} address={address} coinData={coinData}/> : null
           }
         </div>
         <div class="col-lg-2">

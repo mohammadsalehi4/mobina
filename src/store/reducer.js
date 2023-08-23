@@ -25,12 +25,15 @@ const initialState = {
     endtime:0,
     startAmount:0,
     endAmount:0,
+    walletSwitchColor:"",
 
     //Loadin-All
     isLoading:false,
 
     //calendar
     jalaliCalendar:true
+
+    
 }
 
 const reducer = (state = initialState, action) => {

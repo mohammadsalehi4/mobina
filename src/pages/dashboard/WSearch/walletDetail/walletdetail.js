@@ -7,143 +7,78 @@ import React, {useEffect, useState} from 'react'
 import CardTransactions from '../leftcard'
 import CardContentTypes from '../rightCard'
 import DataTableWithButtons from './TableWithButtons'
-import { useSelector } from "react-redux"
-import moment from 'jalali-moment'
+
+//delete duplicate values
+function removeDuplicates(arr, prop) {
+  return arr.filter((obj, pos, self) => self.findIndex((testObj) => testObj[prop] === obj[prop]) === pos)
+}
 
 const Walletdetail = (props) => {
-  const States = useSelector(state => state)
 
   const [totalsend, SetTotalsend] = useState(0.0)
   const [totalget, SetTotalget] = useState(0)
   const [totalSum, SetTotalSum] = useState(0)
-  const [MinTime, SetMinTime] = useState(0)
-  const [MaxTime, SetMaxTime] = useState(0)
-  const [TrNumber, SetTrNumber] = useState(0)
-  const [FirstActivity, SetFirstActivity] = useState('')
-  const [LastActivity, SetLastActivity] = useState('')
   const [GetTr, SetTr]=useState([])
 
-  const getMyTime=(index) => {
-    const date = new Date(index*1000)
-    let month
-    let day
-    let hour
-    let minute
-
-    if (String(Number(date.getMonth())+1).length === 1) {
-      month = `0${date.getMonth()}`
-    } else {
-      month = date.getMonth()
-    }
-
-    if (String(date.getDate()).length === 1) {
-      day = `0${date.getDate()}`
-    } else {
-      day = date.getDate()
-    }
-
-    if (String(date.getHours()).length === 1) {
-      hour = `0${date.getHours()}`
-    } else {
-      hour = date.getHours()
-    }
-
-    if (String(date.getMinutes()).length === 1) {
-      minute = `0${date.getMinutes()}`
-    } else {
-      minute = date.getMinutes()
-    }
-
-    return ({
-      year:date.getFullYear(),
-      month,
-      day,
-      hour,
-      minute
-    })
-  }
-
   useEffect(() => {
-    let get=0
-    let send=0
-    SetMinTime(props.data[0].timeStamp)
-    SetMaxTime(props.data[0].timeStamp)
+      let get=0
+      let send=0
+  
+      let transactions=[]
+  
+      for (let i=0; i<props.data.length; i++) {
 
-    let transactions=[]
+        //total send and get
+        if((props.data[i].from).toLowerCase()===(props.address).toLowerCase()){
+          get=get+(Number(props.data[i].value))
+        } else if ((props.data[i].to).toLowerCase()===(props.address).toLowerCase()) {
+          send=send+(Number(props.data[i].value))
+        }
 
-    for (let i=0; i<props.data.length; i++) {
+        //transactions data
+        if((props.data[i].from).toLowerCase()===(props.address).toLowerCase()){
+          transactions.push({
+            address:props.data[i].hash,
+            mode:false,
+            BTCAmount:Number(Number(props.data[i].value)),
+            Date:props.data[i].timeStamp,
+            Time:props.data[i].timeStamp,
+            Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))).toFixed(5)
+          })
+        } else {
+          transactions.push({
+            address:props.data[i].hash,
+            mode:true,
+            BTCAmount:String(Number(props.data[i].value)),
+            Date:props.data[i].timeStamp,
+            Time:props.data[i].timeStamp,
+            Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))).toFixed(5)
+          })
+        }
+      }
       
-      if((props.data[i].from).toLowerCase()===(props.address).toLowerCase()){
-        get=get+(Number(props.data[i].value)/1000000000000000000)
-      } else if ((props.data[i].to).toLowerCase()===(props.address).toLowerCase()) {
-        send=send+(Number(props.data[i].value)/1000000000000000000)
-      }
-      if(props.data[i].timeStamp > SetMinTime){
-        SetMinTime(Number(props.data[i].timeStamp))
-      }
-      if(props.data[i].timeStamp < SetMaxTime){
-        SetMaxTime(Number(props.data[i].timeStamp))
-      }
-      if(props.data[i].from===props.address){
-        transactions.push({
-          address:props.data[i].hash,
-          mode:false,
-          BTCAmount:Number(Number(props.data[i].value)/1000000000000000000),
-          Date:props.data[i].timeStamp,
-          Time:props.data[i].timeStamp,
-          Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))/1000000000000000000).toFixed(5)
-        })
-      } else {
-        transactions.push({
-          address:props.data[i].hash,
-          mode:true,
-          BTCAmount:String(Number(props.data[i].value/1000000000000000000)),
-          Date:props.data[i].timeStamp,
-          Time:props.data[i].timeStamp,
-          Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))/1000000000000000000).toFixed(5)
-        })
-      }
-    }
+      SetTotalget(send)
+      SetTotalsend(get)
+      SetTotalSum(send-get)
 
-    SetTotalget(get)
-    SetTotalsend(send)
-    SetTotalSum(get-send)
-    SetTr(transactions)
-    if(props.data.length < 10000){
-      SetTrNumber(props.data.length)
-    } else {
-      SetTrNumber('+10000')
-    }
+      SetTr(removeDuplicates(transactions, 'address'))
   }, [, props.data])
-
-  useEffect(() => {
-    const first=`${getMyTime(MinTime).year}-${Number(getMyTime(MinTime).month)+1}-${getMyTime(MinTime).day}`
-    const last=`${getMyTime(MaxTime).year}-${Number(getMyTime(MaxTime).month)+1}-${getMyTime(MaxTime).day}`
-    if(States.jalaliCalendar){
-      SetFirstActivity(moment(first, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))
-      SetLastActivity(moment(last, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))
-    } else {
-      SetFirstActivity(first)
-      SetLastActivity(last)
-    }
-  }, [States.jalaliCalendar, MinTime])
 
   const data = {
     address:props.address,
-    name:"اتریوم",
+    name:props.coinData.name,
     Total: String(parseFloat(totalSum.toFixed(5)).toString()),
     InCome: String(parseFloat(totalget.toFixed(5)).toString()),
     OutCome: String(parseFloat(totalsend.toFixed(5)).toString()),
-    TrNumber,
-    FirstActivity,
-    LastActivity,
-    symbole:"ETH",
-    risk:"0%",
-    owner:"بدون اطلاعات",
-    ownerMode:"بدون اطلاعات",
-    website:"بدون اطلاعات",
-    image:'../images/ethereum.png'
+    symbole:props.coinData.symbole,
+    risk:props.coinData.risk,
+    owner:props.coinData.owner,
+    ownerMode:props.coinData.ownerMode,
+    website:props.coinData.website,
+    image:props.coinData.image,
+    color:props.coinData.color
   }
+
 
   return (
     <div className='container-fluid mt-0' style={{borderRadius:"8px", boxSizing:"border-box", background:"rgb(248,248,248)"}}>
@@ -152,7 +87,7 @@ const Walletdetail = (props) => {
             <CardContentTypes data={data}/>
           </div>
           <div className='col-lg-6  mt-2'>
-            <CardTransactions data={data}/>
+            <CardTransactions data={data} transactions={GetTr}/>
           </div>
         </div>
         <div className='row mt-0'>
