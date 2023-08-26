@@ -2,6 +2,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import { Fragment, useState, useEffect } from 'react'
 import { MainSiteGray, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 import AdminAddNewUser from '../adminAddNewUser/adminAddNewUser'
+import AdminShowUsers from '../adminShowUsers/adminShowUsers'
 // ** Reactstrap Imports
 const AdminUsers = () => {
   const [active, setActive] = useState('1')
@@ -53,9 +54,7 @@ const AdminUsers = () => {
             <AdminAddNewUser/>
           </TabPane>
           <TabPane tabId='1'>
-            <p>
-              box2
-            </p>
+            <AdminShowUsers/>
           </TabPane>
         </TabContent>
       </div>
@@ -98,12 +97,11 @@ const AdminUsers = () => {
               <AdminAddNewUser/>
             </TabPane>
             <TabPane tabId='1'>
-              box2
+              <AdminShowUsers/>
             </TabPane>
           </TabContent>
         </Fragment>
       </div>
-      
     </div>
   )
 }

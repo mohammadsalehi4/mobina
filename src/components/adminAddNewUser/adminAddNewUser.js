@@ -7,7 +7,9 @@ import React, {useEffect, useState} from 'react'
 import {  Row, Col, Input, Label } from 'reactstrap'
 import { MainSiteGray, MainSiteOrange } from '../../../public/colors'
 import CreatableSelect from 'react-select/creatable'
+import { serverAddress } from '../../address'
 import { Alert } from 'reactstrap'
+import axios from 'axios'
 
 const AdminAddNewUser = () => {
     const [inputValue, setInputValue] = useState('')
@@ -153,7 +155,30 @@ const AdminAddNewUser = () => {
             if (LastnameValue !== '') {
               if (UsernameValue !== '') {
                 if (nameValue !== '') {
-                  alert('ok')
+                  // register
+                  axios.post(`${serverAddress}/accounts/register/`, 
+                  {
+                      // This is the data (or body) of the request
+                      first_name : document.getElementById('NameAddUserAdmin').value,
+                      last_name : document.getElementById('lastNameMulti').value,
+                      email : document.getElementById('AdminAddUserEmailInput').value,
+                      user_permissions : [1, 2],
+                      username : document.getElementById('AdminAddUserUsernameInput').value,
+                      phone_number : document.getElementById('AdminAddUserPhoneNumber').value
+                  },
+                  {
+                      // This is the config (includes headers)
+                      headers: {
+                          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkzMDM0NDA1LCJpYXQiOjE2OTMwMzA4MDUsImp0aSI6ImJkOTEzMGRhN2YzYzQ1MWY5ODdjZWU0OWMwMTgxM2Y0IiwidXNlcl9pZCI6MX0.EG-b_0vTZvRFsyrYNQqASSl2UtDQU34vfLT03qNsbJc`, 
+                          'Content-Type': 'application/json'
+                      }
+                  })
+                  .then((response) => {
+                      console.log(response.data)
+                  })
+                  .catch((err) => {
+                      console.log(err.response.data)
+                  })
                 }
               }
             }

@@ -2,6 +2,18 @@
 @import '../../../base/components/include';
 @import '/public/color.scss';
 
+
+// .react-dataTable::-webkit-scrollbar {
+//   width: 1px;
+// }
+// .react-dataTable::-webkit-scrollbar-track {
+//   background-color: #d1d1d1;
+// }
+// .react-dataTable::-webkit-scrollbar-thumb {
+//   background-color: #909090; /* رنگ نوار اسکرول */
+//   border-radius: 5px; /* شکل گرد نوار اسکرول */
+// }
+
 .react-dataTable {
   border-radius: 0;
   .rdt_TableHead {
@@ -35,16 +47,15 @@
 
     }
   }
-
   .rdt_TableBody {
     //yeki dar mian
     .rdt_TableRow:nth-child(even) {
       background: rgb(248, 248, 248);
-      
     }
 
     .rdt_TableRow {
       color: $body-color;
+      
       .rdt_TableCell {
         height: 53px;
 

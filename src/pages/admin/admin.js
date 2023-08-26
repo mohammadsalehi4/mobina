@@ -8,7 +8,6 @@ import {
   NavItem,
   TabContent
 } from 'reactstrap'
-import { Home, FileText, Trello, User, Hexagon } from 'react-feather'
 import { MainSiteOrange } from '../../../public/colors'
 
 import AdminEvents from '../../components/adminEvents/adminEvents'
@@ -51,7 +50,7 @@ const Admin = () => {
                                 active={active === '1'}
                                 onClick={() => {
                                 toggle('1')
-                                }}>
+                            }}>
                                 <span className='align-middle'>کاربران</span>
                             </a>
                         </NavItem>
