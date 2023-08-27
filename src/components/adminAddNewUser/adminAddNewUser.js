@@ -12,6 +12,7 @@ import { Alert } from 'reactstrap'
 import axios from 'axios'
 
 const AdminAddNewUser = () => {
+
     const [inputValue, setInputValue] = useState('')
     const [inputLastValue, setInputLastValue] = useState('')
     const [selectedOption, setSelectedOption] = useState(null)
@@ -156,6 +157,7 @@ const AdminAddNewUser = () => {
               if (UsernameValue !== '') {
                 if (nameValue !== '') {
                   // register
+                  
                   axios.post(`${serverAddress}/accounts/register/`, 
                   {
                       // This is the data (or body) of the request

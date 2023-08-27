@@ -1,13 +1,25 @@
 import React from 'react'
 
 const TopGuide = () => {
+
+    const selectOption = (index) => {
+        document.getElementById(`kuft1`).style.background = "white"
+        document.getElementById(`kuft2`).style.background = "white"
+        document.getElementById(`kuft1`).style.stroke = "gray"
+        document.getElementById(`kuft2`).style.stroke = "gray"
+
+        document.getElementById(`kuft${index}`).style.background = "rgb(255, 200, 0)"
+        document.getElementById(`kuft${index}`).style.stroke = "black"
+        
+    }
+
   return (
         <div id='TopGuide'>
-            <svg style={{ background: "rgb(255, 200, 0)", stroke: "black"}} xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pointer JD" viewBox="0 0 24 24" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg id='kuft1' onClick={() => { selectOption(1) }} style={{ background: "rgb(255, 200, 0)", stroke: "black"}}  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pointer JD" viewBox="0 0 24 24" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                 <path d="M7.904 17.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l4.907 4.907a1.067 1.067 0 0 0 1.509 0l1.047 -1.047a1.067 1.067 0 0 0 0 -1.509l-4.907 -4.907l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563z" />
             </svg>
-            <svg className='selected' xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hand-grab JD" viewBox="0 0 24 24" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg onClick={() => { selectOption(2) }}  style={{ background: "white", stroke: "gray"}} id='kuft2' xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hand-grab JD" viewBox="0 0 24 24" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                 <path d="M8 11v-3.5a1.5 1.5 0 0 1 3 0v2.5" />
                 <path d="M11 9.5v-3a1.5 1.5 0 0 1 3 0v3.5" />

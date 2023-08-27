@@ -2,6 +2,7 @@
 // ** React Imports
 import { Fragment, useState, forwardRef } from 'react'
 import NiceAddress2 from '../niceAddress2/niceAddress'
+import { digitsEnToFa } from 'persian-tools'
 
 // ** Table Data & Columns
 const data = [
@@ -34,31 +35,18 @@ const columns = [
     name: 'مقدار',
     sortable: true,
     minWidth: '100px',
-    selector: row => row.amount
+    selector: row => digitsEnToFa(row.amount)
   }
 ]
-// ** Add New Modal Component
-import AddNewModal from './AddNewModal'
 
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy, Plus } from 'react-feather'
 
 // ** Reactstrap Imports
 import {
-  Row,
-  Col,
   Card,
-  Input,
-  Label,
-  Button,
-  CardTitle,
-  CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledButtonDropdown
+  Input
 } from 'reactstrap'
 
 // ** Bootstrap Checkbox Component
@@ -70,7 +58,6 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 
 const TransactionTablleWithCheckbox2 = () => {
   // ** States
-  const [modal, setModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
   const [searchValue, setSearchValue] = useState('')
   const [filteredData, setFilteredData] = useState([])

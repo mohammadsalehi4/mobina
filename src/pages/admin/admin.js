@@ -29,7 +29,7 @@ const Admin = () => {
 
   useEffect(() => {
     dispatch({type:"SHOWNAVBAR"})
-    dispatch({type:"SETWITCHPAGE", value:0})
+    dispatch({type:"SETWITCHPAGE", value:-1})
   }, [])
 
   const toggle = tab => {

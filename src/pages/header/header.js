@@ -42,21 +42,14 @@ function Header() {
 		}
 	}, [States.showMobileMenu])
 
-  // useEffect(() => {
-  //   if (States.showAdminAccessBox) {
-  //     document.getElementById('adminOptionBox').style.display = "block"
-  //   } else {
-  //     document.getElementById('adminOptionBox').style.display = "none"
-  //   }
-  // }, [States.showAdminAccessBox])
-
   useEffect(() => {
     if (States.witchPage) {
       for (let i = 0; i < 7; i++) {
         document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
       }
-      document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
-
+      if (States.witchPage !== -1) {
+        document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
+      }
     }
   }, [States.witchPage])
 
@@ -73,16 +66,12 @@ function Header() {
     }
   }, [])
 
-  // const changeAdminAccessShow = () => {
-  //   const show = States.showAdminAccessBox
-	// 	dispatch({type:"SHOWADMINACCESSBOX", value:!show})
-  // }
-
   return (
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu" id='header'>
       <div class="layout-container">
         <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
           <div class="container-fluid  ">
+            
             <div class="navbar-brand app-brand demo d-none d-xl-flex py-0"  style={{marginRight:"60px"}}>
               <a href="/" class="app-brand-link gap-2">
                 <img src='images/logo.png' id='logo'/>
@@ -98,8 +87,8 @@ function Header() {
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <ul class="navbar-nav flex-row ms-auto rightheaderItems">
+
                 <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
-                  {/* <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon"  ref={myElementRef} onClick={changeAdminAccessShow} id='openAdminaccessBoxIcon'> */}
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon" href='/admin'>
                     <i class="ti ti-layout-grid-add ti-md "></i>
                   </a>

@@ -25,7 +25,7 @@ const AdminUsers = () => {
     <div className='nav-vertical mt-3 '>
       <div className='JDAdmin'>
         <Nav tabs className='nav-left' style={{marginRight:"0px", width:"140px", border:"none"}}>
-          <NavItem style={{ marginRight:"-40px", marginBottom:"16px"}}>
+          <NavItem style={{ marginRight:"-40px", marginBottom:"16px", cursor:"pointer"}}>
             <a
               active={active === '1'}
               id='AdminUsersDesktopLink1'
@@ -37,7 +37,7 @@ const AdminUsers = () => {
               مشاهده کاربران
             </a>
           </NavItem>
-          <NavItem  style={{ marginRight:"-40px", marginBottom:"16px"}}>
+          <NavItem  style={{ marginRight:"-40px", marginBottom:"16px", cursor:"pointer"}}>
             <a
               id='AdminUsersDesktopLink2'
               active={active === '2'}
@@ -92,7 +92,7 @@ const AdminUsers = () => {
               </a>
             </NavItem>
           </Nav>
-          <TabContent className='py-50' activeTab={active}>
+          <TabContent className='py-50 p-0 pt-3' activeTab={active}>
             <TabPane tabId='2'>
               <AdminAddNewUser/>
             </TabPane>

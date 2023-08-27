@@ -3,16 +3,16 @@
 @import '/public/color.scss';
 
 
-// .react-dataTable::-webkit-scrollbar {
-//   width: 1px;
-// }
-// .react-dataTable::-webkit-scrollbar-track {
-//   background-color: #d1d1d1;
-// }
-// .react-dataTable::-webkit-scrollbar-thumb {
-//   background-color: #909090; /* رنگ نوار اسکرول */
-//   border-radius: 5px; /* شکل گرد نوار اسکرول */
-// }
+.react-dataTable::-webkit-scrollbar {
+  width: 1px;
+}
+.react-dataTable::-webkit-scrollbar-track {
+  background-color: #d1d1d1;
+}
+.react-dataTable::-webkit-scrollbar-thumb {
+  background-color: #909090; /* رنگ نوار اسکرول */
+  border-radius: 5px; /* شکل گرد نوار اسکرول */
+}
 
 .react-dataTable {
   border-radius: 0;

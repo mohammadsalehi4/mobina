@@ -17,6 +17,7 @@ import { MainSiteOrange } from '../../../public/colors'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
+import Cookies from 'js-cookie'
 
 const EcommerceDashboard = () => {
   
@@ -82,15 +83,16 @@ const EcommerceDashboard = () => {
 
   const EthereumAddress =(getData) => {
     let data=[]
-    for (let i=0; i<getData.length; i++) {
+    console.log(getData)
+    for (let i=0; i<getData.result.length; i++) {
       data.push({
-        timeStamp:getData[i].timestamp,
-        from:getData[i].from,
-        to:getData[i].to,
-        gasUsed:getData[i].gasUsed,
-        gasPrice:Number(getData[i].gasPrice)/1000000000000000000,
-        value:Number(getData[i].value)/1000000000000000000,
-        hash:getData[i].transactionHash
+        timeStamp:getData.result[i].timestamp,
+        from:getData.result[i].from.address,
+        to:getData.result[i].to.address,
+        gasUsed:getData.result[i].gasUsed,
+        gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
+        value:Number(getData.result[i].value)/1000000000000000000,
+        hash:getData.result[i].transactionHash
       })
     }
     return data
@@ -179,14 +181,14 @@ const EcommerceDashboard = () => {
     const BTCAmount=(Number(data.value)/1000000000000000000)
     const inputData=[
       {
-        address:data.from,
+        address:data.from.address,
         RiskScore:'0%',
         BTCAmount:(Number(data.value)/1000000000000000000)
       }
     ]
     const outputData=[
       {
-        address:data.to,
+        address:data.to.address,
         RiskScore:'0%',
         BTCAmount:(Number(data.value)/1000000000000000000)
       }
@@ -220,7 +222,14 @@ const EcommerceDashboard = () => {
     SetAddress(inputValue)
     if (inputValue.length === 66 || inputValue.length === 64) {
       if (inputValue.startsWith("0x")) {
-        axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`)
+        axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`,
+        {
+          // This is the config (includes headers)
+          headers: {
+            //in bayad token sahih begire
+            Authorization: `Bearer ${Cookies.get('access')}`
+          }
+        })
         .then((response) => {
           SetTrData(EthereumTransaction(response.data))
           SetLoading(false)
@@ -230,9 +239,15 @@ const EcommerceDashboard = () => {
           SetLoading(false)
         })
       } else {
-        axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${inputValue}`)
+        axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${inputValue}`,
+        {
+          // This is the config (includes headers)
+          headers: {
+            //in bayad token sahih begire
+            Authorization: `Bearer ${Cookies.get('access')}`
+          }
+        })
         .then((response) => {
-          alert('BTC tr')
           SetTrData(BitcoinTransaction(response.data))
           SetMode(1)
           SetLoading(false)
@@ -243,9 +258,15 @@ const EcommerceDashboard = () => {
       }
     } else {
       if (inputValue.startsWith("0x")) {
-        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=ETH&page_size=50&offset=1`)
+        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=ETH&page_size=50&offset=1`, 
+        {
+          // This is the config (includes headers)
+          headers: {
+            //in bayad token sahih begire
+            Authorization: `Bearer ${Cookies.get('access')}`
+          }
+        })
         .then((response) => {
-          console.log(response.data)
           SetLoading(false)
           SetCoinData({
             name:'اتریوم',
@@ -258,7 +279,6 @@ const EcommerceDashboard = () => {
             image:"ethereum.png"
           })
           SetAdData(EthereumAddress(response.data))
-          
           SetAddress(inputValue)
           SetMode(2)
         })
@@ -266,8 +286,15 @@ const EcommerceDashboard = () => {
           SetLoading(false)
         })
       } else {
-        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=BTC&page_size=50&offset=0`)
+        alert('btc add')
+        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=BTC&page_size=50&offset=0`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+          }
+        })
         .then((response) => {
+          console.log(response.data)
           SetLoading(false)
           SetCoinData({
             name:'بیت کوین',
@@ -381,8 +408,8 @@ const EcommerceDashboard = () => {
                   </p>
                 </Label> : null}
             </div>
-        <div class="col-lg-2">
-        </div>
+            <div class="col-lg-2">
+            </div>
         </div>
       }
 

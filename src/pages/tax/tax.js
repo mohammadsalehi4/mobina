@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect} from 'react'
 import { useDispatch } from 'react-redux'
 import './tax.css'
 import DataTableWithButtons from '../../components/collapseableTable/TableExpandable'
-import { Input } from 'reactstrap'
+import { Input, Label } from 'reactstrap'
 import { useParams } from "react-router-dom"
 import { MainSiteOrange } from '../../../public/colors'
 
@@ -39,39 +40,39 @@ const Tax = () => {
     }, [mode])
 
   return (
-    <div id='Tax' className='container-fluid' style={{marginTop:"20px"}}>
-                {
-                    mode === 0 ?
-                        <div className='row'>
-                            <div className='col-lg-3'>
-                            </div>
-                            <div className='col-lg-6 mt-5'>
-                                <form onSubmit={checkinput}>
-                                    <h3 style={{marginBottom:"-12px", marginTop:"18px", display:"block", textAlign:"center", color:"#497979"}}> شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3><br/>
-                                    <Input id='trAddressValue' type='text'  class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{ backgroundColor:"white", height:"50px", borderRadius:"8px"}}/>
-                                </form>
-                            </div>
-                            <div className='col-lg-3'>
-                            </div>
-                        </div>
-                    :
-                    null
-                }
-
-            {
-            mode === 1 ?
-                <div className='row'>
-                    <div className='col-lg-0'>
+    <div id='Tax' className='container-fluid'>
+        {
+            mode === 0 ?
+                <div class="row main_row1">
+                    <div class="col-lg-3">
                     </div>
-                    <div className='col-lg-12'>
-                        <DataTableWithButtons trAddress={address}/>
+                    <div class="col-lg-6 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
+                        <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}> شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3>
+                        <form onSubmit={checkinput}>
+                            <Input type='text' id='trAddressValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{backgroundColor:"white"}}/>
+                        </form>
                     </div>
-                    <div className='col-lg-0'>
+                    <div class="col-lg-3">
                     </div>
                 </div>
             :
-                null
-            }
+            null
+        }
+
+        {
+        mode === 1 ?
+            <div className='row mt-3' >
+                <div className='col-lg-0'>
+                </div>
+                <div className='col-lg-12'>
+                    <DataTableWithButtons trAddress={address}/>
+                </div>
+                <div className='col-lg-0'>
+                </div>
+            </div>
+        :
+            null
+        }
     </div>
   )
 }

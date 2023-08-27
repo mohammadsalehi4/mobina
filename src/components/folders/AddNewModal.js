@@ -28,10 +28,11 @@ const AddNewModal = ({ open, handleModal }) => {
   return (
     <Modal
       isOpen={open}
-      className='sidebar-sm'
+      className='sidebar-sm m-0'
       toggle={ handleModal}
       modalClassName='modal-slide-in'
       contentClassName='pt-0'
+      style={{margin:"0px"}}
     >
       <ModalHeader className='mb-1' toggle={handleModal} close={CloseBtn} tag='div'>
         <h5 className='modal-title'>ساخت مورد جدید</h5>

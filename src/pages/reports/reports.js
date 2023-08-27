@@ -70,17 +70,17 @@ const Reports = () => {
                     <CardMain data={data.CardMain}/>
                 </div>
                 <div className='col-lg-6'>
-                    <div className='row' style={{height:"33.3%"}}>
+                    <div className='row'>
                         <div className='col-lg-12 p-0'>
                             <CardSubMain data={data.CardSubMain[0]}/>
                         </div>
                     </div>
-                    <div className='row' style={{height:"33.3%"}}>
+                    <div className='row'>
                         <div className='col-lg-12 p-0'>
                             <CardSubMain data={data.CardSubMain[1]}/>
                         </div>
                     </div>
-                    <div className='row' style={{height:"33.3%"}}>
+                    <div className='row'>
                         <div className='col-lg-12 p-0'>
                             <CardSubMain data={data.CardSubMain[2]}/>
                         </div>

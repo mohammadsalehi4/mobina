@@ -33,7 +33,8 @@ const Main = () => {
     const login = (event) => {
         const username = document.getElementById('login_username').value
         const password = document.getElementById('login_password').value
-
+        console.log(username)
+        console.log(password)
         if (username === '' || password === '') {
             return toast.error('مقادیر را به درستی وارد کنید!', {
                 position: 'bottom-left'
@@ -45,6 +46,7 @@ const Main = () => {
                 password:password
             })
             .then((response) => {
+                console.log(response.data)
                 if (response.data.refresh && response.data.access) {
                     SetLoading(false)
                       Cookies.set('refresh', response.data.refresh, { expires: 1 })
@@ -59,6 +61,7 @@ const Main = () => {
                 SetLoading(false)
             })
             .catch((err) => {
+                console.log(err.data)
 
                 if (err.response.statusText === 'Unauthorized') {
                     SetLoading(false)
@@ -85,6 +88,7 @@ const Main = () => {
                 window.location.assign('/researcher')
             }
         } catch {
+            
         }
 
     }, [])

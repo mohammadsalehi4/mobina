@@ -15,8 +15,7 @@ const Tracker = () => {
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})
         dispatch({type:"SETWITCHPAGE", value:2})
-      }, [])
-    // const {transactionAddress} = useParams()
+    }, [])
     const [] = useState(false)
     const States = useSelector(state => state)
     const dispatch = useDispatch()

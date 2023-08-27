@@ -63,7 +63,7 @@ const data = [
     notifs:"متعادل",
     LastChangeDate:"1402/02/03",
     LastChangeTime:"13:29",
-    Status:"ongoing"
+    Status:"done"
   }
 ]
 
@@ -188,8 +188,8 @@ const columns = [
       },
     {
       name: 'وضعیت',
-      minWidth: '150px',
-      maxWidth: '150px',
+      minWidth: '180px',
+      maxWidth: '180px',
       sortable: row => row.Status.title,
       cell: row => {
         return (
@@ -208,22 +208,19 @@ const columns = [
     },
     {
         sortable: true,
-        minWidth: '20px',
-        maxWidth: '20px',
+        minWidth: '40px',
+        maxWidth: '40px',
         cell: row => (
-            <UncontrolledDropdown>
-            <DropdownToggle className='pe-1' tag='span' style={{cursor:"pointer"}}>
+          <UncontrolledDropdown style={{direction:"ltr"}}>
+            <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' style={{border:"none", marginRight:"-40px"}}>
               <MoreVertical size={15} />
             </DropdownToggle>
-            <DropdownMenu end style={{zIndex:12}}>
-              <DropdownItem tag='a' href='/' className='w-100'>
-                <span className='align-middle ms-50'>Details</span>
+            <DropdownMenu>
+              <DropdownItem href='/'>
+                <span className='align-middle'>باز</span>
               </DropdownItem>
-              <DropdownItem tag='a' href='/' className='w-100'>
-                <span className='align-middle ms-50'>Archive</span>
-              </DropdownItem>
-              <DropdownItem tag='a' href='/' className='w-100'>
-                <span className='align-middle ms-50'>Delete</span>
+              <DropdownItem href='/'>
+                <span className='align-middle'>بسته</span>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -346,11 +343,11 @@ const MainFolderTable = () => {
             <div className='d-flex mt-md-0 mt-1'>
               <button style={{background:MainSiteOrange, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-2' color='primary' onClick={handleModal}>
                 <span className='align-middle ms-50'>افزودن مورد جدید</span>
-                <Plus size={15} />
+                <Plus size={15}/>
               </button>
               <button style={{ color:"white", background:MainSiteyellow, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline  onClick={() => downloadCSV(data)}>
                 <span className='align-middle ms-50'>دریافت</span>
-                <Share size={15} />
+                <Share size={15}/>
               </button>
             </div>
           </Col>

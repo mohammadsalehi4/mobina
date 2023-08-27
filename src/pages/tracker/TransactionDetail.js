@@ -6,6 +6,7 @@ import Switch from '../../components/switch/switch'
 import TransactionTablleWithCheckbox from '../../components/TransactionDetailTable/transactionTablleWithCheckbox'
 import TransactionTablleWithCheckbox2 from '../../components/TransactionDetailTableOut/transactionTablleWithCheckbox'
 import NiceAddress2 from '../../components/niceAddress2/niceAddress'
+import { digitsEnToFa } from 'persian-tools'
 const TransactionDetail1 = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -51,7 +52,7 @@ const TransactionDetail1 = () => {
                 <p>حجم، اندازه</p>
               </div>
               <div className='col-6' style={{float:"left", direction:"ltr"}}>
-                <span>2.37</span> <small>BTC</small>
+                <span>{digitsEnToFa(2.37)}</span> <small>BTC</small>
               </div>
             </div>
             <div className='row' >
@@ -59,7 +60,7 @@ const TransactionDetail1 = () => {
                 <p>کارمزد</p>
               </div>
               <div className='col-6' style={{float:"left", direction:"ltr"}}>
-                <span>0.003</span> <small>BTC</small>
+                <span>{digitsEnToFa(0.003)}</span> <small>BTC</small>
               </div>
             </div>
             <div className='row' >
@@ -67,8 +68,8 @@ const TransactionDetail1 = () => {
                 <p>تاریخ بلاک</p>
               </div>
               <div className='col-6' style={{float:"left", direction:"ltr"}}>
-                <span>2023/02/03</span><br/>
-                <small>13:23</small>
+                <span>{digitsEnToFa("2023/02/03")}</span><br/>
+                <small>{digitsEnToFa("13:23")}</small>
               </div>
             </div>
           </div>

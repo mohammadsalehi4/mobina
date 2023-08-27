@@ -10,6 +10,9 @@ import TaxDayLimit from '../TaxDayLimit/PickerRange'
 import TaxMPriceLimit from '../TaxPriceLimit/PickerRange'
 import NiceAddress2 from '../niceAddress2/niceAddress'
 
+import './style.css'
+
+////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -138,7 +141,7 @@ const ExpandableTable = () => {
 ////////////////////////////////////////////////////////////////////////////
 
 import ReactPaginate from 'react-paginate'
-import { ChevronDown } from 'react-feather'
+import { ChevronDown, Calendar, Info, BarChart2, AlertTriangle } from 'react-feather'
 import DataTable from 'react-data-table-component'
 
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -192,13 +195,14 @@ const DataTableWithButtons = (props) => {
   return (
     <Card>
       <CardHeader>
+
         <div className='container-fluid'>
           <div className='row'>
-            <div className='col-8'>
+            <div className='col-sm-8' id='taxTitleTableRight'>
               <h6 style={{float:"right"}}>مالیات محاسبه شده تراکنش</h6>
             </div>
-            <div className='col-4' style={{textAlign:"left"}}>
-              <UncontrolledButtonDropdown style={{}}>
+            <div className='col-sm-4' id='taxTitleTableLeft'>
+              <UncontrolledButtonDropdown style={{ direction:"ltr"}}>
                 <DropdownToggle color={MainSiteLightOrange} style={{borderRadius:"6px", background:MainSiteOrange, borderColor:MainSiteOrange, borderStyle:"solid", borderWidth:"1px", color:"white", borderRadius:"6px", marginBottom:"10px", marginTop:"-10px"}}>
                   <span className='align-middle ms-50'>دریافت</span>
                   <ion-icon name="download-outline"></ion-icon>
@@ -215,71 +219,66 @@ const DataTableWithButtons = (props) => {
             </div>
           </div>
         </div>
+
         <div style={{height:"1px", width:"100%", display:"block", background:"rgb(220,220,220)"}}></div>
         <div style={{ width:"100%", float:"left", marginTop:"10px"}}>
             <div className='container-fluid'>
               <div className='row'>
-                <div className='col-lg-4'>
-                  <div className='row'>
-                    <div className='col-4'>
-                      <p>شناسه تراکنش</p>
+
+                <div className='col-lg-4 mt-3'>
+                    <div className='col-12'>
+                      <p style={{color:"rgb(160,160,160)"}}>شناسه تراکنش</p>
                     </div>
-                    <div className='col-8' style={{textAlign:"left"}}>
+                    <div className='col-12' style={{marginTop:"-16px"}}>
+                      <Info size={15} style={{marginTop:"-4px", marginLeft:"4px", color:"rgb(160,160,160)"}} />
                       <NiceAddress2 text="asdhaskdhakldkjaghkldfjshgkldsfgkjsdfhgklfdgkljhdfklgdfgsfdg" number={8}/>
                     </div>
-                  </div>
-                  <div className='row'>
-                    <div className='col-6'>
-                      <p>تاریخ تراکنش</p>
-                    </div>
-                    <div className='col-6' style={{textAlign:"left"}}>
-                      <p>{digitsEnToFa("1400/02/03")}</p>
-                    </div>
-                  </div>
-                  <div className='row'>
-                    <div className='col-6'>
-                      <p>قیمت فروش (USD)</p>
-                    </div>
-                    <div className='col-6' style={{textAlign:"left"}}>
-                      <p>{digitsEnToFa("28,000")}</p>
-                    </div>
-                  </div>
-                  <div className='row mt-1'>
 
-                    <div className='col-6' style={{textAlign:"left"}}>
-
+                    <div className='col-12 mt-3'>
+                      <p style={{color:"rgb(160,160,160)"}}>تاریخ تراکنش</p>
                     </div>
-                    <div className='col-6'>
-                    </div>
+                    <div className='col-12' style={{marginTop:"-16px"}}>
+                      <Calendar size={15} style={{marginTop:"-4px", marginLeft:"4px", color:"rgb(160,160,160)"}}/>
+                      <span>{digitsEnToFa("1400/02/03")}</span>
                     </div>
                 </div>
-                <div className='col-lg-4' style={{textAlign:"left"}}>
+
+
+                <div className='col-lg-4 mt-3'>
+                    <div className='col-12'>
+                      <p style={{color:"rgb(160,160,160)"}}>قیمت فروش (USD)</p>
+                    </div>
+                    <div className='col-12' style={{marginTop:"-16px"}}>
+                      <BarChart2 size={15} style={{marginTop:"-4px", marginLeft:"4px", color:"rgb(160,160,160)"}}/>
+                      <span>{digitsEnToFa("28,000")}</span>
+                    </div>
+
+                    <div className='col-12 mt-3'>
+                      <p style={{color:"rgb(160,160,160)"}}>نوع ارز</p>
+                    </div>
+                    <div className='col-12' style={{marginTop:"-16px"}}>
+                      <AlertTriangle size={15} style={{marginTop:"-4px", marginLeft:"4px", color:"rgb(160,160,160)"}}/>
+                      <span>بیت کوین</span>
+                    </div>
                 </div>
-                <div className='col-lg-4'>
-                  <div className='row'>
-                    <div className='col-6'>
-                      <p>نوع ارز</p>
-                    </div>
-                    <div className='col-6' style={{textAlign:"left"}}>
-                      <p>بیت کوین</p>
-                    </div>
+
+
+                <div className='col-lg-4 mt-3'>
+
+                  <div className='col-12'>
+                    <span style={{color:"rgb(160,160,160)"}}>قیمت دلار (ریال)</span>
                   </div>
-                  <div className='row'>
-                    <div className='col-6'>
-                      <p>قیمت دلار (ریال)</p>
-                    </div>
-                    <div className='col-6' style={{textAlign:"left"}}>
-                      <Input type='number' placeholder='قیمت...'/>
-                    </div>
+                  <div className='col-6'>
+                    <Input type='number' placeholder='قیمت...'/>
                   </div>
-                  <div className='row'>
-                    <div className='col-6'>
-                      <p>تاریخ اعمال محاسبات</p>
-                    </div>
-                    <div className='col-6' style={{textAlign:"left"}}>
-                      <Input type='date' placeholder='' style={{color:"rgb(200,200,200)"}}/>
-                    </div>
+
+                  <div className='col-12 mt-3'>
+                    <p style={{color:"rgb(160,160,160)"}}>تاریخ اعمال محاسبات</p>
                   </div>
+                  <div className='col-6' style={{marginTop:"-16px"}}>
+                    <Input type='date' placeholder='' style={{color:"rgb(200,200,200)"}}/>
+                  </div>
+
                   <div className='row mt-1'>
 
                     <div className='col-6' style={{textAlign:"left"}}>
@@ -290,9 +289,9 @@ const DataTableWithButtons = (props) => {
                   </div>
                 </div>
               </div>
+
               <div className='row'>
                 <div className='col-lg-10'>
-
                 </div>
                 <div className='col-lg-2' style={{textAlign:"left"}}>
                   <button style={{ background:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:"solid", color:"white", borderRadius:"6px", padding:"7px 12px" }} outline>
@@ -302,8 +301,6 @@ const DataTableWithButtons = (props) => {
                 </div>
               </div>
             </div>
-
-
         </div>
         <div style={{height:"1px", width:"100%", display:"block", background:"rgb(220,220,220)", marginTop:"25px"}}></div>
         <div style={{ width:"100%", float:"left", marginTop:"10px"}}>
