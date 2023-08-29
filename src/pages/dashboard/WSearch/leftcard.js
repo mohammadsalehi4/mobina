@@ -9,6 +9,10 @@ import { useEffect, useState } from 'react'
 import moment from 'jalali-moment'
 import { useSelector, useDispatch } from "react-redux"
 
+function countSpecificObjects(array, key, value) {
+  return array.filter(item => item[key] === value).length
+}
+
 const CardTransactions = (props) => {
   const States = useSelector(state => state)
 
@@ -87,8 +91,6 @@ const CardTransactions = (props) => {
     } else {
       SetFirstTime(first)
       SetLastTime(last)
-      console.log(FirstTime)
-      console.log(LastTime)
     }
   }, [FirstActivity, LastActivity, States.jalaliCalendar])
 
@@ -126,7 +128,9 @@ const CardTransactions = (props) => {
           <div style={{ marginBottom:'-10px'}} className={` col-6`}>
               <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'تعداد تراکنش'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                {digitsEnToFa(props.transactions.length)}
+                {digitsEnToFa(
+                  countSpecificObjects(props.transactions, 'Type', 'coin')
+                )}
                 <CreditCard size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
           </div>

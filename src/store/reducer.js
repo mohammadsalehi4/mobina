@@ -31,12 +31,23 @@ const initialState = {
     isLoading:false,
 
     //calendar
-    jalaliCalendar:true
+    jalaliCalendar:true,
 
+    //token type
+    TokenType:"token"
     
 }
 
 const reducer = (state = initialState, action) => {
+
+    //token or coin
+    if (action.type === 'TOKENTYPE') {
+        return {
+            ...state,
+            TokenType:action.value
+        }
+    }
+
     //jalali calendar
     if (action.type === 'JALALICALENDAR') {
         return {

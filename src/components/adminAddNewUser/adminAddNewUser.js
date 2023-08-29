@@ -10,6 +10,7 @@ import CreatableSelect from 'react-select/creatable'
 import { serverAddress } from '../../address'
 import { Alert } from 'reactstrap'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const AdminAddNewUser = () => {
 
@@ -157,6 +158,7 @@ const AdminAddNewUser = () => {
               if (UsernameValue !== '') {
                 if (nameValue !== '') {
                   // register
+                  alert('register')
                   
                   axios.post(`${serverAddress}/accounts/register/`, 
                   {
@@ -171,7 +173,7 @@ const AdminAddNewUser = () => {
                   {
                       // This is the config (includes headers)
                       headers: {
-                          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkzMDM0NDA1LCJpYXQiOjE2OTMwMzA4MDUsImp0aSI6ImJkOTEzMGRhN2YzYzQ1MWY5ODdjZWU0OWMwMTgxM2Y0IiwidXNlcl9pZCI6MX0.EG-b_0vTZvRFsyrYNQqASSl2UtDQU34vfLT03qNsbJc`, 
+                          Authorization: `Bearer ${Cookies.get('access')}`, 
                           'Content-Type': 'application/json'
                       }
                   })

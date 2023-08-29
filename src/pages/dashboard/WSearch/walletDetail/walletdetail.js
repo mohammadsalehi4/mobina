@@ -9,9 +9,7 @@ import CardContentTypes from '../rightCard'
 import DataTableWithButtons from './TableWithButtons'
 
 //delete duplicate values
-function removeDuplicates(arr, prop) {
-  return arr.filter((obj, pos, self) => self.findIndex((testObj) => testObj[prop] === obj[prop]) === pos)
-}
+
 
 const Walletdetail = (props) => {
 
@@ -25,34 +23,43 @@ const Walletdetail = (props) => {
       let send=0
   
       let transactions=[]
-  
       for (let i=0; i<props.data.length; i++) {
 
         //total send and get
         if((props.data[i].from).toLowerCase()===(props.address).toLowerCase()){
-          get=get+(Number(props.data[i].value))
+          if(props.data[i].Type==='coin'){
+            get=get+(Number(props.data[i].value))
+          }
         } else if ((props.data[i].to).toLowerCase()===(props.address).toLowerCase()) {
-          send=send+(Number(props.data[i].value))
+          if(props.data[i].Type==='coin'){
+            send=send+(Number(props.data[i].value))
+          }
         }
 
         //transactions data
         if((props.data[i].from).toLowerCase()===(props.address).toLowerCase()){
-          transactions.push({
-            address:props.data[i].hash,
-            mode:false,
-            BTCAmount:Number(Number(props.data[i].value)),
-            Date:props.data[i].timeStamp,
-            Time:props.data[i].timeStamp,
-            Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))).toFixed(5)
-          })
+        transactions.push({
+          address:props.data[i].hash,
+          mode:false,
+          BTCAmount:Number(Number(props.data[i].value)),
+          Date:props.data[i].timeStamp,
+          Time:props.data[i].timeStamp,
+          currencyType:props.data[i].currencyType,
+          Logo:props.data[i].Logo,
+          Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))).toFixed(5),
+          Type:props.data[i].Type
+        })
         } else {
           transactions.push({
             address:props.data[i].hash,
             mode:true,
-            BTCAmount:String(Number(props.data[i].value)),
+            BTCAmount:Number(Number(props.data[i].value)),
             Date:props.data[i].timeStamp,
             Time:props.data[i].timeStamp,
-            Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))).toFixed(5)
+            currencyType:props.data[i].currencyType,
+            Logo:props.data[i].Logo,
+            Fee:Number(Number((props.data[i].gasPrice)*Number(props.data[i].gasUsed))).toFixed(5),
+            Type:props.data[i].Type
           })
         }
       }
@@ -60,8 +67,7 @@ const Walletdetail = (props) => {
       SetTotalget(send)
       SetTotalsend(get)
       SetTotalSum(send-get)
-
-      SetTr(removeDuplicates(transactions, 'address'))
+      SetTr(transactions)
   }, [, props.data])
 
   const data = {

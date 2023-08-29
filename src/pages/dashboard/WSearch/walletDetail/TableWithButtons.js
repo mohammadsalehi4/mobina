@@ -12,6 +12,7 @@ import DataTable from 'react-data-table-component'
 import NiceAddress from '../../../../components/niceAddress/niceAddress'
 import { ChevronDown, Download } from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
+import TokenSwitch from '../../../../components/dashboard/TokenSwitch/switch'
 import moment from 'jalali-moment'
 
 import {
@@ -103,7 +104,7 @@ const DataTableWithButtons = (props) => {
     },
     {
       name: 'شناسه تراکنش',
-      minWidth: '270px',
+      minWidth: '210px',
       selector: row => (
         <div className='d-flex align-items-end '>
           <div className='user-info text-truncate'>
@@ -116,7 +117,8 @@ const DataTableWithButtons = (props) => {
     },
     {
       name: '',
-      minWidth: '30px',
+      minWidth: '90px',
+      maxWidth: '150px',
       selector: row =>  (
         
           row.mode ? <div className='d-flex align-items-end '>
@@ -127,13 +129,37 @@ const DataTableWithButtons = (props) => {
       )
     },
     {
-      name: `حجم تراکنش (${props.data.symbole})`,
+      name: `نوع ارز`,
       sortable: true,
       minWidth: '120px',
-      selector: row => (
-        digitsEnToFa(String(parseFloat(Number(row.BTCAmount).toFixed(5)).toString()))
-        
-      )
+      maxWidth: '120px',
+      selector: row => (row.currencyType),
+      cell: row => {
+        return (
+          <div style={{direction:"ltr"}}>
+            <img title={row.currencyType} style={{width:"30px"}} src={`../../../../../public/images/${row.Logo}`}/>
+          </div>
+        )
+      }
+    },
+    {
+      name: `حجم تراکنش`,
+      sortable: true,
+      minWidth: '120px',
+      selector: row => row.BTCAmount,
+      cell: row => {
+        return (
+          <div style={{direction:"ltr"}}>
+            <span>
+              {digitsEnToFa(`${String(parseFloat(Number(row.BTCAmount).toFixed(5)).toString())} `)}
+            </span>
+
+            <small style={{fontSize:"10px"}}>
+              {row.currencyType}
+            </small>
+          </div>
+        )
+      }
     },
     {
       name: `کارمزد (${props.data.symbole}) `,
@@ -204,7 +230,8 @@ const DataTableWithButtons = (props) => {
           Mode:mode,
           Amount:NoNumberData[i].BTCAmount,
           Time:date,
-          Fee:NoNumberData[i].Fee
+          Fee:NoNumberData[i].Fee,
+          Type:NoNumberData[i].currencyType
         })
       }
       SetDownloadData(myData)
@@ -213,6 +240,7 @@ const DataTableWithButtons = (props) => {
     }
   }, [NoNumberData])
 
+  //filters
   let filteredData = []
   useEffect(() => {
     const a = 5 * (numberOfShow + 1)
@@ -261,13 +289,21 @@ const DataTableWithButtons = (props) => {
       }
     }
 
-    SetNoNumberData(filteredData5)
+    let filteredData6=[]
+    for (let i = 0; i < filteredData5.length; i++) {
+      if ((filteredData5[i].Type) === States.TokenType) {
+        console.log(i)
+        filteredData6.push(filteredData5[i])
+      }
+    }
+
+    SetNoNumberData(filteredData6)
 
     filteredData = []
     for (let i = 0; i < a; i++) {
-      if (filteredData5[i]) {
-        filteredData.push(filteredData5[i])
-        if (filteredData.length === filteredData5.length) {
+      if (filteredData6[i]) {
+        filteredData.push(filteredData6[i])
+        if (filteredData.length === filteredData6.length) {
           document.getElementById('PaginationButton').style.color = MainSiteGray
         } else {
           document.getElementById('PaginationButton').style.color = "rgb(100,100,100)"
@@ -276,13 +312,16 @@ const DataTableWithButtons = (props) => {
     }
 
     SetShowData(filteredData)
-  }, [, numberOfShow, props.transactions, States.startAmount, States.endAmount, States.starttime, States.endtime])
+  }, [, numberOfShow, props.transactions, States.startAmount, States.endAmount, States.starttime, States.endtime, States.TokenType])
 
   return (
     <Fragment>
-      <Card  style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
+      <Card style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom' id="mainTable">
-          <CardTitle className='mb-2' tag='h3' id="CardTitle">آخرین تراکنش ها<img src={`../../../../../public/images/${props.data.image}`} style={{ marginTop:"-10px", float:"left", width:"30px"}}/></CardTitle>
+          <CardTitle className='mb-2' tag='h3' id="CardTitle">
+            آخرین تراکنش ها
+            <TokenSwitch color={props.data.color} transactions={props.transactions}/>
+          </CardTitle>
           <div style={{width:"100%"}}>
             <div className='row'>
               <div className='col-lg-3 mt-3'>
@@ -302,8 +341,8 @@ const DataTableWithButtons = (props) => {
               </div>
             </div>
           </div>
-
         </CardHeader>
+
         <div className='react-dataTable react-dataTable-selectable-rows'>
           <DataTable
             columns={columns}

@@ -5,7 +5,9 @@ import AdminAddNewUser from '../adminAddNewUser/adminAddNewUser'
 import AdminShowUsers from '../adminShowUsers/adminShowUsers'
 // ** Reactstrap Imports
 const AdminUsers = () => {
+
   const [active, setActive] = useState('1')
+
   const toggle = tab => {
     if (active !== tab) {
       setActive(tab)

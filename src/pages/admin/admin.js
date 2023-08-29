@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 import react, { Fragment, useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { serverAddress } from '../../address'
+import Cookies from 'js-cookie'
+
+
 import './admin.css'
 import {
   Nav,
@@ -14,6 +18,7 @@ import AdminEvents from '../../components/adminEvents/adminEvents'
 import AdminReports from '../../components/adminReports/adminReports'
 import AdminRolls from '../../components/adminRolls/adminRolls'
 import AdminUsers from '../../components/adminUsers/adminUsers'
+import axios from 'axios'
 
 const Admin = () => {
   const [active, setActive] = useState('1')
@@ -35,7 +40,7 @@ const Admin = () => {
   const toggle = tab => {
     setActive(tab)
   }
-  
+
   return (
     <div className='container-fluid' id='Admin'>
         <div className='row'>

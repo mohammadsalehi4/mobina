@@ -51,6 +51,12 @@ const Main = () => {
                     SetLoading(false)
                       Cookies.set('refresh', response.data.refresh, { expires: 1 })
                       Cookies.set('access', response.data.access, { expires: 1 })
+
+                      if (document.getElementById('remember_me').checked) {
+                        Cookies.set('username', username)
+                        Cookies.set('password', password)
+                      }
+
                       window.location.assign('/researcher')
                 } else {
                     SetLoading(false)
@@ -62,7 +68,6 @@ const Main = () => {
             })
             .catch((err) => {
                 console.log(err.data)
-
                 if (err.response.statusText === 'Unauthorized') {
                     SetLoading(false)
                     return toast.error('ورود ناموفق', {
@@ -81,16 +86,25 @@ const Main = () => {
 
     useEffect(() => {
         try {
-            const refresh = Cookies.get('refresh')
             const access = Cookies.get('access')
             const decoded = jwt.decode(access)
             if (decoded.token_type === 'access') {
                 window.location.assign('/researcher')
             }
+
         } catch {
             
         }
 
+    }, [])
+
+    useEffect(() => {
+        const username=Cookies.get('username')
+        const password=Cookies.get('password')
+        if (username && password) {
+            document.getElementById('login_username').value=username
+            document.getElementById('login_password').value=password
+        }
     }, [])
 
     return (

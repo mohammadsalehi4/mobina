@@ -20,13 +20,17 @@ import toast from 'react-hot-toast'
 import Cookies from 'js-cookie'
 
 const EcommerceDashboard = () => {
-  
+
+  function removeDuplicates(arr, prop) {
+    return arr.filter((obj, pos, self) => self.findIndex((testObj) => testObj[prop] === obj[prop]) === pos)
+  }
+
   const dispatch = useDispatch()
   const [mode, SetMode] = useState(0)
   const [trData, SetTrData] = useState({})
   const [adData, SetAdData] = useState({})
   const [Loading, SetLoading] = useState(false)
-  const [address, SetAddress] = useState('')
+  const [address, SetAddress] = useState('0x62Dece3416741fcEECA25A50A584a37037eadc04')
   const [coinData, SetCoinData] = useState({})
 
   const BitcoinAddress =(getData, address) => {
@@ -47,7 +51,7 @@ const EcommerceDashboard = () => {
         if (getData[i].inputs[j].coin.address===address) {
           input=input+Number(getData[i].inputs[j].coin.value)
         }
-      }  
+      }
       for (let j=0; j<getData[i].outputs.length; j++) {
         if (getData[i].outputs[j].address===address) {
           output=output+Number(getData[i].outputs[j].value)
@@ -83,7 +87,6 @@ const EcommerceDashboard = () => {
 
   const EthereumAddress =(getData) => {
     let data=[]
-    console.log(getData)
     for (let i=0; i<getData.result.length; i++) {
       data.push({
         timeStamp:getData.result[i].timestamp,
@@ -92,8 +95,33 @@ const EcommerceDashboard = () => {
         gasUsed:getData.result[i].gasUsed,
         gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
         value:Number(getData.result[i].value)/1000000000000000000,
-        hash:getData.result[i].transactionHash
+        hash:getData.result[i].transactionHash,
+        currencyType:"ETH",
+        Logo:"ethereum.png",
+        Type:"coin"
       })
+    }
+    for (let a=0; a<getData.result.length; a++) {
+      if (getData.result[a].logs.length > 0) {
+        for (let j=0; j<getData.result[a].logs.length; j++) {
+          try {
+            if (getData.result[a].logs[j].address.symbol) {
+              data.push({
+                timeStamp:getData.result[a].timestamp,
+                from:getData.result[a].logs[j].from,
+                to:getData.result[a].logs[j].to,
+                gasUsed:getData.result[a].gasUsed,
+                gasPrice:Number(getData.result[a].gasPrice)/1000000000000000000,
+                value:Number(getData.result[a].logs[j].amount)/(Math.pow(10, getData.result[a].logs[j].address.decimal)),
+                hash:getData.result[a].logs[j].transactionHash,
+                currencyType:getData.result[a].logs[j].address.symbol,
+                Logo:`${getData.result[a].logs[j].address.symbol}.png`,
+                Type:"token"
+              })
+            }
+          } catch (error) {}
+        }
+      }
     }
     return data
   }
@@ -218,15 +246,13 @@ const EcommerceDashboard = () => {
   const onSubmit = (event) => {
     SetLoading(true)
     event.preventDefault()
-    const inputValue = document.getElementById("transactionValue").value
+    const inputValue=(document.getElementById("transactionValue").value)
     SetAddress(inputValue)
     if (inputValue.length === 66 || inputValue.length === 64) {
       if (inputValue.startsWith("0x")) {
         axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`,
         {
-          // This is the config (includes headers)
           headers: {
-            //in bayad token sahih begire
             Authorization: `Bearer ${Cookies.get('access')}`
           }
         })
@@ -241,9 +267,7 @@ const EcommerceDashboard = () => {
       } else {
         axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${inputValue}`,
         {
-          // This is the config (includes headers)
           headers: {
-            //in bayad token sahih begire
             Authorization: `Bearer ${Cookies.get('access')}`
           }
         })
@@ -258,7 +282,7 @@ const EcommerceDashboard = () => {
       }
     } else {
       if (inputValue.startsWith("0x")) {
-        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=ETH&page_size=50&offset=1`, 
+        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=ETH&page_size=50&offset=1`,
         {
           // This is the config (includes headers)
           headers: {
@@ -268,6 +292,7 @@ const EcommerceDashboard = () => {
         })
         .then((response) => {
           SetLoading(false)
+          SetAddress(document.getElementById("transactionValue").value)
           SetCoinData({
             name:'اتریوم',
             symbole:"ETH",
@@ -279,7 +304,6 @@ const EcommerceDashboard = () => {
             image:"ethereum.png"
           })
           SetAdData(EthereumAddress(response.data))
-          SetAddress(inputValue)
           SetMode(2)
         })
         .catch((err) => {
@@ -294,7 +318,6 @@ const EcommerceDashboard = () => {
           }
         })
         .then((response) => {
-          console.log(response.data)
           SetLoading(false)
           SetCoinData({
             name:'بیت کوین',
@@ -356,7 +379,7 @@ const EcommerceDashboard = () => {
                   <Label className='form-label' for='transactionValue'>
                     <p class="vazir" id='searchExample11'>
                       نمونه کاوش:
-                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0xd55dac2f76ff813ccbb779501d544e9e97f0fef9' }}>
+                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0x62Dece3416741fcEECA25A50A584a37037eadc04' }}>
                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                         {' '}
                         <p> آدرس </p>
@@ -427,7 +450,7 @@ const EcommerceDashboard = () => {
         <div class="col-lg-2">
         </div>
       </div>
-        
+
     </div>
     </UILoader>
   )
