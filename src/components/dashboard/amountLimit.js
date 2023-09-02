@@ -32,7 +32,7 @@ const AmountLimit = (props) => {
       if (States.endAmount !== 0) {
         text = `${text  } تا ${States.endAmount}`
       }
-      text = `${text  } ${props.name}`
+      text = `${text  } واحد`
       SetShowTitle(text)
     }
   }, [States.startAmount, States.endAmount])

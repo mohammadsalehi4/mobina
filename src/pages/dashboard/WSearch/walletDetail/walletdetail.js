@@ -67,6 +67,7 @@ const Walletdetail = (props) => {
       SetTotalget(send)
       SetTotalsend(get)
       SetTotalSum(send-get)
+      console.log(transactions)
       SetTr(transactions)
   }, [, props.data])
 

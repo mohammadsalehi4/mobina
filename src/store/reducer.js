@@ -34,11 +34,21 @@ const initialState = {
     jalaliCalendar:true,
 
     //token type
-    TokenType:"token"
+    TokenType:"token",
+
+    //Loading effect
+    LoadingOn:false
     
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'LOADINGEFFECT') {
+        return {
+            ...state,
+            LoadingOn:action.value
+        }
+    }
 
     //token or coin
     if (action.type === 'TOKENTYPE') {

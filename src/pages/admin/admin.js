@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import react, { Fragment, useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-
+import UILoader from '@components/ui-loader'
+import Spinner from '@components/spinner/Loading-spinner'
 
 import './admin.css'
 import {
@@ -23,6 +24,7 @@ import axios from 'axios'
 const Admin = () => {
   const [active, setActive] = useState('1')
   const dispatch = useDispatch()
+  const States = useSelector(state => state)
 
   useEffect(() => {
     for (let i = 1; i <= 4; i++) {
@@ -42,7 +44,9 @@ const Admin = () => {
   }
 
   return (
+    <UILoader blocking={States.LoadingOn} loader={<Spinner />}>
     <div className='container-fluid' id='Admin'>
+
         <div className='row'>
             <div className='col-sm-1'>
             </div>
@@ -109,6 +113,7 @@ const Admin = () => {
             </div>
         </div>
     </div>
+    </UILoader>
   )
 }
 export default Admin

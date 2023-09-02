@@ -1,5 +1,5 @@
 /* eslint-disable no-tabs */
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import '../../assets/vendor/fonts/fontawesome.css'
 import '../../assets/vendor/fonts/tabler-icons.css'
 import '../../assets/vendor/fonts/flag-icons.css'
@@ -18,19 +18,20 @@ import { useSelector } from "react-redux"
 // eslint-disable-next-line no-duplicate-imports
 import { useDispatch } from "react-redux"
 function Header() {
+  const [Roll, SetRoll] = useState('')
   const States = useSelector(state => state)
 	const dispatch = useDispatch()
+  const myElementRef = useRef(null)
   
   const openMobileMenu = () => {
 		// eslint-disable-next-line no-tabs
 		dispatch({type:"SHOWMOBILEMENU", value:true})
 	// eslint-disable-next-line no-tabs
 	}
+
 	const closeMobileMenu = () => {
 		dispatch({type:"SHOWMOBILEMENU", value:false})
 	}
-
-  const myElementRef = useRef(null)
   
   useEffect(() => {
 		if (States.showMobileMenu) {
@@ -66,6 +67,12 @@ function Header() {
     }
   }, [])
 
+  //recognize admin or not
+  useEffect(() => {
+    SetRoll(Cookies.get('roll'))
+  }, [, Cookies.get('roll')])
+
+
   return (
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu" id='header'>
       <div class="layout-container">
@@ -87,12 +94,13 @@ function Header() {
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <ul class="navbar-nav flex-row ms-auto rightheaderItems">
-
-                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
-                  <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon" href='/admin'>
-                    <i class="ti ti-layout-grid-add ti-md "></i>
-                  </a>
-                </li>
+                {
+                  Roll === 'admin' ? <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
+                      <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon" href='/admin'>
+                        <i class="ti ti-layout-grid-add ti-md "></i>
+                      </a>
+                    </li> : null
+                }
 
                 <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1">
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">

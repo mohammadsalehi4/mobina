@@ -30,6 +30,7 @@ import jwt from 'jsonwebtoken'
 
 const Main = () => {
     const [Loading, SetLoading]=useState(false)
+
     const login = (event) => {
         const username = document.getElementById('login_username').value
         const password = document.getElementById('login_password').value
@@ -46,9 +47,7 @@ const Main = () => {
                 password:password
             })
             .then((response) => {
-                console.log(response.data)
                 if (response.data.refresh && response.data.access) {
-                    SetLoading(false)
                       Cookies.set('refresh', response.data.refresh, { expires: 1 })
                       Cookies.set('access', response.data.access, { expires: 1 })
 
@@ -56,8 +55,39 @@ const Main = () => {
                         Cookies.set('username', username)
                         Cookies.set('password', password)
                       }
+                      axios.get(`${serverAddress}/accounts/profile/`, {
+                        headers: {
+                          Authorization: `Bearer ${Cookies.get('access')}`
+                        }
+                      })
+                      .then((res) => {
+                        const permissions=res.data[0].user_permissions_list
 
-                      window.location.assign('/researcher')
+                        function isValueInArray(array, value) {
+                            for (let i=0; i<array.length; i++) {
+                                if (array[i].codename === value) {
+                                    return true
+                                }
+                            }
+                            return false
+                        }
+
+                        const targetValue = 'view_customuser'
+                        SetLoading(false)
+                        console.log(isValueInArray(permissions, targetValue))
+                        if (isValueInArray(permissions, targetValue)) {
+                            Cookies.set('roll', 'admin')
+                            window.location.assign('/researcher')
+                        } else {
+                            Cookies.set('roll', 'user')
+                            window.location.assign('/researcher')
+                        }
+                      })
+                      .catch((err) => {
+                        SetLoading(false)
+                        Cookies.set('roll', 'user')
+                        window.location.assign('/researcher')
+                      })
                 } else {
                     SetLoading(false)
                     return toast.error('ورود ناموفق', {

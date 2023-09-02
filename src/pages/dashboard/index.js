@@ -36,9 +36,9 @@ const EcommerceDashboard = () => {
   const BitcoinAddress =(getData, address) => {
     let data=[]
     for (let i=0; i<getData.length; i++) {
+
       let input=0
       let output=0
-
       let timeStamp
       let from
       let to
@@ -48,12 +48,12 @@ const EcommerceDashboard = () => {
       let hash
 
       for (let j=0; j<getData[i].inputs.length; j++) {
-        if (getData[i].inputs[j].coin.address===address) {
+        if (getData[i].inputs[j].coin.address.address===address) {
           input=input+Number(getData[i].inputs[j].coin.value)
         }
       }
       for (let j=0; j<getData[i].outputs.length; j++) {
-        if (getData[i].outputs[j].address===address) {
+        if (getData[i].outputs[j].address.address===address) {
           output=output+Number(getData[i].outputs[j].value)
         }
       }
@@ -78,10 +78,12 @@ const EcommerceDashboard = () => {
         gasUsed,
         gasPrice,
         value,
-        hash
+        hash,
+        currencyType:"BTC",
+        Logo:"bitcoin.png",
+        Type:"coin"
       })
     }
-
     return data
   }
 
@@ -310,7 +312,6 @@ const EcommerceDashboard = () => {
           SetLoading(false)
         })
       } else {
-        alert('btc add')
         axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=BTC&page_size=50&offset=0`,
         {
           headers: {
@@ -318,6 +319,7 @@ const EcommerceDashboard = () => {
           }
         })
         .then((response) => {
+
           SetLoading(false)
           SetCoinData({
             name:'بیت کوین',
@@ -329,7 +331,7 @@ const EcommerceDashboard = () => {
             color:"#f8a23a",
             image:"bitcoin.png"
           })
-          SetAdData(BitcoinAddress(response.data, inputValue))
+          SetAdData(BitcoinAddress(response.data.result, inputValue))
           SetMode(2)
         })
         .catch((err) => {

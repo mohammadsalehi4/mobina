@@ -14,6 +14,7 @@ import { ChevronDown, Download } from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
 import TokenSwitch from '../../../../components/dashboard/TokenSwitch/switch'
 import moment from 'jalali-moment'
+import ReactPaginate from 'react-paginate'
 
 import {
   Card,
@@ -39,7 +40,7 @@ const DataTableWithButtons = (props) => {
   const [showData, SetShowData] = useState([])
   const [NoNumberData, SetNoNumberData] = useState([])
   const [DownloadData, SetDownloadData] = useState([])
-  
+
 
   const getMyTime=(index) => {
     
@@ -300,19 +301,43 @@ const DataTableWithButtons = (props) => {
     SetNoNumberData(filteredData6)
 
     filteredData = []
-    for (let i = 0; i < a; i++) {
+    for (let i = 0; i < filteredData6.length; i++) {
       if (filteredData6[i]) {
         filteredData.push(filteredData6[i])
-        if (filteredData.length === filteredData6.length) {
-          document.getElementById('PaginationButton').style.color = MainSiteGray
-        } else {
-          document.getElementById('PaginationButton').style.color = "rgb(100,100,100)"
-        }
       }
     }
 
     SetShowData(filteredData)
   }, [, numberOfShow, props.transactions, States.startAmount, States.endAmount, States.starttime, States.endtime, States.TokenType])
+  
+  //pagination
+  const [currentPage, setCurrentPage] = useState(0)
+  const handlePagination = page => {
+    setCurrentPage(page.selected)
+  }
+  const CustomPagination = () => (
+    
+    <ReactPaginate
+      nextLabel=''
+      breakLabel='...'
+      previousLabel=''
+      pageRangeDisplayed={2}
+      forcePage={(currentPage)}
+      marginPagesDisplayed={2}
+      activeClassName='active'
+      pageClassName='page-item'
+      breakClassName='page-item'
+      nextLinkClassName='page-link'
+      pageLinkClassName='page-link'
+      breakLinkClassName='page-link'
+      previousLinkClassName='page-link'
+      nextClassName='page-item next-item'
+      previousClassName='page-item prev-item'
+      pageCount={Math.ceil(showData.length / 10) || 1}
+      onPageChange={page => handlePagination(page)}
+      containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-center pe-1 mt-3'
+    />
+  )
 
   return (
     <Fragment>
@@ -346,22 +371,15 @@ const DataTableWithButtons = (props) => {
         <div className='react-dataTable react-dataTable-selectable-rows'>
           <DataTable
             columns={columns}
+            paginationDefaultPage={currentPage + 1}
+            paginationComponent={CustomPagination}
+            pagination
             className='react-dataTable'
             sortIcon={<ChevronDown size={10} />}
             selectableRowsComponent={BootstrapCheckbox}
             data={ showData}
+            
           />
-        </div>
-        <div className='container-fluid'>
-          <div className='row'>
-            <div className='col-lg-4'>
-            </div>
-            <div className='col-lg-4 mt-3 mb-3'>
-              <button id='PaginationButton' onClick={() => { SetNumberofShow(numberOfShow + 1) }} style={{width:"100%", borderWidth:"1px", borderColor:MainSiteGray, borderStyle:"solid"}} type="button" class="btn">نمایش بیشتر...</button>
-            </div>
-            <div className='col-lg-4'>
-            </div>
-          </div>
         </div>
       </Card>
     </Fragment>

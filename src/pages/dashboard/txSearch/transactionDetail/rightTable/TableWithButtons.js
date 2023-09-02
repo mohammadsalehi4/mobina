@@ -11,6 +11,8 @@ import {
 } from 'reactstrap'
 import { MainSiteGray } from '../../../../../../public/colors'
 import NiceAddress from '../../../../../components/niceAddress/niceAddress'
+import ReactPaginate from 'react-paginate'
+
 const BootstrapCheckbox = forwardRef((props, ref) => (
   <div className='form-check'>
     <Input type='checkbox' ref={ref} {...props} />
@@ -51,7 +53,7 @@ const columns = [
     selector: row => (
       <div className='d-flex mt-2 align-items-end '>
         <div className='user-info text-truncate'>
-          <NiceAddress text={row.address} number={4}/>
+          <NiceAddress text={row.address.address} number={4}/>
         </div>
       </div>
     )
@@ -59,8 +61,8 @@ const columns = [
   {
     name: 'ریسک',
     sortable: true,
-    minWidth: '90px',
-    maxWidth:'90px',
+    minWidth: '80px',
+    maxWidth:'80px',
     selector: row => digitsEnToFa(row.RiskScore)
     },
     {
@@ -73,7 +75,8 @@ const columns = [
 
   {
     name: 'مالک',
-    maxWidth: '50px',
+    maxWidth: '90px',
+    minWidth: '90px',
     cell: () => {
       return (
           // <button style={{background:"white", margin:"none", borderColor:"rgb(200,200,200)", color:"rgb(100,100,100)", borderStyle:"solid", borderRadius:"5px"}}>نمایش</button>
@@ -88,23 +91,48 @@ const columns = [
 
 const RightDataTableWithButtons = (props) => {
 
-  const [numberOfShow, SetNumberofShow] = useState(0)
   const [showData, SetShowData] = useState([])
   let filteredData = []
   useEffect(() => {
-    const a = 5 * (numberOfShow + 1)
     filteredData = []
-    for (let i = 0; i < a; i++) {
+    for (let i = 0; i < props.data.inputData.length; i++) {
       if (props.data.inputData[i]) {
         filteredData.push(props.data.inputData[i])
-        if (filteredData.length === props.data.inputData.length) {
-          document.getElementById('PaginationButton').style.color = MainSiteGray
-        }
+        console.log(props.data.inputData[i])
       }
     }
     SetShowData(filteredData)
 
-  }, [, numberOfShow])
+  }, [])
+
+  //pagination
+  const [currentPage, setCurrentPage] = useState(0)
+  const handlePagination = page => {
+    setCurrentPage(page.selected)
+  }
+  const CustomPagination = () => (
+    
+    <ReactPaginate
+      nextLabel=''
+      breakLabel='...'
+      previousLabel=''
+      pageRangeDisplayed={2}
+      forcePage={(currentPage)}
+      marginPagesDisplayed={2}
+      activeClassName='active'
+      pageClassName='page-item'
+      breakClassName='page-item'
+      nextLinkClassName='page-link'
+      pageLinkClassName='page-link'
+      breakLinkClassName='page-link'
+      previousLinkClassName='page-link'
+      nextClassName='page-item next-item'
+      previousClassName='page-item prev-item'
+      pageCount={Math.ceil(showData.length / 10) || 1}
+      onPageChange={page => handlePagination(page)}
+      containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-center pe-1 mt-3'
+    />
+  )
 
   return (
     <Fragment >
@@ -119,19 +147,12 @@ const RightDataTableWithButtons = (props) => {
             sortIcon={<ChevronDown size={10} />}
             selectableRowsComponent={BootstrapCheckbox}
             data={ showData}
+            paginationDefaultPage={currentPage + 1}
+            paginationComponent={CustomPagination}
+            pagination
           />
         </div>
-        <div className='container-fluid'>
-          <div className='row'>
-            <div className='col-md-2'>
-            </div>
-            <div className='col-md-8 mt-3 mb-3'>
-              <button id='PaginationButton' onClick={() => { SetNumberofShow(numberOfShow + 1) }} style={{width:"100%", borderWidth:"1px", borderColor:MainSiteGray, borderStyle:"solid"}} type="button" class="btn">نمایش بیشتر...</button>
-            </div>
-            <div className='col-md-2'>
-            </div>
-          </div>
-        </div>
+
       </Card>
     </Fragment>
   )
