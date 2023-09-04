@@ -2,15 +2,15 @@
     .zm-DaysButton{
         padding: 0px !important;
         margin: 0px !important;
-        width: 25px;
-        height: 25px;
+        width: 25px !important;
+        height: 25px !important;
     } 
     .css-1tniij6{
-        width: 25px;
-        height: 25px;
+        width: 25px !important;
+        height: 25px !important;
     }
     .css-137m4ck{
-        width: 220px;
-        height: 280px;
+        width: 220px !important;
+        height: 280px !important;
     }
 }
