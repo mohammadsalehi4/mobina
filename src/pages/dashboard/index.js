@@ -444,7 +444,12 @@ const EcommerceDashboard = () => {
                 null
             }
             <form onSubmit={ (event) => { onSubmit(event) } }>
-              <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
+              <InputGroup className='mb-2'>
+                  <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white", width:"70%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
+                  <InputGroupText onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
+                    <Search size={20} />
+                  </InputGroupText>
+                </InputGroup>
             </form>
             {
               // eslint-disable-next-line multiline-ternary
