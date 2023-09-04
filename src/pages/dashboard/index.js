@@ -198,7 +198,7 @@ const EcommerceDashboard = () => {
     const blockNumber=data.blockNumber
     const name='اتریوم'
     const image='ethereum.png'
-    const BlockDate='سرور نمیده'
+    const BlockDate=data.timestamp
     const symbole="ETH"
     const color='#627eea'
     const TotalOutput=(Number(data.value)/1000000000000000000)
@@ -265,6 +265,13 @@ const EcommerceDashboard = () => {
         })
         .catch(err => {
           SetLoading(false)
+          try {
+            if (err.response.data.code === 'token_not_valid') {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+          } catch (error) {}
         })
       } else {
         axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${inputValue}`,
@@ -280,15 +287,20 @@ const EcommerceDashboard = () => {
         })
         .catch(err => {
           SetLoading(false)
+          try {
+            if (err.response.data.code === 'token_not_valid') {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+          } catch (error) {}
         })
       }
     } else {
       if (inputValue.startsWith("0x")) {
         axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=ETH&page_size=50&offset=1`,
         {
-          // This is the config (includes headers)
           headers: {
-            //in bayad token sahih begire
             Authorization: `Bearer ${Cookies.get('access')}`
           }
         })
@@ -310,6 +322,13 @@ const EcommerceDashboard = () => {
         })
         .catch((err) => {
           SetLoading(false)
+          try {
+            if (err.response.data.code === 'token_not_valid') {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+          } catch (error) {}
         })
       } else {
         axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=BTC&page_size=50&offset=0`,
@@ -336,6 +355,13 @@ const EcommerceDashboard = () => {
         })
         .catch((err) => {
           SetLoading(false)
+          try {
+            if (err.response.data.code === 'token_not_valid') {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+          } catch (error) {}
         })
       }
     }

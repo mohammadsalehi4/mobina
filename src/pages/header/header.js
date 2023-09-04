@@ -47,9 +47,11 @@ function Header() {
     if (States.witchPage) {
       for (let i = 0; i < 7; i++) {
         document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
+        document.getElementById(`MobileheaderLink${i + 1}`).className = 'menu-item thisNotActive'
       }
       if (States.witchPage !== -1) {
         document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
+        document.getElementById(`MobileheaderLink${States.witchPage + 1}`).className = 'menu-item thisActive'
       }
     }
   }, [States.witchPage])
@@ -160,7 +162,7 @@ function Header() {
                   </li>
 
                   <li id='MenuBottomItem3' class="menu-item thisNotActive">
-                    <a class="menu-link" href='mining'>
+                    <a class="menu-link" href='/mining'>
                     <ion-icon name="diamond-outline"></ion-icon>
                       <div data-i18n="Pages" className='vazir'>استخراج</div>
                     </a>
@@ -198,17 +200,18 @@ function Header() {
       <div id='MobileHeaderBox'>
         <div id='menuItems'>
           <div style={{display:"block", marginRight:"15px", width:"calc(100% - 30px)"}}>
-          <img src='images/logoPanta.png' id='logo' style={{display:"inline-block", marginRight:"15px"}}/>
-              <h1 onClick={() => { window.location.assign('/researcher') }} style={{ cursor:"pointer", display:"inline-block", marginRight:"20px", paddingTop:"10px"}}>پنتا</h1>
+            <img src='images/logoPanta.png' id='logo' style={{display:"inline-block", marginRight:"15px"}}/>
+            <h1 onClick={() => { window.location.assign('/researcher') }} style={{ cursor:"pointer", display:"inline-block", marginRight:"20px", paddingTop:"10px"}}>پنتا</h1>
           </div>
-          <a class="vazir" id='MobileheaderLink1' href="#"><ion-icon name="people-outline" className="headerIonIcon"></ion-icon> حساب کاربری</a>
-          <a class="vazir" id='MobileheaderLink2' href="#"><ion-icon name="radio-outline" className="headerIonIcon "></ion-icon> کاوشگر</a>
-          <a class="vazir" id='MobileheaderLink3' href="#"><ion-icon name="diamond-outline" className="headerIonIcon"></ion-icon> استخراج</a>
-          <a class="vazir" id='MobileheaderLink4' href="#"><ion-icon name="locate-outline"></ion-icon>ردیابی</a>
-          <a class="vazir" id='MobileheaderLink5' href="#"><ion-icon name="cash-outline" className="headerIonIcon"></ion-icon> مالیات</a>
-          <a class="vazir" id='MobileheaderLink6' href="#"><ion-icon name="reader-outline" className="headerIonIcon"></ion-icon> گزارش ها</a>
+          <a className="vazir" id='MobileheaderLink1' href="#"><ion-icon name="people-outline" className="headerIonIcon"></ion-icon> حساب کاربری</a>
+          <a className="vazir" id='MobileheaderLink2' href="/researcher"><ion-icon name="radio-outline" className="headerIonIcon "></ion-icon> کاوشگر</a>
+          <a className="vazir" id='MobileheaderLink4' href="/tracker"><ion-icon name="locate-outline"></ion-icon>ردیابی</a>
+          <a className="vazir" id='MobileheaderLink3' href="/mining"><ion-icon name="diamond-outline" className="headerIonIcon"></ion-icon> استخراج</a>
+          <a className="vazir" id='MobileheaderLink5' href="/tax"><ion-icon name="cash-outline" className="headerIonIcon"></ion-icon> مالیات</a>
+          <a className="vazir" id='MobileheaderLink6' href="/reports"><ion-icon name="reader-outline" className="headerIonIcon"></ion-icon> گزارش ها</a>
+          <a className="vazir" id='MobileheaderLink7' href="/folders"><ion-icon name="folder-open-outline" className="headerIonIcon"></ion-icon> پرونده ها</a>
           <div id='mobileOptionsSeprator'></div>
-          <a class="vazir" id='MobileheaderLink7' href="#"><ion-icon name="exit-outline"></ion-icon> خروج</a>
+          <a className="vazir" id='MobileheaderLink7' href="#"><ion-icon name="exit-outline"></ion-icon> خروج</a>
         </div>
       </div>
       <div id='adminOptionBox'>
