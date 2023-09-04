@@ -5,6 +5,7 @@ import Switch from '../switch/switch'
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector } from "react-redux"
 import {ArrowDownCircle, ArrowUpCircle, AlertOctagon, Calendar} from 'react-feather'
+import moment from 'jalali-moment'
 
 function formatNumber(num, index) {
   // اول: تا حداکثر 5 رقم اعشار
@@ -22,6 +23,46 @@ function formatNumber(num, index) {
   return parts.join(".")
 }
 
+const getMyTime = (index) => {
+    
+  const date = new Date(index * 1000)
+  let month
+  let day
+  let hour
+  let minute
+
+  if (String(Number(date.getMonth())).length === 1) {
+    month = `0${date.getMonth()}`
+  } else {
+    month = date.getMonth()
+  }
+
+  if (String(date.getDate()).length === 1) {
+    day = `0${date.getDate()}`
+  } else {
+    day = date.getDate()
+  }
+
+  if (String(date.getHours()).length === 1) {
+    hour = `0${date.getHours()}`
+  } else {
+    hour = date.getHours()
+  }
+
+  if (String(date.getMinutes()).length === 1) {
+    minute = `0${date.getMinutes()}`
+  } else {
+    minute = date.getMinutes()
+  }
+
+  return ({
+    year:date.getFullYear(),
+    month,
+    day,
+    hour,
+    minute
+  })
+}
 
 const CardTransactions = (props) => {
 
@@ -41,7 +82,7 @@ const CardTransactions = (props) => {
           <div style={{ marginBottom:'-10px'}} className={` col-6`}>
           <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'تاریخ بلاک'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                {digitsEnToFa(props.data.BlockDate)}
+                {digitsEnToFa(`${moment(`${getMyTime(props.data.BlockDate).year}-${getMyTime(props.data.BlockDate).month}-${getMyTime(props.data.BlockDate).day}`, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD')}`)}
                 <Calendar size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
           </div>

@@ -12,12 +12,13 @@ import Spinner from '@components/spinner/Loading-spinner'
 import TransactionDetail from './txSearch/transactionDetail/transactionDetail'
 import Walletdetail from './WSearch/walletDetail/walletdetail'
 import { useDispatch } from 'react-redux'
-import { Label, Input } from 'reactstrap'
+import { Label, Input, InputGroup, InputGroupText } from 'reactstrap'
 import { MainSiteOrange } from '../../../public/colors'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 import Cookies from 'js-cookie'
+import { Search } from 'react-feather'
 
 const EcommerceDashboard = () => {
 
@@ -399,7 +400,12 @@ const EcommerceDashboard = () => {
                   null
               }
               <form onSubmit={ (event) => { onSubmit(event) } }>
-                <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white"}}/>
+                <InputGroup className='mb-2'>
+                  <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
+                  <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
+                    <Search size={20} />
+                  </InputGroupText>
+                </InputGroup>
               </form>
               {
                 // eslint-disable-next-line multiline-ternary
