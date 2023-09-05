@@ -59,25 +59,6 @@ const CardContentTypes = (props) => {
     )
   }
   return (
-    // <Fragment id='rightOutCard'>
-    //       <Card id='rightCard' style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)", background:"white", minHeight:"90%"}}>
-    //         <CardBody>
-    //           <CardTitle tag='h4'><img src={props.data.image}/> تراکنش {props.data.name}  </CardTitle>
-    //           <CardSubtitle className='text-muted mb-1'><ion-icon name="copy-outline" style={{marginLeft:"5px", marginBottom:"-3px"}}></ion-icon>
-    //             <NiceAddress2 text={props.data.address} number={8}/>
-    //           </CardSubtitle>
-    //           <CardText>
-    //             بلاک
-    //           </CardText>
-    //           <CardText id='cardBlockNumber'>
-    //             {digitsEnToFa(props.data.blockNumber)}
-    //           </CardText>
-    //           <CardLink href='/' style={{background:MainSiteOrange, color:"white", borderColor:MainSiteOrange}} onClick={e => e.preventDefault()} id='cardLink'>
-    //             ردیابی <ion-icon name="git-compare-outline"></ion-icon>
-    //           </CardLink>
-    //         </CardBody>
-    //       </Card>
-    // </Fragment>
     <Card className='card-transaction' id='leftCard1' style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)", height:"100%"}}>
       <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
         <CardTitle tag='h4' style={{width:"100%"}}>

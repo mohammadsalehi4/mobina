@@ -71,7 +71,7 @@ const AmountLimit = (props) => {
           }
         </span>
       </DropdownToggle>
-      <DropdownMenu style={{padding:"5px 10px"}}>
+      <DropdownMenu style={{padding:"5px 10px", zIndex:'1'}}>
           <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
           <Input placeholder={min} onChange={setMin} id={`GetStartAmountValue1`}  type='number'/>
           <Label style={{float:"right"}} className='mt-1 mb-1'>تا</Label>

@@ -141,7 +141,7 @@ const TimeLimit = (props) => {
         </span>
       </DropdownToggle>
 
-      <DropdownMenu style={{padding:"5px 10px", width:"220px", height:"165px"}} >
+      <DropdownMenu style={{padding:"5px 10px", width:"220px", height:"165px", zIndex:'1'}} >
           <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
           <Input id={`GetStartAmountValue`}  type='text' value={startText} 
             autocomplete="off"
