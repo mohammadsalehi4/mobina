@@ -200,7 +200,7 @@ const EcommerceDashboard = () => {
     const name='اتریوم'
     const image='ETH.png'
     const BlockDate=data.timestamp
-    const symbole=data.logs[0].address.symbol
+    let symbole
     const color='#627eea'
     let TotalOutput
     const TotalOutput1=TotalOutput*CurrencyPrice
@@ -216,6 +216,7 @@ const EcommerceDashboard = () => {
       BTCAmount=(Number(data.value)/1000000000000000000)
       TotalOutput=(Number(data.value)/1000000000000000000)
       TotalInput=(Number(data.value)/1000000000000000000)
+      symbole="ETH"
       inputData=[
         {
           address:data.from.address,
@@ -234,6 +235,7 @@ const EcommerceDashboard = () => {
       BTCAmount=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
       TotalOutput=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
       TotalInput=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
+      symbole=data.logs[0].address.symbol
       inputData=[
         {
           address:data.from.address,
@@ -249,8 +251,6 @@ const EcommerceDashboard = () => {
         }
       ]
     }
-
-
 
     return ({
       address,
@@ -278,7 +278,7 @@ const EcommerceDashboard = () => {
     event.preventDefault()
     const inputValue=(document.getElementById("transactionValue").value)
     SetAddress(inputValue)
-    if (inputValue.length === 66 || inputValue.length === 64) {
+    if (inputValue.length >= 60) {
       if (inputValue.startsWith("0x")) {
         axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`,
         {
@@ -288,11 +288,13 @@ const EcommerceDashboard = () => {
         })
         .then((response) => {
           SetTrData(EthereumTransaction(response.data))
+          console.log(response.data)
           SetLoading(false)
           SetMode(1)
         })
         .catch(err => {
           SetLoading(false)
+          console.log(err)
           try {
             if (err.response.data.code === 'token_not_valid') {
               Cookies.set('refresh', '')
