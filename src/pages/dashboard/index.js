@@ -200,30 +200,57 @@ const EcommerceDashboard = () => {
     const name='اتریوم'
     const image='ETH.png'
     const BlockDate=data.timestamp
-    const symbole="ETH"
+    const symbole=data.logs[0].address.symbol
     const color='#627eea'
-    const TotalOutput=(Number(data.value)/1000000000000000000)
+    let TotalOutput
     const TotalOutput1=TotalOutput*CurrencyPrice
     const TotalOutput2=TotalOutput1*USDPrice
-    const TotalInput=(Number(data.value)/1000000000000000000)
+    let TotalInput
     const TotalInput1=TotalInput*CurrencyPrice
     const TotalInput2=TotalInput1*USDPrice
     const RiskScore='0%'
-    const BTCAmount=(Number(data.value)/1000000000000000000)
-    const inputData=[
-      {
-        address:data.from.address,
-        RiskScore:'0%',
-        BTCAmount:(Number(data.value)/1000000000000000000)
-      }
-    ]
-    const outputData=[
-      {
-        address:data.to.address,
-        RiskScore:'0%',
-        BTCAmount:(Number(data.value)/1000000000000000000)
-      }
-    ]
+    let BTCAmount
+    let inputData
+    let outputData
+    if (Number(data.value) !== 0) {
+      BTCAmount=(Number(data.value)/1000000000000000000)
+      TotalOutput=(Number(data.value)/1000000000000000000)
+      TotalInput=(Number(data.value)/1000000000000000000)
+      inputData=[
+        {
+          address:data.from.address,
+          RiskScore:'0%',
+          BTCAmount:(Number(data.value)/1000000000000000000)
+        }
+      ]
+      outputData=[
+        {
+          address:data.to.address,
+          RiskScore:'0%',
+          BTCAmount:(Number(data.value)/1000000000000000000)
+        }
+      ]
+    } else {
+      BTCAmount=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
+      TotalOutput=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
+      TotalInput=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
+      inputData=[
+        {
+          address:data.from.address,
+          RiskScore:'0%',
+          BTCAmount:(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
+        }
+      ]
+      outputData=[
+        {
+          address:data.to.address,
+          RiskScore:'0%',
+          BTCAmount:(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
+        }
+      ]
+    }
+
+
 
     return ({
       address,
@@ -403,7 +430,7 @@ const EcommerceDashboard = () => {
               :
                   null
               }
-              <form onSubmit={ (event) => { 
+              <form id='myMainForm' onSubmit={ (event) => { 
                 onSubmit(event)
                 focusInput() 
               } }>
@@ -450,10 +477,10 @@ const EcommerceDashboard = () => {
             :
                 null
             }
-            <form onSubmit={ (event) => { onSubmit(event) } }>
+            <form id='myMainForm' onSubmit={ (event) => { onSubmit(event) } }>
                 <InputGroup className='mb-2'>
                   <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white", width:"70%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
-                  <InputGroupText onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
+                  <InputGroupText id='MainSubmitBotton' onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
                     <Search size={20} />
                   </InputGroupText>
                 </InputGroup>

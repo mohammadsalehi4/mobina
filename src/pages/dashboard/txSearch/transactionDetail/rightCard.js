@@ -7,15 +7,12 @@ import './transactiondetail.css'
 // ** Reactstrap Imports
 import {
   Card,
-  CardLink,
   CardBody,
-  CardText,
   CardTitle,
   CardHeader,
-  CardSubtitle,
   UncontrolledTooltip
 } from 'reactstrap'
-import { MainSiteOrange } from '../../../../../public/colors'
+import { MainSiteOrange, MainSiteyellow } from '../../../../../public/colors'
 
 // ** Images
 
@@ -46,12 +43,18 @@ const CardContentTypes = (props) => {
 
         <div className='row mt-3'>
           <div className='col-12'>
-              <CardLink href='/' style={{background:MainSiteOrange, color:"white", borderColor:MainSiteOrange, padding:"8px 16px", width:"50%", textAlign:"center", borderRadius:"8px"}} onClick={e => e.preventDefault()} id='cardLink'>
-                ردیابی <ion-icon style={{marginBottom:"-4px"}} name="git-compare-outline"></ion-icon>
-              </CardLink>
-              <UncontrolledTooltip placement='top' target="cardLink">
-                در نسخه دمو قابل انجام نیست!
-              </UncontrolledTooltip>
+          <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink15' style={{background:MainSiteOrange}}>
+            انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
+          </button>
+          <UncontrolledTooltip placement='top' target={`cardLink15`}>
+                          در نسخه دمو قابل انجام نیست!
+          </UncontrolledTooltip>
+          <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink25' style={{background:MainSiteyellow}}>
+            افزودن به پرونده <ion-icon name="alert-circle-outline"></ion-icon>
+          </button>
+          <UncontrolledTooltip placement='top' target={`cardLink25`}>
+                          در نسخه دمو قابل انجام نیست!
+          </UncontrolledTooltip>
           </div>
         </div>
 

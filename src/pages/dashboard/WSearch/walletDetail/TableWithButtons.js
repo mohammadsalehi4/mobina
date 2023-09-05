@@ -107,9 +107,13 @@ const DataTableWithButtons = (props) => {
       name: 'شناسه تراکنش',
       minWidth: '210px',
       selector: row => (
-        <div className='d-flex align-items-end '>
+        <div className='d-flex align-items-end ' style={{cursor:"pointer"}}>
           <div className='user-info text-truncate'>
-            <span className='d-block text-truncate ms-0' style={{marginBottom:"-10px"}}>
+            <span className='d-block text-truncate ms-0' style={{marginBottom:"-10px"}}
+            onClick={() => { 
+              document.getElementById('transactionValue').value = `${row.address}` 
+              document.getElementById('MainSubmitBotton').click()
+            }}>
               <NiceAddress  text={row.address} number={8}/>
             </span>
           </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 import React, {useState, Fragment} from 'react'
 import NiceAddress2 from '../../components/niceAddress2/niceAddress'
@@ -25,7 +26,10 @@ const DashboardAccWallet = (props) => {
               <div className='col-4'>
                 آدرس
               </div>
-              <div className='col-8' style={{ textAlign: "left" }}>
+              <div className='col-8' style={{ textAlign: "left" }} onClick={() => { 
+                document.getElementById('transactionValue').value = `${props.data.address}` 
+                document.getElementById('MainSubmitBotton').click()
+              }}>
                 <NiceAddress2 text={props.data.address} number={8} />
               </div>
             </div><div className='row mt-3'>
