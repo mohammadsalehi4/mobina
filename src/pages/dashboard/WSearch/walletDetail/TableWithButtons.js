@@ -271,7 +271,7 @@ const DataTableWithButtons = (props) => {
     let filteredData4=[]
     for (let i = 0; i < filteredData3.length; i++) {
       if (States.starttime !== 0) {
-        if ((filteredData3[i].Date)*1000 > States.starttime) {
+        if ((filteredData3[i].Date)*1000 >= States.starttime) {
           filteredData4.push(filteredData3[i])
         }
       } else {
@@ -282,7 +282,7 @@ const DataTableWithButtons = (props) => {
     let filteredData5=[]
     for (let i = 0; i < filteredData4.length; i++) {
       if (States.endtime !== 0) {
-        if ((filteredData4[i].Date)*1000 < States.endtime) {
+        if ((filteredData4[i].Date)*1000 <= States.endtime) {
           filteredData5.push(filteredData4[i])
         }
       } else {
