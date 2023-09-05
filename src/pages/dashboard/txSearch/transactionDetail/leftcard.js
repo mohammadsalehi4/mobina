@@ -65,7 +65,7 @@ const getMyTime = (index) => {
 }
 
 const CardTransactions = (props) => {
-
+  console.log(props.data)
   const renderTransactions = () => {
     const States = useSelector(state => state)
     return (

@@ -82,6 +82,7 @@ const EcommerceDashboard = () => {
         hash,
         currencyType:"BTC",
         Logo:"BTC.png",
+        image:"BTC.png",
         Type:"coin"
       })
     }
@@ -137,7 +138,7 @@ const EcommerceDashboard = () => {
     const blockNumber=data.blockNumber
     const name='بیت کوین'
     const image='BTC.png'
-    const BlockDate='سرور نمیده'
+    const BlockDate=data.time
     const symbole="BTC"
     const color='#f8a23a'
     let TotalOutput=0

@@ -12,7 +12,7 @@ import {
 import { MainSiteGray } from '../../../../../../public/colors'
 import NiceAddress from '../../../../../components/niceAddress/niceAddress'
 import ReactPaginate from 'react-paginate'
-
+import moment from 'jalali-moment'
 const BootstrapCheckbox = forwardRef((props, ref) => (
   <div className='form-check'>
     <Input type='checkbox' ref={ref} {...props} />
@@ -40,8 +40,13 @@ const columns = [
     minWidth: '120px',
     maxWidth:"120px",
     selector: row => (
-      <div className='d-flex mt-2 align-items-end '>
-        <div className='user-info text-truncate'>
+      <div className='d-flex mt-2 align-items-end ' style={{cursor:"pointer"}}>
+        <div className='user-info text-truncate'
+        onClick={() => { 
+          document.getElementById('transactionValue').value = `${row.address.address}` 
+          document.getElementById('MainSubmitBotton').click()
+        }}
+        >
           <NiceAddress text={row.address.address} number={3}/>
         </div>
       </div>
