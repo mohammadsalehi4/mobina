@@ -41,10 +41,7 @@
   height: 50px;
   margin-top: 10px;
   border-radius: 8px;
-  background: url("../../../public/images/search.png") no-repeat scroll 7px 7px;
   padding-left: 48px;
-  background-size: 30px;
-  background-position: 10px 10px;
 }
 #Tax .main_row1 h1 {
   width: 100%;

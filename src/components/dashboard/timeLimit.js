@@ -147,6 +147,7 @@ const TimeLimit = (props) => {
             autocomplete="off"
             onClick={() => { 
               document.getElementById('fromLimitTime').style.display = 'block' 
+              document.getElementById('toLimitTime').style.display = 'none' 
             }}/>
             
 
@@ -166,6 +167,7 @@ const TimeLimit = (props) => {
           autocomplete="off"
           onClick={() => {
               document.getElementById('toLimitTime').style.display = 'block' 
+              document.getElementById('fromLimitTime').style.display = 'none' 
           }}/>
 
           <div id='toLimitTime' style={{position:"absolute", display:"none"}}>

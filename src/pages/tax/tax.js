@@ -5,9 +5,10 @@ import React, { useState, useEffect} from 'react'
 import { useDispatch } from 'react-redux'
 import './tax.css'
 import DataTableWithButtons from '../../components/collapseableTable/TableExpandable'
-import { Input, Label } from 'reactstrap'
+import { Input, Label, InputGroup, InputGroupText } from 'reactstrap'
 import { useParams } from "react-router-dom"
 import { MainSiteOrange } from '../../../public/colors'
+import { Search } from 'react-feather'
 
 const Tax = () => {
     const { txid } = useParams()
@@ -49,7 +50,12 @@ const Tax = () => {
                     <div class="col-lg-6 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
                         <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}> شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3>
                         <form onSubmit={checkinput}>
-                            <Input type='text' id='trAddressValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{backgroundColor:"white"}}/>
+                            <InputGroup className='mb-2'>
+                            <Input type='text' id='trAddressValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
+                                <InputGroupText onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
+                                    <Search size={20} />
+                                </InputGroupText>
+                            </InputGroup>
                         </form>
                     </div>
                     <div class="col-lg-3">

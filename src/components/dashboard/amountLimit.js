@@ -41,19 +41,19 @@ const AmountLimit = (props) => {
     dispatch({type:"SETSTARTAMOUNT", value:min})
     dispatch({type:"SETENDAMOUNT", value:max})
     if (min === 0) {
-      document.getElementById('GetStartAmountValue').value = ''
+      document.getElementById('GetStartAmountValue1').value = ''
     } 
     if (max === 0) {
-      document.getElementById('GetEndAmountValue').value = ''
+      document.getElementById('GetEndAmountValue1').value = ''
     }
   }, [min, max])
 
   const setMin = () => {
-    SetMin(Number(document.getElementById('GetStartAmountValue').value))
+    SetMin(Number(document.getElementById('GetStartAmountValue1').value))
   }
 
   const setMax = () => {
-    SetMax(Number(document.getElementById('GetEndAmountValue').value))
+    SetMax(Number(document.getElementById('GetEndAmountValue1').value))
   }
 
   return (
@@ -73,9 +73,9 @@ const AmountLimit = (props) => {
       </DropdownToggle>
       <DropdownMenu style={{padding:"5px 10px"}}>
           <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
-          <Input placeholder={min} onChange={setMin} id={`GetStartAmountValue`}  type='number'/>
+          <Input placeholder={min} onChange={setMin} id={`GetStartAmountValue1`}  type='number'/>
           <Label style={{float:"right"}} className='mt-1 mb-1'>تا</Label>
-          <Input placeholder={max}  onChange={setMax} id={`GetEndAmountValue`} type='number'/>
+          <Input placeholder={max}  onChange={setMax} id={`GetEndAmountValue1`} type='number'/>
           <span style={{fontSize:"12px", float:"right", color:"blue", cursor:"pointer"}} className='m-1' onClick={() => { SetMin(0), SetMax(0) }}>حذف محدودیت</span>
       </DropdownMenu>
     </UncontrolledButtonDropdown>

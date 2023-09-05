@@ -67,9 +67,23 @@
   border-radius: 5px;
 }
 
+.hamoniKeMahdudiatDare{
+  height: 32px;
+  margin-top: 24px !important;
+}
+
 @media only screen and (max-width: 550px) {
   .hamoniKeMahdudiatDare{
     height: 32px;
+    margin-top: -12px !important;
+  }
+
+  .hamoniKeMahdudiatDare2{
+    margin-top: 12px !important;
+  }
+
+  .hamoniKeMahdudiatDare3{
+    margin-top: 16px !important;
   }
 }
 

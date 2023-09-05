@@ -138,7 +138,7 @@ const DataTableWithButtons = (props) => {
       cell: row => {
         return (
           <div style={{direction:"ltr"}}>
-            <img title={row.currencyType} style={{width:"30px"}} src={`../../../../../public/images/${row.Logo}`}/>
+            <img title={row.currencyType} style={{width:"30px"}} src={`images/${row.Logo}`}/>
           </div>
         )
       }
@@ -348,17 +348,17 @@ const DataTableWithButtons = (props) => {
               <div className='col-sm-6 mt-2'>
                 آخرین تراکنش ها
               </div>
-              <div className='col-sm-6 mt-2'>
+              <div className='col-sm-6 mt-2 hamoniKeMahdudiatDare3'>
                 <TokenSwitch color={props.data.color} transactions={props.transactions}/>
               </div>
             </div>
           </CardTitle>
           <div style={{width:"100%"}}>
             <div className='row'>
-              <div className='col-lg-3 mt-3 hamoniKeMahdudiatDare'>
+              <div className='col-lg-3  hamoniKeMahdudiatDare'>
                 <TimeLimit/>
               </div>
-              <div className='col-lg-3 mt-3 hamoniKeMahdudiatDare'>
+              <div className='col-lg-3  hamoniKeMahdudiatDare hamoniKeMahdudiatDare2'>
                 <AmountLimit name={props.data.name}/>
               </div>
               <div className='col-lg-3 mt-3'>

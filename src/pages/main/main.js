@@ -118,10 +118,13 @@ const Main = () => {
         try {
             const access = Cookies.get('access')
             const decoded = jwt.decode(access)
-            if (decoded.token_type === 'access') {
+            const currentTime = Date.now() / 1000
+            if (decoded.exp > currentTime) {
                 window.location.assign('/researcher')
+            } else {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
             }
-
         } catch {
             
         }

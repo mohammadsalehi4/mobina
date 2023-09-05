@@ -11,8 +11,11 @@ import { serverAddress } from '../../address'
 import { Alert } from 'reactstrap'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { useDispatch, useSelector } from 'react-redux'
+import toast from 'react-hot-toast'
 
 const AdminAddNewUser = () => {
+  const dispatch = useDispatch()
 
     const [inputValue, setInputValue] = useState('')
     const [inputLastValue, setInputLastValue] = useState('')
@@ -158,11 +161,9 @@ const AdminAddNewUser = () => {
               if (UsernameValue !== '') {
                 if (nameValue !== '') {
                   // register
-                  alert('register')
-                  
+                  dispatch({type:"LOADINGEFFECT", value:true})
                   axios.post(`${serverAddress}/accounts/register/`, 
                   {
-                      // This is the data (or body) of the request
                       first_name : document.getElementById('NameAddUserAdmin').value,
                       last_name : document.getElementById('lastNameMulti').value,
                       email : document.getElementById('AdminAddUserEmailInput').value,
@@ -171,7 +172,6 @@ const AdminAddNewUser = () => {
                       phone_number : document.getElementById('AdminAddUserPhoneNumber').value
                   },
                   {
-                      // This is the config (includes headers)
                       headers: {
                           Authorization: `Bearer ${Cookies.get('access')}`, 
                           'Content-Type': 'application/json'
@@ -179,9 +179,17 @@ const AdminAddNewUser = () => {
                   })
                   .then((response) => {
                       console.log(response.data)
+                      dispatch({type:"LOADINGEFFECT", value:false})
+                      return toast.success('کاربر با موفقیت ساخته شد.', {
+                        position: 'bottom-left'
+                      })
                   })
                   .catch((err) => {
                       console.log(err.response.data)
+                      dispatch({type:"LOADINGEFFECT", value:false})
+                      return toast.success('کاربر با موفقیت ساخته شد.', {
+                        position: 'bottom-left'
+                      })
                   })
                 }
               }

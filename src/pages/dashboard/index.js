@@ -6,7 +6,7 @@
 import '@styles/react/libs/charts/apex-charts.scss'
 import '@styles/base/pages/dashboard-ecommerce.scss'
 import './style.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import TransactionDetail from './txSearch/transactionDetail/transactionDetail'
@@ -381,15 +381,19 @@ const EcommerceDashboard = () => {
     }
   }, [mode])
 
+  const myInputRef = useRef(null)
+  const focusInput = () => {
+    myInputRef.current.focus()
+  }
   return (
-    <UILoader blocking={Loading} loader={<Spinner />} style={{height:"100vh"}}>
+    <UILoader ref={myInputRef} blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
     <div id='dashboard' class='container-fluid'>
       {
         mode === 0 ?
         <div class="row main_row1">
             <div class="col-lg-3">
             </div>
-            <div class="col-lg-6 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
+            <div class="col-lg-6 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px" }}>
               {
 
                 // eslint-disable-next-line multiline-ternary
@@ -399,7 +403,10 @@ const EcommerceDashboard = () => {
               :
                   null
               }
-              <form onSubmit={ (event) => { onSubmit(event) } }>
+              <form onSubmit={ (event) => { 
+                onSubmit(event)
+                focusInput() 
+              } }>
                 <InputGroup className='mb-2'>
                   <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
                   <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
@@ -444,7 +451,7 @@ const EcommerceDashboard = () => {
                 null
             }
             <form onSubmit={ (event) => { onSubmit(event) } }>
-              <InputGroup className='mb-2'>
+                <InputGroup className='mb-2'>
                   <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white", width:"70%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
                   <InputGroupText onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
                     <Search size={20} />
