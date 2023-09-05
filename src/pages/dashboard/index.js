@@ -81,7 +81,7 @@ const EcommerceDashboard = () => {
         value,
         hash,
         currencyType:"BTC",
-        Logo:"bitcoin.png",
+        Logo:"BTC.png",
         Type:"coin"
       })
     }
@@ -100,7 +100,7 @@ const EcommerceDashboard = () => {
         value:Number(getData.result[i].value)/1000000000000000000,
         hash:getData.result[i].transactionHash,
         currencyType:"ETH",
-        Logo:"ethereum.png",
+        Logo:"ETH.png",
         Type:"coin"
       })
     }
@@ -136,7 +136,7 @@ const EcommerceDashboard = () => {
     const address=data.hash
     const blockNumber=data.blockNumber
     const name='بیت کوین'
-    const image='bitcoin.png'
+    const image='BTC.png'
     const BlockDate='سرور نمیده'
     const symbole="BTC"
     const color='#f8a23a'
@@ -198,7 +198,7 @@ const EcommerceDashboard = () => {
     const address=data.blockHash
     const blockNumber=data.blockNumber
     const name='اتریوم'
-    const image='ethereum.png'
+    const image='ETH.png'
     const BlockDate=data.timestamp
     const symbole="ETH"
     const color='#627eea'
