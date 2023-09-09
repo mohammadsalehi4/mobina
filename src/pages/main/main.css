@@ -1,7 +1,24 @@
+@charset "UTF-8";
+#main {
+  /* تغییر رنگ علامت تیک زمانی که چک باکس انتخاب شده باشد */
+}
 #main #rightLoginBackground {
-  background: url("../../../public/images/login.PNG");
+  background: url("images/login.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+}
+#main input[type=checkbox] {
+  background-color: white; /* تغییر رنگ پس زمینه تیک به زرد */
+  border-color: #2f4f4f;
+}
+#main input[type=checkbox]:checked {
+  background-color: #2f4f4f; /* تغییر رنگ پس زمینه تیک به نارنجی زمانی که انتخاب شده باشد */
+}
+#main input[type=text]:focus {
+  border-color: #2f4f4f;
+}
+#main input[type=password]:focus {
+  border-color: #2f4f4f;
 }
 #main .login_form {
   height: 40px;
@@ -21,7 +38,7 @@
   margin-right: 20px;
 }
 #main .gray {
-  color: #797979;
+  color: rgb(121, 121, 121);
 }
 @media only screen and (max-width: 576px) {
   #main #login_form_content {
