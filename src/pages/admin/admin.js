@@ -39,6 +39,20 @@ const Admin = () => {
     dispatch({type:"SETWITCHPAGE", value:-1})
   }, [])
 
+  useEffect(() => {
+    try {
+      const access = Cookies.get('access')
+      const decoded = jwt.decode(access)
+      const currentTime = Date.now() / 1000
+      if (decoded.exp > currentTime) {
+      } else {
+        window.location.assign('/')
+      }
+    } catch {
+      window.location.assign('/')
+    }
+  }, [])
+
   const toggle = tab => {
     setActive(tab)
   }

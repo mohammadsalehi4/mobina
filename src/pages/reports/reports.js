@@ -5,6 +5,8 @@ import CardMain from '../../components/cardMainBig/cardMain'
 import CardSubMain from '../../components/cardSubMain/cardsubmain'
 import CardNews from '../../components/cardNews/cardnews'
 import './reports.css'
+import Cookies from 'js-cookie'
+
 const Reports = () => {
     const States = useSelector(state => state)
     const dispatch = useDispatch()
@@ -12,6 +14,21 @@ const Reports = () => {
         dispatch({type:"SHOWNAVBAR"})
         dispatch({type:"SETWITCHPAGE", value:5})
     }, [])
+
+    useEffect(() => {
+        try {
+          const access = Cookies.get('access')
+          const decoded = jwt.decode(access)
+          const currentTime = Date.now() / 1000
+          if (decoded.exp > currentTime) {
+          } else {
+            window.location.assign('/')
+          }
+        } catch {
+          window.location.assign('/')
+        }
+      }, [])
+      
     const data = {
         CardMain:{
             title:"پیش‌نویس سند «الزامات فعالیت صرافی‌های رمزارزی» توسط فراجا تدوین شد ",

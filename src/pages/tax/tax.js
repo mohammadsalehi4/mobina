@@ -9,6 +9,7 @@ import { Input, Label, InputGroup, InputGroupText } from 'reactstrap'
 import { useParams } from "react-router-dom"
 import { MainSiteOrange } from '../../../public/colors'
 import { Search } from 'react-feather'
+import Cookies from 'js-cookie'
 
 const Tax = () => {
     const { txid } = useParams()
@@ -20,6 +21,20 @@ const Tax = () => {
             setMode(1)
         }
     }, [])
+
+    useEffect(() => {
+        try {
+          const access = Cookies.get('access')
+          const decoded = jwt.decode(access)
+          const currentTime = Date.now() / 1000
+          if (decoded.exp > currentTime) {
+          } else {
+            window.location.assign('/')
+          }
+        } catch {
+          window.location.assign('/')
+        }
+      }, [])
 
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})

@@ -415,6 +415,22 @@ const EcommerceDashboard = () => {
   const focusInput = () => {
     myInputRef.current.focus()
   }
+
+  //login check
+  useEffect(() => {
+    try {
+      const access = Cookies.get('access')
+      const decoded = jwt.decode(access)
+      const currentTime = Date.now() / 1000
+      if (decoded.exp > currentTime) {
+      } else {
+        window.location.assign('/')
+      }
+    } catch {
+      window.location.assign('/')
+    }
+  }, [])
+
   return (
     <UILoader ref={myInputRef} blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
     <div id='dashboard' class='container-fluid'>

@@ -10,6 +10,7 @@ import VisualizationDetail from './visualizationDetail'
 import Guide from './guide'
 import TopGuide from './topGuide'
 import { useSelector, useDispatch } from "react-redux"
+import Cookies from 'js-cookie'
 
 const Tracker = () => {
     useEffect(() => {
@@ -23,6 +24,22 @@ const Tracker = () => {
         dispatch({type:"SHOWNAVBAR"})
         dispatch({type:"SETWITCHPAGE", value:2})
     }, [])
+
+    //login check
+    useEffect(() => {
+        try {
+          const access = Cookies.get('access')
+          const decoded = jwt.decode(access)
+          const currentTime = Date.now() / 1000
+          if (decoded.exp > currentTime) {
+          } else {
+            window.location.assign('/')
+          }
+        } catch {
+          window.location.assign('/')
+        }
+      }, [])
+
     return (
         <div id='TransactionPage'>
             <TopGuide/>
