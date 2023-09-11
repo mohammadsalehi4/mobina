@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-invalid-this */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import './tracker.css'
 import { useSelector, useDispatch } from "react-redux"
 import Switch from '../../components/switch/switch'
 import TransactionTablleWithCheckbox from '../../components/TransactionDetailTable/transactionTablleWithCheckbox'
@@ -13,6 +14,7 @@ const TransactionDetail1 = () => {
   const close = () => {
     dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
   }
+
   // eslint-disable-next-line no-return-assign
   return (
     
@@ -28,10 +30,10 @@ const TransactionDetail1 = () => {
         <div className='row'>
           <div className='col-12' >
             <div id='address' style={{background:"rgb(248,248,248)", width:"100%", padding:"15px", borderRadius:"10px"}}>
-              <a id='justUp500'>{States.WDetail.address}</a>
-              <NiceAddress2 text={States.WDetail.address} number={8}/>
               <ion-icon name="copy-outline"></ion-icon>
               <ion-icon name="git-network-outline"></ion-icon>
+              <a id='justUp400'>{`...${(States.WDetail.address).substring(0, 30)}`}</a>
+              <a id='justUnder400'>{`...${(States.WDetail.address).substring(0, 20)}`}</a>
             </div>
           </div>
         </div>
@@ -52,7 +54,7 @@ const TransactionDetail1 = () => {
                 <p>حجم، اندازه</p>
               </div>
               <div className='col-6' style={{float:"left", direction:"ltr"}}>
-                <span>{digitsEnToFa(2.37)}</span> <small>BTC</small>
+                <span>{digitsEnToFa(String(States.WDetail.Amount))}</span> <small>BTC</small>
               </div>
             </div>
             <div className='row' >
@@ -60,7 +62,7 @@ const TransactionDetail1 = () => {
                 <p>کارمزد</p>
               </div>
               <div className='col-6' style={{float:"left", direction:"ltr"}}>
-                <span>{digitsEnToFa(0.003)}</span> <small>BTC</small>
+                <span>{(digitsEnToFa(String(States.WDetail.fee)))}</span> <small>BTC</small>
               </div>
             </div>
             <div className='row' >
@@ -68,16 +70,16 @@ const TransactionDetail1 = () => {
                 <p>تاریخ بلاک</p>
               </div>
               <div className='col-6' style={{float:"left", direction:"ltr"}}>
-                <span>{digitsEnToFa("2023/02/03")}</span><br/>
-                <small>{digitsEnToFa("13:23")}</small>
+                <span>{digitsEnToFa(States.WDetail.date)}</span><br/>
+                <small>{digitsEnToFa(States.WDetail.time)}</small>
               </div>
             </div>
           </div>
         </div>
         <div className='row'>
           <div className='col-12'>
-            <TransactionTablleWithCheckbox/>
-            <TransactionTablleWithCheckbox2/>
+            <TransactionTablleWithCheckbox data={States.WDetail}/>
+            <TransactionTablleWithCheckbox2 data={States.WDetail}/>
           </div>
         </div>
     </div>

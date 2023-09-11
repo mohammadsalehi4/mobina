@@ -251,4 +251,17 @@
 .my_edge{
 background: red;
 }
+
+@media only screen and (max-width:400px) {
+  #justUp400{
+    display: none;
+  }
+}
+@media only screen and (min-width:400px) {
+  #justUnder400{
+    display: none;
+  }
+}
+
+
 /*# sourceMappingURL=tracker.css.map */

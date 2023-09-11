@@ -1,41 +1,10 @@
 /* eslint-disable no-unused-vars */
 // ** React Imports
-import { Fragment, useState, forwardRef } from 'react'
+import { Fragment, useState, forwardRef, useEffect } from 'react'
 import NiceAddress2 from '../niceAddress2/niceAddress'
 import { digitsEnToFa } from 'persian-tools'
-
-// ** Table Data & Columns
-const data = [
-  {
-    address:"dsfhsdkhfklsadhfklsdhlkfhaskldhfklasdhflkjasdhflk",
-    amount:"2.98"
-  }
-]
-const columns = [
-  {
-    name: 'آدرس های ورودی',
-    sortable: false,
-    minWidth: '300px',
-    selector: row => row.address,
-    cell: row => {
-      return (
-        <NiceAddress2 text={row.address} number={12}/>
-      )
-    }
-  },
-  {
-    name: 'مقدار',
-    sortable: true,
-    minWidth: '100px',
-    selector: row => digitsEnToFa(row.amount)
-  }
-]
-
-// ** Third Party Components
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-
-// ** Reactstrap Imports
 import {
   Card,
   Input
@@ -48,11 +17,44 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
-const TransactionTablleWithCheckbox = () => {
+const TransactionTablleWithCheckbox = (props) => {
   // ** States
+  console.log(props.data)
   const [currentPage, setCurrentPage] = useState(0)
   const [searchValue, setSearchValue] = useState('')
   const [filteredData, setFilteredData] = useState([])
+  const [data, SetData] = useState({})
+
+  useEffect(() => {
+    const a = []
+    for (let i = 0; i < props.data.in.length; i++) {
+      a.push({
+        address:props.data.in[i].address,
+        amount:props.data.in[i].amount
+      })
+    }
+    SetData(a)
+  }, [, props.data])
+
+  const columns = [
+    {
+      name: 'آدرس های ورودی',
+      sortable: false,
+      minWidth: '300px',
+      selector: row => row.address,
+      cell: row => {
+        return (
+          <NiceAddress2 text={row.address} number={12}/>
+        )
+      }
+    },
+    {
+      name: 'مقدار',
+      sortable: true,
+      minWidth: '100px',
+      selector: row => digitsEnToFa(parseFloat((row.amount).toFixed(5)).toString())
+    }
+  ]
 
   // ** Function to handle Pagination
   const handlePagination = page => {

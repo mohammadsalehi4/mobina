@@ -232,3 +232,14 @@ $GrayColor:rgb(248, 248, 248);
         display: none;
     }
 }
+
+#justUp400{
+    @media only screen and (max-width:"400px") {
+        display: none;
+    }
+}
+#justUnder400{
+    @media only screen and (min-width:"400px") {
+        display: none;
+    }
+}

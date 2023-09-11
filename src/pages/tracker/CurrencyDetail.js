@@ -53,7 +53,7 @@ const CurrencyDetail = () => {
           <div className='col-12 p-4'>
             <div className='row' >
               <div className='col-12'>
-                <WalletDetailTopTable/>
+                <WalletDetailTopTable data={States.WDetail}/>
               </div>
             </div>
             <div className='row mt-3' style={{borderBottomStyle:"solid", borderColor:"rgb(242,242,242)", borderWidth:"2px"}}>
@@ -63,16 +63,16 @@ const CurrencyDetail = () => {
             </div>
             <div className='row mt-3 mb-3'>
               <div className='col-6'>
-                <TrackerTimeLimit/>
+                <TrackerTimeLimit />
               </div>
               <div className='col-6 mb-3'>
                 {/* bayad jaygozin shavad */}
-                <TrackerAmountLimit/>
+                <TrackerAmountLimit />
               </div>
             </div>
             <div className='row mt-3'>
               <div className='col-12'>
-                <WalletDetailTableBottom/>
+                <WalletDetailTableBottom data={States.WDetail}/>
               </div>
             </div>
           </div>
