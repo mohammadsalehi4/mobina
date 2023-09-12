@@ -122,8 +122,8 @@ const DataTableWithButtons = (props) => {
     },
     {
       name: '',
-      minWidth: '90px',
-      maxWidth: '150px',
+      minWidth: '120px',
+      maxWidth: '120px',
       selector: row =>  (
         
           row.mode ? <div className='d-flex align-items-end '>
@@ -143,6 +143,7 @@ const DataTableWithButtons = (props) => {
         return (
           <div style={{direction:"ltr"}}>
             <img title={row.currencyType} style={{width:"30px"}} src={`images/${row.Logo}`}/>
+            <span className='ms-1'>{row.currencyType}</span>
           </div>
         )
       }

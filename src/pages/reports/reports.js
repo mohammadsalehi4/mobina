@@ -15,19 +15,21 @@ const Reports = () => {
         dispatch({type:"SETWITCHPAGE", value:5})
     }, [])
 
-    useEffect(() => {
-        try {
-          const access = Cookies.get('access')
-          const decoded = jwt.decode(access)
-          const currentTime = Date.now() / 1000
-          if (decoded.exp > currentTime) {
-          } else {
+  //login check
+  useEffect(() => {
+    try {
+        const access = Cookies.get('access')
+        const decoded = jwt.decode(access)
+        const currentTime = Date.now() / 1000
+        if (decoded.exp < currentTime || !decoded || decoded === '') {
             window.location.assign('/')
-          }
-        } catch {
-          window.location.assign('/')
+        } else {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
         }
-      }, [])
+    } catch {
+    }
+  }, [])
       
     const data = {
         CardMain:{

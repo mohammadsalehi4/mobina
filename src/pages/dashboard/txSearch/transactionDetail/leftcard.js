@@ -94,21 +94,18 @@ const CardTransactions = (props) => {
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {
                   States.TransactionDetailCurrencyMode === 0 ?
-                
                   digitsEnToFa(formatNumber(Number(props.data.TotalInput), 5))
                 :
                   null
                 }
                 {
                     States.TransactionDetailCurrencyMode === 1 ?
-                  
                     digitsEnToFa(formatNumber(Number(props.data.TotalInput1), 2))
                   :
                   null
                 }
                 {
                     States.TransactionDetailCurrencyMode === 2 ?
-                  
                     digitsEnToFa(formatNumber(Number(props.data.TotalInput2), 0))
                   :
                   null
@@ -189,7 +186,7 @@ const CardTransactions = (props) => {
         <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
           <CardTitle tag='h4' style={{width:"100%"}}>
             جزئیات
-            <Switch  options={[`${props.data.symbole}`, 'USD', 'IRR']} color={props.data.color} specialProps={'TransactionDetailCurrencyMode'}/>
+            <Switch  options={[`${props.data.symbole}`, 'USD']} color={props.data.color} specialProps={'TransactionDetailCurrencyMode'}/>
           </CardTitle>
         </CardHeader>
         <CardBody>{renderTransactions()}</CardBody>

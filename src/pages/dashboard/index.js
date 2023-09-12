@@ -289,15 +289,13 @@ const EcommerceDashboard = () => {
         })
         .then((response) => {
           SetTrData(EthereumTransaction(response.data))
-          console.log(response.data)
           SetLoading(false)
           SetMode(1)
         })
         .catch(err => {
           SetLoading(false)
-          console.log(err)
           try {
-            if (err.response.data.code === 'token_not_valid') {
+            if (err.response.data.detail === 'Token is expired') {
               Cookies.set('refresh', '')
               Cookies.set('access', '')
               window.location.assign('/')
@@ -319,7 +317,7 @@ const EcommerceDashboard = () => {
         .catch(err => {
           SetLoading(false)
           try {
-            if (err.response.data.code === 'token_not_valid') {
+            if (err.response.data.detail === 'Token is expired') {
               Cookies.set('refresh', '')
               Cookies.set('access', '')
               window.location.assign('/')
@@ -354,7 +352,7 @@ const EcommerceDashboard = () => {
         .catch((err) => {
           SetLoading(false)
           try {
-            if (err.response.data.code === 'token_not_valid') {
+            if (err.response.data.detail === 'Token is expired') {
               Cookies.set('refresh', '')
               Cookies.set('access', '')
               window.location.assign('/')
@@ -387,7 +385,7 @@ const EcommerceDashboard = () => {
         .catch((err) => {
           SetLoading(false)
           try {
-            if (err.response.data.code === 'token_not_valid') {
+            if (err.response.data.detail === 'Token is expired') {
               Cookies.set('refresh', '')
               Cookies.set('access', '')
               window.location.assign('/')
@@ -419,15 +417,16 @@ const EcommerceDashboard = () => {
   //login check
   useEffect(() => {
     try {
-      const access = Cookies.get('access')
-      const decoded = jwt.decode(access)
-      const currentTime = Date.now() / 1000
-      if (decoded.exp > currentTime) {
-      } else {
-        window.location.assign('/')
-      }
+        const access = Cookies.get('access')
+        const decoded = jwt.decode(access)
+        const currentTime = Date.now() / 1000
+        if (decoded.exp < currentTime || !decoded || decoded === '') {
+            window.location.assign('/')
+        } else {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+        }
     } catch {
-      window.location.assign('/')
     }
   }, [])
 

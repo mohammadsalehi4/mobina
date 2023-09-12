@@ -26,19 +26,20 @@ const Tracker = () => {
     }, [])
 
     //login check
-    // useEffect(() => {
-    //     try {
-    //       const access = Cookies.get('access')
-    //       const decoded = jwt.decode(access)
-    //       const currentTime = Date.now() / 1000
-    //       if (decoded.exp > currentTime) {
-    //       } else {
-    //         window.location.assign('/')
-    //       }
-    //     } catch {
-    //       window.location.assign('/')
-    //     }
-    //   }, [])
+    useEffect(() => {
+        try {
+            const access = Cookies.get('access')
+            const decoded = jwt.decode(access)
+            const currentTime = Date.now() / 1000
+            if (decoded.exp < currentTime || !decoded || decoded === '') {
+                window.location.assign('/')
+            } else {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+            }
+        } catch {
+        }
+    }, [])
 
     return (
         <div id='TransactionPage'>
