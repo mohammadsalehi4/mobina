@@ -19,8 +19,10 @@ import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 import Cookies from 'js-cookie'
 import { Search } from 'react-feather'
+import { useParams } from "react-router-dom"
 
 const EcommerceDashboard = () => {
+  const { hash } = useParams()
 
   function removeDuplicates(arr, prop) {
     return arr.filter((obj, pos, self) => self.findIndex((testObj) => testObj[prop] === obj[prop]) === pos)
@@ -274,126 +276,133 @@ const EcommerceDashboard = () => {
     })
   }
 
-  const onSubmit = (event) => {
-    SetLoading(true)
-    event.preventDefault()
-    const inputValue=(document.getElementById("transactionValue").value)
-    SetAddress(inputValue)
-    if (inputValue.length >= 60) {
-      if (inputValue.startsWith("0x")) {
-        axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${inputValue}`,
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('access')}`
-          }
-        })
-        .then((response) => {
-          SetTrData(EthereumTransaction(response.data))
-          SetLoading(false)
-          SetMode(1)
-        })
-        .catch(err => {
-          SetLoading(false)
-          try {
-            if (err.response.data.detail === 'Token is expired') {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
+  useEffect(() => {
+    if (hash !== undefined) {
+      document.getElementById("transactionValue").value=hash
+      SetLoading(true)
+      SetAddress(hash)
+      if (hash.length >= 60) {
+        if (hash.startsWith("0x")) {
+          axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${hash}`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`
             }
-          } catch (error) {}
-        })
-      } else {
-        axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${inputValue}`,
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('access')}`
-          }
-        })
-        .then((response) => {
-          SetTrData(BitcoinTransaction(response.data))
-          SetMode(1)
-          SetLoading(false)
-        })
-        .catch(err => {
-          SetLoading(false)
-          try {
-            if (err.response.data.detail === 'Token is expired') {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
-            }
-          } catch (error) {}
-        })
-      }
-    } else {
-      if (inputValue.startsWith("0x")) {
-        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=ETH&page_size=50&offset=1`,
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('access')}`
-          }
-        })
-        .then((response) => {
-          SetLoading(false)
-          SetAddress(document.getElementById("transactionValue").value)
-          SetCoinData({
-            name:'اتریوم',
-            symbole:"ETH",
-            risk:"0%",
-            owner:"بدون اطلاعات",
-            ownerMode:"بدون اطلاعات",
-            website:"بدون اطلاعات",
-            color:"#627eea",
-            image:"ethereum.png"
           })
-          SetAdData(EthereumAddress(response.data))
-          SetMode(2)
-        })
-        .catch((err) => {
-          SetLoading(false)
-          try {
-            if (err.response.data.detail === 'Token is expired') {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
-            }
-          } catch (error) {}
-        })
-      } else {
-        axios.get(`${serverAddress}/explorer/address?address=${inputValue}&network=BTC&page_size=50&offset=0`,
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('access')}`
-          }
-        })
-        .then((response) => {
-
-          SetLoading(false)
-          SetCoinData({
-            name:'بیت کوین',
-            symbole:"BTC",
-            risk:"0%",
-            owner:"بدون اطلاعات",
-            ownerMode:"بدون اطلاعات",
-            website:"بدون اطلاعات",
-            color:"#f8a23a",
-            image:"bitcoin.png"
+          .then((response) => {
+            SetTrData(EthereumTransaction(response.data))
+            SetLoading(false)
+            SetMode(1)
           })
-          SetAdData(BitcoinAddress(response.data.result, inputValue))
-          SetMode(2)
-        })
-        .catch((err) => {
-          SetLoading(false)
-          try {
-            if (err.response.data.detail === 'Token is expired') {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
+          .catch(err => {
+            SetLoading(false)
+            try {
+              if (err.response.data.detail === 'Token is expired') {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+            } catch (error) {}
+          })
+        } else {
+          axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${hash}`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`
             }
-          } catch (error) {}
-        })
+          })
+          .then((response) => {
+            SetTrData(BitcoinTransaction(response.data))
+            SetMode(1)
+            SetLoading(false)
+          })
+          .catch(err => {
+            SetLoading(false)
+            try {
+              if (err.response.data.detail === 'Token is expired') {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+            } catch (error) {}
+          })
+        }
+      } else {
+        if (hash.startsWith("0x")) {
+          axios.get(`${serverAddress}/explorer/address?address=${hash}&network=ETH&page_size=50&offset=1`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`
+            }
+          })
+          .then((response) => {
+            SetLoading(false)
+            SetAddress(document.getElementById("transactionValue").value)
+            SetCoinData({
+              name:'اتریوم',
+              symbole:"ETH",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#627eea",
+              image:"ethereum.png"
+            })
+            SetAdData(EthereumAddress(response.data))
+            SetMode(2)
+          })
+          .catch((err) => {
+            SetLoading(false)
+            try {
+              if (err.response.data.detail === 'Token is expired') {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+            } catch (error) {}
+          })
+        } else {
+          axios.get(`${serverAddress}/explorer/address?address=${hash}&network=BTC&page_size=50&offset=0`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`
+            }
+          })
+          .then((response) => {
+  
+            SetLoading(false)
+            SetCoinData({
+              name:'بیت کوین',
+              symbole:"BTC",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#f8a23a",
+              image:"bitcoin.png"
+            })
+            SetAdData(BitcoinAddress(response.data.result, hash))
+            SetMode(2)
+          })
+          .catch((err) => {
+            SetLoading(false)
+            try {
+              if (err.response.data.detail === 'Token is expired') {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+            } catch (error) {}
+          })
+        }
       }
     }
+  }, [])
+
+  const onSubmit = (event) => {
+    const inputValue=(document.getElementById("transactionValue").value)
+    event.preventDefault()
+    window.location.assign(`/researcher/${inputValue}`)
   }
 
   useEffect(() => {

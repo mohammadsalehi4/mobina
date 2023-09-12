@@ -35,6 +35,7 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 ))
 
 const DataTableWithButtons = (props) => {
+  console.log(props.transactions)
   const States = useSelector(state => state)
   const [numberOfShow, SetNumberofShow] = useState(0)
   const [showData, SetShowData] = useState([])
@@ -142,7 +143,7 @@ const DataTableWithButtons = (props) => {
       cell: row => {
         return (
           <div style={{direction:"ltr"}}>
-            <img title={row.currencyType} style={{width:"30px"}} src={`images/${row.Logo}`}/>
+            <img title={row.currencyType} style={{width:"30px", marginTop:"-4px"}} src={`../images/${row.Logo}`}/>
             <span className='ms-1'>{row.currencyType}</span>
           </div>
         )

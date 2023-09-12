@@ -1124,6 +1124,138 @@ const GraphDraw = () => {
   const networkRef = useRef(null)
   const dispatch = useDispatch()
 
+  const AllNodes = [
+    { 
+      id: 3,
+      group: "sender",
+      label: `...${(NodeData[3].address).substring(0, 7)}`,
+      x: 400,
+      y: 800 
+    },
+    { 
+      id: 5000,
+      group: "main",
+      label: `...${(NodeData[0].address).substring(0, 7)}`,
+      x: 0,
+      y: 800
+    },
+    { 
+      id: 6,
+      group: "reciver",
+      label: `...${(NodeData[6].address).substring(0, 7)}`,
+      x: -400,
+      y: 800
+    },
+    { 
+      id: 5,
+      group: "reciver",
+      label: `...${(NodeData[5].address).substring(0, 7)}`,
+      x: -400,
+      y: 700
+    },
+    { 
+      id: 4,
+      group: "reciver",
+      label: `...${(NodeData[4].address).substring(0, 7)}`,
+      x: 0,
+      y: 700
+    },
+    { 
+      id: 1,
+      group: "reciver",
+      label: `...${(NodeData[1].address).substring(0, 7)}`,
+      x: -400,
+      y: 600
+    },
+    { 
+      id: 2,
+      group: "sender",
+      label: `...${(NodeData[2].address).substring(0, 7)}`,
+      x: 400,
+      y: 700 
+    },
+    { 
+      id: 8,
+      group: "sender",
+      label: `...${(NodeData[8].address).substring(0, 7)}`,
+      x: 400,
+      y: 600 
+    },
+    { 
+      id: 9,
+      group: "sender",
+      label: `...${(NodeData[9].address).substring(0, 7)}`,
+      x: 400,
+      y: 500 
+    },
+    { 
+      id: 7,
+      group: "reciver",
+      label: `...${(NodeData[7].address).substring(0, 7)}`,
+      x: 0,
+      y: 600
+    },
+    { 
+      id: 10,
+      group: "sender",
+      label: `...${(NodeData[10].address).substring(0, 7)}`,
+      x: 400,
+      y: 400 
+    }
+  ]
+
+  const AllMids = [
+    { 
+      id: -1,
+      group: "mid",
+      label: "",
+      x: 200,
+      y: 800
+    },
+    { 
+      id: -2,
+      group: "mid",
+      label: "",
+      x: -200,
+      y: 800
+    },
+    { 
+      id: -3,
+      group: "mid",
+      label: "",
+      x: -200,
+      y: 700
+    },
+    { 
+      id: -4,
+      group: "mid",
+      label: "",
+      x: 200,
+      y: 700
+    },
+    { 
+      id: -5,
+      group: "mid",
+      label: "",
+      x: 200,
+      y: 600
+    },
+    { 
+      id: -6,
+      group: "mid",
+      label: "",
+      x: 200,
+      y: 500
+    },
+    { 
+      id: -7,
+      group: "mid",
+      label: "",
+      x: 200,
+      y: 400
+    }
+  ]
+
   useEffect(() => {
     const nodes = new DataSet([
       { 

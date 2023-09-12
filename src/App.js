@@ -32,6 +32,7 @@ const App = () => {
             <Route path="/" exact element={<Main/>}/>
             <Route path="/recovery"  element={<Recovery/>}/>
             <Route path="/researcher"  element={<EcommerceDashboard/>}/>
+            <Route path="/researcher/:hash"  element={<EcommerceDashboard/>}/>
             <Route path="/tracker"  element={<Tracker/>}/>
             <Route path="/newpassword/:username/:token"  element={<ChangePassword/>}/>
             <Route path="/tax"  element={<Tax/>}/>

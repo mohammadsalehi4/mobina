@@ -65,10 +65,13 @@ const CardContentTypes = (props) => {
         <div className='row mt-3'>
           <div style={{float:"right"}} className='col-12'>
             <div style={{textAlign:"left", float:"left"}}>
-              <div style={{display:"inline-block"}} onClick={GetTag}>
+              <div style={{display:"inline-block"}} id='AddressTagIcons021' onClick={GetTag}>
                 <ion-icon style={{ borderRadius:"50%", zIndex:2, color:"black", marginRight:"0px", marginTop:"8px", background:MainSiteOrange, fontSize:"8px", cursor:"pointer", position:"absolute"}} name="add-outline"></ion-icon>
                 <ion-icon style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}} name="pricetag-outline"></ion-icon>
               </div>
+              <UncontrolledTooltip placement='right' target='AddressTagIcons021'>
+                افزودن تگ
+              </UncontrolledTooltip>
               <ion-icon id="copyIcon" name="copy-outline" onClick={() => { navigator.clipboard.writeText(props.data.address) }} style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}}></ion-icon>
               <UncontrolledTooltip placement='top' target='copyIcon'>
                 کپی آدرس
@@ -111,12 +114,18 @@ const CardContentTypes = (props) => {
               {
                 !ownerMark ? 
                   <div style={{display:"inline-block", cursor:"pointer"}} className='me-1'>
-                    <ion-icon onClick={() => { getOwnerMark() }} style={{marginBottom:"-4px" }} name="bookmark-outline"></ion-icon>
+                    <ion-icon id="ownerNameTag021" onClick={() => { getOwnerMark() }} style={{marginBottom:"-4px" }} name="bookmark-outline"></ion-icon>
+                    <UncontrolledTooltip placement='left' target='ownerNameTag021'>
+                          افزودن نام مالک
+                    </UncontrolledTooltip>
                   </div>
                 :
                   <div style={{display:"inline-block"}} className='me-2'>
-                    <ion-icon onClick={() => { getOwnerMark() }} style={{marginBottom:"-4px", color:MainSiteOrange}} name="bookmark"></ion-icon>
+                    <ion-icon  id="ownerDeleteNameTag021" onClick={() => { getOwnerMark() }} style={{marginBottom:"-4px", color:MainSiteOrange}} name="bookmark"></ion-icon>
                     <small style={{background:MainSiteyellow, fontSize:"10px", padding:"0px 3px", borderRadius:"5px"}}>{ownerText}</small>
+                    <UncontrolledTooltip placement='left' target='ownerDeleteNameTag021'>
+                          حذف نام مالک
+                    </UncontrolledTooltip>
                   </div>
               }
             <div style={{textAlign:"left", float:"left"}}>
@@ -177,24 +186,34 @@ const CardContentTypes = (props) => {
   return (
     <Card className='card-transaction' id='rightCard1' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
-        <CardTitle tag='h4' style={{width:"100%", boxSizing:"border-box"}}>
-          آدرس {props.data.name}
+        <CardTitle tag='h4' style={{width:"100%", boxSizing:"border-box"}} >
+          <span >آدرس</span> {props.data.name}
+
           {
             !addressMark ? 
-              <div style={{display:"inline-block"}} className='me-1'>
+              <div style={{display:"inline-block"}} className='me-1' id='AddressTitleName021'>
                 <ion-icon onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", cursor:"pointer" }} name="bookmark-outline"></ion-icon>
+                <UncontrolledTooltip placement='left' target='AddressTitleName021'>
+                  افزودن برچسب
+                </UncontrolledTooltip>
               </div>
             :
-              <div style={{display:"inline-block"}} className='me-0'>
+              <div style={{display:"inline-block"}} className='me-0' id='AddressTitleDeleteName021'>
                 <ion-icon  onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon>
                 <small style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px"}}>{addressText}</small>
+                <UncontrolledTooltip placement='left' target='AddressTitleDeleteName021'>
+                  حذف برچسب
+                </UncontrolledTooltip>
               </div>
           }
+
+
           <span style={{float:"left"}} title={"ریسک"}>
             <span>{props.data.risk}</span>
             <ion-icon style={{color:"green", fontSize:"16px"}}  name="flash"></ion-icon>
           </span>
         </CardTitle>
+
       </CardHeader>
       <CardBody>{renderTransactions()}</CardBody>
     </Card>
