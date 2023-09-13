@@ -204,7 +204,7 @@ const AdminAddNewUser = () => {
                       first_name : document.getElementById('NameAddUserAdmin').value,
                       last_name : document.getElementById('lastNameMulti').value,
                       email : document.getElementById('AdminAddUserEmailInput').value,
-                      role: "Detector",
+                      role: "1",
                       username : document.getElementById('AdminAddUserUsernameInput').value,
                       phone_number : document.getElementById('AdminAddUserPhoneNumber').value
                   },
