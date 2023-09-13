@@ -122,10 +122,12 @@ const DataTableWithButtons = (props) => {
       )
     },
     {
-      name: '',
+      name: 'نوع',
       minWidth: '120px',
       maxWidth: '120px',
-      selector: row =>  (
+      sortable: true,
+      selector: row => row.mode,
+      cell: row =>  (
         
           row.mode ? <div className='d-flex align-items-end '>
             <ion-icon name="arrow-forward-outline" className="mb-1" id="inkouft"></ion-icon>

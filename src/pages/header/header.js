@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-tabs */
 import React, {useEffect, useRef, useState} from 'react'
 import '../../assets/vendor/fonts/fontawesome.css'
@@ -17,6 +18,10 @@ import Cookies from 'js-cookie'
 import { useSelector } from "react-redux"
 // eslint-disable-next-line no-duplicate-imports
 import { useDispatch } from "react-redux"
+import {
+  UncontrolledTooltip
+} from 'reactstrap'
+
 function Header() {
   const [Roll, SetRoll] = useState('')
   const States = useSelector(state => state)
@@ -83,34 +88,39 @@ function Header() {
             
             <div class="navbar-brand app-brand demo d-none d-xl-flex py-0"  style={{marginRight:"60px"}}>
               <a href="/" class="app-brand-link gap-2">
-                <img src='images/logo.png' id='logo'/>
+                <img src='../images/logo.png' id='logo'/>
                 <p className='vazir' id='brandName'>پنتا</p>
               </a>
             </div>
 
-            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none" style={{color:"#f8f8f8"}} onClick={openMobileMenu}>
+            <div  class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none" style={{color:"#f8f8f8"}} onClick={openMobileMenu}>
               <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" style={{color:"#f8f8f8"}}>
                 <i class="ti ti-menu-2 ti-sm" style={{color:"#f8f8f8"}}></i>
               </a>
+
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <ul class="navbar-nav flex-row ms-auto rightheaderItems">
                 {
-                  Roll === 'admin' ? <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
-                      <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon" href='/admin'>
+                  Roll === 'admin' ? 
+                    <li id='AdminPanelHeaderIcon' title='پنل ادمین' class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
+                      <a  class="nav-link dropdown-toggle hide-arrow topHeaderIcon" href='/admin' id='headerLinkAdminPanel'>
                         <i class="ti ti-layout-grid-add ti-md "></i>
                       </a>
-                    </li> : null
+                      
+                    </li> 
+                  : 
+                    null
                 }
 
-                <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1">
+                <li title='اعلانات' class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1">
                   <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
                     <ion-icon name="notifications-outline" className="topHeaderIcon"></ion-icon>
                   </a>
                 </li>
 
-                <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1" onClick={() => {                  
+                <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1" title='خروج' onClick={() => {                  
                     Cookies.set('refresh', '')
                     Cookies.set('access', '') 
                     window.location.assign('/') 

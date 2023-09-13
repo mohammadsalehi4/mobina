@@ -40,10 +40,28 @@ const AdminAddNewUser = () => {
       singleValue: (provided) => ({
         ...provided,
         color: 'rgb(120,120,120)'
+        
       }),
       control: (provided) => ({
         ...provided,
-        borderColor: MainSiteGray
+        borderColor: MainSiteGray,
+        color:'red'
+      }),
+      menu: (provided, state) => ({
+        background:'rgb(250,250,250)'
+      }),
+      menuList: (provided, state) => ({
+        borderColor:'rgb(200,200,200)',
+        borderWidth:'1px',
+        borderStyle:'solid',
+        borderRadius:'8px',
+        overflow:'hidden',
+        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
+        position:'absolute',
+        float:'right',
+        width:'100%',
+        zIndex:'200',
+        background:'rgb(250,250,250)'
       })
     }
 
@@ -55,6 +73,23 @@ const AdminAddNewUser = () => {
       control: (provided) => ({
         ...provided,
         borderColor: 'red'
+      }),
+      menu: (provided, state) => ({
+        background:'rgb(250,250,250)'
+      }),
+      menuList: (provided, state) => ({
+        borderColor:'rgb(200,200,200)',
+        borderWidth:'1px',
+        borderStyle:'solid',
+        borderRadius:'8px',
+        overflow:'hidden',
+        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
+        position:'absolute',
+        float:'right',
+        width:'100%',
+        zIndex:'20000000000000000000000000000000000000000000000',
+        overflow:'scroll',
+        background:'rgb(250,250,250)'
       })
     }
 
@@ -91,14 +126,16 @@ const AdminAddNewUser = () => {
     }, [NameErr, LastnameErr, EmailErr, RollErr, UsernameErr, NumberErr])
 
     const handleSelectChange = (newValue) => {
-      setSelectedOption(newValue)
-      if (selectedOption === null) {
-        SetRollErr(true)
-        SetRollErrText('نقش مورد نظر خود را وارد کنید!')
-      } else {
+      const a = ['option1', 'option2', 'option3', 'option4', 'option5']
+      console.log(newValue)
+      if (a.includes(newValue.value)) {
+        setSelectedOption(newValue)
         SetRollErr(false)
-        SetRollErrText('')
+      } else {
+        SetRollErr(true)
+        SetRollErrText('نقش را به درستی وارد کنید.')
       }
+
     }
 
     const handleInputChange = (event) => {
@@ -167,7 +204,7 @@ const AdminAddNewUser = () => {
                       first_name : document.getElementById('NameAddUserAdmin').value,
                       last_name : document.getElementById('lastNameMulti').value,
                       email : document.getElementById('AdminAddUserEmailInput').value,
-                      user_permissions : [1, 2],
+                      role: "Detector",
                       username : document.getElementById('AdminAddUserUsernameInput').value,
                       phone_number : document.getElementById('AdminAddUserPhoneNumber').value
                   },
@@ -270,8 +307,13 @@ const AdminAddNewUser = () => {
         SetEmailErrText('')
       }
     }
+
+    useEffect(() => {
+
+    }, [])
+
   return (
-    <form onSubmit={(event) => { handleSubmit(event) }} >
+    <form onSubmit={(event) => { handleSubmit(event) }} id='RegisterMainForm'>
       <Row>
         <Col md='6' sm='12' className='mb-1 mt-1'>
           <Label className='form-label' for='NameAddUserAdmin'>
@@ -297,7 +339,7 @@ const AdminAddNewUser = () => {
           <Input value={inputLastValue} onChange={handleInputLastChange} type='text' name='lastname' id='lastNameMulti' />
           {
             LastnameErr ?
-              <small style={{color:"red"}} id='LastNameErrTag'>
+              <small style={{color:"red" }} id='LastNameErrTag'>
                 {LastnameErrText}
               </small>
             :
@@ -323,48 +365,22 @@ const AdminAddNewUser = () => {
 
         </Col>
         <Col md='6' sm='12' className='mb-1 mt-1'>
-            <Label className='form-label'>
-                نقش
-                <span style={{color:"red"}}>*</span>
-            </Label>
-            {
-              RollErr ? 
-                <div>
-                  <CreatableSelect 
-                    value={selectedOption}
-                    onChange={handleSelectChange}
-                    styles={ErrcustomStyles}
-                    
-                    placeholder="انتخاب نقش"
-                    options={[
-                    { value: 'option1', label: 'Option 1' },
-                    { value: 'option2', label: 'Option 2' },
-                    { value: 'option3', label: 'Option 3' }
-                    ]}
-                    id='AdminAddUserRollSelect' 
-                  />
-                  <small style={{color:"red"}} id='RollErrTag'>
-                    {RollErrText}
-                  </small>
-                </div>
-
-              :
-                <CreatableSelect 
-                  value={selectedOption}
-                  onChange={handleSelectChange}
-                  styles={customStyles}
-                  
-                  placeholder="انتخاب نقش"
-                  options={[
-                  { value: 'option1', label: 'Option 1' },
-                  { value: 'option2', label: 'Option 2' },
-                  { value: 'option3', label: 'Option 3' }
-                  ]}
-                  id='AdminAddUserRollSelect' 
-                />
-            }
+          <Label className='form-label' for='AdminAddUserPhoneNumber'>
+            شماره همراه
+            <span style={{color:"red"}}>*</span>
+          </Label>
+          <Input onBlur={numberHandler} type='text' name='Email' id='AdminAddUserPhoneNumber' placeholder='09121234567' />
+          {
+            NumberErr ?
+              <small style={{color:"red"}} id='NumberErrTag'>
+                {NumberErrText}
+              </small>
+            :
+              null
+          }
 
         </Col>
+       
         <Col md='6' sm='12' className='mb-1 mt-1'>
           <Label className='form-label' for='cityMulti'>
             نام کاربری
@@ -382,19 +398,38 @@ const AdminAddNewUser = () => {
 
         </Col>
         <Col md='6' sm='12' className='mb-1 mt-1'>
-          <Label className='form-label' for='AdminAddUserPhoneNumber'>
-            شماره همراه
-            <span style={{color:"red"}}>*</span>
-          </Label>
-          <Input onBlur={numberHandler} type='text' name='Email' id='AdminAddUserPhoneNumber' placeholder='09121234567' />
-          {
-            NumberErr ?
-              <small style={{color:"red"}} id='NumberErrTag'>
-                {NumberErrText}
-              </small>
-            :
-              null
-          }
+            <Label className='form-label'>
+                نقش
+                <span style={{color:"red"}}>*</span>
+            </Label>
+            {
+              RollErr ? 
+                <div>
+                  <CreatableSelect 
+                    value={selectedOption}
+                    onChange={handleSelectChange}
+                    styles={ErrcustomStyles}
+
+                    placeholder="انتخاب نقش"
+                    options={[{ value: 'option1', label: 'کاربر' }]}
+                    id='AdminAddUserRollSelect' 
+                  />
+                  <small style={{color:"red"}} id='RollErrTag'>
+                    {RollErrText}
+                  </small>
+                </div>
+              :
+                <CreatableSelect 
+                  value={selectedOption}
+                  onChange={handleSelectChange}
+                  styles={customStyles}
+
+                  
+                  placeholder="انتخاب نقش"
+                  options={[{ value: 'option1', label: 'کاربر' }]}
+                  id='AdminAddUserRollSelect' 
+                />
+            }
 
         </Col>
         <Col md='6' sm='12' className='mb-1 mt-3'>

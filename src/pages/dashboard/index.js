@@ -296,8 +296,9 @@ const EcommerceDashboard = () => {
           })
           .catch(err => {
             SetLoading(false)
+            console.log(err.response)
             try {
-              if (err.response.data.detail === 'Token is expired') {
+              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                 Cookies.set('refresh', '')
                 Cookies.set('access', '')
                 window.location.assign('/')
@@ -317,9 +318,10 @@ const EcommerceDashboard = () => {
             SetLoading(false)
           })
           .catch(err => {
+            console.log(err.response)
             SetLoading(false)
             try {
-              if (err.response.data.detail === 'Token is expired') {
+              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                 Cookies.set('refresh', '')
                 Cookies.set('access', '')
                 window.location.assign('/')
@@ -352,9 +354,10 @@ const EcommerceDashboard = () => {
             SetMode(2)
           })
           .catch((err) => {
+            console.log(err.response)
             SetLoading(false)
             try {
-              if (err.response.data.detail === 'Token is expired') {
+              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                 Cookies.set('refresh', '')
                 Cookies.set('access', '')
                 window.location.assign('/')
@@ -385,9 +388,10 @@ const EcommerceDashboard = () => {
             SetMode(2)
           })
           .catch((err) => {
+            console.log(err.response)
             SetLoading(false)
             try {
-              if (err.response.data.detail === 'Token is expired') {
+              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                 Cookies.set('refresh', '')
                 Cookies.set('access', '')
                 window.location.assign('/')
@@ -449,21 +453,20 @@ const EcommerceDashboard = () => {
             </div>
             <div class="col-lg-6 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px" }}>
               {
-
                 // eslint-disable-next-line multiline-ternary
                 mode === 0 ?
-                  // eslint-disable-next-line multiline-ternary
-                  <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}>آدرس یا شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3>
+                // eslint-disable-next-line multiline-ternary
+                <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}>آدرس یا شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3>
               :
-                  null
+                null
               }
               <form id='myMainForm' onSubmit={ (event) => { 
                 onSubmit(event)
                 focusInput() 
               } }>
-                <InputGroup className='mb-2'>
-                  <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
-                  <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
+                <InputGroup className='mb-2' style={{ height:'50px', paddingTop:'0px'}}>
+                  <Input type='text' id='transactionValue' class="form-control vazir m-0 bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{marginTop:'0px', backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
+                  <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"0px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
                     <Search size={20} />
                   </InputGroupText>
                 </InputGroup>
@@ -474,7 +477,7 @@ const EcommerceDashboard = () => {
                   <Label className='form-label' for='transactionValue'>
                     <p class="vazir" id='searchExample11'>
                       نمونه کاوش:
-                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0x62Dece3416741fcEECA25A50A584a37037eadc04' }}>
+                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0x4A137FD5e7a256eF08A7De531A17D0BE0cc7B6b6' }}>
                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                         {' '}
                         <p> آدرس </p>
@@ -507,7 +510,7 @@ const EcommerceDashboard = () => {
             <form id='myMainForm' onSubmit={ (event) => { onSubmit(event) } }>
                 <InputGroup className='mb-2'>
                   <Input type='text' id='transactionValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش، آدرس کیف پول' style={{backgroundColor:"white", width:"70%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
-                  <InputGroupText id='MainSubmitBotton' onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
+                  <InputGroupText id='MainSubmitBotton' onClick={ (event) => { onSubmit(event) } } style={{ borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
                     <Search size={20} />
                   </InputGroupText>
                 </InputGroup>

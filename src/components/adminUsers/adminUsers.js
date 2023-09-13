@@ -94,7 +94,7 @@ const AdminUsers = () => {
               </a>
             </NavItem>
           </Nav>
-          <TabContent className='py-50 p-0 pt-3' activeTab={active}>
+          <TabContent  activeTab={active}>
             <TabPane tabId='2'>
               <AdminAddNewUser/>
             </TabPane>

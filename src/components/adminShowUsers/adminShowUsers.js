@@ -68,8 +68,14 @@ const DataTablesBasic = () => {
         })
         .catch((err) => {
             dispatch({type:"LOADINGEFFECT", value:false})
+            try {
+              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+            } catch (error) {}
             SetLoading(false)
-            console.log(err)
         })
       }, [])
 

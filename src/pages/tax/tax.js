@@ -69,7 +69,7 @@ const Tax = () => {
                         <form onSubmit={checkinput}>
                             <InputGroup className='mb-2'>
                             <Input type='text' id='trAddressValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
-                                <InputGroupText onClick={ (event) => { onSubmit(event) } } style={{marginTop:"10px", borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
+                                <InputGroupText onClick={ (event) => { onSubmit(event) } } style={{ borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
                                     <Search size={20} />
                                 </InputGroupText>
                             </InputGroup>
