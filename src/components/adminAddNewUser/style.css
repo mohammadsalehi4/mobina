@@ -1,0 +1,38 @@
+#AdminSelectRollSuperBox #AdminSelectRollInputBox{
+    width: 100%;
+    height: 37px;
+    border-radius: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(180, 180, 180);
+    cursor: pointer;
+}
+
+.AdminSelectRollOneOption{
+    cursor: pointer;
+    margin: 0px;
+    padding: 4px 8px;
+    transition: 0.2s;
+}
+
+.AdminSelectRollOneOption:hover{
+    background: rgb(210, 210, 210);
+}
+
+#AdminSelectRollSubOptions{
+    background: rgb(240,240,240);
+    border-radius: 6px;
+    overflow: hidden;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(210, 210, 210);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    z-index: 100;
+    position: absolute;
+    width: 150px;
+    display: none;
+}
+
+#AdminSelectRollSuperBox:hover #AdminSelectRollSubOptions{
+    display: block;
+}

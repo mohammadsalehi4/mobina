@@ -13,36 +13,76 @@ const basicColumns = [
     {
         name: 'آی‌دی',
         sortable: true,
-        maxWidth: '100px',
+        maxWidth: '90px',
+        minWidth: '90px',
         selector: row => row.id
     },
     {
         name: 'نام کاربری',
         sortable: true,
-        minWidth: '225px',
+        maxWidth: '150px',
+        minWidth: '150px',
         selector: row => row.username
     },
     {
         name: 'ایمیل',
         sortable: true,
-        minWidth: '310px',
+        minWidth: '220px',
+        maxWidth: '220px',
         selector: row => row.email
     },
     {
         name: 'شماره تلفن',
         sortable: true,
-        minWidth: '250px',
+        minWidth: '160px',
+        maxWidth: '160px',
         selector: row => row.phone_number
+    },
+    {
+      name: 'نقش',
+      sortable: true,
+      minWidth: '150px',
+      maxWidth: '150px',
+      selector: row => 'کوفت'
+    },
+    {
+      name: 'ویرایش نقش',
+      minWidth: '180px',
+      maxWidth: '180px',
+      cell: row => (
+        <UncontrolledDropdown>
+        <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm'>
+          <MoreVertical size={15} />
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem href='/' onClick={e => e.preventDefault()}>
+            <span className='align-middle'>Edit</span>
+          </DropdownItem>
+          <DropdownItem href='/' onClick={e => e.preventDefault()}>
+            <span className='align-middle'>Delete</span>
+          </DropdownItem>
+          <DropdownItem href='/' onClick={e => e.preventDefault()}>
+            <span className='align-middle'>Delete</span>
+          </DropdownItem>
+          <DropdownItem href='/' onClick={e => e.preventDefault()}>
+            <span className='align-middle'>Delete</span>
+          </DropdownItem>
+          <DropdownItem href='/' onClick={e => e.preventDefault()}>
+            <span className='align-middle'>Delete</span>
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
+      )
     }
 ]
 
 
 // ** Third Party Components
-import { ChevronDown } from 'react-feather'
+import { ChevronDown, MoreVertical, Edit, Trash } from 'react-feather'
 import DataTable from 'react-data-table-component'
 
 // ** Reactstrap Imports
-import { Card, CardHeader, CardTitle } from 'reactstrap'
+import { Card, CardHeader, CardTitle, Table, Badge, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle} from 'reactstrap'
 
 const DataTablesBasic = () => {
     const [users, setUsers] = useState([])

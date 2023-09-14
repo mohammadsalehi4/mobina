@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable no-var */
 /* eslint-disable prefer-const */
@@ -13,6 +14,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
+import './style.css'
 
 const AdminAddNewUser = () => {
   const dispatch = useDispatch()
@@ -21,6 +23,7 @@ const AdminAddNewUser = () => {
     const [inputLastValue, setInputLastValue] = useState('')
     const [selectedOption, setSelectedOption] = useState(null)
     const [inputUsernameValue, setInputUsernameValue] = useState('')
+    const [IsOpenOptionsMenu, setIsOpenOptionsMenu] = useState(false)
     
     //Errors
     const [NameErr, SetNameErr] = useState(false)
@@ -35,63 +38,6 @@ const AdminAddNewUser = () => {
     const [UsernameErrText, SetUsernameErrText] = useState('')
     const [NumberErr, SetNumberErr] = useState(false)
     const [NumberErrText, SetNumberErrText] = useState('')
-
-    var customStyles = {
-      singleValue: (provided) => ({
-        ...provided,
-        color: 'rgb(120,120,120)'
-        
-      }),
-      control: (provided) => ({
-        ...provided,
-        borderColor: MainSiteGray,
-        color:'red'
-      }),
-      menu: (provided, state) => ({
-        background:'rgb(250,250,250)'
-      }),
-      menuList: (provided, state) => ({
-        borderColor:'rgb(200,200,200)',
-        borderWidth:'1px',
-        borderStyle:'solid',
-        borderRadius:'8px',
-        overflow:'hidden',
-        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
-        position:'absolute',
-        float:'right',
-        width:'100%',
-        zIndex:'200',
-        background:'rgb(250,250,250)'
-      })
-    }
-
-    var ErrcustomStyles = {
-      singleValue: (provided) => ({
-        ...provided,
-        color: 'rgb(120,120,120)'
-      }),
-      control: (provided) => ({
-        ...provided,
-        borderColor: 'red'
-      }),
-      menu: (provided, state) => ({
-        background:'rgb(250,250,250)'
-      }),
-      menuList: (provided, state) => ({
-        borderColor:'rgb(200,200,200)',
-        borderWidth:'1px',
-        borderStyle:'solid',
-        borderRadius:'8px',
-        overflow:'hidden',
-        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
-        position:'absolute',
-        float:'right',
-        width:'100%',
-        zIndex:'20000000000000000000000000000000000000000000000',
-        overflow:'scroll',
-        background:'rgb(250,250,250)'
-      })
-    }
 
     useEffect(() => {
       if (NameErr) {
@@ -126,16 +72,8 @@ const AdminAddNewUser = () => {
     }, [NameErr, LastnameErr, EmailErr, RollErr, UsernameErr, NumberErr])
 
     const handleSelectChange = (newValue) => {
-      const a = ['option1', 'option2', 'option3', 'option4', 'option5']
-      console.log(newValue)
-      if (a.includes(newValue.value)) {
         setSelectedOption(newValue)
         SetRollErr(false)
-      } else {
-        SetRollErr(true)
-        SetRollErrText('نقش را به درستی وارد کنید.')
-      }
-
     }
 
     const handleInputChange = (event) => {
@@ -397,7 +335,7 @@ const AdminAddNewUser = () => {
           }
 
         </Col>
-        <Col md='6' sm='12' className='mb-1 mt-1'>
+        <Col md='6' sm='12' className='mb-1 mt-1' style={{}}>
             <Label className='form-label'>
                 نقش
                 <span style={{color:"red"}}>*</span>
@@ -405,30 +343,49 @@ const AdminAddNewUser = () => {
             {
               RollErr ? 
                 <div>
-                  <CreatableSelect 
-                    value={selectedOption}
-                    onChange={handleSelectChange}
-                    styles={ErrcustomStyles}
-
-                    placeholder="انتخاب نقش"
-                    options={[{ value: 'option1', label: 'کاربر' }]}
-                    id='AdminAddUserRollSelect' 
-                  />
+                  <div id='AdminSelectRollSuperBox'>
+                    <Input id='AdminSelectRollInputBox' 
+                      readOnly
+                      onClick={() => { setIsOpenOptionsMenu(true) }} 
+                      placeholder='انتخاب نقش'
+                      value={selectedOption}
+                    />
+                    {
+                      IsOpenOptionsMenu ? 
+                      <div id='AdminSelectRollSubOptions' >
+                        <p className='AdminSelectRollOneOption'>گزینه یک</p>
+                        <p className='AdminSelectRollOneOption'>گزینه دو</p>
+                        <p className='AdminSelectRollOneOption'>گزینه سه</p>
+                        <p className='AdminSelectRollOneOption'>گزینه چهار</p>
+                        <p className='AdminSelectRollOneOption'>گزینه پنج</p>
+                      </div>
+                    :
+                      null
+                    }
+                  </div>
                   <small style={{color:"red"}} id='RollErrTag'>
                     {RollErrText}
                   </small>
                 </div>
               :
-                <CreatableSelect 
-                  value={selectedOption}
-                  onChange={handleSelectChange}
-                  styles={customStyles}
-
-                  
-                  placeholder="انتخاب نقش"
-                  options={[{ value: 'option1', label: 'کاربر' }]}
-                  id='AdminAddUserRollSelect' 
-                />
+                <div id='AdminSelectRollSuperBox'>
+                  <Input id='AdminSelectRollInputBox' 
+                    readOnly
+                    onClick={() => { setIsOpenOptionsMenu(true) }}
+                    placeholder='انتخاب نقش'
+                    value={selectedOption}
+                    style={{
+                      color:'black'
+                    }}
+                    />
+                  <div id='AdminSelectRollSubOptions' >
+                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه یک') }}>گزینه یک</p>
+                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه دو') }}>گزینه دو</p>
+                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه سه') }}>گزینه سه</p>
+                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه چهار') }}>گزینه چهار</p>
+                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه پنج') }}>گزینه پنج</p>
+                  </div>
+                </div>
             }
 
         </Col>
