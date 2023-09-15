@@ -35,7 +35,6 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 ))
 
 const DataTableWithButtons = (props) => {
-  console.log(props.transactions)
   const States = useSelector(state => state)
   const [numberOfShow, SetNumberofShow] = useState(0)
   const [showData, SetShowData] = useState([])
@@ -301,7 +300,6 @@ const DataTableWithButtons = (props) => {
     let filteredData6=[]
     for (let i = 0; i < filteredData5.length; i++) {
       if ((filteredData5[i].Type) === States.TokenType) {
-        console.log(i)
         filteredData6.push(filteredData5[i])
       }
     }

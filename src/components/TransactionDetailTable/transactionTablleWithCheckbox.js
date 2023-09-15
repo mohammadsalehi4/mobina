@@ -19,7 +19,6 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 
 const TransactionTablleWithCheckbox = (props) => {
   // ** States
-  console.log(props.data)
   const [currentPage, setCurrentPage] = useState(0)
   const [searchValue, setSearchValue] = useState('')
   const [filteredData, setFilteredData] = useState([])

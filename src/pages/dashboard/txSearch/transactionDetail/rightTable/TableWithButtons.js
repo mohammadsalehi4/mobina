@@ -104,7 +104,6 @@ const RightDataTableWithButtons = (props) => {
     for (let i = 0; i < props.data.inputData.length; i++) {
       if (props.data.inputData[i]) {
         filteredData.push(props.data.inputData[i])
-        console.log(props.data.inputData[i])
       }
     }
     SetShowData(filteredData)

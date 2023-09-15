@@ -20,15 +20,15 @@ const basicColumns = [
     {
         name: 'نام کاربری',
         sortable: true,
-        maxWidth: '150px',
-        minWidth: '150px',
+        maxWidth: '220px',
+        minWidth: '220px',
         selector: row => row.username
     },
     {
         name: 'ایمیل',
         sortable: true,
-        minWidth: '220px',
-        maxWidth: '220px',
+        minWidth: '270px',
+        maxWidth: '270px',
         selector: row => row.email
     },
     {
@@ -40,39 +40,26 @@ const basicColumns = [
     },
     {
       name: 'نقش',
-      sortable: true,
-      minWidth: '150px',
-      maxWidth: '150px',
-      selector: row => 'کوفت'
-    },
-    {
-      name: 'ویرایش نقش',
       minWidth: '180px',
       maxWidth: '180px',
       cell: row => (
-        <UncontrolledDropdown>
-        <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm'>
-          <MoreVertical size={15} />
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem href='/' onClick={e => e.preventDefault()}>
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          <DropdownItem href='/' onClick={e => e.preventDefault()}>
-            <span className='align-middle'>Delete</span>
-          </DropdownItem>
-          <DropdownItem href='/' onClick={e => e.preventDefault()}>
-            <span className='align-middle'>Delete</span>
-          </DropdownItem>
-          <DropdownItem href='/' onClick={e => e.preventDefault()}>
-            <span className='align-middle'>Delete</span>
-          </DropdownItem>
-          <DropdownItem href='/' onClick={e => e.preventDefault()}>
-            <span className='align-middle'>Delete</span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
+      <select class="form-select" aria-label="Default select example" style={{fontSize:'12px'}} defaultValue={"3"}>
+        <option selected>انتخاب نقش</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
       )
+      
     }
 ]
 

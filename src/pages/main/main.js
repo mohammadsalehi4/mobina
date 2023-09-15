@@ -34,8 +34,6 @@ const Main = () => {
     const login = (event) => {
         const username = document.getElementById('login_username').value
         const password = document.getElementById('login_password').value
-        console.log(username)
-        console.log(password)
         if (username === '' || password === '') {
             return toast.error('مقادیر را به درستی وارد کنید!', {
                 position: 'bottom-left'
@@ -74,7 +72,6 @@ const Main = () => {
 
                         const targetValue = 'view_customuser'
                         SetLoading(false)
-                        console.log(isValueInArray(permissions, targetValue))
                         if (isValueInArray(permissions, targetValue)) {
                             Cookies.set('roll', 'admin')
                             window.location.assign('/researcher')
@@ -97,7 +94,6 @@ const Main = () => {
                 SetLoading(false)
             })
             .catch((err) => {
-                console.log(err.data)
                 if (err.response.statusText === 'Unauthorized') {
                     SetLoading(false)
                     return toast.error('ورود ناموفق', {

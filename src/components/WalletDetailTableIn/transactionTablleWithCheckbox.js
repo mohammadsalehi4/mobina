@@ -28,7 +28,6 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 ))
 
 const  WalletDetailTableBottom = (props) => {
-  console.log(props.data)
 
   const [data, SetData] = useState([])
 

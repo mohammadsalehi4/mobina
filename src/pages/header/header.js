@@ -171,6 +171,13 @@ function Header() {
                     </a>
                   </li>
 
+                  <li id='MenuBottomItem6' class="menu-item thisNotActive">
+                    <a class="menu-link" href='/folders'>
+                    <ion-icon name="folder-open-outline"></ion-icon>
+                      <div data-i18n="Forms" className='vazir'>پرونده ها</div>
+                    </a>
+                  </li>
+
                   <li id='MenuBottomItem3' class="menu-item thisNotActive">
                     <a class="menu-link" href='/mining'>
                     <ion-icon name="diamond-outline"></ion-icon>
@@ -192,12 +199,7 @@ function Header() {
                     </a>
                   </li>
 
-                  <li id='MenuBottomItem6' class="menu-item thisNotActive">
-                    <a class="menu-link" href='/folders'>
-                    <ion-icon name="folder-open-outline"></ion-icon>
-                      <div data-i18n="Forms" className='vazir'>پرونده ها</div>
-                    </a>
-                  </li>
+
                 </ul>
               </div>
             </aside>

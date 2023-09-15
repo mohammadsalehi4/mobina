@@ -296,7 +296,6 @@ const EcommerceDashboard = () => {
           })
           .catch(err => {
             SetLoading(false)
-            console.log(err.response)
             try {
               if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                 Cookies.set('refresh', '')
@@ -318,7 +317,6 @@ const EcommerceDashboard = () => {
             SetLoading(false)
           })
           .catch(err => {
-            console.log(err.response)
             SetLoading(false)
             try {
               if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
@@ -354,7 +352,6 @@ const EcommerceDashboard = () => {
             SetMode(2)
           })
           .catch((err) => {
-            console.log(err.response)
             SetLoading(false)
             try {
               if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
@@ -388,7 +385,6 @@ const EcommerceDashboard = () => {
             SetMode(2)
           })
           .catch((err) => {
-            console.log(err.response)
             SetLoading(false)
             try {
               if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {

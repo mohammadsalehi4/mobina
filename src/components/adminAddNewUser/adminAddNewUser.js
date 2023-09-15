@@ -9,12 +9,13 @@ import {  Row, Col, Input, Label } from 'reactstrap'
 import { MainSiteGray, MainSiteOrange } from '../../../public/colors'
 import CreatableSelect from 'react-select/creatable'
 import { serverAddress } from '../../address'
-import { Alert } from 'reactstrap'
+import { Alert, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle} from 'reactstrap'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 import './style.css'
+import { ChevronDown, MoreVertical, Edit, Trash } from 'react-feather'
 
 const AdminAddNewUser = () => {
   const dispatch = useDispatch()
@@ -153,14 +154,12 @@ const AdminAddNewUser = () => {
                       }
                   })
                   .then((response) => {
-                      console.log(response.data)
                       dispatch({type:"LOADINGEFFECT", value:false})
                       return toast.success('کاربر با موفقیت ساخته شد.', {
                         position: 'bottom-left'
                       })
                   })
                   .catch((err) => {
-                      console.log(err.response.data)
                       dispatch({type:"LOADINGEFFECT", value:false})
                       return toast.success('کاربر با موفقیت ساخته شد.', {
                         position: 'bottom-left'
@@ -253,7 +252,7 @@ const AdminAddNewUser = () => {
   return (
     <form onSubmit={(event) => { handleSubmit(event) }} id='RegisterMainForm'>
       <Row>
-        <Col md='6' sm='12' className='mb-1 mt-1'>
+      <Col md='6' sm='12' className='mb-1 mt-1'>
           <Label className='form-label' for='NameAddUserAdmin'>
             نام
             <span style={{color:"red"}}>*</span>
@@ -285,6 +284,72 @@ const AdminAddNewUser = () => {
           }
 
         </Col>
+      <Col md='6' sm='12' className='mb-1 mt-1'>
+          <Label className='form-label' for='cityMulti'>
+            نام کاربری
+            <span style={{color:"red"}}>*</span>
+          </Label>
+          <Input id="AdminAddUserUsernameInput" value={inputUsernameValue} onChange={handleInputUsernameChange} type='text' name='city' />
+          {
+            UsernameErr ?
+              <small style={{color:"red"}} id='UsernameErrTag'>
+                {UsernameErrText}
+              </small>
+            :
+              null
+          }
+
+        </Col>
+      <Col md='6' sm='12' className='mb-1 mt-1'>
+            <Label className='form-label'>
+                نقش
+                <span style={{color:"red"}}>*</span>
+            </Label>
+            {
+              RollErr ? 
+                <div>
+                  <div id='AdminSelectRollSuperBox'>
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>انتخاب نقش</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <small style={{color:"red"}} id='RollErrTag'>
+                    {RollErrText}
+                  </small>
+                </div>
+              :
+              <div id='AdminSelectRollSuperBox'>
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>انتخاب نقش</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            }
+        </Col>
+
 
         <Col md='6' sm='12' className='mb-1 mt-1'>
           <Label className='form-label' for='AdminAddUserEmailInput'>
@@ -316,77 +381,6 @@ const AdminAddNewUser = () => {
             :
               null
           }
-
-        </Col>
-       
-        <Col md='6' sm='12' className='mb-1 mt-1'>
-          <Label className='form-label' for='cityMulti'>
-            نام کاربری
-            <span style={{color:"red"}}>*</span>
-          </Label>
-          <Input id="AdminAddUserUsernameInput" value={inputUsernameValue} onChange={handleInputUsernameChange} type='text' name='city' />
-          {
-            UsernameErr ?
-              <small style={{color:"red"}} id='UsernameErrTag'>
-                {UsernameErrText}
-              </small>
-            :
-              null
-          }
-
-        </Col>
-        <Col md='6' sm='12' className='mb-1 mt-1' style={{}}>
-            <Label className='form-label'>
-                نقش
-                <span style={{color:"red"}}>*</span>
-            </Label>
-            {
-              RollErr ? 
-                <div>
-                  <div id='AdminSelectRollSuperBox'>
-                    <Input id='AdminSelectRollInputBox' 
-                      readOnly
-                      onClick={() => { setIsOpenOptionsMenu(true) }} 
-                      placeholder='انتخاب نقش'
-                      value={selectedOption}
-                    />
-                    {
-                      IsOpenOptionsMenu ? 
-                      <div id='AdminSelectRollSubOptions' >
-                        <p className='AdminSelectRollOneOption'>گزینه یک</p>
-                        <p className='AdminSelectRollOneOption'>گزینه دو</p>
-                        <p className='AdminSelectRollOneOption'>گزینه سه</p>
-                        <p className='AdminSelectRollOneOption'>گزینه چهار</p>
-                        <p className='AdminSelectRollOneOption'>گزینه پنج</p>
-                      </div>
-                    :
-                      null
-                    }
-                  </div>
-                  <small style={{color:"red"}} id='RollErrTag'>
-                    {RollErrText}
-                  </small>
-                </div>
-              :
-                <div id='AdminSelectRollSuperBox'>
-                  <Input id='AdminSelectRollInputBox' 
-                    readOnly
-                    onClick={() => { setIsOpenOptionsMenu(true) }}
-                    placeholder='انتخاب نقش'
-                    value={selectedOption}
-                    style={{
-                      color:'black'
-                    }}
-                    />
-                  <div id='AdminSelectRollSubOptions' >
-                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه یک') }}>گزینه یک</p>
-                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه دو') }}>گزینه دو</p>
-                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه سه') }}>گزینه سه</p>
-                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه چهار') }}>گزینه چهار</p>
-                    <p className='AdminSelectRollOneOption' onClick={() => { handleSelectChange('گزینه پنج') }}>گزینه پنج</p>
-                  </div>
-                </div>
-            }
 
         </Col>
         <Col md='6' sm='12' className='mb-1 mt-3'>

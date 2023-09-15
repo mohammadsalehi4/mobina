@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react'
 const WalletDetailTopTable = (props) => {
   const [inCome, SetInCome] = useState(0)
   const [OutCome, SetOutCome] = useState(0)
-  console.log(props.data)
   useEffect(() => {
     let a = 0
     for (let i = 0; i < props.data.in.length; i++) {

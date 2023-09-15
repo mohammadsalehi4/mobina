@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-invalid-this */
@@ -60,9 +61,17 @@ const getMyTime = (index) => {
 }
 
 function dateToMilliseconds(dateTimeStr) {
-  const date = new Date(dateTimeStr)
+  let date = new Date(dateTimeStr)
+  date.setHours(0, 0, 0, 0)
   return date.getTime()
 }
+
+function convertToEndOfDayMilliseconds(dateString) {
+  let date = new Date(dateString)
+  date.setHours(23, 59, 59, 999)
+  return date.getTime()
+}
+
 
 const TimeLimit = (props) => {
   const States = useSelector(state => state)
@@ -175,7 +184,7 @@ const TimeLimit = (props) => {
               <Calendar
               size={1}
                 onChange={(date) => {
-                  SetEndTime(dateToMilliseconds(date))
+                  SetEndTime(convertToEndOfDayMilliseconds(date))
                   document.getElementById('toLimitTime').style.display = 'none'
                 }}
               />
