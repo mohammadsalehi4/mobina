@@ -142,12 +142,23 @@ const DataTableWithButtons = (props) => {
       maxWidth: '120px',
       selector: row => (row.currencyType),
       cell: row => {
-        return (
-          <div style={{direction:"ltr"}}>
-            <img style={{width:"30px", marginTop:"-4px"}} src={`../images/${row.currencyType}.png`}/>
-            <span className='ms-1'>{row.currencyType}</span>
-          </div>
-        )
+        if (row.currencyType === 'USDT') {
+          console.log(row.currencyType)
+          return (
+            <div style={{direction:"ltr"}}>
+              <img style={{width:"30px", marginTop:"-4px"}} src={`https://cryptologos.cc/logos/tether-usdt-logo.png?v=026`}/>
+              <span className='ms-1'>{row.currencyType}</span>
+            </div>
+          )
+        } else {
+          return (
+            <div style={{direction:"ltr"}}>
+              <img style={{width:"30px", marginTop:"-4px"}} src={`../images/${row.currencyType}.png`}/>
+              <span className='ms-1'>{row.currencyType}</span>
+            </div>
+          )
+        }
+
       }
     },
     {
