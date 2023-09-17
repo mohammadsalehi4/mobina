@@ -152,9 +152,7 @@ const AdminAddNewUser = () => {
                   .then((response) => {
                       dispatch({type:"LOADINGEFFECT", value:false})
                       if (response.data.message === 'successfully create user') {
-                        return toast.success('کاربر با موفقیت ساخته شد.', {
-                          position: 'bottom-left'
-                        })
+
                         window.location.assign('/admin')
                       }                  
                   })
