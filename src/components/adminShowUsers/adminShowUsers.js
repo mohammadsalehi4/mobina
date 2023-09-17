@@ -42,24 +42,9 @@ const basicColumns = [
       name: 'نقش',
       minWidth: '180px',
       maxWidth: '180px',
-      cell: row => (
-      <select class="form-select" aria-label="Default select example" style={{fontSize:'12px'}} defaultValue={"3"}>
-        <option selected>انتخاب نقش</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
+      selector: row => (
+        row.role
       )
-      
     }
 ]
 
@@ -74,11 +59,12 @@ import { Card, CardHeader, CardTitle, Table, Badge, UncontrolledDropdown, Dropdo
 const DataTablesBasic = () => {
     const [users, setUsers] = useState([])
     const [Loading, SetLoading] = useState(false)
+    const [Rolls, SetRolls] = useState([])
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const getUsers = []
         SetLoading(true)
+        let getUsers = []
         dispatch({type:"LOADINGEFFECT", value:true})
         axios.get(`${serverAddress}/accounts/users`, 
         {
@@ -87,10 +73,40 @@ const DataTablesBasic = () => {
           }
         })
         .then((response) => {
-            dispatch({type:"LOADINGEFFECT", value:false})
-            SetLoading(false)
             if (response.data.length > 0) {
-                setUsers(response.data)
+                getUsers = response.data
+                axios.get(`${serverAddress}/accounts/role/`, 
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`
+                  }
+                })
+                .then((resp2) => {
+                    SetLoading(false)
+                    if (resp2.data.length > 0) {
+                        SetRolls(resp2.data)
+                        for (let i = 0; i < getUsers.length; i++) {
+                          for (let j = 0; j < resp2.data.length; j++) {
+                            if (String(getUsers[i].role) === String(resp2.data[j].id)) {
+                              getUsers[i].role = resp2.data[j].name
+                            }
+                          }
+                        }
+                        setUsers(getUsers)
+                    }
+                    dispatch({type:"LOADINGEFFECT", value:false})
+                })
+                .catch((err) => {
+                    SetLoading(false)
+                    dispatch({type:"LOADINGEFFECT", value:false})
+                    try {
+                      if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                        Cookies.set('refresh', '')
+                        Cookies.set('access', '')
+                        window.location.assign('/')
+                      }
+                    } catch (error) {}
+                })
             }
         })
         .catch((err) => {

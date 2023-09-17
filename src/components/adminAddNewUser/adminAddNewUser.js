@@ -72,10 +72,6 @@ const AdminAddNewUser = () => {
       }
     }, [NameErr, LastnameErr, EmailErr, RollErr, UsernameErr, NumberErr])
 
-    const handleSelectChange = (newValue) => {
-        setSelectedOption(newValue)
-        SetRollErr(false)
-    }
 
     const handleInputChange = (event) => {
       const value = event.target.value
@@ -143,7 +139,7 @@ const AdminAddNewUser = () => {
                       first_name : document.getElementById('NameAddUserAdmin').value,
                       last_name : document.getElementById('lastNameMulti').value,
                       email : document.getElementById('AdminAddUserEmailInput').value,
-                      role: "1",
+                      role: String(selectedOption),
                       username : document.getElementById('AdminAddUserUsernameInput').value,
                       phone_number : document.getElementById('AdminAddUserPhoneNumber').value
                   },
@@ -155,11 +151,14 @@ const AdminAddNewUser = () => {
                   })
                   .then((response) => {
                       dispatch({type:"LOADINGEFFECT", value:false})
+                      console.log(response)
+                      window.location.assign('/admin')
                       return toast.success('کاربر با موفقیت ساخته شد.', {
                         position: 'bottom-left'
                       })
                   })
                   .catch((err) => {
+                    console.log(err)
                       dispatch({type:"LOADINGEFFECT", value:false})
                       return toast.success('کاربر با موفقیت ساخته شد.', {
                         position: 'bottom-left'
@@ -245,8 +244,44 @@ const AdminAddNewUser = () => {
       }
     }
 
-    useEffect(() => {
+    function handleSelectionChange() {
+      const selectedValue = document.querySelector('.form-select').value
+      if (Number(selectedValue) === 0) {
+        SetRollErr(true)
+        SetRollErrText('نقش را به درستی وارد کنید.')
+        setSelectedOption(null)
+      } else {
+        SetRollErr(false)
+        setSelectedOption(String(selectedValue))
+      }
+    }
 
+    //Rolls
+    const [Rolls, SetRolls] = useState([])
+    useEffect(() => {
+      dispatch({type:"LOADINGEFFECT", value:true})
+      axios.get(`${serverAddress}/accounts/role/`, 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+          dispatch({type:"LOADINGEFFECT", value:false})
+          if (response.data.length > 0) {
+              SetRolls(response.data)
+          }
+      })
+      .catch((err) => {
+          dispatch({type:"LOADINGEFFECT", value:false})
+          try {
+            if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+          } catch (error) {}
+      })
     }, [])
 
   return (
@@ -309,20 +344,15 @@ const AdminAddNewUser = () => {
               RollErr ? 
                 <div>
                   <div id='AdminSelectRollSuperBox'>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>انتخاب نقش</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
+                    <select style={{borderColor:'red'}} class="form-select" id='Roll_select_Options' aria-label="Default select example" onChange={handleSelectionChange}>
+                      <option selected  value="0">انتخاب نقش</option>
+                      {
+                        Rolls.map((item, index) => {
+                          return (
+                            <option key={index} value={`${item.id}`}>{item.name}</option>
+                          )
+                        })
+                      }
                     </select>
                   </div>
                   <small style={{color:"red"}} id='RollErrTag'>
@@ -331,20 +361,15 @@ const AdminAddNewUser = () => {
                 </div>
               :
               <div id='AdminSelectRollSuperBox'>
-                <select class="form-select" aria-label="Default select example">
-                  <option selected>انتخاب نقش</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                <select class="form-select" id='Roll_select_Options' aria-label="Default select example" onChange={handleSelectionChange}>
+                  <option selected value="0">انتخاب نقش</option>
+                  {
+                    Rolls.map((item, index) => {
+                      return (
+                        <option key={index} value={`${item.id}`}>{item.name}</option>
+                      )
+                    })
+                  }
                 </select>
               </div>
             }
