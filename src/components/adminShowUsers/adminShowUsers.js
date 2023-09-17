@@ -58,14 +58,12 @@ import { Card, CardHeader, CardTitle, Table, Badge, UncontrolledDropdown, Dropdo
 
 const DataTablesBasic = () => {
     const [users, setUsers] = useState([])
-    const [Loading, SetLoading] = useState(false)
     const [Rolls, SetRolls] = useState([])
     const dispatch = useDispatch()
 
     useEffect(() => {
-        SetLoading(true)
         let getUsers = []
-        dispatch({type:"LOADINGEFFECT", value:true})
+        dispatch({type:"LOADINGEFFECT2", value:true})
         axios.get(`${serverAddress}/accounts/users`, 
         {
           headers: {
@@ -82,7 +80,6 @@ const DataTablesBasic = () => {
                   }
                 })
                 .then((resp2) => {
-                    SetLoading(false)
                     if (resp2.data.length > 0) {
                         SetRolls(resp2.data)
                         for (let i = 0; i < getUsers.length; i++) {
@@ -94,11 +91,10 @@ const DataTablesBasic = () => {
                         }
                         setUsers(getUsers)
                     }
-                    dispatch({type:"LOADINGEFFECT", value:false})
+                    dispatch({type:"LOADINGEFFECT2", value:false})
                 })
                 .catch((err) => {
-                    SetLoading(false)
-                    dispatch({type:"LOADINGEFFECT", value:false})
+                    dispatch({type:"LOADINGEFFECT2", value:false})
                     try {
                       if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                         Cookies.set('refresh', '')
@@ -118,7 +114,6 @@ const DataTablesBasic = () => {
                 window.location.assign('/')
               }
             } catch (error) {}
-            SetLoading(false)
         })
       }, [])
 

@@ -12,7 +12,7 @@ import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Edit3, FileText, File, Eye, Delete, Plus, MoreVertical } from 'react-feather'
+import { ChevronDown, Menu, Edit3, FileText, Trash2, Eye, Delete, Plus, MoreVertical } from 'react-feather'
 import {
   Row,
   Col,
@@ -83,38 +83,35 @@ const RollsTable = () => {
       )
     },
     {
-      name: 'مشاهده',
-      minWidth: '120px',
-      maxWidth: '120px',
-      cell: row => (
-          <div onClick={() => { handleShow(), SetNumber(row.id) }} style={{cursor:'pointer'}}>
-              <Eye size={25} />
-          </div>
-
-      )
+      name: 'توضیحات',
+      minWidth: '450px',
+      maxWidth: '450px',
+      cell: row => ('نقش ساخته شده توسط ادمین برای ثبت نام کاربران')
     },
     {
-      name: 'ویرایش',
+      name: 'عملیات',
       minWidth: '120px',
       maxWidth: '120px',
       cell: row => (
-          <div onClick={() => { handleEdit(), SetNumber(row.id) }}  style={{cursor:'pointer'}}>
-              <Edit3  size={25} />
-          </div>
-
-      )
-    },
-    {
-      name: 'حذف',
-      minWidth: '120px',
-      maxWidth: '120px',
-      cell: row => (
-          <div onClick={() => { 
-            setDeleteItem(row.id) 
-            setModal1(4)
-          }}  style={{cursor:'pointer'}}>
-          <Delete size={25} />
-          </div>
+        <UncontrolledDropdown style={{direction:'ltr'}}>
+          <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' >
+            <Menu />
+          </DropdownToggle>
+          <DropdownMenu style={{textAlign:'right'}}>
+            <DropdownItem tag='a' onClick={() => { handleShow(), SetNumber(row.id) }} >
+              <Eye size={15} style={{marginLeft:'8px'}}/>
+              مشاهده نقش
+            </DropdownItem>
+            <DropdownItem tag='a' onClick={() => { handleEdit(), SetNumber(row.id) }}>
+              <Edit3 size={15} style={{marginLeft:'8px'}}/>
+              ویرایش نقش
+            </DropdownItem>
+            <DropdownItem tag='a' onClick={() => { setDeleteItem(row.id), setModal1(4) }}  >
+              <Trash2 size={15} style={{marginLeft:'8px'}}/>
+              حذف نقش
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
 
       )
     }

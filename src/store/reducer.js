@@ -37,11 +37,19 @@ const initialState = {
     TokenType:"token",
 
     //Loading effect
-    LoadingOn:false
+    LoadingOn:false,
+    LoadingOn2:false
     
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'LOADINGEFFECT2') {
+        return {
+            ...state,
+            LoadingOn2:action.value
+        }
+    }
 
     if (action.type === 'LOADINGEFFECT') {
         return {

@@ -18,9 +18,6 @@ import Cookies from 'js-cookie'
 import { useSelector } from "react-redux"
 // eslint-disable-next-line no-duplicate-imports
 import { useDispatch } from "react-redux"
-import {
-  UncontrolledTooltip
-} from 'reactstrap'
 
 function Header() {
   const [Roll, SetRoll] = useState('')
@@ -103,7 +100,7 @@ function Header() {
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <ul class="navbar-nav flex-row ms-auto rightheaderItems">
                 {
-                  Roll === 'admin' ? 
+                  Number(Roll) === 2 ? 
                     <li id='AdminPanelHeaderIcon' title='پنل ادمین' class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0">
                       <a  class="nav-link dropdown-toggle hide-arrow topHeaderIcon" href='/admin' id='headerLinkAdminPanel'>
                         <i class="ti ti-layout-grid-add ti-md "></i>

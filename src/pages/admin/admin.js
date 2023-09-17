@@ -60,7 +60,7 @@ const Admin = () => {
   }
 
   return (
-    <UILoader blocking={States.LoadingOn} loader={<Spinner />}>
+    <UILoader blocking={(States.LoadingOn || States.LoadingOn2)} loader={<Spinner />}>
     <div className='container-fluid' id='Admin'>
 
         <div className='row'>

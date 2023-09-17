@@ -14,20 +14,34 @@ import { CheckBox } from '@mui/icons-material'
 
 const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
   const dispatch = useDispatch()
-
-  const submit = (event) => {
-    const name = document.getElementById('full-name').value
-    if (name === '') {
-      document.getElementById('nameErrLabel').style.display = "block"
-      document.getElementById('full-name').style.borderColor = "red"
-    } else {
-      handleModal(event)
-    }
-  }
-
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
   const [showData, SetshowData] = useState([])
   const [AllData, SetAllData] = useState([])
+  const [accesses, SetAccesses] = useState([])
+
+  const submit = (event) => {
+
+      dispatch({type:"LOADINGEFFECT", value:true})
+      axios.put(`${serverAddress}/accounts/role/${number}/`, 
+      {
+        accesses
+      },
+      {
+          headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`, 
+              'Content-Type': 'application/json'
+          }
+      })
+      .then((response) => {
+          dispatch({type:"LOADINGEFFECT", value:false})
+          window.location.assign('/admin')          
+      })
+      .catch((err) => {
+        console.log(err)
+          dispatch({type:"LOADINGEFFECT", value:false})
+      })
+      handleModal(event)
+  }
 
   const [showThisData, SetThisData] = useState([])
 
@@ -48,6 +62,22 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
     }
     SetThisData(myData)
   }, [showData, AllData])
+
+  const addAccess = (item) => {
+    const getAccess = accesses
+    getAccess.push({
+      name:item
+    })
+    SetAccesses(getAccess)
+    console.log(accesses)
+  }
+
+  const deleteAccess = (myitem) => {
+    const filteredArray = accesses.filter(item => item.name !== myitem)
+    SetAccesses(filteredArray)
+    console.log(accesses)
+
+  }
 
   return (
     <Modal
@@ -71,33 +101,19 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
           </Label>
           <div>
             <div className='row'>
-              {/* {
-                showData.map((item, index) => {
-                    return (
-                      <div className='col-12' key={index}>
-                        <input id={`ch${index}`} checked type='checkbox' style={{width:"15px", height:"15px", marginTop:"0px"}} onClick={() => { document.getElementById(`ch${index}`).checked = false }}/>
-                        <label className='me-3'>{item.name}</label>
-                      </div>
-                    )
-                })
-              }
-              {
-                showThisData.map((item, index) => {
-                    return (
-                      <div className='col-12' key={index}>
-                        <input type='checkbox' style={{width:"15px", height:"15px", marginTop:"0px"}}/>
-                        <label className='me-3'>{item.name}</label>
-                      </div>
-                    )
-                })
-              } */}
               {
                 AllData.map((item, index) => {
                     return (
                       <div className='col-12' key={index}>
-                        <input type='checkbox' id={`ch${index}`} style={{width:"15px", height:"15px", marginTop:"0px"}}/>
-                        <label className='me-3'>{item.name}</label>
-                      </div>
+                      <input type='checkbox' style={{width:"15px", height:"15px", marginTop:"0px"}} id={`AddRoleCheckbox${index}`} onChange={ () => { 
+                        if (document.getElementById(`AddRoleCheckbox${index}`).checked) {
+                          addAccess(item.name)
+                        } else {
+                          deleteAccess(item.name)
+                        }
+                      } }/>
+                      <label className='me-3'>{item.name}</label>
+                    </div>
                     )
                 })
               }
@@ -106,7 +122,7 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
         </div>
         <div style={{textAlign:"left"}}>
           <button onClick={(event) => { submit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
-            <span className='align-middle'>ایجاد نقش</span>
+            <span className='align-middle'>ویرایش نقش</span>
           </button>
         </div>
 
