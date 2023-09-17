@@ -194,8 +194,12 @@ const EcommerceDashboard = () => {
   }
 
   const EthereumTransaction =(data) => {
-
-    const CurrencyPrice=1900
+    let CurrencyPrice
+    try {
+      CurrencyPrice=data.valueInDollar
+    } catch (error) {
+      CurrencyPrice=0
+    }
     const USDPrice=490000
 
     const address=data.blockHash
@@ -206,10 +210,10 @@ const EcommerceDashboard = () => {
     let symbole
     const color='#627eea'
     let TotalOutput
-    const TotalOutput1=TotalOutput*CurrencyPrice
+    let TotalOutput1
     const TotalOutput2=TotalOutput1*USDPrice
     let TotalInput
-    const TotalInput1=TotalInput*CurrencyPrice
+    let TotalInput1
     const TotalInput2=TotalInput1*USDPrice
     const RiskScore='0%'
     let BTCAmount
@@ -255,6 +259,8 @@ const EcommerceDashboard = () => {
       ]
     }
 
+    TotalOutput1=TotalOutput*CurrencyPrice
+    TotalInput1=TotalInput*CurrencyPrice
     return ({
       address,
       blockNumber,
