@@ -48,16 +48,12 @@ function Header() {
   useEffect(() => {
     if (States.witchPage) {
       for (let i = 0; i < 7; i++) {
-        try {
-          document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
-          document.getElementById(`MobileheaderLink${i + 1}`).className = 'menu-item thisNotActive'
-        } catch (error) {}
+        document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
+        document.getElementById(`MobileheaderLink${i + 1}`).className = 'menu-item thisNotActive'
       }
       if (States.witchPage !== -1) {
-        try {
-          document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
-          document.getElementById(`MobileheaderLink${States.witchPage + 1}`).className = 'menu-item thisActive'
-        } catch (error) {}
+        document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
+        document.getElementById(`MobileheaderLink${States.witchPage + 1}`).className = 'menu-item thisActive'
       }
     }
   }, [States.witchPage])
@@ -157,65 +153,45 @@ function Header() {
                     <div data-i18n="Dashboards" className='vazir'>داشبورد</div>
                   </a>
                 </li>
-                    {
-                      (Number(Roll) === 2 || Number(Roll) === 3) ?
+
                         <li id='MenuBottomItem1' class="menu-item thisActive">
                           <a class="menu-link" href='/researcher'>
                             <ion-icon name="locate-outline"></ion-icon>
                             <div data-i18n="Layouts" className='vazir'>کاوشگر</div>
                           </a>
                         </li>
-                    :
-                    null
-                    }
 
-                  {
-                    (Number(Roll) === 2 || Number(Roll) === 3) ?
+
                     <li id='MenuBottomItem2' class="menu-item thisNotActive">
                       <a class="menu-link" href='/tracker'>
                       <ion-icon name="radio-outline"></ion-icon>
                         <div data-i18n="Apps" className='vazir'>ردیابی</div>
                       </a>
                     </li>
-                    :
-                    null
-                  }
 
-                  {
-                    (Number(Roll) === 2 || Number(Roll) === 3) ?
+
                     <li id='MenuBottomItem6' class="menu-item thisNotActive">
                     <a class="menu-link" href='/folders'>
                     <ion-icon name="folder-open-outline"></ion-icon>
                       <div data-i18n="Forms" className='vazir'>پرونده ها</div>
                     </a>
                   </li>
-                    :
-                    null
-                  }
 
-                  {
-                    (Number(Roll) === 2 || Number(Roll) === 5) ?
+
                       <li id='MenuBottomItem3' class="menu-item thisNotActive">
                         <a class="menu-link" href='/mining'>
                         <ion-icon name="diamond-outline"></ion-icon>
                           <div data-i18n="Pages" className='vazir'>استخراج</div>
                         </a>
                       </li>
-                    :
-                    null
-                  }
 
-                  {
-                    (Number(Roll) === 2 || Number(Roll) === 4) ?
+
                       <li id='MenuBottomItem4' class="menu-item thisNotActive">
                         <a class="menu-link" href='/tax'>
                         <ion-icon name="cash-outline"></ion-icon>
                           <div data-i18n="Components" className='vazir'>مالیات</div>
                         </a>
                       </li>
-                    :
-                    null
-                  }
 
                   <li id='MenuBottomItem5' class="menu-item thisNotActive">
                     <a class="menu-link" href='/reports'>
@@ -223,6 +199,7 @@ function Header() {
                       <div data-i18n="Forms" className='vazir'>گزارش ها</div>
                     </a>
                   </li>
+
 
                 </ul>
               </div>
