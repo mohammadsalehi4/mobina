@@ -30,7 +30,7 @@ const colourOptions = [
 ]
 
 const VisualizationDetail = () => {
-  const [ used , SetUsed] = useState(8)
+  const [ used , SetUsed] = useState(18)
   return (
     <div id="visualizationDetail">
     <Fragment>

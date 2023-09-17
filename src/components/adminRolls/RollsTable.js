@@ -95,22 +95,22 @@ const RollsTable = () => {
       maxWidth: '160px',
       cell: row => (
         <div>
-          <div id='ShowRoleDetails' style={{display:'inline-block', cursor:'pointer'}} onClick={() => { handleShow(), SetNumber(row.id) }}>
+          <div id={`ShowRoleDetails${row.id}`} style={{display:'inline-block', cursor:'pointer'}} onClick={() => { handleShow(), SetNumber(row.id) }}>
             <Eye size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)'}}/>
           </div>
-          <UncontrolledTooltip placement='right' target='ShowRoleDetails'>
+          <UncontrolledTooltip placement='right' target={`ShowRoleDetails${row.id}`}>
             مشاهده جزئیات نقش
           </UncontrolledTooltip>
-          <div id='EditRoleDetail' style={{display:'inline-block', marginRight:'8px', cursor:'pointer'}} onClick={() => { handleEdit(), SetNumber(row.id) }}>
+          <div id={`EditRoleDetail${row.id}`} style={{display:'inline-block', marginRight:'8px', cursor:'pointer'}} onClick={() => { handleEdit(), SetNumber(row.id) }}>
             <Edit3 size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)'}}/>
           </div>
-          <UncontrolledTooltip placement='top' target='EditRoleDetail'>
+          <UncontrolledTooltip placement='top' target={`EditRoleDetail${row.id}`}>
             ویرایش نقش
           </UncontrolledTooltip>
-          <div id='DeleteRole' style={{display:'inline-block', marginRight:'8px', cursor:'pointer'}} onClick={() => { setDeleteItem(row.id), setModal1(4) }}>
+          <div id={`DeleteRole${row.id}`} style={{display:'inline-block', marginRight:'8px', cursor:'pointer'}} onClick={() => { setDeleteItem(row.id), setModal1(4) }}>
             <Trash2 size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)'}}/>
           </div>
-          <UncontrolledTooltip placement='left' target='DeleteRole'>
+          <UncontrolledTooltip placement='left' target={`DeleteRole${row.id}`}>
             حذف نقش
           </UncontrolledTooltip>
         </div>
