@@ -194,6 +194,7 @@ const EcommerceDashboard = () => {
   }
 
   const EthereumTransaction =(data) => {
+
     let CurrencyPrice
     try {
       CurrencyPrice=data.valueInDollar
@@ -210,10 +211,10 @@ const EcommerceDashboard = () => {
     let symbole
     const color='#627eea'
     let TotalOutput
-    let TotalOutput1
+    const TotalOutput1=TotalOutput*CurrencyPrice
     const TotalOutput2=TotalOutput1*USDPrice
     let TotalInput
-    let TotalInput1
+    const TotalInput1=TotalInput*CurrencyPrice
     const TotalInput2=TotalInput1*USDPrice
     const RiskScore='0%'
     let BTCAmount
@@ -259,8 +260,6 @@ const EcommerceDashboard = () => {
       ]
     }
 
-    TotalOutput1=TotalOutput*CurrencyPrice
-    TotalInput1=TotalInput*CurrencyPrice
     return ({
       address,
       blockNumber,
@@ -368,7 +367,6 @@ const EcommerceDashboard = () => {
             } catch (error) {}
           })
         } else {
-          
           axios.get(`${serverAddress}/explorer/address?address=${hash}&network=BTC&page_size=50&offset=0`,
           {
             headers: {
@@ -480,7 +478,7 @@ const EcommerceDashboard = () => {
                   <Label className='form-label' for='transactionValue'>
                     <p class="vazir" id='searchExample11'>
                       نمونه کاوش:
-                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0xECC06c0976152913CB43a2AB5C60216B8270D8ee' }}>
+                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0x4A137FD5e7a256eF08A7De531A17D0BE0cc7B6b6' }}>
                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                         {' '}
                         <p> آدرس </p>

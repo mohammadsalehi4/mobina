@@ -65,7 +65,6 @@ const getMyTime = (index) => {
 }
 
 const CardTransactions = (props) => {
-  console.log(props.data)
   const renderTransactions = () => {
     const States = useSelector(state => state)
     return (
@@ -186,7 +185,6 @@ const CardTransactions = (props) => {
         <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
           <CardTitle tag='h4' style={{width:"100%"}}>
             جزئیات
-            <Switch  options={[`${props.data.symbole}`, 'USD']} color={props.data.color} specialProps={'TransactionDetailCurrencyMode'}/>
           </CardTitle>
         </CardHeader>
         <CardBody>{renderTransactions()}</CardBody>
