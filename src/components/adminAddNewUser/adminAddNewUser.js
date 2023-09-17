@@ -161,7 +161,7 @@ const AdminAddNewUser = () => {
                   .catch((err) => {
                     console.log(err)
                       dispatch({type:"LOADINGEFFECT", value:false})
-                      return toast.success('کاربر با موفقیت ساخته شد.', {
+                      return toast.error('عدم ارتباط با سرور', {
                         position: 'bottom-left'
                       })
                   })

@@ -24,6 +24,7 @@ import {
   DropdownItem,
   DropdownToggle, Badge,
   UncontrolledDropdown,
+  UncontrolledTooltip,
   Button, Modal, ModalHeader, ModalBody, ModalFooter 
 } from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
@@ -71,8 +72,8 @@ const RollsTable = () => {
   const columns = [
     {
       name: <p style={{marginTop:"15px", margin:"0px"}}>نقش</p>,
-      minWidth: '300px',
-      maxWidth: '300px',
+      minWidth: '200px',
+      maxWidth: '200px',
       sortable: row => row.name,
       cell: row => (
         <div className='d-flex'>
@@ -84,35 +85,35 @@ const RollsTable = () => {
     },
     {
       name: 'توضیحات',
-      minWidth: '450px',
-      maxWidth: '450px',
-      cell: row => ('نقش ساخته شده توسط ادمین برای ثبت نام کاربران')
+      minWidth: '750px',
+      maxWidth: '750px',
+      cell: row => ('این نقش توسط ادمین جهت ایجاد دسترسی های مختلف به قسمت های مختلف سایت ایجاد شده است.')
     },
     {
       name: 'عملیات',
-      minWidth: '120px',
-      maxWidth: '120px',
+      minWidth: '160px',
+      maxWidth: '160px',
       cell: row => (
-        <UncontrolledDropdown style={{direction:'ltr'}}>
-          <DropdownToggle className='icon-btn hide-arrow' color='transparent' size='sm' >
-            <Menu />
-          </DropdownToggle>
-          <DropdownMenu style={{textAlign:'right'}}>
-            <DropdownItem tag='a' onClick={() => { handleShow(), SetNumber(row.id) }} >
-              <Eye size={15} style={{marginLeft:'8px'}}/>
-              مشاهده نقش
-            </DropdownItem>
-            <DropdownItem tag='a' onClick={() => { handleEdit(), SetNumber(row.id) }}>
-              <Edit3 size={15} style={{marginLeft:'8px'}}/>
-              ویرایش نقش
-            </DropdownItem>
-            <DropdownItem tag='a' onClick={() => { setDeleteItem(row.id), setModal1(4) }}  >
-              <Trash2 size={15} style={{marginLeft:'8px'}}/>
-              حذف نقش
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-
+        <div>
+          <div id='ShowRoleDetails' style={{display:'inline-block', cursor:'pointer'}} onClick={() => { handleShow(), SetNumber(row.id) }}>
+            <Eye size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)'}}/>
+          </div>
+          <UncontrolledTooltip placement='right' target='ShowRoleDetails'>
+            مشاهده جزئیات نقش
+          </UncontrolledTooltip>
+          <div id='EditRoleDetail' style={{display:'inline-block', marginRight:'8px', cursor:'pointer'}} onClick={() => { handleEdit(), SetNumber(row.id) }}>
+            <Edit3 size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)'}}/>
+          </div>
+          <UncontrolledTooltip placement='top' target='EditRoleDetail'>
+            ویرایش نقش
+          </UncontrolledTooltip>
+          <div id='DeleteRole' style={{display:'inline-block', marginRight:'8px', cursor:'pointer'}} onClick={() => { setDeleteItem(row.id), setModal1(4) }}>
+            <Trash2 size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)'}}/>
+          </div>
+          <UncontrolledTooltip placement='left' target='DeleteRole'>
+            حذف نقش
+          </UncontrolledTooltip>
+        </div>
       )
     }
   ]
