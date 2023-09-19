@@ -196,24 +196,46 @@ const EcommerceDashboard = () => {
   const EthereumTransaction =(data) => {
 
     const CurrencyPrice=data.valueInDollar
-    const USDPrice=490000
-
-    const address=data.blockHash
     const blockNumber=data.blockNumber
-    const name='اتریوم'
-    const image='ETH.png'
+    const address=data.blockHash
     const BlockDate=data.timestamp
-    let symbole
+    const name='اتریوم'
+    const USDPrice=490000
+    const image='ETH.png'
     const color='#627eea'
-    let TotalOutput
-
-    let TotalInput
-
     const RiskScore='0%'
+    let TotalOutput
+    let symbole
+    let TotalInput
     let BTCAmount
     let inputData
     let outputData
-    if (Number(data.value) !== 0) {
+
+    let check=false
+    for (let i=0; i<data.logs.length; i++) {
+      if (data.logs[i].address.symbol) {
+        check=true
+        BTCAmount=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+        TotalOutput=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+        TotalInput=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+        symbole=data.logs[i].address.symbol
+        inputData=[
+          {
+            address:data.from.address,
+            RiskScore:'0%',
+            BTCAmount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+          }
+        ]
+        outputData=[
+          {
+            address:data.to.address,
+            RiskScore:'0%',
+            BTCAmount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+          }
+        ]
+      }
+    }
+    if (!check) {
       BTCAmount=(Number(data.value)/1000000000000000000)
       TotalOutput=(Number(data.value)/1000000000000000000)
       TotalInput=(Number(data.value)/1000000000000000000)
@@ -232,29 +254,6 @@ const EcommerceDashboard = () => {
           BTCAmount:(Number(data.value)/1000000000000000000)
         }
       ]
-    } else {
-      for (let i=0; i<data.logs.length; i++) {
-        if (data.logs[i].address.symbol) {
-          BTCAmount=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-          TotalOutput=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-          TotalInput=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-          symbole=data.logs[i].address.symbol
-          inputData=[
-            {
-              address:data.from.address,
-              RiskScore:'0%',
-              BTCAmount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-            }
-          ]
-          outputData=[
-            {
-              address:data.to.address,
-              RiskScore:'0%',
-              BTCAmount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-            }
-          ]
-        }
-      }
     }
     const TotalInput1=TotalInput*CurrencyPrice
     const TotalInput2=TotalInput1*USDPrice
