@@ -20,44 +20,24 @@ import moment from 'jalali-moment'
 import './style.css'
 
 
-const getMyTime = (index) => {
-  const date = new Date(index)
-  let month
-  let day
-  let hour
-  let minute
+function getMyTime(millis) {
+  const date = new Date(millis * 1000)
 
-  if (String(Number(date.getMonth())).length === 1) {
-    month = `0${date.getMonth()}`
-  } else {
-    month = date.getMonth()
-  }
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1 
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
 
-  if (String(date.getDate()).length === 1) {
-    day = `0${date.getDate()}`
-  } else {
-    day = date.getDate()
-  }
-
-  if (String(date.getHours()).length === 1) {
-    hour = `0${date.getHours()}`
-  } else {
-    hour = date.getHours()
-  }
-
-  if (String(date.getMinutes()).length === 1) {
-    minute = `0${date.getMinutes()}`
-  } else {
-    minute = date.getMinutes()
-  }
-
-  return ({
-    year:date.getFullYear(),
+  return {
+    year,
     month,
     day,
     hour,
-    minute
-  })
+    minute,
+    second
+  }
 }
 
 function dateToMilliseconds(dateTimeStr) {

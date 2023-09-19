@@ -195,12 +195,7 @@ const EcommerceDashboard = () => {
 
   const EthereumTransaction =(data) => {
 
-    let CurrencyPrice
-    try {
-      CurrencyPrice=data.valueInDollar
-    } catch (error) {
-      CurrencyPrice=0
-    }
+    const CurrencyPrice=data.valueInDollar
     const USDPrice=490000
 
     const address=data.blockHash
@@ -211,11 +206,9 @@ const EcommerceDashboard = () => {
     let symbole
     const color='#627eea'
     let TotalOutput
-    const TotalOutput1=TotalOutput*CurrencyPrice
-    const TotalOutput2=TotalOutput1*USDPrice
+
     let TotalInput
-    const TotalInput1=TotalInput*CurrencyPrice
-    const TotalInput2=TotalInput1*USDPrice
+
     const RiskScore='0%'
     let BTCAmount
     let inputData
@@ -240,25 +233,33 @@ const EcommerceDashboard = () => {
         }
       ]
     } else {
-      BTCAmount=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
-      TotalOutput=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
-      TotalInput=(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
-      symbole=data.logs[0].address.symbol
-      inputData=[
-        {
-          address:data.from.address,
-          RiskScore:'0%',
-          BTCAmount:(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
+      for (let i=0; i<data.logs.length; i++) {
+        if (data.logs[i].address.symbol) {
+          BTCAmount=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+          TotalOutput=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+          TotalInput=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+          symbole=data.logs[i].address.symbol
+          inputData=[
+            {
+              address:data.from.address,
+              RiskScore:'0%',
+              BTCAmount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+            }
+          ]
+          outputData=[
+            {
+              address:data.to.address,
+              RiskScore:'0%',
+              BTCAmount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+            }
+          ]
         }
-      ]
-      outputData=[
-        {
-          address:data.to.address,
-          RiskScore:'0%',
-          BTCAmount:(Number(data.logs[0].amount)/(Math.pow(10, data.logs[0].address.decimal)))
-        }
-      ]
+      }
     }
+    const TotalInput1=TotalInput*CurrencyPrice
+    const TotalInput2=TotalInput1*USDPrice
+    const TotalOutput1=TotalOutput*CurrencyPrice
+    const TotalOutput2=TotalOutput1*USDPrice
 
     return ({
       address,
@@ -478,7 +479,7 @@ const EcommerceDashboard = () => {
                   <Label className='form-label' for='transactionValue'>
                     <p class="vazir" id='searchExample11'>
                       نمونه کاوش:
-                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0xECC06c0976152913CB43a2AB5C60216B8270D8ee' }}>
+                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0x4A137FD5e7a256eF08A7De531A17D0BE0cc7B6b6' }}>
                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                         {' '}
                         <p> آدرس </p>
