@@ -41,44 +41,24 @@ const CardTransactions = (props) => {
     }
   }, [, props.transactions])
 
-  const getMyTime = (index) => {
-    const date = new Date(index * 1000)
-    let month
-    let day
-    let hour
-    let minute
-
-    if (String(Number(date.getMonth())).length === 1) {
-      month = `0${date.getMonth() }`
-    } else {
-      month = date.getMonth() 
-    }
-
-    if (String(date.getDate()).length === 1) {
-      day = `0${date.getDate()}`
-    } else {
-      day = date.getDate()
-    }
-
-    if (String(date.getHours()).length === 1) {
-      hour = `0${date.getHours()}`
-    } else {
-      hour = date.getHours()
-    }
-
-    if (String(date.getMinutes()).length === 1) {
-      minute = `0${date.getMinutes()}`
-    } else {
-      minute = date.getMinutes()
-    }
-
-    return ({
-      year:date.getFullYear(),
+  function getMyTime(millis) {
+    const date = new Date(millis * 1000)
+  
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1 
+    const day = date.getDate()
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    const second = date.getSeconds()
+  
+    return {
+      year,
       month,
       day,
       hour,
-      minute
-    })
+      minute,
+      second
+    }
   }
 
   //tabdil zaman be taarikh
