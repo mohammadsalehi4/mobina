@@ -58,9 +58,9 @@ const CardTransactions = (props) => {
               </div>
           </div>
           <div style={{ marginBottom:'-10px'}} className={` col-6`}>
-          <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'تاریخ بلاک'}</p>
+          <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'زمان بلاک'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                {digitsEnToFa(`${moment(`${getMyTime(props.data.BlockDate).year}-${getMyTime(props.data.BlockDate).month}-${getMyTime(props.data.BlockDate).day}`, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD')}`)}
+                {digitsEnToFa(`${moment(`${getMyTime(props.data.BlockDate).year}-${getMyTime(props.data.BlockDate).month}-${getMyTime(props.data.BlockDate).day}`, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD')} - ${getMyTime(props.data.BlockDate).hour}:${getMyTime(props.data.BlockDate).minute}`)}
                 {/* {digitsEnToFa(`${`${getMyTime(props.data.BlockDate).year}/${getMyTime(props.data.BlockDate).month}/${getMyTime(props.data.BlockDate).day}`}`)} */}
                 <Calendar size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
