@@ -10,7 +10,7 @@ const NiceAddress2 = (props) => {
 
     return (
         // <p>{firstEightChars + lastEightChars}</p>
-        <a href={props.href} id='niceAddress3'>
+        <a href={`/researcher/${props.text}`} style={{textDecoration:'none', color:'rgb(111,107,125)'}} id='niceAddress3'>
             {`${firstEightChars} `}
             <div style={{display:"inline-block"}}>
                 <div style={{width:"8px", height:"8px", background:MainSiteLightGreen, borderRadius:"50%", display:"inline-block", transition:"0.1s linear"}}></div>

@@ -109,7 +109,7 @@ const DataTableWithButtons = (props) => {
       selector: row => (
         <div className='d-flex align-items-end ' style={{cursor:"pointer"}}>
           <div className='user-info text-truncate'>
-            <span className='d-block text-truncate ms-0' style={{marginBottom:"-10px"}}
+            <span className='d-block text-truncate ms-0' style={{}}
             onClick={() => { 
               document.getElementById('transactionValue').value = `${row.address}` 
               document.getElementById('MainSubmitBotton').click()

@@ -3,6 +3,6 @@
     transition: linear;
 }
 #niceAddress div{
-    transform: translateY(5px);
+    transform: translateY(3px);
     transition: linear;
 }

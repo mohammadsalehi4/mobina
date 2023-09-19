@@ -64,6 +64,7 @@ const Main = () => {
                 SetLoading(false)
             })
             .catch((err) => {
+                console.log(err)
                 if (err.response.statusText === 'Unauthorized') {
                     SetLoading(false)
                     return toast.error('ورود ناموفق', {

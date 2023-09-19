@@ -197,7 +197,7 @@ const EcommerceDashboard = () => {
 
     const CurrencyPrice=data.valueInDollar
     const blockNumber=data.blockNumber
-    const address=data.blockHash
+    const address=data.hash
     const BlockDate=data.timestamp
     const name='اتریوم'
     const USDPrice=490000
