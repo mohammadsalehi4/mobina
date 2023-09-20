@@ -20,9 +20,7 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
   const [AllData, SetAllData] = useState([])
   const [accesses, SetAccesses] = useState([])
 
-  const submit = (event) => {
-      dispatch({type:"LOADINGEFFECT", value:true})
-  }
+  
 
   const [showThisData, SetThisData] = useState([])
 
@@ -44,7 +42,6 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
   const [inputLastValue, setInputLastValue] = useState('')
   const [selectedOption, setSelectedOption] = useState(null)
   const [inputUsernameValue, setInputUsernameValue] = useState('')
-  const [IsOpenOptionsMenu, setIsOpenOptionsMenu] = useState(false)
 
   const numberHandler = () => {
     const inputNumberElement = document.getElementById('AdminAddUserPhoneNumber2')
@@ -152,6 +149,110 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
     })
   }, [])
 
+  const handleSubmit = (event) => {
+    const Emailvalue = document.getElementById('AdminAddUserEmailInput2').value
+    const Numbervalue = document.getElementById('AdminAddUserPhoneNumber2').value
+    const nameValue = document.getElementById('NameAddUserAdmin2').value
+    const LastnameValue = document.getElementById('lastNameMulti2').value
+    const UsernameValue = document.getElementById('AdminAddUserUsernameInput2').value
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const phoneRegex = /^09[0-9]{9}$/
+
+    event.preventDefault()
+    if (emailRegex.test(Emailvalue)) {
+      if (phoneRegex.test(Numbervalue)) {
+        if (selectedOption !== null) {
+          if (LastnameValue !== '') {
+            if (UsernameValue !== '') {
+              if (nameValue !== '') {
+                // register
+                dispatch({type:"LOADINGEFFECT", value:true})
+                axios.post(`${serverAddress}/accounts/register/`, 
+                {
+                    first_name : document.getElementById('NameAddUserAdmin2').value,
+                    last_name : document.getElementById('lastNameMulti2').value,
+                    email : document.getElementById('AdminAddUserEmailInput2').value,
+                    role: String(selectedOption),
+                    username : document.getElementById('AdminAddUserUsernameInput2').value,
+                    phone_number : document.getElementById('AdminAddUserPhoneNumber2').value
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${Cookies.get('access')}`, 
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => {
+                    dispatch({type:"LOADINGEFFECT", value:false})
+                    if (response.data.message === 'successfully create user') {
+
+                      window.location.assign('/admin')
+                    }                  
+                })
+                .catch((err) => {
+                  console.log(err)
+                    dispatch({type:"LOADINGEFFECT", value:false})
+                    return toast.error('عدم ارتباط با سرور', {
+                      position: 'bottom-left'
+                    })
+                })
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (!(emailRegex.test(Emailvalue))) {
+      SetEmailErr(true)
+      SetEmailErrText('ایمیل مورد نظر را به درستی وارد کنید!')
+    } else {
+      SetEmailErr(false)
+      SetEmailErrText('')
+    }
+
+    if (!(phoneRegex.test(Numbervalue))) {
+      SetNumberErr(true)
+      SetNumberErrText('شماره مورد نظر را به درستی وارد کنید!')
+    } else {
+      SetNumberErr(false)
+      SetNumberErrText('')
+    }
+
+    if (selectedOption === null) {
+      SetRollErr(true)
+      SetRollErrText('نقش مورد نظر خود را وارد کنید!')
+    } else {
+      SetRollErr(false)
+      SetRollErrText('')
+    }
+
+    if (LastnameValue === '') {
+      SetLastNameErr(true)
+      SetLastNameErrText('نام خانوادگی را وارد کنید!')
+    } else {
+      SetLastNameErr(false)
+      SetLastNameErrText('')
+    }
+
+    if (UsernameValue === '') {
+      SetUsernameErr(true)
+      SetUsernameErrText('نام کاربری مورد نظر خود را وارد کنید!')
+    } else {
+      SetUsernameErr(false)
+      SetUsernameErrText('')
+    }
+
+    if (nameValue === '') {
+      SetNameErr(true)
+      SetNameErrText('نام را وارد کنید!')
+    } else {
+      SetNameErr(false)
+      SetNameErrText('')
+    }
+  }
+
   return (
     <Modal
       isOpen={open}
@@ -174,7 +275,7 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
               <Label className='form-label' for='full-name' style={{ fontSize:"12px"}}>
                 نام
               </Label>
-              <Input  value={inputValue} type='text' style={{borderRadius:'4px', borderStyle:'solid'}} id='NameAddUserAdmin' onChange={handleInputChange}/>
+              <Input  value={inputValue} type='text' style={{borderRadius:'4px', borderStyle:'solid'}} id='NameAddUserAdmin2' onChange={handleInputChange}/>
               {
                 NameErr ? 
                   <small style={{color:"red"}} id='NameErrTag'>
@@ -187,7 +288,7 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
               <Label className='form-label mt-3' for='full-name' style={{ fontSize:"12px"}}>
                 نام خانوادگی
               </Label>
-              <Input value={inputLastValue} onChange={handleInputLastChange} type='text' style={{borderRadius:'4px', borderStyle:'solid'}} id='lastNameMulti'/>
+              <Input value={inputLastValue} onChange={handleInputLastChange} type='text' style={{borderRadius:'4px', borderStyle:'solid'}} id='lastNameMulti2'/>
               {
                 LastnameErr ?
                   <small style={{color:"red" }} id='LastNameErrTag'>
@@ -200,7 +301,7 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
               <Label className='form-label mt-3' for='full-name' style={{ fontSize:"12px"}}>
                 نام کاربری
               </Label>
-              <Input value={inputUsernameValue} onChange={handleInputUsernameChange} type='text' style={{borderRadius:'4px', borderStyle:'solid'}} id="AdminAddUserUsernameInput"/>
+              <Input value={inputUsernameValue} onChange={handleInputUsernameChange} type='text' style={{borderRadius:'4px', borderStyle:'solid'}} id="AdminAddUserUsernameInput2"/>
               {
                 UsernameErr ?
                   <small style={{color:"red"}} id='UsernameErrTag'>
@@ -259,11 +360,18 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
                 :
                   null
               }
+              <div className='mt-3' style={{marginRight:'-12px'}}>
+              <Input type='checkbox' style={{display:'inline-block', marginTop:'12px', color:'red'}} id='deActiveCheckbox'/>
+              <Label  className='form-label mt-3 me-1 ' for='deActiveCheckbox' style={{ fontSize:"12px", display:'inline-block', color:'red'}}>
+                غیرفعال سازی کاربر
+              </Label>
+              </div>
+
             </div>
           </div>
         </div>
         <div style={{textAlign:"left"}} className='mt-3'>
-          <button onClick={(event) => { submit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
+          <button onClick={(event) => { handleSubmit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
             <span className='align-middle'>ویرایش کاربر</span>
           </button>
         </div>
