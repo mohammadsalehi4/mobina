@@ -3,7 +3,6 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import { Fragment, useState, forwardRef, useEffect } from 'react'
-import { digitsEnToFa } from 'persian-tools'
 import AddNewModal from './AddNewModal'
 import EditRoll from './EditRoll'
 import ShowRoll from './ShowRoll'
@@ -12,7 +11,7 @@ import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Menu, Edit3, FileText, Trash2, Eye, Delete, Plus, MoreVertical } from 'react-feather'
+import { ChevronDown, Edit3, Trash2, Eye, Plus} from 'react-feather'
 import {
   Row,
   Col,
@@ -20,12 +19,8 @@ import {
   Input,
   CardTitle,
   CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle, Badge,
-  UncontrolledDropdown,
   UncontrolledTooltip,
-  Button, Modal, ModalHeader, ModalBody, ModalFooter 
+  Button, Modal, ModalBody, ModalFooter 
 } from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 

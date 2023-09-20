@@ -4,53 +4,12 @@ import { Fragment, useState, useEffect } from 'react'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-import UILoader from '@components/ui-loader'
-import Spinner from '@components/spinner/Loading-spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import ReactPaginate from 'react-paginate'
-
-const basicColumns = [
-    {
-        name: 'آی‌دی',
-        sortable: true,
-        maxWidth: '90px',
-        minWidth: '90px',
-        selector: row => row.id
-    },
-    {
-        name: 'نام کاربری',
-        sortable: true,
-        maxWidth: '220px',
-        minWidth: '220px',
-        selector: row => row.username
-    },
-    {
-        name: 'ایمیل',
-        sortable: true,
-        minWidth: '270px',
-        maxWidth: '270px',
-        selector: row => row.email
-    },
-    {
-        name: 'شماره تلفن',
-        sortable: true,
-        minWidth: '160px',
-        maxWidth: '160px',
-        selector: row => row.phone_number
-    },
-    {
-      name: 'نقش',
-      minWidth: '180px',
-      maxWidth: '180px',
-      selector: row => (
-        row.role
-      )
-    }
-]
-
+import { ChevronDown, MoreVertical, Edit3, Trash } from 'react-feather'
+import EditUser from './adminEditUser'
 
 // ** Third Party Components
-import { ChevronDown, MoreVertical, Edit, Trash } from 'react-feather'
 import DataTable from 'react-data-table-component'
 
 // ** Reactstrap Imports
@@ -60,6 +19,56 @@ const DataTablesBasic = () => {
     const [users, setUsers] = useState([])
     const [Rolls, SetRolls] = useState([])
     const dispatch = useDispatch()
+
+    const [Edit, setEdit] = useState(false)
+    const handleEdit = () => setEdit(!Edit)
+
+    const basicColumns = [
+      {
+          name: 'آی‌دی',
+          sortable: true,
+          maxWidth: '90px',
+          minWidth: '90px',
+          selector: row => row.id
+      },
+      {
+          name: 'نام کاربری',
+          sortable: true,
+          maxWidth: '170px',
+          minWidth: '170px',
+          selector: row => row.username
+      },
+      {
+          name: 'ایمیل',
+          sortable: true,
+          minWidth: '270px',
+          maxWidth: '270px',
+          selector: row => row.email
+      },
+      {
+          name: 'شماره تلفن',
+          sortable: true,
+          minWidth: '160px',
+          maxWidth: '160px',
+          selector: row => row.phone_number
+      },
+      {
+        name: 'نقش',
+        minWidth: '150px',
+        maxWidth: '150px',
+        selector: row => (
+          row.role
+        )
+      },
+      {
+        name: 'ویرایش',
+        minWidth: '90px',
+        maxWidth: '90px',
+        cell: row => (
+          <Edit3 onClick={handleEdit}  size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)', cursor:'pointer'}}/>
+        )
+      }
+  ]
 
     useEffect(() => {
         let getUsers = []
@@ -164,7 +173,7 @@ const DataTablesBasic = () => {
           paginationRowsPerPageOptions={[10, 25, 50, 100]}
         />
       </div>
-
+      <EditUser open={Edit} handleModal={handleEdit}/>
     </Card>
   )
 }
