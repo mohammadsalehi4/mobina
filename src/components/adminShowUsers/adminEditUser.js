@@ -13,16 +13,10 @@ import { digitsEnToFa } from 'persian-tools'
 import { CheckBox } from '@mui/icons-material'
 
 
-const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
+const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
   const dispatch = useDispatch()
+
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
-  const [showData, SetshowData] = useState([])
-  const [AllData, SetAllData] = useState([])
-  const [accesses, SetAccesses] = useState([])
-
-  
-
-  const [showThisData, SetThisData] = useState([])
 
   //Errors
   const [NameErr, SetNameErr] = useState(false)
@@ -173,9 +167,10 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
                     first_name : document.getElementById('NameAddUserAdmin2').value,
                     last_name : document.getElementById('lastNameMulti2').value,
                     email : document.getElementById('AdminAddUserEmailInput2').value,
-                    role: String(selectedOption),
-                    username : document.getElementById('AdminAddUserUsernameInput2').value,
-                    phone_number : document.getElementById('AdminAddUserPhoneNumber2').value
+                    role_id: String(selectedOption),
+                    user_name : document.getElementById('AdminAddUserUsernameInput2').value,
+                    phone_number : document.getElementById('AdminAddUserPhoneNumber2').value,
+                    is_active:document.getElementById('deActiveCheckbox').checked
                 },
                 {
                     headers: {
@@ -361,17 +356,17 @@ const EditUser = ({ open, handleModal, Roles, number, AllRoles }) => {
                   null
               }
               <div className='mt-3' style={{marginRight:'-12px'}}>
-              <Input type='checkbox' style={{display:'inline-block', marginTop:'12px', color:'red'}} id='deActiveCheckbox'/>
-              <Label  className='form-label mt-3 me-1 ' for='deActiveCheckbox' style={{ fontSize:"12px", display:'inline-block', color:'red'}}>
-                غیرفعال سازی کاربر
-              </Label>
+                <Input type='checkbox' style={{display:'inline-block', marginTop:'12px', color:'red'}} id='deActiveCheckbox'/>
+                <Label className='form-label mt-3 me-1 ' for='deActiveCheckbox' style={{ fontSize:"12px", display:'inline-block', color:'red'}}>
+                  غیرفعال سازی کاربر
+                </Label>
               </div>
-
             </div>
           </div>
         </div>
         <div style={{textAlign:"left"}} className='mt-3'>
-          <button onClick={(event) => { handleSubmit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
+          {/* <button onClick={(event) => { handleSubmit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline> */}
+          <button onClick={(event) => { alert(number) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
             <span className='align-middle'>ویرایش کاربر</span>
           </button>
         </div>

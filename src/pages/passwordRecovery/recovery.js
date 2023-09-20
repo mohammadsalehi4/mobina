@@ -29,17 +29,15 @@ const Recovery = () => {
 
     const submit = (event) => {
         event.preventDefault()
-        const username = document.getElementById('login_username').value
         const phone_number = document.getElementById('login_Number').value
 
-        if (username === '' || phone_number === '') {
-            return toast.error('مقادیر را به درستی وارد کنید!', {
+        if (phone_number === '') {
+            return toast.error('شماره تلفن را به درستی وارد کنید!', {
                 position: 'bottom-left'
             })
         } else {
             SetLoading(true)
             axios.post(serverAddress+"/accounts/recover_password/", {
-                username:username,
                 phone_number:phone_number
             })
             .then((response) => {
@@ -86,10 +84,6 @@ const Recovery = () => {
                                     <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
                                         <h3 class="card-title fw-bold mb-1 gray">نام کاربری خود را وارد کنید.</h3>
                                         <form class="auth-login-form mt-5" onSubmit={(event) => { submit(event) }}>
-                                            <div class="mb-2 mt-3">
-                                                <label class="form-label gray" for="login_username">نام کاربری</label>
-                                                <input class="form-control login_form gray " id="login_username" type="text" name="login_username" placeholder="نام کاربری..." aria-describedby="login-email" autofocus="" tabindex="1" />
-                                            </div>
                                             <div class="mb-2 mt-3">
                                                 <label class="form-label gray" for="login_username">شماره موبایل</label>
                                                 <input class="form-control login_form gray " id="login_Number" type="text" name="login_Number" placeholder="شماره موبایل..." aria-describedby="login-email" autofocus="" tabindex="1" />

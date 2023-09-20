@@ -13,11 +13,12 @@ import EditUser from './adminEditUser'
 import DataTable from 'react-data-table-component'
 
 // ** Reactstrap Imports
-import { Card, CardHeader, CardTitle, Table, Badge, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle} from 'reactstrap'
+import { Card, CardHeader, CardTitle} from 'reactstrap'
 
 const DataTablesBasic = () => {
     const [users, setUsers] = useState([])
     const [Rolls, SetRolls] = useState([])
+    const [number, SetNumber] = useState(null)
     const dispatch = useDispatch()
 
     const [Edit, setEdit] = useState(false)
@@ -65,7 +66,10 @@ const DataTablesBasic = () => {
         minWidth: '90px',
         maxWidth: '90px',
         cell: row => (
-          <Edit3 onClick={handleEdit}  size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)', cursor:'pointer'}}/>
+          <Edit3 onClick={() => { 
+            handleEdit()
+            SetNumber(row.id)
+           }}  size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)', cursor:'pointer'}}/>
         )
       }
   ]
@@ -173,7 +177,7 @@ const DataTablesBasic = () => {
           paginationRowsPerPageOptions={[10, 25, 50, 100]}
         />
       </div>
-      <EditUser open={Edit} handleModal={handleEdit}/>
+      <EditUser users={users} number={number} open={Edit} handleModal={handleEdit}/>
     </Card>
   )
 }
