@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react'
 import { useSelector } from "react-redux"
@@ -31,19 +32,65 @@ const App = () => {
           <Routes>
             <Route path="/" exact element={<Main/>}/>
             <Route path="/recovery"  element={<Recovery/>}/>
-            <Route path="/researcher"  element={<EcommerceDashboard/>}/>
-            <Route path="/researcher/:hash"  element={<EcommerceDashboard/>}/>
-            <Route path="/tracker"  element={<Tracker/>}/>
+            {
+              (Number(Cookies.get('roll')) === 2) ?
+                <Route path="/admin"  element={<Admin/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                <Route path="/researcher"  element={<EcommerceDashboard/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                <Route path="/researcher/:hash"  element={<EcommerceDashboard/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                <Route path="/tracker"  element={<Tracker/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                <Route path="/folders"  element={<Folders/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                <Route path="/case"  element={<SingleCase/>}/>
+              :
+              null
+            }
             <Route path="/newpassword/:username/:token"  element={<ChangePassword/>}/>
-            <Route path="/tax"  element={<Tax/>}/>
-            <Route path="/mining"  element={<Mining/>}/>
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
+                <Route path="/tax"  element={<Tax/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
+                <Route path="/tax/:txid"  element={<Tax/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
+                <Route path="/mining"  element={<Mining/>}/>
+              :
+              null
+            }
+
             <Route path="/reports"  element={<Reports/>}/>
-            <Route path="/tax/:txid"  element={<Tax/>}/>
-            <Route path="/admin"  element={<Admin/>}/>
             {/* <Route path="/owner"  element={<Owner/>}/> */}
             {/* <Route path="/entities"  element={<Entities/>}/> */}
-            <Route path="/folders"  element={<Folders/>}/>
-            <Route path="/case"  element={<SingleCase/>}/>
             <Route path="/demo"  element={<Demo/>}/>
             
           </Routes>

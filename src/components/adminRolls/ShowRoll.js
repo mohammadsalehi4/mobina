@@ -9,7 +9,7 @@ import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 const ShowRoll = ({ open, handleModal, Roles, number }) => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const [showData, SetshowData] = useState([])
 

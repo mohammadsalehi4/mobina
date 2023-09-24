@@ -18,7 +18,7 @@ import { Card, CardHeader, CardTitle} from 'reactstrap'
 const DataTablesBasic = () => {
     const [users, setUsers] = useState([])
     const [Rolls, SetRolls] = useState([])
-    const [number, SetNumber] = useState(null)
+    const [number, SetNumber] = useState(1)
     const dispatch = useDispatch()
 
     const [Edit, setEdit] = useState(false)
@@ -177,7 +177,7 @@ const DataTablesBasic = () => {
           paginationRowsPerPageOptions={[10, 25, 50, 100]}
         />
       </div>
-      <EditUser users={users} number={number} open={Edit} handleModal={handleEdit}/>
+      <EditUser users={users.find(item => item.id === number)} open={Edit} handleModal={handleEdit}/>
     </Card>
   )
 }

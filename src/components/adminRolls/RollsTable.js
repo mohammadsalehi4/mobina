@@ -114,7 +114,14 @@ const RollsTable = () => {
   ]
 
     //Rolls
-    const [Rolls, SetRolls] = useState([])
+    const [Rolls, SetRolls] = useState([
+      {
+        access:[]
+      },
+      {
+        access:[]
+      }
+    ])
     useEffect(() => {
       dispatch({type:"LOADINGEFFECT", value:true})
       axios.get(`${serverAddress}/accounts/role/`, 
@@ -126,7 +133,9 @@ const RollsTable = () => {
       .then((response) => {
           dispatch({type:"LOADINGEFFECT", value:false})
           if (response.data.length > 0) {
-              SetRolls(response.data)
+              const array = response.data
+              array.sort((a, b) => ((a['id'] > b['id']) ? 1 : ((b['id'] > a['id']) ? -1 : 0)))
+              SetRolls(array)
           }
       })
       .catch((err) => {

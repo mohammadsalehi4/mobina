@@ -48,12 +48,16 @@ function Header() {
   useEffect(() => {
     if (States.witchPage) {
       for (let i = 0; i < 7; i++) {
-        document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
-        document.getElementById(`MobileheaderLink${i + 1}`).className = 'menu-item thisNotActive'
+        try {
+          document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
+          document.getElementById(`MobileheaderLink${i + 1}`).className = 'menu-item thisNotActive'
+        } catch (error) {}
       }
       if (States.witchPage !== -1) {
-        document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
-        document.getElementById(`MobileheaderLink${States.witchPage + 1}`).className = 'menu-item thisActive'
+        try {
+          document.getElementById(`MenuBottomItem${States.witchPage}`).className = 'menu-item thisActive'
+          document.getElementById(`MobileheaderLink${States.witchPage + 1}`).className = 'menu-item thisActive'
+        } catch (error) {}
       }
     }
   }, [States.witchPage])
@@ -82,7 +86,7 @@ function Header() {
       <div class="layout-container">
         <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
           <div class="container-fluid  ">
-            
+
             <div class="navbar-brand app-brand demo d-none d-xl-flex py-0"  style={{marginRight:"60px"}}>
               <a href="/" class="app-brand-link gap-2">
                 <img src='../images/logo.png' id='logo'/>
@@ -146,52 +150,73 @@ function Header() {
             <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0">
               <div class="container-fluid d-flex h-100" style={{marginRight:"50px"}}>
                 <ul class="menu-inner">
-                
-                <li id='MenuBottomItem0' class="menu-item thisNotActive" style={{marginRight:"0px"}}>
-                  <a class="menu-link">
-                  <ion-icon name="home-outline"></ion-icon>
-                    <div data-i18n="Dashboards" className='vazir'>داشبورد</div>
-                  </a>
-                </li>
 
-                        <li id='MenuBottomItem1' class="menu-item thisActive">
-                          <a class="menu-link" href='/researcher'>
-                            <ion-icon name="locate-outline"></ion-icon>
-                            <div data-i18n="Layouts" className='vazir'>کاوشگر</div>
-                          </a>
-                        </li>
-
-
-                    <li id='MenuBottomItem2' class="menu-item thisNotActive">
-                      <a class="menu-link" href='/tracker'>
-                      <ion-icon name="radio-outline"></ion-icon>
-                        <div data-i18n="Apps" className='vazir'>ردیابی</div>
-                      </a>
-                    </li>
-
-
-                    <li id='MenuBottomItem6' class="menu-item thisNotActive">
-                    <a class="menu-link" href='/folders'>
-                    <ion-icon name="folder-open-outline"></ion-icon>
-                      <div data-i18n="Forms" className='vazir'>پرونده ها</div>
+                  <li id='MenuBottomItem0' class="menu-item thisNotActive" style={{marginRight:"0px"}}>
+                    <a class="menu-link">
+                    <ion-icon name="home-outline"></ion-icon>
+                      <div data-i18n="Dashboards" className='vazir'>داشبورد</div>
                     </a>
                   </li>
 
+                  {
+                    (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                      <li id='MenuBottomItem1' class="menu-item thisActive">
+                        <a class="menu-link" href='/researcher'>
+                          <ion-icon name="locate-outline"></ion-icon>
+                          <div data-i18n="Layouts" className='vazir'>کاوشگر</div>
+                        </a>
+                      </li>
+                    :
+                      null
+                  }
 
+                  {
+                    (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                      <li id='MenuBottomItem2' class="menu-item thisNotActive">
+                        <a class="menu-link" href='/tracker'>
+                        <ion-icon name="radio-outline"></ion-icon>
+                          <div data-i18n="Apps" className='vazir'>ردیابی</div>
+                        </a>
+                      </li>
+                    :
+                      null
+                  }
+
+                  {
+                    (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                      <li id='MenuBottomItem6' class="menu-item thisNotActive">
+                        <a class="menu-link" href='/folders'>
+                        <ion-icon name="folder-open-outline"></ion-icon>
+                          <div data-i18n="Forms" className='vazir'>پرونده ها</div>
+                        </a>
+                      </li>
+                    :
+                      null
+                  }
+
+                  {
+                    (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
                       <li id='MenuBottomItem3' class="menu-item thisNotActive">
                         <a class="menu-link" href='/mining'>
                         <ion-icon name="diamond-outline"></ion-icon>
                           <div data-i18n="Pages" className='vazir'>استخراج</div>
                         </a>
                       </li>
+                    :
+                      null
+                  }
 
-
+                  {
+                    (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
                       <li id='MenuBottomItem4' class="menu-item thisNotActive">
                         <a class="menu-link" href='/tax'>
                         <ion-icon name="cash-outline"></ion-icon>
                           <div data-i18n="Components" className='vazir'>مالیات</div>
                         </a>
                       </li>
+                    :
+                      null
+                  }
 
                   <li id='MenuBottomItem5' class="menu-item thisNotActive">
                     <a class="menu-link" href='/reports'>
@@ -199,7 +224,6 @@ function Header() {
                       <div data-i18n="Forms" className='vazir'>گزارش ها</div>
                     </a>
                   </li>
-
 
                 </ul>
               </div>

@@ -1,7 +1,7 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
-import { ArrowRight, X, Check} from 'react-feather'
+import { X } from 'react-feather'
 import { Modal, Input, Label, ModalHeader, ModalBody } from 'reactstrap'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { MainSiteOrange, MainSiteyellow } from '../../../public/colors'
@@ -9,11 +9,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-import { digitsEnToFa } from 'persian-tools'
-import { CheckBox } from '@mui/icons-material'
 
-
-const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
+const EditUser = ({ open, handleModal, users }) => {
   const dispatch = useDispatch()
 
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
@@ -35,9 +32,19 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
   const [inputValue, setInputValue] = useState('')
   const [inputLastValue, setInputLastValue] = useState('')
   const [selectedOption, setSelectedOption] = useState(null)
+  const [GetRole, setGetRole] = useState('')
   const [inputUsernameValue, setInputUsernameValue] = useState('')
+  const [inputEmailValue, setInputEmailValue] = useState('')
+  const [inputNumberValue, setInputNumberValue] = useState('')
 
-  const numberHandler = () => {
+  const [Rolls, SetRolls] = useState([])
+
+  const numberHandler = (event) => {
+    const value = event.target.value
+    setInputNumberValue(value)
+  }
+
+  const numberValidator = () => {
     const inputNumberElement = document.getElementById('AdminAddUserPhoneNumber2')
     const phoneRegex = /^09[0-9]{9}$/
     if (!(phoneRegex.test(inputNumberElement.value))) {
@@ -49,7 +56,12 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
     }
   }
 
-  const EmailHandler = () => {
+  const EmailHandler = (event) => {
+    const value = event.target.value
+    setInputEmailValue(value)
+  }
+
+  const EmailValidator = (event) => {
     const inputEmailElement = document.getElementById('AdminAddUserEmailInput2')
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!(emailRegex.test(inputEmailElement.value))) {
@@ -59,6 +71,7 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
       SetEmailErr(false)
       SetEmailErrText('')
     }
+
   }
 
   const handleInputChange = (event) => {
@@ -116,7 +129,6 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
   }
 
   //get Roles
-  const [Rolls, SetRolls] = useState([])
   useEffect(() => {
     dispatch({type:"LOADINGEFFECT", value:true})
     axios.get(`${serverAddress}/accounts/role/`, 
@@ -143,6 +155,22 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
     })
   }, [])
 
+  useEffect(() => {
+    try {
+      if (users) {
+        setInputEmailValue(users.email)
+        setInputNumberValue(users.phone_number)
+        setInputValue(users.first_name)
+        setInputLastValue(users.last_name)
+        setInputUsernameValue(users.username)
+        setGetRole(users.role)
+        setSelectedOption((Rolls.find(item => item.name === users.role)).id)
+      }
+    } catch (error) {
+    }
+
+  }, [users])
+
   const handleSubmit = (event) => {
     const Emailvalue = document.getElementById('AdminAddUserEmailInput2').value
     const Numbervalue = document.getElementById('AdminAddUserPhoneNumber2').value
@@ -162,7 +190,7 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
               if (nameValue !== '') {
                 // register
                 dispatch({type:"LOADINGEFFECT", value:true})
-                axios.post(`${serverAddress}/accounts/register/`, 
+                axios.put(`${serverAddress}/accounts/profile/${users.id}/`, 
                 {
                     first_name : document.getElementById('NameAddUserAdmin2').value,
                     last_name : document.getElementById('lastNameMulti2').value,
@@ -170,7 +198,8 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
                     role_id: String(selectedOption),
                     user_name : document.getElementById('AdminAddUserUsernameInput2').value,
                     phone_number : document.getElementById('AdminAddUserPhoneNumber2').value,
-                    is_active:document.getElementById('deActiveCheckbox').checked
+                    // is_active:document.getElementById('deActiveCheckbox').checked
+                    is_active:true
                 },
                 {
                     headers: {
@@ -180,13 +209,14 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
                 })
                 .then((response) => {
                     dispatch({type:"LOADINGEFFECT", value:false})
-                    if (response.data.message === 'successfully create user') {
+                    console.log(response.data)
+                    // if (response.data.message === 'successfully create user') {
+                    //   window.location.assign('/admin')
+                    // }   
+                    window.location.assign('/admin')
 
-                      window.location.assign('/admin')
-                    }                  
                 })
                 .catch((err) => {
-                  console.log(err)
                     dispatch({type:"LOADINGEFFECT", value:false})
                     return toast.error('عدم ارتباط با سرور', {
                       position: 'bottom-left'
@@ -270,7 +300,7 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
               <Label className='form-label' for='full-name' style={{ fontSize:"12px"}}>
                 نام
               </Label>
-              <Input  value={inputValue} type='text' style={{borderRadius:'4px', borderStyle:'solid'}} id='NameAddUserAdmin2' onChange={handleInputChange}/>
+              <Input value={inputValue} type='text' style={{borderRadius:'4px', borderStyle:'solid'}} id='NameAddUserAdmin2' onChange={handleInputChange}/>
               {
                 NameErr ? 
                   <small style={{color:"red"}} id='NameErrTag'>
@@ -309,7 +339,7 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
               <Label className='form-label mt-3' for='full-name' style={{ fontSize:"12px"}}>
                 ایمیل
               </Label>
-              <Input onBlur={EmailHandler} id="AdminAddUserEmailInput2" type='text' style={{borderRadius:'4px', borderStyle:'solid'}}/>
+              <Input value={inputEmailValue} onBlur={EmailValidator} onChange={EmailHandler} id="AdminAddUserEmailInput2" type='text' style={{borderRadius:'4px', borderStyle:'solid'}}/>
               {
                 EmailErr ? 
                   <small style={{color:"red"}} id='EmailErrTag'>
@@ -322,7 +352,7 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
               <Label className='form-label mt-3' for='full-name' style={{ fontSize:"12px"}}>
                 شماره همراه
               </Label>
-              <Input onBlur={numberHandler} id='AdminAddUserPhoneNumber2' type='text' style={{borderRadius:'4px', borderStyle:'solid'}}/>
+              <Input value={inputNumberValue} onBlur={numberValidator} onChange={numberHandler} id='AdminAddUserPhoneNumber2' type='text' style={{borderRadius:'4px', borderStyle:'solid'}}/>
               {
                 NumberErr ?
                   <small style={{color:"red"}} id='NumberErrTag'>
@@ -340,9 +370,15 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
                 <option value="0">انتخاب نقش</option>
                 {
                   Rolls.map((item, index) => {
-                    return (
-                      <option key={index} value={`${item.id}`}>{item.name}</option>
-                    )
+                    if (item.name === GetRole) {
+                      return (
+                        <option selected key={index} value={`${item.id}`}>{item.name}</option>
+                      )
+                    } else {
+                      return (
+                        <option key={index} value={`${item.id}`}>{item.name}</option>
+                      )
+                    }
                   })
                 }
                 
@@ -356,7 +392,7 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
                   null
               }
               <div className='mt-3' style={{marginRight:'-12px'}}>
-                <Input type='checkbox' style={{display:'inline-block', marginTop:'12px', color:'red'}} id='deActiveCheckbox'/>
+                <Input type='checkbox' style={{display:'inline-block', marginTop:'12px', color:'red'}} defaultChecked id='deActiveCheckbox'/>
                 <Label className='form-label mt-3 me-1 ' for='deActiveCheckbox' style={{ fontSize:"12px", display:'inline-block', color:'red'}}>
                   غیرفعال سازی کاربر
                 </Label>
@@ -365,10 +401,10 @@ const EditUser = ({ open, handleModal, users, number, AllRoles }) => {
           </div>
         </div>
         <div style={{textAlign:"left"}} className='mt-3'>
-          {/* <button onClick={(event) => { handleSubmit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline> */}
-          <button onClick={(event) => { alert(number) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
+          <button onClick={(event) => { handleSubmit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
             <span className='align-middle'>ویرایش کاربر</span>
           </button>
+
         </div>
 
 

@@ -15,12 +15,9 @@ import { CheckBox } from '@mui/icons-material'
 const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
   const dispatch = useDispatch()
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
-  const [showData, SetshowData] = useState([])
-  const [AllData, SetAllData] = useState([])
   const [accesses, SetAccesses] = useState([])
-
   const submit = (event) => {
-
+    if (Roles.name !== 'ادمین سیستم') {
       dispatch({type:"LOADINGEFFECT", value:true})
       axios.put(`${serverAddress}/accounts/role/${number}/`, 
       {
@@ -41,27 +38,10 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
           dispatch({type:"LOADINGEFFECT", value:false})
       })
       handleModal(event)
-  }
-
-  const [showThisData, SetThisData] = useState([])
-
-  useEffect(() => {
-    try {
-      SetAllData(AllRoles[1].access)
-      SetshowData(Roles.access)
-    } catch (error) {}
-  }, [Roles, AllRoles])
-
-  useEffect(() => {
-    const myData = []
-    for (let i = 0; i < AllData.length; i++) {
-      const userFound = showData.find(item => item.name === AllData[i].name)
-      if (!userFound) {
-        myData.push(AllData[i])
-      }
+    } else {
+      alert('no')
     }
-    SetThisData(myData)
-  }, [showData, AllData])
+  } 
 
   const addAccess = (item) => {
     const getAccess = accesses
@@ -79,6 +59,22 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
 
   }
 
+  useEffect(() => {
+    try {
+      const myAccess = []
+      for (let i = 0; i < Roles.access.length; i++) {
+        myAccess.push({
+          name:Roles.access[i].name
+        })
+      }
+      SetAccesses(myAccess)
+    } catch (error) {
+      
+    }
+
+  }, [, Roles])
+
+try {
   return (
     <Modal
       isOpen={open}
@@ -102,19 +98,36 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
           <div>
             <div className='row'>
               {
-                AllData.map((item, index) => {
-                    return (
-                      <div className='col-12' key={index}>
-                      <input type='checkbox' style={{width:"15px", height:"15px", marginTop:"0px"}} id={`AddRoleCheckbox${index}`} onChange={ () => { 
-                        if (document.getElementById(`AddRoleCheckbox${index}`).checked) {
-                          addAccess(item.name)
-                        } else {
-                          deleteAccess(item.name)
-                        }
-                      } }/>
-                      <label className='me-3'>{item.name}</label>
-                    </div>
-                    )
+                  AllRoles.find(item => item.name === 'ادمین سیستم').access.map((item, index) => {
+                    const check = Roles.access.find(roles => roles.name === item.name)
+                    if (check) {
+                      return (
+                        <div className='col-12' key={index}>
+                        <Input defaultChecked type='checkbox' style={{width:"15px", height:"15px", marginTop:"2px"}} id={`AddRoleCheckbox${index}`} onChange={ () => { 
+                          if (document.getElementById(`AddRoleCheckbox${index}`).checked) {
+                            addAccess(item.name)
+                          } else {
+                            deleteAccess(item.name)
+                          }
+                        } }/>
+                        <label className='me-1'>{item.name}</label>
+                      </div>
+                      )
+                    } else {
+                      return (
+                        <div className='col-12' key={index}>
+                        <Input type='checkbox' style={{width:"15px", height:"15px", marginTop:"2px"}} id={`AddRoleCheckbox${index}`} onChange={ () => { 
+                          if (document.getElementById(`AddRoleCheckbox${index}`).checked) {
+                            addAccess(item.name)
+                          } else {
+                            deleteAccess(item.name)
+                          }
+                        } }/>
+                        <label className='me-1'>{item.name}</label>
+                      </div>
+                      )
+                    }
+
                 })
               }
             </div>
@@ -130,6 +143,8 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
       </ModalBody>
     </Modal>
   )
+} catch (error) {}
+  
 }
 
 export default EditRoll

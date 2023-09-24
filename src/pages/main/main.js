@@ -54,7 +54,13 @@ const Main = () => {
                         Cookies.set('password', password)
                       }
                       Cookies.set('roll', response.data.role.role_id)
-                      window.location.assign('/researcher')
+                        if (Number(response.data.role.role_id) === 2 || Number(response.data.role.role_id) === 3) {
+                            window.location.assign('/researcher')
+                        } else if (Number(response.data.role.role_id) === 4) {
+                            window.location.assign('/tax')
+                        } else if (Number(response.data.role.role_id) === 5) {
+                            window.location.assign('/mining')
+                        }
                 } else {
                     SetLoading(false)
                     return toast.error('ورود ناموفق', {
@@ -87,7 +93,13 @@ const Main = () => {
             const decoded = jwt.decode(access)
             const currentTime = Date.now() / 1000
             if (decoded.exp > currentTime) {
-                window.location.assign('/researcher')
+                if (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) {
+                    window.location.assign('/researcher')
+                } else if (Number(Cookies.get('roll')) === 4) {
+                    window.location.assign('/tax')
+                } else if (Number(Cookies.get('roll')) === 5) {
+                    window.location.assign('/mining')
+                }
             } else {
                 Cookies.set('refresh', '')
                 Cookies.set('access', '')
