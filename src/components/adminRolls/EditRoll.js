@@ -34,7 +34,6 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
           window.location.assign('/admin')          
       })
       .catch((err) => {
-        console.log(err)
           dispatch({type:"LOADINGEFFECT", value:false})
       })
       handleModal(event)

@@ -50,8 +50,11 @@ const Main = () => {
                       Cookies.set('access', response.data.access, { expires: 1 })
                         
                       if (document.getElementById('remember_me').checked) {
-                        Cookies.set('username', username)
-                        Cookies.set('password', password)
+                        const oneYearLater = new Date()
+                        oneYearLater.setFullYear(oneYearLater.getFullYear() + 1)
+                        
+                        Cookies.set('username', username, { expires: oneYearLater })
+                        Cookies.set('password', password, { expires: oneYearLater })
                       }
                       Cookies.set('roll', response.data.role.role_id)
                         if (Number(response.data.role.role_id) === 2 || Number(response.data.role.role_id) === 3) {

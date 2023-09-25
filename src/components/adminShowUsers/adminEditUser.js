@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-
+import toast from 'react-hot-toast'
 const EditUser = ({ open, handleModal, users }) => {
   const dispatch = useDispatch()
 
@@ -213,14 +213,19 @@ const EditUser = ({ open, handleModal, users }) => {
                     // if (response.data.message === 'successfully create user') {
                     //   window.location.assign('/admin')
                     // }   
-                    window.location.assign('/admin')
+                    // window.location.assign('/admin')
 
                 })
                 .catch((err) => {
                     dispatch({type:"LOADINGEFFECT", value:false})
-                    return toast.error('عدم ارتباط با سرور', {
-                      position: 'bottom-left'
-                    })
+                    console.log(err)
+                    try {
+                      if (err.response.data.phone_number[0] === 'user with this phone number already exists.') {
+                        return toast.error('شماره موبایل تکراری است', {
+                          position: 'bottom-left'
+                        })
+                      }
+                    } catch (error) {}
                 })
               }
             }
