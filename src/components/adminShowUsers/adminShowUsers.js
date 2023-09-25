@@ -17,7 +17,6 @@ import { Card, CardHeader, CardTitle} from 'reactstrap'
 
 const DataTablesBasic = () => {
     const [users, setUsers] = useState([])
-    const [Rolls, SetRolls] = useState([])
     const [number, SetNumber] = useState(1)
     const dispatch = useDispatch()
 
@@ -72,7 +71,7 @@ const DataTablesBasic = () => {
            }}  size={25} style={{marginLeft:'8px', color:'rgb(160,160,160)', cursor:'pointer'}}/>
         )
       }
-  ]
+    ]
 
     useEffect(() => {
         let getUsers = []
@@ -94,7 +93,6 @@ const DataTablesBasic = () => {
                 })
                 .then((resp2) => {
                     if (resp2.data.length > 0) {
-                        SetRolls(resp2.data)
                         for (let i = 0; i < getUsers.length; i++) {
                           for (let j = 0; j < resp2.data.length; j++) {
                             if (String(getUsers[i].role) === String(resp2.data[j].id)) {
