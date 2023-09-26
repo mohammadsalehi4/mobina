@@ -146,20 +146,35 @@ const EcommerceDashboard = () => {
     const inputData=[]
     const outputData=[]
     for (let i=0; i<data.inputs.length; i++) {
-      TotalInput=TotalInput+((data.inputs[i].coin.value)/100000000)
-      inputData.push({
-        BTCAmount:((data.inputs[i].coin.value)/100000000),
-        RiskScore:"0%",
-        address:data.inputs[i].coin.address
-      })
+      if (data.inputs[i].coin.address !== null) {
+        inputData.push({
+          BTCAmount:((data.inputs[i].coin.value)/100000000),
+          RiskScore:"0%",
+          address:data.inputs[i].coin.address
+        })
+      } else {
+        inputData.push({
+          BTCAmount:((data.inputs[i].coin.value)/100000000),
+          RiskScore:"0%",
+          address:'null'
+        })
+      }
     }
     for (let i=0; i<data.outputs.length; i++) {
-      TotalOutput=TotalOutput+((data.outputs[i].value)/100000000)
-      outputData.push({
-        BTCAmount:((data.outputs[i].value)/100000000),
-        RiskScore:"0%",
-        address:data.outputs[i].address
-      })
+      if (data.outputs[i].address !== null) {
+        outputData.push({
+          BTCAmount:((data.outputs[i].value)/100000000),
+          RiskScore:"0%",
+          address:data.outputs[i].address
+        })
+      } else {
+        outputData.push({
+          BTCAmount:((data.outputs[i].value)/100000000),
+          RiskScore:"0%",
+          address:'null'
+        })
+      }
+
     }
     const TotalOutput1=TotalOutput*CurrencyPrice
     const TotalOutput2=TotalOutput1*USDPrice
@@ -313,18 +328,35 @@ const EcommerceDashboard = () => {
     const inputData=[]
     const outputData=[]
     for (let i=0; i<data.inputs.length; i++) {
-      inputData.push({
-        BTCAmount:((data.inputs[i].coin.value)/1),
-        RiskScore:"0%",
-        address:data.inputs[i].coin.address
-      })
+      if (data.inputs[i].coin.address !== null) {
+        inputData.push({
+          BTCAmount:((data.inputs[i].coin.value)/1),
+          RiskScore:"0%",
+          address:data.inputs[i].coin.address
+        })
+      } else {
+          inputData.push({
+          BTCAmount:((data.inputs[i].coin.value)/1),
+          RiskScore:"0%",
+          address:'null'
+        })
+      }
+
     }
     for (let i=0; i<data.outputs.length; i++) {
-      outputData.push({
-        BTCAmount:((data.outputs[i].value)/1),
-        RiskScore:"0%",
-        address:data.outputs[i].address
-      })
+      if (data.outputs[i].address !== null) {
+        outputData.push({
+          BTCAmount:((data.outputs[i].value)/1),
+          RiskScore:"0%",
+          address:data.outputs[i].address
+        })
+      } else {
+          outputData.push({
+          BTCAmount:((data.outputs[i].value)/1),
+          RiskScore:"0%",
+          address:'null'
+        })
+      }
     }
 
     const RiskScore='0%'
@@ -535,7 +567,13 @@ const EcommerceDashboard = () => {
       })
       .catch((err) => {
         SetLoading(false)
-        console.log(err)
+        try {
+          if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+        } catch (error) {}
       })
     }
   }, [])
