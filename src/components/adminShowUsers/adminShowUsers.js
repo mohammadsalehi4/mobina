@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 // ** Table Columns
-import { Fragment, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import ReactPaginate from 'react-paginate'
-import { ChevronDown, MoreVertical, Edit3, Trash } from 'react-feather'
+import { ChevronDown, Edit3 } from 'react-feather'
 import EditUser from './adminEditUser'
 
 // ** Third Party Components

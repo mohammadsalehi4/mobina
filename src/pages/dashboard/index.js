@@ -133,7 +133,7 @@ const EcommerceDashboard = () => {
   const BitcoinTransaction =(data) => {
     const CurrencyPrice=28000
     const USDPrice=490000
-
+    const fee=data.fee/100000000
     const address=data.hash
     const blockNumber=data.blockNumber
     const name='بیت کوین'
@@ -187,7 +187,8 @@ const EcommerceDashboard = () => {
       BTCAmount,
       inputData,
       outputData,
-      isUTXOBase
+      isUTXOBase,
+      fee
     })
   }
 
@@ -240,126 +241,302 @@ const EcommerceDashboard = () => {
     })
   }
 
+  const LitecoinAddress =(getData, address) => {
+    let data=[]
+    for (let i=0; i<getData.length; i++) {
+
+      let input=0
+      let output=0
+      let timeStamp
+      let from
+      let to
+      let gasUsed
+      let gasPrice
+      let value
+      let hash
+
+      for (let j=0; j<getData[i].inputs.length; j++) {
+        if (getData[i].inputs[j].coin.address===address) {
+          input=input+Number(getData[i].inputs[j].coin.value)
+        }
+      }
+      for (let j=0; j<getData[i].outputs.length; j++) {
+        if (getData[i].outputs[j].address===address) {
+          output=output+Number(getData[i].outputs[j].value)
+        }
+      }
+
+      if ((input-output) > 0) {
+        from=address
+        to=''
+      }  else {
+        to=address
+        from=''
+      }
+      value=Number(Math.abs(output-input))
+      timeStamp=getData[i].time
+      gasUsed=Number(getData[i].fee)
+      gasPrice=1
+      hash=getData[i].hash
+
+      data.push({
+        timeStamp,
+        from,
+        to,
+        gasUsed,
+        gasPrice,
+        value,
+        hash,
+        currencyType:"LTC",
+        Logo:"LTC.png",
+        image:"LTC.png",
+        Type:"coin"
+      })
+    }
+    return data
+  }
+
+  const LitecoinTransaction =(data) => {
+    const CurrencyPrice=28000
+    const USDPrice=490000
+
+    const address=data.hash
+    const blockNumber=data.blockNumber
+    const name='لایت کوین'
+    const image='LTC.png'
+    const BlockDate=data.time
+    const symbole="LTC"
+    const color='#345d9d'
+    const fee=data.fee
+    let TotalOutput=0
+    let TotalInput=0
+    const inputData=[]
+    const outputData=[]
+    for (let i=0; i<data.inputs.length; i++) {
+      inputData.push({
+        BTCAmount:((data.inputs[i].coin.value)/1),
+        RiskScore:"0%",
+        address:data.inputs[i].coin.address
+      })
+    }
+    for (let i=0; i<data.outputs.length; i++) {
+      outputData.push({
+        BTCAmount:((data.outputs[i].value)/1),
+        RiskScore:"0%",
+        address:data.outputs[i].address
+      })
+    }
+
+    const RiskScore='0%'
+    const BTCAmount=(Number(data.value)/1000000000000000000)
+    const isUTXOBase=true
+
+    return ({
+      address,
+      blockNumber,
+      name,
+      image,
+      BlockDate,
+      symbole,
+      color,
+      TotalOutput,
+      TotalInput,
+      RiskScore,
+      BTCAmount,
+      inputData,
+      outputData,
+      isUTXOBase,
+      fee
+    })
+  }
+
   useEffect(() => {
     if (hash !== undefined) {
       document.getElementById("transactionValue").value=hash
       SetLoading(true)
       SetAddress(hash)
-      if (hash.length >= 60) {
-        if (hash.startsWith("0x")) {
-          axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${hash}`,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get('access')}`
-            }
-          })
-          .then((response) => {
-            SetTrData(EthereumTransaction(response.data))
-            SetLoading(false)
-            SetMode(1)
-          })
-          .catch(err => {
-            SetLoading(false)
-            try {
-              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
-                window.location.assign('/')
-              }
-            } catch (error) {}
-          })
-        } else {
-          axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${hash}`,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get('access')}`
-            }
-          })
-          .then((response) => {
-            SetTrData(BitcoinTransaction(response.data))
-            SetMode(1)
-            SetLoading(false)
-          })
-          .catch(err => {
-            SetLoading(false)
-            try {
-              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
-                window.location.assign('/')
-              }
-            } catch (error) {}
-          })
+      axios.get(`${serverAddress}/explorer/search/?query=${hash}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
         }
-      } else {
-        if (hash.startsWith("0x")) {
-          axios.get(`${serverAddress}/explorer/address?address=${hash}&network=ETH&page_size=50&offset=1`,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get('access')}`
-            }
-          })
-          .then((response) => {
-            SetLoading(false)
-            SetAddress(document.getElementById("transactionValue").value)
-            SetCoinData({
-              name:'اتریوم',
-              symbole:"ETH",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#627eea",
-              image:"ethereum.png"
-            })
-            SetAdData(EthereumAddress(response.data, document.getElementById("transactionValue").value))
-            SetMode(2)
-          })
-          .catch((err) => {
-            SetLoading(false)
-            try {
-              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
-                window.location.assign('/')
+      })
+      .then((addressMode) => {
+        if (addressMode.data.query === 'transaction') {
+          if (addressMode.data.network === 'BTC') {
+            axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${hash}`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
               }
-            } catch (error) {}
-          })
-        } else {
-          axios.get(`${serverAddress}/explorer/address?address=${hash}&network=BTC&page_size=50&offset=0`,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get('access')}`
-            }
-          })
-          .then((response) => {
-  
-            SetLoading(false)
-            SetCoinData({
-              name:'بیت کوین',
-              symbole:"BTC",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#f8a23a",
-              image:"bitcoin.png"
             })
-            SetAdData(BitcoinAddress(response.data.result, hash))
-            SetMode(2)
-          })
-          .catch((err) => {
-            SetLoading(false)
-            try {
-              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
-                window.location.assign('/')
+            .then((response) => {
+              SetTrData(BitcoinTransaction(response.data))
+              SetMode(1)
+              SetLoading(false)
+            })
+            .catch(err => {
+              SetLoading(false)
+              try {
+                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+              } catch (error) {}
+            })
+          } else if (addressMode.data.network === 'ETH') {
+            axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${hash}`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
               }
-            } catch (error) {}
-          })
+            })
+            .then((response) => {
+              SetTrData(EthereumTransaction(response.data))
+              SetLoading(false)
+              SetMode(1)
+            })
+            .catch(err => {
+              SetLoading(false)
+              try {
+                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+              } catch (error) {}
+            })
+          } else if (addressMode.data.network === 'LTC') {
+            axios.get(`${serverAddress}/explorer/transaction/?network=LTC&txid=${hash}`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+              SetTrData(LitecoinTransaction(response.data))
+              SetMode(1)
+              SetLoading(false)
+            })
+            .catch(err => {
+              SetLoading(false)
+              try {
+                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+              } catch (error) {}
+            })
+          }
+        } else if (addressMode.data.query === 'address') {
+          if (addressMode.data.network === 'BTC') {
+            axios.get(`${serverAddress}/explorer/address?address=${hash}&network=BTC&page_size=50&offset=0`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+    
+              SetLoading(false)
+              SetCoinData({
+                name:'بیت کوین',
+                symbole:"BTC",
+                risk:"0%",
+                owner:"بدون اطلاعات",
+                ownerMode:"بدون اطلاعات",
+                website:"بدون اطلاعات",
+                color:"#f8a23a",
+                image:"bitcoin.png"
+              })
+              SetAdData(BitcoinAddress(response.data.result, hash))
+              SetMode(2)
+            })
+            .catch((err) => {
+              SetLoading(false)
+              try {
+                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+              } catch (error) {}
+            })
+          } else if (addressMode.data.network === 'ETH') {
+            axios.get(`${serverAddress}/explorer/address?address=${hash}&network=ETH&page_size=50&offset=1`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+              SetLoading(false)
+              SetAddress(document.getElementById("transactionValue").value)
+              SetCoinData({
+                name:'اتریوم',
+                symbole:"ETH",
+                risk:"0%",
+                owner:"بدون اطلاعات",
+                ownerMode:"بدون اطلاعات",
+                website:"بدون اطلاعات",
+                color:"#627eea",
+                image:"ethereum.png"
+              })
+              SetAdData(EthereumAddress(response.data, document.getElementById("transactionValue").value))
+              SetMode(2)
+            })
+            .catch((err) => {
+              SetLoading(false)
+              try {
+                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+              } catch (error) {}
+            })
+          } else if (addressMode.data.network === 'LTC') {
+            axios.get(`${serverAddress}/explorer/address?network=LTC&offset=0&address=${hash}&page_size=50`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+    
+              SetLoading(false)
+              SetCoinData({
+                name:'لایت کوین',
+                symbole:"LTC",
+                risk:"0%",
+                owner:"بدون اطلاعات",
+                ownerMode:"بدون اطلاعات",
+                website:"بدون اطلاعات",
+                color:"#345d9d",
+                image:"LTC.png"
+              })
+              SetAdData(LitecoinAddress(response.data.result, hash))
+              SetMode(2)
+            })
+            .catch((err) => {
+              SetLoading(false)
+              try {
+                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+              } catch (error) {}
+            })
+          }
         }
-      }
+      })
+      .catch((err) => {
+        SetLoading(false)
+        console.log(err)
+      })
     }
   }, [])
 

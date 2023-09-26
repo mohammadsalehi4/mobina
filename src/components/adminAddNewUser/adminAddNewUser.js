@@ -7,15 +7,13 @@
 import React, {useEffect, useState} from 'react'
 import {  Row, Col, Input, Label } from 'reactstrap'
 import { MainSiteGray, MainSiteOrange } from '../../../public/colors'
-import CreatableSelect from 'react-select/creatable'
 import { serverAddress } from '../../address'
-import { Alert, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle} from 'reactstrap'
+import { Alert} from 'reactstrap'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import toast from 'react-hot-toast'
 import './style.css'
-import { ChevronDown, MoreVertical, Edit, Trash } from 'react-feather'
 
 const AdminAddNewUser = () => {
   const dispatch = useDispatch()
@@ -24,7 +22,6 @@ const AdminAddNewUser = () => {
     const [inputLastValue, setInputLastValue] = useState('')
     const [selectedOption, setSelectedOption] = useState(null)
     const [inputUsernameValue, setInputUsernameValue] = useState('')
-    const [IsOpenOptionsMenu, setIsOpenOptionsMenu] = useState(false)
     
     //Errors
     const [NameErr, SetNameErr] = useState(false)
@@ -267,8 +264,8 @@ const AdminAddNewUser = () => {
       })
       .then((response) => {
           dispatch({type:"LOADINGEFFECT", value:false})
-          if (response.data.length > 0) {
-              SetRolls(response.data)
+          if (response.data.results.length > 0) {
+              SetRolls(response.data.results)
           }
       })
       .catch((err) => {

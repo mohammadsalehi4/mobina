@@ -132,8 +132,8 @@ const RollsTable = () => {
       })
       .then((response) => {
           dispatch({type:"LOADINGEFFECT", value:false})
-          if (response.data.length > 0) {
-              const array = response.data
+          if (response.data.results.length > 0) {
+              const array = response.data.results
               array.sort((a, b) => ((a['id'] > b['id']) ? 1 : ((b['id'] > a['id']) ? -1 : 0)))
               SetRolls(array)
           }
@@ -141,7 +141,7 @@ const RollsTable = () => {
       .catch((err) => {
           dispatch({type:"LOADINGEFFECT", value:false})
           try {
-            if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+            if (err.response.data.results.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
               Cookies.set('refresh', '')
               Cookies.set('access', '')
               window.location.assign('/')
