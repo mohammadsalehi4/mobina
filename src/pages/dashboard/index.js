@@ -24,10 +24,6 @@ import { useParams } from "react-router-dom"
 const EcommerceDashboard = () => {
   const { hash } = useParams()
 
-  function removeDuplicates(arr, prop) {
-    return arr.filter((obj, pos, self) => self.findIndex((testObj) => testObj[prop] === obj[prop]) === pos)
-  }
-
   const dispatch = useDispatch()
   const [mode, SetMode] = useState(0)
   const [trData, SetTrData] = useState({})
@@ -91,21 +87,23 @@ const EcommerceDashboard = () => {
     return data
   }
 
-  const EthereumAddress =(getData) => {
+  const EthereumAddress =(getData, add) => {
     let data=[]
     for (let i=0; i<getData.result.length; i++) {
-      data.push({
-        timeStamp:getData.result[i].timestamp,
-        from:getData.result[i].from.address,
-        to:getData.result[i].to.address,
-        gasUsed:getData.result[i].gasUsed,
-        gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
-        value:Number(getData.result[i].value)/1000000000000000000,
-        hash:getData.result[i].transactionHash,
-        currencyType:"ETH",
-        Logo:"ETH.png",
-        Type:"coin"
-      })
+      if (getData.result[i].to.address===add || getData.result[i].from.address===add) {
+        data.push({
+          timeStamp:getData.result[i].timestamp,
+          from:getData.result[i].from.address,
+          to:getData.result[i].to.address,
+          gasUsed:getData.result[i].gasUsed,
+          gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
+          value:Number(getData.result[i].value)/1000000000000000000,
+          hash:getData.result[i].transactionHash,
+          currencyType:"ETH",
+          Logo:"ETH.png",
+          Type:"coin"
+        })
+      }
     }
     for (let a=0; a<getData.result.length; a++) {
       if (getData.result[a].logs.length > 0) {
@@ -200,65 +198,31 @@ const EcommerceDashboard = () => {
     const address=data.hash
     const BlockDate=data.timestamp
     const name='اتریوم'
-    const USDPrice=490000
     const image='ETH.png'
     const color='#627eea'
     const RiskScore='0%'
-    let TotalOutput
-    let symbole
-    let TotalInput
-    let BTCAmount
-    let inputData
-    let outputData
+    let TotalOutput=0
+    let symbole="ETH"
+    let TotalInput=0
+    let fee = (Number(data.gasPrice))*(Number(data.gasUsed))/1000000000000000000
+    let transfers=[]
 
-    let check=false
+    transfers.push({
+      from:data.from.address,
+      to:data.to.address,
+      currencyType:'ETH',
+      amount:(Number(data.value)/1000000000000000000)
+    })
     for (let i=0; i<data.logs.length; i++) {
       if (data.logs[i].address.symbol) {
-        check=true
-        BTCAmount=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-        TotalOutput=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-        TotalInput=(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-        symbole=data.logs[i].address.symbol
-        inputData=[
-          {
-            address:data.from.address,
-            RiskScore:'0%',
-            BTCAmount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-          }
-        ]
-        outputData=[
-          {
-            address:data.to.address,
-            RiskScore:'0%',
-            BTCAmount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-          }
-        ]
+        transfers.push({
+          from:data.logs[i].from,
+          to:data.logs[i].to,
+          currencyType:data.logs[i].address.symbol,
+          amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+        })
       }
     }
-    if (!check) {
-      BTCAmount=(Number(data.value)/1000000000000000000)
-      TotalOutput=(Number(data.value)/1000000000000000000)
-      TotalInput=(Number(data.value)/1000000000000000000)
-      symbole="ETH"
-      inputData=[
-        {
-          address:data.from.address,
-          RiskScore:'0%',
-          BTCAmount:(Number(data.value)/1000000000000000000)
-        }
-      ]
-      outputData=[
-        {
-          address:data.to.address,
-          RiskScore:'0%',
-          BTCAmount:(Number(data.value)/1000000000000000000)
-        }
-      ]
-    }
-    const TotalInput1=TotalInput*CurrencyPrice
-    const TotalInput2=TotalInput1*USDPrice
-    const TotalOutput1=TotalOutput*CurrencyPrice
-    const TotalOutput2=TotalOutput1*USDPrice
 
     return ({
       address,
@@ -269,15 +233,10 @@ const EcommerceDashboard = () => {
       symbole,
       color,
       TotalOutput,
-      TotalOutput1,
-      TotalOutput2,
-      RiskScore,
-      BTCAmount,
-      inputData,
-      outputData,
       TotalInput,
-      TotalInput1,
-      TotalInput2
+      RiskScore,
+      transfers,
+      fee
     })
   }
 
@@ -353,7 +312,7 @@ const EcommerceDashboard = () => {
               color:"#627eea",
               image:"ethereum.png"
             })
-            SetAdData(EthereumAddress(response.data))
+            SetAdData(EthereumAddress(response.data, document.getElementById("transactionValue").value))
             SetMode(2)
           })
           .catch((err) => {
@@ -424,6 +383,7 @@ const EcommerceDashboard = () => {
   }, [mode])
 
   const myInputRef = useRef(null)
+
   const focusInput = () => {
     myInputRef.current.focus()
   }

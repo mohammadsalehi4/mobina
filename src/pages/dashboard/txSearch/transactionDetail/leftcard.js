@@ -51,9 +51,10 @@ const CardTransactions = (props) => {
 
         <div className='row mt-3'>
           <div className='col-6'>
-              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'شماره بلاک'}</p>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'کارمزد'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                {digitsEnToFa(props.data.blockNumber)}
+                {digitsEnToFa(`${String(parseFloat(Number(props.data.fee).toFixed(5)).toString())} `)}
+                <small>{props.data.symbole}</small>
                 <AlertOctagon size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
           </div>
@@ -71,62 +72,16 @@ const CardTransactions = (props) => {
           <div className='col-6'>
               <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'مجموع ورودی'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                {
-                  States.TransactionDetailCurrencyMode === 0 ?
-                  digitsEnToFa(formatNumber(Number(props.data.TotalInput), 5))
-                :
-                  null
-                }
-                {
-                    States.TransactionDetailCurrencyMode === 1 ?
-                    digitsEnToFa(formatNumber(Number(props.data.TotalInput1), 2))
-                  :
-                  null
-                }
-                {
-                  States.TransactionDetailCurrencyMode === 0 ?
-                    <small style={{fontSize:"13px"}}> {props.data.symbole}</small>  
-                  :
-                  null
-                }
-                {
-                  States.TransactionDetailCurrencyMode === 1 ?
-                    <small style={{fontSize:"13px"}}> USD</small>  
-                  :
-                  null
-                }
+                  {digitsEnToFa(formatNumber(Number(props.data.TotalInput), 5))}
+                  <small style={{fontSize:"13px"}}> USD</small>  
                 <ArrowDownCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
           </div>
           <div style={{ marginBottom:'-10px'}} className={` col-6`}>
             <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'مجموع خروجی'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-              {
-                  States.TransactionDetailCurrencyMode === 0 ?
-                
-                  digitsEnToFa(formatNumber(Number(props.data.TotalOutput), 5))
-                :
-                  null
-                }
-                {
-                    States.TransactionDetailCurrencyMode === 1 ?
-                  
-                    digitsEnToFa(formatNumber(Number(props.data.TotalOutput1), 2))
-                  :
-                  null
-                }
-                {
-                  States.TransactionDetailCurrencyMode === 0 ?
-                    <small style={{fontSize:"13px"}}> {props.data.symbole}</small>  
-                  :
-                  null
-                }
-                {
-                  States.TransactionDetailCurrencyMode === 1 ?
-                    <small style={{fontSize:"13px"}}> USD</small>  
-                  :
-                  null
-                }
+                  {digitsEnToFa(formatNumber(Number(props.data.TotalInput), 5))}
+                  <small style={{fontSize:"13px"}}> USD</small>  
                 <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
           </div>
@@ -140,7 +95,6 @@ const CardTransactions = (props) => {
         <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
           <CardTitle tag='h4' style={{width:"100%"}}>
             جزئیات
-            <Switch  options={[`${props.data.symbole}`, 'USD']} color={props.data.color} specialProps={'TransactionDetailCurrencyMode'}/>
           </CardTitle>
         </CardHeader>
         <CardBody>{renderTransactions()}</CardBody>

@@ -27,8 +27,8 @@ const TransactionDetail = (props) => {
                 <RightDataTableWithButtons data={props.data}/>
               </div>
               :
-              <div className='col-lg-6 mt-2'>
-                <DashboardAccWallet data={props.data.inputData[0]} symbole={props.data.symbole} mode={1} title={"آدرس های ورودی"}/>
+              <div className='col-lg-12 mt-2'>
+                <DashboardAccWallet data={props.data.transfers} mode={1} title={"آدرس های ورودی"}/>
               </div>
             }              
             {
@@ -37,9 +37,7 @@ const TransactionDetail = (props) => {
                   <LeftDataTableWithButtons data={props.data}/>
                 </div>
               :
-              <div className='col-lg-6 mt-2'>
-                <DashboardAccWallet data={props.data.outputData[0]} symbole={props.data.symbole} mode={2} title={"آدرس های خروجی"}/>
-              </div>
+                null
             }
         </div>
     </div>

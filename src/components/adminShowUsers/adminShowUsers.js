@@ -83,8 +83,8 @@ const DataTablesBasic = () => {
           }
         })
         .then((response) => {
-            if (response.data.length > 0) {
-                getUsers = response.data
+            if (response.data.results.length > 0) {
+                getUsers = response.data.results
                 axios.get(`${serverAddress}/accounts/role/`, 
                 {
                   headers: {
@@ -92,11 +92,11 @@ const DataTablesBasic = () => {
                   }
                 })
                 .then((resp2) => {
-                    if (resp2.data.length > 0) {
+                    if (resp2.data.results.length > 0) {
                         for (let i = 0; i < getUsers.length; i++) {
-                          for (let j = 0; j < resp2.data.length; j++) {
-                            if (String(getUsers[i].role) === String(resp2.data[j].id)) {
-                              getUsers[i].role = resp2.data[j].name
+                          for (let j = 0; j < resp2.data.results.length; j++) {
+                            if (String(getUsers[i].role) === String(resp2.data.results[j].id)) {
+                              getUsers[i].role = resp2.data.results[j].name
                             }
                           }
                         }
@@ -117,6 +117,7 @@ const DataTablesBasic = () => {
             }
         })
         .catch((err) => {
+
             dispatch({type:"LOADINGEFFECT", value:false})
             try {
               if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {

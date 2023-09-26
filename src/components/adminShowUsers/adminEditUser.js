@@ -12,7 +12,6 @@ import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
 const EditUser = ({ open, handleModal, users }) => {
   const dispatch = useDispatch()
-
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
 
   //Errors
@@ -36,6 +35,7 @@ const EditUser = ({ open, handleModal, users }) => {
   const [inputUsernameValue, setInputUsernameValue] = useState('')
   const [inputEmailValue, setInputEmailValue] = useState('')
   const [inputNumberValue, setInputNumberValue] = useState('')
+  const [inputIsActive, setInputIsActive] = useState(null)
 
   const [Rolls, SetRolls] = useState([])
 
@@ -139,8 +139,8 @@ const EditUser = ({ open, handleModal, users }) => {
     })
     .then((response) => {
         dispatch({type:"LOADINGEFFECT", value:false})
-        if (response.data.length > 0) {
-            SetRolls(response.data)
+        if (response.data.results.length > 0) {
+            SetRolls(response.data.results)
         }
     })
     .catch((err) => {
@@ -164,6 +164,7 @@ const EditUser = ({ open, handleModal, users }) => {
         setInputLastValue(users.last_name)
         setInputUsernameValue(users.username)
         setGetRole(users.role)
+        setInputIsActive(users.is_active)
         setSelectedOption((Rolls.find(item => item.name === users.role)).id)
       }
     } catch (error) {
@@ -196,10 +197,9 @@ const EditUser = ({ open, handleModal, users }) => {
                     last_name : document.getElementById('lastNameMulti2').value,
                     email : document.getElementById('AdminAddUserEmailInput2').value,
                     role_id: String(selectedOption),
-                    user_name : document.getElementById('AdminAddUserUsernameInput2').value,
+                    username : document.getElementById('AdminAddUserUsernameInput2').value,
                     phone_number : document.getElementById('AdminAddUserPhoneNumber2').value,
-                    // is_active:document.getElementById('deActiveCheckbox').checked
-                    is_active:true
+                    is_active:inputIsActive
                 },
                 {
                     headers: {
@@ -209,19 +209,25 @@ const EditUser = ({ open, handleModal, users }) => {
                 })
                 .then((response) => {
                     dispatch({type:"LOADINGEFFECT", value:false})
-                    console.log(response.data)
-                    // if (response.data.message === 'successfully create user') {
-                    //   window.location.assign('/admin')
-                    // }   
-                    // window.location.assign('/admin')
-
+                    if (response.data.message === 'success') {
+                      window.location.assign('/admin')
+                    } else {
+                      console.log(111)
+                    }
                 })
                 .catch((err) => {
                     dispatch({type:"LOADINGEFFECT", value:false})
-                    console.log(err)
+                    console.log(err.response.data)
                     try {
                       if (err.response.data.phone_number[0] === 'user with this phone number already exists.') {
                         return toast.error('شماره موبایل تکراری است', {
+                          position: 'bottom-left'
+                        })
+                      }
+                    } catch (error) {}
+                    try {
+                      if (err.response.data.username[0] === 'A user with that username already exists.') {
+                        return toast.error('نام کاربری انتخاب شده از قبل وجود دارد.', {
                           position: 'bottom-left'
                         })
                       }
@@ -397,7 +403,12 @@ const EditUser = ({ open, handleModal, users }) => {
                   null
               }
               <div className='mt-3' style={{marginRight:'-12px'}}>
-                <Input type='checkbox' style={{display:'inline-block', marginTop:'12px', color:'red'}} defaultChecked id='deActiveCheckbox'/>
+                {
+                  inputIsActive === true ? 
+                    <Input onClick={(event) => { setInputIsActive(!(event.target.checked)) }} type='checkbox' style={{display:'inline-block', marginTop:'12px', color:'red'}} id='deActiveCheckbox'/>
+                  :
+                    <Input onClick={(event) => { setInputIsActive(!(event.target.checked)) }} defaultChecked type='checkbox' style={{display:'inline-block', marginTop:'12px', color:'red'}} id='deActiveCheckbox'/>
+                }
                 <Label className='form-label mt-3 me-1 ' for='deActiveCheckbox' style={{ fontSize:"12px", display:'inline-block', color:'red'}}>
                   غیرفعال سازی کاربر
                 </Label>
