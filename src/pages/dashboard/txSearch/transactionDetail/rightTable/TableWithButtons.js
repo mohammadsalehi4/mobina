@@ -54,7 +54,7 @@ const RightDataTableWithButtons = (props) => {
       minWidth: '140px',
       maxWidth:"140px",
       selector: row => (
-        <div className='d-flex mt-2 align-items-end ' style={{cursor:"pointer"}}>
+        <div className='d-flex align-items-end ' style={{cursor:"pointer"}}>
           <div className='user-info text-truncate'
           onClick={() => { 
             document.getElementById('transactionValue').value = `${row.address.address}` 
