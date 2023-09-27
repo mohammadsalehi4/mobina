@@ -8,7 +8,7 @@ const NiceAddress = (props) => {
     const firstEightChars = text.substring(0, props.number)
     const lastEightChars = text.substring(text.length - props.number)
     
-    if (text !== 'coin base') {
+    if (props.text !== 'coin base') {
         return (
             <a id='niceAddress' href={`/researcher/${props.text}`} style={{textDecoration:'none', color:'rgb(111,107,125)'}}>
                 {`${firstEightChars} `}

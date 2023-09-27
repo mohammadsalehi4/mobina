@@ -60,7 +60,7 @@ const LeftDataTableWithButtons = (props) => {
             document.getElementById('MainSubmitBotton').click()
           }}
           >
-            <NiceAddress text={row.address.address} number={4}/>
+            <NiceAddress text={row.address} number={4}/>
           </div>
         </div>
       )

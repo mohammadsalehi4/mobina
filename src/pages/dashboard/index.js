@@ -45,14 +45,15 @@ const EcommerceDashboard = () => {
       let gasPrice
       let value
       let hash
-
       for (let j=0; j<getData[i].inputs.length; j++) {
-        if ((getData[i].inputs[j].coin.address.address).toLowerCase()===address.toLowerCase()) {
+
+        if ((getData[i].inputs[j].coin.address.address)===address) {
           input=input+Number(getData[i].inputs[j].coin.value)
         }
       }
       for (let j=0; j<getData[i].outputs.length; j++) {
-        if ((getData[i].outputs[j].address.address).toLowerCase()===address.toLowerCase()) {
+
+        if ((getData[i].outputs[j].address)===address) {
           output=output+Number(getData[i].outputs[j].value)
         }
       }
@@ -237,11 +238,11 @@ const EcommerceDashboard = () => {
     const inputData=[]
     const outputData=[]
     for (let i=0; i<data.inputs.length; i++) {
-      if (data.inputs[i].coin.address !== null) {
+      if (data.inputs[i].coin.address.address !== null) {
         inputData.push({
           BTCAmount:((data.inputs[i].coin.value)/100000000),
           RiskScore:"0%",
-          address:data.inputs[i].coin.address
+          address:data.inputs[i].coin.address.address
         })
       } else {
         inputData.push({
@@ -252,11 +253,11 @@ const EcommerceDashboard = () => {
       }
     }
     for (let i=0; i<data.outputs.length; i++) {
-      if (data.outputs[i].address !== null) {
+      if (data.outputs[i].address.address !== null) {
         outputData.push({
           BTCAmount:((data.outputs[i].value)/100000000),
           RiskScore:"0%",
-          address:data.outputs[i].address
+          address:data.outputs[i].address.address
         })
       } else {
         outputData.push({
@@ -408,47 +409,60 @@ const EcommerceDashboard = () => {
     const BlockDate=data.time
     const symbole="LTC"
     const color='#345d9d'
-    const fee=data.fee
+    const fee=Number(data.fee)
     let TotalOutput=0
     let TotalInput=0
     const inputData=[]
     const outputData=[]
-    for (let i=0; i<data.inputs.length; i++) {
-      if (data.inputs[i].coin.address !== null) {
-        inputData.push({
-          BTCAmount:((data.inputs[i].coin.value)/1),
-          RiskScore:"0%",
-          address:data.inputs[i].coin.address
-        })
-      } else {
-          inputData.push({
-          BTCAmount:((data.inputs[i].coin.value)/1),
-          RiskScore:"0%",
-          address:'coin base'
-        })
-      }
 
-    }
-    for (let i=0; i<data.outputs.length; i++) {
-      if (data.outputs[i].address !== null) {
-        outputData.push({
-          BTCAmount:((data.outputs[i].value)/1),
-          RiskScore:"0%",
-          address:data.outputs[i].address
-        })
-      } else {
-          outputData.push({
-          BTCAmount:((data.outputs[i].value)/1),
-          RiskScore:"0%",
-          address:'coin base'
-        })
+    for (let i=0; i<data.inputs.length; i++) {
+      try {
+        if (data.inputs[i].coin.address.address !== null) {
+          inputData.push({
+            BTCAmount:(Number(data.inputs[i].coin.value)/1),
+            RiskScore:"0%",
+            address:data.inputs[i].coin.address.address
+          })
+        } else {
+            inputData.push({
+            BTCAmount:((data.inputs[i].coin.value)/1),
+            RiskScore:"0%",
+            address:'coin base'
+          })
+        }
+      } catch (error) {
+        console.log(error)
       }
+    }
+
+    try {
+      for (let i=0; i<data.outputs.length; i++) {
+        if (data.outputs[i].address.address !== null) {
+          outputData.push({
+            BTCAmount:(Number(data.outputs[i].value)/1),
+            RiskScore:"0%",
+            address:data.outputs[i].address.address
+          })
+        } else {
+            outputData.push({
+            BTCAmount:((data.outputs[i].value)/1),
+            RiskScore:"0%",
+            address:'coin base'
+          })
+        }
+      }
+    } catch (error) {
+      console.log(error)
     }
 
     const RiskScore='0%'
-    const BTCAmount=(Number(data.value)/1000000000000000000)
+    const BTCAmount=1234
     const isUTXOBase=true
-
+    console.log(inputData)
+    console.log(outputData)
+    console.log('///////////////////////////////')
+    console.log('///////////////////////////////')
+    console.log('///////////////////////////////')
     return ({
       address,
       blockNumber,
@@ -575,6 +589,7 @@ const EcommerceDashboard = () => {
             })
             .catch((err) => {
               SetLoading(false)
+              console.log(err)
               try {
                 if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                   Cookies.set('refresh', '')

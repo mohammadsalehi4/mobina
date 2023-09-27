@@ -61,7 +61,7 @@ const RightDataTableWithButtons = (props) => {
             document.getElementById('MainSubmitBotton').click()
           }}
           >
-            <NiceAddress text={row.address.address} number={4}/>
+            <NiceAddress text={row.address} number={4}/>
           </div>
         </div>
       )
@@ -85,7 +85,8 @@ const RightDataTableWithButtons = (props) => {
       name: 'مالک',
       maxWidth: '90px',
       minWidth: '90px',
-      cell: () => {
+      cell: (row) => {
+
         return (
             // <button style={{background:"white", margin:"none", borderColor:"rgb(200,200,200)", color:"rgb(100,100,100)", borderStyle:"solid", borderRadius:"5px"}}>نمایش</button>
           <svg style={{cursor:"pointer"}} xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="-700 0 1200 500">
@@ -101,6 +102,7 @@ const RightDataTableWithButtons = (props) => {
   let filteredData = []
   useEffect(() => {
     filteredData = []
+    console.log(props.data.inputData)
     for (let i = 0; i < props.data.inputData.length; i++) {
       if (props.data.inputData[i]) {
         filteredData.push(props.data.inputData[i])
