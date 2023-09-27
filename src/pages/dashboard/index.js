@@ -91,10 +91,6 @@ const EcommerceDashboard = () => {
     let data=[]
     for (let i=0; i<getData.result.length; i++) {
       try {
-        console.log(i)
-        console.log(getData.result[i].to.address)
-        console.log((getData.result[i].to.address).toUpperCase())
-        console.log('/////////////////////////////////////////////////////////////')
         if ((getData.result[i].to.address).toUpperCase()===add.toUpperCase() || (getData.result[i].from.address).toUpperCase()===add.toUpperCase()) {
           data.push({
             timeStamp:getData.result[i].timestamp,
@@ -114,7 +110,7 @@ const EcommerceDashboard = () => {
           data.push({
             timeStamp:getData.result[i].timestamp,
             from:(getData.result[i].from.address),
-            to:'null',
+            to:'coin base',
             gasUsed:getData.result[i].gasUsed,
             gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
             value:(Number(getData.result[i].value))/1000000000000000000,
@@ -126,7 +122,7 @@ const EcommerceDashboard = () => {
         } else if ((getData.result[i].to.address)!==null && (getData.result[i].from.address)===null) {
           data.push({
             timeStamp:getData.result[i].timestamp,
-            from:'null',
+            from:'coin base',
             to:(getData.result[i].to.address),
             gasUsed:getData.result[i].gasUsed,
             gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
@@ -162,7 +158,6 @@ const EcommerceDashboard = () => {
         }
       }
     }
-    console.log(data)
     return data
   }
 
@@ -252,7 +247,7 @@ const EcommerceDashboard = () => {
         inputData.push({
           BTCAmount:((data.inputs[i].coin.value)/100000000),
           RiskScore:"0%",
-          address:'null'
+          address:'coin base'
         })
       }
     }
@@ -267,7 +262,7 @@ const EcommerceDashboard = () => {
         outputData.push({
           BTCAmount:((data.outputs[i].value)/100000000),
           RiskScore:"0%",
-          address:'null'
+          address:'coin base'
         })
       }
 
@@ -305,7 +300,6 @@ const EcommerceDashboard = () => {
 
   const EthereumTransaction =(data) => {
 
-    const CurrencyPrice=data.valueInDollar
     const blockNumber=data.blockNumber
     const address=data.hash
     const BlockDate=data.timestamp
@@ -319,12 +313,36 @@ const EcommerceDashboard = () => {
     let fee = (Number(data.gasPrice))*(Number(data.gasUsed))/1000000000000000000
     let transfers=[]
 
-    transfers.push({
-      from:data.from.address,
-      to:data.to.address,
-      currencyType:'ETH',
-      amount:(Number(data.value)/1000000000000000000)
-    })
+    if (data.from.address !== null && data.to.address !== null) {
+      transfers.push({
+        from:data.from.address,
+        to:data.to.address,
+        currencyType:'ETH',
+        amount:(Number(data.value)/1000000000000000000)
+      })
+    } else if (data.from.address === null && data.to.address !== null) {
+      transfers.push({
+        from:'coin base',
+        to:data.to.address,
+        currencyType:'ETH',
+        amount:(Number(data.value)/1000000000000000000)
+      })
+    } else if (data.from.address !== null && data.to.address === null) {
+      transfers.push({
+        from:data.from.address,
+        to:'coin base',
+        currencyType:'ETH',
+        amount:(Number(data.value)/1000000000000000000)
+      })
+    } else {
+      transfers.push({
+        from:'coin base',
+        to:'coin base',
+        currencyType:'ETH',
+        amount:(Number(data.value)/1000000000000000000)
+      })
+    }
+
     for (let i=0; i<data.logs.length; i++) {
       if (data.logs[i].address.symbol) {
         try {
@@ -335,8 +353,31 @@ const EcommerceDashboard = () => {
               currencyType:data.logs[i].address.symbol,
               amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
             })
+          } else if (data.logs[i].from === null && data.logs[i].to !== null) {
+            transfers.push({
+              from:'coin base',
+              to:data.logs[i].to,
+              currencyType:data.logs[i].address.symbol,
+              amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+            })
+          } else if (data.logs[i].from !== null && data.logs[i].to === null) {
+            transfers.push({
+              from:data.logs[i].from,
+              to:'coin base',
+              currencyType:data.logs[i].address.symbol,
+              amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+            })
+          } else {
+            transfers.push({
+              from:'coin base',
+              to:'coin base',
+              currencyType:data.logs[i].address.symbol,
+              amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+            })
           }
-        } catch (error) {}
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
 
@@ -383,7 +424,7 @@ const EcommerceDashboard = () => {
           inputData.push({
           BTCAmount:((data.inputs[i].coin.value)/1),
           RiskScore:"0%",
-          address:'null'
+          address:'coin base'
         })
       }
 
@@ -399,7 +440,7 @@ const EcommerceDashboard = () => {
           outputData.push({
           BTCAmount:((data.outputs[i].value)/1),
           RiskScore:"0%",
-          address:'null'
+          address:'coin base'
         })
       }
     }
