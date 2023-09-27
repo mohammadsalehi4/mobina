@@ -45,7 +45,7 @@ const CardTransactions = (props) => {
     const date = new Date(millis * 1000)
   
     const year = date.getFullYear()
-    const month = date.getMonth() + 1 
+    const month = date.getMonth() + 1
     const day = date.getDate()
     const hour = date.getHours()
     const minute = date.getMinutes()
@@ -63,8 +63,8 @@ const CardTransactions = (props) => {
 
   //tabdil zaman be taarikh
   useEffect(() => {
-    const first = `${getMyTime(FirstActivity).year}/${Number(getMyTime(FirstActivity).month) + 1}/${getMyTime(FirstActivity).day}`
-    const last = `${getMyTime(LastActivity).year}/${Number(getMyTime(LastActivity).month) + 1}/${getMyTime(LastActivity).day}`
+    const first = `${getMyTime(FirstActivity).year}/${Number(getMyTime(FirstActivity).month)}/${getMyTime(FirstActivity).day}`
+    const last = `${getMyTime(LastActivity).year}/${Number(getMyTime(LastActivity).month)}/${getMyTime(LastActivity).day}`
     if (States.jalaliCalendar) {
       SetFirstTime(moment(first, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))
       SetLastTime(moment(last, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))

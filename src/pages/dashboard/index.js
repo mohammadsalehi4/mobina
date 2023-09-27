@@ -47,12 +47,12 @@ const EcommerceDashboard = () => {
       let hash
 
       for (let j=0; j<getData[i].inputs.length; j++) {
-        if (getData[i].inputs[j].coin.address.address===address) {
+        if ((getData[i].inputs[j].coin.address.address).toLowerCase()===address.toLowerCase()) {
           input=input+Number(getData[i].inputs[j].coin.value)
         }
       }
       for (let j=0; j<getData[i].outputs.length; j++) {
-        if (getData[i].outputs[j].address.address===address) {
+        if ((getData[i].outputs[j].address.address).toLowerCase()===address.toLowerCase()) {
           output=output+Number(getData[i].outputs[j].value)
         }
       }
@@ -90,20 +90,55 @@ const EcommerceDashboard = () => {
   const EthereumAddress =(getData, add) => {
     let data=[]
     for (let i=0; i<getData.result.length; i++) {
-      if (getData.result[i].to.address===add || getData.result[i].from.address===add) {
-        data.push({
-          timeStamp:getData.result[i].timestamp,
-          from:getData.result[i].from.address,
-          to:getData.result[i].to.address,
-          gasUsed:getData.result[i].gasUsed,
-          gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
-          value:Number(getData.result[i].value)/1000000000000000000,
-          hash:getData.result[i].transactionHash,
-          currencyType:"ETH",
-          Logo:"ETH.png",
-          Type:"coin"
-        })
+      try {
+        console.log(i)
+        console.log(getData.result[i].to.address)
+        console.log((getData.result[i].to.address).toUpperCase())
+        console.log('/////////////////////////////////////////////////////////////')
+        if ((getData.result[i].to.address).toUpperCase()===add.toUpperCase() || (getData.result[i].from.address).toUpperCase()===add.toUpperCase()) {
+          data.push({
+            timeStamp:getData.result[i].timestamp,
+            from:getData.result[i].from.address,
+            to:getData.result[i].to.address,
+            gasUsed:getData.result[i].gasUsed,
+            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
+            value:(Number(getData.result[i].value))/1000000000000000000,
+            hash:getData.result[i].transactionHash,
+            currencyType:"ETH",
+            Logo:"ETH.png",
+            Type:"coin"
+          })
+        }
+      } catch (error) {
+        if ((getData.result[i].to.address)===null && (getData.result[i].from.address)!==null) {
+          data.push({
+            timeStamp:getData.result[i].timestamp,
+            from:(getData.result[i].from.address),
+            to:'null',
+            gasUsed:getData.result[i].gasUsed,
+            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
+            value:(Number(getData.result[i].value))/1000000000000000000,
+            hash:getData.result[i].transactionHash,
+            currencyType:"ETH",
+            Logo:"ETH.png",
+            Type:"coin"
+          })
+        } else if ((getData.result[i].to.address)!==null && (getData.result[i].from.address)===null) {
+          data.push({
+            timeStamp:getData.result[i].timestamp,
+            from:'null',
+            to:(getData.result[i].to.address),
+            gasUsed:getData.result[i].gasUsed,
+            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
+            value:(Number(getData.result[i].value))/1000000000000000000,
+            hash:getData.result[i].transactionHash,
+            currencyType:"ETH",
+            Logo:"ETH.png",
+            Type:"coin"
+          })
+        }
       }
+
     }
     for (let a=0; a<getData.result.length; a++) {
       if (getData.result[a].logs.length > 0) {
@@ -126,6 +161,67 @@ const EcommerceDashboard = () => {
           } catch (error) {}
         }
       }
+    }
+    console.log(data)
+    return data
+  }
+
+  const LitecoinAddress =(getData, address) => {
+    let data=[]
+    for (let i=0; i<getData.length; i++) {
+
+      let input=0
+      let output=0
+      let timeStamp
+      let from
+      let to
+      let gasUsed
+      let gasPrice
+      let value
+      let hash
+
+      for (let j=0; j<getData[i].inputs.length; j++) {
+        try {
+          if ((getData[i].inputs[j].coin.address).toLowerCase()===address.toLowerCase()) {
+            input=input+Number(getData[i].inputs[j].coin.value)
+          }
+        } catch (error) {}
+
+      }
+      for (let j=0; j<getData[i].outputs.length; j++) {
+        try {
+          if ((getData[i].outputs[j].address).toLowerCase()===address.toLowerCase()) {
+            output=output+Number(getData[i].outputs[j].value)
+          }
+        } catch (error) {}
+      }
+
+      if ((input-output) > 0) {
+        from=address
+        to=''
+      }  else {
+        to=address
+        from=''
+      }
+      value=Number(Math.abs(output-input))
+      timeStamp=getData[i].time
+      gasUsed=Number(getData[i].fee)
+      gasPrice=1
+      hash=getData[i].hash
+
+      data.push({
+        timeStamp,
+        from,
+        to,
+        gasUsed,
+        gasPrice,
+        value,
+        hash,
+        currencyType:"LTC",
+        Logo:"LTC.png",
+        image:"LTC.png",
+        Type:"coin"
+      })
     }
     return data
   }
@@ -231,12 +327,16 @@ const EcommerceDashboard = () => {
     })
     for (let i=0; i<data.logs.length; i++) {
       if (data.logs[i].address.symbol) {
-        transfers.push({
-          from:data.logs[i].from,
-          to:data.logs[i].to,
-          currencyType:data.logs[i].address.symbol,
-          amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
-        })
+        try {
+          if (data.logs[i].from !== null && data.logs[i].to !== null) {
+            transfers.push({
+              from:data.logs[i].from,
+              to:data.logs[i].to,
+              currencyType:data.logs[i].address.symbol,
+              amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+            })
+          }
+        } catch (error) {}
       }
     }
 
@@ -254,61 +354,6 @@ const EcommerceDashboard = () => {
       transfers,
       fee
     })
-  }
-
-  const LitecoinAddress =(getData, address) => {
-    let data=[]
-    for (let i=0; i<getData.length; i++) {
-
-      let input=0
-      let output=0
-      let timeStamp
-      let from
-      let to
-      let gasUsed
-      let gasPrice
-      let value
-      let hash
-
-      for (let j=0; j<getData[i].inputs.length; j++) {
-        if (getData[i].inputs[j].coin.address===address) {
-          input=input+Number(getData[i].inputs[j].coin.value)
-        }
-      }
-      for (let j=0; j<getData[i].outputs.length; j++) {
-        if (getData[i].outputs[j].address===address) {
-          output=output+Number(getData[i].outputs[j].value)
-        }
-      }
-
-      if ((input-output) > 0) {
-        from=address
-        to=''
-      }  else {
-        to=address
-        from=''
-      }
-      value=Number(Math.abs(output-input))
-      timeStamp=getData[i].time
-      gasUsed=Number(getData[i].fee)
-      gasPrice=1
-      hash=getData[i].hash
-
-      data.push({
-        timeStamp,
-        from,
-        to,
-        gasUsed,
-        gasPrice,
-        value,
-        hash,
-        currencyType:"LTC",
-        Logo:"LTC.png",
-        image:"LTC.png",
-        Type:"coin"
-      })
-    }
-    return data
   }
 
   const LitecoinTransaction =(data) => {
@@ -453,6 +498,7 @@ const EcommerceDashboard = () => {
             })
             .catch(err => {
               SetLoading(false)
+              console.log(err)
               try {
                 if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                   Cookies.set('refresh', '')
@@ -554,6 +600,7 @@ const EcommerceDashboard = () => {
             })
             .catch((err) => {
               SetLoading(false)
+              console.log(err)
               try {
                 if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                   Cookies.set('refresh', '')
@@ -567,11 +614,19 @@ const EcommerceDashboard = () => {
       })
       .catch((err) => {
         SetLoading(false)
+        console.log(err)
         try {
           if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
             Cookies.set('refresh', '')
             Cookies.set('access', '')
             window.location.assign('/')
+          }
+        } catch (error) {}
+        try {
+          if (err.response.data.detail === 'Not found.') {
+            return toast.error('آدرس مورد نظر یافت نشد.', {
+              position: 'bottom-left'
+            })
           }
         } catch (error) {}
       })
@@ -653,7 +708,7 @@ const EcommerceDashboard = () => {
                   <Label className='form-label' for='transactionValue'>
                     <p class="vazir" id='searchExample11'>
                       نمونه کاوش:
-                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0x4A137FD5e7a256eF08A7De531A17D0BE0cc7B6b6' }}>
+                      <span class="ms-1" onClick={() => { document.getElementById('transactionValue').value = '0xf9BCc0e756F0a8A6ac3EEc744e8BDB19a488E131' }}>
                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                         {' '}
                         <p> آدرس </p>
