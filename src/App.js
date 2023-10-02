@@ -58,6 +58,12 @@ const App = () => {
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                <Route path="/tracker/:hash"  element={<Tracker/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
                 <Route path="/folders"  element={<Folders/>}/>
               :
               null

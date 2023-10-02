@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react'
@@ -11,8 +12,21 @@ import Guide from './guide'
 import TopGuide from './topGuide'
 import { useSelector, useDispatch } from "react-redux"
 import Cookies from 'js-cookie'
+import { Search } from 'react-feather'
+import { Label, Input, InputGroup, InputGroupText } from 'reactstrap'
+import { useParams } from "react-router-dom"
+import { serverAddress } from '../../address'
+import axios from 'axios'
+import UILoader from '@components/ui-loader'
+import Spinner from '@components/spinner/Loading-spinner'
 
 const Tracker = () => {
+    const { hash } = useParams()
+
+    const [Data, SetData] = useState([])
+    const [IsShow, SetIsShow] = useState(false)
+    const [Loading, SetLoading] = useState(false)
+
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})
         dispatch({type:"SETWITCHPAGE", value:2})
@@ -41,19 +55,127 @@ const Tracker = () => {
         }
     }, [])
 
+    const onSubmit = (event) => {
+        const inputValue = (document.getElementById("trackerInput").value)
+        event.preventDefault()
+        window.location.assign(`/tracker/${inputValue}`)
+    }
+
+    const EtereumAddress = (array, hash) => {
+        const address = hash
+        const symbole = 'ETH'
+        const inputs = []
+        const outputs = []
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].from.address.toLowerCase() === hash.toLowerCase()) {
+                outputs.push({
+                    hash:array[i].blockHash,
+                    timeStamp:array[i].timestamp,
+                    inputs:[
+                        {
+                            address:array[i].from.address,
+                            amount:(Number(array[i].value) / 1000000000000000000),
+                            symbole:'ETH'
+                        }
+                    ],
+                    outputs:[
+                        {
+                            address:array[i].to.address,
+                            amount:(Number(array[i].value) / 1000000000000000000),
+                            symbole:'ETH'
+                        }
+                    ]
+                })
+            } else if (array[i].to.address.toLowerCase() === hash.toLowerCase()) {
+                inputs.push({
+                    hash:array[i].blockHash,
+                    timeStamp:array[i].timestamp,
+                    inputs:[
+                        {
+                            address:array[i].from.address,
+                            amount:Number(array[i].value) / 1000000000000000000,
+                            symbole:'ETH'
+                        }
+                    ],
+                    outputs:[
+                        {
+                            address:array[i].to.address,
+                            amount:Number(array[i].value) / 1000000000000000000,
+                            symbole:'ETH'
+                        }
+                    ]
+                })
+            }
+        }
+        return (
+            {
+                full:{
+                    address,
+                    symbole,
+                    inputs,
+                    outputs
+                },
+                custom:{
+                    address,
+                    symbole,
+                    inputs:[inputs[0]],
+                    outputs:[outputs[0]]
+                }
+            }
+        )
+    }
+
+    useEffect(() => {
+        if (hash !== undefined) {
+            SetLoading(true)
+            axios.get(`${serverAddress}/explorer/address?address=${hash}&network=ETH&page_size=50&offset=1`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+                 SetLoading(false)
+
+                dispatch({type:"GRAPHDATA", value:EtereumAddress(response.data.result, hash).full})
+                dispatch({type:"CUSTOMGRAPHDATA", value:EtereumAddress(response.data.result, hash).custom})
+                SetIsShow(true)
+            })
+            .catch((err) => {
+                 SetLoading(false)
+                 console.log(err)
+            })
+        }
+    }, [])
+
     return (
+        <UILoader blocking={Loading} loader={<Spinner />}>
+
         <div id='TransactionPage'>
-            <TopGuide/>
-            <GraphDraw address="address"/>
+            {/* <TopGuide/> */}
+            <InputGroup style={{width:'50%', marginRight:'25%', marginTop:'25px'}}>
+                  <Input type='text' id='trackerInput' class="form-control vazir m-0 bg-white" placeholder='آدرس کیف پول' style={{borderTopRightRadius:'8px', borderBottomRightRadius:'8px', marginTop:'0px', backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
+                  <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"0px", borderTopLeftRadius:"8px", borderBottomLeftRadius:"8px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"40px", cursor:"pointer"}}>
+                    <Search size={20} />
+                  </InputGroupText>
+                </InputGroup>
+                {
+                    IsShow ? 
+                        <GraphDraw/>
+                    :
+                        null
+                }
             {
                 States.showWalletData ? <CurrencyDetail/> : null
             }
             {
                 States.showTransactionData ? <TransactionDetail1/> : null
             }
-            <VisualizationDetail/>
+            {/* <VisualizationDetail/> */}
             <Guide/>
         </div>
+        </UILoader>
+
     )
 }
 export default Tracker

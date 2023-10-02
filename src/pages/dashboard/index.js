@@ -71,6 +71,26 @@ const EcommerceDashboard = () => {
       gasPrice=1
       hash=getData[i].hash
 
+      if (typeof (timeStamp) !== 'number') {
+        throw new Error('timestamp Error')
+      }
+
+      if (typeof (from) !== 'string' && from !== null) {
+        throw new Error('from Error')
+      }
+
+      if (typeof (to) !== 'string' && to !== null) {
+        throw new Error('to Error')
+      }
+
+      if (typeof (value) !== 'number') {
+        throw new Error('value Error')
+      }
+
+      if (typeof (hash) !== 'string') {
+        throw new Error('hash Error')
+      }
+
       data.push({
         timeStamp,
         from,
@@ -92,6 +112,7 @@ const EcommerceDashboard = () => {
     let data=[]
     for (let i=0; i<getData.result.length; i++) {
       try {
+
         if ((getData.result[i].to.address).toUpperCase()===add.toUpperCase() || (getData.result[i].from.address).toUpperCase()===add.toUpperCase()) {
           data.push({
             timeStamp:getData.result[i].timestamp,
@@ -142,6 +163,7 @@ const EcommerceDashboard = () => {
         for (let j=0; j<getData.result[a].logs.length; j++) {
           try {
             if (getData.result[a].logs[j].address.symbol) {
+
               data.push({
                 timeStamp:getData.result[a].timestamp,
                 from:getData.result[a].logs[j].from,
@@ -154,11 +176,48 @@ const EcommerceDashboard = () => {
                 Logo:`${getData.result[a].logs[j].address.symbol}.png`,
                 Type:"token"
               })
+
             }
           } catch (error) {}
         }
       }
     }
+
+    //check values
+    for (let i=0; i<data.length; i++) {
+      if (typeof (data[i].timeStamp) !== 'number') {
+        throw new Error('timestamp Error')
+      }
+
+      if (typeof (data[i].from) !== 'string' && from !== null) {
+        throw new Error('from Error')
+      }
+
+      if (typeof (data[i].to) !== 'string' && to !== null) {
+        throw new Error('to Error')
+      }
+
+      if (typeof (data[i].gasUsed) !== 'number') {
+        throw new Error('value Error')
+      }
+
+      if (typeof (data[i].gasPrice) !== 'number') {
+        throw new Error('value Error')
+      }
+
+      if (typeof (data[i].value) !== 'number') {
+        throw new Error('value Error')
+      }
+
+      if (typeof (data[i].hash) !== 'string') {
+        throw new Error('hash Error')
+      }
+
+      if (typeof (data[i].currencyType) !== 'string') {
+        throw new Error('hash Error')
+      }
+    }
+
     return data
   }
 
@@ -219,6 +278,37 @@ const EcommerceDashboard = () => {
         Type:"coin"
       })
     }
+
+    //check values
+    for (let i=0; i<data.length; i++) {
+      if (typeof (data[i].timeStamp) !== 'number') {
+        throw new Error('timestamp Error')
+      }
+
+      if (typeof (data[i].from) !== 'string' && from !== null) {
+        throw new Error('from Error')
+      }
+
+      if (typeof (data[i].to) !== 'string' && to !== null) {
+        throw new Error('to Error')
+      }
+
+      if (typeof (data[i].gasUsed) !== 'number') {
+        throw new Error('value Error')
+      }
+
+      if (typeof (data[i].gasPrice) !== 'number') {
+        throw new Error('value Error')
+      }
+
+      if (typeof (data[i].value) !== 'number') {
+        throw new Error('value Error')
+      }
+
+      if (typeof (data[i].hash) !== 'string') {
+        throw new Error('hash Error')
+      }
+    }
     return data
   }
 
@@ -275,6 +365,46 @@ const EcommerceDashboard = () => {
     const RiskScore='0%'
     const BTCAmount=(Number(data.value)/1000000000000000000)
     const isUTXOBase=true
+
+    if (typeof (blockNumber) !== 'number') {
+      throw new Error('blockNumber Error')
+    }
+
+    if (typeof (BlockDate) !== 'number') {
+      throw new Error('BlockDate Error')
+    }
+
+    if (typeof (TotalOutput) !== 'number') {
+      throw new Error('TotalOutput Error')
+    }
+
+    if (typeof (TotalInput) !== 'number') {
+      throw new Error('TotalInput Error')
+    }
+
+    if (typeof (fee) !== 'number') {
+      throw new Error('fee Error')
+    }
+
+    if (typeof (address) !== 'string' && address !== null) {
+      throw new Error('address Error')
+    }
+
+    if (typeof (BTCAmount) !== 'number') {
+      throw new Error('BTCAmount Error')
+    }
+
+    for (let i=0; i<inputData.length; i++) {
+      if (typeof (inputData[i].BTCAmount) !== 'number') {
+        throw new Error('InpDataBTCAmount Error')
+      }
+    }
+
+    for (let i=0; i<outputData.length; i++) {
+      if (typeof (outputData[i].BTCAmount) !== 'number') {
+        throw new Error('OutDataBTCAmount Error')
+      }
+    }
 
     return ({
       address,
@@ -382,6 +512,45 @@ const EcommerceDashboard = () => {
       }
     }
 
+    if (typeof (blockNumber) !== 'number') {
+      throw new Error('blockNumber Error')
+    }
+
+    if (typeof (BlockDate) !== 'number') {
+      throw new Error('BlockDate Error')
+    }
+
+    if (typeof (TotalOutput) !== 'number') {
+      throw new Error('TotalOutput Error')
+    }
+
+    if (typeof (fee) !== 'number') {
+      throw new Error('fee Error')
+    }
+
+    if (typeof (TotalInput) !== 'number') {
+      throw new Error('TotalInput Error')
+    }
+
+    if (typeof (address) !== 'string' && address !== null) {
+      throw new Error('address Error')
+    }
+
+
+    for (let i=0; i<transfers.length; i++) {
+      if (typeof (transfers[i].amount) !== 'number') {
+        throw new Error('InpDataamount Error')
+      }
+
+      if (typeof (transfers[i].from) !== 'string') {
+        throw new Error('InpDatafrom Error')
+      }
+
+      if (typeof (transfers[i].to) !== 'string') {
+        throw new Error('InpDatato Error')
+      }
+    }
+
     return ({
       address,
       blockNumber,
@@ -460,9 +629,47 @@ const EcommerceDashboard = () => {
     const isUTXOBase=true
     console.log(inputData)
     console.log(outputData)
-    console.log('///////////////////////////////')
-    console.log('///////////////////////////////')
-    console.log('///////////////////////////////')
+
+    if (typeof (blockNumber) !== 'number') {
+      throw new Error('blockNumber Error')
+    }
+
+    if (typeof (BlockDate) !== 'number') {
+      throw new Error('BlockDate Error')
+    }
+
+    if (typeof (TotalOutput) !== 'number') {
+      throw new Error('TotalOutput Error')
+    }
+
+    if (typeof (fee) !== 'number') {
+      throw new Error('fee Error')
+    }
+
+    if (typeof (TotalInput) !== 'number') {
+      throw new Error('TotalInput Error')
+    }
+
+    if (typeof (address) !== 'string' && address !== null) {
+      throw new Error('address Error')
+    }
+
+    if (typeof (BTCAmount) !== 'number') {
+      throw new Error('BTCAmount Error')
+    }
+
+    for (let i=0; i<inputData.length; i++) {
+      if (typeof (inputData[i].BTCAmount) !== 'number') {
+        throw new Error('InpDataBTCAmount Error')
+      }
+    }
+
+    for (let i=0; i<outputData.length; i++) {
+      if (typeof (outputData[i].BTCAmount) !== 'number') {
+        throw new Error('OutDataBTCAmount Error')
+      }
+    }
+
     return ({
       address,
       blockNumber,
@@ -503,9 +710,17 @@ const EcommerceDashboard = () => {
               }
             })
             .then((response) => {
-              SetTrData(BitcoinTransaction(response.data))
-              SetMode(1)
-              SetLoading(false)
+              try {
+                SetTrData(BitcoinTransaction(response.data))
+                SetMode(1)
+                SetLoading(false)
+              } catch (error) {
+                console.log(error)
+                return toast.error('خطا در دریافت اطلاعات از سرور', {
+                  position: 'bottom-left'
+                })
+              }
+
             })
             .catch(err => {
               SetLoading(false)
@@ -525,9 +740,16 @@ const EcommerceDashboard = () => {
               }
             })
             .then((response) => {
-              SetTrData(EthereumTransaction(response.data))
               SetLoading(false)
-              SetMode(1)
+              try {
+                SetTrData(EthereumTransaction(response.data))
+                SetMode(1)
+              } catch (error) {
+                console.log(error)
+                return toast.error('خطا در دریافت اطلاعات از سرور', {
+                  position: 'bottom-left'
+                })
+              }
             })
             .catch(err => {
               SetLoading(false)
@@ -547,9 +769,16 @@ const EcommerceDashboard = () => {
               }
             })
             .then((response) => {
-              SetTrData(LitecoinTransaction(response.data))
-              SetMode(1)
               SetLoading(false)
+              try {
+                SetTrData(LitecoinTransaction(response.data))
+                SetMode(1)
+              } catch (error) {
+                console.log(error)
+                return toast.error('خطا در دریافت اطلاعات از سرور', {
+                  position: 'bottom-left'
+                })
+              }
             })
             .catch(err => {
               SetLoading(false)
@@ -572,20 +801,27 @@ const EcommerceDashboard = () => {
               }
             })
             .then((response) => {
-    
-              SetLoading(false)
-              SetCoinData({
-                name:'بیت کوین',
-                symbole:"BTC",
-                risk:"0%",
-                owner:"بدون اطلاعات",
-                ownerMode:"بدون اطلاعات",
-                website:"بدون اطلاعات",
-                color:"#f8a23a",
-                image:"bitcoin.png"
-              })
-              SetAdData(BitcoinAddress(response.data.result, hash))
-              SetMode(2)
+              try {
+                SetCoinData({
+                  name:'بیت کوین',
+                  symbole:"BTC",
+                  risk:"0%",
+                  owner:"بدون اطلاعات",
+                  ownerMode:"بدون اطلاعات",
+                  website:"بدون اطلاعات",
+                  color:"#f8a23a",
+                  image:"bitcoin.png"
+                })
+                SetAdData(BitcoinAddress(response.data.result, hash))
+                SetMode(2)
+                SetLoading(false)
+              } catch (error) {
+                console.log(error)
+                SetLoading(false)
+                return toast.error('خطا در دریافت اطلاعات از سرور', {
+                  position: 'bottom-left'
+                })
+              }
             })
             .catch((err) => {
               SetLoading(false)
@@ -607,19 +843,27 @@ const EcommerceDashboard = () => {
             })
             .then((response) => {
               SetLoading(false)
-              SetAddress(document.getElementById("transactionValue").value)
-              SetCoinData({
-                name:'اتریوم',
-                symbole:"ETH",
-                risk:"0%",
-                owner:"بدون اطلاعات",
-                ownerMode:"بدون اطلاعات",
-                website:"بدون اطلاعات",
-                color:"#627eea",
-                image:"ethereum.png"
-              })
-              SetAdData(EthereumAddress(response.data, document.getElementById("transactionValue").value))
-              SetMode(2)
+              try {
+                SetAddress(document.getElementById("transactionValue").value)
+                SetCoinData({
+                  name:'اتریوم',
+                  symbole:"ETH",
+                  risk:"0%",
+                  owner:"بدون اطلاعات",
+                  ownerMode:"بدون اطلاعات",
+                  website:"بدون اطلاعات",
+                  color:"#627eea",
+                  image:"ethereum.png"
+                })
+                SetAdData(EthereumAddress(response.data, document.getElementById("transactionValue").value))
+                SetMode(2)
+              } catch (error) {
+                console.log(error)
+                SetLoading(false)
+                return toast.error('خطا در دریافت اطلاعات از سرور', {
+                  position: 'bottom-left'
+                })
+              }
             })
             .catch((err) => {
               SetLoading(false)
@@ -639,20 +883,27 @@ const EcommerceDashboard = () => {
               }
             })
             .then((response) => {
-    
               SetLoading(false)
-              SetCoinData({
-                name:'لایت کوین',
-                symbole:"LTC",
-                risk:"0%",
-                owner:"بدون اطلاعات",
-                ownerMode:"بدون اطلاعات",
-                website:"بدون اطلاعات",
-                color:"#345d9d",
-                image:"LTC.png"
-              })
-              SetAdData(LitecoinAddress(response.data.result, hash))
-              SetMode(2)
+              try {
+                SetCoinData({
+                  name:'لایت کوین',
+                  symbole:"LTC",
+                  risk:"0%",
+                  owner:"بدون اطلاعات",
+                  ownerMode:"بدون اطلاعات",
+                  website:"بدون اطلاعات",
+                  color:"#345d9d",
+                  image:"LTC.png"
+                })
+                SetAdData(LitecoinAddress(response.data.result, hash))
+                SetMode(2)
+              } catch (error) {
+                console.log(error)
+                SetLoading(false)
+                return toast.error('خطا در دریافت اطلاعات از سرور', {
+                  position: 'bottom-left'
+                })
+              }
             })
             .catch((err) => {
               SetLoading(false)

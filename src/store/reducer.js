@@ -38,11 +38,28 @@ const initialState = {
 
     //Loading effect
     LoadingOn:false,
-    LoadingOn2:false
-    
+    LoadingOn2:false,
+
+    //Graph Data
+    GraphData:[],
+    CustomGraphData:[]
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'CUSTOMGRAPHDATA') {
+        return {
+            ...state,
+            CustomGraphData:action.value
+        }
+    }
+
+    if (action.type === 'GRAPHDATA') {
+        return {
+            ...state,
+            GraphData:action.value
+        }
+    }
 
     if (action.type === 'LOADINGEFFECT2') {
         return {
