@@ -6,6 +6,9 @@
 /* eslint-disable semi */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-duplicate-imports
+
+//FuckingGraph1
+
 import React, { useRef, useEffect, useState } from "react"
 import { DataSet, Network } from 'vis'
 import { useSelector, useDispatch } from "react-redux"
@@ -41,7 +44,6 @@ const GraphDraw = () => {
 
   //set Default full data
   const [GraphData, SetGraphData] = useState([])
-  const [EdgesData, SetEdgesData] = useState([])
   useEffect(() => {
     if (States.GraphData.length > 0) {
       let AllNodes = []
@@ -147,6 +149,8 @@ const GraphDraw = () => {
   }, [States.GraphData])
 
   useEffect(() => {
+
+    //Nodes
     const nodes = new DataSet();
     for (let i = 0; i < GraphData.length; i++) {
       var number = 0
@@ -178,7 +182,7 @@ const GraphDraw = () => {
           const newEdge = {
             from:GraphData.find(item => item.address === GraphData[i].from[j].address).id,
             to:GraphData[i].id,
-            label:`${String(GraphData[i].from[j].value)} ${GraphData[i].from[j].symbole}`
+            label:`\u200E${String(GraphData[i].from[j].value)} ${GraphData[i].from[j].symbole}`
           }
           edges.add(newEdge)
         }
@@ -186,7 +190,7 @@ const GraphDraw = () => {
           const newEdge = {
             from:GraphData[i].id,
             to:GraphData.find(item => item.address === GraphData[i].to[j].address).id,
-            label:`${String(GraphData[i].to[j].value)} ${GraphData[i].to[j].symbole}`
+            label:`\u200E${String(GraphData[i].to[j].value)} ${GraphData[i].to[j].symbole}`
           }
           edges.add(newEdge)
         }
@@ -307,7 +311,7 @@ const GraphDraw = () => {
             shape:'circularImage'
           }
         }
-      }
+    }
 
       const network = new Network(networkRef.current, data, options)
 

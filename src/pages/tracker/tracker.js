@@ -70,20 +70,29 @@ const Tracker = () => {
             if (array[i].from.address.toLowerCase() === hash.toLowerCase()) {
                 outputs.push({
                     hash:array[i].blockHash,
-                    value:Number(array[i].value),
-                    timeStamp:array[i].timestamp
+                    value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
+                    timeStamp:array[i].timestamp,
+                    symbole:'ETH'
                 })
             } 
             if (array[i].to.address.toLowerCase() === hash.toLowerCase()) {
                 inputs.push({
                     hash:array[i].blockHash,
-                    value:Number(array[i].value),
-                    timeStamp:array[i].timestamp
+                    value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
+                    timeStamp:array[i].timestamp,
+                    symbole:'ETH'
                 })
             }
         }
+
         inputs = [inputs[0]]
         outputs = [outputs[0]]
+        console.log({
+            inputs,
+            outputs,
+            address,
+            symbole
+        })
         return (
             {
                 inputs,
@@ -92,6 +101,7 @@ const Tracker = () => {
                 symbole
             }
         )
+
     }
 
     useEffect(() => {
@@ -129,13 +139,12 @@ const Tracker = () => {
                         <Search size={20} />
                     </InputGroupText>
                     </InputGroup>
-                    {/* {
+                    {
                         IsShow ? 
                             <GraphDraw/>
                         :
                             null
-                    } */}
-                            <GraphDraw/>
+                    }
 
                 {
                     States.showWalletData ? <CurrencyDetail/> : null
