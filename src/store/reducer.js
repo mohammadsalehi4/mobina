@@ -49,14 +49,16 @@ const initialState = {
                 {
                     hash:"inp1",
                     timeStamp:1223,
-                    value:1200
+                    value:1200,
+                    symbole:'ETH'
                 }
             ],
             outputs:[
                 {
                     hash:"out1",
                     timeStamp:3441,
-                    value:2200
+                    value:2200,
+                    symbole:'ETH'
                 }
             ]
         },
@@ -67,19 +69,22 @@ const initialState = {
                 {
                     hash:"inp2",
                     timeStamp:1223,
-                    value:1200
+                    value:1200,
+                    symbole:'ETH'
                 }
             ],
             outputs:[
                 {
                     hash:"inp1",
                     timeStamp:3441,
-                    value:2200
+                    value:2200,
+                    symbole:'ETH'
                 },
                 {
                     hash:"out2",
                     timeStamp:3441,
-                    value:2200
+                    value:2200,
+                    symbole:'ETH'
                 }
             ]
         },
@@ -90,14 +95,67 @@ const initialState = {
                 {
                     hash:"inp3",
                     timeStamp:1223,
-                    value:1200
+                    value:1200,
+                    symbole:'ETH'
                 }
             ],
             outputs:[
                 {
                     hash:"out3",
                     timeStamp:3441,
-                    value:2200
+                    value:2200,
+                    symbole:'ETH'
+                },
+                {
+                    hash:"out5",
+                    timeStamp:3441,
+                    value:2200,
+                    symbole:'ETH'
+                }
+            ]
+        },
+        {
+            address:"kuft4",
+            symbole:"eth",
+            inputs:[
+                {
+                    hash:"out5",
+                    timeStamp:1223,
+                    value:1200,
+                    symbole:'ETH'
+                },
+                {
+                    hash:"out2",
+                    timeStamp:1223,
+                    value:1200
+                }
+            ],
+            outputs:[
+                {
+                    hash:"out4",
+                    timeStamp:3441,
+                    value:2200,
+                    symbole:'ETH'
+                }
+            ]
+        },
+        {
+            address:"kuft5",
+            symbole:"eth",
+            inputs:[
+                {
+                    hash:"out3",
+                    timeStamp:1223,
+                    value:1200,
+                    symbole:'ETH'
+                }
+            ],
+            outputs:[
+                {
+                    hash:"inp1",
+                    timeStamp:3441,
+                    value:2200,
+                    symbole:'ETH'
                 }
             ]
         }

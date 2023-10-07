@@ -48,45 +48,90 @@ const GraphDraw = () => {
       for (let i = 0; i < States.GraphData.length; i++) {
         const myFrom = []
         const myTo = []
+        let DefaultX = null
+        let myData = {}
         for (let j = 0; j < States.GraphData[i].inputs.length; j++) {
           myFrom.push(States.GraphData[i].inputs[j].hash)
+          if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) !== undefined) {
+            DefaultX = AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash).x - 1
+          }
         }
         for (let j = 0; j < States.GraphData[i].outputs.length; j++) {
           myTo.push(States.GraphData[i].outputs[j].hash)
+          if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) !== undefined) {
+            DefaultX = AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash).x + 1
+          }
         }
 
-        AllNodes.push({
-          id: (AllNodes.length + 1),
-          address:States.GraphData[i].address,
-          from:myFrom,
-          to:myTo,
-          symbole:'ETH',
-          group:'main',
-          mode:'main',
-          x: i * 2
-        })  
+        if (DefaultX !== null) {
+          AllNodes.push({
+            id: (AllNodes.length + 1),
+            address:States.GraphData[i].address,
+            from:myFrom,
+            to:myTo,
+            symbole:'ETH',
+            group:'main',
+            mode:'main',
+            x: DefaultX
+          }) 
+          myData = {
+            id: (AllNodes.length + 1),
+            address:States.GraphData[i].address,
+            from:myFrom,
+            to:myTo,
+            symbole:'ETH',
+            group:'main',
+            mode:'main',
+            x: DefaultX
+          }
+        } else {
+          AllNodes.push({
+            id: (AllNodes.length + 1),
+            address:States.GraphData[i].address,
+            from:myFrom,
+            to:myTo,
+            symbole:'ETH',
+            group:'main',
+            mode:'main',
+            x: i * 2
+          }) 
+          myData = {
+            id: (AllNodes.length + 1),
+            address:States.GraphData[i].address,
+            from:myFrom,
+            to:myTo,
+            symbole:'ETH',
+            group:'main',
+            mode:'main',
+            x: i * 2
+          }
+        }
 
         for (let j = 0; j < States.GraphData[i].inputs.length; j++) {
-          AllNodes.push({
-            address:States.GraphData[i].inputs[j].hash,
-            id: (AllNodes.length + 1),
-            value:States.GraphData[i].inputs[j].value,
-            mode:'in',
-            symbole:'ETH',
-            group:'mid',
-            x: (i * 2) + 1
-          })
+          if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) === undefined) {
+            AllNodes.push({
+              address:States.GraphData[i].inputs[j].hash,
+              id: (AllNodes.length + 1),
+              value:States.GraphData[i].inputs[j].value,
+              mode:'in',
+              symbole:'ETH',
+              group:'mid',
+              x: myData.x + 1
+            })
+          }
         }
         for (let j = 0; j < States.GraphData[i].outputs.length; j++) {
-          AllNodes.push({
-            address:States.GraphData[i].outputs[j].hash,
-            id: (AllNodes.length + 1),
-            value:States.GraphData[i].outputs[j].value,
-            mode:'out',
-            symbole:'ETH',
-            group:'mid',
-            x: (i * 2) - 1
-          })
+          if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) === undefined) {
+            AllNodes.push({
+              address:States.GraphData[i].outputs[j].hash,
+              id: (AllNodes.length + 1),
+              value:States.GraphData[i].outputs[j].value,
+              mode:'out',
+              symbole:'ETH',
+              group:'mid',
+              x: myData.x - 1
+            })
+          }
         }
       }
       SetGraphData(AllNodes)
@@ -118,7 +163,6 @@ const GraphDraw = () => {
     }
 
     //edges
-    console.log(GraphData)
     const edges = new DataSet([])
     for (let i = 0; i < GraphData.length; i++) {
       if (GraphData[i].mode === 'main') {
