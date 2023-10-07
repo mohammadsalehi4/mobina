@@ -64,63 +64,32 @@ const Tracker = () => {
     const EtereumAddress = (array, hash) => {
         const address = hash
         const symbole = 'ETH'
-        const inputs = []
-        const outputs = []
+        let inputs = []
+        let outputs = []
         for (let i = 0; i < array.length; i++) {
             if (array[i].from.address.toLowerCase() === hash.toLowerCase()) {
                 outputs.push({
                     hash:array[i].blockHash,
-                    timeStamp:array[i].timestamp,
-                    inputs:[
-                        {
-                            address:array[i].from.address,
-                            amount:(Number(array[i].value) / 1000000000000000000),
-                            symbole:'ETH'
-                        }
-                    ],
-                    outputs:[
-                        {
-                            address:array[i].to.address,
-                            amount:(Number(array[i].value) / 1000000000000000000),
-                            symbole:'ETH'
-                        }
-                    ]
+                    value:Number(array[i].value),
+                    timeStamp:array[i].timestamp
                 })
-            } else if (array[i].to.address.toLowerCase() === hash.toLowerCase()) {
+            } 
+            if (array[i].to.address.toLowerCase() === hash.toLowerCase()) {
                 inputs.push({
                     hash:array[i].blockHash,
-                    timeStamp:array[i].timestamp,
-                    inputs:[
-                        {
-                            address:array[i].from.address,
-                            amount:Number(array[i].value) / 1000000000000000000,
-                            symbole:'ETH'
-                        }
-                    ],
-                    outputs:[
-                        {
-                            address:array[i].to.address,
-                            amount:Number(array[i].value) / 1000000000000000000,
-                            symbole:'ETH'
-                        }
-                    ]
+                    value:Number(array[i].value),
+                    timeStamp:array[i].timestamp
                 })
             }
         }
+        inputs = [inputs[0]]
+        outputs = [outputs[0]]
         return (
             {
-                full:{
-                    address,
-                    symbole,
-                    inputs,
-                    outputs
-                },
-                custom:{
-                    address,
-                    symbole,
-                    inputs:[inputs[0]],
-                    outputs:[outputs[0]]
-                }
+                inputs,
+                outputs,
+                address,
+                symbole
             }
         )
     }
@@ -135,10 +104,8 @@ const Tracker = () => {
               }
             })
             .then((response) => {
-                 SetLoading(false)
-
-                dispatch({type:"GRAPHDATA", value:EtereumAddress(response.data.result, hash).full})
-                dispatch({type:"CUSTOMGRAPHDATA", value:EtereumAddress(response.data.result, hash).custom})
+                SetLoading(false)
+                dispatch({type:"GRAPHDATA", value:[EtereumAddress(response.data.result, hash)]})
                 SetIsShow(true)
             })
             .catch((err) => {
@@ -148,32 +115,37 @@ const Tracker = () => {
         }
     }, [])
 
+    useEffect(() => {
+        console.log(States.GraphData)
+    }, [States.GraphData])
+
     return (
         <UILoader blocking={Loading} loader={<Spinner />}>
+            <div id='TransactionPage'>
+                {/* <TopGuide/> */}
+                <InputGroup style={{width:'50%', marginRight:'25%', marginTop:'25px'}}>
+                    <Input defaultValue={'0x775f3Bc4a2fF115a5cb5a5Eef93E4aB1D3A91f93'} type='text' id='trackerInput' class="form-control vazir m-0 bg-white" placeholder='آدرس کیف پول' style={{borderTopRightRadius:'8px', borderBottomRightRadius:'8px', marginTop:'0px', backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
+                    <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"0px", borderTopLeftRadius:"8px", borderBottomLeftRadius:"8px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"40px", cursor:"pointer"}}>
+                        <Search size={20} />
+                    </InputGroupText>
+                    </InputGroup>
+                    {/* {
+                        IsShow ? 
+                            <GraphDraw/>
+                        :
+                            null
+                    } */}
+                            <GraphDraw/>
 
-        <div id='TransactionPage'>
-            {/* <TopGuide/> */}
-            <InputGroup style={{width:'50%', marginRight:'25%', marginTop:'25px'}}>
-                  <Input type='text' id='trackerInput' class="form-control vazir m-0 bg-white" placeholder='آدرس کیف پول' style={{borderTopRightRadius:'8px', borderBottomRightRadius:'8px', marginTop:'0px', backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
-                  <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"0px", borderTopLeftRadius:"8px", borderBottomLeftRadius:"8px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"40px", cursor:"pointer"}}>
-                    <Search size={20} />
-                  </InputGroupText>
-                </InputGroup>
                 {
-                    IsShow ? 
-                        <GraphDraw/>
-                    :
-                        null
+                    States.showWalletData ? <CurrencyDetail/> : null
                 }
-            {
-                States.showWalletData ? <CurrencyDetail/> : null
-            }
-            {
-                States.showTransactionData ? <TransactionDetail1/> : null
-            }
-            {/* <VisualizationDetail/> */}
-            <Guide/>
-        </div>
+                {
+                    States.showTransactionData ? <TransactionDetail1/> : null
+                }
+                {/* <VisualizationDetail/> */}
+                <Guide/>
+            </div>
         </UILoader>
 
     )

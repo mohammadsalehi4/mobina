@@ -4,6 +4,7 @@ import { Fragment, useState, forwardRef, useEffect } from 'react'
 import NiceAddress2 from '../niceAddress2/niceAddress'
 import { digitsEnToFa } from 'persian-tools'
 import DataTable from 'react-data-table-component'
+import { useSelector, useDispatch } from "react-redux"
 
 import {
   Row,
@@ -28,11 +29,36 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 ))
 
 const  WalletDetailTableBottom = (props) => {
+  const States = useSelector(state => state)
+  const dispatch = useDispatch()
 
   const [data, SetData] = useState([])
+  const [CustomData, SetCustomData] = useState(States.CustomGraphData)
+  const [selectedRows, setSelectedRows] = useState([])
+
+  const addSelectedData = (row) => {
+    const a = selectedRows
+    if (!a.some(obj => obj === row)) {
+      a.push(row)
+    }
+    setSelectedRows(a)
+    console.log('/////////////////////////////////')
+    console.log(selectedRows)
+    console.log(CustomData)
+  }
+
+  function removeByAddress(value) {
+    const array = selectedRows
+    const indexToRemove = array.findIndex(obj => obj.address === value.address)
+    if (indexToRemove !== -1) {
+      array.splice(indexToRemove, 1)
+    }
+    setSelectedRows(array)
+  }
 
   useEffect(() => {
     const a = []
+    console.log(CustomData)
     for (let i = 0; i < props.data.in.length; i++) {
       a.push({
         address:props.data.in[i].address,
@@ -53,8 +79,38 @@ const  WalletDetailTableBottom = (props) => {
     }
     SetData(a)
   }, [, props.data])
-  
+
   const columns = [
+    {
+      name: <Input type='checkbox'/>,
+      minWidth: '50px',
+      maxWidth: '50px',
+      cell: row => {
+        if (row.id === 2) {
+          return (
+            <Input onChange={(event) => { 
+              if (event.target.checked) {
+                addSelectedData(row) 
+              } else {
+                removeByAddress(row)
+              }
+            }} type='checkbox'/>
+          )
+        } else {
+            addSelectedData(row) 
+            return (
+            <Input onChange={(event) => { 
+              if (event.target.checked) {
+                addSelectedData(row) 
+              } else {
+                removeByAddress(row)
+              }
+            }} defaultChecked type='checkbox'/>
+          )
+        }
+
+      }
+    },
     {
       name: 'تاریخ',
       sortable: true,
@@ -103,17 +159,15 @@ const  WalletDetailTableBottom = (props) => {
       }
     }
   ]
-
+  
   return (
     <Fragment>
       <Card>
         <div className='react-dataTable react-dataTable-selectable-rows'>
           <DataTable
             noHeader
-            selectableRows
             columns={columns}
             className='react-dataTable'
-            selectableRowsComponent={BootstrapCheckbox}
             data={data}
           />
         </div>
