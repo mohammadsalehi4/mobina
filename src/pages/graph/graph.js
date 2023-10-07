@@ -51,13 +51,21 @@ const GraphDraw = () => {
         let DefaultX = null
         let myData = {}
         for (let j = 0; j < States.GraphData[i].inputs.length; j++) {
-          myFrom.push(States.GraphData[i].inputs[j].hash)
+          myFrom.push({
+            address:States.GraphData[i].inputs[j].hash,
+            value:States.GraphData[i].inputs[j].value,
+            symbole:States.GraphData[i].inputs[j].symbole
+          })
           if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) !== undefined) {
             DefaultX = AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash).x - 1
           }
         }
         for (let j = 0; j < States.GraphData[i].outputs.length; j++) {
-          myTo.push(States.GraphData[i].outputs[j].hash)
+          myTo.push({
+            address:States.GraphData[i].outputs[j].hash,
+            value:States.GraphData[i].outputs[j].value,
+            symbole:States.GraphData[i].outputs[j].symbole
+          })
           if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) !== undefined) {
             DefaultX = AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash).x + 1
           }
@@ -168,15 +176,17 @@ const GraphDraw = () => {
       if (GraphData[i].mode === 'main') {
         for (let j = 0; j < GraphData[i].from.length; j++) {
           const newEdge = {
-            from:GraphData.find(item => item.address === GraphData[i].from[j]).id,
-            to:GraphData[i].id
+            from:GraphData.find(item => item.address === GraphData[i].from[j].address).id,
+            to:GraphData[i].id,
+            label:`${String(GraphData[i].from[j].value)} ${GraphData[i].from[j].symbole}`
           }
           edges.add(newEdge)
         }
         for (let j = 0; j < GraphData[i].to.length; j++) {
           const newEdge = {
             from:GraphData[i].id,
-            to:GraphData.find(item => item.address === GraphData[i].to[j]).id
+            to:GraphData.find(item => item.address === GraphData[i].to[j].address).id,
+            label:`${String(GraphData[i].to[j].value)} ${GraphData[i].to[j].symbole}`
           }
           edges.add(newEdge)
         }

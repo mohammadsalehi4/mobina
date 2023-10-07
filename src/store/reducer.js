@@ -127,7 +127,8 @@ const initialState = {
                 {
                     hash:"out2",
                     timeStamp:1223,
-                    value:1200
+                    value:1200,
+                    symbole:'ETH'
                 }
             ],
             outputs:[
@@ -153,6 +154,32 @@ const initialState = {
             outputs:[
                 {
                     hash:"inp1",
+                    timeStamp:3441,
+                    value:2200,
+                    symbole:'ETH'
+                }
+            ]
+        },
+        {
+            address:"kuft6",
+            symbole:"eth",
+            inputs:[
+                {
+                    hash:"inp2",
+                    timeStamp:1223,
+                    value:1200,
+                    symbole:'ETH'
+                }
+            ],
+            outputs:[
+                {
+                    hash:"out1",
+                    timeStamp:3441,
+                    value:2200,
+                    symbole:'ETH'
+                },
+                {
+                    hash:"out4",
                     timeStamp:3441,
                     value:2200,
                     symbole:'ETH'
