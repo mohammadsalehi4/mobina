@@ -42,9 +42,7 @@ const  WalletDetailTableBottom = (props) => {
       a.push(row)
     }
     setSelectedRows(a)
-    console.log('/////////////////////////////////')
-    console.log(selectedRows)
-    console.log(CustomData)
+
   }
 
   function removeByAddress(value) {
@@ -58,26 +56,30 @@ const  WalletDetailTableBottom = (props) => {
 
   useEffect(() => {
     const a = []
-    console.log(CustomData)
-    for (let i = 0; i < props.data.in.length; i++) {
+    for (let i = 0; i < props.data.inputs.length; i++) {
       a.push({
-        address:props.data.in[i].address,
-        amount:props.data.in[i].amount,
-        date:props.data.in[i].date,
-        time:props.data.in[i].time,
-        mode:"in"
+        address:props.data.inputs[i].address,
+        amount:props.data.inputs[i].amount,
+        date:props.data.inputs[i].date,
+        time:props.data.inputs[i].time,
+        mode:"in",
+        show:false
       })
     }
-    for (let i = 0; i < props.data.out.length; i++) {
+    for (let i = 0; i < props.data.outputs.length; i++) {
       a.push({
-        address:props.data.out[i].address,
-        amount:props.data.out[i].amount,
-        date:props.data.out[i].date,
-        time:props.data.out[i].time,
-        mode:"out"
+        address:props.data.outputs[i].address,
+        amount:props.data.outputs[i].amount,
+        date:props.data.outputs[i].date,
+        time:props.data.outputs[i].time,
+        mode:"out",
+        show:false
       })
     }
+    const MainData = States.GraphData
+
     SetData(a)
+
   }, [, props.data])
 
   const columns = [
@@ -86,7 +88,7 @@ const  WalletDetailTableBottom = (props) => {
       minWidth: '50px',
       maxWidth: '50px',
       cell: row => {
-        if (row.id === 2) {
+        if (row.show) {
           return (
             <Input onChange={(event) => { 
               if (event.target.checked) {
@@ -94,7 +96,7 @@ const  WalletDetailTableBottom = (props) => {
               } else {
                 removeByAddress(row)
               }
-            }} type='checkbox'/>
+            }} defaultChecked type='checkbox'/>
           )
         } else {
             addSelectedData(row) 
@@ -105,7 +107,7 @@ const  WalletDetailTableBottom = (props) => {
               } else {
                 removeByAddress(row)
               }
-            }} defaultChecked type='checkbox'/>
+            }}  type='checkbox'/>
           )
         }
 
@@ -127,7 +129,7 @@ const  WalletDetailTableBottom = (props) => {
       }
     },
     {
-      name: 'آدرس',
+      name: 'آدرس کیف پول',
       sortable: false,
       minWidth: '160px',
       maxWidth: '160px',
@@ -139,7 +141,7 @@ const  WalletDetailTableBottom = (props) => {
       }
     },
     {
-      name: 'حجم (BTC)',
+      name: `حجم (${props.data.symbole})`,
       sortable: true,
       minWidth: '110px',
       maxWidth: '110px',

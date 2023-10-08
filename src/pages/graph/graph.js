@@ -37,11 +37,12 @@ const DeletePage = (x, y) => {
   Page[x + PageNumber][y + PageNumber] = 0
 }
 
-const GraphDraw = () => {
+const FuckingGraph = () => {
   const networkRef = useRef(null)
   const dispatch = useDispatch()
   const States = useSelector(state => state)
 
+  
   //set Default full data
   const [GraphData, SetGraphData] = useState([])
   useEffect(() => {
@@ -318,20 +319,13 @@ const GraphDraw = () => {
       network.on("click", function(params) {
           const nodeId = params.nodes[0];
           if (nodeId) {
-            // const clickedNode = nodes.get(nodeId);
-            // if (nodeId === 5000) {
-            //   dispatch({type:"SETshowWalletData", value:true})
-            //   dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
-            //   dispatch({type:"SETWDetail", value:(GraphData[GraphData.findIndex(obj => obj.address === clickedNode.address)])})
-            // } else if (clickedNode.id > 0) {
-            //   dispatch({type:"SETshowWalletData", value:true})
-            //   dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
-            //   dispatch({type:"SETWDetail", value:(GraphData[GraphData.findIndex(obj => obj.address === clickedNode.address)])})
-            // } else {
-            //   dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
-            //   dispatch({type:"SETshowWalletData", value:false})
-            //   dispatch({type:"SETWDetail", value:TrData[(-nodeId) - 1]})
-            // }
+            const clickedNode = nodes.get(nodeId);
+            console.log(clickedNode.group)
+            if (clickedNode.group === 'main') {
+              dispatch({type:"SETWDetail", value:(clickedNode.address)})
+              dispatch({type:"SETshowWalletData", value:true})
+              dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
+            } 
           }
       });
 
@@ -340,4 +334,4 @@ const GraphDraw = () => {
   return <div ref={networkRef} style={{height:"700px", width:"100%" }}></div>
 }
 
-export default GraphDraw
+export default FuckingGraph

@@ -4,7 +4,7 @@
 import React, {useEffect, useState} from 'react'
 // import { useParams } from "react-router-dom"
 import './tracker.css'
-import GraphDraw from '../graph/graph'
+import FuckingGraph from '../graph/graph'
 import CurrencyDetail from './CurrencyDetail'
 import TransactionDetail1 from './TransactionDetail'
 import VisualizationDetail from './visualizationDetail'
@@ -66,40 +66,109 @@ const Tracker = () => {
         const symbole = 'ETH'
         let inputs = []
         let outputs = []
+
         for (let i = 0; i < array.length; i++) {
             if (array[i].from.address.toLowerCase() === hash.toLowerCase()) {
                 outputs.push({
                     hash:array[i].blockHash,
                     value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
                     timeStamp:array[i].timestamp,
-                    symbole:'ETH'
+                    symbole:'ETH',
+                    address:array[i].to.address
                 })
+
             } 
             if (array[i].to.address.toLowerCase() === hash.toLowerCase()) {
                 inputs.push({
                     hash:array[i].blockHash,
                     value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
                     timeStamp:array[i].timestamp,
-                    symbole:'ETH'
+                    symbole:'ETH',
+                    address:array[i].from.address
                 })
+
             }
         }
 
         inputs = [inputs[0]]
         outputs = [outputs[0]]
-        console.log({
-            inputs,
-            outputs,
-            address,
-            symbole
-        })
+        console.log(
+            [
+                {
+                    address,
+                    symbole,
+                    inputs,
+                    outputs
+                },
+                {
+                    address:inputs[0].address,
+                    symbole:"ETH",
+                    inputs:[],
+                    outputs:[
+                        {
+                            hash:inputs[0].hash,
+                            value:inputs[0].value,
+                            timeStamp:inputs[0].timeStamp,
+                            symbole:'ETH'
+                        }
+                    ]
+
+                },
+                {
+                    address:outputs[0].address,
+                    symbole:"ETH",
+                    inputs:[
+                        {
+                            hash:outputs[0].hash,
+                            value:outputs[0].value,
+                            timeStamp:outputs[0].timeStamp,
+                            symbole:'ETH'
+                        }
+                    ],
+                    outputs:[]
+
+                }
+            ]
+
+        )
         return (
-            {
-                inputs,
-                outputs,
-                address,
-                symbole
-            }
+            [
+                {
+                    address,
+                    symbole,
+                    inputs,
+                    outputs
+                },
+                {
+                    address:inputs[0].address,
+                    symbole:"ETH",
+                    inputs:[],
+                    outputs:[
+                        {
+                            hash:inputs[0].hash,
+                            value:inputs[0].value,
+                            timeStamp:inputs[0].timeStamp,
+                            symbole:'ETH'
+                        }
+                    ]
+
+                },
+                {
+                    address:outputs[0].address,
+                    symbole:"ETH",
+                    inputs:[
+                        {
+                            hash:outputs[0].hash,
+                            value:outputs[0].value,
+                            timeStamp:outputs[0].timeStamp,
+                            symbole:'ETH'
+                        }
+                    ],
+                    outputs:[]
+
+                }
+            ]
+
         )
 
     }
@@ -115,7 +184,7 @@ const Tracker = () => {
             })
             .then((response) => {
                 SetLoading(false)
-                dispatch({type:"GRAPHDATA", value:[EtereumAddress(response.data.result, hash)]})
+                dispatch({type:"GRAPHDATA", value:EtereumAddress(response.data.result, hash)})
                 SetIsShow(true)
             })
             .catch((err) => {
@@ -141,11 +210,10 @@ const Tracker = () => {
                     </InputGroup>
                     {
                         IsShow ? 
-                            <GraphDraw/>
+                            <FuckingGraph/>
                         :
                             null
                     }
-
                 {
                     States.showWalletData ? <CurrencyDetail/> : null
                 }
