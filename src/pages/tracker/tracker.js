@@ -90,45 +90,7 @@ const Tracker = () => {
 
         inputs = [inputs[0]]
         outputs = [outputs[0]]
-        // console.log(
-        //     [
-        //         {
-        //             address,
-        //             symbole,
-        //             inputs,
-        //             outputs
-        //         },
-        //         {
-        //             address:inputs[0].address,
-        //             symbole:"ETH",
-        //             inputs:[],
-        //             outputs:[
-        //                 {
-        //                     hash:inputs[0].hash,
-        //                     value:inputs[0].value,
-        //                     timeStamp:inputs[0].timeStamp,
-        //                     symbole:'ETH'
-        //                 }
-        //             ]
 
-        //         },
-        //         {
-        //             address:outputs[0].address,
-        //             symbole:"ETH",
-        //             inputs:[
-        //                 {
-        //                     hash:outputs[0].hash,
-        //                     value:outputs[0].value,
-        //                     timeStamp:outputs[0].timeStamp,
-        //                     symbole:'ETH'
-        //                 }
-        //             ],
-        //             outputs:[]
-
-        //         }
-        //     ]
-
-        // )
         return (
             [
                 {

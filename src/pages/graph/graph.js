@@ -24,10 +24,10 @@ for (let i = 0; i < (PageNumber * 2) - 1; i++) {
   Page.push(row);
 }
 const SetPage = (x, y) => {
-  Page[x + PageNumber][y + PageNumber] = 1
+  Page[y][x + PageNumber] = 1
 }
 const CheckPage = (x, y) => {
-  if (Page[x + PageNumber][y + PageNumber] === 0) {
+  if (Page[y][x + PageNumber] === 0) {
     return true
   } else {
     return false
@@ -35,6 +35,13 @@ const CheckPage = (x, y) => {
 }
 const DeletePage = (x, y) => {
   Page[x + PageNumber][y + PageNumber] = 0
+}
+const resetPage = () => {
+  for (let i = 0; i < (PageNumber * 2) - 1; i++) {
+    for (let j = 0; j < (PageNumber * 2) - 1; j++) {
+     Page[i][j] = 0
+    }
+  }
 }
 
 const FuckingGraph = () => {
@@ -45,6 +52,7 @@ const FuckingGraph = () => {
   
   //set Default full data
   const [GraphData, SetGraphData] = useState([])
+
   useEffect(() => {
     if (States.GraphData.length > 0) {
       let AllNodes = []
@@ -147,33 +155,35 @@ const FuckingGraph = () => {
       }
       SetGraphData(AllNodes)
     }
-  }, [States.GraphData])
+  }, [States.GraphData, States.MotherFucker])
 
   useEffect(() => {
-
     //Nodes
     const nodes = new DataSet();
+    resetPage()
     for (let i = 0; i < GraphData.length; i++) {
-      var number = 0
-      for (let j = 0; j < 200; j++) {
-        if (CheckPage(GraphData[i].x, j)) {
+      let check = true
+      let y = 0
+      while (check) {
+        console.log(`x: ${GraphData[i].x}--- y: ${y} is ${CheckPage(GraphData[i].x, y)}`)
+        if (CheckPage(GraphData[i].x, y)) {
           const newNode = {
             id: GraphData[i].id,
+            x: GraphData[i].x * 200,
+            y: 800 - (100 * y),
             group: GraphData[i].group,
             address:GraphData[i].address,
             image:`/images/Location.png`,
-            label: `...${(GraphData[i].address).substring(0, 7)}`,
-            x: GraphData[i].x * 200,
-            y: 800 - (100 * j)
+            label: `...${(GraphData[i].address).substring(0, 7)}`
           }
+          SetPage(GraphData[i].x, y)
           nodes.add(newNode)
-          SetPage(GraphData[i].x, j)
-          j = 201
-        } else {
-          number++
+          check = false
         }
+        y++
       }
     }
+    console.log(Page)
 
     //edges
     const edges = new DataSet([])
@@ -320,7 +330,6 @@ const FuckingGraph = () => {
           const nodeId = params.nodes[0];
           if (nodeId) {
             const clickedNode = nodes.get(nodeId);
-            console.log(clickedNode.group)
             if (clickedNode.group === 'main') {
               dispatch({type:"SETWDetail", value:(clickedNode.address)})
               dispatch({type:"SETshowWalletData", value:true})

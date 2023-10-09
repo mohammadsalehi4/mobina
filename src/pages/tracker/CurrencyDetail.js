@@ -208,9 +208,8 @@ const CurrencyDetail = () => {
         <div className='col-12' >
           <div id='address'>
             <a id='justUp500'>{States.WDetail}</a>
-            <NiceAddress2 text={'States.WDetail.address'} number={8}/>
+            <NiceAddress2 text={States.WDetail} number={8}/>
             <ion-icon name="copy-outline"></ion-icon>
-            <ion-icon name="git-network-outline"></ion-icon>
           </div>
         </div>
       </div>
@@ -257,7 +256,7 @@ const CurrencyDetail = () => {
                       <Spinner />
                     </div>
                   :
-                    <WalletDetailTableBottom data={Data}/>
+                    <WalletDetailTableBottom data={Data} address={States.WDetail}/>
                 }
             </div>
           </div>

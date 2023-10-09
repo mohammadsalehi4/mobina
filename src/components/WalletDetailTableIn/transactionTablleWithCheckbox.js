@@ -77,13 +77,77 @@ const  WalletDetailTableBottom = (props) => {
   const [data, SetData] = useState([])
   const [CustomData, SetCustomData] = useState(States.CustomGraphData)
   const [selectedRows, setSelectedRows] = useState([])
+  const [currentPage, setCurrentPage] = useState(0)
 
+
+  //----------------bug-------------------
+  //bayad tekrary boodan address ro ham check kone
+  //add new node to graph
   const addSelectedData = (row) => {
-    const a = selectedRows
-    if (!a.some(obj => obj === row)) {
-      a.push(row)
-    }
-    setSelectedRows(a)
+    const getGraph = States.GraphData
+    console.log(getGraph)
+
+      if (row.mode === 'in') {
+        for (let i = 0; i < getGraph.length; i++) {
+          if (getGraph[i].address === props.address) {
+            getGraph[i].inputs.push({
+              hash:row.hash,
+              symbole:'ETH',
+              value:row.amount.toFixed(5),
+              timeStamp:row.date,
+              address:row.address
+            })
+          }
+        }
+        const newNode = {
+          address:row.address,
+          symbole:'ETH',
+          inputs:[],
+          outputs:[
+            {
+              hash:row.hash,
+              symbole:'ETH',
+              value:row.amount.toFixed(5),
+              timeStamp:row.date,
+              address:props.address
+            }
+          ]
+        }
+        getGraph.push(newNode)
+        dispatch({type:"GRAPHDATA", value:getGraph})
+        dispatch({type:"MotherFucker", value:getGraph.length})
+      } else if (row.mode === 'out') {
+        for (let i = 0; i < getGraph.length; i++) {
+          if (getGraph[i].address === props.address) {
+            getGraph[i].outputs.push({
+              hash:row.hash,
+              symbole:'ETH',
+              value:row.amount.toFixed(5),
+              timeStamp:row.date,
+              address:row.address
+            })
+          }
+        }
+        const newNode = {
+          address:row.address,
+          symbole:'ETH',
+          inputs:[
+            {
+              hash:row.hash,
+              symbole:'ETH',
+              value:row.amount.toFixed(5),
+              timeStamp:row.date,
+              address:props.address
+            }
+          ],
+          outputs:[]
+        }
+        getGraph.push(newNode)
+        dispatch({type:"GRAPHDATA", value:getGraph})
+        dispatch({type:"MotherFucker", value:getGraph.length})
+      }
+
+      console.log(States.GraphData)
   }
 
   function removeByAddress(value) {
@@ -115,66 +179,83 @@ const  WalletDetailTableBottom = (props) => {
     }
 
     for (let i = 0; i < props.data.inputs.length; i++) {
-      a.push({
-        address:props.data.inputs[i].address,
-        amount:props.data.inputs[i].amount,
-        date:props.data.inputs[i].date,
-        time:props.data.inputs[i].time,
-        hash:props.data.inputs[i].hash,
-        mode:"in",
-        show:false
-      })
-
+      if (AllHash.some(item => item.toUpperCase() === (props.data.inputs[i].hash).toUpperCase())) {
+        a.push({
+          address:props.data.inputs[i].address,
+          amount:props.data.inputs[i].amount,
+          date:props.data.inputs[i].date,
+          time:props.data.inputs[i].time,
+          hash:props.data.inputs[i].hash,
+          mode:"in",
+          show:true
+        })
+      } else {
+        a.push({
+          address:props.data.inputs[i].address,
+          amount:props.data.inputs[i].amount,
+          date:props.data.inputs[i].date,
+          time:props.data.inputs[i].time,
+          hash:props.data.inputs[i].hash,
+          mode:"in",
+          show:false
+        })
+      }
     }
     for (let i = 0; i < props.data.outputs.length; i++) {
-      a.push({
-        address:props.data.outputs[i].address,
-        amount:props.data.outputs[i].amount,
-        date:props.data.outputs[i].date,
-        time:props.data.outputs[i].time,
-        hash:props.data.outputs[i].hash,
-        mode:"out",
-        show:false
-      })
-    }
-
-    //recognizing available data
-    for (let i = 0; i < a.length; i++) {
-      if (AllHash.some(item => item.toUpperCase() === (a[i].hash).toUpperCase())) {
-        a[i].show = true
+      if (AllHash.some(item => item.toUpperCase() === (props.data.outputs[i].hash).toUpperCase())) {
+        a.push({
+          address:props.data.outputs[i].address,
+          amount:props.data.outputs[i].amount,
+          date:props.data.outputs[i].date,
+          time:props.data.outputs[i].time,
+          hash:props.data.outputs[i].hash,
+          mode:"out",
+          show:true
+        })
+      } else {
+        a.push({
+          address:props.data.outputs[i].address,
+          amount:props.data.outputs[i].amount,
+          date:props.data.outputs[i].date,
+          time:props.data.outputs[i].time,
+          hash:props.data.outputs[i].hash,
+          mode:"out",
+          show:false
+        })
       }
+
     }
 
     SetData(a)
 
-  }, [, props.data])
+  }, [, props.data, currentPage])
 
   const columns = [
     {
-      name: <Input type='checkbox'/>,
       minWidth: '50px',
       maxWidth: '50px',
+      sortable:false,
+      selector: row => row.show,
       cell: row => {
         if (row.show) {
           return (
-            <Input onChange={(event) => { 
+            <Input id={row.hash} onChange={(event) => { 
               if (event.target.checked) {
-                addSelectedData(row) 
+                alert(1)
               } else {
-                removeByAddress(row)
+                alert(2)
               }
             }} defaultChecked type='checkbox'/>
           )
         } else {
-            addSelectedData(row) 
             return (
-            <Input onChange={(event) => { 
-              if (event.target.checked) {
-                addSelectedData(row) 
-              } else {
-                removeByAddress(row)
-              }
-            }}  type='checkbox'/>
+              <Input id={row.hash} onChange={(event) => { 
+                if (event.target.checked) {
+                  addSelectedData(row)
+                } else {
+                  
+                }
+              }}  type='checkbox'/>
           )
         }
 
@@ -230,7 +311,6 @@ const  WalletDetailTableBottom = (props) => {
   ]
 
   //pagination
-  const [currentPage, setCurrentPage] = useState(0)
   const handlePagination = page => {
     setCurrentPage(page.selected)
   }
@@ -268,7 +348,6 @@ const  WalletDetailTableBottom = (props) => {
             data={data}
             paginationComponent={CustomPagination}
             paginationDefaultPage={currentPage + 1}
-            pagination
           />
         </div>
       </Card>

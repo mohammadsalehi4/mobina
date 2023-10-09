@@ -42,10 +42,18 @@ const initialState = {
 
     //Graph Data
     GraphData:[],
-    CustomGraphData:[]
+    CustomGraphData:[],
+    MotherFucker:0
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'MotherFucker') {
+        return {
+            ...state,
+            MotherFucker:action.value
+        }
+    }
 
     if (action.type === 'CUSTOMGRAPHDATA') {
         return {
