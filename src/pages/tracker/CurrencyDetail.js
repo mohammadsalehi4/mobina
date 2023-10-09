@@ -31,10 +31,9 @@ const CurrencyDetail = () => {
 
   const EthereumAddress = (getData, add) => {
     let data = []
-    
+
     for (let i = 0; i < getData.result.length; i++) {
       try {
-
         if ((getData.result[i].to.address).toUpperCase()===add.toUpperCase() || (getData.result[i].from.address).toUpperCase()===add.toUpperCase()) {
           data.push({
             timeStamp:getData.result[i].timestamp,
@@ -43,7 +42,7 @@ const CurrencyDetail = () => {
             gasUsed:getData.result[i].gasUsed,
             gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
             value:(Number(getData.result[i].value))/1000000000000000000,
-            hash:getData.result[i].transactionHash,
+            hash:getData.result[i].hash,
             currencyType:"ETH",
             Logo:"ETH.png",
             Type:"coin"
@@ -58,7 +57,7 @@ const CurrencyDetail = () => {
             gasUsed:getData.result[i].gasUsed,
             gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
             value:(Number(getData.result[i].value))/1000000000000000000,
-            hash:getData.result[i].transactionHash,
+            hash:getData.result[i].hash,
             currencyType:"ETH",
             Logo:"ETH.png",
             Type:"coin"
@@ -71,7 +70,7 @@ const CurrencyDetail = () => {
             gasUsed:getData.result[i].gasUsed,
             gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
             value:(Number(getData.result[i].value))/1000000000000000000,
-            hash:getData.result[i].transactionHash,
+            hash:getData.result[i].hash,
             currencyType:"ETH",
             Logo:"ETH.png",
             Type:"coin"

@@ -5,6 +5,7 @@ import NiceAddress2 from '../niceAddress2/niceAddress'
 import { digitsEnToFa } from 'persian-tools'
 import DataTable from 'react-data-table-component'
 import { useSelector, useDispatch } from "react-redux"
+import ReactPaginate from 'react-paginate'
 
 import {
   Row,
@@ -28,6 +29,47 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
+const getMyTime = (index) => {
+    
+  const date = new Date(index * 1000)
+  let month
+  let day
+  let hour
+  let minute
+
+  if (String(Number(date.getMonth()) + 1).length === 1) {
+    month = `0${date.getMonth() + 1}`
+  } else {
+    month = date.getMonth() + 1
+  }
+
+  if (String(date.getDate()).length === 1) {
+    day = `0${date.getDate()}`
+  } else {
+    day = date.getDate()
+  }
+
+  if (String(date.getHours()).length === 1) {
+    hour = `0${date.getHours()}`
+  } else {
+    hour = date.getHours()
+  }
+
+  if (String(date.getMinutes()).length === 1) {
+    minute = `0${date.getMinutes()}`
+  } else {
+    minute = date.getMinutes()
+  }
+
+  return ({
+    year:date.getFullYear(),
+    month,
+    day,
+    hour,
+    minute
+  })
+}
+
 const  WalletDetailTableBottom = (props) => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -42,7 +84,6 @@ const  WalletDetailTableBottom = (props) => {
       a.push(row)
     }
     setSelectedRows(a)
-
   }
 
   function removeByAddress(value) {
@@ -56,15 +97,34 @@ const  WalletDetailTableBottom = (props) => {
 
   useEffect(() => {
     const a = []
+    const MainData = States.GraphData
+
+    //get All Hash
+    const AllHash = []
+    for (let i = 0; i < MainData.length; i++) {
+      for (let j = 0; j < MainData[i].inputs.length; j++) {
+        if (AllHash.find(item => item === MainData[i].inputs[j].hash) === undefined) {
+          AllHash.push(MainData[i].inputs[j].hash)
+        }
+      }
+      for (let j = 0; j < MainData[i].outputs.length; j++) {
+        if (AllHash.find(item => item === MainData[i].outputs[j].hash) === undefined) {
+          AllHash.push(MainData[i].outputs[j].hash)
+        }
+      }
+    }
+
     for (let i = 0; i < props.data.inputs.length; i++) {
       a.push({
         address:props.data.inputs[i].address,
         amount:props.data.inputs[i].amount,
         date:props.data.inputs[i].date,
         time:props.data.inputs[i].time,
+        hash:props.data.inputs[i].hash,
         mode:"in",
         show:false
       })
+
     }
     for (let i = 0; i < props.data.outputs.length; i++) {
       a.push({
@@ -72,11 +132,18 @@ const  WalletDetailTableBottom = (props) => {
         amount:props.data.outputs[i].amount,
         date:props.data.outputs[i].date,
         time:props.data.outputs[i].time,
+        hash:props.data.outputs[i].hash,
         mode:"out",
         show:false
       })
     }
-    const MainData = States.GraphData
+
+    //recognizing available data
+    for (let i = 0; i < a.length; i++) {
+      if (AllHash.some(item => item.toUpperCase() === (a[i].hash).toUpperCase())) {
+        a[i].show = true
+      }
+    }
 
     SetData(a)
 
@@ -115,15 +182,15 @@ const  WalletDetailTableBottom = (props) => {
     },
     {
       name: 'تاریخ',
-      sortable: true,
+      sortable: false,
       minWidth: '120px',
       maxWidth: '120px',
-      selector: row => Number((row.year) + (row.month) + (row.day) + (row.hour) + (row.minute)),
+      selector: row => row.date,
       cell: row => {
         return (
           <div>
-            <p  style={{marginBottom:"-8px"}}>{`${row.date}`}</p>
-            <small>{`${row.time}`}</small>
+            <p  style={{marginBottom:"-8px"}}>{`${digitsEnToFa(getMyTime(row.date).year)}/${digitsEnToFa(getMyTime(row.date).month)}/${digitsEnToFa(getMyTime(row.date).day)}`}</p>
+            <small>{`${digitsEnToFa(getMyTime(row.date).hour)}:${digitsEnToFa(getMyTime(row.date).minute)}`}</small>
           </div>
         )
       }
@@ -142,7 +209,7 @@ const  WalletDetailTableBottom = (props) => {
     },
     {
       name: `حجم (${props.data.symbole})`,
-      sortable: true,
+      sortable: false,
       minWidth: '110px',
       maxWidth: '110px',
       selector: row => row.amount,
@@ -161,7 +228,35 @@ const  WalletDetailTableBottom = (props) => {
       }
     }
   ]
-  
+
+  //pagination
+  const [currentPage, setCurrentPage] = useState(0)
+  const handlePagination = page => {
+    setCurrentPage(page.selected)
+  }
+  const CustomPagination = () => (
+    <ReactPaginate
+      nextLabel=''
+      breakLabel='...'
+      previousLabel=''
+      pageRangeDisplayed={2}
+      forcePage={(currentPage)}
+      marginPagesDisplayed={2}
+      activeClassName='active'
+      pageClassName='page-item'
+      breakClassName='page-item'
+      nextLinkClassName='page-link'
+      pageLinkClassName='page-link'
+      breakLinkClassName='page-link'
+      previousLinkClassName='page-link'
+      nextClassName='page-item next-item'
+      previousClassName='page-item prev-item'
+      pageCount={Math.ceil(data.length / 10) || 1}
+      onPageChange={page => handlePagination(page)}
+      containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-center pe-1 mt-3'
+    />
+  )
+
   return (
     <Fragment>
       <Card>
@@ -171,6 +266,9 @@ const  WalletDetailTableBottom = (props) => {
             columns={columns}
             className='react-dataTable'
             data={data}
+            paginationComponent={CustomPagination}
+            paginationDefaultPage={currentPage + 1}
+            pagination
           />
         </div>
       </Card>
