@@ -7,8 +7,6 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-duplicate-imports
 
-//FuckingGraph1
-
 import React, { useRef, useEffect, useState } from "react"
 import { DataSet, Network } from 'vis'
 import { useSelector, useDispatch } from "react-redux"
