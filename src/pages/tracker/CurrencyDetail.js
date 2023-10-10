@@ -209,7 +209,12 @@ const CurrencyDetail = () => {
           <div id='address'>
             <a id='justUp500'>{States.WDetail}</a>
             <NiceAddress2 text={States.WDetail} number={8}/>
-            <ion-icon name="copy-outline"></ion-icon>
+            <ion-icon title="کپی آدرس" name="copy-outline" onClick={ () => { 
+              navigator.clipboard.writeText(States.WDetail) 
+              return toast.success('آدرس مورد نظر در کلیپ‌بورد کپی شد.', {
+                position: 'bottom-left'
+              })
+            }}></ion-icon>
           </div>
         </div>
       </div>

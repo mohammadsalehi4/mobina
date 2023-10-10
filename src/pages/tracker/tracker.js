@@ -180,7 +180,7 @@ const Tracker = () => {
                 {
                     States.showTransactionData ? <TransactionDetail1/> : null
                 }
-                {/* <VisualizationDetail/> */}
+                <VisualizationDetail/>
                 <Guide/>
             </div>
         </UILoader>

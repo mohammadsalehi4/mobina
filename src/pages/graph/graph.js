@@ -163,11 +163,10 @@ const FuckingGraph = () => {
       let check = true
       let y = 0
       while (check) {
-        console.log(`x: ${GraphData[i].x}--- y: ${y} is ${CheckPage(GraphData[i].x, y)}`)
         if (CheckPage(GraphData[i].x, y)) {
           const newNode = {
             id: GraphData[i].id,
-            x: GraphData[i].x * 200,
+            x: GraphData[i].x * 300,
             y: 800 - (100 * y),
             group: GraphData[i].group,
             address:GraphData[i].address,
@@ -181,7 +180,6 @@ const FuckingGraph = () => {
         y++
       }
     }
-    console.log(Page)
 
     //edges
     const edges = new DataSet([])
@@ -332,9 +330,20 @@ const FuckingGraph = () => {
               dispatch({type:"SETWDetail", value:(clickedNode.address)})
               dispatch({type:"SETshowWalletData", value:true})
               dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
-            } 
+            } else if (clickedNode.group === 'mid') {
+              navigator.clipboard.writeText(clickedNode.address)
+            }
           }
       });
+
+      // network.on('doubleClick', function (params) {
+      //   var edgeId = params.edges[0]; 
+      //   if (edgeId !== undefined) {
+      //     var updatedEdge = edges.get(edgeId);
+      //     updatedEdge.width = 5; 
+      //     edges.update(updatedEdge); 
+      //   }
+      // });
 
   }, [, GraphData])
 

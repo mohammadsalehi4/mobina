@@ -75,7 +75,6 @@ const  WalletDetailTableBottom = (props) => {
   const dispatch = useDispatch()
 
   const [data, SetData] = useState([])
-  const [CustomData, SetCustomData] = useState(States.CustomGraphData)
   const [selectedRows, setSelectedRows] = useState([])
   const [currentPage, setCurrentPage] = useState(0)
 
