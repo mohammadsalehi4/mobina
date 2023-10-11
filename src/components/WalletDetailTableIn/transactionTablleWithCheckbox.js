@@ -78,9 +78,6 @@ const  WalletDetailTableBottom = (props) => {
   const [selectedRows, setSelectedRows] = useState([])
   const [currentPage, setCurrentPage] = useState(0)
 
-
-  //----------------bug-------------------
-  //bayad tekrary boodan address ro ham check kone
   //add new node to graph
   const addSelectedData = (row) => {
     const getGraph = States.GraphData
@@ -88,7 +85,7 @@ const  WalletDetailTableBottom = (props) => {
 
       if (row.mode === 'in') {
         for (let i = 0; i < getGraph.length; i++) {
-          if (getGraph[i].address === props.address) {
+          if ((getGraph[i].address).toUpperCase() === (props.address).toUpperCase()) {
             getGraph[i].inputs.push({
               hash:row.hash,
               symbole:'ETH',
@@ -98,26 +95,42 @@ const  WalletDetailTableBottom = (props) => {
             })
           }
         }
-        const newNode = {
-          address:row.address,
-          symbole:'ETH',
-          inputs:[],
-          outputs:[
-            {
-              hash:row.hash,
-              symbole:'ETH',
-              value:row.amount.toFixed(5),
-              timeStamp:row.date,
-              address:props.address
+        if (getGraph.find(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
+          for (let i = 0; i < getGraph.length; i++) {
+            if ((getGraph[i].address).toUpperCase() === (row.address).toUpperCase()) {
+              getGraph[i].outputs.push({
+                hash:row.hash,
+                symbole:'ETH',
+                value:row.amount.toFixed(5),
+                timeStamp:row.date,
+                address:props.address
+              })
             }
-          ]
+          }
+        } else {
+          const newNode = {
+            address:row.address,
+            symbole:'ETH',
+            inputs:[],
+            outputs:[
+              {
+                hash:row.hash,
+                symbole:'ETH',
+                value:row.amount.toFixed(5),
+                timeStamp:row.date,
+                address:props.address
+              }
+            ]
+          }
+          getGraph.push(newNode)
         }
-        getGraph.push(newNode)
+
+
         dispatch({type:"GRAPHDATA", value:getGraph})
-        dispatch({type:"MotherFucker", value:getGraph.length})
+        dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
       } else if (row.mode === 'out') {
         for (let i = 0; i < getGraph.length; i++) {
-          if (getGraph[i].address === props.address) {
+          if ((getGraph[i].address).toUpperCase() === (props.address).toUpperCase()) {
             getGraph[i].outputs.push({
               hash:row.hash,
               symbole:'ETH',
@@ -127,23 +140,37 @@ const  WalletDetailTableBottom = (props) => {
             })
           }
         }
-        const newNode = {
-          address:row.address,
-          symbole:'ETH',
-          inputs:[
-            {
-              hash:row.hash,
-              symbole:'ETH',
-              value:row.amount.toFixed(5),
-              timeStamp:row.date,
-              address:props.address
+        if (getGraph.find(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
+          for (let i = 0; i < getGraph.length; i++) {
+            if ((getGraph[i].address).toUpperCase() === (row.address).toUpperCase()) {
+              getGraph[i].inputs.push({
+                hash:row.hash,
+                symbole:'ETH',
+                value:row.amount.toFixed(5),
+                timeStamp:row.date,
+                address:props.address
+              })
             }
-          ],
-          outputs:[]
+          }
+        } else {
+          const newNode = {
+            address:row.address,
+            symbole:'ETH',
+            inputs:[
+              {
+                hash:row.hash,
+                symbole:'ETH',
+                value:row.amount.toFixed(5),
+                timeStamp:row.date,
+                address:props.address
+              }
+            ],
+            outputs:[]
+          }
+          getGraph.push(newNode)
         }
-        getGraph.push(newNode)
         dispatch({type:"GRAPHDATA", value:getGraph})
-        dispatch({type:"MotherFucker", value:getGraph.length})
+        dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
       }
 
       console.log(States.GraphData)

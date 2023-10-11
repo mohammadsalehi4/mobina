@@ -1,7 +1,7 @@
 @charset "UTF-8";
 #TransactionPage {
   background: rgb(248, 248, 248);
-  min-height: 100vh;
+  height: calc(100vh - 150px);
   width: 100%;
 }
 

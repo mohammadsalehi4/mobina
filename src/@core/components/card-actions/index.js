@@ -16,7 +16,7 @@ const CardActions = props => {
 
   // ** States
   const [reload, setReload] = useState(false)
-  const [collapse, setCollapse] = useState(true)
+  const [collapse, setCollapse] = useState(false)
   const [visibility, setVisibility] = useState(true)
 
   /**

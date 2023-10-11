@@ -124,6 +124,7 @@ const FuckingGraph = () => {
           }
         }
 
+        //mokhtasat X
         for (let j = 0; j < States.GraphData[i].inputs.length; j++) {
           if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) === undefined) {
             AllNodes.push({
@@ -151,6 +152,7 @@ const FuckingGraph = () => {
           }
         }
       }
+
       SetGraphData(AllNodes)
     }
   }, [States.GraphData, States.MotherFucker])
@@ -347,7 +349,7 @@ const FuckingGraph = () => {
 
   }, [, GraphData])
 
-  return <div ref={networkRef} style={{height:"700px", width:"100%" }}></div>
+  return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%" }}></div>
 }
 
 export default FuckingGraph

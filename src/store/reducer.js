@@ -43,7 +43,7 @@ const initialState = {
     //Graph Data
     GraphData:[],
     CustomGraphData:[],
-    MotherFucker:0
+    MotherFucker:false
 }
 
 const reducer = (state = initialState, action) => {
