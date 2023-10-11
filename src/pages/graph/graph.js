@@ -153,6 +153,44 @@ const FuckingGraph = () => {
         }
       }
 
+      for (let i = 0; i < AllNodes.length; i++) {
+        if (AllNodes[i].group === 'mid') {
+          let check = false
+          if (AllNodes[i].mode === 'out') {
+            // console.log(AllNodes[i])
+            for (let j = 0; j < AllNodes.length; j++) {
+              if (AllNodes[j].group === 'main') {
+                for (let k = 0; k < AllNodes[j].from.length; k++) {
+                  if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
+                    if (AllNodes[j].x < AllNodes[i].x) {
+                      check = true
+                    }
+                  }
+                }
+              }
+            }
+            if (!check) {
+              AllNodes[i].x = AllNodes[i].x + 2
+            }
+          } else {
+            for (let j = 0; j < AllNodes.length; j++) {
+              if (AllNodes[j].group === 'main') {
+                for (let k = 0; k < AllNodes[j].to.length; k++) {
+                  if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
+                    if (AllNodes[j].x > AllNodes[i].x) {
+                      check = true
+                    }
+                  }
+                }
+              }
+            }
+            if (!check) {
+              AllNodes[i].x = AllNodes[i].x - 2
+            }
+          }
+        }
+      }
+
       SetGraphData(AllNodes)
     }
   }, [States.GraphData, States.MotherFucker])
@@ -172,7 +210,7 @@ const FuckingGraph = () => {
             y: 800 - (100 * y),
             group: GraphData[i].group,
             address:GraphData[i].address,
-            image:`/images/Location.png`,
+            image:`../images/Location.png`,
             label: `...${(GraphData[i].address).substring(0, 7)}`
           }
           SetPage(GraphData[i].x, y)
@@ -337,15 +375,6 @@ const FuckingGraph = () => {
             }
           }
       });
-
-      // network.on('doubleClick', function (params) {
-      //   var edgeId = params.edges[0]; 
-      //   if (edgeId !== undefined) {
-      //     var updatedEdge = edges.get(edgeId);
-      //     updatedEdge.width = 5; 
-      //     edges.update(updatedEdge); 
-      //   }
-      // });
 
   }, [, GraphData])
 
