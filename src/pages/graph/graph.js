@@ -153,17 +153,20 @@ const FuckingGraph = () => {
         }
       }
 
+      //eslah mokhtasat
       for (let i = 0; i < AllNodes.length; i++) {
         if (AllNodes[i].group === 'mid') {
           let check = false
+          let checkNumber = 0
           if (AllNodes[i].mode === 'out') {
-            // console.log(AllNodes[i])
             for (let j = 0; j < AllNodes.length; j++) {
               if (AllNodes[j].group === 'main') {
                 for (let k = 0; k < AllNodes[j].from.length; k++) {
                   if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
+                    checkNumber++
                     if (AllNodes[j].x < AllNodes[i].x) {
                       check = true
+                      console.log(checkNumber)
                     }
                   }
                 }
@@ -177,6 +180,7 @@ const FuckingGraph = () => {
               if (AllNodes[j].group === 'main') {
                 for (let k = 0; k < AllNodes[j].to.length; k++) {
                   if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
+                    checkNumber++
                     if (AllNodes[j].x > AllNodes[i].x) {
                       check = true
                     }
@@ -210,7 +214,7 @@ const FuckingGraph = () => {
             y: 800 - (100 * y),
             group: GraphData[i].group,
             address:GraphData[i].address,
-            image:`../images/Location.png`,
+            image:`/public/images/Location.png`,
             label: `...${(GraphData[i].address).substring(0, 7)}`
           }
           SetPage(GraphData[i].x, y)

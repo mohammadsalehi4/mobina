@@ -176,13 +176,24 @@ const  WalletDetailTableBottom = (props) => {
       console.log(States.GraphData)
   }
 
-  function removeByAddress(value) {
-    const array = selectedRows
-    const indexToRemove = array.findIndex(obj => obj.address === value.address)
-    if (indexToRemove !== -1) {
-      array.splice(indexToRemove, 1)
+  function removeSelectedData(value) {
+    const getGraph = States.GraphData
+    console.log(value)
+    for (let i = 0; i < getGraph.length; i++) {
+      if (getGraph[i].address === props.address) {
+        if (value.mode === 'in') {
+          let filtredData = getGraph[i].inputs
+          filtredData = filtredData.filter(obj => obj.hash !== value.hash)
+          getGraph[i].inputs = filtredData
+        } else if (value.mode === 'out') {
+          let filtredData = getGraph[i].outputs
+          filtredData = filtredData.filter(obj => obj.hash !== value.hash)
+          getGraph[i].outputs = filtredData
+        }
+      }
     }
-    setSelectedRows(array)
+    dispatch({type:"GRAPHDATA", value:getGraph})
+    dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
   }
 
   useEffect(() => {
@@ -267,9 +278,9 @@ const  WalletDetailTableBottom = (props) => {
           return (
             <Input id={row.hash} onChange={(event) => { 
               if (event.target.checked) {
-                alert(1)
+                addSelectedData(row)
               } else {
-                alert(2)
+                removeSelectedData(row)
               }
             }} defaultChecked type='checkbox'/>
           )
@@ -279,7 +290,7 @@ const  WalletDetailTableBottom = (props) => {
                 if (event.target.checked) {
                   addSelectedData(row)
                 } else {
-                  
+                  removeSelectedData(row)
                 }
               }}  type='checkbox'/>
           )

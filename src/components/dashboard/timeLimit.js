@@ -13,7 +13,7 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap'
 import { useDispatch, useSelector } from "react-redux"
-import {Filter, ChevronDown} from 'react-feather'
+import {Filter, XCircle} from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
 import { Calendar, CalendarProvider, DatePicker } from "zaman"
 import moment from 'jalali-moment'
@@ -125,7 +125,13 @@ const TimeLimit = (props) => {
                 محدوده زمانی
               </div>
             :
-            digitsEnToFa(ShowTitle)
+            <div>
+            {digitsEnToFa(ShowTitle)}
+            <XCircle onClick={ () => { 
+              SetStartTime(0)
+              SetEndTime(0)
+            }} size={16} style={{margin:'0px', padding:'0px', marginRight:'16px'}}/>
+          </div>
           }
         </span>
       </DropdownToggle>

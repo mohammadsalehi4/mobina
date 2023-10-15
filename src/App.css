@@ -50,3 +50,11 @@ input::placeholder {
     }
 }
 
+Input:focus {
+    border: 1px solid #2f4f4f !important;
+}
+
+Input:focus + .input-group-text {
+    border-color: #2f4f4f !important;
+}
+

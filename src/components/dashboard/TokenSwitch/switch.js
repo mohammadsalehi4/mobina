@@ -42,13 +42,13 @@ const TokenSwitch = (props) => {
     <div id='CalandarSwitch' style={{marginTop:"", minWidth:"30%", float:"left"}}>
         <div  className={`option even`} onClick={() => { changeOption('coin') }} id={`coin`} style={{minWidth:"100px"}}>
             <p>
-                تراکنش ها 
+                تراکنش‌ها 
                 <span> ({countSpecificObjects(props.transactions, 'Type', 'coin')})</span>
             </p>
         </div>
         <div  className={`option even`} onClick={() => { changeOption('token') }} id={`token`} style={{minWidth:"100px"}}>
             <p>
-                توکن ها
+                توکن‌ها
                 <span> ({countSpecificObjects(props.transactions, 'Type', 'token')})</span>
             </p>
         </div>

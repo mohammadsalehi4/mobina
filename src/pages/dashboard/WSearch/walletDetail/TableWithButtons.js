@@ -363,7 +363,7 @@ const DataTableWithButtons = (props) => {
           <CardTitle className='mb-2' tag='h3' id="CardTitle">
             <div className='row'>
               <div className='col-sm-6 mt-2'>
-                آخرین تراکنش ها
+                آخرین تراکنش‌ها
               </div>
               <div className='col-sm-6 mt-2 hamoniKeMahdudiatDare3'>
                 <TokenSwitch color={props.data.color} transactions={props.transactions}/>
@@ -400,8 +400,7 @@ const DataTableWithButtons = (props) => {
             className='react-dataTable'
             sortIcon={<ChevronDown size={10} />}
             selectableRowsComponent={BootstrapCheckbox}
-            data={ showData}
-            
+            data={ showData }
           />
         </div>
       </Card>

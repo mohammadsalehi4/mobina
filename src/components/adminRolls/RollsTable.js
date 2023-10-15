@@ -23,7 +23,7 @@ import {
   Button, Modal, ModalBody, ModalFooter 
 } from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
-
+import LocalLoading from '../localLoading/localLoading'
 const BootstrapCheckbox = forwardRef((props, ref) => (
   <div className='form-check'>
     <Input type='checkbox' ref={ref} {...props} />
@@ -32,6 +32,7 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 
 const RollsTable = () => {
   const dispatch = useDispatch()
+  const States = useSelector(state => state)
 
   const [modal, setModal] = useState(false)
   const [Edit, setEdit] = useState(false)
@@ -46,7 +47,7 @@ const RollsTable = () => {
   const handleShow = () => setShow(!Show)
 
   const DeleteRole = (index) => {
-    dispatch({type:"LOADINGEFFECT", value:true})
+    dispatch({type:"CustomLoading", value:true})
     axios.delete(`${serverAddress}/accounts/role/${index}`, 
       {
         headers: {
@@ -54,13 +55,11 @@ const RollsTable = () => {
         }
       })
       .then((response) => {
-          dispatch({type:"LOADINGEFFECT", value:false})
-          if (response.data.message === 'successfully delete') {
-            window.location.assign('/admin')
-          }
+          dispatch({type:"CustomLoading", value:false})
+          dispatch({type:"beLoad", value:!(States.beLoad)})
       })
       .catch((err) => {
-        dispatch({type:"LOADINGEFFECT", value:false})
+        dispatch({type:"CustomLoading", value:false})
       })
   }
 
@@ -148,7 +147,7 @@ const RollsTable = () => {
             }
           } catch (error) {}
       })
-    }, [])
+    }, [, States.beLoad])
 
     const [data, SetData] = useState([])
 
@@ -165,27 +164,39 @@ const RollsTable = () => {
         <Row className='justify-content-end mx-0'>
           <Col className='d-flex align-items-center justify-content-end mt-2 mb-2' md='6' sm='12'>
             <div className='d-flex mt-md-0 mt-1'>
+              <button style={{background:MainSiteyellow, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-2' color='primary' onClick={() => {
+                  dispatch({type:"beLoad", value:!(States.beLoad)})
+                }}>
+                <span className='align-middle'>به‌روزرسانی</span>
+              </button>
               <button style={{background:MainSiteOrange, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-2' color='primary' onClick={handleModal}>
-                <span className='align-middle ms-50'>افزودن نقش جدید</span>
-                <Plus size={15}/>
+                <span className='align-middle'>افزودن نقش</span>
               </button>
             </div>
           </Col>
         </Row>
-        <div className='react-dataTable react-dataTable-selectable-rows'>
-          <DataTable
-            noHeader
-            columns={columns}
-            className='react-dataTable'
-            sortIcon={<ChevronDown size={10} />}
-            selectableRowsComponent={BootstrapCheckbox}
-            data={data}
-          />
-        </div>
+        {
+          States.CustomLoading ?
+            <LocalLoading/>
+          :
+            <div className='react-dataTable react-dataTable-selectable-rows'>
+              <DataTable
+                noHeader
+                columns={columns}
+                className='react-dataTable'
+                sortIcon={<ChevronDown size={10} />}
+                selectableRowsComponent={BootstrapCheckbox}
+                data={data}
+              />
+            </div>
+        }
+
       </Card>
+
       <AddNewModal AllRoles={Rolls} Roles={Rolls[number - 1]} open={modal} handleModal={handleModal} number={number} />
       <EditRoll AllRoles={Rolls} Roles={Rolls[number - 1]} open={Edit} handleModal={handleEdit} number={number} />
       <ShowRoll AllRoles={Rolls} Roles={Rolls[number - 1]} open={Show} handleModal={handleShow} number={number} />
+      
       <Modal
           isOpen={modal1 === 4}
           className='modal-dialog-centered'

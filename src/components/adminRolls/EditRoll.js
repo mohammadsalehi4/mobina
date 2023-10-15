@@ -14,11 +14,13 @@ import { CheckBox } from '@mui/icons-material'
 
 const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
   const dispatch = useDispatch()
+  const States = useSelector(state => state)
+
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
   const [accesses, SetAccesses] = useState([])
   const submit = (event) => {
     if (Roles.name !== 'ادمین سیستم') {
-      dispatch({type:"LOADINGEFFECT", value:true})
+      dispatch({type:"CustomLoading", value:true})
       axios.put(`${serverAddress}/accounts/role/${number}/`, 
       {
         accesses
@@ -30,11 +32,12 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
           }
       })
       .then((response) => {
-          dispatch({type:"LOADINGEFFECT", value:false})
-          window.location.assign('/admin')          
+          dispatch({type:"CustomLoading", value:false})
+          dispatch({type:"beLoad", value:!(States.beLoad)})
+
       })
       .catch((err) => {
-          dispatch({type:"LOADINGEFFECT", value:false})
+          dispatch({type:"CustomLoading", value:false})
       })
       handleModal(event)
     } else {

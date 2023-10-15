@@ -994,7 +994,7 @@ const EcommerceDashboard = () => {
                 // eslint-disable-next-line multiline-ternary
                 mode === 0 ?
                 // eslint-disable-next-line multiline-ternary
-                <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}>آدرس یا شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3>
+                <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}>آدرس یا شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست‌و‌جو کنید!</h3>
               :
                 null
               }

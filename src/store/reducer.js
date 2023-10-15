@@ -43,10 +43,28 @@ const initialState = {
     //Graph Data
     GraphData:[],
     CustomGraphData:[],
-    MotherFucker:false
+    MotherFucker:false,
+
+    //admin panel
+    CustomLoading: false,
+    beLoad: false
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'beLoad') {
+        return {
+            ...state,
+            beLoad:action.value
+        }
+    }
+
+    if (action.type === 'CustomLoading') {
+        return {
+            ...state,
+            CustomLoading:action.value
+        }
+    }
 
     if (action.type === 'MotherFucker') {
         return {

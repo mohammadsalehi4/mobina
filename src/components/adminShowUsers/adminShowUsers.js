@@ -1,19 +1,18 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 // ** Table Columns
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import ReactPaginate from 'react-paginate'
 import { ChevronDown, Edit3 } from 'react-feather'
 import EditUser from './adminEditUser'
-
-// ** Third Party Components
 import DataTable from 'react-data-table-component'
-
-// ** Reactstrap Imports
-import { Card, CardHeader, CardTitle} from 'reactstrap'
+import { Card, CardHeader, CardTitle, Row, Col} from 'reactstrap'
+import LocalLoading from '../localLoading/localLoading'
+import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 
 const DataTablesBasic = () => {
     const [users, setUsers] = useState([])
@@ -22,6 +21,7 @@ const DataTablesBasic = () => {
 
     const [Edit, setEdit] = useState(false)
     const handleEdit = () => setEdit(!Edit)
+    const States = useSelector(state => state)
 
     const basicColumns = [
       {
@@ -75,7 +75,7 @@ const DataTablesBasic = () => {
 
     useEffect(() => {
         let getUsers = []
-        dispatch({type:"LOADINGEFFECT2", value:true})
+        dispatch({type:"CustomLoading", value:true})
         axios.get(`${serverAddress}/accounts/users`, 
         {
           headers: {
@@ -102,10 +102,10 @@ const DataTablesBasic = () => {
                         }
                         setUsers(getUsers)
                     }
-                    dispatch({type:"LOADINGEFFECT2", value:false})
+                    dispatch({type:"CustomLoading", value:false})
                 })
                 .catch((err) => {
-                    dispatch({type:"LOADINGEFFECT2", value:false})
+                    dispatch({type:"CustomLoading", value:false})
                     try {
                       if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                         Cookies.set('refresh', '')
@@ -118,7 +118,7 @@ const DataTablesBasic = () => {
         })
         .catch((err) => {
 
-            dispatch({type:"LOADINGEFFECT", value:false})
+            dispatch({type:"CustomLoading", value:false})
             try {
               if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
                 Cookies.set('refresh', '')
@@ -127,7 +127,7 @@ const DataTablesBasic = () => {
               }
             } catch (error) {}
         })
-      }, [])
+    }, [, States.beLoad])
 
     //pagination
     const [currentPage, setCurrentPage] = useState(0)
@@ -160,23 +160,42 @@ const DataTablesBasic = () => {
 
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
-      <CardHeader>
+      <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
         <CardTitle tag='h6'>لیست کاربران</CardTitle>
       </CardHeader>
-      <div className='react-dataTable'>
-        <DataTable
-          noHeader
-          data={users}
-          columns={basicColumns}
-          paginationDefaultPage={currentPage + 1}
-          paginationComponent={CustomPagination}
-          pagination
-          className='react-dataTable'
-          sortIcon={<ChevronDown size={10} />}
-          paginationRowsPerPageOptions={[10, 25, 50, 100]}
-        />
-      </div>
+      <Row className='justify-content-end mx-0'>
+          <Col className='d-flex align-items-center justify-content-end mt-2 mb-2' md='6' sm='12'>
+            <div className='d-flex mt-md-0 mt-1'>
+              <button style={{background:MainSiteyellow, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-2' color='primary' onClick={() => {
+                  dispatch({type:"beLoad", value:!(States.beLoad)})
+                }}>
+                <span className='align-middle'>به‌روزرسانی</span>
+              </button>
+            </div>
+          </Col>
+        </Row>
+      {
+        States.CustomLoading ? 
+          <LocalLoading/> 
+        : 
+          <div className='react-dataTable'>
+            <DataTable
+              noHeader
+              data={users}
+              columns={basicColumns}
+              paginationDefaultPage={currentPage + 1}
+              paginationComponent={CustomPagination}
+              pagination
+              className='react-dataTable'
+              sortIcon={<ChevronDown size={10} />}
+              paginationRowsPerPageOptions={[10, 25, 50, 100]}
+            />
+          </div>
+      }
+ 
+
       <EditUser users={users.find(item => item.id === number)} open={Edit} handleModal={handleEdit}/>
+
     </Card>
   )
 }

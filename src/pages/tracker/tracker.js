@@ -75,7 +75,6 @@ const Tracker = () => {
                     symbole:'ETH',
                     address:array[i].to.address
                 })
-
             } 
             if (array[i].to.address.toLowerCase() === hash.toLowerCase()) {
                 inputs.push({
@@ -100,7 +99,7 @@ const Tracker = () => {
                     outputs
                 },
                 {
-                    address:inputs[0].address,
+                    address:String(inputs[0].address),
                     symbole:"ETH",
                     inputs:[],
                     outputs:[
@@ -114,7 +113,7 @@ const Tracker = () => {
 
                 },
                 {
-                    address:outputs[0].address,
+                    address:String(outputs[0].address),
                     symbole:"ETH",
                     inputs:[
                         {
@@ -128,9 +127,7 @@ const Tracker = () => {
 
                 }
             ]
-
         )
-
     }
 
     useEffect(() => {

@@ -18,6 +18,7 @@ import { serverAddress } from '../../address'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
+import { Trash2 } from 'react-feather'
 
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
@@ -214,6 +215,9 @@ const CurrencyDetail = () => {
               return toast.success('آدرس مورد نظر در کلیپ‌بورد کپی شد.', {
                 position: 'bottom-left'
               })
+            }}></ion-icon>
+            <ion-icon name="trash-outline"  title="حذف آدرس" onClick={ () => { 
+
             }}></ion-icon>
           </div>
         </div>

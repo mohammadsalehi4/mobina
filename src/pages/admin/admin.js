@@ -60,7 +60,6 @@ const Admin = () => {
   }
 
   return (
-    <UILoader blocking={(States.LoadingOn || States.LoadingOn2)} loader={<Spinner />}>
     <div className='container-fluid' id='Admin'>
 
         <div className='row'>
@@ -87,7 +86,7 @@ const Admin = () => {
                                 toggle('2')
                                 }}>
 
-                                <span className='align-middle'>نقش ها</span>
+                                <span className='align-middle'>نقش‌ها</span>
                             </a>
                         </NavItem>
                         <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
@@ -97,7 +96,7 @@ const Admin = () => {
                                 onClick={() => {
                                 toggle('3')
                                 }}>
-                                <span className='align-middle'>رخداد ها</span>
+                                <span className='align-middle'>رخداد‌ها</span>
                             </a>
                         </NavItem>
                         <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
@@ -107,7 +106,7 @@ const Admin = () => {
                                 onClick={() => {
                                 toggle('4')
                                 }}>
-                                <span className='align-middle'>گزارش ها</span>
+                                <span className='align-middle'>گزارش‌ها</span>
                             </a>
                         </NavItem>
                     </Nav>
@@ -129,7 +128,6 @@ const Admin = () => {
             </div>
         </div>
     </div>
-    </UILoader>
   )
 }
 export default Admin

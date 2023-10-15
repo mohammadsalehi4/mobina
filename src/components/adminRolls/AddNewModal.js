@@ -10,6 +10,7 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 const AddNewModal = ({ open, handleModal, Roles, number, AllRoles }) => {
   const dispatch = useDispatch()
+  const States = useSelector(state => state)
 
   const [showData, SetShowData] = useState([])
   const [accesses, SetAccesses] = useState([])
@@ -20,7 +21,7 @@ const AddNewModal = ({ open, handleModal, Roles, number, AllRoles }) => {
       document.getElementById('nameErrLabel').style.display = "block"
       document.getElementById('full-name').style.borderColor = "red"
     } else {
-      dispatch({type:"LOADINGEFFECT", value:true})
+      dispatch({type:"CustomLoading", value:true})
 
       axios.post(`${serverAddress}/accounts/role/`, 
       {
@@ -36,12 +37,13 @@ const AddNewModal = ({ open, handleModal, Roles, number, AllRoles }) => {
           }
       })
       .then((response) => {
-          dispatch({type:"LOADINGEFFECT", value:false})
-          window.location.assign('/admin')          
+          dispatch({type:"CustomLoading", value:false})
+          dispatch({type:"beLoad", value:!(States.beLoad)})
+          console.log(response.data)
       })
       .catch((err) => {
         console.log(err)
-          dispatch({type:"LOADINGEFFECT", value:false})
+          dispatch({type:"CustomLoading", value:false})
       })
       handleModal(event)
     }

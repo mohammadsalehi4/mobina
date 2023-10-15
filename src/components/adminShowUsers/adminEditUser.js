@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
@@ -5,7 +6,7 @@ import { X } from 'react-feather'
 import { Modal, Input, Label, ModalHeader, ModalBody } from 'reactstrap'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { MainSiteOrange} from '../../../public/colors'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
@@ -13,6 +14,9 @@ import toast from 'react-hot-toast'
 const EditUser = ({ open, handleModal, users }) => {
   const dispatch = useDispatch()
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
+  const States = useSelector(state => state)
+  
+  const [openEdit, SetopenEdit] = useState(true)
 
   //Errors
   const [NameErr, SetNameErr] = useState(false)
@@ -210,9 +214,13 @@ const EditUser = ({ open, handleModal, users }) => {
                 .then((response) => {
                     dispatch({type:"LOADINGEFFECT", value:false})
                     if (response.data.message === 'success') {
-                      window.location.assign('/admin')
+                      console.log(response.data)
+                      dispatch({type:"beLoad", value:!(States.beLoad)})
+                      handleModal()
                     } else {
-                      console.log(111)
+                      return toast.error('ناموفق', {
+                        position: 'bottom-left'
+                      })
                     }
                 })
                 .catch((err) => {
@@ -291,7 +299,7 @@ const EditUser = ({ open, handleModal, users }) => {
 
   return (
     <Modal
-      isOpen={open}
+      isOpen={(open)}
       className='sidebar-sm m-0'
       toggle={ handleModal}
       modalClassName='modal-slide-in'

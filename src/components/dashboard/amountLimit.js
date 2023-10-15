@@ -11,7 +11,7 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap'
 import { useDispatch, useSelector } from "react-redux"
-import {Filter, ChevronDown} from 'react-feather'
+import {Filter, XCircle} from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
 const AmountLimit = (props) => {
   const States = useSelector(state => state)
@@ -62,13 +62,20 @@ const AmountLimit = (props) => {
         <span  className='align-middle ms-50'>
           {
             ShowTitle === 0 ?
-            <div>
+            <div style={{display:'inline-block'}}>
               <Filter size={14} style={{marginLeft:"8px"}} />
               محدوده حجم
             </div>
             :
-            digitsEnToFa(ShowTitle)
+            <div>
+              {digitsEnToFa(ShowTitle)}
+              <XCircle onClick={ () => { 
+                SetMin(0) 
+                SetMax(0)
+              }} size={16} style={{margin:'0px', padding:'0px', marginRight:'16px'}}/>
+            </div>
           }
+
         </span>
       </DropdownToggle>
       <DropdownMenu style={{padding:"5px 10px", zIndex:'1'}}>
