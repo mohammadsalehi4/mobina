@@ -166,13 +166,17 @@ const FuckingGraph = () => {
                     checkNumber++
                     if (AllNodes[j].x < AllNodes[i].x) {
                       check = true
-                      console.log(checkNumber)
                     }
+                  }
+                }
+                for (let k = 0; k < AllNodes[j].to.length; k++) {
+                  if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
+                    checkNumber++
                   }
                 }
               }
             }
-            if (!check) {
+            if (!check && checkNumber >= 2) {
               AllNodes[i].x = AllNodes[i].x + 2
             }
           } else {
@@ -186,9 +190,14 @@ const FuckingGraph = () => {
                     }
                   }
                 }
+                for (let k = 0; k < AllNodes[j].from.length; k++) {
+                  if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
+                    checkNumber++
+                  }
+                }
               }
             }
-            if (!check) {
+            if (!check && checkNumber >= 2) {
               AllNodes[i].x = AllNodes[i].x - 2
             }
           }

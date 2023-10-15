@@ -197,6 +197,13 @@ const CurrencyDetail = () => {
     })
   }, [])
 
+  const deleteAddress = (value) => {
+    const getGraph = States.GraphData
+    const fitredAddress= getGraph.filter(obj => obj.address !== value)
+    dispatch({type:"GRAPHDATA", value:fitredAddress})
+    dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+  }
+
   return (
       <div id='CurrencyDetail' className='container-fluid' style={{overflowY:"auto"}}>
       <div className='row'>
@@ -217,7 +224,8 @@ const CurrencyDetail = () => {
               })
             }}></ion-icon>
             <ion-icon name="trash-outline"  title="حذف آدرس" onClick={ () => { 
-
+              console.log(States.WDetail)
+              deleteAddress(States.WDetail)
             }}></ion-icon>
           </div>
         </div>
@@ -239,7 +247,6 @@ const CurrencyDetail = () => {
         <div className='col-12 p-4'>
           <div className='row' >
             <div className='col-12'>
-              {/* <WalletDetailTopTable data={'States.WDetail'}/> */}
             </div>
           </div>
           <div className='row mt-3' style={{borderBottomStyle:"solid", borderColor:"rgb(242,242,242)", borderWidth:"2px"}}>
@@ -252,13 +259,11 @@ const CurrencyDetail = () => {
               <TrackerTimeLimit />
             </div>
             <div className='col-6 mb-3'>
-              {/* bayad jaygozin shavad */}
               <TrackerAmountLimit />
             </div>
           </div>
           <div className='row mt-3'>
             <div className='col-12'>
-                {/* <WalletDetailTableBottom data={States.WDetail}/> */}
                 {
                   Loading1 ?
                     <div className='mt-3' style={{textAlign:'center'}}>
