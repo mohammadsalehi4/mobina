@@ -199,18 +199,20 @@ const  WalletDetailTableBottom = (props) => {
   useEffect(() => {
     const a = []
     const MainData = States.GraphData
-
+    console.log(props.data)
     //get All Hash
     const AllHash = []
     for (let i = 0; i < MainData.length; i++) {
-      for (let j = 0; j < MainData[i].inputs.length; j++) {
-        if (AllHash.find(item => item === MainData[i].inputs[j].hash) === undefined) {
-          AllHash.push(MainData[i].inputs[j].hash)
+      if (MainData[i].address === props.address) {
+        for (let j = 0; j < MainData[i].inputs.length; j++) {
+          if (AllHash.find(item => item === MainData[i].inputs[j].hash) === undefined) {
+            AllHash.push(MainData[i].inputs[j].hash)
+          }
         }
-      }
-      for (let j = 0; j < MainData[i].outputs.length; j++) {
-        if (AllHash.find(item => item === MainData[i].outputs[j].hash) === undefined) {
-          AllHash.push(MainData[i].outputs[j].hash)
+        for (let j = 0; j < MainData[i].outputs.length; j++) {
+          if (AllHash.find(item => item === MainData[i].outputs[j].hash) === undefined) {
+            AllHash.push(MainData[i].outputs[j].hash)
+          }
         }
       }
     }
