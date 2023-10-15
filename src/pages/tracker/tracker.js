@@ -61,7 +61,7 @@ const Tracker = () => {
         window.location.assign(`/tracker/${inputValue}`)
     }
 
-    const EtereumAddress = (array, hash) => {
+    const EthereumAddress = (array, hash) => {
         const address = hash
         const symbole = 'ETH'
         let inputs = []
@@ -130,19 +130,67 @@ const Tracker = () => {
         )
     }
 
+    const EthereumTransaction = (array, hash) => {
+        return (
+            [
+                {
+                    address:String(array.from.address),
+                    symbole:"ETH",
+                    inputs:[
+                        {
+                            hash:array.hash,
+                            value:parseFloat((Number(array.value) / 1000000000000000000).toFixed(5)).toString(),
+                            timeStamp:array.timestamp,
+                            symbole:'ETH'
+                        }
+                    ],
+                    outputs:[]
+                },
+                {
+                    address:String(array.to.address),
+                    symbole:"ETH",
+                    inputs:[],
+                    outputs:[
+                        {
+                            hash:array.hash,
+                            value:parseFloat((Number(array.value) / 1000000000000000000).toFixed(5)).toString(),
+                            timeStamp:array.timestamp,
+                            symbole:'ETH'
+                        }
+                    ]
+                }
+            ]
+        )
+    }
+
     useEffect(() => {
         if (hash !== undefined) {
             SetLoading(true)
-            axios.get(`${serverAddress}/explorer/address?address=${hash}&network=ETH&page_size=50&offset=1`,
+            axios.get(`${serverAddress}/explorer/search/?query=${hash}`,
             {
               headers: {
                 Authorization: `Bearer ${Cookies.get('access')}`
               }
             })
             .then((response) => {
-                SetLoading(false)
-                dispatch({type:"GRAPHDATA", value:EtereumAddress(response.data.result, hash)})
-                SetIsShow(true)
+                try {
+                    if (response.data.query === 'address') {
+                        if (response.data.network === 'ETH') {
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:EthereumAddress(response.data.data.result, hash)})
+                            SetIsShow(true)
+                        }
+                    } else if (response.data.query === 'transaction') {
+                        if (response.data.network === 'ETH') {
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:EthereumTransaction(response.data.data, hash)})
+                            SetIsShow(true)
+                        }
+                    }
+                } catch (error) {
+                    
+                }
+
             })
             .catch((err) => {
                  SetLoading(false)
