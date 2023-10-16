@@ -78,8 +78,8 @@ const CurrencyDetail = () => {
           })
         }
       }
-
     }
+    
     for (let a=0; a<getData.result.length; a++) {
       if (getData.result[a].logs.length > 0) {
         for (let j=0; j<getData.result[a].logs.length; j++) {

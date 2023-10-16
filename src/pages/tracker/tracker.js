@@ -133,21 +133,8 @@ const Tracker = () => {
     const EthereumTransaction = (array, hash) => {
         return (
             [
-                {
+                { 
                     address:String(array.from.address),
-                    symbole:"ETH",
-                    inputs:[
-                        {
-                            hash:array.hash,
-                            value:parseFloat((Number(array.value) / 1000000000000000000).toFixed(5)).toString(),
-                            timeStamp:array.timestamp,
-                            symbole:'ETH'
-                        }
-                    ],
-                    outputs:[]
-                },
-                {
-                    address:String(array.to.address),
                     symbole:"ETH",
                     inputs:[],
                     outputs:[
@@ -158,6 +145,19 @@ const Tracker = () => {
                             symbole:'ETH'
                         }
                     ]
+                },
+                {
+                    address:String(array.to.address),
+                    symbole:"ETH",
+                    inputs:[
+                        {
+                            hash:array.hash,
+                            value:parseFloat((Number(array.value) / 1000000000000000000).toFixed(5)).toString(),
+                            timeStamp:array.timestamp,
+                            symbole:'ETH'
+                        }
+                    ],
+                    outputs:[]
                 }
             ]
         )

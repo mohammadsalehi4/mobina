@@ -5,6 +5,7 @@ import NiceAddress2 from '../niceAddress2/niceAddress'
 import { digitsEnToFa } from 'persian-tools'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
+import { useSelector, useDispatch } from "react-redux"
 import {
   Card,
   Input
@@ -18,6 +19,10 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
 ))
 
 const TransactionTablleWithCheckbox = (props) => {
+
+  const dispatch = useDispatch()
+  const States = useSelector(state => state)
+
   // ** States
   const [currentPage, setCurrentPage] = useState(0)
   const [searchValue, setSearchValue] = useState('')
@@ -26,24 +31,86 @@ const TransactionTablleWithCheckbox = (props) => {
 
   useEffect(() => {
     const a = []
-    for (let i = 0; i < props.data.in.length; i++) {
+    for (let i = 0; i < (props.data.transfers).length; i++) {
       a.push({
-        address:props.data.in[i].address,
-        amount:props.data.in[i].amount
+        address:props.data.transfers[i].from,
+        amount:props.data.transfers[i].amount,
+        currencyType:props.data.transfers[i].currencyType,
+        show:false
       })
     }
+
+    //check available data
+    const GetGraphData = States.GraphData
+    for (let i = 0; i < a.length; i++) {
+      let check = false
+      if (GetGraphData.some(item => (item.address).toUpperCase() === (a[i].address).toUpperCase())) {
+        for (let j = 0; j < GetGraphData.length; j++) {
+          if ((GetGraphData[j].address).toUpperCase()  === (a[i].address).toUpperCase()) {
+            for (let k = 0; k < GetGraphData[j].outputs.length; k++) {
+              if ((GetGraphData[j].outputs[k].hash).toUpperCase()  === (props.address).toUpperCase()) {
+                check = true
+              }
+            }
+          }
+        }
+      }
+      if (check) {
+        a[i].show = true
+      }
+    }
+
     SetData(a)
   }, [, props.data])
 
+  //add new node to graph
+  const addSelectedData = (row) => {
+    
+  }
+
+  function removeSelectedData(value) {
+
+  }
+
   const columns = [
+    {
+      minWidth: '50px',
+      maxWidth: '50px',
+      sortable:false,
+      selector: row => row.show,
+      cell: row => {
+        if (row.show) {
+          return (
+            <Input id={row.hash} onChange={(event) => { 
+              if (event.target.checked) {
+                addSelectedData(row)
+              } else {
+                removeSelectedData(row)
+              }
+            }} defaultChecked type='checkbox'/>
+          )
+        } else {
+            return (
+              <Input id={row.hash} onChange={(event) => { 
+                if (event.target.checked) {
+                  addSelectedData(row)
+                } else {
+                  removeSelectedData(row)
+                }
+              }}  type='checkbox'/>
+          )
+        }
+
+      }
+    },
     {
       name: 'آدرس های ورودی',
       sortable: false,
-      minWidth: '300px',
+      minWidth: '200px',
       selector: row => row.address,
       cell: row => {
         return (
-          <NiceAddress2 text={row.address} number={12}/>
+          <NiceAddress2 text={row.address} number={6}/>
         )
       }
     },
@@ -51,7 +118,7 @@ const TransactionTablleWithCheckbox = (props) => {
       name: 'مقدار',
       sortable: true,
       minWidth: '100px',
-      selector: row => digitsEnToFa(parseFloat((row.amount).toFixed(5)).toString())
+      selector: row => (`\u200E${digitsEnToFa(parseFloat((row.amount).toFixed(5)).toString())  } ${  row.currencyType}`)
     }
   ]
 
@@ -90,7 +157,6 @@ const TransactionTablleWithCheckbox = (props) => {
         <div className='react-dataTable react-dataTable-selectable-rows'>
           <DataTable
             noHeader
-            selectableRows
             columns={columns}
             className='react-dataTable'
             selectableRowsComponent={BootstrapCheckbox}

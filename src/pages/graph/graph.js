@@ -384,8 +384,10 @@ const FuckingGraph = () => {
               dispatch({type:"SETshowWalletData", value:true})
               dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
             } else if (clickedNode.group === 'mid') {
-              navigator.clipboard.writeText(clickedNode.address)
-            }
+              dispatch({type:"SETWDetail", value:(clickedNode.address)})
+              dispatch({type:"SETshowWalletData", value:false})
+              dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
+            } 
           }
       });
 
