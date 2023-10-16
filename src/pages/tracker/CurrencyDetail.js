@@ -80,30 +80,30 @@ const CurrencyDetail = () => {
       }
     }
     
-    for (let a=0; a<getData.result.length; a++) {
-      if (getData.result[a].logs.length > 0) {
-        for (let j=0; j<getData.result[a].logs.length; j++) {
-          try {
-            if (getData.result[a].logs[j].address.symbol) {
+    // for (let a=0; a<getData.result.length; a++) {
+    //   if (getData.result[a].logs.length > 0) {
+    //     for (let j=0; j<getData.result[a].logs.length; j++) {
+    //       try {
+    //         if (getData.result[a].logs[j].address.symbol) {
 
-              data.push({
-                timeStamp:getData.result[a].timestamp,
-                from:getData.result[a].logs[j].from,
-                to:getData.result[a].logs[j].to,
-                gasUsed:getData.result[a].gasUsed,
-                gasPrice:Number(getData.result[a].gasPrice)/1000000000000000000,
-                value:Number(getData.result[a].logs[j].amount)/(Math.pow(10, getData.result[a].logs[j].address.decimal)),
-                hash:getData.result[a].logs[j].transactionHash,
-                currencyType:getData.result[a].logs[j].address.symbol,
-                Logo:`${getData.result[a].logs[j].address.symbol}.png`,
-                Type:"token"
-              })
+    //           data.push({
+    //             timeStamp:getData.result[a].timestamp,
+    //             from:getData.result[a].logs[j].from,
+    //             to:getData.result[a].logs[j].to,
+    //             gasUsed:getData.result[a].gasUsed,
+    //             gasPrice:Number(getData.result[a].gasPrice)/1000000000000000000,
+    //             value:Number(getData.result[a].logs[j].amount)/(Math.pow(10, getData.result[a].logs[j].address.decimal)),
+    //             hash:getData.result[a].logs[j].transactionHash,
+    //             currencyType:getData.result[a].logs[j].address.symbol,
+    //             Logo:`${getData.result[a].logs[j].address.symbol}.png`,
+    //             Type:"token"
+    //           })
 
-            }
-          } catch (error) {}
-        }
-      }
-    }
+    //         }
+    //       } catch (error) {}
+    //     }
+    //   }
+    // }
 
     //check values
     for (let i = 0; i < data.length; i++) {
@@ -139,6 +139,9 @@ const CurrencyDetail = () => {
         throw new Error('hash Error')
       }
     }
+
+    console.log('data')
+    console.log(data)
 
 
     const inputs=[]
@@ -180,6 +183,9 @@ const CurrencyDetail = () => {
       }
     })
     .then((response) => {
+      console.log('response.data')
+      console.log(response.data)
+      console.log('response.data')
       try {
         SetData(EthereumAddress(response.data, address))
         SetLoading(false)
@@ -268,6 +274,7 @@ const CurrencyDetail = () => {
                   Loading1 ?
                     <div className='mt-3' style={{textAlign:'center'}}>
                       <Spinner />
+                      <p>در حال دریافت اطلاعات</p>
                     </div>
                   :
                     <WalletDetailTableBottom data={Data} address={States.WDetail}/>

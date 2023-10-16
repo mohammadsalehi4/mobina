@@ -81,8 +81,8 @@ const  WalletDetailTableBottom = (props) => {
   //add new node to graph
   const addSelectedData = (row) => {
     const getGraph = States.GraphData
-    console.log(getGraph)
-
+    
+      // ------------------------------------BUG------------------------------------
       if (row.mode === 'in') {
         for (let i = 0; i < getGraph.length; i++) {
           if ((getGraph[i].address).toUpperCase() === (props.address).toUpperCase()) {

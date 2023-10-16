@@ -42,6 +42,25 @@ const resetPage = () => {
   }
 }
 
+const LongestColomn = () => {
+  let Longest = 0
+  let CNumber = 0
+  for (let i = 0; i < (PageNumber * 2) - 1; i++) {
+    if (Page[0][i] === 1) {
+      for (let j = 0; j < (PageNumber * 2) - 1; j++) {
+        if (Page[j][i] === 1) {
+          Longest++
+        }
+      }
+      if (CNumber < Longest) {
+        CNumber = Longest
+      }
+      Longest = 0
+    }
+  } 
+  return CNumber
+}
+
 const FuckingGraph = () => {
   const networkRef = useRef(null)
   const dispatch = useDispatch()
@@ -50,6 +69,7 @@ const FuckingGraph = () => {
   
   //set Default full data
   const [GraphData, SetGraphData] = useState([])
+  const [Distance, SetDistance] = useState(300)
 
   useEffect(() => {
     if (States.GraphData.length > 0) {
@@ -219,7 +239,7 @@ const FuckingGraph = () => {
         if (CheckPage(GraphData[i].x, y)) {
           const newNode = {
             id: GraphData[i].id,
-            x: GraphData[i].x * 300,
+            x: GraphData[i].x * Distance,
             y: 800 - (100 * y),
             group: GraphData[i].group,
             address:GraphData[i].address,
@@ -373,25 +393,29 @@ const FuckingGraph = () => {
         }
     }
 
-      const network = new Network(networkRef.current, data, options)
+    const network = new Network(networkRef.current, data, options)
 
-      network.on("click", function(params) {
-          const nodeId = params.nodes[0];
-          if (nodeId) {
-            const clickedNode = nodes.get(nodeId);
-            if (clickedNode.group === 'main') {
-              dispatch({type:"SETWDetail", value:(clickedNode.address)})
-              dispatch({type:"SETshowWalletData", value:true})
-              dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
-            } else if (clickedNode.group === 'mid') {
-              dispatch({type:"SETWDetail", value:(clickedNode.address)})
-              dispatch({type:"SETshowWalletData", value:false})
-              dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
-            } 
-          }
-      });
+    network.on("click", function(params) {
+        const nodeId = params.nodes[0];
+        if (nodeId) {
+          const clickedNode = nodes.get(nodeId);
+          if (clickedNode.group === 'main') {
+            dispatch({type:"SETWDetail", value:(clickedNode.address)})
+            dispatch({type:"SETshowWalletData", value:true})
+            dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
+          } else if (clickedNode.group === 'mid') {
+            dispatch({type:"SETWDetail", value:(clickedNode.address)})
+            dispatch({type:"SETshowWalletData", value:false})
+            dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
+          } 
+        }
+    });
 
-  }, [, GraphData])
+    SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
+
+    console.log(LongestColomn())
+
+  }, [, GraphData, Distance])
 
   return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%" }}></div>
 }

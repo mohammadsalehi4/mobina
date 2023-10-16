@@ -24,9 +24,9 @@ const TransactionDetail1 = () => {
   }
   const [Loading1, SetLoading] = useState(true)
   const [Data, SetData] = useState({})
-  const [MyDate, SetDate] = useState('...در حال دریافت اطلاعات')
-  const [Fee, SetFee] = useState('...در حال دریافت اطلاعات')
-  const [Value, SetValue] = useState('...در حال دریافت اطلاعات')
+  const [MyDate, SetDate] = useState('بدون اطلاعات!')
+  const [Fee, SetFee] = useState('بدون اطلاعات!')
+  const [Value, SetValue] = useState('بدون اطلاعات!')
   const [IsGet, SetIsGet] = useState(false)
   const [Symbole, SetSymbole] = useState(false)
 
@@ -268,10 +268,10 @@ const TransactionDetail1 = () => {
               <a id='justUp400'>{`...${(States.WDetail).substring(0, 30)}`}</a>
               <a id='justUnder400'>{`...${(States.WDetail).substring(0, 20)}`}</a>
               <ion-icon title={'کپی آدرس'} name="copy-outline" onClick={ () => { 
-              navigator.clipboard.writeText(States.WDetail) 
-              return toast.success('آدرس مورد نظر در کلیپ‌بورد کپی شد.', {
-                position: 'bottom-left'
-              })
+                navigator.clipboard.writeText(States.WDetail) 
+                return toast.success('آدرس مورد نظر در کلیپ‌بورد کپی شد.', {
+                  position: 'bottom-left'
+                })
               }}></ion-icon>
             </div>
           </div>
@@ -282,7 +282,9 @@ const TransactionDetail1 = () => {
           </div>
         </div>
         <div className='row' id='scrollingWalletDetail' style={{boxSizing:"border-box"}}>
-          <div className='col-12 p-4'>
+          {
+            IsGet ? 
+            <div className='col-12 p-4'>
             <div className='row' >
               <div className='col-12'>
                 <h6 style={{borderColor:"rgb(200,200,200)", borderBottomStyle:"solid", borderWidth:"1px"}} className='pb-1'>آدرس ها</h6>
@@ -300,37 +302,41 @@ const TransactionDetail1 = () => {
                     <span>{Value}</span>
                 }
               </div>
-            </div>
-            <div className='row' >
-              <div className='col-6'>
-                <p>کارمزد</p>
-              </div>
-              <div className='col-6' style={{float:"left", direction:"ltr"}}>
-                {
-                  IsGet ? 
-                    <><span>{digitsEnToFa(parseFloat((Fee).toFixed(5)).toString())}</span><small> {Symbole} </small></>
+                </div>
+                <div className='row' >
+                  <div className='col-6'>
+                    <p>کارمزد</p>
+                  </div>
+                  <div className='col-6' style={{float:"left", direction:"ltr"}}>
+                    {
+                      IsGet ? 
+                        <><span>{digitsEnToFa(parseFloat((Fee).toFixed(5)).toString())}</span><small> {Symbole} </small></>
 
-                  :
-                    <span>{Value}</span>
-                }
+                      :
+                        <span>{Value}</span>
+                    }
+                  </div>
+                </div>
+                <div className='row' >
+                  <div className='col-6'>
+                    <p>تاریخ بلاک</p>
+                  </div>
+                  <div className='col-6' style={{float:"left", direction:"ltr"}}>
+                    {
+                      IsGet ? 
+                        <>
+                          <span  style={{marginBottom:"-8px"}}>{`${digitsEnToFa(getMyTime(MyDate).year)}/${digitsEnToFa(getMyTime(MyDate).month)}/${digitsEnToFa(getMyTime(MyDate).day)} - ${digitsEnToFa(getMyTime(MyDate).hour)}:${digitsEnToFa(getMyTime(MyDate).minute)}`}</span>
+                        </>
+                      :
+                        <span>{Value}</span>
+                    }
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className='row' >
-              <div className='col-6'>
-                <p>تاریخ بلاک</p>
-              </div>
-              <div className='col-6' style={{float:"left", direction:"ltr"}}>
-                {
-                  IsGet ? 
-                    <>
-                      <span  style={{marginBottom:"-8px"}}>{`${digitsEnToFa(getMyTime(MyDate).year)}/${digitsEnToFa(getMyTime(MyDate).month)}/${digitsEnToFa(getMyTime(MyDate).day)} - ${digitsEnToFa(getMyTime(MyDate).hour)}:${digitsEnToFa(getMyTime(MyDate).minute)}`}</span>
-                    </>
-                  :
-                    <span>{Value}</span>
-                }
-              </div>
-            </div>
-          </div>
+              :
+              null
+          }
+
         </div>
         <div className='row'>
           <div className='col-12'>
@@ -340,6 +346,7 @@ const TransactionDetail1 = () => {
               :
               <div className='mt-3' style={{textAlign:'center'}}>
                 <Spinner />
+                <p>در حال دریافت اطلاعات</p>
               </div>
             }
 
