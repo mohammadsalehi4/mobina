@@ -414,11 +414,21 @@ const FuckingGraph = () => {
     network.moveTo(States.Zoom);
 
     network.on("zoom", function (params) {
-      console.log(params)
+      let position = States.Zoom
+      console.log(params) 
+      position.scale = params.scale
       dispatch({type:"Zoom",
-        value:params
+        value:position
       })
-      console.log(States.Zoom)
+    })
+
+    network.on("dragEnd", function (params) {
+      let position = States.Zoom
+      position.position.x = params.pointer.canvas.x
+      position.position.y = params.pointer.canvas.y
+      dispatch({type:"Zoom",
+        value:position
+      })
     })
 
     SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
