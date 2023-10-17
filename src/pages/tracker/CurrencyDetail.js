@@ -153,7 +153,8 @@ const CurrencyDetail = () => {
           hash:data[i].hash,
           date:data[i].timeStamp,
           time:data[i].timeStamp,
-          amount:data[i].value
+          amount:data[i].value,
+          currencyType:data[i].currencyType
         })
       } else if ((data[i].from).toUpperCase() === add.toUpperCase()) {
         outputs.push({
@@ -161,10 +162,17 @@ const CurrencyDetail = () => {
           hash:data[i].hash,
           date:data[i].timeStamp,
           time:data[i].timeStamp,
-          amount:data[i].value
+          amount:data[i].value,
+          currencyType:data[i].currencyType
         })
       }
     }
+
+    console.log({
+      symbole:'ETH',
+      inputs,
+      outputs
+    })
 
     return {
       symbole:'ETH',

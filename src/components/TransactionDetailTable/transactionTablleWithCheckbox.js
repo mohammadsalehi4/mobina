@@ -65,7 +65,39 @@ const TransactionTablleWithCheckbox = (props) => {
 
   //add new node to graph
   const addSelectedData = (row) => {
-    
+    const getData = States.GraphData
+    console.log(row)
+    // console.log(getData)
+    // console.log(props.data)
+    console.log(getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase()))
+    if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
+      getData.find(item => item.address === row.address).outputs.push({
+        hash:props.data.address,
+        symbole:props.data.symbole,
+        timestamp:props.data.BlockDate,
+        value:props.data.amount
+      })
+      dispatch({type:"GRAPHDATA", value:getData})
+      dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+
+    } else {
+      getData.push({
+        address: row.address,
+        symbole:row.currencyType,
+        outputs:[
+          {
+            address:props.data.transfers[0].from,
+            hash:props.data.address,
+            symbole: row.currencyType,
+            timestamp:row.BlockDate,
+            value:row.amount
+          }
+        ],
+        inputs:[]
+      })
+      dispatch({type:"GRAPHDATA", value:getData})
+      dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+    }
   }
 
   function removeSelectedData(value) {

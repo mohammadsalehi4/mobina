@@ -199,10 +199,6 @@ const Tracker = () => {
         }
     }, [])
 
-    useEffect(() => {
-        console.log(States.GraphData)
-    }, [States.GraphData])
-
     return (
         <UILoader blocking={Loading} loader={<Spinner />}>
             <div id='TransactionPage'>
