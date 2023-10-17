@@ -43,7 +43,21 @@ const initialState = {
     //Graph Data
     GraphData:[],
     CustomGraphData:[],
-    MotherFucker:false,
+    Zoom:{
+        animation:{duration: 0, easingFunction: 'easeInOutQuad'},
+        scale:1,
+        pointer:{
+            x: 0,
+            y: 800
+        },
+        offset:{
+            x: 0,
+            y: 0
+        },
+        direction:'+',
+        position:{x: 0, y: 800}
+    },
+
 
     //admin panel
     CustomLoading: false,
@@ -51,6 +65,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'Zoom') {
+        return {
+            ...state,
+            Zoom:action.value
+        }
+    }
 
     if (action.type === 'beLoad') {
         return {

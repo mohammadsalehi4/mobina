@@ -409,13 +409,23 @@ const FuckingGraph = () => {
             dispatch({type:"SETSHOWTRANSACTIONDATA", value:true})
           } 
         }
-    });
+    })
+
+    network.moveTo(States.Zoom);
+
+    network.on("zoom", function (params) {
+      console.log(params)
+      dispatch({type:"Zoom",
+        value:params
+      })
+      console.log(States.Zoom)
+    })
 
     SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
 
     console.log(LongestColomn())
 
-  }, [, GraphData, Distance])
+  }, [, GraphData, Distance, States.Zoom])
 
   return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%" }}></div>
 }

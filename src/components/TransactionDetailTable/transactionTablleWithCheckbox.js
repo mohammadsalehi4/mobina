@@ -66,31 +66,26 @@ const TransactionTablleWithCheckbox = (props) => {
   //add new node to graph
   const addSelectedData = (row) => {
     const getData = States.GraphData
-    console.log(row)
-    // console.log(getData)
-    // console.log(props.data)
-    console.log(getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase()))
+
     if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
-      getData.find(item => item.address === row.address).outputs.push({
+      getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).outputs.push({
         hash:props.data.address,
         symbole:props.data.symbole,
-        timestamp:props.data.BlockDate,
-        value:props.data.amount
+        timeStamp:props.data.BlockDate,
+        value:props.data.value
       })
       dispatch({type:"GRAPHDATA", value:getData})
       dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
-
     } else {
       getData.push({
         address: row.address,
         symbole:row.currencyType,
         outputs:[
           {
-            address:props.data.transfers[0].from,
             hash:props.data.address,
             symbole: row.currencyType,
-            timestamp:row.BlockDate,
-            value:row.amount
+            timeStamp:props.data.BlockDate,
+            value:String(row.amount)
           }
         ],
         inputs:[]
@@ -100,8 +95,35 @@ const TransactionTablleWithCheckbox = (props) => {
     }
   }
 
-  function removeSelectedData(value) {
+  function removeSelectedData(row) {
+    const getData = States.GraphData
+    if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
+      const deletedItem = {
+        hash:props.data.address,
+        symbole: row.currencyType,
+        timeStamp:props.data.BlockDate,
+        value:String(row.amount)
+      }
+      const outputsData = getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).outputs
+      const filtredData = []
+      
+      for (let i = 0; i < outputsData.length; i++) {
+        if ((outputsData[i].hash).toUpperCase() !== (deletedItem.hash).toUpperCase()) {
+          filtredData.push(outputsData[i])
+        } else if ((outputsData[i].symbole !== deletedItem.symbole)) {
+          filtredData.push(outputsData[i])
+        } else if ((outputsData[i].timeStamp !== deletedItem.timeStamp)) {
+          filtredData.push(outputsData[i])
+        } else if ((Number(outputsData[i].value) !== Number(deletedItem.value))) {
+          filtredData.push(outputsData[i])
+        }
 
+      }
+
+      getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).outputs = filtredData
+      dispatch({type:"GRAPHDATA", value:getData})
+      dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+    }
   }
 
   const columns = [
