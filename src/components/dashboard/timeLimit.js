@@ -21,7 +21,7 @@ import './style.css'
 
 
 function getMyTime(millis) {
-  const date = new Date(millis * 1000)
+  const date = new Date(millis)
 
   const year = date.getFullYear()
   const month = date.getMonth() + 1 
