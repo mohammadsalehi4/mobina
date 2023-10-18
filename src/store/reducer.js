@@ -43,20 +43,9 @@ const initialState = {
     //Graph Data
     GraphData:[],
     CustomGraphData:[],
-    Zoom:{
-        animation:{duration: 0, easingFunction: 'easeInOutQuad'},
-        scale:1,
-        pointer:{
-            x: 0,
-            y: 800
-        },
-        offset:{
-            x: 0,
-            y: 0
-        },
-        direction:'+',
-        position:{x: 0, y: 800}
-    },
+    Scale:1,
+    positionX:0,
+    positionY:800,
 
 
     //admin panel
@@ -66,10 +55,24 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
 
-    if (action.type === 'Zoom') {
+    if (action.type === 'positionX') {
         return {
             ...state,
-            Zoom:action.value
+            positionX:action.value
+        }
+    }
+
+    if (action.type === 'positionY') {
+        return {
+            ...state,
+            positionY:action.value
+        }
+    }
+
+    if (action.type === 'Scale') {
+        return {
+            ...state,
+            Scale:action.value
         }
     }
 

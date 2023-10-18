@@ -411,31 +411,23 @@ const FuckingGraph = () => {
         }
     })
 
-    network.moveTo(States.Zoom);
+    network.moveTo({scale:(States.Scale), position:{x:States.positionX, y:States.positionY}});
 
     network.on("zoom", function (params) {
-      let position = States.Zoom
-      console.log(params) 
-      position.scale = params.scale
-      dispatch({type:"Zoom",
-        value:position
-      })
+      dispatch({type:"Scale", value:(params.scale)})
     })
 
-    network.on("dragEnd", function (params) {
-      let position = States.Zoom
-      position.position.x = params.pointer.canvas.x
-      position.position.y = params.pointer.canvas.y
-      dispatch({type:"Zoom",
-        value:position
-      })
+    network.on("dragEnd", function () {
+      var position = network.getViewPosition();
+      dispatch({type:"positionX", value:(position.x)})
+      dispatch({type:"positionY", value:(position.y)})
     })
 
     SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
 
     console.log(LongestColomn())
 
-  }, [, GraphData, Distance, States.Zoom])
+  }, [, GraphData, Distance, States.Scale])
 
   return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%" }}></div>
 }

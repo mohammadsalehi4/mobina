@@ -72,7 +72,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
         hash:props.data.address,
         symbole:props.data.symbole,
         timeStamp:props.data.BlockDate,
-        value:props.data.value
+        value:parseFloat(Number(props.data.value).toFixed(5)).toString()
       })
       dispatch({type:"GRAPHDATA", value:getData})
       dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
@@ -85,7 +85,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
             hash:props.data.address,
             symbole: row.currencyType,
             timeStamp:props.data.BlockDate,
-            value:String(row.amount)
+            value:String(parseFloat(Number(row.amount).toFixed(5)).toString())
           }
         ],
         outputs:[]
@@ -114,10 +114,9 @@ const TransactionTablleWithCheckbox2 = (props) => {
           filtredData.push(outputsData[i])
         } else if ((outputsData[i].timeStamp !== deletedItem.timeStamp)) {
           filtredData.push(outputsData[i])
-        } else if ((Number(outputsData[i].value) !== Number(deletedItem.value))) {
+        } else if ((parseFloat(Number(outputsData[i].value).toFixed(5)).toString() !== parseFloat(Number(deletedItem.value).toFixed(5)).toString())) {
           filtredData.push(outputsData[i])
         }
-
       }
 
       getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).inputs = filtredData

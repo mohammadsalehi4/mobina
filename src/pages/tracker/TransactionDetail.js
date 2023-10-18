@@ -250,6 +250,21 @@ const TransactionDetail1 = () => {
     })
   }, [])
 
+  const deleteTransaction = (hash) => {
+    const getGraph = States.GraphData
+    console.log(getGraph)
+    for (let i = 0; i < getGraph.length; i++) {
+      let inputTrs = getGraph[i].inputs
+      let outputTrs = getGraph[i].outputs
+      inputTrs = inputTrs.filter(item => (item.hash).toUpperCase() !== hash.toUpperCase())
+      outputTrs = outputTrs.filter(item => (item.hash).toUpperCase() !== hash.toUpperCase())
+      getGraph[i].inputs = inputTrs
+      getGraph[i].outputs = outputTrs
+    }
+    dispatch({type:"GRAPHDATA", value:getGraph})
+    dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+  }
+
   // eslint-disable-next-line no-return-assign
   return (
     
@@ -267,11 +282,14 @@ const TransactionDetail1 = () => {
             <div id='address' style={{background:"rgb(248,248,248)", width:"100%", padding:"15px", borderRadius:"10px"}}>
               <a id='justUp400'>{`...${(States.WDetail).substring(0, 30)}`}</a>
               <a id='justUnder400'>{`...${(States.WDetail).substring(0, 20)}`}</a>
-              <ion-icon title={'کپی آدرس'} name="copy-outline" onClick={ () => { 
+              <ion-icon title={'کپی تراکنش'} name="copy-outline" onClick={ () => { 
                 navigator.clipboard.writeText(States.WDetail) 
-                return toast.success('آدرس مورد نظر در کلیپ‌بورد کپی شد.', {
+                return toast.success('تراکنش مورد نظر در کلیپ‌بورد کپی شد.', {
                   position: 'bottom-left'
                 })
+              }}></ion-icon>
+              <ion-icon name="trash-outline"  title="حذف تراکنش" onClick={ () => { 
+                deleteTransaction(States.WDetail)
               }}></ion-icon>
             </div>
           </div>
