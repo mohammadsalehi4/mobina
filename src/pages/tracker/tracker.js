@@ -19,6 +19,7 @@ import { serverAddress } from '../../address'
 import axios from 'axios'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
+import toast from 'react-hot-toast'
 
 const Tracker = () => {
     const { hash } = useParams()
@@ -68,22 +69,32 @@ const Tracker = () => {
         let outputs = []
         for (let i = 0; i < array.length; i++) {
             if (array[i].from.address.toLowerCase() === hash.toLowerCase()) {
-                outputs.push({
-                    hash:array[i].hash,
-                    value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
-                    timeStamp:array[i].timestamp,
-                    symbole:'ETH',
-                    address:array[i].to.address
-                })
+                //validation
+                if (typeof (array[i].hash) === 'string' && typeof (array[i].value) === 'string' && typeof (array[i].to.address) === 'string' && typeof (array[i].timestamp) === 'number') {
+                    outputs.push({
+                        hash:array[i].hash,
+                        value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
+                        timeStamp:array[i].timestamp,
+                        symbole:'ETH',
+                        address:array[i].to.address
+                    })
+                } else {
+                    console.log(`there is an Error for ${array[i]}`)
+                }
             } 
             if (array[i].to.address.toLowerCase() === hash.toLowerCase()) {
-                inputs.push({
-                    hash:array[i].hash,
-                    value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
-                    timeStamp:array[i].timestamp,
-                    symbole:'ETH',
-                    address:array[i].from.address
-                })
+                 //validation
+                if (typeof (array[i].hash) === 'string' && typeof (array[i].value) === 'string' && typeof (array[i].from.address) === 'string' && typeof (array[i].timestamp) === 'number') {
+                    inputs.push({
+                        hash:array[i].hash,
+                        value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
+                        timeStamp:array[i].timestamp,
+                        symbole:'ETH',
+                        address:array[i].from.address
+                    })
+                } else {
+                    console.log(`there is an Error for ${array[i]}`)
+                }
             }
         }
 
@@ -131,36 +142,43 @@ const Tracker = () => {
     }
 
     const EthereumTransaction = (array, hash) => {
-        return (
-            [
-                { 
-                    address:String(array.from.address),
-                    symbole:"ETH",
-                    inputs:[],
-                    outputs:[
-                        {
-                            hash:array.hash,
-                            value:parseFloat((Number(array.value) / 1000000000000000000).toFixed(5)).toString(),
-                            timeStamp:array.timestamp,
-                            symbole:'ETH'
-                        }
-                    ]
-                },
-                {
-                    address:String(array.to.address),
-                    symbole:"ETH",
-                    inputs:[
-                        {
-                            hash:array.hash,
-                            value:parseFloat((Number(array.value) / 1000000000000000000).toFixed(5)).toString(),
-                            timeStamp:array.timestamp,
-                            symbole:'ETH'
-                        }
-                    ],
-                    outputs:[]
-                }
-            ]
-        )
+        if (typeof (array.from.address) === 'string' && typeof (array.hash) === 'string' && typeof (array.timestamp) === 'number' && (typeof (array.value) === 'number' || typeof (array.value) === 'string')) {
+            dispatch({type:"positionX", value:(-330)})
+            return (
+                [
+                    { 
+                        address:String(array.from.address),
+                        symbole:"ETH",
+                        inputs:[],
+                        outputs:[
+                            {
+                                hash:array.hash,
+                                value:parseFloat((Number(array.value) / 1000000000000000000).toFixed(5)).toString(),
+                                timeStamp:array.timestamp,
+                                symbole:'ETH'
+                            }
+                        ]
+                    },
+                    {
+                        address:String(array.to.address),
+                        symbole:"ETH",
+                        inputs:[
+                            {
+                                hash:array.hash,
+                                value:parseFloat((Number(array.value) / 1000000000000000000).toFixed(5)).toString(),
+                                timeStamp:array.timestamp,
+                                symbole:'ETH'
+                            }
+                        ],
+                        outputs:[]
+                    }
+                ]
+            )
+        } else {
+            return toast.error('خطا در دریافت اطلاعات تراکنش', {
+                position: 'bottom-left'
+            })
+        }
     }
 
     useEffect(() => {
@@ -188,13 +206,29 @@ const Tracker = () => {
                         }
                     }
                 } catch (error) {
-                    
+                    return toast.error('خطا در دریافت اطلاعات', {
+                        position: 'bottom-left'
+                    })
                 }
 
             })
             .catch((err) => {
-                 SetLoading(false)
-                 console.log(err)
+                SetLoading(false)
+                try {
+                    if (err.response.statusText === 'Unauthorized') {
+                        Cookies.set('refresh', '')
+                        Cookies.set('access', '')
+                        window.location.assign('/')
+                    } else {
+                        return toast.error('خطا در دریافت اطلاعات', {
+                            position: 'bottom-left'
+                        })
+                    }
+                } catch (error) {
+                    return toast.error('خطا در دریافت اطلاعات', {
+                        position: 'bottom-left'
+                    })
+                }
             })
         }
     }, [])
@@ -208,13 +242,13 @@ const Tracker = () => {
                     <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"0px", borderTopLeftRadius:"8px", borderBottomLeftRadius:"8px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"40px", cursor:"pointer"}}>
                         <Search size={20} />
                     </InputGroupText>
-                    </InputGroup>
-                    {
-                        IsShow ? 
-                            <FuckingGraph/>
-                        :
-                            null
-                    }
+                </InputGroup>
+                {
+                    IsShow ? 
+                        <FuckingGraph/>
+                    :
+                        null
+                }
                 {
                     States.showWalletData ? <CurrencyDetail/> : null
                 }
@@ -225,7 +259,6 @@ const Tracker = () => {
                 <Guide/>
             </div>
         </UILoader>
-
     )
 }
 export default Tracker

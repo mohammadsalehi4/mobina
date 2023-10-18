@@ -219,25 +219,30 @@ const  WalletDetailTableBottom = (props) => {
 
     for (let i = 0; i < props.data.inputs.length; i++) {
       if (AllHash.some(item => item.toUpperCase() === (props.data.inputs[i].hash).toUpperCase())) {
-        a.push({
-          address:props.data.inputs[i].address,
-          amount:props.data.inputs[i].amount,
-          date:props.data.inputs[i].date,
-          time:props.data.inputs[i].time,
-          hash:props.data.inputs[i].hash,
-          mode:"in",
-          show:true
-        })
+        if ((typeof (props.data.inputs[i].amount) === 'string' || typeof (props.data.inputs[i].amount) === 'number') && typeof (props.data.inputs[i].address) === 'string' && typeof (props.data.inputs[i].date) === 'number' && typeof (props.data.inputs[i].time) === 'number' && typeof (props.data.inputs[i].hash) === 'string') {
+          a.push({
+            address:props.data.inputs[i].address,
+            amount:props.data.inputs[i].amount,
+            date:props.data.inputs[i].date,
+            time:props.data.inputs[i].time,
+            hash:props.data.inputs[i].hash,
+            mode:"in",
+            show:true
+          })
+        }
+
       } else {
-        a.push({
-          address:props.data.inputs[i].address,
-          amount:props.data.inputs[i].amount,
-          date:props.data.inputs[i].date,
-          time:props.data.inputs[i].time,
-          hash:props.data.inputs[i].hash,
-          mode:"in",
-          show:false
-        })
+        if ((typeof (props.data.inputs[i].amount) === 'string' || typeof (props.data.inputs[i].amount) === 'number') && typeof (props.data.inputs[i].address) === 'string' && typeof (props.data.inputs[i].date) === 'number' && typeof (props.data.inputs[i].time) === 'number' && typeof (props.data.inputs[i].hash) === 'string') {
+          a.push({
+            address:props.data.inputs[i].address,
+            amount:props.data.inputs[i].amount,
+            date:props.data.inputs[i].date,
+            time:props.data.inputs[i].time,
+            hash:props.data.inputs[i].hash,
+            mode:"in",
+            show:false
+          })
+        }
       }
     }
     for (let i = 0; i < props.data.outputs.length; i++) {

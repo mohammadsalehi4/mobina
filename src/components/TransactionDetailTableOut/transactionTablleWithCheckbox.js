@@ -33,12 +33,14 @@ const TransactionTablleWithCheckbox2 = (props) => {
     console.log(props.data)
     const a = []
     for (let i = 0; i < (props.data.transfers).length; i++) {
-      a.push({
-        address:props.data.transfers[i].to,
-        amount:props.data.transfers[i].amount,
-        currencyType:props.data.transfers[i].currencyType,
-        show:false
-      })
+      if (typeof (props.data.transfers[i].to) === 'string' && typeof (props.data.transfers[i].currencyType) === 'string' && (typeof (props.data.transfers[i].amount) === 'string' || typeof (props.data.transfers[i].amount) === 'number')) {
+        a.push({
+          address:props.data.transfers[i].to,
+          amount:props.data.transfers[i].amount,
+          currencyType:props.data.transfers[i].currencyType,
+          show:false
+        })
+      }
     }
 
     //check available data

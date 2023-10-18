@@ -247,6 +247,21 @@ const TransactionDetail1 = () => {
     .catch((err) => {
       console.log(err)
       SetLoading(false)
+      try {
+          if (err.response.statusText === 'Unauthorized') {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+          } else {
+              return toast.error('خطا در دریافت اطلاعات', {
+                  position: 'bottom-left'
+              })
+          }
+      } catch (error) {
+          return toast.error('خطا در دریافت اطلاعات', {
+              position: 'bottom-left'
+          })
+      }
     })
   }, [])
 

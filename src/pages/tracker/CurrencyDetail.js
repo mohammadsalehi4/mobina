@@ -85,7 +85,6 @@ const CurrencyDetail = () => {
     //     for (let j=0; j<getData.result[a].logs.length; j++) {
     //       try {
     //         if (getData.result[a].logs[j].address.symbol) {
-
     //           data.push({
     //             timeStamp:getData.result[a].timestamp,
     //             from:getData.result[a].logs[j].from,
@@ -98,7 +97,6 @@ const CurrencyDetail = () => {
     //             Logo:`${getData.result[a].logs[j].address.symbol}.png`,
     //             Type:"token"
     //           })
-
     //         }
     //       } catch (error) {}
     //     }
@@ -148,23 +146,27 @@ const CurrencyDetail = () => {
     const outputs=[]
     for (let i = 0; i < data.length; i++) {
       if ((data[i].to).toUpperCase() === add.toUpperCase()) {
-        inputs.push({
-          address:data[i].from,
-          hash:data[i].hash,
-          date:data[i].timeStamp,
-          time:data[i].timeStamp,
-          amount:data[i].value,
-          currencyType:data[i].currencyType
-        })
+        if (typeof (data[i].currencyType) === 'string' && typeof (data[i].from) === 'string' && typeof (data[i].hash) === 'string' && typeof (data[i].timeStamp) === 'number' && typeof (data[i].value) === 'number') {
+          inputs.push({
+            address:data[i].from,
+            hash:data[i].hash,
+            date:data[i].timeStamp,
+            time:data[i].timeStamp,
+            amount:data[i].value,
+            currencyType:data[i].currencyType
+          })
+        }
       } else if ((data[i].from).toUpperCase() === add.toUpperCase()) {
-        outputs.push({
-          address:data[i].to,
-          hash:data[i].hash,
-          date:data[i].timeStamp,
-          time:data[i].timeStamp,
-          amount:data[i].value,
-          currencyType:data[i].currencyType
-        })
+        if (typeof (data[i].currencyType) === 'string' && typeof (data[i].from) === 'string' && typeof (data[i].hash) === 'string' && typeof (data[i].timeStamp) === 'number' && typeof (data[i].value) === 'number') {
+          outputs.push({
+            address:data[i].to,
+            hash:data[i].hash,
+            date:data[i].timeStamp,
+            time:data[i].timeStamp,
+            amount:data[i].value,
+            currencyType:data[i].currencyType
+          })
+        }
       }
     }
 
@@ -191,9 +193,6 @@ const CurrencyDetail = () => {
       }
     })
     .then((response) => {
-      console.log('response.data')
-      console.log(response.data)
-      console.log('response.data')
       try {
         SetData(EthereumAddress(response.data, address))
         SetLoading(false)
@@ -208,6 +207,21 @@ const CurrencyDetail = () => {
     .catch((err) => {
       console.log(err)
       SetLoading(false)
+      try {
+          if (err.response.statusText === 'Unauthorized') {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+          } else {
+              return toast.error('خطا در دریافت اطلاعات', {
+                  position: 'bottom-left'
+              })
+          }
+      } catch (error) {
+          return toast.error('خطا در دریافت اطلاعات', {
+              position: 'bottom-left'
+          })
+      }
     })
   }, [])
 
