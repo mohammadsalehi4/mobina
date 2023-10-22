@@ -50,6 +50,7 @@ const initialState = {
     showTime:false,
     showDollar:false,
     itemNumbers:0,
+    NodesPosition:[],
 
     //admin panel
     CustomLoading: false,
@@ -57,6 +58,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'NodesPosition') {
+        return {
+            ...state,
+            NodesPosition:action.value
+        }
+    }
 
     if (action.type === 'showDollar') {
         return {

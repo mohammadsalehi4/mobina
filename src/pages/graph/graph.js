@@ -107,11 +107,11 @@ const FuckingGraph = () => {
   const networkRef = useRef(null)
   const dispatch = useDispatch()
   const States = useSelector(state => state)
-
   
   //set Default full data
   const [GraphData, SetGraphData] = useState([])
   const [Distance, SetDistance] = useState(300)
+  const [NewPositions, SetNewPositions] = useState([])
 
   useEffect(() => {
 
@@ -149,7 +149,7 @@ const FuckingGraph = () => {
 
         if (DefaultX !== null) {
           AllNodes.push({
-            id: (AllNodes.length + 1),
+            id: States.GraphData[i].address,
             address:States.GraphData[i].address,
             from:myFrom,
             to:myTo,
@@ -159,7 +159,7 @@ const FuckingGraph = () => {
             x: DefaultX
           }) 
           myData = {
-            id: (AllNodes.length + 1),
+            id: States.GraphData[i].address,
             address:States.GraphData[i].address,
             from:myFrom,
             to:myTo,
@@ -170,7 +170,7 @@ const FuckingGraph = () => {
           }
         } else {
           AllNodes.push({
-            id: (AllNodes.length + 1),
+            id: States.GraphData[i].address,
             address:States.GraphData[i].address,
             from:myFrom,
             to:myTo,
@@ -180,7 +180,7 @@ const FuckingGraph = () => {
             x: i * 2
           }) 
           myData = {
-            id: (AllNodes.length + 1),
+            id: States.GraphData[i].address,
             address:States.GraphData[i].address,
             from:myFrom,
             to:myTo,
@@ -196,7 +196,7 @@ const FuckingGraph = () => {
           if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) === undefined) {
             AllNodes.push({
               address:States.GraphData[i].inputs[j].hash,
-              id: (AllNodes.length + 1),
+              id: States.GraphData[i].inputs[j].hash,
               value:States.GraphData[i].inputs[j].value,
               mode:'in',
               symbole:'ETH',
@@ -551,6 +551,10 @@ const FuckingGraph = () => {
     })
 
     network.moveTo({scale:(States.Scale), position:{x:States.positionX, y:States.positionY}});
+    
+    for (let i = 0; i < States.NodesPosition.length; i++) {
+      network.moveNode(States.NodesPosition[i].id, States.NodesPosition[i].x, States.NodesPosition[i].y);
+    }
 
     network.on("zoom", function (params) {
       dispatch({type:"Scale", value:(params.scale)})
@@ -561,6 +565,29 @@ const FuckingGraph = () => {
       dispatch({type:"positionX", value:(position.x)})
       dispatch({type:"positionY", value:(position.y)})
     })
+
+    network.on("dragEnd", function (params) {
+      var nodeId = params.nodes[0];
+      
+      if (nodeId) {
+          // گرفتن مختصات جدید گره
+          var newPosition = network.getPositions(nodeId);
+          const SetPosition = {
+            id : nodeId,
+            x : newPosition[nodeId].x,
+            y : newPosition[nodeId].y
+          }
+          if (NewPositions.some(item => item.id === nodeId) === false) {
+            const getNodesPositions = NewPositions
+            getNodesPositions.push(SetPosition)
+            SetNewPositions(getNodesPositions)
+          } else {
+            NewPositions.find(item => item.id === nodeId).x = newPosition[nodeId].x
+            NewPositions.find(item => item.id === nodeId).y = newPosition[nodeId].y
+          }
+          dispatch({type:"NodesPosition", value:NewPositions})
+      }
+  });
 
     SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
 

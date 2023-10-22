@@ -134,7 +134,6 @@ const TimeLimit = (props) => {
       </DropdownToggle>
       <div onClick={ () => { SetStartTime(0), SetEndTime(0) }} id='DeleteTimeLimitBox' style={{cursor:'pointer', textAlign:'center', float:"left", width:"40px", borderStyle:'solid', borderWidth:'1px', borderColor:'rgb(180, 180, 180)', borderTopLeftRadius:'6px', borderBottomLeftRadius:'6px'}}>
         <X style={{color:'rgb(180,180,180)', marginTop:'4px'}} />
-        
       </div>
       <UncontrolledTooltip placement='top' target='DeleteTimeLimitBox'>
         حذف محدودیت زمان
@@ -147,8 +146,6 @@ const TimeLimit = (props) => {
               document.getElementById('fromLimitTime').style.display = 'block' 
               document.getElementById('toLimitTime').style.display = 'none' 
             }}/>
-            
-
           <div id='fromLimitTime' style={{position:"absolute", display:"none"}}>
             <CalendarProvider locale={Mode}>
               <Calendar
@@ -159,7 +156,6 @@ const TimeLimit = (props) => {
               />
             </CalendarProvider>
           </div>
-
           <Label style={{float:"right"}} className='mt-1 mb-1'>تا</Label>
           <Input id={`GetStartAmountValue`}  type='text' value={endText} 
           autocomplete="off"
@@ -167,7 +163,6 @@ const TimeLimit = (props) => {
               document.getElementById('toLimitTime').style.display = 'block' 
               document.getElementById('fromLimitTime').style.display = 'none' 
           }}/>
-
           <div id='toLimitTime' style={{position:"absolute", display:"none"}}>
             <CalendarProvider locale={Mode}>
               <Calendar
@@ -179,7 +174,6 @@ const TimeLimit = (props) => {
               />
             </CalendarProvider>
           </div>
-
           <span style={{fontSize:"12px", float:"right", color:"blue", cursor:"pointer"}} className='m-1' onClick={() => { SetStartTime(0), SetEndTime(0) }}>حذف محدودیت</span>
       </DropdownMenu>
     </UncontrolledButtonDropdown>
