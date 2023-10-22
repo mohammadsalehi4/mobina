@@ -10,7 +10,7 @@ import AmountLimit from '../../../../components/dashboard/amountLimit'
 import TimeLimit from '../../../../components/dashboard/timeLimit'
 import DataTable from 'react-data-table-component'
 import NiceAddress from '../../../../components/niceAddress/niceAddress'
-import { ChevronDown, Download } from 'react-feather'
+import { ChevronDown, Download, X } from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
 import TokenSwitch from '../../../../components/dashboard/TokenSwitch/switch'
 import moment from 'jalali-moment'
@@ -21,7 +21,9 @@ import {
   Input,
   CardTitle,
   CardHeader,
-  UncontrolledTooltip
+  UncontrolledTooltip,
+  DropdownToggle,
+  UncontrolledButtonDropdown
 } from 'reactstrap'
 
 import { MainSiteGray } from '../../../../../public/colors'
@@ -372,16 +374,15 @@ const DataTableWithButtons = (props) => {
           </CardTitle>
           <div style={{width:"100%"}}>
             <div className='row'>
-              <div className='col-lg-3  hamoniKeMahdudiatDare'>
+              <div className='col-lg-4 hamoniKeMahdudiatDare'>
                 <TimeLimit/>
               </div>
-              <div className='col-lg-3  hamoniKeMahdudiatDare hamoniKeMahdudiatDare2'>
+              <div className='col-lg-4 hamoniKeMahdudiatDare hamoniKeMahdudiatDare2'>
                 <AmountLimit name={props.data.name}/>
               </div>
-              <div className='col-lg-3 mt-3'>
-
+              <div className='col-lg-2 mt-3'>
               </div>
-              <div className='col-lg-3 mt-3' style={{textAlign:"left"}}>
+              <div className='col-lg-2 mt-3' style={{textAlign:"left"}}>
                 <Download id='AddressDownloadIcon' style={{cursor:"pointer", marginTop:"12px"}} onClick={() => { downloadCSV(DownloadData) }} />
                 <UncontrolledTooltip placement='top' target='AddressDownloadIcon'>
                   دریافت

@@ -76,7 +76,8 @@ const Tracker = () => {
                         value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
                         timeStamp:array[i].timestamp,
                         symbole:'ETH',
-                        address:array[i].to.address
+                        address:array[i].to.address,
+                        valueInDollar:array[i].valueInDollar
                     })
                 } else {
                     console.log(`there is an Error for ${array[i]}`)
@@ -90,7 +91,8 @@ const Tracker = () => {
                         value:parseFloat((Number(array[i].value) / 1000000000000000000).toFixed(5)).toString(),
                         timeStamp:array[i].timestamp,
                         symbole:'ETH',
-                        address:array[i].from.address
+                        address:array[i].from.address,
+                        valueInDollar:array[i].valueInDollar
                     })
                 } else {
                     console.log(`there is an Error for ${array[i]}`)
@@ -118,6 +120,7 @@ const Tracker = () => {
                             hash:inputs[0].hash,
                             value:inputs[0].value,
                             timeStamp:inputs[0].timeStamp,
+                            valueInDollar:inputs[0].valueInDollar,
                             symbole:'ETH'
                         }
                     ]
@@ -131,7 +134,8 @@ const Tracker = () => {
                             hash:outputs[0].hash,
                             value:outputs[0].value,
                             timeStamp:outputs[0].timeStamp,
-                            symbole:'ETH'
+                            symbole:'ETH',
+                            valueInDollar:outputs[0].valueInDollar
                         }
                     ],
                     outputs:[]
@@ -210,7 +214,6 @@ const Tracker = () => {
                         position: 'bottom-left'
                     })
                 }
-
             })
             .catch((err) => {
                 SetLoading(false)

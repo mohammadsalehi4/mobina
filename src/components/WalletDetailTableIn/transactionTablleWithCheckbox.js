@@ -75,13 +75,12 @@ const  WalletDetailTableBottom = (props) => {
   const dispatch = useDispatch()
 
   const [data, SetData] = useState([])
-  const [selectedRows, setSelectedRows] = useState([])
   const [currentPage, setCurrentPage] = useState(0)
 
   //add new node to graph
   const addSelectedData = (row) => {
     const getGraph = States.GraphData
-    
+      console.log(row)
       // ------------------------------------BUG------------------------------------
       if (row.mode === 'in') {
         for (let i = 0; i < getGraph.length; i++) {
@@ -91,7 +90,8 @@ const  WalletDetailTableBottom = (props) => {
               symbole:'ETH',
               value:row.amount.toFixed(5),
               timeStamp:row.date,
-              address:row.address
+              address:row.address,
+              valueInDollar:row.valueInDollar
             })
           }
         }
@@ -103,7 +103,8 @@ const  WalletDetailTableBottom = (props) => {
                 symbole:'ETH',
                 value:row.amount.toFixed(5),
                 timeStamp:row.date,
-                address:props.address
+                address:props.address,
+                valueInDollar:row.valueInDollar
               })
             }
           }
@@ -118,7 +119,8 @@ const  WalletDetailTableBottom = (props) => {
                 symbole:'ETH',
                 value:row.amount.toFixed(5),
                 timeStamp:row.date,
-                address:props.address
+                address:props.address,
+                valueInDollar:row.valueInDollar
               }
             ]
           }
@@ -136,7 +138,8 @@ const  WalletDetailTableBottom = (props) => {
               symbole:'ETH',
               value:row.amount.toFixed(5),
               timeStamp:row.date,
-              address:row.address
+              address:row.address,
+              valueInDollar:row.valueInDollar
             })
           }
         }
@@ -148,7 +151,8 @@ const  WalletDetailTableBottom = (props) => {
                 symbole:'ETH',
                 value:row.amount.toFixed(5),
                 timeStamp:row.date,
-                address:props.address
+                address:props.address,
+                valueInDollar:row.valueInDollar
               })
             }
           }
@@ -162,7 +166,8 @@ const  WalletDetailTableBottom = (props) => {
                 symbole:'ETH',
                 value:row.amount.toFixed(5),
                 timeStamp:row.date,
-                address:props.address
+                address:props.address,
+                valueInDollar:row.valueInDollar
               }
             ],
             outputs:[]
@@ -173,6 +178,7 @@ const  WalletDetailTableBottom = (props) => {
         dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
       }
 
+      console.log('States.GraphData')
       console.log(States.GraphData)
   }
 
@@ -226,6 +232,7 @@ const  WalletDetailTableBottom = (props) => {
             date:props.data.inputs[i].date,
             time:props.data.inputs[i].time,
             hash:props.data.inputs[i].hash,
+            valueInDollar:props.data.inputs[i].valueInDollar,
             mode:"in",
             show:true
           })
@@ -239,6 +246,7 @@ const  WalletDetailTableBottom = (props) => {
             date:props.data.inputs[i].date,
             time:props.data.inputs[i].time,
             hash:props.data.inputs[i].hash,
+            valueInDollar:props.data.inputs[i].valueInDollar,
             mode:"in",
             show:false
           })
@@ -253,6 +261,7 @@ const  WalletDetailTableBottom = (props) => {
           date:props.data.outputs[i].date,
           time:props.data.outputs[i].time,
           hash:props.data.outputs[i].hash,
+          valueInDollar:props.data.outputs[i].valueInDollar,
           mode:"out",
           show:true
         })
@@ -263,6 +272,7 @@ const  WalletDetailTableBottom = (props) => {
           date:props.data.outputs[i].date,
           time:props.data.outputs[i].time,
           hash:props.data.outputs[i].hash,
+          valueInDollar:props.data.outputs[i].valueInDollar,
           mode:"out",
           show:false
         })

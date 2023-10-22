@@ -38,7 +38,8 @@ const TransactionTablleWithCheckbox2 = (props) => {
           address:props.data.transfers[i].to,
           amount:props.data.transfers[i].amount,
           currencyType:props.data.transfers[i].currencyType,
-          show:false
+          show:false,
+          valueInDollar:props.data.transfers[i].valueInDollar
         })
       }
     }
@@ -74,7 +75,8 @@ const TransactionTablleWithCheckbox2 = (props) => {
         hash:props.data.address,
         symbole:props.data.symbole,
         timeStamp:props.data.BlockDate,
-        value:parseFloat(Number(props.data.value).toFixed(5)).toString()
+        value:parseFloat(Number(props.data.value).toFixed(5)).toString(),
+        valueInDollar:(row.amount)
       })
       dispatch({type:"GRAPHDATA", value:getData})
       dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
@@ -87,7 +89,8 @@ const TransactionTablleWithCheckbox2 = (props) => {
             hash:props.data.address,
             symbole: row.currencyType,
             timeStamp:props.data.BlockDate,
-            value:String(parseFloat(Number(row.amount).toFixed(5)).toString())
+            value:String(parseFloat(Number(row.amount).toFixed(5)).toString()),
+            valueInDollar:(row.amount)
           }
         ],
         outputs:[]

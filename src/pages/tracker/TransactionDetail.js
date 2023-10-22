@@ -91,28 +91,32 @@ const TransactionDetail1 = () => {
         from:data.from.address,
         to:data.to.address,
         currencyType:'ETH',
-        amount:(Number(data.value) / 1000000000000000000)
+        amount:(Number(data.value) / 1000000000000000000),
+        valueInDollar:data.valueInDollar
       })
     } else if (data.from.address === null && data.to.address !== null) {
       transfers.push({
         from:'coin base',
         to:data.to.address,
         currencyType:'ETH',
-        amount:(Number(data.value) / 1000000000000000000)
+        amount:(Number(data.value) / 1000000000000000000),
+        valueInDollar:data.valueInDollar
       })
     } else if (data.from.address !== null && data.to.address === null) {
       transfers.push({
         from:data.from.address,
         to:'coin base',
         currencyType:'ETH',
-        amount:(Number(data.value) / 1000000000000000000)
+        amount:(Number(data.value) / 1000000000000000000),
+        valueInDollar:data.valueInDollar
       })
     } else {
       transfers.push({
         from:'coin base',
         to:'coin base',
         currencyType:'ETH',
-        amount:(Number(data.value) / 1000000000000000000)
+        amount:(Number(data.value) / 1000000000000000000),
+        valueInDollar:data.valueInDollar
       })
     }
 

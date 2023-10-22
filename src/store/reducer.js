@@ -46,7 +46,10 @@ const initialState = {
     Scale:1,
     positionX:0,
     positionY:800,
-
+    showValues:true,
+    showTime:false,
+    showDollar:false,
+    itemNumbers:0,
 
     //admin panel
     CustomLoading: false,
@@ -54,6 +57,34 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'showDollar') {
+        return {
+            ...state,
+            showDollar:action.value
+        }
+    }
+
+    if (action.type === 'itemNumbers') {
+        return {
+            ...state,
+            itemNumbers:action.value
+        }
+    }
+
+    if (action.type === 'showTime') {
+        return {
+            ...state,
+            showTime:action.value
+        }
+    }
+
+    if (action.type === 'showValues') {
+        return {
+            ...state,
+            showValues:action.value
+        }
+    }
 
     if (action.type === 'positionX') {
         return {

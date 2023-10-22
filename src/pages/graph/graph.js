@@ -10,6 +10,7 @@
 import React, { useRef, useEffect, useState } from "react"
 import { DataSet, Network } from 'vis'
 import { useSelector, useDispatch } from "react-redux"
+import { digitsEnToFa } from 'persian-tools'
 
 //Page Coordinates
 let Page = [];
@@ -61,6 +62,47 @@ const LongestColomn = () => {
   return CNumber
 }
 
+const getMyTime = (index) => {
+    
+  const date = new Date(index * 1000)
+  let month
+  let day
+  let hour
+  let minute
+
+  if (String(Number(date.getMonth()) + 1).length === 1) {
+    month = `0${date.getMonth() + 1}`
+  } else {
+    month = date.getMonth() + 1
+  }
+
+  if (String(date.getDate()).length === 1) {
+    day = `0${date.getDate()}`
+  } else {
+    day = date.getDate()
+  }
+
+  if (String(date.getHours()).length === 1) {
+    hour = `0${date.getHours()}`
+  } else {
+    hour = date.getHours()
+  }
+
+  if (String(date.getMinutes()).length === 1) {
+    minute = `0${date.getMinutes()}`
+  } else {
+    minute = date.getMinutes()
+  }
+
+  return ({
+    year:date.getFullYear(),
+    month,
+    day,
+    hour,
+    minute
+  })
+}
+
 const FuckingGraph = () => {
   const networkRef = useRef(null)
   const dispatch = useDispatch()
@@ -72,6 +114,7 @@ const FuckingGraph = () => {
   const [Distance, SetDistance] = useState(300)
 
   useEffect(() => {
+
     if (States.GraphData.length > 0) {
       let AllNodes = []
       for (let i = 0; i < States.GraphData.length; i++) {
@@ -83,7 +126,9 @@ const FuckingGraph = () => {
           myFrom.push({
             address:States.GraphData[i].inputs[j].hash,
             value:States.GraphData[i].inputs[j].value,
-            symbole:States.GraphData[i].inputs[j].symbole
+            symbole:States.GraphData[i].inputs[j].symbole,
+            timestamp:States.GraphData[i].inputs[j].timeStamp,
+            valueInDollar:States.GraphData[i].inputs[j].valueInDollar
           })
           if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) !== undefined) {
             DefaultX = AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash).x - 1
@@ -93,7 +138,9 @@ const FuckingGraph = () => {
           myTo.push({
             address:States.GraphData[i].outputs[j].hash,
             value:States.GraphData[i].outputs[j].value,
-            symbole:States.GraphData[i].outputs[j].symbole
+            symbole:States.GraphData[i].outputs[j].symbole,
+            timestamp:States.GraphData[i].outputs[j].timeStamp,
+            valueInDollar:States.GraphData[i].outputs[j].valueInDollar
           })
           if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) !== undefined) {
             DefaultX = AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash).x + 1
@@ -224,6 +271,8 @@ const FuckingGraph = () => {
         }
       }
 
+      dispatch({type:"itemNumbers", value:AllNodes.length})
+
       SetGraphData(AllNodes)
     }
   }, [States.GraphData, States.MotherFucker])
@@ -256,25 +305,115 @@ const FuckingGraph = () => {
 
     //edges
     const edges = new DataSet([])
+
+    //show or not Details
     for (let i = 0; i < GraphData.length; i++) {
-      if (GraphData[i].mode === 'main') {
-        for (let j = 0; j < GraphData[i].from.length; j++) {
-          const newEdge = {
-            from:GraphData.find(item => item.address === GraphData[i].from[j].address).id,
-            to:GraphData[i].id,
-            label:`\u200E${String(GraphData[i].from[j].value)} ${GraphData[i].from[j].symbole}`
+      if (States.showValues) {
+        if (States.showTime) {
+          if (States.showDollar) {
+            //dollar time value
+            if (GraphData[i].mode === 'main') {
+              for (let j = 0; j < GraphData[i].from.length; j++) {
+                const newEdge = {
+                  from:GraphData.find(item => item.address === GraphData[i].from[j].address).id,
+                  to:GraphData[i].id,
+                  label:`\u200E${String((GraphData[i].from[j].valueInDollar).toFixed(5))} USD \n \u200E${(getMyTime(GraphData[i].from[j].timestamp).year)}/${(getMyTime(GraphData[i].from[j].timestamp).month)}/${(getMyTime(GraphData[i].from[j].timestamp).day)} - ${(getMyTime(GraphData[i].from[j].timestamp).hour)}:${(getMyTime(GraphData[i].from[j].timestamp).minute)}`
+                }
+                edges.add(newEdge)
+              }
+              for (let j = 0; j < GraphData[i].to.length; j++) {
+                const newEdge = {
+                  from:GraphData[i].id,
+                  to:GraphData.find(item => item.address === GraphData[i].to[j].address).id,
+                  label:`\u200E${String((GraphData[i].to[j].valueInDollar).toFixed(5))} USD \n \u200E${(getMyTime(GraphData[i].to[j].timestamp).year)}/${(getMyTime(GraphData[i].to[j].timestamp).month)}/${(getMyTime(GraphData[i].to[j].timestamp).day)} - ${(getMyTime(GraphData[i].to[j].timestamp).hour)}:${(getMyTime(GraphData[i].to[j].timestamp).minute)}`
+                }
+                edges.add(newEdge)
+              }
+            }
+          } else {
+            //time value
+            if (GraphData[i].mode === 'main') {
+              for (let j = 0; j < GraphData[i].from.length; j++) {
+                const newEdge = {
+                  from:GraphData.find(item => item.address === GraphData[i].from[j].address).id,
+                  to:GraphData[i].id,
+                  label:`\u200E${String(GraphData[i].from[j].value)} ${GraphData[i].from[j].symbole} \n \u200E${(getMyTime(GraphData[i].from[j].timestamp).year)}/${(getMyTime(GraphData[i].from[j].timestamp).month)}/${(getMyTime(GraphData[i].from[j].timestamp).day)} - ${(getMyTime(GraphData[i].from[j].timestamp).hour)}:${(getMyTime(GraphData[i].from[j].timestamp).minute)}`
+                }
+                edges.add(newEdge)
+              }
+              for (let j = 0; j < GraphData[i].to.length; j++) {
+                const newEdge = {
+                  from:GraphData[i].id,
+                  to:GraphData.find(item => item.address === GraphData[i].to[j].address).id,
+                  label:`\u200E${String(GraphData[i].to[j].value)} ${GraphData[i].to[j].symbole} \n \u200E${(getMyTime(GraphData[i].to[j].timestamp).year)}/${(getMyTime(GraphData[i].to[j].timestamp).month)}/${(getMyTime(GraphData[i].to[j].timestamp).day)} - ${(getMyTime(GraphData[i].to[j].timestamp).hour)}:${(getMyTime(GraphData[i].to[j].timestamp).minute)}`
+                }
+                edges.add(newEdge)
+              }
+            }
           }
-          edges.add(newEdge)
+        } else {
+          if (States.showDollar) {
+            //dollar value            
+            if (GraphData[i].mode === 'main') {
+              for (let j = 0; j < GraphData[i].from.length; j++) {
+                const newEdge = {
+                  from:GraphData.find(item => item.address === GraphData[i].from[j].address).id,
+                  to:GraphData[i].id,
+                  label:`\u200E${String((GraphData[i].from[j].valueInDollar).toFixed(5))} USD`
+                }
+                edges.add(newEdge)
+              }
+              for (let j = 0; j < GraphData[i].to.length; j++) {
+                const newEdge = {
+                  from:GraphData[i].id,
+                  to:GraphData.find(item => item.address === GraphData[i].to[j].address).id,
+                  label:`\u200E${String((GraphData[i].to[j].valueInDollar).toFixed(5))} USD`
+                }
+                edges.add(newEdge)
+              }
+            }
+          } else {
+            //value
+            if (GraphData[i].mode === 'main') {
+              for (let j = 0; j < GraphData[i].from.length; j++) {
+                const newEdge = {
+                  from:GraphData.find(item => item.address === GraphData[i].from[j].address).id,
+                  to:GraphData[i].id,
+                  label:`\u200E${String(GraphData[i].from[j].value)} ${GraphData[i].from[j].symbole}`
+                }
+                edges.add(newEdge)
+              }
+              for (let j = 0; j < GraphData[i].to.length; j++) {
+                const newEdge = {
+                  from:GraphData[i].id,
+                  to:GraphData.find(item => item.address === GraphData[i].to[j].address).id,
+                  label:`\u200E${String(GraphData[i].to[j].value)} ${GraphData[i].to[j].symbole}`
+                }
+                edges.add(newEdge)
+              }
+            }
+          }
         }
-        for (let j = 0; j < GraphData[i].to.length; j++) {
-          const newEdge = {
-            from:GraphData[i].id,
-            to:GraphData.find(item => item.address === GraphData[i].to[j].address).id,
-            label:`\u200E${String(GraphData[i].to[j].value)} ${GraphData[i].to[j].symbole}`
+      } else {
+        //nothing
+        if (GraphData[i].mode === 'main') {
+          for (let j = 0; j < GraphData[i].from.length; j++) {
+            const newEdge = {
+              from:GraphData.find(item => item.address === GraphData[i].from[j].address).id,
+              to:GraphData[i].id
+            }
+            edges.add(newEdge)
           }
-          edges.add(newEdge)
+          for (let j = 0; j < GraphData[i].to.length; j++) {
+            const newEdge = {
+              from:GraphData[i].id,
+              to:GraphData.find(item => item.address === GraphData[i].to[j].address).id
+            }
+            edges.add(newEdge)
+          }
         }
       }
+
     }
 
     const data = {
@@ -425,9 +564,7 @@ const FuckingGraph = () => {
 
     SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
 
-    console.log(LongestColomn())
-
-  }, [, GraphData, Distance, States.Scale])
+  }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar])
 
   return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%" }}></div>
 }

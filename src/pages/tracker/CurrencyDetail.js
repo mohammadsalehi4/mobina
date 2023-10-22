@@ -43,6 +43,7 @@ const CurrencyDetail = () => {
             gasUsed:getData.result[i].gasUsed,
             gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
             value:(Number(getData.result[i].value))/1000000000000000000,
+            valueInDollar:getData.result[i].valueInDollar,
             hash:getData.result[i].hash,
             currencyType:"ETH",
             Logo:"ETH.png",
@@ -58,6 +59,8 @@ const CurrencyDetail = () => {
             gasUsed:getData.result[i].gasUsed,
             gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
             value:(Number(getData.result[i].value))/1000000000000000000,
+            valueInDollar:getData.result[i].valueInDollar,
+            hash:getData.result[i].hash,
             hash:getData.result[i].hash,
             currencyType:"ETH",
             Logo:"ETH.png",
@@ -71,6 +74,8 @@ const CurrencyDetail = () => {
             gasUsed:getData.result[i].gasUsed,
             gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
             value:(Number(getData.result[i].value))/1000000000000000000,
+            valueInDollar:getData.result[i].valueInDollar,
+            hash:getData.result[i].hash,
             hash:getData.result[i].hash,
             currencyType:"ETH",
             Logo:"ETH.png",
@@ -138,9 +143,6 @@ const CurrencyDetail = () => {
       }
     }
 
-    console.log('data')
-    console.log(data)
-
 
     const inputs=[]
     const outputs=[]
@@ -153,7 +155,8 @@ const CurrencyDetail = () => {
             date:data[i].timeStamp,
             time:data[i].timeStamp,
             amount:data[i].value,
-            currencyType:data[i].currencyType
+            currencyType:data[i].currencyType,
+            valueInDollar:data[i].valueInDollar
           })
         }
       } else if ((data[i].from).toUpperCase() === add.toUpperCase()) {
@@ -164,18 +167,13 @@ const CurrencyDetail = () => {
             date:data[i].timeStamp,
             time:data[i].timeStamp,
             amount:data[i].value,
-            currencyType:data[i].currencyType
+            currencyType:data[i].currencyType,
+            valueInDollar:data[i].valueInDollar
           })
         }
       }
     }
-
-    console.log({
-      symbole:'ETH',
-      inputs,
-      outputs
-    })
-
+    
     return {
       symbole:'ETH',
       inputs,

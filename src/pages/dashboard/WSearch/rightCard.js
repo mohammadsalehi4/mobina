@@ -164,10 +164,10 @@ const CardContentTypes = (props) => {
         </div>
         
         <div style={{marginTop:"4px"}}>
-          <button onClick={() => (window.location.assign(`/tracker/${props.data.address}`))} className='cardLink22' id='cardLink1' style={{background:MainSiteOrange}}>
+          <button onClick={() => (window.location.assign(`/tracker/${props.data.address}`))} className='cardLink22' id='cardLink1' style={{background:MainSiteOrange, fontSize:'13px'}}>
             انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
           </button>
-          <button href='/' onClick={e => e.preventDefault()} className='cardLink22' id='cardLink2' style={{background:MainSiteyellow}}>
+          <button href='/' onClick={e => e.preventDefault()} className='cardLink22' id='cardLink2' style={{background:MainSiteyellow, fontSize:'13px'}}>
             افزودن به پرونده <ion-icon name="alert-circle-outline"></ion-icon>
           </button>
           
