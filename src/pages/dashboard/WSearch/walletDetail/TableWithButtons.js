@@ -374,20 +374,17 @@ const DataTableWithButtons = (props) => {
           </CardTitle>
           <div style={{width:"100%"}}>
             <div className='row'>
-              <div className='col-lg-4 hamoniKeMahdudiatDare'>
+              <div className='col-12 hamoniKeMahdudiatDare hamoniKeMahdudiatDare2' style={{textAlign:'right'}}>
                 <TimeLimit/>
-              </div>
-              <div className='col-lg-4 hamoniKeMahdudiatDare hamoniKeMahdudiatDare2'>
                 <AmountLimit name={props.data.name}/>
-              </div>
-              <div className='col-lg-2 mt-3'>
-              </div>
-              <div className='col-lg-2 mt-3' style={{textAlign:"left"}}>
                 <Download id='AddressDownloadIcon' style={{cursor:"pointer", marginTop:"12px"}} onClick={() => { downloadCSV(DownloadData) }} />
                 <UncontrolledTooltip placement='top' target='AddressDownloadIcon'>
                   دریافت
                 </UncontrolledTooltip>
               </div>
+              {/* <div className='col-lg-4 hamoniKeMahdudiatDare'>
+              </div> */}
+
             </div>
           </div>
         </CardHeader>

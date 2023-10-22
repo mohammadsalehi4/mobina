@@ -10,10 +10,11 @@ import {
   Label,
   DropdownMenu,
   DropdownToggle,
-  UncontrolledButtonDropdown
+  UncontrolledButtonDropdown,
+  UncontrolledTooltip
 } from 'reactstrap'
 import { useDispatch, useSelector } from "react-redux"
-import {Filter, XCircle} from 'react-feather'
+import {Filter, XCircle, X} from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
 import { Calendar, CalendarProvider, DatePicker } from "zaman"
 import moment from 'jalali-moment'
@@ -115,8 +116,8 @@ const TimeLimit = (props) => {
 
   const [ShowTitle, SetShowTitle] = useState(0)
   return (
-    <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%", height:"100%"}}>
-      <DropdownToggle color='secondary' id='TaxLimitButton' outline>
+    <UncontrolledButtonDropdown className='researcherLimits' id='TaxLimit'>
+      <DropdownToggle className='researcherTitleLimits' color='secondary' id='TaxLimitButton' outline style={{ borderTopLeftRadius:'0px', borderBottomLeftRadius:'0px'}}>
         <span  className='align-middle' style={{direction:"ltr"}}>
           {
             ShowTitle === 0 ?
@@ -125,17 +126,19 @@ const TimeLimit = (props) => {
                 محدوده زمانی
               </div>
             :
-            <div>
-            {digitsEnToFa(ShowTitle)}
-            <XCircle onClick={ () => { 
-              SetStartTime(0)
-              SetEndTime(0)
-            }} size={16} style={{margin:'0px', padding:'0px', marginRight:'16px'}}/>
-          </div>
+              <div>
+                {digitsEnToFa(ShowTitle)}
+              </div>
           }
         </span>
       </DropdownToggle>
-
+      <div onClick={ () => { SetStartTime(0), SetEndTime(0) }} id='DeleteTimeLimitBox' style={{cursor:'pointer', textAlign:'center', float:"left", width:"40px", borderStyle:'solid', borderWidth:'1px', borderColor:'rgb(180, 180, 180)', borderTopLeftRadius:'6px', borderBottomLeftRadius:'6px'}}>
+        <X style={{color:'rgb(180,180,180)', marginTop:'4px'}} />
+        
+      </div>
+      <UncontrolledTooltip placement='top' target='DeleteTimeLimitBox'>
+        حذف محدودیت زمان
+      </UncontrolledTooltip>
       <DropdownMenu style={{padding:"5px 10px", width:"220px", height:"165px", zIndex:'1'}} >
           <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
           <Input id={`GetStartAmountValue`}  type='text' value={startText} 

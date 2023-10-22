@@ -8,10 +8,11 @@ import {
   Label,
   DropdownMenu,
   DropdownToggle,
+  UncontrolledTooltip,
   UncontrolledButtonDropdown
 } from 'reactstrap'
 import { useDispatch, useSelector } from "react-redux"
-import {Filter, XCircle} from 'react-feather'
+import {Filter, XCircle, X} from 'react-feather'
 import { digitsEnToFa } from 'persian-tools'
 const AmountLimit = (props) => {
   const States = useSelector(state => state)
@@ -57,27 +58,28 @@ const AmountLimit = (props) => {
   }
 
   return (
-    <UncontrolledButtonDropdown id='TaxLimit' style={{float:"left", width:"100%", height:"100%"}}>
-      <DropdownToggle color='secondary' id='TaxLimitButton' outline>
+    <UncontrolledButtonDropdown id='TaxLimit' className='researcherLimits ResearcherAmountLimit'>
+      <DropdownToggle color='secondary' id='TaxLimitButton' outline style={{ borderTopLeftRadius:'0px', borderBottomLeftRadius:'0px'}}>
         <span  className='align-middle ms-50'>
           {
             ShowTitle === 0 ?
-            <div style={{display:'inline-block'}}>
-              <Filter size={14} style={{marginLeft:"8px"}} />
-              محدوده حجم
-            </div>
+              <div style={{display:'inline-block'}}>
+                <Filter size={14} style={{marginLeft:"8px"}} />
+                محدوده حجم
+              </div>
             :
-            <div>
-              {digitsEnToFa(ShowTitle)}
-              <XCircle onClick={ () => { 
-                SetMin(0) 
-                SetMax(0)
-              }} size={16} style={{margin:'0px', padding:'0px', marginRight:'16px'}}/>
-            </div>
+              <div>
+                {digitsEnToFa(ShowTitle)}
+              </div>
           }
-
         </span>
       </DropdownToggle>
+      <div onClick={ () => { SetMin(0), SetMax(0) }} id='DeleteAmountLimitBox' style={{cursor:'pointer', textAlign:'center', float:"left", width:"40px", borderStyle:'solid', borderWidth:'1px', borderColor:'rgb(180, 180, 180)', borderTopLeftRadius:'6px', borderBottomLeftRadius:'6px'}}>
+        <X style={{color:'rgb(180,180,180)', marginTop:'4px'}} />
+      </div>
+      <UncontrolledTooltip placement='top' target='DeleteAmountLimitBox'>
+        حذف محدودیت حجم
+      </UncontrolledTooltip>
       <DropdownMenu style={{padding:"5px 10px", zIndex:'1'}}>
           <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
           <Input placeholder={min} onChange={setMin} id={`GetStartAmountValue1`}  type='number'/>
