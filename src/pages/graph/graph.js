@@ -209,7 +209,7 @@ const FuckingGraph = () => {
           if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) === undefined) {
             AllNodes.push({
               address:States.GraphData[i].outputs[j].hash,
-              id: (AllNodes.length + 1),
+              id: States.GraphData[i].outputs[j].hash,
               value:States.GraphData[i].outputs[j].value,
               mode:'out',
               symbole:'ETH',
@@ -549,6 +549,13 @@ const FuckingGraph = () => {
           } 
         }
     })
+
+    network.on("click", function(params) {
+      if (params.nodes.length === 0 && params.edges.length === 0) {
+        dispatch({type:"SETshowWalletData", value:false})
+        dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
+      }
+  });
 
     network.moveTo({scale:(States.Scale), position:{x:States.positionX, y:States.positionY}});
     

@@ -13,7 +13,7 @@ import TopGuide from './topGuide'
 import { useSelector, useDispatch } from "react-redux"
 import Cookies from 'js-cookie'
 import { Search } from 'react-feather'
-import { Label, Input, InputGroup, InputGroupText } from 'reactstrap'
+import { Input, InputGroup, InputGroupText } from 'reactstrap'
 import { useParams } from "react-router-dom"
 import { serverAddress } from '../../address'
 import axios from 'axios'
@@ -185,6 +185,47 @@ const Tracker = () => {
         }
     }
 
+    const UTXOAddress = (array, hash, symbole, decimal) => {
+        const mainAddress = {
+            address : hash,
+            symbole,
+            inputs : [],
+            outputs : []
+        }
+        const inputAddress = {
+            address : '',
+            symbole,
+            inputs : [],
+            outputs : []
+        }
+        const outputAddress = {
+            address : '',
+            symbole,
+            inputs : [],
+            outputs : []
+        }
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array[i].inputs.length; j++) {
+                if ((array[i].inputs[j].coin.address.address).toUpperCase() === hash.toUpperCase()) {
+                    mainAddress.inputs.push(
+                        {
+                            hash:array[i].hash,
+                            value:(array[i].inputs[j].coin.value) / decimal,
+                            timeStamp:array[i].time,
+                            symbole,
+                            valueInDollar:array[i].inputs[j].ValueInDollar
+                        }
+                    )
+                }
+            }
+            for (let j = 0; j < array[i].outputs.length; j++) {
+                if ((array[i].outputs[j].address.address).toUpperCase() === hash.toUpperCase()) {
+
+                }
+            }
+        }
+    }
+
     useEffect(() => {
         if (hash !== undefined) {
             SetLoading(true)
@@ -201,6 +242,9 @@ const Tracker = () => {
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:EthereumAddress(response.data.data.result, hash)})
                             SetIsShow(true)
+                        } else if (response.data.network === 'BTC') {
+                            // SetLoading(false)
+                            // UTXOAddress(response.data.data.result, hash, response.data.network, 100000000)
                         }
                     } else if (response.data.query === 'transaction') {
                         if (response.data.network === 'ETH') {
@@ -210,7 +254,8 @@ const Tracker = () => {
                         }
                     }
                 } catch (error) {
-                    return toast.error('خطا در دریافت اطلاعات', {
+                    console.log(error)
+                    return toast.error('خطا در دریافت اطلاعات1', {
                         position: 'bottom-left'
                     })
                 }
@@ -223,12 +268,12 @@ const Tracker = () => {
                         Cookies.set('access', '')
                         window.location.assign('/')
                     } else {
-                        return toast.error('خطا در دریافت اطلاعات', {
+                        return toast.error('خطا در دریافت اطلاعات2', {
                             position: 'bottom-left'
                         })
                     }
                 } catch (error) {
-                    return toast.error('خطا در دریافت اطلاعات', {
+                    return toast.error('خطا در دریافت اطلاعات3', {
                         position: 'bottom-left'
                     })
                 }
