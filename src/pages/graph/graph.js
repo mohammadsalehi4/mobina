@@ -112,7 +112,7 @@ const FuckingGraph = () => {
   const [GraphData, SetGraphData] = useState([])
   const [Distance, SetDistance] = useState(300)
   const [NewPositions, SetNewPositions] = useState([])
-
+  
   useEffect(() => {
 
     if (States.GraphData.length > 0) {
@@ -305,7 +305,6 @@ const FuckingGraph = () => {
 
     //edges
     const edges = new DataSet([])
-
     //show or not Details
     for (let i = 0; i < GraphData.length; i++) {
       if (States.showValues) {

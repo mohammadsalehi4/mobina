@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
@@ -185,45 +186,256 @@ const Tracker = () => {
         }
     }
 
-    const UTXOAddress = (array, hash, symbole, decimal) => {
+    const UTXOAddress = (array, address, symbole, decimal) => {
+
         const mainAddress = {
-            address : hash,
+            address,
             symbole,
-            inputs : [],
-            outputs : []
+            inputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole,
+                    valueInDollar:0
+                }
+            ],
+            outputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole,
+                    valueInDollar:0
+                }
+            ]
         }
+
         const inputAddress = {
             address : '',
             symbole,
-            inputs : [],
-            outputs : []
+            inputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole,
+                    valueInDollar:0
+                }
+            ],
+            outputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole,
+                    valueInDollar:0
+                }
+            ]
         }
+
         const outputAddress = {
             address : '',
             symbole,
-            inputs : [],
-            outputs : []
-        }
-        for (let i = 0; i < array.length; i++) {
-            for (let j = 0; j < array[i].inputs.length; j++) {
-                if ((array[i].inputs[j].coin.address.address).toUpperCase() === hash.toUpperCase()) {
-                    mainAddress.inputs.push(
-                        {
-                            hash:array[i].hash,
-                            value:(array[i].inputs[j].coin.value) / decimal,
-                            timeStamp:array[i].time,
-                            symbole,
-                            valueInDollar:array[i].inputs[j].ValueInDollar
-                        }
-                    )
+            inputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole,
+                    valueInDollar:0
                 }
-            }
-            for (let j = 0; j < array[i].outputs.length; j++) {
-                if ((array[i].outputs[j].address.address).toUpperCase() === hash.toUpperCase()) {
+            ],
+            outputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole,
+                    valueInDollar:0
+                }
+            ]
+        }
 
+        let inputHash = null
+        let outputHash = null
+
+        // main input transaction
+        for (let i = 0; i < array.length; i++) {
+            const hash = array[i].hash
+            const time = array[i].time
+            for (let j = 0; j < array[i].outputs.length; j++) {
+                if ((array[i].outputs[j].address.address).toUpperCase() === address.toUpperCase()) {
+                    for (let k = 0; k < array[i].outputs.length; k++) {
+                        if ((array[i].outputs[k].address.address).toUpperCase() === address.toUpperCase()) {
+                            if (hash.toUpperCase() !== (mainAddress.inputs[0].hash)) {
+                                mainAddress.inputs[0].hash = hash
+                                mainAddress.inputs[0].value = Number(array[i].outputs[k].value) / decimal
+                                mainAddress.inputs[0].timeStamp = time
+                                mainAddress.inputs[0].valueInDollar = Number(array[i].outputs[k].ValueInDollar)
+                            } else {
+                                mainAddress.inputs[0].value = mainAddress.inputs[0].value + (Number(array[i].outputs[k].value) / decimal)
+                                mainAddress.inputs[0].valueInDollar = mainAddress.inputs[0].valueInDollar + Number(array[i].outputs[k].ValueInDollar)
+                            }
+                        }
+                    }
+                    inputHash = hash
+                    j = array[i].outputs.length + 1
+                }
+            }
+            if (inputHash !== null) {
+                i = array.length + 1
+            }
+        }
+
+        // main output transaction
+        for (let i = 0; i < array.length; i++) {
+            const hash = array[i].hash
+            const time = array[i].time
+            for (let j = 0; j < array[i].inputs.length; j++) {
+                if (((array[i].inputs[j].coin.address.address).toUpperCase() === address.toUpperCase()) && (array[i].hash).toUpperCase() !== inputHash.toUpperCase()) {
+                    for (let k = 0; k < array[i].inputs.length; k++) {
+                        if (((array[i].inputs[k].coin.address.address).toUpperCase() === address.toUpperCase())) {
+                            if (hash.toUpperCase() !== mainAddress.outputs[0].hash) {
+                                mainAddress.outputs[0].hash = hash
+                                mainAddress.outputs[0].value = Number(array[i].inputs[k].coin.value) / decimal
+                                mainAddress.outputs[0].timeStamp = time
+                                mainAddress.outputs[0].valueInDollar = Number(array[i].inputs[k].coin.ValueInDollar)
+                            } else {
+                                mainAddress.outputs[0].value = mainAddress.outputs[0].value + Number(array[i].inputs[k].coin.value) / decimal
+                                mainAddress.outputs[0].valueInDollar = mainAddress.outputs[0].valueInDollar + Number(array[i].inputs[k].coin.ValueInDollar)
+                            }
+                        }
+                    }
+                    outputHash = hash
+                    j = array[i].inputs.length + 1
+                }
+            }
+            if (outputHash !== null) {
+                i = array.length + 1
+            }
+        }
+
+        // inputAddress output transaction
+        for (let i = 0; i < array.length; i++) {
+            const hash = array[i].hash
+            const time = array[i].time
+            if (array[i].hash === inputHash) {
+                for (let j = 0; j < array[i].inputs.length; j++) {
+                    if ((array[i].inputs[j].coin.address.address).toUpperCase() !== address.toUpperCase()) {
+                        const thisAddress = array[i].inputs[j].coin.address.address
+                        for (let k = 0; k < array[i].inputs.length; k++) {
+                            if ((array[i].inputs[k].coin.address.address).toUpperCase() === thisAddress.toUpperCase()) {
+                                if (inputAddress.address === '') {
+                                    inputAddress.outputs[0].hash = hash
+                                    inputAddress.outputs[0].value = Number(array[i].inputs[k].coin.value) / decimal
+                                    inputAddress.outputs[0].timeStamp = time
+                                    inputAddress.outputs[0].valueInDollar = Number(array[i].inputs[k].coin.ValueInDollar)
+                                    inputAddress.address = thisAddress
+                                } else {
+                                    inputAddress.outputs[0].value = inputAddress.outputs[0].value + Number(array[i].inputs[k].coin.value) / decimal
+                                    inputAddress.outputs[0].valueInDollar = inputAddress.outputs[0].valueInDollar + Number(array[i].inputs[k].coin.ValueInDollar)
+                                }
+                            }
+                        }
+                        j = array[i].inputs.length + 1
+                    }
                 }
             }
         }
+
+        // outputAddress input transaction
+        for (let i = 0; i < array.length; i++) {
+            const hash = array[i].hash
+            const time = array[i].time
+            if (array[i].hash === outputHash) {
+                for (let j = 0; j < array[i].outputs.length; j++) {
+                    if (((array[i].outputs[j].address.address).toUpperCase() !== address.toUpperCase()) && (array[i].outputs[j].address.address).toUpperCase() !== inputAddress.address.toUpperCase()) {
+                        const thisAddress = array[i].outputs[j].address.address
+                        for (let k = 0; k < array[i].outputs.length; k++) {
+                            if (((array[i].outputs[k].address.address).toUpperCase() === thisAddress.toUpperCase())) {
+                                if (outputAddress.address === '') {
+                                    outputAddress.inputs[0].hash = hash
+                                    outputAddress.inputs[0].value = Number(array[i].outputs[k].value) / decimal
+                                    outputAddress.inputs[0].timeStamp = time
+                                    outputAddress.inputs[0].valueInDollar = Number(array[i].outputs[k].ValueInDollar)
+                                    outputAddress.address = thisAddress
+                                } else {
+                                    outputAddress.inputs[0].value = outputAddress.inputs[0].value + Number(array[i].outputs[k].value) / decimal
+                                    outputAddress.inputs[0].valueInDollar = outputAddress.inputs[0].valueInDollar + Number(array[i].outputs[k].ValueInDollar)
+                                }
+                            }
+                        }
+                        j = array[i].outputs.length + 1
+                    }
+                }
+            }
+        }
+
+        if ((inputHash === null || inputAddress.address === '') && outputHash !== null) {
+            return ([
+                {
+                    address:mainAddress.address,
+                    symbole:mainAddress.symbole,
+                    outputs:mainAddress.outputs,
+                    inputs:[]
+                },
+                {
+                    address:outputAddress.address,
+                    symbole:outputAddress.symbole,
+                    outputs:[],
+                    inputs:outputAddress.inputs
+                }
+            ])
+        } else if ((outputHash === null || outputAddress === '') && inputHash !== null) {
+            return ([
+                {
+                    address:mainAddress.address,
+                    symbole:mainAddress.symbole,
+                    outputs:[],
+                    inputs:mainAddress.outputs
+                },
+                {
+                    address:inputAddress.address,
+                    symbole:inputAddress.symbole,
+                    outputs:inputAddress.outputs,
+                    inputs:[]
+                }
+            ])
+        } else if ((outputHash === null || outputAddress === '') && (inputHash === null || inputAddress.address === '')) {
+            return (
+                [
+                    {
+                        address:mainAddress.address,
+                        symbole:mainAddress.symbole,
+                        outputs:[],
+                        inputs:[]
+                    }
+                ]
+            )
+        } else {
+            return ([
+                {
+                    address:mainAddress.address,
+                    symbole:mainAddress.symbole,
+                    outputs:mainAddress.outputs,
+                    inputs:mainAddress.inputs
+                },
+                {
+                    address:outputAddress.address,
+                    symbole:outputAddress.symbole,
+                    outputs:[],
+                    inputs:outputAddress.inputs
+                },
+                {
+                    address:inputAddress.address,
+                    symbole:inputAddress.symbole,
+                    outputs:inputAddress.outputs,
+                    inputs:[]
+                }
+            ])
+        }
+ 
     }
 
     useEffect(() => {
@@ -243,8 +455,9 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:EthereumAddress(response.data.data.result, hash)})
                             SetIsShow(true)
                         } else if (response.data.network === 'BTC') {
-                            // SetLoading(false)
-                            // UTXOAddress(response.data.data.result, hash, response.data.network, 100000000)
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:UTXOAddress(response.data.data.result, hash, 'BTC', 100000000)})
+                            SetIsShow(true)
                         }
                     } else if (response.data.query === 'transaction') {
                         if (response.data.network === 'ETH') {
@@ -255,7 +468,7 @@ const Tracker = () => {
                     }
                 } catch (error) {
                     console.log(error)
-                    return toast.error('خطا در دریافت اطلاعات1', {
+                    return toast.error('خطا در دریافت اطلاعات', {
                         position: 'bottom-left'
                     })
                 }
@@ -268,12 +481,12 @@ const Tracker = () => {
                         Cookies.set('access', '')
                         window.location.assign('/')
                     } else {
-                        return toast.error('خطا در دریافت اطلاعات2', {
+                        return toast.error('خطا در دریافت اطلاعات', {
                             position: 'bottom-left'
                         })
                     }
                 } catch (error) {
-                    return toast.error('خطا در دریافت اطلاعات3', {
+                    return toast.error('خطا در دریافت اطلاعات', {
                         position: 'bottom-left'
                     })
                 }

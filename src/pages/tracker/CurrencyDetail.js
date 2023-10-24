@@ -173,6 +173,12 @@ const CurrencyDetail = () => {
         }
       }
     }
+
+    console.log({
+      symbole:'ETH',
+      inputs,
+      outputs
+    })
     
     return {
       symbole:'ETH',
@@ -181,10 +187,52 @@ const CurrencyDetail = () => {
     }
   }
 
+  const UTXOAddress = (data, address, decimal) => {
+    const inputs = []
+    const outputs = []
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].inputs.length; j++) {
+        if ((data[i].inputs[j].coin.address.address).toUpperCase() === address.toUpperCase()) {
+          outputs.push({
+            // address:data[i].outputs[0].address.address,
+            hash:data[i].hash,
+            date:data[i].time,
+            time:data[i].time,
+            amount:(data[i].inputs[j].coin.value)/decimal,
+            currencyType:'BTC',
+            valueInDollar:data[i].inputs[j].coin.ValueInDollar
+          })
+        }
+      }
+
+      for (let j = 0; j < data[i].outputs.length; j++) {
+        if ((data[i].outputs[j].address.address).toUpperCase() === address.toUpperCase()) {
+          inputs.push({
+            // address:data[i].inputs[0].coin.address.address,
+            hash:data[i].hash,
+            date:data[i].time,
+            time:data[i].time,
+            amount:(data[i].outputs[j].value)/decimal,
+            currencyType:'BTC',
+            valueInDollar:data[i].outputs[j].ValueInDollar
+          })
+        }
+      }
+    }
+
+    return (
+      {
+        symbole:'BTC',
+        inputs,
+        outputs
+      }
+    )
+  }
+
   useEffect(() => {
     const address = States.WDetail
     SetLoading(true)
-    axios.get(`${serverAddress}/explorer/address?address=${address}&network=ETH&page_size=50&offset=1`,
+    axios.get(`${serverAddress}/explorer/search/?query=${address}`,
     {
       headers: {
         Authorization: `Bearer ${Cookies.get('access')}`
@@ -192,8 +240,13 @@ const CurrencyDetail = () => {
     })
     .then((response) => {
       try {
-        SetData(EthereumAddress(response.data, address))
-        SetLoading(false)
+        if (response.data.network === 'ETH') {
+          SetData(EthereumAddress(response.data.data, address))
+          SetLoading(false)
+        } else if (response.data.network === 'BTC') {
+          SetData(UTXOAddress(response.data.data.result, address, 100000000))
+          SetLoading(false)
+        }
       } catch (error) {
         console.log(error)
         SetLoading(false)
@@ -250,7 +303,6 @@ const CurrencyDetail = () => {
               })
             }}></ion-icon>
             <ion-icon name="trash-outline"  title="حذف آدرس" onClick={ () => { 
-              console.log(States.WDetail)
               deleteAddress(States.WDetail)
             }}></ion-icon>
           </div>

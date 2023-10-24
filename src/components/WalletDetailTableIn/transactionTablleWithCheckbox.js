@@ -79,107 +79,104 @@ const  WalletDetailTableBottom = (props) => {
 
   //add new node to graph
   const addSelectedData = (row) => {
-    const getGraph = States.GraphData
-      console.log(row)
-      // ------------------------------------BUG------------------------------------
-      if (row.mode === 'in') {
-        for (let i = 0; i < getGraph.length; i++) {
-          if ((getGraph[i].address).toUpperCase() === (props.address).toUpperCase()) {
-            getGraph[i].inputs.push({
-              hash:row.hash,
-              symbole:'ETH',
-              value:row.amount.toFixed(5),
-              timeStamp:row.date,
-              address:row.address,
-              valueInDollar:row.valueInDollar
-            })
-          }
-        }
-        if (getGraph.find(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
-          for (let i = 0; i < getGraph.length; i++) {
-            if ((getGraph[i].address).toUpperCase() === (row.address).toUpperCase()) {
-              getGraph[i].outputs.push({
-                hash:row.hash,
-                symbole:'ETH',
-                value:row.amount.toFixed(5),
-                timeStamp:row.date,
-                address:props.address,
-                valueInDollar:row.valueInDollar
-              })
-            }
-          }
-        } else {
-          const newNode = {
-            address:row.address,
-            symbole:'ETH',
-            inputs:[],
-            outputs:[
-              {
-                hash:row.hash,
-                symbole:'ETH',
-                value:row.amount.toFixed(5),
-                timeStamp:row.date,
-                address:props.address,
-                valueInDollar:row.valueInDollar
-              }
-            ]
-          }
-          getGraph.push(newNode)
-        }
+    // const getGraph = States.GraphData
+    //   console.log(row)
+    //   // ------------------------------------BUG------------------------------------
+    //   if (row.mode === 'in') {
+    //     for (let i = 0; i < getGraph.length; i++) {
+    //       if ((getGraph[i].address).toUpperCase() === (props.address).toUpperCase()) {
+    //         getGraph[i].inputs.push({
+    //           hash:row.hash,
+    //           symbole:'ETH',
+    //           value:row.amount.toFixed(5),
+    //           timeStamp:row.date,
+    //           address:row.address,
+    //           valueInDollar:row.valueInDollar
+    //         })
+    //       }
+    //     }
+    //     if (getGraph.find(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
+    //       for (let i = 0; i < getGraph.length; i++) {
+    //         if ((getGraph[i].address).toUpperCase() === (row.address).toUpperCase()) {
+    //           getGraph[i].outputs.push({
+    //             hash:row.hash,
+    //             symbole:'ETH',
+    //             value:row.amount.toFixed(5),
+    //             timeStamp:row.date,
+    //             address:props.address,
+    //             valueInDollar:row.valueInDollar
+    //           })
+    //         }
+    //       }
+    //     } else {
+    //       const newNode = {
+    //         address:row.address,
+    //         symbole:'ETH',
+    //         inputs:[],
+    //         outputs:[
+    //           {
+    //             hash:row.hash,
+    //             symbole:'ETH',
+    //             value:row.amount.toFixed(5),
+    //             timeStamp:row.date,
+    //             address:props.address,
+    //             valueInDollar:row.valueInDollar
+    //           }
+    //         ]
+    //       }
+    //       getGraph.push(newNode)
+    //     }
 
 
-        dispatch({type:"GRAPHDATA", value:getGraph})
-        dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
-      } else if (row.mode === 'out') {
-        for (let i = 0; i < getGraph.length; i++) {
-          if ((getGraph[i].address).toUpperCase() === (props.address).toUpperCase()) {
-            getGraph[i].outputs.push({
-              hash:row.hash,
-              symbole:'ETH',
-              value:row.amount.toFixed(5),
-              timeStamp:row.date,
-              address:row.address,
-              valueInDollar:row.valueInDollar
-            })
-          }
-        }
-        if (getGraph.find(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
-          for (let i = 0; i < getGraph.length; i++) {
-            if ((getGraph[i].address).toUpperCase() === (row.address).toUpperCase()) {
-              getGraph[i].inputs.push({
-                hash:row.hash,
-                symbole:'ETH',
-                value:row.amount.toFixed(5),
-                timeStamp:row.date,
-                address:props.address,
-                valueInDollar:row.valueInDollar
-              })
-            }
-          }
-        } else {
-          const newNode = {
-            address:row.address,
-            symbole:'ETH',
-            inputs:[
-              {
-                hash:row.hash,
-                symbole:'ETH',
-                value:row.amount.toFixed(5),
-                timeStamp:row.date,
-                address:props.address,
-                valueInDollar:row.valueInDollar
-              }
-            ],
-            outputs:[]
-          }
-          getGraph.push(newNode)
-        }
-        dispatch({type:"GRAPHDATA", value:getGraph})
-        dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
-      }
-
-      console.log('States.GraphData')
-      console.log(States.GraphData)
+    //     dispatch({type:"GRAPHDATA", value:getGraph})
+    //     dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+    //   } else if (row.mode === 'out') {
+    //     for (let i = 0; i < getGraph.length; i++) {
+    //       if ((getGraph[i].address).toUpperCase() === (props.address).toUpperCase()) {
+    //         getGraph[i].outputs.push({
+    //           hash:row.hash,
+    //           symbole:'ETH',
+    //           value:row.amount.toFixed(5),
+    //           timeStamp:row.date,
+    //           address:row.address,
+    //           valueInDollar:row.valueInDollar
+    //         })
+    //       }
+    //     }
+    //     if (getGraph.find(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
+    //       for (let i = 0; i < getGraph.length; i++) {
+    //         if ((getGraph[i].address).toUpperCase() === (row.address).toUpperCase()) {
+    //           getGraph[i].inputs.push({
+    //             hash:row.hash,
+    //             symbole:'ETH',
+    //             value:row.amount.toFixed(5),
+    //             timeStamp:row.date,
+    //             address:props.address,
+    //             valueInDollar:row.valueInDollar
+    //           })
+    //         }
+    //       }
+    //     } else {
+    //       const newNode = {
+    //         address:row.address,
+    //         symbole:'ETH',
+    //         inputs:[
+    //           {
+    //             hash:row.hash,
+    //             symbole:'ETH',
+    //             value:row.amount.toFixed(5),
+    //             timeStamp:row.date,
+    //             address:props.address,
+    //             valueInDollar:row.valueInDollar
+    //           }
+    //         ],
+    //         outputs:[]
+    //       }
+    //       getGraph.push(newNode)
+    //     }
+    //     dispatch({type:"GRAPHDATA", value:getGraph})
+    //     dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+    //   }
   }
 
   function removeSelectedData(value) {
@@ -202,10 +199,10 @@ const  WalletDetailTableBottom = (props) => {
     dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
   }
 
+  //show all transactions
   useEffect(() => {
     const a = []
     const MainData = States.GraphData
-    console.log(props.data)
     //get All Hash
     const AllHash = []
     for (let i = 0; i < MainData.length; i++) {
@@ -223,11 +220,11 @@ const  WalletDetailTableBottom = (props) => {
       }
     }
 
+    console.log(props.data)
+
     for (let i = 0; i < props.data.inputs.length; i++) {
       if (AllHash.some(item => item.toUpperCase() === (props.data.inputs[i].hash).toUpperCase())) {
-        if ((typeof (props.data.inputs[i].amount) === 'string' || typeof (props.data.inputs[i].amount) === 'number') && typeof (props.data.inputs[i].address) === 'string' && typeof (props.data.inputs[i].date) === 'number' && typeof (props.data.inputs[i].time) === 'number' && typeof (props.data.inputs[i].hash) === 'string') {
           a.push({
-            address:props.data.inputs[i].address,
             amount:props.data.inputs[i].amount,
             date:props.data.inputs[i].date,
             time:props.data.inputs[i].time,
@@ -236,12 +233,8 @@ const  WalletDetailTableBottom = (props) => {
             mode:"in",
             show:true
           })
-        }
-
       } else {
-        if ((typeof (props.data.inputs[i].amount) === 'string' || typeof (props.data.inputs[i].amount) === 'number') && typeof (props.data.inputs[i].address) === 'string' && typeof (props.data.inputs[i].date) === 'number' && typeof (props.data.inputs[i].time) === 'number' && typeof (props.data.inputs[i].hash) === 'string') {
           a.push({
-            address:props.data.inputs[i].address,
             amount:props.data.inputs[i].amount,
             date:props.data.inputs[i].date,
             time:props.data.inputs[i].time,
@@ -250,13 +243,11 @@ const  WalletDetailTableBottom = (props) => {
             mode:"in",
             show:false
           })
-        }
       }
     }
     for (let i = 0; i < props.data.outputs.length; i++) {
       if (AllHash.some(item => item.toUpperCase() === (props.data.outputs[i].hash).toUpperCase())) {
         a.push({
-          address:props.data.outputs[i].address,
           amount:props.data.outputs[i].amount,
           date:props.data.outputs[i].date,
           time:props.data.outputs[i].time,
@@ -267,7 +258,6 @@ const  WalletDetailTableBottom = (props) => {
         })
       } else {
         a.push({
-          address:props.data.outputs[i].address,
           amount:props.data.outputs[i].amount,
           date:props.data.outputs[i].date,
           time:props.data.outputs[i].time,
@@ -279,7 +269,6 @@ const  WalletDetailTableBottom = (props) => {
       }
 
     }
-
     SetData(a)
 
   }, [, props.data, currentPage])
@@ -331,14 +320,14 @@ const  WalletDetailTableBottom = (props) => {
       }
     },
     {
-      name: 'آدرس کیف پول',
+      name: 'آدرس تراکنش',
       sortable: false,
       minWidth: '160px',
       maxWidth: '160px',
       selector: row => row.address,
       cell: row => {
         return (
-          <NiceAddress2 text={row.address} number={6}/>
+          <NiceAddress2 text={row.hash} number={6}/>
         )
       }
     },
