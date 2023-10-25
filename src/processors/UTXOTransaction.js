@@ -18,7 +18,13 @@ export function UTXOTransaction (array, TransactionHash, symbole, decimal) {
     
     try {
         for (let i = 0; i < GetInputs.length; i++) {
-            if (inputs.some(item => item.address.toUpperCase() === GetInputs[i].coin.address.address) === false) {
+            let check = false
+            for (let x = 0; x < inputs.length; x++) {
+                if (inputs[x].address.toUpperCase() === GetInputs[i].coin.address.address.toUpperCase()) {
+                    check = true
+                }
+            }
+            if (!check) {
                 inputs.push({
                     address: GetInputs[i].coin.address.address,
                     value: GetInputs[i].coin.value / decimal,
@@ -26,7 +32,7 @@ export function UTXOTransaction (array, TransactionHash, symbole, decimal) {
                 })
             } else {
                 for (let j = 0; j < inputs.length; j++) {
-                    if (inputs[j].address.toUpperCase() === GetInputs[i].coin.address.address) {
+                    if (inputs[j].address.toUpperCase() === GetInputs[i].coin.address.address.toUpperCase()) {
                         inputs[j].value = inputs[j].value + (GetInputs[i].coin.value / decimal)
                         inputs[j].valueInDollar = inputs[j].valueInDollar + (GetInputs[i].coin.ValueInDollar)
                     }
@@ -35,7 +41,13 @@ export function UTXOTransaction (array, TransactionHash, symbole, decimal) {
         }
     
         for (let i = 0; i < GetOutputs.length; i++) {
-            if (outputs.some(item => item.address.toUpperCase() === GetOutputs[i].address.address) === false) {
+            let check = false
+            for (let x = 0; x < outputs.length; x++) {
+                if (outputs[x].address.toUpperCase() === GetOutputs[i].address.address.toUpperCase()) {
+                    check = true
+                }
+            }
+            if (!check) {
                 outputs.push({
                     address: GetOutputs[i].address.address,
                     value: GetOutputs[i].value / decimal,
