@@ -20,6 +20,7 @@ import Entities from './pages/entities/entities'
 import Folders from './pages/folders/folders'
 import SingleCase from './components/folders/singleCase/singleCase'
 import Demo from './pages/demo/demo'
+import Profile from './pages/profile/profile'
 import './App.css'
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
           <Routes>
             <Route path="/" exact element={<Main/>}/>
             <Route path="/recovery"  element={<Recovery/>}/>
+            <Route path="/profile"  element={<Profile/>}/>
             {
               (Number(Cookies.get('roll')) === 2) ?
                 <Route path="/admin"  element={<Admin/>}/>

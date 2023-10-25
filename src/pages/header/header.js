@@ -80,7 +80,6 @@ function Header() {
     SetRoll(Cookies.get('roll'))
   }, [, Cookies.get('roll')])
 
-
   return (
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu" id='header'>
       <div class="layout-container">

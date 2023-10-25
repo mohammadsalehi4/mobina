@@ -264,4 +264,9 @@
   background: #497979 !important;
 }
 
+.dropdown-menu{
+  position: absolute !important;
+  z-index: 1000000000000000000000000000000000000;
+}
+
 /*# sourceMappingURL=header.css.map */
