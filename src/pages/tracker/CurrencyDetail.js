@@ -35,97 +35,45 @@ const CurrencyDetail = () => {
   const [Data, SetData] = useState({})
 
   const AccountBaseAdd = (getData) => {
-    let data = []
     console.log(getData)
 
+    const inputs=[]
+    const outputs=[]
+
     for (let i = 0; i < getData.inputs.length; i++) {
-      data.push({
-        timeStamp:getData.inputs[i].timestamp,
-        from:getData.inputs[i].address,
-        to:States.WDetail,
-        fee:getData.inputs[i].fee,
-        value:parseFloat(Number(getData.inputs[i].value).toString()),
-        valueInDollar:getData.inputs[i].valueInDollar,
+      inputs.push({
+        address:getData.inputs[i].address,
         hash:getData.inputs[i].hash,
-        currencyType:getData.inputs[i].symbole,
-        Logo:`${getData.inputs[i].symbole}.png`,
-        Type:"coin"
+        date:getData.inputs[i].timestamp,
+        time:getData.inputs[i].timestamp,
+        amount:parseFloat(getData.inputs[i].value.toFixed(5)),
+        senderAmount:parseFloat(getData.inputs[i].value.toFixed(5)),
+        currencyType:getData.symbole,
+        valueInDollar:getData.inputs[i].ValueInDollar
       })
     }
 
     for (let i = 0; i < getData.outputs.length; i++) {
-      data.push({
-        timeStamp:getData.outputs[i].timestamp,
-        from:States.WDetail,
-        to:getData.outputs[i].address,
-        fee:getData.outputs[i].fee,
-        value:parseFloat(Number(getData.outputs[i].value).toString()),
-        valueInDollar:getData.outputs[i].valueInDollar,
+      outputs.push({
+        address:getData.outputs[i].address,
         hash:getData.outputs[i].hash,
-        currencyType:getData.outputs[i].symbole,
-        Logo:`${getData.outputs[i].symbole}.png`,
-        Type:"coin"
+        date:getData.outputs[i].timestamp,
+        time:getData.outputs[i].timestamp,
+        amount:parseFloat(getData.outputs[i].value.toFixed(5)),
+        reciverAmount:parseFloat(getData.outputs[i].value.toFixed(5)),
+        currencyType:getData.symbole,
+        valueInDollar:getData.outputs[i].ValueInDollar
       })
     }
     
-    //validation values
-    for (let i = 0; i < data.length; i++) {
-      if (typeof (data[i].timeStamp) !== 'number') {
-        throw new Error('timestamp Error')
+    console.log(
+      {
+        symbole:'ETH',
+        inputs,
+        outputs
       }
+    )
 
-      if (typeof (data[i].from) !== 'string' && from !== null) {
-        throw new Error('from Error')
-      }
-
-      if (typeof (data[i].to) !== 'string' && to !== null) {
-        throw new Error('to Error')
-      }
-
-      if (typeof (data[i].value) !== 'number') {
-        throw new Error('value Error')
-      }
-
-      if (typeof (data[i].hash) !== 'string') {
-        throw new Error('hash Error')
-      }
-
-      if (typeof (data[i].currencyType) !== 'string') {
-        throw new Error('hash Error')
-      }
-    }
-
-
-    const inputs=[]
-    const outputs=[]
-    for (let i = 0; i < data.length; i++) {
-      if ((data[i].to).toUpperCase() === States.WDetail.toUpperCase()) {
-        if (typeof (data[i].currencyType) === 'string' && typeof (data[i].from) === 'string' && typeof (data[i].hash) === 'string' && typeof (data[i].timeStamp) === 'number' && typeof (data[i].value) === 'number') {
-          inputs.push({
-            address:data[i].from,
-            hash:data[i].hash,
-            date:data[i].timeStamp,
-            time:data[i].timeStamp,
-            amount:data[i].value,
-            currencyType:data[i].currencyType,
-            valueInDollar:data[i].valueInDollar
-          })
-        }
-      } else if ((data[i].from).toUpperCase() === States.WDetail.toUpperCase()) {
-        if (typeof (data[i].currencyType) === 'string' && typeof (data[i].from) === 'string' && typeof (data[i].hash) === 'string' && typeof (data[i].timeStamp) === 'number' && typeof (data[i].value) === 'number') {
-          outputs.push({
-            address:data[i].to,
-            hash:data[i].hash,
-            date:data[i].timeStamp,
-            time:data[i].timeStamp,
-            amount:data[i].value,
-            currencyType:data[i].currencyType,
-            valueInDollar:data[i].valueInDollar
-          })
-        }
-      }
-    }
-    
     return {
       symbole:'ETH',
       inputs,
