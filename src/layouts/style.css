@@ -1,0 +1,4 @@
+.profileHeaderItem:hover {
+    background: rgb(220, 220, 220) !important;
+    transition: 0.2s;
+}

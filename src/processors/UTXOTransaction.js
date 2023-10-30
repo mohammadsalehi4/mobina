@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
-export function UTXOTransaction (array, TransactionHash, symbole, decimal) {
-
+export function UTXOTransaction (array, symbole, decimal) {
+    console.log(array)
+    console.log(symbole)
+    console.log(decimal)
     const blockNumber = array.blockNumber
     const fee = array.fee
     const hash = array.hash
     const time = array.time
-    
-    const GetInputs = array.inputs
-    const GetOutputs = array.outputs
 
     const inputs = []
     const outputs = []
@@ -17,47 +16,47 @@ export function UTXOTransaction (array, TransactionHash, symbole, decimal) {
     let ErrorText = ''
     
     try {
-        for (let i = 0; i < GetInputs.length; i++) {
+        for (let i = 0; i < array.inputs.length; i++) {
             let check = false
             for (let x = 0; x < inputs.length; x++) {
-                if (inputs[x].address.toUpperCase() === GetInputs[i].coin.address.address.toUpperCase()) {
+                if (inputs[x].address.toUpperCase() === array.inputs[i].coin.address.address.toUpperCase()) {
                     check = true
                 }
             }
             if (!check) {
                 inputs.push({
-                    address: GetInputs[i].coin.address.address,
-                    value: GetInputs[i].coin.value / decimal,
-                    valueInDollar: GetInputs[i].coin.ValueInDollar
+                    address: array.inputs[i].coin.address.address,
+                    value: array.inputs[i].coin.value / decimal,
+                    valueInDollar: array.inputs[i].coin.ValueInDollar
                 })
             } else {
                 for (let j = 0; j < inputs.length; j++) {
-                    if (inputs[j].address.toUpperCase() === GetInputs[i].coin.address.address.toUpperCase()) {
-                        inputs[j].value = inputs[j].value + (GetInputs[i].coin.value / decimal)
-                        inputs[j].valueInDollar = inputs[j].valueInDollar + (GetInputs[i].coin.ValueInDollar)
+                    if (inputs[j].address.toUpperCase() === array.inputs[i].coin.address.address.toUpperCase()) {
+                        inputs[j].value = inputs[j].value + (array.inputs[i].coin.value / decimal)
+                        inputs[j].valueInDollar = inputs[j].valueInDollar + (array.inputs[i].coin.ValueInDollar)
                     }
                 }
             }
         }
     
-        for (let i = 0; i < GetOutputs.length; i++) {
+        for (let i = 0; i < array.outputs.length; i++) {
             let check = false
             for (let x = 0; x < outputs.length; x++) {
-                if (outputs[x].address.toUpperCase() === GetOutputs[i].address.address.toUpperCase()) {
+                if (outputs[x].address.toUpperCase() === array.outputs[i].address.address.toUpperCase()) {
                     check = true
                 }
             }
             if (!check) {
                 outputs.push({
-                    address: GetOutputs[i].address.address,
-                    value: GetOutputs[i].value / decimal,
-                    valueInDollar: GetOutputs[i].ValueInDollar
+                    address: array.outputs[i].address.address,
+                    value: array.outputs[i].value / decimal,
+                    valueInDollar: array.outputs[i].ValueInDollar
                 })
             } else {
                 for (let j = 0; j < outputs.length; j++) {
-                    if (outputs[j].address.toUpperCase() === GetOutputs[i].address.address) {
-                        outputs[j].value = outputs[j].value + (GetOutputs[i].value / decimal)
-                        outputs[j].valueInDollar = outputs[j].valueInDollar + (GetOutputs[i].ValueInDollar)
+                    if (outputs[j].address.toUpperCase() === array.outputs[i].address.address) {
+                        outputs[j].value = outputs[j].value + (array.outputs[i].value / decimal)
+                        outputs[j].valueInDollar = outputs[j].valueInDollar + (array.outputs[i].ValueInDollar)
                     }
                 }
             }
@@ -82,7 +81,8 @@ export function UTXOTransaction (array, TransactionHash, symbole, decimal) {
                 hash,
                 time,
                 inputs,
-                outputs
+                outputs,
+                symbole
             }
         )
     }

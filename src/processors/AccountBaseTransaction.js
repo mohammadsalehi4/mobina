@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 export function AccountBaseTransaction (array, symbole, decimal) {
-    console.log(array)
     const hash = array.hash
     const blockNumber = array.blockNumber
     const timestamp = array.timestamp
@@ -8,7 +7,7 @@ export function AccountBaseTransaction (array, symbole, decimal) {
     const to = array.to.address
     const value = Number(array.value) / decimal
     const valueInDollar = Number(array.valueInDollar)
-    const fee = Number(array.gasPrice) * Number(array.gasUsed) / decimal
+    const fee = (Number(array.gasPrice) * Number(array.gasUsed)) / decimal
     const logs = []
 
     for (let i = 0; i < array.logs.length; i++) {

@@ -3,7 +3,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react'
-// import { useParams } from "react-router-dom"
 import './tracker.css'
 import FuckingGraph from '../graph/graph'
 import CurrencyDetail from './CurrencyDetail'
@@ -69,16 +68,17 @@ const Tracker = () => {
         window.location.assign(`/tracker/${inputValue}`)
     }
 
-    const UTXOAddress24 = (array, address, symbole, decimal) => {
+    //processors
+    const UTXOAdd = (data) => {
         const mainAddress = {
-            address,
-            symbole,
+            address: data.address,
+            symbole : data.symbole,
             inputs : [
                 {
                     hash:null,
                     value:0,
                     timeStamp:0,
-                    symbole,
+                    symbole: '',
                     valueInDollar:0
                 }
             ],
@@ -87,241 +87,374 @@ const Tracker = () => {
                     hash:null,
                     value:0,
                     timeStamp:0,
-                    symbole,
+                    symbole : '',
                     valueInDollar:0
                 }
             ]
         }
-
         const inputAddress = {
             address : '',
-            symbole,
-            inputs : [
-                {
-                    hash:null,
-                    value:0,
-                    timeStamp:0,
-                    symbole,
-                    valueInDollar:0
-                }
-            ],
+            symbole : '',
+            inputs : [],
             outputs : [
                 {
                     hash:null,
                     value:0,
                     timeStamp:0,
-                    symbole,
+                    symbole: '',
                     valueInDollar:0
                 }
             ]
         }
-
         const outputAddress = {
             address : '',
-            symbole,
+            symbole: '',
             inputs : [
                 {
                     hash:null,
                     value:0,
                     timeStamp:0,
-                    symbole,
+                    symbole : '',
                     valueInDollar:0
                 }
             ],
-            outputs : [
-                {
-                    hash:null,
-                    value:0,
-                    timeStamp:0,
-                    symbole,
-                    valueInDollar:0
-                }
-            ]
+            outputs : []
         }
 
-        let inputHash = null
-        let outputHash = null
+        let inputCheck = false
+        let outputCheck = false
 
-        // main input transaction
-        for (let i = 0; i < array.length; i++) {
-            const hash = array[i].hash
-            const time = array[i].time
-            for (let j = 0; j < array[i].outputs.length; j++) {
-                if ((array[i].outputs[j].address.address).toUpperCase() === address.toUpperCase()) {
-                    for (let k = 0; k < array[i].outputs.length; k++) {
-                        if ((array[i].outputs[k].address.address).toUpperCase() === address.toUpperCase()) {
-                            if (hash.toUpperCase() !== (mainAddress.inputs[0].hash)) {
-                                mainAddress.inputs[0].hash = hash
-                                mainAddress.inputs[0].value = Number(array[i].outputs[k].value) / decimal
-                                mainAddress.inputs[0].timeStamp = time
-                                mainAddress.inputs[0].valueInDollar = Number(array[i].outputs[k].ValueInDollar)
-                            } else {
-                                mainAddress.inputs[0].value = mainAddress.inputs[0].value + (Number(array[i].outputs[k].value) / decimal)
-                                mainAddress.inputs[0].valueInDollar = mainAddress.inputs[0].valueInDollar + Number(array[i].outputs[k].ValueInDollar)
-                            }
-                        }
-                    }
-                    inputHash = hash
-                    j = array[i].outputs.length + 1
-                }
-            }
-            if (inputHash !== null) {
-                i = array.length + 1
-            }
+        if (data.inputs.length > 0) {
+            mainAddress.inputs[0].hash = data.inputs[0].hash
+            mainAddress.inputs[0].value = parseFloat(data.inputs[0].value.toFixed(5))
+            mainAddress.inputs[0].timeStamp = data.inputs[0].timestamp
+            mainAddress.inputs[0].symbole = data.symbole
+            mainAddress.inputs[0].valueInDollar = parseFloat(data.inputs[0].ValueInDollar.toFixed(5))
+
+            inputAddress.address = data.inputs[0].sender[0].address
+            inputAddress.symbole = data.inputs[0].sender[0].symbole
+            inputAddress.outputs[0].hash = data.inputs[0].hash
+            inputAddress.outputs[0].value = parseFloat(data.inputs[0].sender[0].value.toFixed(5))
+            inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
+            inputAddress.outputs[0].symbole = data.inputs[0].sender[0].symbole
+            inputAddress.outputs[0].valueInDollar = parseFloat(data.inputs[0].sender[0].ValueInDollar.toFixed(5))
+
+            inputCheck = true
         }
 
-        // main output transaction
-        for (let i = 0; i < array.length; i++) {
-            const hash = array[i].hash
-            const time = array[i].time
-            for (let j = 0; j < array[i].inputs.length; j++) {
-                if (((array[i].inputs[j].coin.address.address).toUpperCase() === address.toUpperCase()) && (array[i].hash).toUpperCase() !== inputHash.toUpperCase()) {
-                    for (let k = 0; k < array[i].inputs.length; k++) {
-                        if (((array[i].inputs[k].coin.address.address).toUpperCase() === address.toUpperCase())) {
-                            if (hash.toUpperCase() !== mainAddress.outputs[0].hash) {
-                                mainAddress.outputs[0].hash = hash
-                                mainAddress.outputs[0].value = Number(array[i].inputs[k].coin.value) / decimal
-                                mainAddress.outputs[0].timeStamp = time
-                                mainAddress.outputs[0].valueInDollar = Number(array[i].inputs[k].coin.ValueInDollar)
-                            } else {
-                                mainAddress.outputs[0].value = mainAddress.outputs[0].value + Number(array[i].inputs[k].coin.value) / decimal
-                                mainAddress.outputs[0].valueInDollar = mainAddress.outputs[0].valueInDollar + Number(array[i].inputs[k].coin.ValueInDollar)
-                            }
-                        }
-                    }
-                    outputHash = hash
-                    j = array[i].inputs.length + 1
-                }
-            }
-            if (outputHash !== null) {
-                i = array.length + 1
-            }
+        if (data.outputs.length > 0) {
+            mainAddress.outputs[0].hash = data.outputs[0].hash
+            mainAddress.outputs[0].value = parseFloat(data.outputs[0].value.toFixed(5))
+            mainAddress.outputs[0].timeStamp = data.outputs[0].timestamp
+            mainAddress.outputs[0].symbole = data.symbole
+            mainAddress.outputs[0].valueInDollar = parseFloat(data.outputs[0].ValueInDollar.toFixed(5))
+
+            outputAddress.address = data.outputs[0].reciver[0].address
+            outputAddress.symbole = data.outputs[0].reciver[0].symbole
+            outputAddress.inputs[0].hash = data.outputs[0].hash
+            outputAddress.inputs[0].value = parseFloat(data.outputs[0].reciver[0].value.toFixed(5))
+            outputAddress.inputs[0].timeStamp = data.outputs[0].timestamp
+            outputAddress.inputs[0].symbole = data.outputs[0].reciver[0].symbole
+            outputAddress.inputs[0].valueInDollar = parseFloat(data.outputs[0].reciver[0].ValueInDollar.toFixed(5))
+
+            outputCheck = true
         }
 
-        // inputAddress output transaction
-        for (let i = 0; i < array.length; i++) {
-            const hash = array[i].hash
-            const time = array[i].time
-            if (array[i].hash === inputHash) {
-                for (let j = 0; j < array[i].inputs.length; j++) {
-                    if ((array[i].inputs[j].coin.address.address).toUpperCase() !== address.toUpperCase()) {
-                        const thisAddress = array[i].inputs[j].coin.address.address
-                        for (let k = 0; k < array[i].inputs.length; k++) {
-                            if ((array[i].inputs[k].coin.address.address).toUpperCase() === thisAddress.toUpperCase()) {
-                                if (inputAddress.address === '') {
-                                    inputAddress.outputs[0].hash = hash
-                                    inputAddress.outputs[0].value = Number(array[i].inputs[k].coin.value) / decimal
-                                    inputAddress.outputs[0].timeStamp = time
-                                    inputAddress.outputs[0].valueInDollar = Number(array[i].inputs[k].coin.ValueInDollar)
-                                    inputAddress.address = thisAddress
-                                } else {
-                                    inputAddress.outputs[0].value = inputAddress.outputs[0].value + Number(array[i].inputs[k].coin.value) / decimal
-                                    inputAddress.outputs[0].valueInDollar = inputAddress.outputs[0].valueInDollar + Number(array[i].inputs[k].coin.ValueInDollar)
-                                }
-                            }
-                        }
-                        j = array[i].inputs.length + 1
-                    }
-                }
-            }
-        }
-
-        // outputAddress input transaction
-        for (let i = 0; i < array.length; i++) {
-            const hash = array[i].hash
-            const time = array[i].time
-            if (array[i].hash === outputHash) {
-                for (let j = 0; j < array[i].outputs.length; j++) {
-                    if (((array[i].outputs[j].address.address).toUpperCase() !== address.toUpperCase()) && (array[i].outputs[j].address.address).toUpperCase() !== inputAddress.address.toUpperCase()) {
-                        const thisAddress = array[i].outputs[j].address.address
-                        for (let k = 0; k < array[i].outputs.length; k++) {
-                            if (((array[i].outputs[k].address.address).toUpperCase() === thisAddress.toUpperCase())) {
-                                if (outputAddress.address === '') {
-                                    outputAddress.inputs[0].hash = hash
-                                    outputAddress.inputs[0].value = Number(array[i].outputs[k].value) / decimal
-                                    outputAddress.inputs[0].timeStamp = time
-                                    outputAddress.inputs[0].valueInDollar = Number(array[i].outputs[k].ValueInDollar)
-                                    outputAddress.address = thisAddress
-                                } else {
-                                    outputAddress.inputs[0].value = outputAddress.inputs[0].value + Number(array[i].outputs[k].value) / decimal
-                                    outputAddress.inputs[0].valueInDollar = outputAddress.inputs[0].valueInDollar + Number(array[i].outputs[k].ValueInDollar)
-                                }
-                            }
-                        }
-                        j = array[i].outputs.length + 1
-                    }
-                }
-            }
-        }
-
-        if ((inputHash === null || inputAddress.address === '') && outputHash !== null) {
-            return ([
-                {
-                    address:mainAddress.address,
-                    symbole:mainAddress.symbole,
-                    outputs:mainAddress.outputs,
-                    inputs:[]
-                },
-                {
-                    address:outputAddress.address,
-                    symbole:outputAddress.symbole,
-                    outputs:[],
-                    inputs:outputAddress.inputs
-                }
-            ])
-        } else if ((outputHash === null || outputAddress === '') && inputHash !== null) {
-            return ([
-                {
-                    address:mainAddress.address,
-                    symbole:mainAddress.symbole,
-                    outputs:[],
-                    inputs:mainAddress.outputs
-                },
-                {
-                    address:inputAddress.address,
-                    symbole:inputAddress.symbole,
-                    outputs:inputAddress.outputs,
-                    inputs:[]
-                }
-            ])
-        } else if ((outputHash === null || outputAddress === '') && (inputHash === null || inputAddress.address === '')) {
+        if (inputCheck && outputCheck) {
+            return (
+                [
+                    mainAddress,
+                    inputAddress,
+                    outputAddress
+                ]
+            )
+        } else if (inputCheck && !outputCheck) {
             return (
                 [
                     {
-                        address:mainAddress.address,
-                        symbole:mainAddress.symbole,
-                        outputs:[],
-                        inputs:[]
-                    }
+                        address: mainAddress.address,
+                        symbole: mainAddress.symbole,
+                        inputs:[
+                            {
+                                hash:mainAddress.inputs[0].hash,
+                                value:mainAddress.inputs[0].value,
+                                timeStamp:mainAddress.inputs[0].timeStamp,
+                                symbole: mainAddress.inputs[0].symbole,
+                                valueInDollar:mainAddress.inputs[0].valueInDollar
+                            }
+                        ],
+                        outputs:[]
+                    },
+                    inputAddress
+                ]
+            )
+        } else if (!inputCheck && outputCheck) {
+            return (
+                [
+                    {
+                        address: mainAddress.address,
+                        symbole: mainAddress.symbole,
+                        inputs:[],
+                        outputs:[
+                            {
+                                hash:mainAddress.outputs[0].hash,
+                                value:mainAddress.outputs[0].value,
+                                timeStamp:mainAddress.outputs[0].timeStamp,
+                                symbole: mainAddress.outputs[0].symbole,
+                                valueInDollar:mainAddress.outputs[0].valueInDollar
+                            }
+                        ]
+                    },
+                    outputAddress
                 ]
             )
         } else {
-            return ([
-                {
-                    address:mainAddress.address,
-                    symbole:mainAddress.symbole,
-                    outputs:mainAddress.outputs,
-                    inputs:mainAddress.inputs
-                },
-                {
-                    address:outputAddress.address,
-                    symbole:outputAddress.symbole,
-                    outputs:[],
-                    inputs:outputAddress.inputs
-                },
-                {
-                    address:inputAddress.address,
-                    symbole:inputAddress.symbole,
-                    outputs:inputAddress.outputs,
-                    inputs:[]
-                }
-            ])
+            return (
+                [
+                    {
+                        address: mainAddress.address,
+                        symbole: mainAddress.symbole,
+                        inputs:[],
+                        outputs:[]
+                    }
+                ]
+            )
         }
- 
+    }
+    const UTXOTr = (data) => {
+        const LeftAddress = {
+            address: data.outputs[0].address,
+            symbole : data.symbole,
+            inputs : [
+                {
+                    hash:data.hash,
+                    value:parseFloat(data.outputs[0].value.toFixed(5)),
+                    timeStamp:data.time,
+                    symbole: data.symbole,
+                    valueInDollar:parseFloat(data.outputs[0].valueInDollar.toFixed(5))
+                }
+            ],
+            outputs : []
+        }
+        const RightAddress = {
+            address : data.inputs[0].address,
+            symbole : data.symbole,
+            inputs : [],
+            outputs : [
+                {
+                    hash:data.hash,
+                    value:parseFloat(data.inputs[0].value.toFixed(5)),
+                    timeStamp:data.time,
+                    symbole: data.symbole,
+                    valueInDollar:parseFloat(data.inputs[0].valueInDollar.toFixed())
+                }
+            ]
+        }
+
+        return (
+            [
+                LeftAddress,
+                RightAddress
+            ]
+        )
+    }
+    const AccountAdd = (data) => {
+        const mainAddress = {
+            address: '',
+            symbole : '',
+            inputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole: '',
+                    valueInDollar:0
+                }
+            ],
+            outputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole : '',
+                    valueInDollar:0
+                }
+            ]
+        }
+        const inputAddress = {
+            address : '',
+            symbole : '',
+            inputs : [],
+            outputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole: '',
+                    valueInDollar:0
+                }
+            ]
+        }
+        const outputAddress = {
+            address : '',
+            symbole: '',
+            inputs : [
+                {
+                    hash:null,
+                    value:0,
+                    timeStamp:0,
+                    symbole : '',
+                    valueInDollar:0
+                }
+            ],
+            outputs : []
+        }
+
+        mainAddress.address = data.address
+        mainAddress.symbole = data.symbole
+
+        let inputCheck = false
+        let outputCheck = false
+
+        if (data.inputs.length > 0) {
+            mainAddress.inputs[0].hash = data.inputs[0].hash
+            mainAddress.inputs[0].value = parseFloat(data.inputs[0].value.toFixed(5))
+            mainAddress.inputs[0].timeStamp = data.inputs[0].timestamp
+            mainAddress.inputs[0].symbole = data.inputs[0].symbole
+            mainAddress.inputs[0].valueInDollar = parseFloat((data.inputs[0].ValueInDollar).toFixed(5))
+
+            inputAddress.address = data.inputs[0].address
+            inputAddress.symbole = data.inputs[0].symbole
+            inputAddress.outputs[0].hash = data.inputs[0].hash
+            inputAddress.outputs[0].value = parseFloat(data.inputs[0].value.toFixed(5))
+            inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
+            inputAddress.outputs[0].symbole = data.inputs[0].symbole
+            inputAddress.outputs[0].valueInDollar = parseFloat((data.inputs[0].ValueInDollar).toFixed(5))
+
+            inputCheck = true
+        }
+
+        if (data.outputs.length > 0) {
+            mainAddress.outputs[0].hash = data.outputs[0].hash
+            mainAddress.outputs[0].value = parseFloat(data.outputs[0].value.toFixed(5))
+            mainAddress.outputs[0].timeStamp = data.outputs[0].timestamp
+            mainAddress.outputs[0].symbole = data.outputs[0].symbole
+            mainAddress.outputs[0].valueInDollar = parseFloat(data.outputs[0].ValueInDollar.toFixed(5))
+
+            outputAddress.address = data.outputs[0].address
+            outputAddress.symbole = data.outputs[0].symbole
+            outputAddress.inputs[0].hash = data.outputs[0].hash
+            outputAddress.inputs[0].value = parseFloat(data.outputs[0].value.toFixed(5))
+            outputAddress.inputs[0].timeStamp = data.outputs[0].timestamp
+            outputAddress.inputs[0].symbole = data.outputs[0].symbole
+            outputAddress.inputs[0].valueInDollar = parseFloat(data.outputs[0].ValueInDollar.toFixed(5))
+
+            outputCheck = true
+        }
+
+        if (inputCheck && outputCheck) {
+            return (
+                [
+                    mainAddress,
+                    inputAddress,
+                    outputAddress
+                ]
+            )
+        } else if (inputCheck && !outputCheck) {
+            return (
+                [
+                    {
+                        address: mainAddress.address,
+                        symbole: mainAddress.symbole,
+                        inputs:[
+                            {
+                                hash:mainAddress.inputs[0].hash,
+                                value:mainAddress.inputs[0].value,
+                                timeStamp:mainAddress.inputs[0].timeStamp,
+                                symbole: mainAddress.inputs[0].symbole,
+                                valueInDollar:mainAddress.inputs[0].valueInDollar
+                            }
+                        ],
+                        outputs:[]
+                    },
+                    inputAddress
+                ]
+            )
+        } else if (!inputCheck && outputCheck) {
+            return (
+                [
+                    {
+                        address: mainAddress.address,
+                        symbole: mainAddress.symbole,
+                        inputs:[],
+                        outputs:[
+                            {
+                                hash:mainAddress.outputs[0].hash,
+                                value:mainAddress.outputs[0].value,
+                                timeStamp:mainAddress.outputs[0].timeStamp,
+                                symbole: mainAddress.outputs[0].symbole,
+                                valueInDollar:mainAddress.outputs[0].valueInDollar
+                            }
+                        ]
+                    },
+                    outputAddress
+                ]
+            )
+        } else {
+            return (
+                [
+                    {
+                        address: mainAddress.address,
+                        symbole: mainAddress.symbole,
+                        inputs:[],
+                        outputs:[]
+                    }
+                ]
+            )
+        }
+    }
+    const AccountTr = (data) => {
+        const LeftAddress = {
+            address: data.from,
+            symbole : data.symbole,
+            inputs : [
+                {
+                    hash:data.hash,
+                    value:parseFloat(data.value.toFixed(5)),
+                    timeStamp:data.timestamp,
+                    symbole: data.symbole,
+                    valueInDollar:parseFloat(data.valueInDollar.toFixed(5))
+                }
+            ],
+            outputs : []
+        }
+        const RightAddress = {
+            address : data.to,
+            symbole : data.value,
+            inputs : [],
+            outputs : [
+                {
+                    hash:data.hash,
+                    value:parseFloat(data.value.toFixed(5)),
+                    timeStamp:data.timestamp,
+                    symbole: data.symbole,
+                    valueInDollar:parseFloat(data.valueInDollar.toFixed(5))
+                }
+            ]
+        }
+
+        return (
+            [
+                LeftAddress,
+                RightAddress
+            ]
+        )
+
     }
 
     useEffect(() => {
         if (hash !== undefined) {
+            SetLoading(true)
             axios.get(`${serverAddress}/explorer/search/?query=${hash}`,
             {
               headers: {
@@ -333,18 +466,27 @@ const Tracker = () => {
                 try {
                     if (response.data.query === 'address') {
                         if (response.data.network === 'ETH') {
-                            console.log(AccountBaseAddress(response.data.data.result, hash, 'ETH', 1000000000000000000))
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountAdd(AccountBaseAddress(response.data.data.result, hash, 'ETH', 1000000000000000000))})
+                            dispatch({type:"positionX", value:0})
+                            SetIsShow(true)
                         } else if (response.data.network === 'BTC') {
-                            console.log(UTXOAddress(response.data.data.result, hash, 'BTC', 100000000))
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data.result, hash, 'BTC', 100000000))})
+                            dispatch({type:"positionX", value:0})
+                            SetIsShow(true)
                         }
                     } else if (response.data.query === 'transaction') {
                         if (response.data.network === 'ETH') {
-                            console.log(AccountBaseTransaction(response.data.data, 'ETH', 1000000000000000000))
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountTr(AccountBaseTransaction(response.data.data, 'ETH', 1000000000000000000))})
+                            dispatch({type:"positionX", value:320})
+                            SetIsShow(true)
                         } else if (response.data.network === 'BTC') {
-                            console.log(UTXOTransaction(response.data.data, hash, 'BTC', 100000000))
-                            // SetLoading(false)
-                            // dispatch({type:"GRAPHDATA", value:UTXOTransaction2(response.data.data, hash, 'BTC', 100000000)})
-                            // SetIsShow(true)
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, hash, 'BTC', 100000000))})
+                            dispatch({type:"positionX", value:320})
+                            SetIsShow(true)
                         }
                     }
                 } catch (error) {

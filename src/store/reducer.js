@@ -44,7 +44,7 @@ const initialState = {
     GraphData:[],
     CustomGraphData:[],
     Scale:1,
-    positionX:0,
+    positionX:400,
     positionY:800,
     showValues:true,
     showTime:false,

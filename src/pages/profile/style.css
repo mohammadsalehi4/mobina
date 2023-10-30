@@ -1,0 +1,99 @@
+#profileImageDiv{
+    max-width: 150px;
+}
+
+@media only screen and (min-width:1900px) {
+
+    .profileHeaderSpan{
+        font-size: 12px;
+        margin-right: -32px;
+        margin-top: -32px;
+    }
+
+    .profileHeaderSpan2{
+        font-size: 12px;
+        margin-right: -32px;
+        margin-top: 0px;
+    }
+}
+
+@media only screen and (max-width:1350px) {
+    #ProfileHeaderRoll{
+        font-size: 12px;
+        margin-right: 16px;
+        margin-top: 0px;
+        margin-right: -16px;
+    }
+
+    #profileImageDiv{
+        width: 100px !important;
+    }
+
+    #profileHeaderInfos{
+        font-size: 12px;
+    }
+
+    .profileHeaderSpan{
+        font-size: 12px;
+        margin-right: 16px;
+        margin-top: -32px;
+    }
+
+    .profileHeaderSpan2{
+        font-size: 12px;
+        margin-right: 16px;
+        margin-top: 0px;
+    }
+}
+
+@media only screen and (max-width:1000px) {
+    #ProfileHeaderRoll{
+        font-size: 12px;
+        margin-right: 16px;
+        margin-top: -20px;
+        margin-right: -16px;
+    }
+
+    #profileImageDiv{
+        width: 80px !important;
+    }
+
+    #profileHeaderInfos{
+        font-size: 12px;
+    }
+
+    .profileHeaderSpan{
+        font-size: 12px;
+        margin-right: 16px;
+        margin-top: -16px;
+    }
+
+    .profileHeaderSpan2{
+        font-size: 12px;
+        margin-right: 16px;
+        margin-top: 0px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    #ProfileHeaderRoll{
+        font-size: 12px;
+        margin-right: 16px;
+        margin-top: -20px;
+        width: 160px;
+    }
+
+    #profileImageDiv{
+        width: 100px !important;
+    }
+
+    #profileHeaderInfos{
+        font-size: 12px;
+    }
+
+    .profileHeaderSpan{
+        font-size: 12px;
+        margin-right: 16px;
+    }
+}
+

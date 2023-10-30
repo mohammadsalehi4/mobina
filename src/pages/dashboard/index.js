@@ -20,6 +20,7 @@ import toast from 'react-hot-toast'
 import Cookies from 'js-cookie'
 import { Search } from 'react-feather'
 import { useParams } from "react-router-dom"
+import {Col, Row} from 'reactstrap'
 
 const EcommerceDashboard = () => {
   const { hash } = useParams()
@@ -1077,20 +1078,20 @@ const EcommerceDashboard = () => {
         </div>
       }
 
-    <div class="row row2 pb-2">
-      <div class="col-lg-2">
-        </div>
-        <div class="col-lg-8 p-0">
+      <Row class="row row2 pb-2">
+        <Col xl={{size:2}} lg={{size:1}} md={{size:1}} class="col-lg-2">
+        </Col>
+        <Col xl={{size:8}} lg={{size:10}} md={{size:10}} sm={{size:12}} class="col-lg-8 p-0">
           {
             mode === 1 ? <TransactionDetail data={trData}/> : null
           }
           {
             mode === 2 ? <Walletdetail data={adData} address={address} coinData={coinData}/> : null
           }
-        </div>
-        <div class="col-lg-2">
-        </div>
-      </div>
+        </Col>
+        <Col class="col-lg-2">
+        </Col>
+      </Row>
 
     </div>
     </UILoader>

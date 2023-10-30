@@ -16,6 +16,9 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import { Spinner } from 'reactstrap'
 
+import { UTXOTransaction } from '../../processors/UTXOTransaction'
+import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
+
 const TransactionDetail1 = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -71,138 +74,50 @@ const TransactionDetail1 = () => {
     })
   }
 
-  const EthereumTransaction = (data) => {
+  const UTXOTr = (data) => {
 
     const blockNumber = data.blockNumber
     const address = data.hash
-    const BlockDate = data.timestamp
-    const name = 'اتریوم'
-    const image = 'ETH.png'
+    const BlockDate = data.time
+    const name = 'بیت کوین'
+    const image = `BTC.png`
     const color = '#627eea'
     const RiskScore = '0%'
     let TotalOutput = 0
-    let symbole = "ETH"
+    let symbole = "BTC"
     let TotalInput = 0
-    let fee = (Number(data.gasPrice)) * (Number(data.gasUsed)) / 1000000000000000000
-    let transfers = []
-
-    if (data.from.address !== null && data.to.address !== null) {
-      transfers.push({
-        from:data.from.address,
-        to:data.to.address,
-        currencyType:'ETH',
-        amount:(Number(data.value) / 1000000000000000000),
-        valueInDollar:data.valueInDollar
-      })
-    } else if (data.from.address === null && data.to.address !== null) {
-      transfers.push({
-        from:'coin base',
-        to:data.to.address,
-        currencyType:'ETH',
-        amount:(Number(data.value) / 1000000000000000000),
-        valueInDollar:data.valueInDollar
-      })
-    } else if (data.from.address !== null && data.to.address === null) {
-      transfers.push({
-        from:data.from.address,
-        to:'coin base',
-        currencyType:'ETH',
-        amount:(Number(data.value) / 1000000000000000000),
-        valueInDollar:data.valueInDollar
-      })
-    } else {
-      transfers.push({
-        from:'coin base',
-        to:'coin base',
-        currencyType:'ETH',
-        amount:(Number(data.value) / 1000000000000000000),
-        valueInDollar:data.valueInDollar
-      })
-    }
-
-    //tokens
-    // for (let i = 0; i < data.logs.length; i++) {
-    //   if (data.logs[i].address.symbol) {
-    //     try {
-    //       if (data.logs[i].from !== null && data.logs[i].to !== null) {
-    //         transfers.push({
-    //           from:data.logs[i].from,
-    //           to:data.logs[i].to,
-    //           currencyType:data.logs[i].address.symbol,
-    //           amount:(Number(data.logs[i].amount) / (Math.pow(10, data.logs[i].address.decimal)))
-    //         })
-    //       } else if (data.logs[i].from === null && data.logs[i].to !== null) {
-    //         transfers.push({
-    //           from:'coin base',
-    //           to:data.logs[i].to,
-    //           currencyType:data.logs[i].address.symbol,
-    //           amount:(Number(data.logs[i].amount) / (Math.pow(10, data.logs[i].address.decimal)))
-    //         })
-    //       } else if (data.logs[i].from !== null && data.logs[i].to === null) {
-    //         transfers.push({
-    //           from:data.logs[i].from,
-    //           to:'coin base',
-    //           currencyType:data.logs[i].address.symbol,
-    //           amount:(Number(data.logs[i].amount) / (Math.pow(10, data.logs[i].address.decimal)))
-    //         })
-    //       } else {
-    //         transfers.push({
-    //           from:'coin base',
-    //           to:'coin base',
-    //           currencyType:data.logs[i].address.symbol,
-    //           amount:(Number(data.logs[i].amount) / (Math.pow(10, data.logs[i].address.decimal)))
-    //         })
-    //       }
-    //     } catch (error) {
-    //       console.log(error)
-    //     }
-    //   }
-    // }
-
-    if (typeof (blockNumber) !== 'number') {
-      throw new Error('blockNumber Error')
-    }
-
-    if (typeof (BlockDate) !== 'number') {
-      throw new Error('BlockDate Error')
-    }
-
-    if (typeof (TotalOutput) !== 'number') {
-      throw new Error('TotalOutput Error')
-    }
-
-    if (typeof (fee) !== 'number') {
-      throw new Error('fee Error')
-    }
-
-    if (typeof (TotalInput) !== 'number') {
-      throw new Error('TotalInput Error')
-    }
-
-    if (typeof (address) !== 'string' && address !== null) {
-      throw new Error('address Error')
-    }
-
-
-    for (let i = 0; i < transfers.length; i++) {
-      if (typeof (transfers[i].amount) !== 'number') {
-        throw new Error('InpDataamount Error')
-      }
-
-      if (typeof (transfers[i].from) !== 'string') {
-        throw new Error('InpDatafrom Error')
-      }
-
-      if (typeof (transfers[i].to) !== 'string') {
-        throw new Error('InpDatato Error')
-      }
-    }
-
+    let fee = data.fee
     let value = 0
-    for (let i = 0; i < transfers.length; i++) {
-      if (transfers[i].currencyType === 'ETH') {
-        value = value + transfers[i].amount
-      }
+
+    const inputAddresses = []
+    const outputAddresses = []
+
+    for (let i = 0; i < data.inputs.length; i++) {
+      inputAddresses.push(
+        {
+          address:data.inputs[i].address,
+          value:data.inputs[i].value,
+          symbole:data.symbole,
+          show:false,
+          valueInDollar:data.inputs[i].valueInDollar
+        }
+      )
+    }
+
+    for (let i = 0; i < data.outputs.length; i++) {
+      outputAddresses.push(
+        {
+          address:data.outputs[i].address,
+          value:data.outputs[i].value,
+          symbole:data.symbole,
+          show:false,
+          valueInDollar:data.outputs[i].valueInDollar
+        }
+      )
+    }
+
+    for (let i = 0; i < inputAddresses.length; i++) {
+      value = value + inputAddresses[i].value
     }
 
     return ({
@@ -216,8 +131,68 @@ const TransactionDetail1 = () => {
       TotalOutput,
       TotalInput,
       RiskScore,
-      transfers,
       fee,
+      inputAddresses,
+      outputAddresses,
+      value
+    })
+  }
+
+  const AccountBaseTr = (data) => {
+    const blockNumber = data.blockNumber
+    const address = data.hash
+    const BlockDate = data.timestamp
+    const name = 'اتریوم'
+    const image = `ETH.png`
+    const color = '#627eea'
+    const RiskScore = '0%'
+    let TotalOutput = 0
+    let symbole = "ETH"
+    let TotalInput = 0
+    let fee = data.fee
+    let value = 0
+
+    const inputAddresses = []
+    const outputAddresses = []
+
+    inputAddresses.push(
+      {
+        address:data.from,
+        value:data.value,
+        symbole:data.symbole,
+        show:false,
+        valueInDollar:data.valueInDollar
+      }
+    )
+
+    outputAddresses.push(
+      {
+        address:data.to,
+        value:data.value,
+        symbole:data.symbole,
+        show:false,
+        valueInDollar:data.valueInDollar
+      }
+    )
+
+    for (let i = 0; i < inputAddresses.length; i++) {
+      value = value + inputAddresses[i].value
+    }
+
+    return ({
+      address,
+      blockNumber,
+      name,
+      image,
+      BlockDate,
+      symbole,
+      color,
+      TotalOutput,
+      TotalInput,
+      RiskScore,
+      fee,
+      inputAddresses,
+      outputAddresses,
       value
     })
   }
@@ -225,21 +200,36 @@ const TransactionDetail1 = () => {
   useEffect(() => {
     const address = States.WDetail
     SetLoading(true)
-    axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${address}`,
+    axios.get(`${serverAddress}/explorer/search/?query=${address}`,
     {
       headers: {
         Authorization: `Bearer ${Cookies.get('access')}`
       }
     })
     .then((response) => {
+
       try {
-        SetData(EthereumTransaction(response.data, address))
-        SetIsGet(true)
-        SetValue(EthereumTransaction(response.data, address).value)
-        SetSymbole(EthereumTransaction(response.data, address).symbole)
-        SetFee(EthereumTransaction(response.data, address).fee)
-        SetDate(EthereumTransaction(response.data, address).BlockDate)
-        SetLoading(false)
+
+        if (response.data.network === 'ETH') {
+          const TrData = (AccountBaseTr(AccountBaseTransaction(response.data.data, 'ETH', 1000000000000000000)))
+          SetIsGet(true)
+          SetValue(TrData.value)
+          SetSymbole(TrData.symbole)
+          SetFee(TrData.fee)
+          SetDate(TrData.BlockDate)
+          SetLoading(false)
+          SetData(TrData)
+        } else if (response.data.network === 'BTC') {
+          const TrData = (UTXOTr(UTXOTransaction(response.data.data, 'BTC', 100000000)))
+          SetIsGet(true)
+          SetValue(TrData.value)
+          SetSymbole(TrData.symbole)
+          SetFee(TrData.fee)
+          SetDate(TrData.BlockDate)
+          SetLoading(false)
+          SetData(TrData)
+        }
+
       } catch (error) {
         console.log(error)
         SetLoading(false)
@@ -379,7 +369,10 @@ const TransactionDetail1 = () => {
           <div className='col-12'>
             {
               IsGet ? 
-              <><TransactionTablleWithCheckbox data={Data} address={States.WDetail} /><TransactionTablleWithCheckbox2 data={Data} address={States.WDetail} /></>
+              <>
+                <TransactionTablleWithCheckbox data={Data} address={States.WDetail} />
+                <TransactionTablleWithCheckbox2 data={Data} address={States.WDetail} />
+              </>
               :
               <div className='mt-3' style={{textAlign:'center'}}>
                 <Spinner />

@@ -29,19 +29,18 @@ const TransactionTablleWithCheckbox2 = (props) => {
   const [filteredData, setFilteredData] = useState([])
   const [data, SetData] = useState({})
 
+  
   useEffect(() => {
     console.log(props.data)
     const a = []
-    for (let i = 0; i < (props.data.transfers).length; i++) {
-      if (typeof (props.data.transfers[i].to) === 'string' && typeof (props.data.transfers[i].currencyType) === 'string' && (typeof (props.data.transfers[i].amount) === 'string' || typeof (props.data.transfers[i].amount) === 'number')) {
-        a.push({
-          address:props.data.transfers[i].to,
-          amount:props.data.transfers[i].amount,
-          currencyType:props.data.transfers[i].currencyType,
-          show:false,
-          valueInDollar:props.data.transfers[i].valueInDollar
-        })
-      }
+    for (let i = 0; i < props.data.outputAddresses.length; i++) {
+      a.push({
+        address:props.data.outputAddresses[i].address,
+        amount:props.data.outputAddresses[i].value,
+        currencyType:props.data.outputAddresses[i].symbole,
+        show:false,
+        valueInDollar:props.data.outputAddresses[i].valueInDollar
+      })
     }
 
     //check available data
@@ -69,13 +68,15 @@ const TransactionTablleWithCheckbox2 = (props) => {
 
   const addSelectedData = (row) => {
     const getData = States.GraphData
-
+    console.log('trs')
+    console.log(props)
+    console.log(row)
     if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
       getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).inputs.push({
         hash:props.data.address,
         symbole:props.data.symbole,
         timeStamp:props.data.BlockDate,
-        value:parseFloat(Number(props.data.value).toFixed(5)).toString(),
+        value:parseFloat(Number(row.amount).toFixed(5)).toString(),
         valueInDollar:(row.amount)
       })
       dispatch({type:"GRAPHDATA", value:getData})

@@ -73,9 +73,9 @@ const Walletdetail = (props) => {
   const data = {
     address:props.address,
     name:props.coinData.name,
-    Total: String(parseFloat(totalSum.toFixed(5)).toString()),
-    InCome: String(parseFloat(totalget.toFixed(5)).toString()),
-    OutCome: String(parseFloat(totalsend.toFixed(5)).toString()),
+    Total: String(parseFloat(totalSum.toFixed(3)).toString()),
+    InCome: String(parseFloat(totalget.toFixed(3)).toString()),
+    OutCome: String(parseFloat(totalsend.toFixed(3)).toString()),
     symbole:props.coinData.symbole,
     risk:props.coinData.risk,
     owner:props.coinData.owner,

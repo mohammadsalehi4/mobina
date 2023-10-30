@@ -11,8 +11,6 @@ export function AccountBaseAddress (array, address, symbole, decimal) {
 
     let isError = false
     let ErrorText = ''
-    console.log(array.length)
-    console.log(array)
     try {
         for (let i = 0; i < array.length; i++) {
             if (array[i].from.address.toUpperCase() === address.toUpperCase()) {
@@ -24,7 +22,8 @@ export function AccountBaseAddress (array, address, symbole, decimal) {
                         ValueInDollar: Number(array[i].valueInDollar),
                         hash:array[i].hash,
                         blockNumber:array[i].blockNumber,
-                        timestamp:array[i].timestamp
+                        timestamp:array[i].timestamp,
+                        fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal
                     }
                 )
             } else if (array[i].to.address.toUpperCase() === address.toUpperCase()) {
@@ -36,7 +35,8 @@ export function AccountBaseAddress (array, address, symbole, decimal) {
                         ValueInDollar: Number(array[i].valueInDollar),
                         hash:array[i].hash,
                         blockNumber:array[i].blockNumber,
-                        timestamp:array[i].timestamp
+                        timestamp:array[i].timestamp,
+                        fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal
                     }
                 )
             }
@@ -51,7 +51,8 @@ export function AccountBaseAddress (array, address, symbole, decimal) {
                                 ValueInDollar: 0,
                                 hash:array[i].hash,
                                 blockNumber:array[i].blockNumber,
-                                timestamp:array[i].timestamp
+                                timestamp:array[i].timestamp,
+                                fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal
                             }
                         )
                     } 
@@ -64,7 +65,8 @@ export function AccountBaseAddress (array, address, symbole, decimal) {
                                 ValueInDollar: 0,
                                 hash:array[i].hash,
                                 blockNumber:array[i].blockNumber,
-                                timestamp:array[i].timestamp
+                                timestamp:array[i].timestamp,
+                                fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal
                             }
                         )
                     }

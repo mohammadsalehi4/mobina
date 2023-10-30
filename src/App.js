@@ -21,6 +21,7 @@ import Folders from './pages/folders/folders'
 import SingleCase from './components/folders/singleCase/singleCase'
 import Demo from './pages/demo/demo'
 import Profile from './pages/profile/profile'
+import DropDown from './layouts/DropDown'
 import './App.css'
 
 const App = () => {

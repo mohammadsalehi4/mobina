@@ -13,6 +13,7 @@ import '../../assets/vendor/libs/apex-charts/apex-charts.css'
 import '../../assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css'
 import '../../assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css'
 import '../../assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css'
+import DropDown from '../../layouts/DropDown'
 import './header.css'
 import Cookies from 'js-cookie'
 import { useSelector } from "react-redux"
@@ -115,19 +116,7 @@ function Header() {
                 }
 
                 <li title='اعلانات' class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1">
-                  <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
-                    <ion-icon name="notifications-outline" className="topHeaderIcon"></ion-icon>
-                  </a>
-                </li>
-
-                <li class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1" title='خروج' onClick={() => {                  
-                    Cookies.set('refresh', '')
-                    Cookies.set('access', '') 
-                    window.location.assign('/') 
-                  }}>
-                  <a class="nav-link dropdown-toggle hide-arrow topHeaderIcon">
-                    <ion-icon name="exit-outline" id="signoutIcon" className="topHeaderIcon"></ion-icon>
-                  </a>
+                    <DropDown/>
                 </li>
 
               </ul>
@@ -141,6 +130,7 @@ function Header() {
                 aria-label="Search..." />
               <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
             </div>
+
           </div>
         </nav>
 

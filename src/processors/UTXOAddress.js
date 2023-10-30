@@ -12,16 +12,20 @@ export function UTXOAddress (array, address, symbole, decimal) {
     try {
         for (let i = 0; i < array.length; i++) {
             let inputValue = 0
+            let inputDollarValue = 0
             let outputValue = 0
+            let outputDollarValue = 0
             for (let j = 0; j < array[i].inputs.length; j++) {
                 if (array[i].inputs[j].coin.address.address.toUpperCase() === address.toUpperCase()) {
                     outputValue = outputValue + Number(array[i].inputs[j].coin.value)
+                    outputDollarValue = outputDollarValue + Number(array[i].inputs[j].coin.ValueInDollar)
                 }
             }
     
             for (let j = 0; j < array[i].outputs.length; j++) {
                 if (array[i].outputs[j].address.address.toUpperCase() === address.toUpperCase()) {
                     inputValue = inputValue + Number(array[i].outputs[j].value)
+                    inputDollarValue = inputDollarValue + Number(array[i].outputs[j].ValueInDollar)
                 }
             }
             if (outputValue >= inputValue) {
@@ -67,6 +71,7 @@ export function UTXOAddress (array, address, symbole, decimal) {
                         fee: array[i].fee,
                         value: outputValue / decimal,
                         timestamp: array[i].time,
+                        ValueInDollar: outputDollarValue,
                         reciver:innerOutputs
                     }
                 )
@@ -111,6 +116,7 @@ export function UTXOAddress (array, address, symbole, decimal) {
                         hash: array[i].hash,
                         fee: array[i].fee,
                         value: inputValue / decimal,
+                        ValueInDollar: inputDollarValue,
                         timestamp: array[i].time,
                         sender:innerInputs
                     }

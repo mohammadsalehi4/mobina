@@ -31,16 +31,14 @@ const TransactionTablleWithCheckbox = (props) => {
 
   useEffect(() => {
     const a = []
-    for (let i = 0; i < (props.data.transfers).length; i++) {
-      if (typeof (props.data.transfers[i].from) === 'string' && typeof (props.data.transfers[i].currencyType) === 'string' && (typeof (props.data.transfers[i].amount) === 'string' || typeof (props.data.transfers[i].amount) === 'number')) {
-        a.push({
-          address:props.data.transfers[i].from,
-          amount:props.data.transfers[i].amount,
-          currencyType:props.data.transfers[i].currencyType,
-          show:false,
-          valueInDollar:props.data.transfers[i].valueInDollar
-        })
-      }
+    for (let i = 0; i < (props.data.inputAddresses).length; i++) {
+      a.push({
+        address:props.data.inputAddresses[i].address,
+        amount:props.data.inputAddresses[i].value,
+        currencyType:props.data.inputAddresses[i].symbole,
+        show:false,
+        valueInDollar:props.data.inputAddresses[i].valueInDollar
+      })
     }
 
     //check available data
@@ -75,7 +73,7 @@ const TransactionTablleWithCheckbox = (props) => {
         hash:props.data.address,
         symbole:props.data.symbole,
         timeStamp:props.data.BlockDate,
-        value:parseFloat(Number(props.data.value).toFixed(5)).toString(),
+        value:parseFloat(Number(row.amount).toFixed(5)).toString(),
         valueInDollar:(row.amount)
       })
       dispatch({type:"GRAPHDATA", value:getData})

@@ -20,6 +20,10 @@ import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
 import { Trash2 } from 'react-feather'
 
+//processors
+import { UTXOAddress } from '../../processors/UTXOAddress'
+import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
+
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -30,85 +34,41 @@ const CurrencyDetail = () => {
   const [Loading1, SetLoading] = useState(true)
   const [Data, SetData] = useState({})
 
-  const EthereumAddress = (getData, add) => {
+  const AccountBaseAdd = (getData) => {
     let data = []
+    console.log(getData)
 
-    for (let i = 0; i < getData.result.length; i++) {
-      try {
-        if ((getData.result[i].to.address).toUpperCase()===add.toUpperCase() || (getData.result[i].from.address).toUpperCase()===add.toUpperCase()) {
-          data.push({
-            timeStamp:getData.result[i].timestamp,
-            from:getData.result[i].from.address,
-            to:getData.result[i].to.address,
-            gasUsed:getData.result[i].gasUsed,
-            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
-            value:(Number(getData.result[i].value))/1000000000000000000,
-            valueInDollar:getData.result[i].valueInDollar,
-            hash:getData.result[i].hash,
-            currencyType:"ETH",
-            Logo:"ETH.png",
-            Type:"coin"
-          })
-        }
-      } catch (error) {
-        if ((getData.result[i].to.address)===null && (getData.result[i].from.address)!==null) {
-          data.push({
-            timeStamp:getData.result[i].timestamp,
-            from:(getData.result[i].from.address),
-            to:'coin base',
-            gasUsed:getData.result[i].gasUsed,
-            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
-            value:(Number(getData.result[i].value))/1000000000000000000,
-            valueInDollar:getData.result[i].valueInDollar,
-            hash:getData.result[i].hash,
-            hash:getData.result[i].hash,
-            currencyType:"ETH",
-            Logo:"ETH.png",
-            Type:"coin"
-          })
-        } else if ((getData.result[i].to.address)!==null && (getData.result[i].from.address)===null) {
-          data.push({
-            timeStamp:getData.result[i].timestamp,
-            from:'coin base',
-            to:(getData.result[i].to.address),
-            gasUsed:getData.result[i].gasUsed,
-            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
-            value:(Number(getData.result[i].value))/1000000000000000000,
-            valueInDollar:getData.result[i].valueInDollar,
-            hash:getData.result[i].hash,
-            hash:getData.result[i].hash,
-            currencyType:"ETH",
-            Logo:"ETH.png",
-            Type:"coin"
-          })
-        }
-      }
+    for (let i = 0; i < getData.inputs.length; i++) {
+      data.push({
+        timeStamp:getData.inputs[i].timestamp,
+        from:getData.inputs[i].address,
+        to:States.WDetail,
+        fee:getData.inputs[i].fee,
+        value:parseFloat(Number(getData.inputs[i].value).toString()),
+        valueInDollar:getData.inputs[i].valueInDollar,
+        hash:getData.inputs[i].hash,
+        currencyType:getData.inputs[i].symbole,
+        Logo:`${getData.inputs[i].symbole}.png`,
+        Type:"coin"
+      })
+    }
+
+    for (let i = 0; i < getData.outputs.length; i++) {
+      data.push({
+        timeStamp:getData.outputs[i].timestamp,
+        from:States.WDetail,
+        to:getData.outputs[i].address,
+        fee:getData.outputs[i].fee,
+        value:parseFloat(Number(getData.outputs[i].value).toString()),
+        valueInDollar:getData.outputs[i].valueInDollar,
+        hash:getData.outputs[i].hash,
+        currencyType:getData.outputs[i].symbole,
+        Logo:`${getData.outputs[i].symbole}.png`,
+        Type:"coin"
+      })
     }
     
-    // for (let a=0; a<getData.result.length; a++) {
-    //   if (getData.result[a].logs.length > 0) {
-    //     for (let j=0; j<getData.result[a].logs.length; j++) {
-    //       try {
-    //         if (getData.result[a].logs[j].address.symbol) {
-    //           data.push({
-    //             timeStamp:getData.result[a].timestamp,
-    //             from:getData.result[a].logs[j].from,
-    //             to:getData.result[a].logs[j].to,
-    //             gasUsed:getData.result[a].gasUsed,
-    //             gasPrice:Number(getData.result[a].gasPrice)/1000000000000000000,
-    //             value:Number(getData.result[a].logs[j].amount)/(Math.pow(10, getData.result[a].logs[j].address.decimal)),
-    //             hash:getData.result[a].logs[j].transactionHash,
-    //             currencyType:getData.result[a].logs[j].address.symbol,
-    //             Logo:`${getData.result[a].logs[j].address.symbol}.png`,
-    //             Type:"token"
-    //           })
-    //         }
-    //       } catch (error) {}
-    //     }
-    //   }
-    // }
-
-    //check values
+    //validation values
     for (let i = 0; i < data.length; i++) {
       if (typeof (data[i].timeStamp) !== 'number') {
         throw new Error('timestamp Error')
@@ -120,14 +80,6 @@ const CurrencyDetail = () => {
 
       if (typeof (data[i].to) !== 'string' && to !== null) {
         throw new Error('to Error')
-      }
-
-      if (typeof (data[i].gasUsed) !== 'number') {
-        throw new Error('value Error')
-      }
-
-      if (typeof (data[i].gasPrice) !== 'number') {
-        throw new Error('value Error')
       }
 
       if (typeof (data[i].value) !== 'number') {
@@ -147,7 +99,7 @@ const CurrencyDetail = () => {
     const inputs=[]
     const outputs=[]
     for (let i = 0; i < data.length; i++) {
-      if ((data[i].to).toUpperCase() === add.toUpperCase()) {
+      if ((data[i].to).toUpperCase() === States.WDetail.toUpperCase()) {
         if (typeof (data[i].currencyType) === 'string' && typeof (data[i].from) === 'string' && typeof (data[i].hash) === 'string' && typeof (data[i].timeStamp) === 'number' && typeof (data[i].value) === 'number') {
           inputs.push({
             address:data[i].from,
@@ -159,7 +111,7 @@ const CurrencyDetail = () => {
             valueInDollar:data[i].valueInDollar
           })
         }
-      } else if ((data[i].from).toUpperCase() === add.toUpperCase()) {
+      } else if ((data[i].from).toUpperCase() === States.WDetail.toUpperCase()) {
         if (typeof (data[i].currencyType) === 'string' && typeof (data[i].from) === 'string' && typeof (data[i].hash) === 'string' && typeof (data[i].timeStamp) === 'number' && typeof (data[i].value) === 'number') {
           outputs.push({
             address:data[i].to,
@@ -173,12 +125,6 @@ const CurrencyDetail = () => {
         }
       }
     }
-
-    console.log({
-      symbole:'ETH',
-      inputs,
-      outputs
-    })
     
     return {
       symbole:'ETH',
@@ -187,37 +133,33 @@ const CurrencyDetail = () => {
     }
   }
 
-  const UTXOAddress = (data, address, decimal) => {
+  const UTXOAdd = (data) => {
     const inputs = []
     const outputs = []
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data[i].inputs.length; j++) {
-        if ((data[i].inputs[j].coin.address.address).toUpperCase() === address.toUpperCase()) {
-          outputs.push({
-            // address:data[i].outputs[0].address.address,
-            hash:data[i].hash,
-            date:data[i].time,
-            time:data[i].time,
-            amount:(data[i].inputs[j].coin.value)/decimal,
-            currencyType:'BTC',
-            valueInDollar:data[i].inputs[j].coin.ValueInDollar
-          })
-        }
-      }
+    for (let j = 0; j < data.inputs.length; j++) {
+      inputs.push({
+        address:data.inputs[j].sender[0].address,
+        hash:data.inputs[j].hash,
+        date:data.inputs[j].timestamp,
+        time:data.inputs[j].timestamp,
+        amount:parseFloat(data.inputs[j].value.toFixed(5)),
+        senderAmount:parseFloat(data.inputs[j].sender[0].value.toFixed(5)),
+        currencyType:data.symbole,
+        valueInDollar:data.inputs[j].ValueInDollar
+      })
+    }
 
-      for (let j = 0; j < data[i].outputs.length; j++) {
-        if ((data[i].outputs[j].address.address).toUpperCase() === address.toUpperCase()) {
-          inputs.push({
-            // address:data[i].inputs[0].coin.address.address,
-            hash:data[i].hash,
-            date:data[i].time,
-            time:data[i].time,
-            amount:(data[i].outputs[j].value)/decimal,
-            currencyType:'BTC',
-            valueInDollar:data[i].outputs[j].ValueInDollar
-          })
-        }
-      }
+    for (let j = 0; j < data.outputs.length; j++) {
+      outputs.push({
+        address:data.outputs[j].reciver[0].address,
+        hash:data.outputs[j].hash,
+        date:data.outputs[j].timestamp,
+        time:data.outputs[j].timestamp,
+        amount:parseFloat(data.outputs[j].value.toFixed(5)),
+        reciverAmount:parseFloat(data.outputs[j].reciver[0].value.toFixed(5)),
+        currencyType:data.symbole,
+        valueInDollar:data.outputs[j].ValueInDollar
+      })
     }
 
     return (
@@ -241,10 +183,10 @@ const CurrencyDetail = () => {
     .then((response) => {
       try {
         if (response.data.network === 'ETH') {
-          SetData(EthereumAddress(response.data.data, address))
+          SetData(AccountBaseAdd(AccountBaseAddress(response.data.data.result, address, 'ETH', 1000000000000000000)))
           SetLoading(false)
         } else if (response.data.network === 'BTC') {
-          SetData(UTXOAddress(response.data.data.result, address, 100000000))
+          SetData(UTXOAdd(UTXOAddress(response.data.data.result, address, 'BTC', 100000000)))
           SetLoading(false)
         }
       } catch (error) {
