@@ -8,6 +8,7 @@ import {  useState, useEffect } from 'react'
 import {
   Input,
   Label,
+  Dropdown,
   DropdownMenu,
   DropdownToggle,
   UncontrolledButtonDropdown,
@@ -57,6 +58,8 @@ function convertToEndOfDayMilliseconds(dateString) {
 const TimeLimit = (props) => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
+  const toggle = () => setDropdownOpen(prevState => !prevState)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const [startTime, SetStartTime] = useState(0)
   const [endTime, SetEndTime] = useState(0)
@@ -114,27 +117,38 @@ const TimeLimit = (props) => {
     }
   }, [States.jalaliCalendar])
 
+  function handleToggleClick(event) {
+    if (event.target.closest('.NotAlignMiddle')) {
+        toggle()
+    }
+  }
+
+  function handleSpanClick(event) {
+      // event.stopPropagation()
+  }
+
   const [ShowTitle, SetShowTitle] = useState(0)
   return (
-    <UncontrolledButtonDropdown className='researcherLimits' id='TaxLimit'>
-      <DropdownToggle className='researcherTitleLimits' color='secondary' id='TaxLimitButton' outline style={{ borderTopLeftRadius:'0px', borderBottomLeftRadius:'0px'}}>
-        <span  className='align-middle' style={{direction:"ltr"}}>
-          {
-            ShowTitle === 0 ?
-              <div>
-                <Filter size={14} style={{marginLeft:"8px"}} />
-                محدوده زمانی
-              </div>
-            :
-              <div>
-                {digitsEnToFa(ShowTitle)}
-              </div>
-          }
-        </span>
+    <Dropdown isOpen={dropdownOpen} toggle={toggle} tag='span' className='researcherLimits' id='TaxLimit'>
+      <DropdownToggle onClick={(event) => (handleToggleClick(event))} className='researcherTitleLimits' color='secondary' id='TaxLimitButton' outline>
+          <span className='align-middle' style={{direction:"ltr"}}>
+              {
+                  ShowTitle === 0 ?
+                      <div>
+                          <Filter size={14} style={{marginLeft:"8px"}} />
+                          محدوده زمانی
+                      </div>
+                  :
+                      <div>
+                          {digitsEnToFa(ShowTitle)}
+                      </div>
+              }
+          </span>
+          <span onClick={() => (SetStartTime(0), SetEndTime(0), handleSpanClick)} id='DeleteTimeLimitBox' className='NotAlignMiddle' style={{ cursor:'pointer', textAlign:'center', float:"left"}}>
+              <X size={15} style={{ marginTop:'2px'}} />
+          </span>
       </DropdownToggle>
-      <div onClick={ () => { SetStartTime(0), SetEndTime(0) }} id='DeleteTimeLimitBox' style={{cursor:'pointer', textAlign:'center', float:"left", width:"40px", borderStyle:'solid', borderWidth:'1px', borderColor:'rgb(180, 180, 180)', borderTopLeftRadius:'6px', borderBottomLeftRadius:'6px'}}>
-        <X style={{color:'rgb(180,180,180)', marginTop:'4px'}} />
-      </div>
+
       <UncontrolledTooltip placement='top' target='DeleteTimeLimitBox'>
         حذف محدودیت زمان
       </UncontrolledTooltip>
@@ -176,7 +190,7 @@ const TimeLimit = (props) => {
           </div>
           <span style={{fontSize:"12px", float:"right", color:"blue", cursor:"pointer"}} className='m-1' onClick={() => { SetStartTime(0), SetEndTime(0) }}>حذف محدودیت</span>
       </DropdownMenu>
-    </UncontrolledButtonDropdown>
+    </Dropdown>
   )
 }
 

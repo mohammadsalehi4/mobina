@@ -16,6 +16,7 @@ export function UTXOTransaction (array, symbole, decimal) {
     let ErrorText = ''
     
     try {
+        
         for (let i = 0; i < array.inputs.length; i++) {
             let check = false
             for (let x = 0; x < inputs.length; x++) {
@@ -61,6 +62,7 @@ export function UTXOTransaction (array, symbole, decimal) {
                 }
             }
         }
+
     } catch (error) {
         isError = true,
         ErrorText = error

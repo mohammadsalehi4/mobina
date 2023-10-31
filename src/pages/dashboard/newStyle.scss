@@ -1,0 +1,39 @@
+#dashboard{
+    #CenterDashboardBox{
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+        background: rgb(242, 242, 242);
+        overflow: hidden;
+        margin-top: 32px;
+        @media only screen and (max-width:768px){
+            margin-top: -40px;
+        }
+        #DashboardTopRow{
+            background: url('/public/images/header-bg.png');
+            background-color: #fbfcfb;
+            background-size: cover;
+            background-position: center;
+            #MainDashboardInputGroup{
+                border-style: solid !important;
+                border-width: 1px !important;
+                border-color: rgb(211, 211, 211) !important;
+                border-radius: 8px;
+                overflow: hidden;
+                #MainDashboardInputSymbole{
+                    border: none;
+                    cursor: pointer;
+                }
+                #MainDashboardInputBox{
+                    border-style: none !important;
+                    padding: 16px 24px !important;
+                }
+                #MainDashboardInputBox:active{
+                    
+                }
+            }
+            #MainDashboardInputBox:focus #MainDashboardInputGroup{
+                border-color: #2f4f4f !important;
+            }
+        }
+    }
+}

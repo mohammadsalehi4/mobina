@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"
 import jwt from 'jsonwebtoken'
 import Cookies from 'js-cookie'
-import EcommerceDashboard from '../src/pages/dashboard/index'
+import EcommerceDashboard2 from '../src/pages/dashboard/index2'
 import Main from '../src/pages/main/main'
 import Header from '../src/pages/header/header'
 import Tracker from '../src/pages/tracker/tracker'
@@ -43,13 +43,13 @@ const App = () => {
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/researcher"  element={<EcommerceDashboard/>}/>
+                <Route path="/researcher"  element={<EcommerceDashboard2/>}/>
               :
               null
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/researcher/:hash"  element={<EcommerceDashboard/>}/>
+                <Route path="/researcher/:hash"  element={<EcommerceDashboard2/>}/>
               :
               null
             }

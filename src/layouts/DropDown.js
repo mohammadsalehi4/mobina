@@ -22,7 +22,6 @@ const DropDown = () => {
       </DropdownToggle>
       <DropdownMenu end tag='ul' className='dropdown-menu-media dropdown-cart mt-0' style={{minWidth:'260px'}}>
 
-
         <li className='dropdown-menu-header p-2' style={{direction:'rtl', textAlign:'right'}}>
             <div className='row container-fluid pb-2' style={{borderBottomStyle:'solid', borderBottomColor:'rgb(220,220,220)', borderBottomWidth:'1px'}}>
                 <div className='col-3'>
