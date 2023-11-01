@@ -28,12 +28,12 @@ const Profile = () => {
     }, [])
         
   return (
-    <div className="row mt-3"  style={{overflowX:'hidden', width:'100%'}}>
-      <div className="col-md-2"></div>
-      <div className="col-md-8" style={{direction:'ltr'}}>
-        <Fragment>
-          {data !== null ? (
-            <div id='user-profile'>
+    <>
+      {data !== null ? (
+        <div className="container-fluid">
+          <Row id="MainProfileBox">
+            <Col xl='2'></Col>
+            <Col xl='8'>
               <Row>
                 <Col sm='12'>
                   <ProfileHeader data={data.header} />
@@ -49,11 +49,12 @@ const Profile = () => {
                   <SavedGraph data={data.post} />
                 </Col>
               </Row>
-            </div>
-          ) : null}
-        </Fragment>
-      </div>
-    </div>
+            </Col>
+            <Col xl='2'></Col>
+          </Row>
+        </div>
+      ) : null}
+    </>
   )
 }
 

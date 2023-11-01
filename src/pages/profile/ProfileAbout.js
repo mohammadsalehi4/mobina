@@ -5,45 +5,45 @@ const ProfileAbout = () => {
   return (
     <Card>
       <CardBody>
-        <h5 className='mb-75'>مشخصات</h5>
+        <h5 className='mb-75 ProfileAboutHeadTitle'>مشخصات</h5>
 
         <div className='mt-3'>
-          <h6 className='mb-50'>
+          <h6 className='mb-50 ProfileAboutTitle'>
             <AlertCircle size={15} style={{marginLeft:'4px'}} />
             نام:
           </h6>
-          <CardText>محمد</CardText>
+          <CardText className='ProfileAboutTitle'>محمد</CardText>
         </div>
 
         <div className='mt-3'>
-          <h6 className='mb-50'>
+          <h6 className='mb-50 ProfileAboutTitle'>
             <AlertOctagon size={15} style={{marginLeft:'4px'}}/>
             نام خانوادگی:
           </h6>
-          <CardText>صالحی</CardText>
+          <CardText className='ProfileAboutTitle'>صالحی</CardText>
         </div>
 
         <div className='mt-3'>
-          <h6 className='mb-50'>
+          <h6 className='mb-50 ProfileAboutTitle'>
             <User size={15} style={{marginLeft:'4px'}}/>
             نام کاربری:
 
           </h6>
-          <CardText>msalehi79</CardText>
+          <CardText className='ProfileAboutTitle'>msalehi79</CardText>
         </div>
 
         <div className='mt-3'>
-          <h6 className='mb-50'>
+          <h6 className='mb-50 ProfileAboutTitle'>
             <Mail size={15} style={{marginLeft:'4px'}} />
             ایمیل:</h6>
-          <CardText>mohammad7979salehi@gmail.com</CardText>
+          <CardText className='ProfileAboutTitle'>mohammad7979salehi@gmail.com</CardText>
         </div>
 
         <div className='mt-3'>
-          <h6 className='mb-50'>
+          <h6 className='mb-50 ProfileAboutTitle'>
             <Phone size={15} style={{marginLeft:'4px'}} />
             شماره همراه:</h6>
-          <CardText>09166366715</CardText>
+          <CardText className='ProfileAboutTitle'>09166366715</CardText>
         </div>
       </CardBody>
     </Card>

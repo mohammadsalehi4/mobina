@@ -97,27 +97,24 @@ const avatarGroupData4 = [
 
 const LabelAddresses = () => {
       return (
-        <Card className='post'>
-          <Table striped responsive>
+        <Card className='post'>            
+          <div>
+              <h6 className='mt-3 pe-3 pt-2 pb-2'>
+                آدرس های لیبل زده شده
+              </h6>
+          </div>
+          <Table striped responsive className='profileTables'>
             <thead>
               <tr>
-                <h6 className='mt-3'>
-                  آدرس های لیبل زده شده
-                </h6>
-              </tr>
-            </thead>
-            <thead>
-              <tr>
-                <th>Project</th>
-                <th>Client</th>
-                <th>Users</th>
-                <th>Status</th>
+                <th className='profileTables'>Project</th>
+                <th className='profileTables'>Client</th>
+                <th className='profileTables'>Users</th>
+                <th className='profileTables'>Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                  <img className='me-75' src={angular} alt='angular' height='20' width='20' />
                   <span className='align-middle fw-bold'>Angular Project</span>
                 </td>
                 <td>Peter Charles</td>
@@ -132,7 +129,6 @@ const LabelAddresses = () => {
               </tr>
               <tr>
                 <td>
-                  <img className='me-75' src={react} alt='react' height='20' width='20' />
                   <span className='align-middle fw-bold'>React Project</span>
                 </td>
                 <td>Ronald Frest</td>
@@ -147,7 +143,6 @@ const LabelAddresses = () => {
               </tr>
               <tr>
                 <td>
-                  <img className='me-75' src={vuejs} alt='vuejs' height='20' width='20' />
                   <span className='align-middle fw-bold'>Vuejs Project</span>
                 </td>
                 <td>Jack Obes</td>
@@ -162,7 +157,6 @@ const LabelAddresses = () => {
               </tr>
               <tr>
                 <td>
-                  <img className='me-75' src={bootstrap} alt='bootstrap' height='20' width='20' />
                   <span className='align-middle fw-bold'>Bootstrap Project</span>
                 </td>
                 <td>Jerry Milton</td>

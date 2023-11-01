@@ -1,99 +1,96 @@
 #profileImageDiv{
-    max-width: 150px;
+    width: 130px;
+}
+.profileHeaderSpan{
+    margin-right: 16px;
+}
+.profileHeaderSpan2{
+    margin-right: 16px;
+}
+#profileRoleAlert{
+    text-align: left;
+}
+.profileHeaderSpan3{
+    margin-right: 8px !important;
+    display: inline-block;
+}
+#MainProfileBox{
+    margin-top: 24px;
+}
+.profileTables{
+    font-size: 15px;
 }
 
-@media only screen and (min-width:1900px) {
-
-    .profileHeaderSpan{
-        font-size: 12px;
-        margin-right: -32px;
-        margin-top: -32px;
-    }
-
-    .profileHeaderSpan2{
-        font-size: 12px;
-        margin-right: -32px;
-        margin-top: 0px;
-    }
-}
-
-@media only screen and (max-width:1350px) {
-    #ProfileHeaderRoll{
-        font-size: 12px;
-        margin-right: 16px;
-        margin-top: 0px;
-        margin-right: -16px;
-    }
-
+@media only screen and (max-width:1190px) {
     #profileImageDiv{
-        width: 100px !important;
+        width: 130px;
     }
-
-    #profileHeaderInfos{
-        font-size: 12px;
-    }
-
     .profileHeaderSpan{
-        font-size: 12px;
-        margin-right: 16px;
-        margin-top: -32px;
+        margin-right: 0px;
     }
-
     .profileHeaderSpan2{
-        font-size: 12px;
-        margin-right: 16px;
-        margin-top: 0px;
+        margin-right: 0px;
     }
 }
 
-@media only screen and (max-width:1000px) {
-    #ProfileHeaderRoll{
-        font-size: 12px;
-        margin-right: 16px;
-        margin-top: -20px;
-        margin-right: -16px;
-    }
-
+@media only screen and (max-width:992px) {
     #profileImageDiv{
-        width: 80px !important;
+        width: 120px;
     }
-
-    #profileHeaderInfos{
-        font-size: 12px;
-    }
-
     .profileHeaderSpan{
-        font-size: 12px;
-        margin-right: 16px;
-        margin-top: -16px;
+        font-size: 13px;
+        margin-right: -32px;
     }
-
     .profileHeaderSpan2{
-        font-size: 12px;
-        margin-right: 16px;
-        margin-top: 0px;
+        font-size: 13px;
+        margin-right: -32px;
     }
 }
 
 @media only screen and (max-width:768px) {
-    #ProfileHeaderRoll{
-        font-size: 12px;
-        margin-right: 16px;
-        margin-top: -20px;
-        width: 160px;
-    }
-
-    #profileImageDiv{
-        width: 100px !important;
-    }
-
-    #profileHeaderInfos{
-        font-size: 12px;
-    }
-
     .profileHeaderSpan{
+        font-size: 13px;
+        margin-right: 0px;
+    }
+    .profileHeaderSpan2{
+        font-size: 13px;
+        margin-right: 0px;
+    }
+    #profileRoleAlert{
+        text-align: right;
+    }
+    .ProfileAboutTitle{
         font-size: 12px;
-        margin-right: 16px;
+    }
+    .ProfileAboutHeadTitle{
+        font-size: 15px;
+    }
+    #MainProfileBox{
+        margin-top: -40px;
+    }
+    .profileTables{
+        font-size: 13px !important;
+    }
+}
+
+@media only screen and (max-width:576px) {
+    #profileImageDiv{
+        width: 80px;
+    }
+    #profileRoleAlert{
+        font-size: 12px;
+    }
+    .profileHeaderSpan{
+        display: inline-block;
+        margin: 0px !important;
+    }
+    .profileHeaderSpan3{
+        margin-right: 0px !important;
+        display: block;
+        margin-top: 8px !important;
+    }
+    .profileTables{
+        font-size: 11px !important;
     }
 }
 
