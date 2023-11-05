@@ -98,7 +98,6 @@ function Header() {
               <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" style={{color:"#f8f8f8"}}>
                 <i class="ti ti-menu-2 ti-sm" style={{color:"#f8f8f8"}}></i>
               </a>
-
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
@@ -115,7 +114,13 @@ function Header() {
                     null
                 }
 
-                <li title='اعلانات' class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1">
+                <li title='راهنما' class="nav-item dropdown-notifications navbar-dropdown dropdown  me-xl-1">
+                  <a className=' nav-link dropdown-toggle hide-arrow topHeaderIcon' style={{textAlign:'center'}}>
+                    <ion-icon name="help-outline"></ion-icon>
+                  </a>
+                </li>
+
+                <li title='پروفایل' class="nav-item dropdown-notifications navbar-dropdown dropdown">
                     <DropDown/>
                 </li>
 

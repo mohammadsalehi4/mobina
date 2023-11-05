@@ -57,6 +57,7 @@ const Main = () => {
                         Cookies.set('password', password, { expires: oneYearLater })
                       }
                       Cookies.set('roll', response.data.role.role_id)
+                      Cookies.set('roll_name', response.data.role.role_name)
                         if (Number(response.data.role.role_id) === 2 || Number(response.data.role.role_id) === 3) {
                             window.location.assign('/researcher')
                         } else if (Number(response.data.role.role_id) === 4) {

@@ -100,7 +100,7 @@ const TagAddresses = () => {
         <Card className='post'>          
           <div>
               <h6 className='mt-3 pe-3 pt-2 pb-2'>
-                آدرس های لیبل زده شده
+                آدرس های تگ زده شده
               </h6>
           </div>
           <Table striped responsive className='profileTables'>

@@ -159,16 +159,15 @@ const RollsTable = () => {
     <Fragment>
       <Card style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
-          <CardTitle tag='h4'>لیست نقش ها</CardTitle>
+          <CardTitle tag='h4' style={{width:'100%'}}>لیست نقش ها
+            <ion-icon size={18} onClick={ () => { 
+              dispatch({type:"beLoad", value:!(States.beLoad)})
+            }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
+          </CardTitle>
         </CardHeader>
         <Row className='justify-content-end mx-0'>
           <Col className='d-flex align-items-center justify-content-end mt-2 mb-2' md='6' sm='12'>
             <div className='d-flex mt-md-0 mt-1'>
-              <button style={{background:MainSiteyellow, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-2' color='primary' onClick={() => {
-                  dispatch({type:"beLoad", value:!(States.beLoad)})
-                }}>
-                <span className='align-middle'>به‌روزرسانی</span>
-              </button>
               <button style={{background:MainSiteOrange, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-2' color='primary' onClick={handleModal}>
                 <span className='align-middle'>افزودن نقش</span>
               </button>

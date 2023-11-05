@@ -762,6 +762,13 @@ const EcommerceDashboard2 = () => {
                   window.location.assign('/')
                 }
               } catch (error) {}
+              try {
+                if (err.response.statusText === 'Not Found') {
+                  return toast.error('آدرس مورد نظر یافت نشد', {
+                    position: 'bottom-left'
+                  })
+                }
+              } catch (error) {}
             })
           } else if (addressMode.data.network === 'LTC') {
             axios.get(`${serverAddress}/explorer/transaction/?network=LTC&txid=${hash}`,

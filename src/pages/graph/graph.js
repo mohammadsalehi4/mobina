@@ -595,11 +595,19 @@ const FuckingGraph = () => {
       }
   });
 
+  var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
+  for (var nodeId in positions) {
+    if (positions.hasOwnProperty(nodeId)) {
+      var position = positions[nodeId];
+      console.log(`${nodeId}: x=${position.x}, y=${position.y}`);
+    }
+  }
+
     SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
 
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar])
 
-  return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%" }}></div>
+  return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%", transition:'0.3s' }}></div>
 }
 
 export default FuckingGraph

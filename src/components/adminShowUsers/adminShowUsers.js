@@ -117,7 +117,6 @@ const DataTablesBasic = () => {
             }
         })
         .catch((err) => {
-
             dispatch({type:"CustomLoading", value:false})
             try {
               if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
@@ -126,7 +125,8 @@ const DataTablesBasic = () => {
                 window.location.assign('/')
               }
             } catch (error) {}
-        })
+        }
+      )
     }, [, States.beLoad])
 
     //pagination
@@ -161,22 +161,17 @@ const DataTablesBasic = () => {
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
-        <CardTitle tag='h6'>لیست کاربران</CardTitle>
+        <CardTitle tag='h6' style={{width:'100%'}}>لیست کاربران
+              <ion-icon size={18} onClick={ () => { 
+              dispatch({type:"beLoad", value:!(States.beLoad)})
+            }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
+        </CardTitle>
       </CardHeader>
-      <Row className='justify-content-end mx-0'>
-          <Col className='d-flex align-items-center justify-content-end mt-2 mb-2' md='6' sm='12'>
-            <div className='d-flex mt-md-0 mt-1'>
-              <button style={{background:MainSiteyellow, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-2' color='primary' onClick={() => {
-                  dispatch({type:"beLoad", value:!(States.beLoad)})
-                }}>
-                <span className='align-middle'>به‌روزرسانی</span>
-              </button>
-            </div>
-          </Col>
-        </Row>
       {
         States.CustomLoading ? 
+        <div className='mt-5'>
           <LocalLoading/> 
+        </div>
         : 
           <div className='react-dataTable'>
             <DataTable

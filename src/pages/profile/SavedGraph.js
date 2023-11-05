@@ -100,7 +100,7 @@ const SavedGraph = () => {
         <Card className='post'>
           <div>
               <h6 className='mt-3 pe-3 pt-2 pb-2'>
-                آدرس های لیبل زده شده
+                گراف های ذخیره شده
               </h6>
           </div>
           <Table striped responsive className='profileTables'>

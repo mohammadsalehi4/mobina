@@ -19,7 +19,7 @@ import AdminEvents from '../../components/adminEvents/adminEvents'
 import AdminReports from '../../components/adminReports/adminReports'
 import AdminRolls from '../../components/adminRolls/adminRolls'
 import AdminUsers from '../../components/adminUsers/adminUsers'
-import axios from 'axios'
+import AdminPrices from '../../components/adminPrices/adminPrices'
 
 const Admin = () => {
   const [active, setActive] = useState('1')
@@ -27,7 +27,7 @@ const Admin = () => {
   const States = useSelector(state => state)
 
   useEffect(() => {
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 5; i++) {
         document.getElementById(`Link${i}`).className = 'NotActiveAdmin'
     }
     document.getElementById(`Link${active}`).className = 'ActiveAdmin'
@@ -109,6 +109,16 @@ const Admin = () => {
                                 <span className='align-middle'>گزارش‌ها</span>
                             </a>
                         </NavItem>
+                        <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
+                            <a
+                                id='Link5'
+                                active={active === '5'}
+                                onClick={() => {
+                                toggle('5')
+                                }}>
+                                <span className='align-middle'>قیمت‌ها</span>
+                            </a>
+                        </NavItem>
                     </Nav>
                     <TabContent className='py-50' activeTab={active}>
                         <TabPane tabId='1'>
@@ -122,6 +132,9 @@ const Admin = () => {
                         </TabPane>
                         <TabPane tabId='4'>
                             <AdminReports/>
+                        </TabPane>
+                        <TabPane tabId='5'>
+                            <AdminPrices/>
                         </TabPane>
                     </TabContent>
                 </Fragment>
