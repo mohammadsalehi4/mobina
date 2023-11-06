@@ -5,14 +5,13 @@ import Cookies from 'js-cookie'
 const ProfileHeader = (props) => {
   return (
     <div className='profile-header mb-2' style={{overflow:'hidden', margin:'0px', padding:'0px', borderRadius:'4px'}}>
-        <CardImg src={"/src/assets/images/profile/user-uploads/timeline.jpg"} alt='User Profile Image' top />
+        <CardImg src={"images/header-bg.png"} alt='User Profile Image' top style={{height:'200px', opacity:'1'}} />
         <Navbar container={false} className=' w-100' expand='md' light>
           <div className='container-fluid'>
             <Row className='row' style={{ width:'100%'}}>
 
               <Col xl='2' lg='2' md='3'>
                 <div className='profile-img' id='profileImageDiv' style={{marginTop:'-32px', textAlign:'right', background:'white', padding:'6px', borderRadius:'8px', display:'inline-block'}}>
-                  {/* <img className='rounded img-fluid' src={"/src/assets/images/portrait/small/avatar-s-2.jpg"} alt='Card image' /> */}
                   <Avatar
                     size={'100%'}
                     name="Maya Angelou"

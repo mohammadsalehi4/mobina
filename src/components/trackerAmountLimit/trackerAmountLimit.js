@@ -1,3 +1,5 @@
+/* eslint-disable array-bracket-spacing */
+/* eslint-disable comma-spacing */
 /* eslint-disable no-use-before-define */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-expressions */
@@ -29,37 +31,37 @@ const TrackerAmountLimit = (props) => {
 
   useEffect(() => {
     let text = ''
-    if (States.startAmount === 0 && States.endAmount === 0) {
+    if (States.StartFilterAmount === 0 && States.EndFilterAmount === 0) {
       SetShowTitle(0)
     } else {
-      if (States.startAmount !== 0) {
-        text = `${text  } از ${States.startAmount}`
+      if (States.StartFilterAmount !== 0) {
+        text = `${text  } از ${States.StartFilterAmount}`
       }
-      if (States.endAmount !== 0) {
-        text = `${text  } تا ${States.endAmount}`
+      if (States.EndFilterAmount !== 0) {
+        text = `${text  } تا ${States.EndFilterAmount}`
       }
       text = `${text  } واحد`
       SetShowTitle(text)
     }
-  }, [States.startAmount, States.endAmount])
+  }, [States.StartFilterAmount, States.EndFilterAmount])
 
   useEffect(() => {
-    dispatch({type:"SETSTARTAMOUNT", value:min})
-    dispatch({type:"SETENDAMOUNT", value:max})
+    dispatch({type:"StartFilterAmount", value:min})
+    dispatch({type:"EndFilterAmount", value:max})
     if (min === 0) {
-      document.getElementById('GetStartAmountValue1').value = ''
+      document.getElementById('StartAmountValue').value = ''
     } 
     if (max === 0) {
-      document.getElementById('GetEndAmountValue1').value = ''
+      document.getElementById('EndAmountValue').value = ''
     }
   }, [min, max])
 
   const setMin = () => {
-    SetMin(Number(document.getElementById('GetStartAmountValue1').value))
+    SetMin(Number(document.getElementById('StartAmountValue').value))
   }
 
   const setMax = () => {
-    SetMax(Number(document.getElementById('GetEndAmountValue1').value))
+    SetMax(Number(document.getElementById('EndAmountValue').value))
   }
 
   function handleToggleClick(event) {
@@ -72,10 +74,29 @@ const TrackerAmountLimit = (props) => {
       // event.stopPropagation()
   }
 
+  const SetAllInputOutput = (event) => {
+    const modeValue = (event.target.value)
+    dispatch({type:"All_Input_Output", value:modeValue})
+  }
+
+  const [optionChecked, SetoptionChecked] = useState(0)
+  useEffect(() => {
+    console.log('States.All_Input_Output')
+    console.log(States.All_Input_Output)
+    if (Number(States.All_Input_Output) === 0) {
+      SetoptionChecked(0)
+    } else if (Number(States.All_Input_Output) === 1) {
+      SetoptionChecked(1)
+    } else if (Number(States.All_Input_Output) === 2) {
+      SetoptionChecked(2)
+    }
+  }, [ ,States.All_Input_Output])
+
+
   return (
     <Dropdown  isOpen={dropdownOpen} toggle={toggle}  style={{display:'inline-block', width:'100%'}}>
       <DropdownToggle onClick={(event) => (handleToggleClick(event))} color='secondary' id='TaxLimitButton' outline style={{width:'100%'}}>
-        <span  className='align-middle ms-50'>
+        <span style={{direction:"ltr", fontSize:'13px'}} className='align-middle ms-50'>
           {
             ShowTitle === 0 ?
               <div style={{display:'inline-block'}}>
@@ -96,18 +117,20 @@ const TrackerAmountLimit = (props) => {
       </UncontrolledTooltip>
       <DropdownMenu style={{padding:"5px 10px", zIndex:'1'}}>
           <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
-          <Input placeholder={min} onChange={setMin} id={`GetStartAmountValue1`}  type='number'/>
+          <Input placeholder={min} onChange={setMin} id={`StartAmountValue`}  type='number'/>
           <Label style={{float:"right"}} className='mt-1 mb-1'>تا</Label>
-          <Input placeholder={max}  onChange={setMax} id={`GetEndAmountValue1`} type='number'/>
+          <Input placeholder={max}  onChange={setMax} id={`EndAmountValue`} type='number'/>
           <div style={{display:'block', float:'right'}} className='mt-2'>
           <div>
             <Label>
               <Input
                 type="radio"
-                value="option1"
+                value={0}
                 name="options"
-                defaultChecked
                 className='ms-1'
+                id='graphShowAllOption'
+                defaultChecked = {optionChecked === 0}
+                onChange={SetAllInputOutput}
               />
               همه
             </Label>
@@ -115,9 +138,12 @@ const TrackerAmountLimit = (props) => {
             <Label className='me-2' style={{color:'green'}}>
               <Input
                 type="radio"
-                value="option2"
+                value={1}
                 name="options"
                 className='ms-1'
+                id='graphShowInputOption'
+                defaultChecked = {optionChecked === 1}
+                onChange={SetAllInputOutput}
               />
               ورودی
             </Label>
@@ -125,9 +151,12 @@ const TrackerAmountLimit = (props) => {
             <Label className='me-2' style={{color:'red'}}>
               <Input
                 type="radio"
-                value="option3"
+                value={2}
                 className='ms-1'
                 name="options"
+                id='graphShowOutputOption'
+                defaultChecked = {optionChecked === 2}
+                onChange={SetAllInputOutput}
               />
               خروجی
             </Label>

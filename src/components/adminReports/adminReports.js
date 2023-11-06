@@ -57,11 +57,20 @@ const AdminReports = () => {
       name: <p style={{marginTop:"15px", margin:"0px"}}>عملیات</p>,
       minWidth: '200px',
       maxWidth: '200px',
-      cell: () => (
+      cell: row => (
         <div>
-          <ion-icon style={{fontSize:'24px'}} name="eye-outline"></ion-icon>
-          <ion-icon style={{fontSize:'24px'}} name="create-outline"></ion-icon>
-          <ion-icon style={{fontSize:'24px'}} name="trash-outline"></ion-icon>
+          <ion-icon style={{fontSize:'24px', cursor:'pointer'}} name="eye-outline" id={`showReportIcon${row.id}`}></ion-icon>
+          <UncontrolledTooltip placement='top' target={`showReportIcon${row.id}`}>
+              مشاهده
+          </UncontrolledTooltip>
+          <ion-icon style={{fontSize:'24px', cursor:'pointer', marginRight:'16px'}} name="create-outline" id={`editReportIcon${row.id}`}></ion-icon>
+          <UncontrolledTooltip placement='top' target={`editReportIcon${row.id}`}>
+              ویرایش
+          </UncontrolledTooltip>
+          <ion-icon style={{fontSize:'24px', cursor:'pointer', marginRight:'16px'}} name="trash-outline" id={`deleteReportIcon${row.id}`}></ion-icon>
+          <UncontrolledTooltip placement='top' target={`deleteReportIcon${row.id}`}>
+              حذف
+          </UncontrolledTooltip>
         </div>
       )
     }

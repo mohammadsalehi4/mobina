@@ -51,6 +51,11 @@ const initialState = {
     showDollar:false,
     itemNumbers:0,
     NodesPosition:[],
+    StartFilterAmount:0,
+    EndFilterAmount:0,
+    StartFilterTime:0,
+    EndFilterTime:0,
+    All_Input_Output:0,
 
     //admin panel
     CustomLoading: false,
@@ -58,6 +63,41 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'StartFilterTime') {
+        return {
+            ...state,
+            StartFilterTime:action.value
+        }
+    }
+
+    if (action.type === 'EndFilterTime') {
+        return {
+            ...state,
+            EndFilterTime:action.value
+        }
+    }
+
+    if (action.type === 'All_Input_Output') {
+        return {
+            ...state,
+            All_Input_Output:action.value
+        }
+    }
+
+    if (action.type === 'StartFilterAmount') {
+        return {
+            ...state,
+            StartFilterAmount:action.value
+        }
+    }
+
+    if (action.type === 'EndFilterAmount') {
+        return {
+            ...state,
+            EndFilterAmount:action.value
+        }
+    }
 
     if (action.type === 'NodesPosition') {
         return {

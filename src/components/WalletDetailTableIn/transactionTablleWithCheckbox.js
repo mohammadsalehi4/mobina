@@ -1,3 +1,5 @@
+/* eslint-disable array-bracket-spacing */
+/* eslint-disable comma-spacing */
 /* eslint-disable no-unused-vars */
 // ** React Imports
 import { Fragment, useState, forwardRef, useEffect } from 'react'
@@ -75,6 +77,8 @@ const  WalletDetailTableBottom = (props) => {
   const dispatch = useDispatch()
 
   const [data, SetData] = useState([])
+  const [Filtred, SetFiltred] = useState([])
+  const [Reload, SetReload] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
 
   //add new node to graph
@@ -219,36 +223,33 @@ const  WalletDetailTableBottom = (props) => {
       }
     }
 
-    console.log('props.data')
-    console.log(props)
-
     for (let i = 0; i < props.data.inputs.length; i++) {
       if (AllHash.some(item => item.toUpperCase() === (props.data.inputs[i].hash).toUpperCase())) {
-          a.push({
-            amount:props.data.inputs[i].amount,
-            senderAmount:props.data.inputs[i].senderAmount,
-            address:props.data.inputs[i].address,
-            date:props.data.inputs[i].date,
-            time:props.data.inputs[i].time,
-            hash:props.data.inputs[i].hash,
-            valueInDollar:props.data.inputs[i].valueInDollar,
-            symbole:props.data.inputs[i].currencyType,
-            mode:"in",
-            show:true
-          })
+        a.push({
+          amount:props.data.inputs[i].amount,
+          senderAmount:props.data.inputs[i].senderAmount,
+          address:props.data.inputs[i].address,
+          date:props.data.inputs[i].date,
+          time:props.data.inputs[i].time,
+          hash:props.data.inputs[i].hash,
+          valueInDollar:props.data.inputs[i].valueInDollar,
+          symbole:props.data.inputs[i].currencyType,
+          mode:"in",
+          show:true
+        })
       } else {
-          a.push({
-            address:props.data.inputs[i].address,
-            amount:props.data.inputs[i].amount,
-            senderAmount:props.data.inputs[i].senderAmount,
-            date:props.data.inputs[i].date,
-            time:props.data.inputs[i].time,
-            hash:props.data.inputs[i].hash,
-            valueInDollar:props.data.inputs[i].valueInDollar,
-            symbole:props.data.inputs[i].currencyType,
-            mode:"in",
-            show:false
-          })
+        a.push({
+          address:props.data.inputs[i].address,
+          amount:props.data.inputs[i].amount,
+          senderAmount:props.data.inputs[i].senderAmount,
+          date:props.data.inputs[i].date,
+          time:props.data.inputs[i].time,
+          hash:props.data.inputs[i].hash,
+          valueInDollar:props.data.inputs[i].valueInDollar,
+          symbole:props.data.inputs[i].currencyType,
+          mode:"in",
+          show:false
+        })
       }
     }
     for (let i = 0; i < props.data.outputs.length; i++) {
@@ -283,7 +284,7 @@ const  WalletDetailTableBottom = (props) => {
     }
     SetData(a)
 
-  }, [, props.data, currentPage])
+  }, [, props.data, currentPage, Reload])
 
   const columns = [
     {
@@ -294,26 +295,21 @@ const  WalletDetailTableBottom = (props) => {
       cell: row => {
         if (row.show) {
           return (
-            <Input id={row.hash} onChange={(event) => { 
-              if (event.target.checked) {
-                addSelectedData(row)
-              } else {
+            <ion-icon name="remove-circle-outline" style={{fontSize:'32px', color:'red', cursor:'pointer'}} onClick={
+              () => {
                 removeSelectedData(row)
+                SetReload(!Reload)
               }
-            }} defaultChecked type='checkbox'/>
+            }>y</ion-icon>
           )
         } else {
             return (
-              <Input id={row.hash} onChange={(event) => { 
-                if (event.target.checked) {
-                  addSelectedData(row)
-                } else {
-                  removeSelectedData(row)
-                }
-              }}  type='checkbox'/>
+              <ion-icon style={{fontSize:'32px', color:'green', cursor:'pointer'}} name="add-circle-outline" onClick={ () => {
+                addSelectedData(row)
+                SetReload(!Reload)
+              } }>no</ion-icon>
           )
         }
-
       }
     },
     {
@@ -392,6 +388,91 @@ const  WalletDetailTableBottom = (props) => {
     />
   )
 
+  //filters
+  useEffect(() => {
+    //min value
+    const filtredData = []
+    if (Number(States.StartFilterAmount) > 0) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].amount > States.StartFilterAmount) {
+          filtredData.push(data[i])
+        }
+      }
+    } else { 
+      for (let i = 0; i < data.length; i++) {
+          filtredData.push(data[i])
+      }
+    }
+
+    //max value
+    const filtredData2 = []
+    if (States.EndFilterAmount > 0) {
+      for (let i = 0; i < filtredData.length; i++) {
+        if (filtredData[i].amount < States.EndFilterAmount) {
+          filtredData2.push(filtredData[i])
+        }
+      }
+    } else { 
+      for (let i = 0; i < filtredData.length; i++) {
+          filtredData2.push(filtredData[i])
+      }
+    }
+
+    //min time
+    const filtredData3 = []
+    if (States.StartFilterTime > 0) {
+      for (let i = 0; i < filtredData2.length; i++) {
+        if (filtredData2[i].date * 1000 > States.StartFilterTime) {
+          filtredData3.push(filtredData2[i])
+        }
+      }
+    } else { 
+      for (let i = 0; i < filtredData2.length; i++) {
+          filtredData3.push(filtredData2[i])
+      }
+    }
+
+    //max time
+    const filtredData4 = []
+    console.log('States.endFilterTime')
+    console.log(States.EndFilterTime)
+    if (States.EndFilterTime > 0) {
+      for (let i = 0; i < filtredData3.length; i++) {
+        console.log(filtredData3[i].date * 1000)
+        if (filtredData3[i].date * 1000 < States.EndFilterTime) {
+          filtredData4.push(filtredData3[i])
+        }
+      }
+    } else { 
+      for (let i = 0; i < filtredData3.length; i++) {
+          filtredData4.push(filtredData3[i])
+      }
+    }
+
+    //All Input Output
+    const filtredData5 = []
+    if (Number(States.All_Input_Output) > 0) {
+      for (let i = 0; i < filtredData4.length; i++) {
+        if (Number(States.All_Input_Output) === 1) {
+          if (filtredData4[i].mode === 'in') {
+            filtredData5.push(filtredData4[i])
+          }
+        } else if (Number(States.All_Input_Output) === 2) {
+          if (filtredData4[i].mode === 'out') {
+            filtredData5.push(filtredData4[i])
+          }
+        }
+      }
+    } else { 
+      for (let i = 0; i < filtredData4.length; i++) {
+        filtredData5.push(filtredData4[i])
+      }
+    }
+    console.log('filtredData5')
+    console.log(filtredData5)
+    SetFiltred(filtredData5)
+  }, [ ,data,States.StartFilterAmount, States.EndFilterAmount, States.StartFilterTime, States.EndFilterTime, States.All_Input_Output])
+
   return (
     <Fragment>
       <Card>
@@ -400,7 +481,7 @@ const  WalletDetailTableBottom = (props) => {
             noHeader
             columns={columns}
             className='react-dataTable'
-            data={data}
+            data={Filtred}
             paginationComponent={CustomPagination}
             paginationDefaultPage={currentPage + 1}
           />

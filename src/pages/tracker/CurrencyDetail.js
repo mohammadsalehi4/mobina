@@ -120,6 +120,11 @@ const CurrencyDetail = () => {
   }
 
   useEffect(() => {
+    dispatch({type:"StartFilterAmount", value:0})
+    dispatch({type:"EndFilterAmount", value:0})
+    dispatch({type:"StartFilterTime", value:0})
+    dispatch({type:"EndFilterTime", value:0})
+    dispatch({type:"All_Input_Output", value:0})
     const address = States.WDetail
     SetLoading(true)
     axios.get(`${serverAddress}/explorer/search/?query=${address}`,
