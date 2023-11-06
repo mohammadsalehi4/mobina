@@ -11,12 +11,18 @@ export function AccountBaseTransaction (array, symbole, decimal) {
     const logs = []
 
     for (let i = 0; i < array.logs.length; i++) {
-        logs.push({
-            symbole: array.logs[i].address.symbol,
-            value: Number(array.logs[i].amount) / Math.pow(10, array.logs[i].address.decimal),
-            from: array.logs[i].from, 
-            to: array.logs[i].to
-        })
+        try {
+            if (typeof (array.logs[i].address.symbol) === 'string') {
+                logs.push({
+                    symbole: array.logs[i].address.symbol,
+                    value: Number(array.logs[i].amount) / Math.pow(10, array.logs[i].address.decimal),
+                    from: array.logs[i].from, 
+                    to: array.logs[i].to
+                })
+            }
+        } catch (error) {
+            
+        }
     }
 
     return (

@@ -23,6 +23,12 @@ import {Col, Row, InputGroup, Input, InputGroupText} from 'reactstrap'
 import InputPasswordToggle from '@components/input-password-toggle'
 import TokenInformation from '../../components/dashboard/TokenInformation'
 
+//processors
+import { UTXOTransaction } from '../../processors/UTXOTransaction'
+import { UTXOAddress } from '../../processors/UTXOAddress'
+import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
+import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
+
 const EcommerceDashboard2 = () => {
   const { hash } = useParams()
 
@@ -34,44 +40,62 @@ const EcommerceDashboard2 = () => {
   const [address, SetAddress] = useState('0x62Dece3416741fcEECA25A50A584a37037eadc04')
   const [coinData, SetCoinData] = useState({})
 
-  const BitcoinAddress =(getData, address) => {
+  const UTXOAdd =(getData) => {
     let data=[]
-    for (let i=0; i<getData.length; i++) {
+    for (let i=0; i<getData.inputs.length; i++) {
 
-      let input=0
-      let output=0
-      let timeStamp
-      let from
-      let to
-      let gasUsed
-      let gasPrice
-      let value
-      let hash
-      for (let j=0; j<getData[i].inputs.length; j++) {
+      let timeStamp=getData.inputs[i].timestamp
+      let from = 'test'
+      let to = getData.address
+      let gasUsed = getData.inputs[i].fee
+      let gasPrice = 1
+      let value = Number(getData.inputs[i].value)
+      let hash = getData.inputs[i].hash
 
-        if ((getData[i].inputs[j].coin.address.address)===address) {
-          input=input+Number(getData[i].inputs[j].coin.value)
-        }
-      }
-      for (let j=0; j<getData[i].outputs.length; j++) {
-
-        if ((getData[i].outputs[j].address)===address) {
-          output=output+Number(getData[i].outputs[j].value)
-        }
+      if (typeof (timeStamp) !== 'number') {
+        throw new Error('timestamp Error')
       }
 
-      if ((input-output) > 0) {
-        from=address
-        to=''
-      }  else {
-        to=address
-        from=''
+      if (typeof (from) !== 'string' && from !== null) {
+        throw new Error('from Error')
       }
-      value=Number(Math.abs(output-input))/100000000
-      timeStamp=getData[i].time
-      gasUsed=Number(getData[i].fee)/100000000
-      gasPrice=1
-      hash=getData[i].hash
+
+      if (typeof (to) !== 'string' && to !== null) {
+        throw new Error('to Error')
+      }
+
+      if (typeof (value) !== 'number') {
+        throw new Error('value Error')
+      }
+
+      if (typeof (hash) !== 'string') {
+        throw new Error('hash Error')
+      }
+
+      data.push({
+        timeStamp,
+        from,
+        to,
+        gasUsed,
+        gasPrice,
+        value,
+        hash,
+        currencyType:"BTC",
+        Logo:"BTC.png",
+        image:"BTC.png",
+        Type:"coin"
+      })
+    }
+
+    for (let i=0; i<getData.outputs.length; i++) {
+
+      let timeStamp=getData.outputs[i].timestamp
+      let from = getData.address
+      let to = 'test'
+      let gasUsed = getData.outputs[i].fee
+      let gasPrice = 1
+      let value = Number(getData.outputs[i].value)
+      let hash = getData.outputs[i].hash
 
       if (typeof (timeStamp) !== 'number') {
         throw new Error('timestamp Error')
@@ -110,214 +134,76 @@ const EcommerceDashboard2 = () => {
     return data
   }
 
-  const EthereumAddress =(getData, add) => {
-    let data=[]
-    for (let i=0; i<getData.result.length; i++) {
-      try {
-
-        if ((getData.result[i].to.address).toUpperCase()===add.toUpperCase() || (getData.result[i].from.address).toUpperCase()===add.toUpperCase()) {
-          data.push({
-            timeStamp:getData.result[i].timestamp,
-            from:getData.result[i].from.address,
-            to:getData.result[i].to.address,
-            gasUsed:getData.result[i].gasUsed,
-            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
-            value:(Number(getData.result[i].value))/1000000000000000000,
-            hash:getData.result[i].transactionHash,
-            currencyType:"ETH",
-            Logo:"ETH.png",
-            Type:"coin"
-          })
-        }
-      } catch (error) {
-        if ((getData.result[i].to.address)===null && (getData.result[i].from.address)!==null) {
-          data.push({
-            timeStamp:getData.result[i].timestamp,
-            from:(getData.result[i].from.address),
-            to:'coin base',
-            gasUsed:getData.result[i].gasUsed,
-            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
-            value:(Number(getData.result[i].value))/1000000000000000000,
-            hash:getData.result[i].transactionHash,
-            currencyType:"ETH",
-            Logo:"ETH.png",
-            Type:"coin"
-          })
-        } else if ((getData.result[i].to.address)!==null && (getData.result[i].from.address)===null) {
-          data.push({
-            timeStamp:getData.result[i].timestamp,
-            from:'coin base',
-            to:(getData.result[i].to.address),
-            gasUsed:getData.result[i].gasUsed,
-            gasPrice:Number(getData.result[i].gasPrice)/1000000000000000000,
-            value:(Number(getData.result[i].value))/1000000000000000000,
-            hash:getData.result[i].transactionHash,
-            currencyType:"ETH",
-            Logo:"ETH.png",
-            Type:"coin"
-          })
-        }
-      }
-
-    }
-    for (let a=0; a<getData.result.length; a++) {
-      if (getData.result[a].logs.length > 0) {
-        for (let j=0; j<getData.result[a].logs.length; j++) {
-          try {
-            if (getData.result[a].logs[j].address.symbol) {
-
-              data.push({
-                timeStamp:getData.result[a].timestamp,
-                from:getData.result[a].logs[j].from,
-                to:getData.result[a].logs[j].to,
-                gasUsed:getData.result[a].gasUsed,
-                gasPrice:Number(getData.result[a].gasPrice)/1000000000000000000,
-                value:Number(getData.result[a].logs[j].amount)/(Math.pow(10, getData.result[a].logs[j].address.decimal)),
-                hash:getData.result[a].logs[j].transactionHash,
-                currencyType:getData.result[a].logs[j].address.symbol,
-                Logo:`${getData.result[a].logs[j].address.symbol}.png`,
-                Type:"token"
-              })
-
-            }
-          } catch (error) {}
-        }
-      }
-    }
-
-    //check values
-    for (let i=0; i<data.length; i++) {
-      if (typeof (data[i].timeStamp) !== 'number') {
-        throw new Error('timestamp Error')
-      }
-
-      if (typeof (data[i].from) !== 'string' && from !== null) {
-        throw new Error('from Error')
-      }
-
-      if (typeof (data[i].to) !== 'string' && to !== null) {
-        throw new Error('to Error')
-      }
-
-      if (typeof (data[i].gasUsed) !== 'number') {
-        throw new Error('value Error')
-      }
-
-      if (typeof (data[i].gasPrice) !== 'number') {
-        throw new Error('value Error')
-      }
-
-      if (typeof (data[i].value) !== 'number') {
-        throw new Error('value Error')
-      }
-
-      if (typeof (data[i].hash) !== 'string') {
-        throw new Error('hash Error')
-      }
-
-      if (typeof (data[i].currencyType) !== 'string') {
-        throw new Error('hash Error')
-      }
-    }
-
-    return data
-  }
-
-  const LitecoinAddress =(getData, address) => {
-    let data=[]
-    for (let i=0; i<getData.length; i++) {
-
-      let input=0
-      let output=0
-      let timeStamp
-      let from
-      let to
-      let gasUsed
-      let gasPrice
-      let value
-      let hash
-
-      for (let j=0; j<getData[i].inputs.length; j++) {
-        try {
-          if ((getData[i].inputs[j].coin.address).toLowerCase()===address.toLowerCase()) {
-            input=input+Number(getData[i].inputs[j].coin.value)
-          }
-        } catch (error) {}
-
-      }
-      for (let j=0; j<getData[i].outputs.length; j++) {
-        try {
-          if ((getData[i].outputs[j].address).toLowerCase()===address.toLowerCase()) {
-            output=output+Number(getData[i].outputs[j].value)
-          }
-        } catch (error) {}
-      }
-
-      if ((input-output) > 0) {
-        from=address
-        to=''
-      }  else {
-        to=address
-        from=''
-      }
-      value=Number(Math.abs(output-input))
-      timeStamp=getData[i].time
-      gasUsed=Number(getData[i].fee)
-      gasPrice=1
-      hash=getData[i].hash
-
+  const AccountBaseAdd =(getData) => {
+    let data = []
+    for (let i = 0; i < getData.inputs.length; i++) {
       data.push({
-        timeStamp,
-        from,
-        to,
-        gasUsed,
-        gasPrice,
-        value,
-        hash,
-        currencyType:"LTC",
-        Logo:"LTC.png",
-        image:"LTC.png",
+        timeStamp:getData.inputs[i].timestamp,
+        from:getData.inputs[i].address,
+        to:getData.address,
+        gasUsed:getData.inputs[i].fee,
+        gasPrice:1,
+        value:(Number(getData.inputs[i].value)),
+        hash:getData.inputs[i].hash,
+        currencyType:"ETH",
+        Logo:"ETH.png",
         Type:"coin"
       })
     }
 
-    //check values
-    for (let i=0; i<data.length; i++) {
-      if (typeof (data[i].timeStamp) !== 'number') {
-        throw new Error('timestamp Error')
-      }
-
-      if (typeof (data[i].from) !== 'string' && from !== null) {
-        throw new Error('from Error')
-      }
-
-      if (typeof (data[i].to) !== 'string' && to !== null) {
-        throw new Error('to Error')
-      }
-
-      if (typeof (data[i].gasUsed) !== 'number') {
-        throw new Error('value Error')
-      }
-
-      if (typeof (data[i].gasPrice) !== 'number') {
-        throw new Error('value Error')
-      }
-
-      if (typeof (data[i].value) !== 'number') {
-        throw new Error('value Error')
-      }
-
-      if (typeof (data[i].hash) !== 'string') {
-        throw new Error('hash Error')
-      }
+    for (let i = 0; i < getData.outputs.length; i++) {
+      data.push({
+        timeStamp:getData.outputs[i].timestamp,
+        from:getData.address,
+        to:getData.outputs[i].address,
+        gasUsed:getData.outputs[i].fee,
+        gasPrice:1,
+        value:(Number(getData.outputs[i].value)),
+        hash:getData.outputs[i].hash,
+        currencyType:"ETH",
+        Logo:"ETH.png",
+        Type:"coin"
+      })
     }
+
+    for (let i = 0; i < getData.logs.inputs.length; i++) {
+      data.push({
+        timeStamp:getData.logs.inputs[i].timestamp,
+        from:getData.logs.inputs[i].address,
+        to:getData.address,
+        gasUsed:getData.logs.inputs[i].fee,
+        gasPrice:1,
+        value:(Number(getData.logs.inputs[i].value)),
+        hash:getData.logs.inputs[i].hash,
+        currencyType:getData.logs.inputs[i].symbole,
+        Logo:`${getData.logs.inputs[i].symbole}.png`,
+        Type:"token"
+      })
+    }
+
+    for (let i = 0; i < getData.logs.outputs.length; i++) {
+      data.push({
+        timeStamp:getData.logs.outputs[i].timestamp,
+        from:getData.address,
+        to:getData.logs.outputs[i].address,
+        gasUsed:getData.logs.outputs[i].fee,
+        gasPrice:1,
+        value:(Number(getData.logs.outputs[i].value)),
+        hash:getData.logs.outputs[i].hash,
+        currencyType:getData.logs.outputs[i].symbole,
+        Logo:`${getData.logs.outputs[i].symbole}.png`,
+        Type:"token"
+      })
+    }
+
     return data
   }
 
-  const BitcoinTransaction =(data) => {
+  const UTXOTr =(data) => {
+    console.log(data)
     const CurrencyPrice=28000
     const USDPrice=490000
-    const fee=data.fee/100000000
+    const fee=data.fee
     const address=data.hash
     const blockNumber=data.blockNumber
     const name='بیت کوین'
@@ -327,45 +213,46 @@ const EcommerceDashboard2 = () => {
     const color='#f8a23a'
     let TotalOutput=0
     let TotalInput=0
+    let BTCAmount = 0
     const inputData=[]
     const outputData=[]
     for (let i=0; i<data.inputs.length; i++) {
-      if (data.inputs[i].coin.address.address !== null) {
+      if (data.inputs[i].address !== null) {
         inputData.push({
-          BTCAmount:((data.inputs[i].coin.value)/100000000),
+          BTCAmount:data.inputs[i].value,
           RiskScore:"0%",
-          address:data.inputs[i].coin.address.address
+          address:data.inputs[i].address
         })
       } else {
         inputData.push({
-          BTCAmount:((data.inputs[i].coin.value)/100000000),
+          BTCAmount:data.inputs[i].value,
           RiskScore:"0%",
           address:'coin base'
         })
       }
+      BTCAmount = BTCAmount + data.inputs[i].value
     }
     for (let i=0; i<data.outputs.length; i++) {
-      if (data.outputs[i].address.address !== null) {
+      if (data.outputs[i].address !== null) {
         outputData.push({
-          BTCAmount:((data.outputs[i].value)/100000000),
+          BTCAmount:data.outputs[i].value,
           RiskScore:"0%",
-          address:data.outputs[i].address.address
+          address:data.outputs[i].address
         })
       } else {
         outputData.push({
-          BTCAmount:((data.outputs[i].value)/100000000),
+          BTCAmount:data.outputs[i].value,
           RiskScore:"0%",
           address:'coin base'
         })
       }
-
     }
+
     const TotalOutput1=TotalOutput*CurrencyPrice
     const TotalOutput2=TotalOutput1*USDPrice
     const TotalInput1=TotalInput*CurrencyPrice
     const TotalInput2=TotalInput1*USDPrice
     const RiskScore='0%'
-    const BTCAmount=(Number(data.value)/1000000000000000000)
     const isUTXOBase=true
 
     if (typeof (blockNumber) !== 'number') {
@@ -431,8 +318,8 @@ const EcommerceDashboard2 = () => {
     })
   }
 
-  const EthereumTransaction =(data) => {
-
+  const AccountBaseTr =(data) => {
+    console.log(data)
     const blockNumber=data.blockNumber
     const address=data.hash
     const BlockDate=data.timestamp
@@ -443,113 +330,74 @@ const EcommerceDashboard2 = () => {
     let TotalOutput=0
     let symbole="ETH"
     let TotalInput=0
-    let fee = (Number(data.gasPrice))*(Number(data.gasUsed))/1000000000000000000
+    let fee = data.fee
     let transfers=[]
 
-    if (data.from.address !== null && data.to.address !== null) {
+    if (data.from !== null && data.to !== null) {
       transfers.push({
-        from:data.from.address,
-        to:data.to.address,
+        from:data.from,
+        to:data.to,
         currencyType:'ETH',
-        amount:(Number(data.value)/1000000000000000000)
+        amount:data.value
       })
-    } else if (data.from.address === null && data.to.address !== null) {
+    } else if (data.from === null && data.to !== null) {
       transfers.push({
         from:'coin base',
-        to:data.to.address,
+        to:data.to,
         currencyType:'ETH',
-        amount:(Number(data.value)/1000000000000000000)
+        amount:data.value
       })
-    } else if (data.from.address !== null && data.to.address === null) {
+    } else if (data.from !== null && data.to === null) {
       transfers.push({
-        from:data.from.address,
+        from:data.from,
         to:'coin base',
         currencyType:'ETH',
-        amount:(Number(data.value)/1000000000000000000)
+        amount:data.value
       })
     } else {
       transfers.push({
         from:'coin base',
         to:'coin base',
         currencyType:'ETH',
-        amount:(Number(data.value)/1000000000000000000)
+        amount:data.value
       })
     }
 
     for (let i=0; i<data.logs.length; i++) {
-      if (data.logs[i].address.symbol) {
+      if (data.logs[i].symbole) {
         try {
           if (data.logs[i].from !== null && data.logs[i].to !== null) {
             transfers.push({
               from:data.logs[i].from,
               to:data.logs[i].to,
-              currencyType:data.logs[i].address.symbol,
-              amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+              currencyType:data.logs[i].symbole,
+              amount:data.logs[i].value
             })
           } else if (data.logs[i].from === null && data.logs[i].to !== null) {
             transfers.push({
               from:'coin base',
               to:data.logs[i].to,
-              currencyType:data.logs[i].address.symbol,
-              amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+              currencyType:data.logs[i].symbole,
+              amount:data.logs[i].value
             })
           } else if (data.logs[i].from !== null && data.logs[i].to === null) {
             transfers.push({
               from:data.logs[i].from,
               to:'coin base',
-              currencyType:data.logs[i].address.symbol,
-              amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+              currencyType:data.logs[i].symbole,
+              amount:data.logs[i].value
             })
           } else {
             transfers.push({
               from:'coin base',
               to:'coin base',
-              currencyType:data.logs[i].address.symbol,
-              amount:(Number(data.logs[i].amount)/(Math.pow(10, data.logs[i].address.decimal)))
+              currencyType:data.logs[i].symbole,
+              amount:data.logs[i].value
             })
           }
         } catch (error) {
           console.log(error)
         }
-      }
-    }
-
-    if (typeof (blockNumber) !== 'number') {
-      throw new Error('blockNumber Error')
-    }
-
-    if (typeof (BlockDate) !== 'number') {
-      throw new Error('BlockDate Error')
-    }
-
-    if (typeof (TotalOutput) !== 'number') {
-      throw new Error('TotalOutput Error')
-    }
-
-    if (typeof (fee) !== 'number') {
-      throw new Error('fee Error')
-    }
-
-    if (typeof (TotalInput) !== 'number') {
-      throw new Error('TotalInput Error')
-    }
-
-    if (typeof (address) !== 'string' && address !== null) {
-      throw new Error('address Error')
-    }
-
-
-    for (let i=0; i<transfers.length; i++) {
-      if (typeof (transfers[i].amount) !== 'number') {
-        throw new Error('InpDataamount Error')
-      }
-
-      if (typeof (transfers[i].from) !== 'string') {
-        throw new Error('InpDatafrom Error')
-      }
-
-      if (typeof (transfers[i].to) !== 'string') {
-        throw new Error('InpDatato Error')
       }
     }
 
@@ -569,128 +417,6 @@ const EcommerceDashboard2 = () => {
     })
   }
 
-  const LitecoinTransaction =(data) => {
-    const CurrencyPrice=28000
-    const USDPrice=490000
-
-    const address=data.hash
-    const blockNumber=data.blockNumber
-    const name='لایت کوین'
-    const image='LTC.png'
-    const BlockDate=data.time
-    const symbole="LTC"
-    const color='#345d9d'
-    const fee=Number(data.fee)
-    let TotalOutput=0
-    let TotalInput=0
-    const inputData=[]
-    const outputData=[]
-
-    for (let i=0; i<data.inputs.length; i++) {
-      try {
-        if (data.inputs[i].coin.address.address !== null) {
-          inputData.push({
-            BTCAmount:(Number(data.inputs[i].coin.value)/1),
-            RiskScore:"0%",
-            address:data.inputs[i].coin.address.address
-          })
-        } else {
-            inputData.push({
-            BTCAmount:((data.inputs[i].coin.value)/1),
-            RiskScore:"0%",
-            address:'coin base'
-          })
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    try {
-      for (let i=0; i<data.outputs.length; i++) {
-        if (data.outputs[i].address.address !== null) {
-          outputData.push({
-            BTCAmount:(Number(data.outputs[i].value)/1),
-            RiskScore:"0%",
-            address:data.outputs[i].address.address
-          })
-        } else {
-            outputData.push({
-            BTCAmount:((data.outputs[i].value)/1),
-            RiskScore:"0%",
-            address:'coin base'
-          })
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    }
-
-    const RiskScore='0%'
-    const BTCAmount=1234
-    const isUTXOBase=true
-    console.log(inputData)
-    console.log(outputData)
-
-    if (typeof (blockNumber) !== 'number') {
-      throw new Error('blockNumber Error')
-    }
-
-    if (typeof (BlockDate) !== 'number') {
-      throw new Error('BlockDate Error')
-    }
-
-    if (typeof (TotalOutput) !== 'number') {
-      throw new Error('TotalOutput Error')
-    }
-
-    if (typeof (fee) !== 'number') {
-      throw new Error('fee Error')
-    }
-
-    if (typeof (TotalInput) !== 'number') {
-      throw new Error('TotalInput Error')
-    }
-
-    if (typeof (address) !== 'string' && address !== null) {
-      throw new Error('address Error')
-    }
-
-    if (typeof (BTCAmount) !== 'number') {
-      throw new Error('BTCAmount Error')
-    }
-
-    for (let i=0; i<inputData.length; i++) {
-      if (typeof (inputData[i].BTCAmount) !== 'number') {
-        throw new Error('InpDataBTCAmount Error')
-      }
-    }
-
-    for (let i=0; i<outputData.length; i++) {
-      if (typeof (outputData[i].BTCAmount) !== 'number') {
-        throw new Error('OutDataBTCAmount Error')
-      }
-    }
-
-    return ({
-      address,
-      blockNumber,
-      name,
-      image,
-      BlockDate,
-      symbole,
-      color,
-      TotalOutput,
-      TotalInput,
-      RiskScore,
-      BTCAmount,
-      inputData,
-      outputData,
-      isUTXOBase,
-      fee
-    })
-  }
-
   useEffect(() => {
     if (hash !== undefined) {
     //   document.getElementById("transactionValue").value=hash
@@ -705,155 +431,62 @@ const EcommerceDashboard2 = () => {
       .then((addressMode) => {
         if (addressMode.data.query === 'transaction') {
           if (addressMode.data.network === 'BTC') {
-            axios.get(`${serverAddress}/explorer/transaction/?network=BTC&txid=${hash}`,
-            {
-              headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`
-              }
-            })
-            .then((response) => {
-              try {
-                SetTrData(BitcoinTransaction(response.data))
-                SetMode(1)
-                SetLoading(false)
-              } catch (error) {
-                console.log(error)
-                return toast.error('خطا در دریافت اطلاعات از سرور', {
-                  position: 'bottom-left'
-                })
-              }
-
-            })
-            .catch(err => {
+            try {
+              SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'BTC', 100000000)))
+              SetMode(1)
               SetLoading(false)
-              try {
-                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                  Cookies.set('refresh', '')
-                  Cookies.set('access', '')
-                  window.location.assign('/')
-                }
-              } catch (error) {}
-            })
+            } catch (error) {
+              console.log(error)
+              return toast.error('خطا در دریافت اطلاعات از سرور', {
+                position: 'bottom-left'
+              })
+            }
           } else if (addressMode.data.network === 'ETH') {
-            axios.get(`${serverAddress}/explorer/transaction/?network=ETH&txid=${hash}`,
-            {
-              headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`
-              }
-            })
-            .then((response) => {
-              SetLoading(false)
-              try {
-                SetTrData(EthereumTransaction(response.data))
-                SetMode(1)
-              } catch (error) {
-                console.log(error)
-                return toast.error('خطا در دریافت اطلاعات از سرور', {
-                  position: 'bottom-left'
-                })
-              }
-            })
-            .catch(err => {
-              SetLoading(false)
-              try {
-                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                  Cookies.set('refresh', '')
-                  Cookies.set('access', '')
-                  window.location.assign('/')
-                }
-              } catch (error) {}
-              try {
-                if (err.response.statusText === 'Not Found') {
-                  return toast.error('آدرس مورد نظر یافت نشد', {
-                    position: 'bottom-left'
-                  })
-                }
-              } catch (error) {}
-            })
+            SetLoading(false)
+            try {
+              // SetTrData
+              SetTrData(AccountBaseTr(AccountBaseTransaction(addressMode.data.data, 'ETH', 1000000000000000000)))
+              SetMode(1)
+            } catch (error) {
+              console.log(error)
+              return toast.error('خطا در دریافت اطلاعات از سرور', {
+                position: 'bottom-left'
+              })
+            }
           } else if (addressMode.data.network === 'LTC') {
-            axios.get(`${serverAddress}/explorer/transaction/?network=LTC&txid=${hash}`,
-            {
-              headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`
-              }
-            })
-            .then((response) => {
-              SetLoading(false)
-              try {
-                SetTrData(LitecoinTransaction(response.data))
-                SetMode(1)
-              } catch (error) {
-                console.log(error)
-                return toast.error('خطا در دریافت اطلاعات از سرور', {
-                  position: 'bottom-left'
-                })
-              }
-            })
-            .catch(err => {
-              SetLoading(false)
-              console.log(err)
-              try {
-                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                  Cookies.set('refresh', '')
-                  Cookies.set('access', '')
-                  window.location.assign('/')
-                }
-              } catch (error) {}
+            SetLoading(false)
+            return toast.error('لایت کوین سرچ نکن!!', {
+              position: 'bottom-left'
             })
           }
         } else if (addressMode.data.query === 'address') {
           if (addressMode.data.network === 'BTC') {
-            axios.get(`${serverAddress}/explorer/address?address=${hash}&network=BTC&page_size=50&offset=0`,
-            {
-              headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`
-              }
-            })
-            .then((response) => {
-              try {
-                SetCoinData({
-                  name:'بیت کوین',
-                  symbole:"BTC",
-                  risk:"0%",
-                  owner:"بدون اطلاعات",
-                  ownerMode:"بدون اطلاعات",
-                  website:"بدون اطلاعات",
-                  color:"#f8a23a",
-                  image:"bitcoin.png"
-                })
-                SetAdData(BitcoinAddress(response.data.result, hash))
-                SetMode(2)
-                SetLoading(false)
-              } catch (error) {
-                console.log(error)
-                SetLoading(false)
-                return toast.error('خطا در دریافت اطلاعات از سرور', {
-                  position: 'bottom-left'
-                })
-              }
-            })
-            .catch((err) => {
+            SetLoading(false)
+            try {
+              SetCoinData({
+                name:'بیت کوین',
+                symbole:"BTC",
+                risk:"0%",
+                owner:"بدون اطلاعات",
+                ownerMode:"بدون اطلاعات",
+                website:"بدون اطلاعات",
+                color:"#f8a23a",
+                image:"bitcoin.png"
+              })
+              SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data.result, hash, 'BTC', 100000000)))
+              SetMode(2)
               SetLoading(false)
-              console.log(err)
-              try {
-                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                  Cookies.set('refresh', '')
-                  Cookies.set('access', '')
-                  window.location.assign('/')
-                }
-              } catch (error) {}
-            })
+            } catch (error) {
+              console.log(error)
+              SetLoading(false)
+              return toast.error('خطا در دریافت اطلاعات از سرور', {
+                position: 'bottom-left'
+              })
+            }
           } else if (addressMode.data.network === 'ETH') {
-            axios.get(`${serverAddress}/explorer/address?address=${hash}&network=ETH&page_size=50&offset=1`,
-            {
-              headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`
-              }
-            })
-            .then((response) => {
-              SetLoading(false)
               try {
-                SetAddress(document.getElementById("transactionValue").value)
+                SetAddress(hash)
+                SetLoading(false)
                 SetCoinData({
                   name:'اتریوم',
                   symbole:"ETH",
@@ -864,7 +497,7 @@ const EcommerceDashboard2 = () => {
                   color:"#627eea",
                   image:"ethereum.png"
                 })
-                SetAdData(EthereumAddress(response.data, document.getElementById("transactionValue").value))
+                SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data.result, hash, 'BTC', 1000000000000000000)))
                 SetMode(2)
               } catch (error) {
                 console.log(error)
@@ -873,57 +506,10 @@ const EcommerceDashboard2 = () => {
                   position: 'bottom-left'
                 })
               }
-            })
-            .catch((err) => {
-              SetLoading(false)
-              try {
-                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                  Cookies.set('refresh', '')
-                  Cookies.set('access', '')
-                  window.location.assign('/')
-                }
-              } catch (error) {}
-            })
           } else if (addressMode.data.network === 'LTC') {
-            axios.get(`${serverAddress}/explorer/address?network=LTC&offset=0&address=${hash}&page_size=50`,
-            {
-              headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`
-              }
-            })
-            .then((response) => {
-              SetLoading(false)
-              try {
-                SetCoinData({
-                  name:'لایت کوین',
-                  symbole:"LTC",
-                  risk:"0%",
-                  owner:"بدون اطلاعات",
-                  ownerMode:"بدون اطلاعات",
-                  website:"بدون اطلاعات",
-                  color:"#345d9d",
-                  image:"LTC.png"
-                })
-                SetAdData(LitecoinAddress(response.data.result, hash))
-                SetMode(2)
-              } catch (error) {
-                console.log(error)
-                SetLoading(false)
-                return toast.error('خطا در دریافت اطلاعات از سرور', {
-                  position: 'bottom-left'
-                })
-              }
-            })
-            .catch((err) => {
-              SetLoading(false)
-              console.log(err)
-              try {
-                if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                  Cookies.set('refresh', '')
-                  Cookies.set('access', '')
-                  window.location.assign('/')
-                }
-              } catch (error) {}
+            SetLoading(false)
+            return toast.error('لایت کوین سرچ نکن!!', {
+              position: 'bottom-left'
             })
           }
         }
@@ -1031,6 +617,7 @@ const EcommerceDashboard2 = () => {
                         <Col xl={{size:3}} lg={{size:2}} md={{size:1}} sm={{size:0}}>
                         </Col>
                     </Row>
+
                     <Row style={{background:'white'}} className=' pt-5 pb-4'>
                         <Col xl={{size:12}} className='pe-4'>
                             <h4 style={{ textAlign:'right'}}>
@@ -1038,21 +625,22 @@ const EcommerceDashboard2 = () => {
                             </h4>
                         </Col>
                     </Row>
+
                     <Row style={{background:'white'}} className='pb-3'>
                         <Col xl='4' md='6' className='ps-4 pe-4'>
-                            <TokenInformation TokenImage={'BTC.png'} TokenTitle={'بیت کوین'} TokenDescription={'بیت‌کوین یک ارز دیجیتال غیرمتمرکز، بدون بانک مرکزی یا مدیر واحد است که می‌تواند بدون نیاز به واسطه از کاربر به کاربر دیگر در شبکه بیت‌کوین همتا به همتا ارسال شود.'}/>
+                            <TokenInformation TokenImage={'https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=026'} TokenTitle={'بیت کوین'} TokenDescription={'بیت‌کوین یک ارز دیجیتال غیرمتمرکز، بدون بانک مرکزی یا مدیر واحد است که می‌تواند بدون نیاز به واسطه از کاربر به کاربر دیگر در شبکه بیت‌کوین همتا به همتا ارسال شود.'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
-                            <TokenInformation TokenImage={'ETH.png'} TokenTitle={'اتریوم'} TokenDescription={'اتریوم یک پلتفرم غیرمتمرکز است که امکان ایجاد و اجرای قراردادهای هوشمند را با ارز دیجیتال بومی خود به نام «اتر» فراهم می‌کند.'}/>
+                            <TokenInformation TokenImage={'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=026'} TokenTitle={'اتریوم'} TokenDescription={'اتریوم یک پلتفرم غیرمتمرکز است که امکان ایجاد و اجرای قراردادهای هوشمند را با ارز دیجیتال بومی خود به نام «اتر» فراهم می‌کند.'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
-                            <TokenInformation TokenImage={'BCH.png'} TokenTitle={'بیت کوین کش'} TokenDescription={'پول نقد الکترونیکی همتا به همتا'}/>
+                            <TokenInformation TokenImage={'https://cryptologos.cc/logos/bitcoin-cash-bch-logo.png?v=026'} TokenTitle={'بیت کوین کش'} TokenDescription={'پول نقد الکترونیکی همتا به همتا'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
-                            <TokenInformation TokenImage={'LTC.png'} TokenTitle={'لایت کوین'} TokenDescription={'لایت کوین یک ارز دیجیتال همتا به همتا است که به عنوان یک نسخه سبک تر از بیت کوین ایجاد شده است و زمان تراکنش سریع تر و الگوریتم هش متفاوت را ارائه می دهد.'}/>
+                            <TokenInformation TokenImage={'https://cryptologos.cc/logos/litecoin-ltc-logo.png?v=026'} TokenTitle={'لایت کوین'} TokenDescription={'لایت کوین یک ارز دیجیتال همتا به همتا است که به عنوان یک نسخه سبک تر از بیت کوین ایجاد شده است و زمان تراکنش سریع تر و الگوریتم هش متفاوت را ارائه می دهد.'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
-                            <TokenInformation TokenImage={'BNB.png'} TokenTitle={'بایننس اسمارت چین'} TokenDescription={'BSC یا زنجیره هوشمند بایننس یک پلتفرم بلاک چین است که توسط صرافی بایننس برای ایجاد و اجرای قراردادهای هوشمند ساخته شده است که اغلب به دلیل تراکنش های سریع و کارمزدهای پایین تر در مقایسه با اتریوم شناخته می شود.'}/>
+                            <TokenInformation TokenImage={'https://cryptologos.cc/logos/bnb-bnb-logo.png?v=026'} TokenTitle={'بایننس اسمارت چین'} TokenDescription={'BSC یا زنجیره هوشمند بایننس یک پلتفرم بلاک چین است که توسط صرافی بایننس برای ایجاد و اجرای قراردادهای هوشمند ساخته شده است که اغلب به دلیل تراکنش های سریع و کارمزدهای پایین تر در مقایسه با اتریوم شناخته می شود.'}/>
                         </Col>
                     </Row>
                 </Col>

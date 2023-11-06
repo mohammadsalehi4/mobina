@@ -382,7 +382,7 @@ const  WalletDetailTableBottom = (props) => {
       previousLinkClassName='page-link'
       nextClassName='page-item next-item'
       previousClassName='page-item prev-item'
-      pageCount={Math.ceil(data.length / 10) || 1}
+      pageCount={Math.ceil(Filtred.length / 5) || 1}
       onPageChange={page => handlePagination(page)}
       containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-center pe-1 mt-3'
     />
@@ -480,6 +480,8 @@ const  WalletDetailTableBottom = (props) => {
           <DataTable
             noHeader
             columns={columns}
+            pagination
+            paginationPerPage={5}
             className='react-dataTable'
             data={Filtred}
             paginationComponent={CustomPagination}

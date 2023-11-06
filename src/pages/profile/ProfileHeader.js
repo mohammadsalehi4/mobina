@@ -5,7 +5,12 @@ import Cookies from 'js-cookie'
 const ProfileHeader = (props) => {
   return (
     <div className='profile-header mb-2' style={{overflow:'hidden', margin:'0px', padding:'0px', borderRadius:'4px'}}>
-        <CardImg src={"images/header-bg.png"} alt='User Profile Image' top style={{height:'200px', opacity:'1'}} />
+        <div src={"images/header-bg.png"} alt='User Profile Image' top style={{
+            height:'200px', 
+            opacity:'1',
+            background:'rgb(47,79,79)',
+            background:'linear-gradient(120deg, rgba(47,79,79,1) 0%, rgba(73,121,121,1) 48%, rgba(218,165,32,1) 100%)'
+          }} />
         <Navbar container={false} className=' w-100' expand='md' light>
           <div className='container-fluid'>
             <Row className='row' style={{ width:'100%'}}>

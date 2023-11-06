@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 export function UTXOTransaction (array, symbole, decimal) {
+    console.log('array')
     console.log(array)
-    console.log(symbole)
-    console.log(decimal)
     const blockNumber = array.blockNumber
     const fee = array.fee
     const hash = array.hash

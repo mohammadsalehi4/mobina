@@ -51,8 +51,8 @@ const RightDataTableWithButtons = (props) => {
     },
     {
       name: 'آدرس',
-      minWidth: '140px',
-      maxWidth:"140px",
+      minWidth: '200px',
+      maxWidth:"200px",
       selector: row => (
         <div className='d-flex align-items-end ' style={{cursor:"pointer"}}>
           <div className='user-info text-truncate'
@@ -61,18 +61,18 @@ const RightDataTableWithButtons = (props) => {
             document.getElementById('MainSubmitBotton').click()
           }}
           >
-            <NiceAddress text={row.address} number={4}/>
+            <NiceAddress text={row.address} number={6}/>
           </div>
         </div>
       )
     },
-    {
-      name: 'ریسک',
-      sortable: true,
-      minWidth: '80px',
-      maxWidth:'80px',
-      selector: row => digitsEnToFa(row.RiskScore)
-      },
+    // {
+    //   name: 'ریسک',
+    //   sortable: true,
+    //   minWidth: '80px',
+    //   maxWidth:'80px',
+    //   selector: row => digitsEnToFa(row.RiskScore)
+    //   },
       {
       name: `حجم (${props.data.symbole})`,
       sortable: true,
