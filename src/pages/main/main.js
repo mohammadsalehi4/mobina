@@ -58,6 +58,8 @@ const Main = () => {
                       }
                       Cookies.set('roll', response.data.role.role_id)
                       Cookies.set('roll_name', response.data.role.role_name)
+                      Cookies.set('name', response.data.user_firstname)
+                      Cookies.set('lastname', response.data.user_lastname)
                         if (Number(response.data.role.role_id) === 2 || Number(response.data.role.role_id) === 3) {
                             window.location.assign('/researcher')
                         } else if (Number(response.data.role.role_id) === 4) {

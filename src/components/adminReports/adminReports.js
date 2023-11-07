@@ -1,16 +1,25 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import DataTable from 'react-data-table-component'
 import { Card, CardHeader, CardTitle, UncontrolledTooltip } from 'reactstrap'
+import axios from 'axios'
+import { serverAddress } from '../../address'
+import Cookies from 'js-cookie'
+import { useDispatch, useSelector } from 'react-redux'
+import LocalLoading from '../localLoading/localLoading'
 
 const AdminReports = () => {
+  const dispatch = useDispatch()
+  const States = useSelector(state => state)
+
   const columns = [
     {
       name: <p style={{marginTop:"15px", margin:"0px"}}>وضعیت</p>,
-      minWidth: '100px',
-      maxWidth: '100px',
+      minWidth: '80px',
+      maxWidth: '80px',
       cell: row => {
-        if (row.status) {
+        if (row.status === "انتشار یافته") {
           return (
             <>
               <ion-icon id={`reportStatus${row.id}`} style={{fontSize:'24px', color:'green'}} name="checkmark-outline"></ion-icon>
@@ -24,7 +33,7 @@ const AdminReports = () => {
             <>
               <ion-icon id={`reportStatus${row.id}`} style={{fontSize:'24px', color:'orange'}} name="arrow-undo-outline"></ion-icon>
               <UncontrolledTooltip placement='top' target={`reportStatus${row.id}`}>
-                پیش‌نویس
+                پیش نویس
               </UncontrolledTooltip>
             </>
           )
@@ -33,8 +42,8 @@ const AdminReports = () => {
     },
     {
       name: <p style={{marginTop:"15px", margin:"0px"}}>تاریخ انتشار</p>,
-      minWidth: '150px',
-      maxWidth: '150px',
+      minWidth: '250px',
+      maxWidth: '250px',
       selector: row => row.date
     },
     {
@@ -49,8 +58,8 @@ const AdminReports = () => {
     },
     {
       name: <p style={{marginTop:"15px", margin:"0px"}}>نویسنده</p>,
-      minWidth: '180px',
-      maxWidth: '180px',
+      minWidth: '140px',
+      maxWidth: '140px',
       selector: row => row.writer
     },
     {
@@ -75,26 +84,61 @@ const AdminReports = () => {
       )
     }
   ]
-  const data = [
+
+  const [data, SetData] = useState([])
+
+  useEffect(() => {
+    SetData([])
+    axios.get(`${serverAddress}/reports/panel-reports/`, 
     {
-      id:1,
-      status:false,
-      date:'2023-06-14',
-      title:'مروری بر تاریخچه پروژه‌های کلاهبرداری رمز ارزها در ایران',
-      writer:'محمد صالحی'
+      headers: {
+        Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    })
+    .then((response) => {
+      const a = []
+      for (let i = 0; i < response.data.results.length; i++) {
+        a.push(
+          {
+            id:i,
+            status: response.data.results[i].publication_status,
+            date:response.data.results[i].latest_update,
+            title:response.data.results[i].title,
+            writer:response.data.results[i].author
+          }
+        )
+      }
+      SetData(a)
+    })
+    .catch((err) => {
+      console.log(err)
     }
-  ]
+  )
+  }, [, States.beLoad])
+
   return (
     <Card className='overflow-hidden mt-4' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader>
-        <CardTitle tag='h6' style={{width:'100%'}}>لیست گزارش‌‌ها</CardTitle>
+        <CardTitle tag='h6' style={{width:'100%'}}>
+          لیست گزارش‌‌ها
+          <ion-icon size={18} onClick={ () => { 
+              dispatch({type:"beLoad", value:!(States.beLoad)})
+            }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>  
+        </CardTitle>
+        
       </CardHeader>
-      <DataTable
-        noHeader
-        columns={columns}
-        className='react-dataTable'
-        data={data}
-      />
+      {
+        data.length > 0 ?
+        <DataTable
+          noHeader
+          columns={columns}
+          className='react-dataTable'
+          data={data}
+        />
+      :
+      <LocalLoading/>
+      }
+
     </Card >
   )
 }

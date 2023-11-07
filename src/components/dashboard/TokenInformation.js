@@ -14,8 +14,8 @@ const TokenInformation = (props) => {
             </CardText>
           </CardBody>
           <CardBody style={{textAlign:'left', position:'absolute', left:'0px', bottom:'0px'}} className='m-0'>
-            <Alert color='primary' style={{display:'inline-block'}}>
-                در حال توسعه
+            <Alert color={props.color1} style={{display:'inline-block'}}>
+                {props.status}
             </Alert>
           </CardBody>
         </Card>

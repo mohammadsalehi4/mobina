@@ -147,8 +147,8 @@ const DropDown = () => {
                     </svg>
                 </div>
                 <div className='col-9'>
-                    <span style={{fontSize:'14px'}}>نام و نام خانوادگی </span><br/>
-                    <span style={{fontSize:'12px'}}>ادمین سیستم</span>
+                    <span style={{fontSize:'14px'}}>{Cookies.get('name')} {Cookies.get('lastname')}</span><br/>
+                    <span style={{fontSize:'12px'}}>{Cookies.get('roll_name')}</span>
                 </div>
             </div>
         </li>
