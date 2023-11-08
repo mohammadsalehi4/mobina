@@ -39,7 +39,7 @@ const EcommerceDashboard2 = () => {
   const [Loading, SetLoading] = useState(false)
   const [address, SetAddress] = useState('0x62Dece3416741fcEECA25A50A584a37037eadc04')
   const [coinData, SetCoinData] = useState({})
-
+  const [labelData, SetLabelData] = useState({})
   const UTXOAdd =(getData) => {
     let data=[]
     for (let i=0; i<getData.inputs.length; i++) {
@@ -473,6 +473,18 @@ const EcommerceDashboard2 = () => {
                 color:"#f8a23a",
                 image:"bitcoin.png"
               })
+              let labelText = null
+              let labelId = null
+              if (addressMode.data.data.labels_tags.labels.length > 0) {
+                labelText = addressMode.data.data.labels_tags.labels[0].label
+                labelId = addressMode.data.data.labels_tags.labels[0].id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
               SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data.result, hash, 'BTC', 100000000)))
               SetMode(2)
               SetLoading(false)
@@ -659,8 +671,9 @@ const EcommerceDashboard2 = () => {
             {
                 mode === 1 ? <TransactionDetail data={trData}/> : null
             }
+            
             {
-                mode === 2 ? <Walletdetail data={adData} address={address} coinData={coinData}/> : null
+                mode === 2 ? <Walletdetail labelData={labelData} data={adData} address={address} coinData={coinData}/> : null
             }
             </Col>
             <Col class="col-lg-2">

@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-template */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 import NiceAddress2 from '../../../components/niceAddress2/niceAddress'
+import { serverAddress } from '../../../address'
+import axios from 'axios'
 import './walletdetail.css'
 import {
   Card,
@@ -12,6 +15,9 @@ import {
   CardBody
 } from 'reactstrap'
 import { MainSiteOrange, MainSiteyellow } from '../../../../public/colors'
+import Cookies from 'js-cookie'
+import toast from 'react-hot-toast'
+import { RecognizeNetwork } from '../../../processors/recognizeNetwork'
 
 const CardContentTypes = (props) => {
   //barchasb ha
@@ -19,6 +25,8 @@ const CardContentTypes = (props) => {
   const [ownerText, setOwnerText] = useState('')
   const [addressMark, SetAddressMark] = useState(false)
   const [addressText, SetAddressText] = useState('')
+  const [addressId, SetAddressId] = useState('')
+  const [Loading, SetLoading] = useState(false)
 
   //tag
   const [TagValues, setTagValues] = useState([])
@@ -31,16 +39,70 @@ const CardContentTypes = (props) => {
     }
   }
 
-  //set address mark
+  // Label
   const getAddressMark = () => {
     if (addressMark) {
-      SetAddressMark(false)
-      SetAddressText('')
+      axios.delete(serverAddress + `/address-labels/label/${addressId}/`, 
+      {
+        headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      }
+      )
+      .then((response) => {
+        if (Number(response.status) >= 200 && Number(response.status) < 300) {
+          SetAddressMark(false)
+          SetAddressText('')
+          SetAddressId('')
+        } else {
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        return toast.error('خطا در پردازش', {
+          position: 'bottom-left'
+        })
+      })
     } else {
       const userInput = prompt('برچسب مورد نظر را وارد کنید:')
       if (userInput) {
-        SetAddressMark(true)
-        SetAddressText(userInput)
+        axios.post(serverAddress + "/address-labels/label/", 
+        {
+          items:[
+            {
+              address: props.data.address,
+              label: userInput,
+              // network need set
+              network:1
+            }
+          ]
+        },
+        {
+          headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`
+          }
+        }
+        )
+        .then((response) => {
+          if (Number(response.status) >= 200 && Number(response.status) < 300) {
+            SetAddressMark(true)
+            SetAddressText(userInput)
+            SetAddressId(response.data[0].id)
+          } else {
+            return toast.error('خطا در پردازش', {
+              position: 'bottom-left'
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        })
       }
     }
   }
@@ -59,8 +121,22 @@ const CardContentTypes = (props) => {
     }
   }
 
+  //show label
+  useEffect(() => {
+    const labelText = props.labelData.labelText
+    const labelId = props.labelData.labelId
+    console.log(props.labelData)
+    if (labelText !== null && labelId !== null) {
+      SetAddressMark(true)
+      SetAddressText(labelText)
+      SetAddressId(labelId)
+    }
+  }, [, props.labelData])
+
+
   const renderTransactions = () => {
     return (
+
       <div className='rightCard1 m-0'>
         <div className='row mt-3'>
           <div style={{float:"right"}} className='col-12'>
@@ -104,8 +180,6 @@ const CardContentTypes = (props) => {
             }
 
           </div>
-
-
         </div>
         
         <div className='row mt-3'>
@@ -179,7 +253,9 @@ const CardContentTypes = (props) => {
     )
   }
 
+
   return (
+
     <Card className='card-transaction' id='rightCard1' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
         <CardTitle tag='h4' style={{width:"100%", boxSizing:"border-box"}} >

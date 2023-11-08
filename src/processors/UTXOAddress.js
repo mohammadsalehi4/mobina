@@ -8,7 +8,6 @@ export function UTXOAddress (array, address, symbole, decimal) {
 
     let isError = false
     let ErrorText = ''
-
     try {
         for (let i = 0; i < array.length; i++) {
             let inputValue = 0
