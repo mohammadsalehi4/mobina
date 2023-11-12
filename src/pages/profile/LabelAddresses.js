@@ -1,177 +1,108 @@
+/* eslint-disable multiline-ternary */
+/* eslint-disable prefer-template */
+/* eslint-disable object-shorthand */
+/* eslint-disable space-infix-ops */
 /* eslint-disable no-unused-vars */
-// ** Reactstrap Imports
-import AvatarGroup from '@components/avatar-group'
-import react from '@src/assets/images/icons/react.svg'
-import vuejs from '@src/assets/images/icons/vuejs.svg'
-import angular from '@src/assets/images/icons/angular.svg'
-import bootstrap from '@src/assets/images/icons/bootstrap.svg'
-import avatar1 from '@src/assets/images/portrait/small/avatar-s-5.jpg'
-import avatar2 from '@src/assets/images/portrait/small/avatar-s-6.jpg'
-import avatar3 from '@src/assets/images/portrait/small/avatar-s-7.jpg'
-import { MoreVertical, Edit, Trash } from 'react-feather'
-import { Table, Badge, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle, Card } from 'reactstrap'
-
-const avatarGroupData1 = [
+import { ChevronDown } from 'react-feather'
+import DataTable from 'react-data-table-component'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Card, CardHeader, CardTitle } from 'reactstrap'
+import { serverAddress } from '../../address'
+import Cookies from 'js-cookie'
+import { RecognizeNetwork } from '../../processors/recognizeNetwork'
+import NiceAddress from '../../components/niceAddress/niceAddress'
+const basicColumns = [
   {
-    title: 'Gretchen',
-    img: avatar1,
-    imgHeight: 26,
-    imgWidth: 26
+    name: 'آدرس',
+    sortable: true,
+    maxWidth: '200px',
+    minWidth: '200px',
+    selector: row => (<NiceAddress text={row.address} number={6}/>)
   },
   {
-    title: 'Hunter',
-    img: avatar2,
-    imgHeight: 26,
-    imgWidth: 26
+    name: 'برچسب',
+    sortable: true,
+    maxWidth: '130px',
+    minWidth: '130px',
+    selector: row => row.label
   },
   {
-    title: 'Allistair',
-    img: avatar3,
-    imgHeight: 26,
-    imgWidth: 26
+    name: 'شبکه',
+    sortable: true,
+    maxWidth: '130px',
+    minWidth: '130px',
+    selector: row => (row.network)
+  },
+  {
+    name: 'نوع',
+    sortable: true,
+    maxWidth: '130px',
+    minWidth: '130px',
+    cell: row => {
+      if (row.is_wallet) {
+        return ('آدرس کیف پول')
+      } else {
+        return ('هش تراکنش')
+      }
+    }
   }
 ]
 
-const avatarGroupData2 = [
-  {
-    title: 'Macy',
-    img: avatar1,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Eve',
-    img: avatar2,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Damian',
-    img: avatar3,
-    imgHeight: 26,
-    imgWidth: 26
-  }
-]
-
-const avatarGroupData3 = [
-  {
-    title: 'Jade',
-    img: avatar1,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Destiny',
-    img: avatar2,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Cade',
-    img: avatar3,
-    imgHeight: 26,
-    imgWidth: 26
-  }
-]
-
-const avatarGroupData4 = [
-  {
-    title: 'Bruno',
-    img: avatar1,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Griffin',
-    img: avatar2,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Anthony',
-    img: avatar3,
-    imgHeight: 26,
-    imgWidth: 26
-  }
-]
 
 const LabelAddresses = () => {
-      return (
-        <Card className='post'>            
-          <div>
-              <h6 className='mt-3 pe-3 pt-2 pb-2'>
-                آدرس های لیبل زده شده
-              </h6>
-          </div>
-          <Table striped responsive className='profileTables'>
-            <thead>
-              <tr>
-                <th className='profileTables'>Project</th>
-                <th className='profileTables'>Client</th>
-                <th className='profileTables'>Users</th>
-                <th className='profileTables'>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span className='align-middle fw-bold'>Angular Project</span>
-                </td>
-                <td>Peter Charles</td>
-                <td>
-                  <AvatarGroup data={avatarGroupData1} />
-                </td>
-                <td>
-                  <Badge pill color='light-primary' className='me-1'>
-                    Active
-                  </Badge>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span className='align-middle fw-bold'>React Project</span>
-                </td>
-                <td>Ronald Frest</td>
-                <td>
-                  <AvatarGroup data={avatarGroupData2} />
-                </td>
-                <td>
-                  <Badge pill color='light-success' className='me-1'>
-                    Completed
-                  </Badge>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span className='align-middle fw-bold'>Vuejs Project</span>
-                </td>
-                <td>Jack Obes</td>
-                <td>
-                  <AvatarGroup data={avatarGroupData3} />
-                </td>
-                <td>
-                  <Badge pill color='light-info' className='me-1'>
-                    Scheduled
-                  </Badge>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span className='align-middle fw-bold'>Bootstrap Project</span>
-                </td>
-                <td>Jerry Milton</td>
-                <td>
-                  <AvatarGroup data={avatarGroupData4} />
-                </td>
-                <td>
-                  <Badge pill color='light-warning' className='me-1'>
-                    Pending
-                  </Badge>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </Card>
-      )
+  const [data, SetData] = useState([])
+  const [isEmpty, SetIsEmpty] = useState(false)
+  useEffect(() => {
+    axios.get(`${serverAddress}/address-labels/label`,
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    })
+    .then((response) => {
+      const getResults = []
+      if (response.data.results.length === 0) {
+        SetIsEmpty(true)
+      } else {
+        SetIsEmpty(false)
+      }
+      for (let i = 0; i < response.data.results.length; i++) {
+        getResults.push({
+          network:RecognizeNetwork(response.data.results[i].network),
+          address:response.data.results[i].address,
+          label:response.data.results[i].label,
+          is_wallet:response.data.results[i].is_wallet
+        })
+      }
+      SetData(getResults)
+    })
+    .catch((err) => {
+
+    })
+  }, [])
+
+  return (
+    <Card className='post'> 
+      <div>
+        <h6 className='mt-3 pe-3 pt-2 pb-2'>
+          برچسب های ذخیره شده
+        </h6>
+      </div>   
+      {
+        !isEmpty ? 
+          <DataTable
+            noHeader
+            data={data}
+            columns={basicColumns}
+            className='react-dataTable'
+            sortIcon={<ChevronDown size={10} />}
+          />
+      :
+      <p style={{textAlign:'center'}}>بدون تگ ذخیره شده</p>
+      }        
+
+    </Card>
+  )
 }
 export default LabelAddresses

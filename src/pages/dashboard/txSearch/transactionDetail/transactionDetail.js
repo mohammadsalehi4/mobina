@@ -14,7 +14,7 @@ const TransactionDetail = (props) => {
     <div id='TransactionDetail' class="container-fluid vazir">
         <div class="row vazir">
             <div className='col-lg-6 mt-2'>
-              <CardContentTypes data={props.data}/>
+              <CardContentTypes data={props.data} labelData={props.labelData} TagData={props.TagData}/>
             </div>
             <div className='col-lg-6 mt-2'>
               <CardTransactions data={props.data}/>

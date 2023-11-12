@@ -554,7 +554,7 @@ const FuckingGraph = () => {
         dispatch({type:"SETshowWalletData", value:false})
         dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
       }
-  });
+    });
 
     network.moveTo({scale:(States.Scale), position:{x:States.positionX, y:States.positionY}});
     
@@ -593,19 +593,32 @@ const FuckingGraph = () => {
           }
           dispatch({type:"NodesPosition", value:NewPositions})
       }
-  });
-
-  var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
-  for (var nodeId in positions) {
-    if (positions.hasOwnProperty(nodeId)) {
-      var position = positions[nodeId];
-      console.log(`${nodeId}: x=${position.x}, y=${position.y}`);
-    }
-  }
+    });
 
     SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
 
-  }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar])
+    // //save positions
+    // var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
+    // const AllPositions = []
+    // for (var nodeId in positions) {
+    //   if (nodes.get(nodeId).group === 'main') {
+    //     if (positions.hasOwnProperty(nodeId)) {
+    //       var position = positions[nodeId];
+    //       const SetPosition = {
+    //         id : nodeId,
+    //         x : position.x,
+    //         y : position.y
+    //       }
+    //       AllPositions.push(SetPosition)
+    //       SetNewPositions(AllPositions)
+    //       console.log('NewPositions')
+    //       console.log(NewPositions)
+    //       dispatch({type:"NodesPosition", value:NewPositions})
+    //     }
+    //   }
+    // }
+
+  }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.MotherFucker])
 
   return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%", transition:'0.3s' }}></div>
 }

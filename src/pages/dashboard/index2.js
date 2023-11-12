@@ -40,6 +40,8 @@ const EcommerceDashboard2 = () => {
   const [address, SetAddress] = useState('0x62Dece3416741fcEECA25A50A584a37037eadc04')
   const [coinData, SetCoinData] = useState({})
   const [labelData, SetLabelData] = useState({})
+  const [TagData, SetTagData] = useState({})
+  
   const UTXOAdd =(getData) => {
     let data=[]
     for (let i=0; i<getData.inputs.length; i++) {
@@ -433,6 +435,43 @@ const EcommerceDashboard2 = () => {
           if (addressMode.data.network === 'BTC') {
             try {
               SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'BTC', 100000000)))
+              
+              //labels
+              let labelText = null
+              let labelId = null
+              if (addressMode.data.data.label_tag.labels.length > 0) {
+                labelText = addressMode.data.data.label_tag.labels[0].label
+                labelId = addressMode.data.data.label_tag.labels[0].id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (addressMode.data.data.label_tag.tags.length > 0) {
+                isTag = true
+                for (let i = 0; i < addressMode.data.data.label_tag.tags.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:addressMode.data.data.label_tag.tags[i].tag,
+                      tagId:addressMode.data.data.label_tag.tags[i].id
+                    }
+                  )
+                }
+              }
+
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+
               SetMode(1)
               SetLoading(false)
             } catch (error) {
@@ -446,6 +485,43 @@ const EcommerceDashboard2 = () => {
             try {
               // SetTrData
               SetTrData(AccountBaseTr(AccountBaseTransaction(addressMode.data.data, 'ETH', 1000000000000000000)))
+
+              //labels
+              let labelText = null
+              let labelId = null
+              if (addressMode.data.data.label_tag.labels.length > 0) {
+                labelText = addressMode.data.data.label_tag.labels[0].label
+                labelId = addressMode.data.data.label_tag.labels[0].id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (addressMode.data.data.label_tag.tags.length > 0) {
+                isTag = true
+                for (let i = 0; i < addressMode.data.data.label_tag.tags.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:addressMode.data.data.label_tag.tags[i].tag,
+                      tagId:addressMode.data.data.label_tag.tags[i].id
+                    }
+                  )
+                }
+              }
+
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+
               SetMode(1)
             } catch (error) {
               console.log(error)
@@ -473,6 +549,8 @@ const EcommerceDashboard2 = () => {
                 color:"#f8a23a",
                 image:"bitcoin.png"
               })
+
+              //labels
               let labelText = null
               let labelId = null
               if (addressMode.data.data.labels_tags.labels.length > 0) {
@@ -485,6 +563,28 @@ const EcommerceDashboard2 = () => {
                   labelId
                 }
               )
+
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (addressMode.data.data.labels_tags.tags.length > 0) {
+                isTag = true
+                for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                      tagId:addressMode.data.data.labels_tags.tags[i].id
+                    }
+                  )
+                }
+              }
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+
               SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data.result, hash, 'BTC', 100000000)))
               SetMode(2)
               SetLoading(false)
@@ -508,7 +608,42 @@ const EcommerceDashboard2 = () => {
                   website:"بدون اطلاعات",
                   color:"#627eea",
                   image:"ethereum.png"
-                })
+              })
+
+              //labels
+              let labelText = null
+              let labelId = null
+              if (addressMode.data.data.labels_tags.labels.length > 0) {
+                labelText = addressMode.data.data.labels_tags.labels[0].label
+                labelId = addressMode.data.data.labels_tags.labels[0].id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (addressMode.data.data.labels_tags.tags.length > 0) {
+                isTag = true
+                for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                      tagId:addressMode.data.data.labels_tags.tags[i].id
+                    }
+                  )
+                }
+              }
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
                 SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data.result, hash, 'BTC', 1000000000000000000)))
                 SetMode(2)
               } catch (error) {
@@ -669,11 +804,11 @@ const EcommerceDashboard2 = () => {
             </Col>
             <Col xl={{size:8}} lg={{size:10}} md={{size:10}} sm={{size:12}} class="col-lg-8 p-0">
             {
-                mode === 1 ? <TransactionDetail data={trData}/> : null
+                mode === 1 ? <TransactionDetail data={trData} labelData={labelData} TagData={TagData}/> : null
             }
             
             {
-                mode === 2 ? <Walletdetail labelData={labelData} data={adData} address={address} coinData={coinData}/> : null
+                mode === 2 ? <Walletdetail labelData={labelData} TagData={TagData} data={adData} address={address} coinData={coinData}/> : null
             }
             </Col>
             <Col class="col-lg-2">

@@ -21,22 +21,94 @@ import { RecognizeNetwork } from '../../../processors/recognizeNetwork'
 
 const CardContentTypes = (props) => {
   //barchasb ha
-  const [ownerMark, setOwnerMark] = useState(false)
-  const [ownerText, setOwnerText] = useState('')
   const [addressMark, SetAddressMark] = useState(false)
   const [addressText, SetAddressText] = useState('')
   const [addressId, SetAddressId] = useState('')
-  const [Loading, SetLoading] = useState(false)
 
   //tag
   const [TagValues, setTagValues] = useState([])
+  const [TagId, setTagId] = useState([])
 
   //add new tag
   const GetTag = () => {
     const userInput = prompt('تگ مورد نظر را وارد کنید:')
     if (userInput) {
-      setTagValues(prevTags => [...prevTags, userInput])
+      axios.post(serverAddress + "/address-labels/tag/", 
+      {
+        items:[
+          {
+            address: props.data.address,
+            tag: userInput,
+            // network need set
+            network:RecognizeNetwork(props.data.name)
+          }
+        ]
+      },
+      {
+        headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      }
+      )
+      .then((response) => {
+        if (Number(response.status) >= 200 && Number(response.status) < 300) {
+          setTagValues(prevTags => [...prevTags, userInput])
+          setTagId(prevTags => [
+            ...prevTags, 
+            {
+              tagText:userInput,
+              tagId:response.data[0].id
+            }
+          ])
+        } else {
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        return toast.error('خطا در پردازش', {
+          position: 'bottom-left'
+        })
+      })
     }
+  }
+
+  //delete tag
+  const DeleteTag = (name) => {
+
+    let getTagValues = TagValues
+    let getTagId = TagId
+    
+    const thisTag = getTagId.filter(element => element.tagText === name)[0]
+    axios.delete(serverAddress + `/address-labels/tag/${thisTag.tagId}/`, 
+    {
+      headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    }
+    )
+    .then((response) => {
+      if (Number(response.status) >= 200 && Number(response.status) < 300) {
+
+        getTagValues = getTagValues.filter(element => element !== name)
+        getTagId = getTagId.filter(element => element.tagText !== name)
+    
+        setTagValues(getTagValues)
+        setTagId(getTagId)
+      } else {
+        return toast.error('خطا در پردازش', {
+          position: 'bottom-left'
+        })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      return toast.error('خطا در پردازش', {
+        position: 'bottom-left'
+      })
+    })
   }
 
   // Label
@@ -76,7 +148,7 @@ const CardContentTypes = (props) => {
               address: props.data.address,
               label: userInput,
               // network need set
-              network:1
+              network:RecognizeNetwork(props.data.name)
             }
           ]
         },
@@ -107,31 +179,24 @@ const CardContentTypes = (props) => {
     }
   }
 
-  //set owner mark
-  const getOwnerMark = () => {
-    if (ownerMark) {
-      setOwnerMark(false)
-      setOwnerText('')
-    } else {
-      const userInput = prompt('برچسب مورد نظر را وارد کنید:')
-      if (userInput) {
-        setOwnerMark(true)
-        setOwnerText(userInput)
-      }
-    }
-  }
-
   //show label
   useEffect(() => {
     const labelText = props.labelData.labelText
     const labelId = props.labelData.labelId
-    console.log(props.labelData)
     if (labelText !== null && labelId !== null) {
       SetAddressMark(true)
       SetAddressText(labelText)
       SetAddressId(labelId)
     }
-  }, [, props.labelData])
+
+    const TagData = props.TagData
+    if (TagData.isTag) {
+      for (let i = 0; i < TagData.TagInfo.length; i++) {
+        setTagValues(prevTags => [...prevTags, TagData.TagInfo[i].tagText])
+        setTagId(prevTags => [...prevTags, TagData.TagInfo[i]])
+      }
+    }
+  }, [, props.labelData, props.TagData])
 
 
   const renderTransactions = () => {
@@ -158,21 +223,21 @@ const CardContentTypes = (props) => {
                 TagValues.map((item, index) => {
                   return (
                     index === 0 ?
-                      <div style={{display:"inline-block"}}>
+                      <div style={{display:"inline-block", float:'right'}} onClick={ () => { DeleteTag(item) } }>
                         <div style={{display:"inline-block", marginRight:"0px", cursor:"pointer"}} id={`tag` + index}>
                           <small style={{background:"rgb(248,248,248)", padding:"1px 5px", borderRadius:"5px"}}><ion-icon style={{marginBottom:"-2px"}} name="ticket-outline"></ion-icon> {item}</small>
                         </div>
                         <UncontrolledTooltip placement='top' target={`tag` + index}>
-                          در نسخه دمو قابل انجام نیست!
+                          حذف تگ
                         </UncontrolledTooltip>
                       </div>
                     :
-                      <div style={{display:"inline-block"}}>
+                      <div style={{display:"inline-block", float:'right'}} onClick={ () => { DeleteTag(item) } }>
                         <div style={{display:"inline-block", marginRight:"5px", cursor:"pointer"}} id={`tag` + index}>
                           <small style={{background:"rgb(248,248,248)", padding:"1px 5px", borderRadius:"5px"}}><ion-icon style={{marginBottom:"-2px"}} name="ticket-outline"></ion-icon> {item}</small>
                         </div>
                         <UncontrolledTooltip placement='top' target={`tag` + index}>
-                          در نسخه دمو قابل انجام نیست!
+                          حذف تگ
                         </UncontrolledTooltip>
                       </div>
                   )
@@ -185,23 +250,6 @@ const CardContentTypes = (props) => {
         <div className='row mt-3'>
           <div className='col-12' style={{float:"right"}}>
               <h6 style={{display:"inline-block", marginBottom:"5px"}}>مالک:</h6>
-              {
-                !ownerMark ? 
-                  <div style={{display:"inline-block", cursor:"pointer"}} className='me-1'>
-                    <ion-icon id="ownerNameTag021" onClick={() => { getOwnerMark() }} style={{marginBottom:"-4px" }} name="bookmark-outline"></ion-icon>
-                    <UncontrolledTooltip placement='left' target='ownerNameTag021'>
-                          افزودن نام مالک
-                    </UncontrolledTooltip>
-                  </div>
-                :
-                  <div style={{display:"inline-block"}} className='me-2'>
-                    <ion-icon  id="ownerDeleteNameTag021" onClick={() => { getOwnerMark() }} style={{marginBottom:"-4px", color:MainSiteOrange}} name="bookmark"></ion-icon>
-                    <small style={{background:MainSiteyellow, fontSize:"10px", padding:"0px 3px", borderRadius:"5px"}}>{ownerText}</small>
-                    <UncontrolledTooltip placement='left' target='ownerDeleteNameTag021'>
-                          حذف نام مالک
-                    </UncontrolledTooltip>
-                  </div>
-              }
             <div style={{textAlign:"left", float:"left"}}>
               <span style={{}}>
                 {props.data.owner}
