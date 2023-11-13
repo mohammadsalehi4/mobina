@@ -1,7 +1,8 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable array-bracket-spacing */
 /* eslint-disable comma-spacing */
 /* eslint-disable no-unused-vars */
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 import './tracker.css'
@@ -11,6 +12,7 @@ import SelectReact from '../../views/forms/form-elements/select/SelectReact'
 import CardAction from '@components/card-actions'
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector, useDispatch } from "react-redux"
+
 
 // ** Custom Components
 import Breadcrumbs from '@components/breadcrumbs'
@@ -30,11 +32,17 @@ const colourOptions = [
   { value: 'IRR', label: 'IRR' }
 ]
 
-const VisualizationDetail = () => {
+const VisualizationDetail = (props) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
   
-  const [ used , SetUsed] = useState(18)
+  const [ Address , SetAddress] = useState(false)
+
+  useEffect(() => {
+    if (props.hash !== undefined) {
+      SetAddress(props.hash)
+    } else { SetAddress(false) }
+  }, [,props.hash])
   return (
     <div id="visualizationDetail">
     <Fragment>
@@ -46,7 +54,12 @@ const VisualizationDetail = () => {
               <div className='row'>
                 <div className='col-md-12'>
                   <p style={{display:"inline-block", marginLeft:"20px"}}>آدرس </p>
-                  <NiceAddress2 text={"bc1qt96tjcgx4evjhklg2g7829lp2wxwvuv8r4dljz"} number={8}/>
+                  {
+                    !Address ? 
+                       <span >بدون آدرس</span>
+                      :
+                      <NiceAddress2 text={Address} number={6}/>
+                  }
                 </div>
                 <hr/>
               </div>

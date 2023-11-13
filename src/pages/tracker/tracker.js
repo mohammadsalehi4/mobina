@@ -517,7 +517,6 @@ const Tracker = () => {
             })
         }
     }, [])
-
     return (
         <UILoader blocking={Loading} loader={<Spinner />}>
             <div id='TransactionPage'>
@@ -540,7 +539,7 @@ const Tracker = () => {
                 {
                     States.showTransactionData ? <TransactionDetail1/> : null
                 }
-                <VisualizationDetail/>
+                <VisualizationDetail hash={hash}/>
                 <Guide/>
             </div>
         </UILoader>

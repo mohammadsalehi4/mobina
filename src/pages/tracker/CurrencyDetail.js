@@ -30,12 +30,10 @@ const CurrencyDetail = () => {
   const close = () => {
     dispatch({type:"SETshowWalletData", value:false})
   }
-
   const [Loading1, SetLoading] = useState(true)
   const [Data, SetData] = useState({})
 
   const AccountBaseAdd = (getData) => {
-    console.log(getData)
 
     const inputs=[]
     const outputs=[]
@@ -66,14 +64,6 @@ const CurrencyDetail = () => {
       })
     }
     
-    console.log(
-      {
-        symbole:'ETH',
-        inputs,
-        outputs
-      }
-    )
-
     return {
       symbole:'ETH',
       inputs,

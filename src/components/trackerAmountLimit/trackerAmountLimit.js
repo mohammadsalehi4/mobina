@@ -81,8 +81,7 @@ const TrackerAmountLimit = (props) => {
 
   const [optionChecked, SetoptionChecked] = useState(0)
   useEffect(() => {
-    console.log('States.All_Input_Output')
-    console.log(States.All_Input_Output)
+
     if (Number(States.All_Input_Output) === 0) {
       SetoptionChecked(0)
     } else if (Number(States.All_Input_Output) === 1) {

@@ -83,7 +83,6 @@ const  WalletDetailTableBottom = (props) => {
 
   //add new node to graph
   const addSelectedData = (row) => {
-    console.log(row)
     const getGraph = States.GraphData
       // ------------------------------------BUG------------------------------------
       if (row.mode === 'in') {
@@ -184,7 +183,6 @@ const  WalletDetailTableBottom = (props) => {
 
   function removeSelectedData(value) {
     const getGraph = States.GraphData
-    console.log(value)
     for (let i = 0; i < getGraph.length; i++) {
       if (getGraph[i].address === props.address) {
         if (value.mode === 'in') {
@@ -434,8 +432,7 @@ const  WalletDetailTableBottom = (props) => {
 
     //max time
     const filtredData4 = []
-    console.log('States.endFilterTime')
-    console.log(States.EndFilterTime)
+
     if (States.EndFilterTime > 0) {
       for (let i = 0; i < filtredData3.length; i++) {
         console.log(filtredData3[i].date * 1000)
@@ -468,8 +465,6 @@ const  WalletDetailTableBottom = (props) => {
         filtredData5.push(filtredData4[i])
       }
     }
-    console.log('filtredData5')
-    console.log(filtredData5)
     SetFiltred(filtredData5)
   }, [ ,data,States.StartFilterAmount, States.EndFilterAmount, States.StartFilterTime, States.EndFilterTime, States.All_Input_Output])
 
