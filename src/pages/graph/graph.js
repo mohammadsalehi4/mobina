@@ -116,8 +116,8 @@ const FuckingGraph = () => {
   const [SavedPositions, SetSavedPositions] = useState([])
   
   useEffect(() => {
-    console.log('SavedPositions')
-    console.log(SavedPositions)
+
+    //set nodes data
     if (States.GraphData.length > 0) {
       let AllNodes = []
       for (let i = 0; i < States.GraphData.length; i++) {
@@ -303,7 +303,7 @@ const FuckingGraph = () => {
       SetGraphData(AllNodes)
       SetSavedPositions(AllNodes)
     }
-  }, [States.GraphData, States.MotherFucker])
+  }, [States.GraphData, States.BeGraphReload])
 
   useEffect(() => {
     //Nodes
@@ -594,69 +594,63 @@ const FuckingGraph = () => {
       dispatch({type:"Scale", value:(params.scale)})
     })
 
+    //save new position after drag nodes
     network.on("dragEnd", function () {
       var position = network.getViewPosition();
       dispatch({type:"positionX", value:(position.x)})
       dispatch({type:"positionY", value:(position.y)})
     })
-
     network.on("dragEnd", function (params) {
-      var nodeId = params.nodes[0];
-      if (nodeId) {
+      var MyNodeId = params.nodes[0];
+      if (MyNodeId) {
           // گرفتن مختصات جدید گره
-          var newPosition = network.getPositions(nodeId);
-          NewPositions.find(item => item.id === nodeId).x = newPosition[nodeId].x
-          NewPositions.find(item => item.id === nodeId).y = newPosition[nodeId].y
+          var newPosition = network.getPositions(MyNodeId);
+          NewPositions.find(item => item.id === MyNodeId).x = newPosition[MyNodeId].x
+          NewPositions.find(item => item.id === MyNodeId).y = newPosition[MyNodeId].y
           dispatch({type:"NodesPosition", value:NewPositions})
-          dispatch({type:"MotherFucker", value:!States.MotherFucker})
+          dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
 
           var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
           const AllPositions = []
           for (var nodeId in positions) {
-            if (nodes.get(nodeId).group === 'main') {
-              if (positions.hasOwnProperty(nodeId)) {
-                var position = positions[nodeId];
-                const SetPosition = {
-                  id : nodeId,
-                  x : position.x,
-                  y : position.y
-                }
-                AllPositions.push(SetPosition)
-                SetNewPositions(AllPositions)
-                console.log('NewPositions')
-                console.log(NewPositions)
-                dispatch({type:"NodesPosition", value:NewPositions})
+            if (positions.hasOwnProperty(nodeId)) {
+              var position = positions[nodeId];
+              const SetPosition = {
+                id : nodeId,
+                x : position.x,
+                y : position.y
               }
+              AllPositions.push(SetPosition)
+              SetNewPositions(AllPositions)
+              console.log('NewPositions')
+              console.log(NewPositions)
+              dispatch({type:"NodesPosition", value:NewPositions})
             }
           }
       }
     });
 
-    // SetDistance(300 + (100 * Math.abs(LongestColomn() / 4)))
-
     //save positions
     var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
     const AllPositions = []
     for (var nodeId in positions) {
-      if (nodes.get(nodeId).group === 'main') {
-        if (positions.hasOwnProperty(nodeId)) {
-          var position = positions[nodeId];
-          const SetPosition = {
-            id : nodeId,
-            x : position.x,
-            y : position.y
-          }
-          AllPositions.push(SetPosition)
-          SetNewPositions(AllPositions)
-          console.log('NewPositions')
-          console.log(NewPositions)
-          dispatch({type:"NodesPosition", value:NewPositions})
+      if (positions.hasOwnProperty(nodeId)) {
+        var position = positions[nodeId];
+        const SetPosition = {
+          id : nodeId,
+          x : position.x,
+          y : position.y
         }
+        AllPositions.push(SetPosition)
+        SetNewPositions(AllPositions)
+        console.log('NewPositions')
+        console.log(NewPositions)
+        dispatch({type:"NodesPosition", value:NewPositions})
       }
     }
+    console.log(States.NodesPosition)
 
-
-  }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.MotherFucker])
+  }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload])
 
   return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%", transition:'0.3s' }}></div>
 }

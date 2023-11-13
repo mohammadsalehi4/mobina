@@ -131,7 +131,7 @@ const  WalletDetailTableBottom = (props) => {
         }
 
         dispatch({type:"GRAPHDATA", value:getGraph})
-        dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+        dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
       } else if (row.mode === 'out') {
         for (let i = 0; i < getGraph.length; i++) {
           if ((getGraph[i].address).toUpperCase() === (props.address).toUpperCase()) {
@@ -177,7 +177,7 @@ const  WalletDetailTableBottom = (props) => {
           getGraph.push(newNode)
         }
         dispatch({type:"GRAPHDATA", value:getGraph})
-        dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+        dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
       }
   }
 
@@ -197,7 +197,7 @@ const  WalletDetailTableBottom = (props) => {
       }
     }
     dispatch({type:"GRAPHDATA", value:getGraph})
-    dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+    dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
   }
 
   //show all transactions

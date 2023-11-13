@@ -165,7 +165,7 @@ const CurrencyDetail = () => {
     const getGraph = States.GraphData
     const fitredAddress= getGraph.filter(obj => obj.address !== value)
     dispatch({type:"GRAPHDATA", value:fitredAddress})
-    dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+    dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
   }
 
   return (

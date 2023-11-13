@@ -169,10 +169,10 @@ const reducer = (state = initialState, action) => {
         }
     }
 
-    if (action.type === 'MotherFucker') {
+    if (action.type === 'BeGraphReload') {
         return {
             ...state,
-            MotherFucker:action.value
+            BeGraphReload:action.value
         }
     }
 

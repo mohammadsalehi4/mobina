@@ -271,7 +271,7 @@ const TransactionDetail1 = () => {
       getGraph[i].outputs = outputTrs
     }
     dispatch({type:"GRAPHDATA", value:getGraph})
-    dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+    dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
   }
 
   // eslint-disable-next-line no-return-assign

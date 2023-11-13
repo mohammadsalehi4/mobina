@@ -80,7 +80,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
         valueInDollar:(row.amount)
       })
       dispatch({type:"GRAPHDATA", value:getData})
-      dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+      dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
     } else {
       getData.push({
         address: row.address,
@@ -97,7 +97,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
         outputs:[]
       })
       dispatch({type:"GRAPHDATA", value:getData})
-      dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+      dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
     }
   }
 
@@ -127,7 +127,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
 
       getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).inputs = filtredData
       dispatch({type:"GRAPHDATA", value:getData})
-      dispatch({type:"MotherFucker", value:(!(States.MotherFucker))})
+      dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
     }
   }
 
