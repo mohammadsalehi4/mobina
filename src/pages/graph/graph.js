@@ -111,7 +111,7 @@ const FuckingGraph = () => {
   //set Default full data
   const [GraphData, SetGraphData] = useState([])
   const [Distance, SetDistance] = useState(300)
-  const [NewPositions, SetNewPositions] = useState([])
+  const [NewPositions, SetNewPositions] = useState(States.NodesPosition)
 
   const [SavedPositions, SetSavedPositions] = useState([])
   
@@ -669,6 +669,8 @@ const FuckingGraph = () => {
         // }
       }
     });
+
+    console.log()
 
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload])
 

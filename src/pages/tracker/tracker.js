@@ -546,6 +546,7 @@ const Tracker = () => {
                         positionX = response.data.results[i].value.positionX
                         positionY = response.data.results[i].value.positionY
                         NodesPosition = response.data.results[i].value.NodesPosition
+                        console.log(response.data.results[i].value.NodesPosition)
                     }
                 }
                 if (response.data.results.length > 0 && GraphData !== null) {
@@ -570,17 +571,19 @@ const Tracker = () => {
               })
             })
 
-            const GraphData = States.GraphData
-            const Scale = States.Scale
-            const positionX = States.positionX
-            const positionY = States.positionY
-            const NodesPosition = States.NodesPosition
+            // const GraphData = States.GraphData
+            // const Scale = States.Scale
+            // const positionX = States.positionX
+            // const positionY = States.positionY
+            // const NodesPosition = States.NodesPosition
 
-            dispatch({type:"GraphData", value:GraphData})
-            dispatch({type:"Scale", value:Scale})
-            dispatch({type:"positionX", value:positionX})
-            dispatch({type:"positionY", value:positionY})
-            dispatch({type:"NodesPosition", value:NodesPosition})
+            // dispatch({type:"GraphData", value:GraphData})
+            // dispatch({type:"Scale", value:Scale})
+            // dispatch({type:"positionX", value:positionX})
+            // dispatch({type:"positionY", value:positionY})
+            // dispatch({type:"NodesPosition", value:NodesPosition})
+
+            // console.log(States.NodesPosition)
             
         }
     }, [])
