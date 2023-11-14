@@ -1,177 +1,178 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable multiline-ternary */
+/* eslint-disable prefer-template */
+/* eslint-disable object-shorthand */
+/* eslint-disable space-infix-ops */
 /* eslint-disable no-unused-vars */
-// ** Reactstrap Imports
-import AvatarGroup from '@components/avatar-group'
-import react from '@src/assets/images/icons/react.svg'
-import vuejs from '@src/assets/images/icons/vuejs.svg'
-import angular from '@src/assets/images/icons/angular.svg'
-import bootstrap from '@src/assets/images/icons/bootstrap.svg'
-import avatar1 from '@src/assets/images/portrait/small/avatar-s-5.jpg'
-import avatar2 from '@src/assets/images/portrait/small/avatar-s-6.jpg'
-import avatar3 from '@src/assets/images/portrait/small/avatar-s-7.jpg'
-import { MoreVertical, Edit, Trash } from 'react-feather'
-import { Table, Badge, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle, Card } from 'reactstrap'
-
-const avatarGroupData1 = [
-  {
-    title: 'Gretchen',
-    img: avatar1,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Hunter',
-    img: avatar2,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Allistair',
-    img: avatar3,
-    imgHeight: 26,
-    imgWidth: 26
-  }
-]
-
-const avatarGroupData2 = [
-  {
-    title: 'Macy',
-    img: avatar1,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Eve',
-    img: avatar2,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Damian',
-    img: avatar3,
-    imgHeight: 26,
-    imgWidth: 26
-  }
-]
-
-const avatarGroupData3 = [
-  {
-    title: 'Jade',
-    img: avatar1,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Destiny',
-    img: avatar2,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Cade',
-    img: avatar3,
-    imgHeight: 26,
-    imgWidth: 26
-  }
-]
-
-const avatarGroupData4 = [
-  {
-    title: 'Bruno',
-    img: avatar1,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Griffin',
-    img: avatar2,
-    imgHeight: 26,
-    imgWidth: 26
-  },
-  {
-    title: 'Anthony',
-    img: avatar3,
-    imgHeight: 26,
-    imgWidth: 26
-  }
-]
+import { ChevronDown, Trash2 } from 'react-feather'
+import DataTable from 'react-data-table-component'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Card, CardHeader, Input, Modal, ModalBody, ModalFooter, Button} from 'reactstrap'
+import { serverAddress } from '../../address'
+import Cookies from 'js-cookie'
+import { RecognizeNetwork } from '../../processors/recognizeNetwork'
+import NiceAddress from '../../components/niceAddress/niceAddress'
+import toast from 'react-hot-toast'
+import LoadingButton from '../../components/loadinButton/LoadingButton'
 
 const SavedGraph = () => {
-      return (
-        <Card className='post'>
-          <div>
-              <h6 className='mt-3 pe-3 pt-2 pb-2'>
-                گراف های ذخیره شده
-              </h6>
-          </div>
-          <Table striped responsive className='profileTables'>
-            <thead>
-              <tr>
-                <th className='profileTables'>Project</th>
-                <th className='profileTables'>Client</th>
-                <th className='profileTables'>Users</th>
-                <th className='profileTables'>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span className='align-middle fw-bold'>Angular Project</span>
-                </td>
-                <td>Peter Charles</td>
-                <td>
-                  <AvatarGroup data={avatarGroupData1} />
-                </td>
-                <td>
-                  <Badge pill color='light-primary' className='me-1'>
-                    Active
-                  </Badge>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span className='align-middle fw-bold'>React Project</span>
-                </td>
-                <td>Ronald Frest</td>
-                <td>
-                  <AvatarGroup data={avatarGroupData2} />
-                </td>
-                <td>
-                  <Badge pill color='light-success' className='me-1'>
-                    Completed
-                  </Badge>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span className='align-middle fw-bold'>Vuejs Project</span>
-                </td>
-                <td>Jack Obes</td>
-                <td>
-                  <AvatarGroup data={avatarGroupData3} />
-                </td>
-                <td>
-                  <Badge pill color='light-info' className='me-1'>
-                    Scheduled
-                  </Badge>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span className='align-middle fw-bold'>Bootstrap Project</span>
-                </td>
-                <td>Jerry Milton</td>
-                <td>
-                  <AvatarGroup data={avatarGroupData4} />
-                </td>
-                <td>
-                  <Badge pill color='light-warning' className='me-1'>
-                    Pending
-                  </Badge>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </Card>
-      )
+  const [data, SetData] = useState([])
+  const [isEmpty, SetIsEmpty] = useState(false)
+  const [OpenDeleteBox, SetOpenDeleteBox] = useState(false)
+  const [rowId, SetRowId] = useState(0)
+  const [Loading, SetLoading] = useState(false)
+
+  const basicColumns = [
+    {
+      name: 'نام',
+      sortable: true,
+      maxWidth: '130px',
+      minWidth: '130px',
+      selector: row => row.name,
+      cell: row => {
+        return (
+          <a href={`/tracker/loadGraph/${row.id}`} style={{textDecoration:'none', color:'rgb(111,107,125)'}}>{row.name}</a>
+        )
+      }
+    },
+    {
+      name: 'توضیحات',
+      maxWidth: '250px',
+      minWidth: '250px',
+      selector: row => row.description
+    },
+    {
+      name: 'آیتم ها',
+      sortable: true,
+      maxWidth: '100px',
+      minWidth: '100px',
+      selector: row => row.items
+    },
+    {
+      name: 'حذف',
+      maxWidth: '130px',
+      minWidth: '130px',
+      cell: row => {
+        return (
+          <Trash2 onClick={ () => { 
+            SetRowId(row.id),
+            SetOpenDeleteBox(true)
+          } } size={18} style={{cursor:'pointer'}} />
+        )
+      }
+    }
+  ]
+
+  const deleteGraph = (id) => {
+    SetLoading(true)
+    axios.delete(`${serverAddress}/tracing/graph/${id}/`,
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    })
+    .then((response) => {
+      SetLoading(false)
+      if (response.status >= 200 && response.status < 300) {
+        window.location.reload()
+        return toast.success('با موفقیت حذف شد', {
+          position: 'bottom-left'
+        })
+      } else {
+        return toast.error('ناموفق', {
+          position: 'bottom-left'
+        })
+      }
+    })
+    .catch((err) => {
+      SetLoading(false)
+      if (err.response.statusText === 'Unauthorized') {
+          SetLoading(false)
+          return toast.error('ناموفق', {
+              position: 'bottom-left'
+          })
+        } else {
+          SetLoading(false)
+          return toast.error('ناموفق', {
+              position: 'bottom-left'
+          })
+        }
+    })
+  }
+
+  useEffect(() => {
+    axios.get(`${serverAddress}/tracing/graph/`,
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    })
+    .then((response) => {
+      const getResults = []
+      if (response.data.results.length === 0) {
+        SetIsEmpty(true)
+      } else {
+        SetIsEmpty(false)
+      }
+      for (let i = 0; i < response.data.results.length; i++) {
+        getResults.push({
+          name:response.data.results[i].value.GraphName,
+          description:response.data.results[i].value.GraphDescription,
+          items:response.data.results[i].value.itemNumbers,
+          id:response.data.results[i].id
+        })
+      }
+      SetData(getResults)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
+  return (
+    <Card className='post'> 
+      <div>
+        <h6 className='mt-3 pe-3 pt-2 pb-2'>
+          گراف های ذخیره شده
+        </h6>
+      </div> 
+      {
+        data.length > 0 ? 
+          <DataTable
+            noHeader
+            data={data}
+            columns={basicColumns}
+            className='react-dataTable'
+            sortIcon={<ChevronDown size={10} />}
+          />
+        :
+          <p style={{textAlign:'center'}}>بدون گراف ذخیره شده</p>
+      }
+      <Modal
+        isOpen={OpenDeleteBox}
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+      >
+        <ModalBody>
+          <h6>آیا با حذف گراف مورد نظر موافق هستید؟</h6>            
+        </ModalBody>
+        <ModalFooter>
+
+          <Button onClick={ () => { deleteGraph(rowId), SetOpenDeleteBox(false) } } color={'danger'} style={{height:'37px', width:'80px'}}>
+            {
+              Loading ? 
+                <LoadingButton/>
+              :
+              <span>حذف</span>
+            }
+          </Button>
+          <Button onClick={ () => { SetOpenDeleteBox(false) } } color={'warning'} style={{height:'37px', width:'80px'}}>
+            بازگشت
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </Card>
+  )
 }
 export default SavedGraph

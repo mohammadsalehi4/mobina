@@ -29,6 +29,7 @@ import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
 
 const Tracker = () => {
     const { hash } = useParams()
+    const { id } = useParams()
 
     const [Data, SetData] = useState([])
     const [IsShow, SetIsShow] = useState(false)
@@ -452,6 +453,7 @@ const Tracker = () => {
 
     }
 
+    //load new graph
     useEffect(() => {
         if (hash !== undefined) {
             SetLoading(true)
@@ -517,6 +519,72 @@ const Tracker = () => {
             })
         }
     }, [])
+
+    //load saved graph
+    useEffect(() => {
+        if (id !== undefined) {
+            SetLoading(true)
+            axios.get(`${serverAddress}/tracing/graph/`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+                SetLoading(false)
+
+                let GraphData = null
+                let Scale 
+                let positionX 
+                let positionY 
+                let NodesPosition 
+
+                for (let i = 0; i < response.data.results.length; i++) {
+                    if (response.data.results[i].id === Number(id)) {
+                        GraphData = response.data.results[i].value.GraphData
+                        Scale = response.data.results[i].value.Scale
+                        positionX = response.data.results[i].value.positionX
+                        positionY = response.data.results[i].value.positionY
+                        NodesPosition = response.data.results[i].value.NodesPosition
+                    }
+                }
+                if (response.data.results.length > 0 && GraphData !== null) {
+                    dispatch({type:"GraphData", value:GraphData})
+                    dispatch({type:"Scale", value:Scale})
+                    dispatch({type:"positionX", value:positionX})
+                    dispatch({type:"positionY", value:positionY})
+                    dispatch({type:"NodesPosition", value:NodesPosition})
+
+                    SetIsShow(true)
+                } else {
+                    return toast.error('خطا در دریافت اطلاعات', {
+                        position: 'bottom-left'
+                    })
+                }
+            })
+            .catch((err) => {
+                SetLoading(false)
+                console.log(err)
+              return toast.error('خطا در دریافت اطلاعات', {
+                position: 'bottom-left'
+              })
+            })
+
+            const GraphData = States.GraphData
+            const Scale = States.Scale
+            const positionX = States.positionX
+            const positionY = States.positionY
+            const NodesPosition = States.NodesPosition
+
+            dispatch({type:"GraphData", value:GraphData})
+            dispatch({type:"Scale", value:Scale})
+            dispatch({type:"positionX", value:positionX})
+            dispatch({type:"positionY", value:positionY})
+            dispatch({type:"NodesPosition", value:NodesPosition})
+            
+        }
+    }, [])
+
     return (
         <UILoader blocking={Loading} loader={<Spinner />}>
             <div id='TransactionPage'>
@@ -539,6 +607,7 @@ const Tracker = () => {
                 {
                     States.showTransactionData ? <TransactionDetail1/> : null
                 }
+
                 <VisualizationDetail hash={hash}/>
                 <Guide/>
             </div>

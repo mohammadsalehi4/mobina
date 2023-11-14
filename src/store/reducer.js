@@ -189,6 +189,13 @@ const reducer = (state = initialState, action) => {
         }
     }
 
+    if (action.type === 'GraphData') {
+        return {
+            ...state,
+            GraphData:action.value
+        }
+    }
+
     if (action.type === 'LOADINGEFFECT2') {
         return {
             ...state,

@@ -31,6 +31,7 @@ const VisualizationDetail = (props) => {
     const positionX = States.positionX
     const positionY = States.positionY
     const NodesPosition = States.NodesPosition
+    const itemNumbers = States.itemNumbers
     const GraphName = document.getElementById('GraphName').value
     const GraphDescription = document.getElementById('GraphDescription').value
 
@@ -41,13 +42,14 @@ const VisualizationDetail = (props) => {
         axios.post(`${serverAddress}/tracing/graph/`, 
         {
           value:{
+            GraphName,
+            GraphDescription,
+            itemNumbers,
             GraphData,
             Scale,
             positionX,
             positionY,
-            NodesPosition,
-            GraphName,
-            GraphDescription
+            NodesPosition
           }
         },
         {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
