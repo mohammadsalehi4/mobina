@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable multiline-ternary */
 /* eslint-disable array-bracket-spacing */
 /* eslint-disable comma-spacing */
@@ -16,6 +17,7 @@ import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
+import { useParams } from "react-router-dom"
 
 const VisualizationDetail = (props) => {
   const dispatch = useDispatch()
@@ -24,6 +26,7 @@ const VisualizationDetail = (props) => {
   const [ Address , SetAddress] = useState(false)
   const [ OpenSaveBox , SetOpenSaveBox] = useState(false)
   const [ Loading , SetLoading] = useState(false)
+  const { id } = useParams()
 
   const saveGraph = () => {
     const GraphData = States.GraphData
@@ -32,49 +35,41 @@ const VisualizationDetail = (props) => {
     const positionY = States.positionY
     const NodesPosition = States.NodesPosition
     const itemNumbers = States.itemNumbers
-    const GraphName = document.getElementById('GraphName').value
-    const GraphDescription = document.getElementById('GraphDescription').value
+    let GraphName
+    let GraphDescription
 
-    if (GraphName !== '') {
+    if (id === undefined) {
+      GraphName = document.getElementById('GraphName').value
+      GraphDescription = document.getElementById('GraphDescription').value
+    } else {
+      GraphName = props.GraphName
+      GraphDescription = props.GraphDescription
+    }
+
+    if (GraphName !== '' || id !== undefined) {
       if (GraphData.length > 0) {
-        SetLoading(true)
-        //Error Done
-        axios.post(`${serverAddress}/tracing/graph/`, 
-        {
-          value:{
-            GraphName,
-            GraphDescription,
-            itemNumbers,
-            GraphData,
-            Scale,
-            positionX,
-            positionY,
-            NodesPosition
-          }
-        },
-        {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
-        .then((response) => {
-          SetLoading(false)
-          if (response.status >= 200 && response.status < 300) {
-            SetOpenSaveBox(false)
-            return toast.success('با موفقیت ذخیره شد.', {
-              position: 'bottom-left'
-            })
-          } else {
-            return toast.error('ناموفق', {
-              position: 'bottom-left'
-            })
-          }
-        })
-        .catch((err) => {
-          SetLoading(false)
-          console.log(err.response.status)
-          try {
-            if (err.response.status === 403) {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
-              return toast.error('دوباره به حساب کاربری وارد شوید.', {
+        if (id !== undefined) {
+          SetLoading(true)
+          //Error Done
+          axios.put(`${serverAddress}/tracing/graph/${Number(id)}/`, 
+          {
+            value:{
+              GraphName,
+              GraphDescription,
+              itemNumbers,
+              GraphData,
+              Scale,
+              positionX,
+              positionY,
+              NodesPosition:States.NodesPosition
+            }
+          },
+          {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
+          .then((response) => {
+            SetLoading(false)
+            if (response.status >= 200 && response.status < 300) {
+              SetOpenSaveBox(false)
+              return toast.success('با موفقیت ذخیره شد.', {
                 position: 'bottom-left'
               })
             } else {
@@ -82,12 +77,82 @@ const VisualizationDetail = (props) => {
                 position: 'bottom-left'
               })
             }
-          } catch (error) {
-            return toast.error('ناموفق', {
-              position: 'bottom-left'
-            })
-          }
-        })
+          })
+          .catch((err) => {
+            SetLoading(false)
+            console.log(err.response)
+            try {
+              if (err.response.status === 403) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+                return toast.error('دوباره به حساب کاربری وارد شوید.', {
+                  position: 'bottom-left'
+                })
+              } else {
+                return toast.error('ناموفق', {
+                  position: 'bottom-left'
+                })
+              }
+            } catch (error) {
+              return toast.error('ناموفق', {
+                position: 'bottom-left'
+              })
+            }
+          })
+        } else {
+          SetLoading(true)
+          //Error Done
+          axios.post(`${serverAddress}/tracing/graph/`, 
+          {
+            value:{
+              GraphName,
+              GraphDescription,
+              itemNumbers,
+              GraphData,
+              Scale,
+              positionX,
+              positionY,
+              NodesPosition
+            }
+          },
+          {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
+          .then((response) => {
+            SetLoading(false)
+            if (response.status >= 200 && response.status < 300) {
+              SetOpenSaveBox(false)
+              return toast.success('با موفقیت ذخیره شد.', {
+                position: 'bottom-left'
+              })
+            } else {
+              return toast.error('ناموفق', {
+                position: 'bottom-left'
+              })
+            }
+          })
+          .catch((err) => {
+            SetLoading(false)
+            console.log(err.response.status)
+            try {
+              if (err.response.status === 403) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+                return toast.error('دوباره به حساب کاربری وارد شوید.', {
+                  position: 'bottom-left'
+                })
+              } else {
+                return toast.error('ناموفق', {
+                  position: 'bottom-left'
+                })
+              }
+            } catch (error) {
+              return toast.error('ناموفق', {
+                position: 'bottom-left'
+              })
+            }
+          })
+        }
       } else {
         return toast.error('گراف رسم نشده است.', {
           position: 'bottom-left'
@@ -212,16 +277,26 @@ const VisualizationDetail = (props) => {
       modalClassName={'modal-danger'}
     >
       <ModalBody>
-          <h6>ذخیره گراف</h6>
-          <Input placeholder='عنوان گراف' id='GraphName'/>
-          <Input
-            id='GraphDescription'
-            type='textarea'
-            name='text'
-            className='mt-3'
-            placeholder='توضیحات'
-            style={{ minHeight: '100px' }}
-          />
+        {
+          id === undefined ?
+          <>
+            <h6>ذخیره گراف</h6>
+            <Input placeholder='عنوان گراف' id='GraphName'/>
+            <Input
+              id='GraphDescription'
+              type='textarea'
+              name='text'
+              className='mt-3'
+              placeholder='توضیحات'
+              style={{ minHeight: '100px' }}
+            />
+          </>
+          :
+          <h6>
+            آیا برای ذخیره گراف مطمئن هستید؟
+          </h6>
+        }
+
       </ModalBody>
       <ModalFooter>
 

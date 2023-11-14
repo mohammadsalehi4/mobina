@@ -34,6 +34,8 @@ const Tracker = () => {
     const [Data, SetData] = useState([])
     const [IsShow, SetIsShow] = useState(false)
     const [Loading, SetLoading] = useState(false)
+    const [GraphName, SetGraphName] = useState('')
+    const [GraphDescription, SetGraphDescription] = useState('')
 
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})
@@ -546,7 +548,8 @@ const Tracker = () => {
                         positionX = response.data.results[i].value.positionX
                         positionY = response.data.results[i].value.positionY
                         NodesPosition = response.data.results[i].value.NodesPosition
-                        console.log(response.data.results[i].value.NodesPosition)
+                        SetGraphName(response.data.results[i].value.GraphName)
+                        SetGraphDescription(response.data.results[i].value.GraphDescription)
                     }
                 }
                 if (response.data.results.length > 0 && GraphData !== null) {
@@ -570,21 +573,6 @@ const Tracker = () => {
                 position: 'bottom-left'
               })
             })
-
-            // const GraphData = States.GraphData
-            // const Scale = States.Scale
-            // const positionX = States.positionX
-            // const positionY = States.positionY
-            // const NodesPosition = States.NodesPosition
-
-            // dispatch({type:"GraphData", value:GraphData})
-            // dispatch({type:"Scale", value:Scale})
-            // dispatch({type:"positionX", value:positionX})
-            // dispatch({type:"positionY", value:positionY})
-            // dispatch({type:"NodesPosition", value:NodesPosition})
-
-            // console.log(States.NodesPosition)
-            
         }
     }, [])
 
@@ -611,7 +599,7 @@ const Tracker = () => {
                     States.showTransactionData ? <TransactionDetail1/> : null
                 }
 
-                <VisualizationDetail hash={hash}/>
+                <VisualizationDetail hash={hash} GraphName={GraphName} GraphDescription={GraphDescription}/>
                 <Guide/>
             </div>
         </UILoader>
