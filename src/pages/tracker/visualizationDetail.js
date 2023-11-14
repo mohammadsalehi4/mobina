@@ -26,7 +26,14 @@ const VisualizationDetail = (props) => {
   const [ Address , SetAddress] = useState(false)
   const [ OpenSaveBox , SetOpenSaveBox] = useState(false)
   const [ Loading , SetLoading] = useState(false)
+  const [ Name , SetName] = useState(props.GraphName)
+  const [ Description , SetDescription] = useState(props.GraphDescription)
   const { id } = useParams()
+
+  useEffect(() => {
+    SetName(props.GraphName)
+    SetDescription(props.GraphDescription)
+  }, [,props.GraphName, props.GraphDescription])
 
   const saveGraph = () => {
     const GraphData = States.GraphData
@@ -38,13 +45,10 @@ const VisualizationDetail = (props) => {
     let GraphName
     let GraphDescription
 
-    if (id === undefined) {
-      GraphName = document.getElementById('GraphName').value
-      GraphDescription = document.getElementById('GraphDescription').value
-    } else {
-      GraphName = props.GraphName
-      GraphDescription = props.GraphDescription
-    }
+
+    GraphName = document.getElementById('GraphName').value
+    GraphDescription = document.getElementById('GraphDescription').value
+
 
     if (GraphName !== '' || id !== undefined) {
       if (GraphData.length > 0) {
@@ -292,15 +296,30 @@ const VisualizationDetail = (props) => {
             />
           </>
           :
-          <h6>
-            آیا برای ذخیره گراف مطمئن هستید؟
-          </h6>
+          <>
+            <h6>ذخیره گراف</h6>
+            <Input placeholder='عنوان گراف' defaultValue={Name} id='GraphName'/>
+            <Input
+              id='GraphDescription'
+              type='textarea'
+              name='text'
+              defaultValue={Description} 
+              className='mt-3'
+              placeholder='توضیحات'
+              style={{ minHeight: '100px' }}
+            />
+          </>
         }
 
       </ModalBody>
       <ModalFooter>
 
-        <Button onClick={saveGraph} color={'warning'} style={{height:'37px', width:'80px'}}>
+        <Button onClick={ () => {
+          SetName(document.getElementById('GraphName').value)
+          SetDescription(document.getElementById('GraphDescription').value)
+          saveGraph()
+        }} 
+        color={'warning'} style={{height:'37px', width:'80px'}}>
           {
             Loading ? 
               <LoadingButton/>
