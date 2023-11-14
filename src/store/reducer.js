@@ -42,7 +42,6 @@ const initialState = {
 
     //Graph Data
     GraphData:[],
-    CustomGraphData:[],
     Scale:1,
     positionX:400,
     positionY:800,
@@ -56,6 +55,7 @@ const initialState = {
     StartFilterTime:0,
     EndFilterTime:0,
     All_Input_Output:0,
+    firstLoad:false,
 
     //admin panel
     CustomLoading: false,
@@ -63,6 +63,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'firstLoad') {
+        return {
+            ...state,
+            firstLoad:action.value
+        }
+    }
 
     if (action.type === 'StartFilterTime') {
         return {

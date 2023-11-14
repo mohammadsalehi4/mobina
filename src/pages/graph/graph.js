@@ -173,7 +173,7 @@ const FuckingGraph = () => {
           }
         } else {
           if (SavedPositions.some(item => item.id.toUpperCase() === States.GraphData[i].address.toUpperCase())) {
-            const getX = SavedPositions.find(item => item.id === States.GraphData[i].address).x
+            const getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].address.toUpperCase()).x
             AllNodes.push({
               id: States.GraphData[i].address,
               address:States.GraphData[i].address,
@@ -221,28 +221,54 @@ const FuckingGraph = () => {
         //mokhtasat X
         for (let j = 0; j < States.GraphData[i].inputs.length; j++) {
           if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) === undefined) {
-            AllNodes.push({
-              address:States.GraphData[i].inputs[j].hash,
-              id: States.GraphData[i].inputs[j].hash,
-              value:States.GraphData[i].inputs[j].value,
-              mode:'in',
-              symbole:'ETH',
-              group:'mid',
-              x: myData.x + 1
-            })
+            if (SavedPositions.some(item => item.id.toUpperCase() === States.GraphData[i].inputs[j].hash.toUpperCase())) {
+              const getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].inputs[j].hash.toUpperCase()).x
+              AllNodes.push({
+                address:States.GraphData[i].inputs[j].hash,
+                id: States.GraphData[i].inputs[j].hash,
+                value:States.GraphData[i].inputs[j].value,
+                mode:'in',
+                symbole:'ETH',
+                group:'mid',
+                x: getX
+              })
+            } else {
+              AllNodes.push({
+                address:States.GraphData[i].inputs[j].hash,
+                id: States.GraphData[i].inputs[j].hash,
+                value:States.GraphData[i].inputs[j].value,
+                mode:'in',
+                symbole:'ETH',
+                group:'mid',
+                x: myData.x + 1
+              })
+            }
           }
         }
         for (let j = 0; j < States.GraphData[i].outputs.length; j++) {
           if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) === undefined) {
-            AllNodes.push({
-              address:States.GraphData[i].outputs[j].hash,
-              id: States.GraphData[i].outputs[j].hash,
-              value:States.GraphData[i].outputs[j].value,
-              mode:'out',
-              symbole:'ETH',
-              group:'mid',
-              x: myData.x - 1
-            })
+            if (SavedPositions.some(item => item.id.toUpperCase() === States.GraphData[i].outputs[j].hash.toUpperCase())) {
+              const getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].outputs[j].hash.toUpperCase()).x
+              AllNodes.push({
+                address:States.GraphData[i].outputs[j].hash,
+                id: States.GraphData[i].outputs[j].hash,
+                value:States.GraphData[i].outputs[j].value,
+                mode:'out',
+                symbole:'ETH',
+                group:'mid',
+                x: getX
+              })
+            } else {
+              AllNodes.push({
+                address:States.GraphData[i].outputs[j].hash,
+                id: States.GraphData[i].outputs[j].hash,
+                value:States.GraphData[i].outputs[j].value,
+                mode:'out',
+                symbole:'ETH',
+                group:'mid',
+                x: myData.x - 1
+              })
+            }
           }
         }
       }
@@ -596,59 +622,61 @@ const FuckingGraph = () => {
 
     //save new position after drag nodes
     network.on("dragEnd", function () {
-      var position = network.getViewPosition();
-      dispatch({type:"positionX", value:(position.x)})
-      dispatch({type:"positionY", value:(position.y)})
+      var FullPosition = network.getViewPosition();
+      dispatch({type:"positionX", value:(FullPosition.x)})
+      dispatch({type:"positionY", value:(FullPosition.y)})
     })
+
     network.on("dragEnd", function (params) {
       var MyNodeId = params.nodes[0];
       if (MyNodeId) {
-          // گرفتن مختصات جدید گره
-          var newPosition = network.getPositions(MyNodeId);
+        // گرفتن مختصات جدید گره
+        var newPosition = network.getPositions(MyNodeId);
+        if (NewPositions.some(item => item.id === MyNodeId)) {
           NewPositions.find(item => item.id === MyNodeId).x = newPosition[MyNodeId].x
           NewPositions.find(item => item.id === MyNodeId).y = newPosition[MyNodeId].y
           dispatch({type:"NodesPosition", value:NewPositions})
           dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
-
-          var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
-          const AllPositions = []
-          for (var nodeId in positions) {
-            if (positions.hasOwnProperty(nodeId)) {
-              var position = positions[nodeId];
-              const SetPosition = {
-                id : nodeId,
-                x : position.x,
-                y : position.y
-              }
-              AllPositions.push(SetPosition)
-              SetNewPositions(AllPositions)
-              console.log('NewPositions')
-              console.log(NewPositions)
-              dispatch({type:"NodesPosition", value:NewPositions})
+        } else {
+          const AddNewPosition = NewPositions
+          AddNewPosition.push(
+            {
+              id : MyNodeId,
+              x : newPosition[MyNodeId].x,
+              y : newPosition[MyNodeId].y
             }
+          )
+          SetNewPositions(AddNewPosition)
+        }
+        var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
+        const AllPositions = []
+        for (var nodeId in positions) {
+          if (positions.hasOwnProperty(nodeId)) {
+            var position = positions[nodeId];
+            const SetPosition = {
+              id : nodeId,
+              x : position.x,
+              y : position.y
+            }
+            AllPositions.push(SetPosition)
+            SetNewPositions(AllPositions)
+            dispatch({type:"NodesPosition", value:NewPositions})
           }
+        }
       }
     });
 
-    //save positions
-    var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
-    const AllPositions = []
-    for (var nodeId in positions) {
-      if (positions.hasOwnProperty(nodeId)) {
-        var position = positions[nodeId];
-        const SetPosition = {
-          id : nodeId,
-          x : position.x,
-          y : position.y
-        }
-        AllPositions.push(SetPosition)
-        SetNewPositions(AllPositions)
-        console.log('NewPositions')
-        console.log(NewPositions)
-        dispatch({type:"NodesPosition", value:NewPositions})
-      }
-    }
+    console.log('GraphData')
+    console.log(States.GraphData)
+    console.log('States.Scale')
+    console.log(States.Scale)
+    console.log('States.positionX')
+    console.log(States.positionX)
+    console.log('States.positionY')
+    console.log(States.positionY)
+    console.log('States.NodesPosition')
     console.log(States.NodesPosition)
+
 
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload])
 
