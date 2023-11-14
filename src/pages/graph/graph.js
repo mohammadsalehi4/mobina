@@ -634,6 +634,7 @@ const FuckingGraph = () => {
         // گرفتن مختصات جدید گره
         var newPosition = network.getPositions(MyNodeId);
         if (NewPositions.some(item => item.id === MyNodeId)) {
+          console.log('yes')
           NewPositions.find(item => item.id === MyNodeId).x = newPosition[MyNodeId].x
           NewPositions.find(item => item.id === MyNodeId).y = newPosition[MyNodeId].y
           dispatch({type:"NodesPosition", value:NewPositions})
@@ -648,22 +649,24 @@ const FuckingGraph = () => {
             }
           )
           SetNewPositions(AddNewPosition)
+          dispatch({type:"NodesPosition", value:NewPositions})
         }
-        var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
-        const AllPositions = []
-        for (var nodeId in positions) {
-          if (positions.hasOwnProperty(nodeId)) {
-            var position = positions[nodeId];
-            const SetPosition = {
-              id : nodeId,
-              x : position.x,
-              y : position.y
-            }
-            AllPositions.push(SetPosition)
-            SetNewPositions(AllPositions)
-            dispatch({type:"NodesPosition", value:NewPositions})
-          }
-        }
+        // // دریافت مختصات همه گره‌ها
+        // var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
+        // const AllPositions = []
+        // for (var nodeId in positions) {
+        //   if (positions.hasOwnProperty(nodeId)) {
+        //     var position = positions[nodeId];
+        //     const SetPosition = {
+        //       id : nodeId,
+        //       x : position.x,
+        //       y : position.y
+        //     }
+        //     AllPositions.push(SetPosition)
+        //     SetNewPositions(AllPositions)
+        //     dispatch({type:"NodesPosition", value:NewPositions})
+        //   }
+        // }
       }
     });
 

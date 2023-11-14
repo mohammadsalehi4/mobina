@@ -89,7 +89,7 @@ function Header() {
 
             <div class="navbar-brand app-brand demo d-none d-xl-flex py-0"  style={{marginRight:"60px"}}>
               <a href="/" class="app-brand-link gap-2">
-                <img src='../images/logo.png' id='logo'/>
+                <img src='/public/images/logo.png' id='logo'/>
                 <p className='vazir' id='brandName'>پنتا</p>
               </a>
             </div>
@@ -108,7 +108,6 @@ function Header() {
                       <a  class="nav-link dropdown-toggle hide-arrow topHeaderIcon" href='/admin' id='headerLinkAdminPanel'>
                         <i class="ti ti-layout-grid-add ti-md "></i>
                       </a>
-                      
                     </li> 
                   : 
                     null
