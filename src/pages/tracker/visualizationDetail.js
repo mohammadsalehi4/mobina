@@ -7,36 +7,97 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 import './tracker.css'
 import NiceAddress2 from '../../components/niceAddress2/niceAddress'
-import SelectReact from '../../views/forms/form-elements/select/SelectReact'
-// ** Custom Components
 import CardAction from '@components/card-actions'
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector, useDispatch } from "react-redux"
-
-
-// ** Custom Components
-import Breadcrumbs from '@components/breadcrumbs'
-
-// ** Icons Imports
-import { ChevronDown, RotateCw, X } from 'react-feather'
-
-// ** Reactstrap Imports
-import { CardBody, CardText, Row, Col, Table, Label } from 'reactstrap'
-
-// ** Icons Imports
-import Select from 'react-select'
-import { selectThemeColors } from '@utils'
-const colourOptions = [
-  { value: 'BTC', label: 'BTC' },
-  { value: 'USD', label: 'USD' },
-  { value: 'IRR', label: 'IRR' }
-]
+import { CardBody, CardText, Row, Col, Table, Label, Modal, ModalBody, ModalFooter, Button, Input } from 'reactstrap'
+import Cookies from 'js-cookie'
+import axios from 'axios'
+import { serverAddress } from '../../address'
+import toast from 'react-hot-toast'
+import LoadingButton from '../../components/loadinButton/LoadingButton'
 
 const VisualizationDetail = (props) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
   
   const [ Address , SetAddress] = useState(false)
+  const [ OpenSaveBox , SetOpenSaveBox] = useState(false)
+  const [ Loading , SetLoading] = useState(false)
+
+  const saveGraph = () => {
+    const GraphData = States.GraphData
+    const Scale = States.Scale
+    const positionX = States.positionX
+    const positionY = States.positionY
+    const NodesPosition = States.NodesPosition
+    const GraphName = document.getElementById('GraphName').value
+    const GraphDescription = document.getElementById('GraphDescription').value
+
+    if (GraphName !== '') {
+      if (GraphData.length > 0) {
+        SetLoading(true)
+        //Error Done
+        axios.post(`${serverAddress}/tracing/graph/`, 
+        {
+          value:{
+            GraphData,
+            Scale,
+            positionX,
+            positionY,
+            NodesPosition,
+            GraphName,
+            GraphDescription
+          }
+        },
+        {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
+        .then((response) => {
+          SetLoading(false)
+          if (response.status >= 200 && response.status < 300) {
+            SetOpenSaveBox(false)
+            return toast.success('با موفقیت ذخیره شد.', {
+              position: 'bottom-left'
+            })
+          } else {
+            return toast.error('ناموفق', {
+              position: 'bottom-left'
+            })
+          }
+        })
+        .catch((err) => {
+          SetLoading(false)
+          console.log(err.response.status)
+          try {
+            if (err.response.status === 403) {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+              return toast.error('دوباره به حساب کاربری وارد شوید.', {
+                position: 'bottom-left'
+              })
+            } else {
+              return toast.error('ناموفق', {
+                position: 'bottom-left'
+              })
+            }
+          } catch (error) {
+            return toast.error('ناموفق', {
+              position: 'bottom-left'
+            })
+          }
+        })
+      } else {
+        return toast.error('گراف رسم نشده است.', {
+          position: 'bottom-left'
+        })
+      }
+    } else {
+      return toast.error('عنوان گراف نباید خالی باشد.', {
+        position: 'bottom-left'
+      })
+    }
+
+  }
 
   useEffect(() => {
     if (props.hash !== undefined) {
@@ -66,7 +127,12 @@ const VisualizationDetail = (props) => {
               <div className='row'>
                 <div className='col-md-12'>
                   <p style={{display:"inline-block", marginLeft:"20px"}}>تعداد آیتم ها</p>
-                  <small>{digitsEnToFa(States.itemNumbers)} از {digitsEnToFa(200)}</small>
+                  {
+                    States.itemNumbers === 0 ? 
+                    <small> ۰ از {digitsEnToFa(500)}</small>
+                    :
+                    <small>{digitsEnToFa(States.itemNumbers)} از {digitsEnToFa(500)}</small>
+                  }
                 </div>
                 <hr/>
               </div>
@@ -129,7 +195,7 @@ const VisualizationDetail = (props) => {
                   </div> */}
 
                   <p style={{display:"inline-block"}}>ذخیره گراف</p>
-                    <ion-icon title={'ذخیره'} style={{fontSize:'20px', marginRight:'12px', marginBottom:'-4px', cursor:'pointer'}} name="save-outline"></ion-icon>
+                  <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginRight:'12px', marginBottom:'-4px', cursor:'pointer'}} name="save-outline"></ion-icon>
                 </div>
               </div>
             </div>
@@ -138,6 +204,38 @@ const VisualizationDetail = (props) => {
         </Col>
       </Row>
     </Fragment>
+    <Modal
+      isOpen={OpenSaveBox}
+      className='modal-dialog-centered'
+      modalClassName={'modal-danger'}
+    >
+      <ModalBody>
+          <h6>ذخیره گراف</h6>
+          <Input placeholder='عنوان گراف' id='GraphName'/>
+          <Input
+            id='GraphDescription'
+            type='textarea'
+            name='text'
+            className='mt-3'
+            placeholder='توضیحات'
+            style={{ minHeight: '100px' }}
+          />
+      </ModalBody>
+      <ModalFooter>
+
+        <Button onClick={saveGraph} color={'warning'} style={{height:'37px', width:'80px'}}>
+          {
+            Loading ? 
+              <LoadingButton/>
+            :
+            <span>ذخیره</span>
+          }
+        </Button>
+        <Button onClick={ () => { SetOpenSaveBox(false) } } color={'danger'} style={{height:'37px', width:'80px'}}>
+          بازگشت
+        </Button>
+      </ModalFooter>
+    </Modal>
     </div>
     
   )

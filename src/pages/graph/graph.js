@@ -627,6 +627,7 @@ const FuckingGraph = () => {
       dispatch({type:"positionY", value:(FullPosition.y)})
     })
 
+    //save new position after drag nodes
     network.on("dragEnd", function (params) {
       var MyNodeId = params.nodes[0];
       if (MyNodeId) {
@@ -665,18 +666,6 @@ const FuckingGraph = () => {
         }
       }
     });
-
-    console.log('GraphData')
-    console.log(States.GraphData)
-    console.log('States.Scale')
-    console.log(States.Scale)
-    console.log('States.positionX')
-    console.log(States.positionX)
-    console.log('States.positionY')
-    console.log(States.positionY)
-    console.log('States.NodesPosition')
-    console.log(States.NodesPosition)
-
 
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload])
 
