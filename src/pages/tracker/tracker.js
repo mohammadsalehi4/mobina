@@ -31,7 +31,6 @@ const Tracker = () => {
     const { hash } = useParams()
     const { id } = useParams()
 
-    const [Network, SetNetwork] = useState('')
     const [IsShow, SetIsShow] = useState(false)
     const [Loading, SetLoading] = useState(false)
     const [GraphName, SetGraphName] = useState('')
@@ -470,13 +469,13 @@ const Tracker = () => {
                 try {
                     if (response.data.query === 'address') {
                         if (response.data.network === 'ETH') {
-                            SetNetwork('ETH')
+                            dispatch({type:"Network", value:'ETH'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:AccountAdd(AccountBaseAddress(response.data.data.result, hash, 'ETH', 1000000000000000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
                         } else if (response.data.network === 'BTC') {
-                            SetNetwork('BTC')
+                            dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data.result, hash, 'BTC', 100000000))})
                             dispatch({type:"positionX", value:0})
@@ -484,13 +483,13 @@ const Tracker = () => {
                         }
                     } else if (response.data.query === 'transaction') {
                         if (response.data.network === 'ETH') {
-                            SetNetwork('ETH')
+                            dispatch({type:"Network", value:'ETH'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:AccountTr(AccountBaseTransaction(response.data.data, 'ETH', 1000000000000000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         } else if (response.data.network === 'BTC') {
-                            SetNetwork('BTC')
+                            dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'BTC', 100000000))})
                             dispatch({type:"positionX", value:320})
@@ -544,10 +543,12 @@ const Tracker = () => {
                 let positionX 
                 let positionY 
                 let NodesPosition 
+                let Network 
 
                 for (let i = 0; i < response.data.results.length; i++) {
                     if (response.data.results[i].id === Number(id)) {
                         GraphData = response.data.results[i].value.GraphData
+                        Network = response.data.results[i].value.Network
                         Scale = response.data.results[i].value.Scale
                         positionX = response.data.results[i].value.positionX
                         positionY = response.data.results[i].value.positionY
@@ -562,6 +563,7 @@ const Tracker = () => {
                     dispatch({type:"positionX", value:positionX})
                     dispatch({type:"positionY", value:positionY})
                     dispatch({type:"NodesPosition", value:NodesPosition})
+                    dispatch({type:"Network", value:Network})
 
                     SetIsShow(true)
                 } else {
@@ -586,7 +588,7 @@ const Tracker = () => {
                 {/* <TopGuide/> */}
                 {
                     IsShow ? 
-                        <FuckingGraph Network={Network}/>
+                        <FuckingGraph/>
                     :
                         null
                 }

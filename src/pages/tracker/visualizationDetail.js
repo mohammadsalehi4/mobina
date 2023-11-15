@@ -43,6 +43,7 @@ const VisualizationDetail = (props) => {
     const positionY = States.positionY
     const NodesPosition = States.NodesPosition
     const itemNumbers = States.itemNumbers
+    const Network = States.Network
     let GraphName
     let GraphDescription
 
@@ -60,6 +61,7 @@ const VisualizationDetail = (props) => {
           {
             value:{
               GraphName,
+              Network,
               GraphDescription,
               itemNumbers,
               GraphData,
@@ -118,7 +120,8 @@ const VisualizationDetail = (props) => {
               Scale,
               positionX,
               positionY,
-              NodesPosition
+              NodesPosition,
+              Network
             }
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})

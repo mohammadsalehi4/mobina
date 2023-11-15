@@ -55,6 +55,7 @@ const initialState = {
     StartFilterTime:0,
     EndFilterTime:0,
     All_Input_Output:0,
+    Network:'',
 
     //admin panel
     CustomLoading: false,
@@ -62,6 +63,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'Network') {
+        return {
+            ...state,
+            Network:action.value
+        }
+    }
 
     if (action.type === 'StartFilterTime') {
         return {

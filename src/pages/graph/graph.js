@@ -228,7 +228,7 @@ const FuckingGraph = (props) => {
                 id: States.GraphData[i].inputs[j].hash,
                 value:States.GraphData[i].inputs[j].value,
                 mode:'in',
-                symbole:props.Network,
+                symbole:States.Network,
                 group:'mid',
                 x: getX
               })
@@ -238,7 +238,7 @@ const FuckingGraph = (props) => {
                 id: States.GraphData[i].inputs[j].hash,
                 value:States.GraphData[i].inputs[j].value,
                 mode:'in',
-                symbole:props.Network,
+                symbole:States.Network,
                 group:'mid',
                 x: myData.x + 1
               })
