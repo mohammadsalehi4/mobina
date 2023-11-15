@@ -263,5 +263,22 @@ background: red;
   }
 }
 
+#MainDashboardInputBox{
+  border-style: none !important;
+  padding: 8px 8px !important;
+}
+
+#MainDashboardInputGroup{
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: rgb(211, 211, 211) !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#MainDashboardInputSymbole{
+  border: none;
+  cursor: pointer;
+}
 
 /*# sourceMappingURL=tracker.css.map */

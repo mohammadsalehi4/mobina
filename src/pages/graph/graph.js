@@ -651,22 +651,6 @@ const FuckingGraph = () => {
           SetNewPositions(AddNewPosition)
           dispatch({type:"NodesPosition", value:NewPositions})
         }
-        // // دریافت مختصات همه گره‌ها
-        // var positions = network.getPositions(); // دریافت مختصات همه گره‌ها
-        // const AllPositions = []
-        // for (var nodeId in positions) {
-        //   if (positions.hasOwnProperty(nodeId)) {
-        //     var position = positions[nodeId];
-        //     const SetPosition = {
-        //       id : nodeId,
-        //       x : position.x,
-        //       y : position.y
-        //     }
-        //     AllPositions.push(SetPosition)
-        //     SetNewPositions(AllPositions)
-        //     dispatch({type:"NodesPosition", value:NewPositions})
-        //   }
-        // }
       }
     });
 
@@ -674,7 +658,7 @@ const FuckingGraph = () => {
 
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload])
 
-  return <div ref={networkRef} style={{height:"calc(100% - 40px)", width:"100%", transition:'0.3s' }}></div>
+  return <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
 }
 
 export default FuckingGraph

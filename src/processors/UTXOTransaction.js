@@ -24,15 +24,16 @@ export function UTXOTransaction (array, symbole, decimal) {
                 }
             }
             if (!check) {
+                console.log(array.inputs[i].coin.value)
                 inputs.push({
                     address: array.inputs[i].coin.address.address,
-                    value: array.inputs[i].coin.value / decimal,
+                    value: Number(array.inputs[i].coin.value) / decimal,
                     valueInDollar: array.inputs[i].coin.ValueInDollar
                 })
             } else {
                 for (let j = 0; j < inputs.length; j++) {
                     if (inputs[j].address.toUpperCase() === array.inputs[i].coin.address.address.toUpperCase()) {
-                        inputs[j].value = inputs[j].value + (array.inputs[i].coin.value / decimal)
+                        inputs[j].value = inputs[j].value + (Number(array.inputs[i].coin.value) / decimal)
                         inputs[j].valueInDollar = inputs[j].valueInDollar + (array.inputs[i].coin.ValueInDollar)
                     }
                 }
@@ -74,6 +75,21 @@ export function UTXOTransaction (array, symbole, decimal) {
             }
         )
     } else {
+
+        console.log('proccessor')
+        console.log(
+            {
+                isError,
+                blockNumber,
+                fee,
+                hash,
+                time,
+                inputs,
+                outputs,
+                symbole
+            }
+        )
+
         return (
             {
                 isError,

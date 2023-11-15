@@ -11,13 +11,14 @@ import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import CardAction from '@components/card-actions'
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector, useDispatch } from "react-redux"
-import { CardBody, CardText, Row, Col, Table, Label, Modal, ModalBody, ModalFooter, Button, Input } from 'reactstrap'
+import { CardBody, CardText, Row, Col, Table, Label, Modal, ModalBody, ModalFooter, Button, Input, InputGroup, InputGroupText } from 'reactstrap'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import { useParams } from "react-router-dom"
+import { Search } from 'react-feather'
 
 const VisualizationDetail = (props) => {
   const dispatch = useDispatch()
@@ -185,13 +186,12 @@ const VisualizationDetail = (props) => {
             <div className='container-fluid'>
               <div className='row'>
                 <div className='col-md-12'>
-                  <p style={{display:"inline-block", marginLeft:"20px"}}>آدرس </p>
-                  {
-                    !Address ? 
-                       <span >بدون آدرس</span>
-                      :
-                      <NiceAddress2 text={Address} number={6}/>
-                  }
+                  <InputGroup id='MainDashboardInputGroup' className='input-group-merge m-0 mb-3' style={{direction:'ltr', borderColor:'red', width:'100%'}}>
+                    <InputGroupText id='MainDashboardInputSymbole' onClick={ () => { window.location.assign(`/tracker/${document.getElementById('MainDashboardInputBox').value}`) } }>
+                        <Search size={16} />
+                    </InputGroupText>
+                    <Input id='MainDashboardInputBox' placeholder='آدرس یا شناسه تراکنش' />
+                  </InputGroup>
                 </div>
                 <hr/>
               </div>

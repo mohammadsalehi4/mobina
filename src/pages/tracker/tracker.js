@@ -249,7 +249,7 @@ const Tracker = () => {
                     value:parseFloat(data.inputs[0].value.toFixed(5)),
                     timeStamp:data.time,
                     symbole: data.symbole,
-                    valueInDollar:parseFloat(data.inputs[0].valueInDollar.toFixed())
+                    valueInDollar:parseFloat(data.inputs[0].valueInDollar.toFixed(5))
                 }
             ]
         }
@@ -488,7 +488,7 @@ const Tracker = () => {
                             SetIsShow(true)
                         } else if (response.data.network === 'BTC') {
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, hash, 'BTC', 100000000))})
+                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'BTC', 100000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         }
@@ -580,12 +580,6 @@ const Tracker = () => {
         <UILoader blocking={Loading} loader={<Spinner />}>
             <div id='TransactionPage'>
                 {/* <TopGuide/> */}
-                <InputGroup style={{width:'50%', marginRight:'25%', marginTop:'25px'}}>
-                    <Input defaultValue={'0xf9BCc0e756F0a8A6ac3EEc744e8BDB19a488E131'} type='text' id='trackerInput' class="form-control vazir m-0 bg-white" placeholder='آدرس کیف پول' style={{borderTopRightRadius:'8px', borderBottomRightRadius:'8px', marginTop:'0px', backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
-                    <InputGroupText  onClick={ (event) => { onSubmit(event) } } style={{marginTop:"0px", borderTopLeftRadius:"8px", borderBottomLeftRadius:"8px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"40px", cursor:"pointer"}}>
-                        <Search size={20} />
-                    </InputGroupText>
-                </InputGroup>
                 {
                     IsShow ? 
                         <FuckingGraph/>
