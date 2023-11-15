@@ -221,54 +221,44 @@ const FuckingGraph = (props) => {
         //mokhtasat X
         for (let j = 0; j < States.GraphData[i].inputs.length; j++) {
           if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) === undefined) {
+            let getX
+
             if (SavedPositions.some(item => item.id.toUpperCase() === States.GraphData[i].inputs[j].hash.toUpperCase())) {
-              const getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].inputs[j].hash.toUpperCase()).x
-              AllNodes.push({
-                address:States.GraphData[i].inputs[j].hash,
-                id: States.GraphData[i].inputs[j].hash,
-                value:States.GraphData[i].inputs[j].value,
-                mode:'in',
-                symbole:States.Network,
-                group:'mid',
-                x: getX
-              })
+              getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].inputs[j].hash.toUpperCase()).x
             } else {
-              AllNodes.push({
-                address:States.GraphData[i].inputs[j].hash,
-                id: States.GraphData[i].inputs[j].hash,
-                value:States.GraphData[i].inputs[j].value,
-                mode:'in',
-                symbole:States.Network,
-                group:'mid',
-                x: myData.x + 1
-              })
+              getX = myData.x + 1
             }
+
+            AllNodes.push({
+              address:States.GraphData[i].inputs[j].hash,
+              id: States.GraphData[i].inputs[j].hash,
+              value:States.GraphData[i].inputs[j].value,
+              mode:'in',
+              symbole:States.Network,
+              group:'mid',
+              x: getX
+            })
           }
         }
         for (let j = 0; j < States.GraphData[i].outputs.length; j++) {
           if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) === undefined) {
-            if (SavedPositions.some(item => item.id.toUpperCase() === States.GraphData[i].outputs[j].hash.toUpperCase())) {
-              const getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].outputs[j].hash.toUpperCase()).x
+              let getX
+
+              if (SavedPositions.some(item => item.id.toUpperCase() === States.GraphData[i].outputs[j].hash.toUpperCase())) {
+                getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].outputs[j].hash.toUpperCase()).x
+              } else {
+                getX = myData.x - 1
+              }
+
               AllNodes.push({
                 address:States.GraphData[i].outputs[j].hash,
                 id: States.GraphData[i].outputs[j].hash,
                 value:States.GraphData[i].outputs[j].value,
                 mode:'out',
-                symbole:props.Network,
+                symbole:States.Network,
                 group:'mid',
                 x: getX
               })
-            } else {
-              AllNodes.push({
-                address:States.GraphData[i].outputs[j].hash,
-                id: States.GraphData[i].outputs[j].hash,
-                value:States.GraphData[i].outputs[j].value,
-                mode:'out',
-                symbole:props.Network,
-                group:'mid',
-                x: myData.x - 1
-              })
-            }
           }
         }
       }
@@ -648,7 +638,6 @@ const FuckingGraph = (props) => {
         // گرفتن مختصات جدید گره
         var newPosition = network.getPositions(MyNodeId);
         if (NewPositions.some(item => item.id === MyNodeId)) {
-          console.log('yes')
           NewPositions.find(item => item.id === MyNodeId).x = newPosition[MyNodeId].x
           NewPositions.find(item => item.id === MyNodeId).y = newPosition[MyNodeId].y
           dispatch({type:"NodesPosition", value:NewPositions})
