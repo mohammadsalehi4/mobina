@@ -103,7 +103,7 @@ const getMyTime = (index) => {
   })
 }
 
-const FuckingGraph = () => {
+const FuckingGraph = (props) => {
   const networkRef = useRef(null)
   const dispatch = useDispatch()
   const States = useSelector(state => state)
@@ -228,7 +228,7 @@ const FuckingGraph = () => {
                 id: States.GraphData[i].inputs[j].hash,
                 value:States.GraphData[i].inputs[j].value,
                 mode:'in',
-                symbole:'ETH',
+                symbole:props.Network,
                 group:'mid',
                 x: getX
               })
@@ -238,7 +238,7 @@ const FuckingGraph = () => {
                 id: States.GraphData[i].inputs[j].hash,
                 value:States.GraphData[i].inputs[j].value,
                 mode:'in',
-                symbole:'ETH',
+                symbole:props.Network,
                 group:'mid',
                 x: myData.x + 1
               })
@@ -254,7 +254,7 @@ const FuckingGraph = () => {
                 id: States.GraphData[i].outputs[j].hash,
                 value:States.GraphData[i].outputs[j].value,
                 mode:'out',
-                symbole:'ETH',
+                symbole:props.Network,
                 group:'mid',
                 x: getX
               })
@@ -264,7 +264,7 @@ const FuckingGraph = () => {
                 id: States.GraphData[i].outputs[j].hash,
                 value:States.GraphData[i].outputs[j].value,
                 mode:'out',
-                symbole:'ETH',
+                symbole:props.Network,
                 group:'mid',
                 x: myData.x - 1
               })
@@ -340,15 +340,29 @@ const FuckingGraph = () => {
       let y = 0
       while (check) {
         if (CheckPage(GraphData[i].x, y)) {
-          const newNode = {
-            id: GraphData[i].id,
-            x: GraphData[i].x * Distance,
-            y: 800 - (100 * y),
-            group: GraphData[i].group,
-            address:GraphData[i].address,
-            image:`/public/images/Location.png`,
-            label: `...${(GraphData[i].address).substring(0, 7)}`
+          let newNode
+          if (GraphData[i].group === 'main') {
+            newNode = {
+              id: GraphData[i].id,
+              x: GraphData[i].x * Distance,
+              y: 800 - (100 * y),
+              group: GraphData[i].group,
+              address:GraphData[i].address,
+              image:`/public/images/Location.png`,
+              label: `...${(GraphData[i].address).substring(0, 7)}`
+            }
+          } else if (GraphData[i].group === 'mid') {
+            newNode = {
+              id: GraphData[i].id,
+              x: GraphData[i].x * Distance,
+              y: 800 - (100 * y),
+              group: GraphData[i].group,
+              address:GraphData[i].address,
+              image:`/public/images/Location.png`,
+              label: GraphData[i].symbole
+            }
           }
+
           SetPage(GraphData[i].x, y)
           nodes.add(newNode)
           check = false
