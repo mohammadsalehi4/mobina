@@ -168,7 +168,7 @@ const RollsTable = () => {
         <Row className='justify-content-end mx-0'>
           <Col className='d-flex align-items-center justify-content-end mt-2 mb-2' md='6' sm='12'>
             <div className='d-flex mt-md-0 mt-1'>
-              <button style={{background:MainSiteOrange, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-2' color='primary' onClick={handleModal}>
+              <button style={{background:MainSiteOrange, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} className='ms-3' color='primary' onClick={handleModal}>
                 <span className='align-middle'>افزودن نقش</span>
               </button>
             </div>

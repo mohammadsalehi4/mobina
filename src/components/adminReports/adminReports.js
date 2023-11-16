@@ -1,17 +1,75 @@
+/* eslint-disable no-duplicate-imports */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react'
 import DataTable from 'react-data-table-component'
-import { Card, CardHeader, CardTitle, UncontrolledTooltip } from 'reactstrap'
+import { Card, CardHeader, CardTitle, UncontrolledTooltip, Row, Col, Label } from 'reactstrap'
+import {Modal, ModalBody, ModalFooter, Input, Button}  from 'reactstrap'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import LocalLoading from '../localLoading/localLoading'
-
+import { MainSiteOrange } from '../../../public/colors'
+import LoadingButton from '../loadinButton/LoadingButton'
 const AdminReports = () => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
+
+  const [image, setImage] = useState()
+  const [data, SetData] = useState([])
+  const [AddNewReportBox, SetAddNewReportBox] = useState(false)
+  const [Loading, SetLoading] = useState(false)
+  const [Rolls, SetRolls] = useState([])
+
+  const imageHandler = (event) => {
+    setImage(event.target.files[0])
+  }
+
+  const addNewReports = () => {
+    
+    const title = document.getElementById('reportTitle').value
+    const summary = document.getElementById('summary').value
+    const Content = document.getElementById('Content').value
+    const checked = document.getElementById('ShareReport').checked
+
+    let publication_status
+
+    if (checked) {
+      publication_status = 'انتشار یافته'
+    } else {
+      publication_status = 'پیش نویس'
+    }
+
+    const bodyFormData = new FormData()
+
+    bodyFormData.append('title', title)
+    bodyFormData.append('summary', summary)
+    bodyFormData.append('text', Content)
+    bodyFormData.append('author', `${Cookies.get('name')} ${Cookies.get('lastname')}`)
+    bodyFormData.append('image', image)
+    bodyFormData.append('publication_status', publication_status)
+    for (let i = 0; i < Rolls.length; i++) {
+      if (document.getElementById(`RollText${Rolls[i].id}`).checked) {
+        bodyFormData.append('accesses', Rolls[i].id)
+      }
+    }
+
+    axios.post(`${serverAddress}/reports/create/`, 
+    bodyFormData,
+    {
+        headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`, 
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
 
   const columns = [
     {
@@ -85,8 +143,6 @@ const AdminReports = () => {
     }
   ]
 
-  const [data, SetData] = useState([])
-
   useEffect(() => {
     SetData([])
     axios.get(`${serverAddress}/reports/panel-reports/`, 
@@ -116,17 +172,52 @@ const AdminReports = () => {
   )
   }, [, States.beLoad])
 
+  useEffect(() => {
+    axios.get(`${serverAddress}/accounts/role/`, 
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    })
+    .then((response) => {
+        if (response.data.results.length > 0) {
+            const array = response.data.results
+            array.sort((a, b) => ((a['id'] > b['id']) ? 1 : ((b['id'] > a['id']) ? -1 : 0)))
+            SetRolls(array)
+        }
+    })
+    .catch((err) => {
+        try {
+          if (err.response.status === 401) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+        } catch (error) {}
+    })
+
+  }, [])
+
   return (
     <Card className='overflow-hidden mt-4' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
-      <CardHeader>
+      <CardHeader className='border-bottom'>
         <CardTitle tag='h6' style={{width:'100%'}}>
           لیست گزارش‌‌ها
+
           <ion-icon size={18} onClick={ () => { 
               dispatch({type:"beLoad", value:!(States.beLoad)})
             }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>  
+
         </CardTitle>
         
       </CardHeader>
+      <Row className='justify-content-end mx-0'>
+          <Col className='d-flex align-items-center justify-content-end mt-2 mb-2' md='6' sm='12'>
+          <button onClick={() => { SetAddNewReportBox(true) }} style={{background:MainSiteOrange, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px", float:'left', fontSize:'15px'}} className='ms-3' color='primary'>
+            <span className='align-middle'>افزودن گزارش</span>
+          </button>
+          </Col>
+        </Row>
       {
         data.length > 0 ?
         <DataTable
@@ -138,7 +229,66 @@ const AdminReports = () => {
       :
       <LocalLoading/>
       }
+        <Modal
+          isOpen={AddNewReportBox}
+          className='modal-dialog-centered'
+          modalClassName={'modal-danger'}
+        >
+          <ModalBody>
+            <h6>افزودن گزارش جدید</h6>
 
+            <span>عنوان گزارش</span>
+            <Input placeholder='عنوان' id='reportTitle' className='mb-3'/>
+
+            <span>خلاصه گزارش</span>
+            <Input className='mb-3' id='summary' placeholder='خلاصه' type='textarea' style={{minHeight:'50px'}}/>
+
+            <span>محتوا گزارش</span>
+            <Input className='mb-3' id='Content' placeholder='محتوا' type='textarea' style={{minHeight:'150px'}}/>
+
+            <span>عکس مورد نظر را وارد کنید.</span>
+            <input onChange={imageHandler} accept="image/*" type='file' name='file' id='reportImage' />
+
+            <div className='mt-3'>
+              <Input defaultChecked type='switch' name='customSwitch' id='ShareReport' className='ms-2' />
+              <Label for='exampleCustomSwitch'>گزارش مورد نظر انتشار پیدا کند؟</Label>
+            </div>
+
+            <div className='mt-2'>
+              <span>دسترسی ها</span>
+              {
+                Rolls.map((item) => {
+                  return (
+                    <div>
+                      <Input  type='switch' defaultChecked id={`RollText${item.id}`} />
+                      <Label for={`RollText${item.id}`} className='me-2'>{item.name}</Label>
+                    </div>
+                  )
+                })
+              }
+            </div>
+
+
+          </ModalBody>
+          <ModalFooter>
+            <Button color={'warning'} onClick={() => {
+                SetAddNewReportBox(false)
+              }}>
+              بازگشت
+              
+            </Button>
+            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => {
+                addNewReports()
+            }}>
+              {
+                Loading ? 
+                    <LoadingButton/>
+                :
+                'ارسال'
+              }
+            </Button>
+          </ModalFooter>
+        </Modal>
     </Card >
   )
 }

@@ -657,8 +657,6 @@ const FuckingGraph = (props) => {
       }
     });
 
-    console.log()
-
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload])
 
   return <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
