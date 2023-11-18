@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /root/frontend_web:/app
+      - /root/frontend_web:/app # todo fix volumes
       - /app/node_modules
     logging:
       driver: "json-file"
