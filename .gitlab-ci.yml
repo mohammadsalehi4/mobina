@@ -1,0 +1,45 @@
+stages:
+  - build
+  - deploy
+    
+variables:
+  FRONT_VERSION: v1.5.0
+
+build_front:
+  stage: build
+  image: docker
+  variables:
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/panta_front:$CI_COMMIT_TAG
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - echo $IMAGE_NAME
+    - docker build . -f Dockerfile --tag $IMAGE_NAME
+    - docker push $IMAGE_NAME
+  tags:
+    - app4
+  when: manual
+  only:
+    - tags
+
+deploy_front:
+  stage: deploy
+  needs: [ ]
+  image: docker
+  only:
+    changes:
+      - .env
+      - .gitlab-ci.yml
+      - docker-compose.yml
+    refs:
+      - master
+  variables:
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/panta_front:$FRONT_VERSION
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - echo $IMAGE_NAME
+    - docker compose -f docker-compose.yml up -d
+  tags:
+    - app2
+  when: manual
