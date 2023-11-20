@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import LocalLoading from '../localLoading/localLoading'
 import { MainSiteOrange } from '../../../public/colors'
 import LoadingButton from '../loadinButton/LoadingButton'
+import toast from 'react-hot-toast'
+
 const AdminReports = () => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
@@ -21,6 +23,10 @@ const AdminReports = () => {
   const [AddNewReportBox, SetAddNewReportBox] = useState(false)
   const [Loading, SetLoading] = useState(false)
   const [Rolls, SetRolls] = useState([])
+  const [DeleteSelectedReport, SetDeleteSelectedReport] = useState(0)
+  const [DeleteBox, SetDeleteBox] = useState(false)
+  const [EditSelectedReport, SetEditSelectedReport] = useState(0)
+  const [EditBox, SetEditBox] = useState(false)
 
   const imageHandler = (event) => {
     setImage(event.target.files[0])
@@ -46,6 +52,8 @@ const AdminReports = () => {
     bodyFormData.append('title', title)
     bodyFormData.append('summary', summary)
     bodyFormData.append('text', Content)
+    bodyFormData.append('author_fname', `${Cookies.get('name')}`)
+    bodyFormData.append('author_lname', `${Cookies.get('lastname')}`)
     bodyFormData.append('author', `${Cookies.get('name')} ${Cookies.get('lastname')}`)
     bodyFormData.append('image', image)
     bodyFormData.append('publication_status', publication_status)
@@ -130,11 +138,25 @@ const AdminReports = () => {
           <UncontrolledTooltip placement='top' target={`showReportIcon${row.id}`}>
               مشاهده
           </UncontrolledTooltip>
-          <ion-icon style={{fontSize:'24px', cursor:'pointer', marginRight:'16px'}} name="create-outline" id={`editReportIcon${row.id}`}></ion-icon>
+          <ion-icon
+          onClick = {
+            () => {
+              SetEditSelectedReport(row.id)
+              SetEditBox(true)
+            }
+          }
+          style={{fontSize:'24px', cursor:'pointer', marginRight:'16px'}} name="create-outline" id={`editReportIcon${row.id}`}></ion-icon>
           <UncontrolledTooltip placement='top' target={`editReportIcon${row.id}`}>
               ویرایش
           </UncontrolledTooltip>
-          <ion-icon style={{fontSize:'24px', cursor:'pointer', marginRight:'16px'}} name="trash-outline" id={`deleteReportIcon${row.id}`}></ion-icon>
+          <ion-icon
+          onClick = {
+            () => {
+              SetDeleteSelectedReport(row.id)
+              SetDeleteBox(true)
+            }
+          }
+          style={{fontSize:'24px', cursor:'pointer', marginRight:'16px'}} name="trash-outline" id={`deleteReportIcon${row.id}`}></ion-icon>
           <UncontrolledTooltip placement='top' target={`deleteReportIcon${row.id}`}>
               حذف
           </UncontrolledTooltip>
@@ -145,6 +167,7 @@ const AdminReports = () => {
 
   useEffect(() => {
     SetData([])
+    SetLoading(true)
     axios.get(`${serverAddress}/reports/panel-reports/`, 
     {
       headers: {
@@ -152,21 +175,24 @@ const AdminReports = () => {
       }
     })
     .then((response) => {
-      const a = []
+    SetLoading(false)
+    const a = []
       for (let i = 0; i < response.data.results.length; i++) {
         a.push(
           {
-            id:i,
+            id: response.data.results[i].id,
             status: response.data.results[i].publication_status,
             date:response.data.results[i].latest_update,
             title:response.data.results[i].title,
-            writer:response.data.results[i].author
+            summary:response.data.results[i].summary,
+            writer:(`${response.data.results[i].author_fname} ${response.data.results[i].author_lname}`)
           }
         )
       }
       SetData(a)
     })
     .catch((err) => {
+      SetLoading(false)
       console.log(err)
     }
   )
@@ -218,17 +244,17 @@ const AdminReports = () => {
           </button>
           </Col>
         </Row>
-      {
-        data.length > 0 ?
+      {/* { */}
+        {/* Loading ? */}
         <DataTable
           noHeader
           columns={columns}
           className='react-dataTable'
           data={data}
         />
-      :
-      <LocalLoading/>
-      }
+      {/* : */}
+      {/* <LocalLoading/> */}
+      {/* } */}
         <Modal
           isOpen={AddNewReportBox}
           className='modal-dialog-centered'
@@ -285,6 +311,55 @@ const AdminReports = () => {
                     <LoadingButton/>
                 :
                 'ارسال'
+              }
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal
+          isOpen={DeleteBox}
+          className='modal-dialog-centered'
+          modalClassName={'modal-danger'}
+        >
+          <ModalBody>
+            <h6>حذف گزارش</h6>
+
+            <p>آیا برای حذف گزارش انتخاب شده مطمئن هستید؟</p>
+
+          </ModalBody>
+          <ModalFooter>
+            <Button color={'warning'} onClick={() => {
+                SetDeleteBox(false)
+              }}>
+              بازگشت
+              
+            </Button>
+            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => {
+                SetLoading(true)
+                axios.delete(`${serverAddress}/reports/edit/${DeleteSelectedReport}/`, 
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`
+                  }
+                })
+                .then((response) => {
+                  if (response.status === 200) {
+                    SetLoading(true)
+                    return toast.success('با موفقیت حذف شد.', {
+                      position: 'bottom-left'
+                    })
+                  }
+                })
+                .catch((err) => {
+                  SetLoading(true)
+                  console.log(err)
+                })
+            }}>
+              {
+                Loading ? 
+                    <LoadingButton/>
+                :
+                'حذف'
               }
             </Button>
           </ModalFooter>

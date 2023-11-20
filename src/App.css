@@ -58,3 +58,12 @@ Input:focus + .input-group-text {
     border-color: #2f4f4f !important;
 }
 
+.step{
+    text-align: right !important;
+}
+
+.bs-stepper-label{
+    text-align: right !important;
+}
+
+

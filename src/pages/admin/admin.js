@@ -20,14 +20,14 @@ import AdminReports from '../../components/adminReports/adminReports'
 import AdminRolls from '../../components/adminRolls/adminRolls'
 import AdminUsers from '../../components/adminUsers/adminUsers'
 import AdminPrices from '../../components/adminPrices/adminPrices'
-
+import AdminTax from '../../components/adminTax/adminTax'
 const Admin = () => {
   const [active, setActive] = useState('1')
   const dispatch = useDispatch()
   const States = useSelector(state => state)
 
   useEffect(() => {
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 6; i++) {
         document.getElementById(`Link${i}`).className = 'NotActiveAdmin'
     }
     document.getElementById(`Link${active}`).className = 'ActiveAdmin'
@@ -68,7 +68,7 @@ const Admin = () => {
             <div className='col-sm-10' style={{background:"white", borderRadius:"8px"}}>
                 <Fragment>
                     <Nav pills style={{background:"white"}} id='adminNav'>
-                        <NavItem style={{marginTop:"16px", marginBottom:"10px"}} id='AdminNavItem'>
+                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}} id='AdminNavItem'>
                             <a
                                 id='Link1'
                                 active={active === '1'}
@@ -78,7 +78,8 @@ const Admin = () => {
                                 <span className='align-middle'>کاربران</span>
                             </a>
                         </NavItem>
-                        <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
+                        
+                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
                             <a
                                 id='Link2'
                                 active={active === '2'}
@@ -89,7 +90,7 @@ const Admin = () => {
                                 <span className='align-middle'>نقش‌ها</span>
                             </a>
                         </NavItem>
-                        <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
+                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
                             <a
                                 id='Link3'
                                 active={active === '3'}
@@ -99,7 +100,7 @@ const Admin = () => {
                                 <span className='align-middle'>رخداد‌ها</span>
                             </a>
                         </NavItem>
-                        <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
+                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
                             <a
                                 id='Link4'
                                 active={active === '4'}
@@ -109,7 +110,7 @@ const Admin = () => {
                                 <span className='align-middle'>گزارش‌ها</span>
                             </a>
                         </NavItem>
-                        <NavItem style={{marginTop:"16px", marginBottom:"10px"}}>
+                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
                             <a
                                 id='Link5'
                                 active={active === '5'}
@@ -117,6 +118,16 @@ const Admin = () => {
                                 toggle('5')
                                 }}>
                                 <span className='align-middle'>قیمت‌ها</span>
+                            </a>
+                        </NavItem>
+                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
+                            <a
+                                id='Link6'
+                                active={active === '6'}
+                                onClick={() => {
+                                toggle('6')
+                                }}>
+                                <span className='align-middle'>مالیات</span>
                             </a>
                         </NavItem>
                     </Nav>
@@ -135,6 +146,9 @@ const Admin = () => {
                         </TabPane>
                         <TabPane tabId='5'>
                             <AdminPrices/>
+                        </TabPane>
+                        <TabPane tabId='6'>
+                            <AdminTax/>
                         </TabPane>
                     </TabContent>
                 </Fragment>

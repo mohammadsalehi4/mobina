@@ -505,19 +505,27 @@ const Tracker = () => {
             })
             .catch((err) => {
                 SetLoading(false)
-                console.log(err)
                 try {
                     if (err.response.statusText === 'Unauthorized') {
                         Cookies.set('refresh', '')
                         Cookies.set('access', '')
                         window.location.assign('/')
-                    } else {
-                        return toast.error('خطا در دریافت اطلاعات', {
-                            position: 'bottom-left'
-                        })
-                    }
-                } catch (error) {
-                    return toast.error('خطا در دریافت اطلاعات', {
+                    } else {}
+                } catch (error) {}
+                if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                } else if (err.response.status === 404) {
+                    return toast.error('سرور قطع می‌باشد!', {
+                        position: 'bottom-left'
+                    })
+                } else if (err.response.status >= 500) {
+                    return toast.error('سرور قطع می‌باشد!', {
+                        position: 'bottom-left'
+                    })
+                } else {
+                    return toast.error('خطا در دریافت اطلاعات از سرور!', {
                         position: 'bottom-left'
                     })
                 }

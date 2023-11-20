@@ -77,6 +77,12 @@ const Main = () => {
             })
             .catch((err) => {
                 console.log(err)
+                if (err.message === 'Network Error') {
+                    SetLoading(false)
+                    return toast.error('اتصال به اینترنت وجود ندارد', {
+                        position: 'bottom-left'
+                    })
+                }
                 if (err.response.statusText === 'Unauthorized') {
                     SetLoading(false)
                     return toast.error('ورود ناموفق', {

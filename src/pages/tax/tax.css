@@ -1,93 +1,60 @@
-#Tax {
-  height: calc(100vh - 120px);
-}
-#Tax #getExelFormat {
-  float: left;
-  cursor: pointer;
-  margin-bottom: -20px;
-}
-#Tax .taxTableDownloadDropDownOption {
-  width: 90% !important;
-}
-#Tax .taxTableDownloadDropDownOption:hover span {
-  color: #2f4f4f;
-}
-#Tax #taxTableDownloadDropDown {
-  float: left;
-}
-#Tax #taxTableDownloadDropDown #taxTableDownloadDropDownButton {
-  padding: 5px 8px !important;
-  font-size: 13px;
-  border-radius: 5px;
-  border-color: rgb(176, 176, 176) !important;
-}
-#Tax #taxTableDownloadDropDown #taxTableDownloadDropDownButton span {
-  margin: 0px !important;
-  padding: 0px !important;
-  margin-left: 5px;
-}
-#Tax #taxTableDownloadDropDown #taxTableDownloadDropDownButton ion-icon {
-  font-size: 17px;
-  margin-bottom: 2px;
-  margin-right: 3px;
-}
-#Tax #taxTableDownloadDropDownSpan {
-  padding: 5px 8px !important;
-  margin-bottom: 2px;
-  margin-right: 3px;
-}
-#Tax .main_row1 input {
-  width: 100%;
-  height: 50px;
+#Tax #centerTaxBox {
   border-radius: 8px;
-  padding-left: 48px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  background-color: white;
+  opacity: 1;
+  margin-top: 32px;
 }
-#Tax .main_row1 h1 {
-  width: 100%;
-  text-align: center;
-}
-@media only screen and (max-width: 992px) {
-  #Tax .main_row1 h1 {
-    font-size: 15px;
-  }
-}
-@media only screen and (max-width: 600px) {
-  #Tax .main_row1 h3 {
-    font-size: 18px;
-  }
-}
-#Tax .main_row1 #searchExample11 {
-  display: block;
-  margin-right: 0%;
-  margin-top: 10px;
-  width: 100%;
-}
-#Tax .main_row1 #searchExample11 span, #Tax .main_row1 #searchExample11 ion-icon, #Tax .main_row1 #searchExample11 p {
-  display: inline-block;
-}
-@media only screen and (max-width: 992px) {
-  #Tax .main_row1 #searchExample11 {
-    font-size: 13px;
-  }
-}
-#Tax .main_row1 #searchExample11 span {
-  margin-right: 10px;
-  transition: 0.1s;
-}
-#Tax .main_row1 #searchExample11 span:hover {
-  color: #2f4f4f;
-  cursor: pointer;
-}
-#Tax .main_row1 #searchExample11 ion-icon {
-  margin-right: 4px;
-  color: #2f4f4f;
-  margin-bottom: -3px;
-  font-size: 20px;
-}
+
 @media only screen and (max-width: 768px) {
-  #Tax .main_row1 {
-    margin-top: -80px;
+  #Tax #centerTaxBox {
+    margin-top: -40px;
   }
+}
+#ShowTaxResult .page-item {
+  background: rgb(244, 244, 244) !important;
+  margin-left: 2px !important;
+  margin-right: 2px !important;
+  border-radius: 50% !important;
+}
+#ShowTaxResult .page-item:not(.active):hover {
+  background: rgb(232, 232, 232) !important;
+}
+#ShowTaxResult .active {
+  background: rgb(190, 190, 190) !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+#ShowTaxResult .page-item a {
+  background: none !important;
+  padding-left: 0px !important;
+  margin-left: 0px !important;
+  padding-right: 0px !important;
+  margin-right: 0px !important;
+  text-align: center !important;
+}
+
+#ShowLastTaxes .page-item {
+  background: rgb(244, 244, 244) !important;
+  margin-left: 2px !important;
+  margin-right: 2px !important;
+  border-radius: 50% !important;
+}
+#ShowLastTaxes .page-item:not(.active):hover {
+  background: rgb(232, 232, 232) !important;
+}
+#ShowLastTaxes .active {
+  background: rgb(190, 190, 190) !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+#ShowLastTaxes .page-item a {
+  background: none !important;
+  padding-left: 0px !important;
+  margin-left: 0px !important;
+  padding-right: 0px !important;
+  margin-right: 0px !important;
+  text-align: center !important;
 }
 
 /*# sourceMappingURL=tax.css.map */

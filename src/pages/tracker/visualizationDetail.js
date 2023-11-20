@@ -184,17 +184,22 @@ const VisualizationDetail = (props) => {
     <Fragment>
       <Row>
         <Col md='12' sm='12'>
-          <CardAction title='جزئیات نمایش' actions='collapse' >
+          <CardAction title='نمایش گراف' actions='collapse' onClick='collapse' >
           <CardBody className='pt-0'>
             <div className='container-fluid'>
               <div className='row'>
                 <div className='col-md-12'>
-                  <InputGroup id='MainDashboardInputGroup' className='input-group-merge m-0 mb-3' style={{direction:'ltr', borderColor:'red', width:'100%'}}>
-                    <InputGroupText id='MainDashboardInputSymbole' onClick={ () => { window.location.assign(`/tracker/${document.getElementById('MainDashboardInputBox').value}`) } }>
-                        <Search size={16} />
-                    </InputGroupText>
-                    <Input id='MainDashboardInputBox' placeholder='آدرس یا شناسه تراکنش' />
-                  </InputGroup>
+                  <form onSubmit={ (event) => { 
+                    event.preventDefault()
+                    window.location.assign(`/tracker/${document.getElementById('MainDashboardInputBox').value}`) 
+                  }}>
+                    <InputGroup id='MainDashboardInputGroup' className='input-group-merge m-0 mb-3' style={{direction:'ltr', borderColor:'red', width:'100%'}}>
+                      <InputGroupText id='MainDashboardInputSymbole' onClick={ () => { window.location.assign(`/tracker/${document.getElementById('MainDashboardInputBox').value}`) } }>
+                          <Search size={16} />
+                      </InputGroupText>
+                      <Input id='MainDashboardInputBox' placeholder='آدرس یا شناسه تراکنش' />
+                    </InputGroup>
+                  </form>
                 </div>
                 <hr/>
               </div>
@@ -252,22 +257,6 @@ const VisualizationDetail = (props) => {
               </div>
               <div className='row'>
                 <div className='col-md-12'>
-                  {/* <p style={{display:"inline-block"}}>جهت حرکت</p>
-                  <div style={{display:"inline-block", float:"left"}}>
-                  <svg style={{background:"rgb(240,240,240)", padding:"2px", marginLeft:"20px", borderRadius:"5px", cursor:"pointer"}} xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-move-right" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                      <path d="M11 12h10" />
-                      <path d="M18 9l3 3l-3 3" />
-                      <path d="M7 12a2 2 0 1 1 -4 0a2 2 0 0 1 4 0z" />
-                    </svg>
-                    <svg style={{background:"rgb(240,240,240)", padding:"2px", borderRadius:"5px", cursor:"pointer"}} xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-move-left" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                      <path d="M13 12h-10" />
-                      <path d="M6 15l-3 -3l3 -3" />
-                      <path d="M17 12a2 2 0 1 1 4 0a2 2 0 0 1 -4 0z" />
-                    </svg>
-                  </div> */}
-
                   <p style={{display:"inline-block"}}>ذخیره گراف</p>
                   <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginRight:'12px', marginBottom:'-4px', cursor:'pointer'}} name="save-outline"></ion-icon>
                 </div>

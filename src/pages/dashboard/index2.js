@@ -716,7 +716,7 @@ const EcommerceDashboard2 = () => {
   }, [])
 
   return (
-    <UILoader ref={myInputRef} blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
+    <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
     <div id='dashboard' class='container-fluid'>
         {
             mode === 0 ? 
@@ -735,30 +735,38 @@ const EcommerceDashboard2 = () => {
                                 <span style={{color:MainSiteOrange}}> پنتا </span> 
                                 جست‌وجو کنید!
                             </h4>
-                            <form onSubmit={ (event) => { 
+                            <form  onSubmit={ (event) => { 
                                     onSubmit(event)
-                                    focusInput() 
                                 }}>
                                 <InputGroup id='MainDashboardInputGroup' className='input-group-merge mb-2' style={{direction:'ltr', borderColor:'red', width:'100%'}}>
-                                    <InputGroupText id='MainDashboardInputSymbole' onClick={ (event) => { onSubmit(event) } }>
+                                    <InputGroupText id='MainDashboardInputSymbole' onClick={ (event) => { 
+                                      onSubmit(event) 
+                                    } }>
                                         <Search size={16} />
                                     </InputGroupText>
-                                    <Input id='MainDashboardInputBox' placeholder='آدرس یا شناسه تراکنش...' />
+                                    <Input ref={myInputRef} id='MainDashboardInputBox' placeholder='آدرس یا شناسه تراکنش...' />
                                 </InputGroup>
+                                <p class="vazir"  style={{display:'inline-block', width:'100%', textAlign:'right'}}>
+                                    نمونه کاوش:
+                                    <span onClick={() => {
+                                      document.getElementById("MainDashboardInputBox").focus()
+                                      document.getElementById('MainDashboardInputBox').value = '1Fw7wvVPhv5eioWQZ2if2zRUcHNdNBfu9r' 
+                                    }} style={{display:'inline-block', marginLeft:'12px', marginRight:'12px', cursor:'pointer'}}>
+                                        <ion-icon name="file-tray-stacked-outline"></ion-icon>
+                                        {' '}
+                                        <p  style={{display:'inline-block'}}> آدرس </p>
+                                    </span>
+                                    <span onClick={() => {
+                                      document.getElementById("MainDashboardInputBox").focus()
+                                      document.getElementById('MainDashboardInputBox').value = '0xb515742dc2065871c98c411a5e55c4cca102cb7c7cd48b093a2a659c546e8035'
+                                    }} style={{display:'inline-block', cursor:'pointer'}} >
+                                        <ion-icon name="git-compare-outline"></ion-icon>
+                                        {' '}
+                                        <p  style={{display:'inline-block'}}> تراکنش </p>
+                                    </span>
+                                </p>
                             </form>
-                            <p class="vazir"  style={{display:'inline-block', width:'100%', textAlign:'right'}}>
-                                نمونه کاوش:
-                                <span onClick={() => (document.getElementById('MainDashboardInputBox').value = '1Fw7wvVPhv5eioWQZ2if2zRUcHNdNBfu9r')} style={{display:'inline-block', marginLeft:'12px', marginRight:'12px', cursor:'pointer'}}>
-                                    <ion-icon name="file-tray-stacked-outline"></ion-icon>
-                                    {' '}
-                                    <p  style={{display:'inline-block'}}> آدرس </p>
-                                </span>
-                                <span onClick={() => (document.getElementById('MainDashboardInputBox').value = '0xb515742dc2065871c98c411a5e55c4cca102cb7c7cd48b093a2a659c546e8035')} style={{display:'inline-block', cursor:'pointer'}} >
-                                    <ion-icon name="git-compare-outline"></ion-icon>
-                                    {' '}
-                                    <p  style={{display:'inline-block'}}> تراکنش </p>
-                                </span>
-                            </p>
+
                         </Col>
 
                         <Col xl={{size:3}} lg={{size:2}} md={{size:1}} sm={{size:0}}>

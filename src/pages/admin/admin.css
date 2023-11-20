@@ -54,4 +54,35 @@
   border-color: black !important;
 }
 
+@media only screen and (max-width:720px) {
+  #Admin .NavItem a{
+    font-size: 14px !important;
+  }
+
+
+}
+
+@media only screen and (max-width:400px) {
+
+  #Admin #adminNav #Link1 {
+    margin-right: 12px !important;
+  }
+
+  #Admin #AdminNavItem {
+    display: block;
+    width: 100%;
+    margin: 0px !important;
+    margin-bottom: 12px !important;
+    margin-top: 8px !important;
+  }
+
+  #Admin .NavItem {
+    display: block;
+    width: 100%;
+    margin: 0px !important;
+    margin-bottom: 12px !important;
+  }
+
+}
+
 /*# sourceMappingURL=admin.css.map */

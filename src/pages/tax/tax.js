@@ -1,28 +1,30 @@
+/* eslint-disable no-var */
+/* eslint-disable semi */
+/* eslint-disable no-duplicate-imports */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect} from 'react'
 import { useDispatch } from 'react-redux'
 import './tax.css'
-import DataTableWithButtons from '../../components/collapseableTable/TableExpandable'
-import { Input, Label, InputGroup, InputGroupText } from 'reactstrap'
-import { useParams } from "react-router-dom"
+import { Input, Label, InputGroup, Card, Row, Col, CardHeader } from 'reactstrap'
 import { MainSiteOrange } from '../../../public/colors'
-import { Search } from 'react-feather'
 import Cookies from 'js-cookie'
-
+import DataTable from 'react-data-table-component'
+import { Edit2, CreditCard, AlignRight, List } from 'react-feather'
+import { Calendar } from '../../processors/Calendar'
+import { JalaliCalendar } from '../../processors/jalaliCalendar'
+import TaxTable from './taxTable'
+import IncreaseTax from './increaseTax'
+import ShowTaxResult from './showTaxResult'
+import { useRef } from 'react'
+import Wizard from '@components/wizard'
+import ShowLastTaxes from './ShowLastTaxes'
+// ** Steps
 const Tax = () => {
-    const { txid } = useParams()
-    const dispatch = useDispatch()
-    const [mode, setMode] = useState(0)
-    const [address, setAddress] = useState('')
-    useEffect(() => {
-        if (txid) {
-            setMode(1)
-        }
-    }, [])
-    
-  //login check
+  const dispatch = useDispatch()
+  const ref = useRef(null)
+  const [stepper, setStepper] = useState(null)
   useEffect(() => {
     try {
         const access = Cookies.get('access')
@@ -43,59 +45,60 @@ const Tax = () => {
         dispatch({type:"SETWITCHPAGE", value:4})
     }, [])
 
-    const checkinput = () => {
-        if (document.getElementById('trAddressValue').value !== '') {
-            setAddress(document.getElementById('trAddressValue').value)
-            setMode(1)
-        } else {
-            setAddress('')
-            setMode(0)
-        }
-    }
-
-    useEffect(() => {
-
-    }, [mode])
+    const steps = [
+      {
+        id: 'step1',
+        title: 'لیست مالیات ها',
+        subtitle: 'مالیات های محاسبه شده',
+        icon: <List />,
+        content: <ShowLastTaxes stepper={stepper} type='wizard-modern'  style={{marginLeft:"5px"}} />
+      },
+      {
+        id: 'step2',
+        title: 'ورود اطلاعات',
+        subtitle: 'اطلاعات کسب و کار',
+        icon: <Edit2 />,
+        content: <TaxTable stepper={stepper} type='wizard-modern'  style={{marginLeft:"5px"}} />
+      },
+      {
+        id: 'step3',
+        title: 'بخشش های مالیاتی',
+        subtitle: 'میزان و درصد بخشش',
+        icon: <CreditCard />,
+        content: <IncreaseTax stepper={stepper} type='wizard-modern' />
+      },
+      {
+        id: 'step4',
+        title: 'مشاهده نتیجه',
+        subtitle: 'نتیجه مالیات کسب و کار',
+        icon: <AlignRight />,
+        content: <ShowTaxResult stepper={stepper} type='wizard-modern' />
+      }
+    ]
 
   return (
     <div id='Tax' className='container-fluid'>
-        {
-            mode === 0 ?
-                <div class="row main_row1">
-                    <div class="col-lg-3">
-                    </div>
-                    <div class="col-lg-6 middleBox" id='hamoniKeBayadBiadBala' style={{marginTop:"160px"}}>
-                        <h3 style={{ display:"block", textAlign:"center", color:"#497979"}}> شناسه تراکنش را به کمک <span class="vazir" style={{color:MainSiteOrange}}>پنتا</span> جست و جو کنید!</h3>
-                        <form onSubmit={checkinput}>
-                            <InputGroup className='mb-2'>
-                            <Input type='text' id='trAddressValue' class="form-control vazir m-auto bg-white" placeholder='شناسه تراکنش' style={{backgroundColor:"white", width:"80%", borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}/>
-                                <InputGroupText onClick={ (event) => { onSubmit(event) } } style={{ borderTopLeftRadius:"10px", borderBottomLeftRadius:"10px", borderTopRightRadius:"0px", borderBottomRightRadius:"0px", height:"50px", cursor:"pointer"}}>
-                                    <Search size={20} />
-                                </InputGroupText>
-                            </InputGroup>
-                        </form>
-                    </div>
-                    <div class="col-lg-3">
-                    </div>
-                </div>
-            :
-            null
-        }
+        <Row style={{}} className=''>
+            <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
+            </Col>
 
-        {
-        mode === 1 ?
-            <div className='row mt-3' >
-                <div className='col-lg-0'>
-                </div>
-                <div className='col-lg-12'>
-                    <DataTableWithButtons trAddress={address}/>
-                </div>
-                <div className='col-lg-0'>
-                </div>
-            </div>
-        :
-            null
-        }
+            <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none'}}  id='centerTaxBox'>
+              <Wizard
+                type='vertical'
+                ref={ref}
+                steps={steps}
+                options={{
+                  linear: false
+                }}
+                instance={el => setStepper(el)}
+              />
+
+            </Col>
+
+
+            <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
+            </Col>
+        </Row>
     </div>
   )
 }

@@ -23,7 +23,8 @@ import Demo from './pages/demo/demo'
 import Profile from './pages/profile/profile'
 import DropDown from './layouts/DropDown'
 import './App.css'
-
+import '@styles/react/libs/tables/react-dataTable-component.scss'
+import MainTax from './pages/tax/MainTax'
 const App = () => {
   const States = useSelector(state => state)
   return (
@@ -86,13 +87,13 @@ const App = () => {
             <Route path="/newpassword/:username/:token"  element={<ChangePassword/>}/>
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
-                <Route path="/tax"  element={<Tax/>}/>
+                <Route path="/tax"  element={<MainTax/>}/>
               :
               null
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
-                <Route path="/tax/:txid"  element={<Tax/>}/>
+                <Route path="/tax/management"  element={<Tax/>}/>
               :
               null
             }
