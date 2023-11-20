@@ -22,8 +22,8 @@ import {
   CardTitle,
   CardHeader,
   UncontrolledTooltip,
-  DropdownToggle,
-  UncontrolledButtonDropdown
+  Row,
+  Col
 } from 'reactstrap'
 
 import { MainSiteGray } from '../../../../../public/colors'
@@ -373,18 +373,39 @@ const DataTableWithButtons = (props) => {
             </div>
           </CardTitle>
           <div style={{width:"100%"}}>
-            <div className='row'>
-              <div className='col-12 hamoniKeMahdudiatDare hamoniKeMahdudiatDare2' style={{textAlign:'right'}}>
+            {/* <Row>
+              <Col>
                 <TimeLimit/>
+              </Col>
+
+              <Col >
                 <AmountLimit name={props.data.name}/>
+              </Col>
+
+              <Col>
                 <Download id='AddressDownloadIcon' style={{cursor:"pointer", marginTop:"12px"}} onClick={() => { downloadCSV(DownloadData) }} />
                 <UncontrolledTooltip placement='top' target='AddressDownloadIcon'>
                   دریافت
                 </UncontrolledTooltip>
-              </div>
-              {/* <div className='col-lg-4 hamoniKeMahdudiatDare'>
-              </div> */}
+              </Col>
+            </Row> */}
+            <div className='row'>
+              <div className='col-12 hamoniKeMahdudiatDare hamoniKeMahdudiatDare2' style={{textAlign:'right'}}>
+                <div className='exploreLimitBox exploreTimeLimitBox'>
+                  <TimeLimit/>
+                </div>
 
+                <div className='exploreLimitBox exploreAmountLimitBox'>
+                  <AmountLimit name={props.data.name}/>
+                </div>
+
+                <div className='exploreLimitBox exploreDownloadBox'>
+                  <Download id='AddressDownloadIcon' style={{cursor:"pointer", marginTop:"12px"}} onClick={() => { downloadCSV(DownloadData) }} />
+                  <UncontrolledTooltip placement='top' target='AddressDownloadIcon'>
+                    دریافت
+                  </UncontrolledTooltip>
+                </div>
+              </div>
             </div>
           </div>
         </CardHeader>

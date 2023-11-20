@@ -87,6 +87,47 @@
   }
 }
 
+.exploreLimitBox{
+  display: inline-block;
+}
+
+.exploreAmountLimitBox{
+  margin-right: 16px;
+}
+
+.exploreDownloadBox{
+  margin-right: 16px;
+  float: left;
+}
+
+@media only screen and (max-width:615px) {
+  .exploreLimitBox{
+    display: block;
+    width: 100%;
+  }
+
+  .exploreAmountLimitBox{
+    margin-right: 0px;
+    margin-top: 16px;
+  }
+  
+  .exploreDownloadBox{
+    margin-right: 0px;
+    float: right;
+    margin-top: 16px;
+    text-align: right;
+  }
+
+  .exploreLimitBox #TaxLimit {
+    width: 100% !important;
+  }
+
+  .exploreLimitBox #TaxLimit a button{
+    width: 100%;
+    font-size: 13px;
+    padding: 6px inherit !important;
+  }
+}
 
 
 /*# sourceMappingURL=style.css.map */
