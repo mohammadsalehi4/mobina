@@ -25,6 +25,7 @@ import DropDown from './layouts/DropDown'
 import './App.css'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import MainTax from './pages/tax/MainTax'
+import ShowReport from './pages/reports/ShowReport'
 const App = () => {
   const States = useSelector(state => state)
   return (
@@ -105,6 +106,7 @@ const App = () => {
             }
 
             <Route path="/reports"  element={<Reports/>}/>
+            <Route path="/reports/:id"  element={<ShowReport/>}/>
             {/* <Route path="/owner"  element={<Owner/>}/> */}
             {/* <Route path="/entities"  element={<Entities/>}/> */}
             <Route path="/demo"  element={<Demo/>}/>

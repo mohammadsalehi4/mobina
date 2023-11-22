@@ -147,7 +147,7 @@ const ShowLastTaxes = ({ stepper }) => {
       )
         
   return (
-    <Card className='m-0 ' style={{boxShadow:'none'}} id='ShowLastTaxes'>
+    <Card className='m-0 TaxAllTables ' style={{boxShadow:'none', overflowX:'hidden'}} id='ShowLastTaxes'>
     <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
       <h5>مالیات های محاسبه شده</h5>
       <button style={{background:MainSiteGreen, color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next' onClick={() => {
@@ -162,18 +162,23 @@ const ShowLastTaxes = ({ stepper }) => {
     <CardBody style={{textAlign:'left', boxShadow:'none'}}>
         <Row>
           <Col className='mt-3' style={{textAlign:'right'}}>
+            <div style={{}}>
+
+            </div>
             <DataTable
+                
                 noHeader
                 pagination
                 paginationPerPage={5}
                 data={data}
                 columns={basicColumns}
-                className='react-dataTable mt-3'
+                className='react-dataTable mt-3 TaxDataTable'
                 sortIcon={<ChevronDown size={10} />}
                 paginationComponent={CustomPagination}
                 paginationDefaultPage={currentPage + 1}
             />
           </Col>
+ 
         </Row>
     </CardBody>
 </Card>

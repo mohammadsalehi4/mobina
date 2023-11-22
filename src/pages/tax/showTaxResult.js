@@ -10,7 +10,7 @@ import { WriteNumber } from '../../processors/PersianWriteNumber'
 import CountedTaxTable from './CountedTaxTable'
 const ShowTaxResult = ({ stepper }) => {
   return (
-        <Card className='m-0 ' style={{boxShadow:'none', maxWidth:'100%'}} id='ShowTaxResult'>
+        <Card className='m-0 ShowLastTaxes' style={{boxShadow:'none', maxWidth:'100%'}} id='ShowTaxResult' >
             <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
                 <h5>بخشش های مالیاتی</h5>
             </CardHeader>

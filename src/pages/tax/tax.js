@@ -40,10 +40,10 @@ const Tax = () => {
     }
   }, [])
 
-    useEffect(() => {
-        dispatch({type:"SHOWNAVBAR"})
-        dispatch({type:"SETWITCHPAGE", value:4})
-    }, [])
+  useEffect(() => {
+      dispatch({type:"SHOWNAVBAR"})
+      dispatch({type:"SETWITCHPAGE", value:4})
+  }, [])
 
     const steps = [
       {
@@ -82,9 +82,9 @@ const Tax = () => {
             <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
             </Col>
 
-            <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none'}}  id='centerTaxBox'>
+            <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none', overflow:'revert-layer'}}  id='centerTaxBox'>
               <Wizard
-                type='vertical'
+                type='horizonal'
                 ref={ref}
                 steps={steps}
                 options={{
@@ -92,7 +92,6 @@ const Tax = () => {
                 }}
                 instance={el => setStepper(el)}
               />
-
             </Col>
 
 

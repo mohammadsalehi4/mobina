@@ -25,8 +25,11 @@ const AdminReports = () => {
   const [Rolls, SetRolls] = useState([])
   const [DeleteSelectedReport, SetDeleteSelectedReport] = useState(0)
   const [DeleteBox, SetDeleteBox] = useState(false)
-  const [EditSelectedReport, SetEditSelectedReport] = useState(0)
+
+  const [EditSelectedReport, SetEditSelectedReport] = useState(null)
+  const [EditSelectedReportContent, SetEditSelectedReportContent] = useState(null)
   const [EditBox, SetEditBox] = useState(false)
+  const [EditLoading, SetEditLoading] = useState(false)
 
   const imageHandler = (event) => {
     setImage(event.target.files[0])
@@ -77,6 +80,57 @@ const AdminReports = () => {
     .catch((err) => {
       console.log(err)
     })
+  }
+
+  const EditReport = () => {
+    const title = document.getElementById('EditreportTitle').value
+    const summary = document.getElementById('Editsummary').value
+    const Content = document.getElementById('EditContent').value
+    const checked = document.getElementById('EditShareReport').checked
+    let publication_status
+
+    if (checked) {
+      publication_status = 'انتشار یافته'
+    } else {
+      publication_status = 'پیش نویس'
+    }
+
+    const bodyFormData = new FormData()
+
+    bodyFormData.append('title', title)
+    bodyFormData.append('summary', summary)
+    bodyFormData.append('text', Content)
+    bodyFormData.append('author_fname', `${Cookies.get('name')}`)
+    bodyFormData.append('author_lname', `${Cookies.get('lastname')}`)
+    bodyFormData.append('author', `${Cookies.get('name')} ${Cookies.get('lastname')}`)
+    bodyFormData.append('publication_status', publication_status)
+
+    for (let i = 0; i < Rolls.length; i++) {
+      if (document.getElementById(`EditRollText${Rolls[i].id}`).checked) {
+        bodyFormData.append('accesses', Rolls[i].id)
+      }
+    }
+
+    if (document.getElementById('EditreportImage').files.length > 0) {
+      const getImage = document.getElementById('EditreportImage').files[0]
+      bodyFormData.append('image', getImage)
+    }
+
+    axios.put(`${serverAddress}/reports/edit/${EditSelectedReport}/`, 
+    bodyFormData,
+    {
+        headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`, 
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
   }
 
   const columns = [
@@ -134,7 +188,9 @@ const AdminReports = () => {
       maxWidth: '200px',
       cell: row => (
         <div>
-          <ion-icon style={{fontSize:'24px', cursor:'pointer'}} name="eye-outline" id={`showReportIcon${row.id}`}></ion-icon>
+          <a href={`/reports/${row.id}`} style={{color:'inherit'}}>
+            <ion-icon style={{fontSize:'24px', cursor:'pointer'}} name="eye-outline" id={`showReportIcon${row.id}`}></ion-icon>
+          </a>
           <UncontrolledTooltip placement='top' target={`showReportIcon${row.id}`}>
               مشاهده
           </UncontrolledTooltip>
@@ -166,6 +222,35 @@ const AdminReports = () => {
   ]
 
   useEffect(() => {
+    if (EditSelectedReport !== null) {
+      SetEditLoading(true)
+      axios.get(`${serverAddress}/reports/detail/${EditSelectedReport}/`, 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+        SetEditLoading(false)
+
+          if (response.status === 200) {
+            SetEditSelectedReportContent(response.data)
+          }
+      })
+      .catch((err) => {
+        SetEditLoading(false)
+          try {
+            if (err.response.status === 401) {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+          } catch (error) {}
+      })
+    }
+  }, [EditSelectedReport])
+
+  useEffect(() => {
     SetData([])
     SetLoading(true)
     axios.get(`${serverAddress}/reports/panel-reports/`, 
@@ -185,10 +270,14 @@ const AdminReports = () => {
             date:response.data.results[i].latest_update,
             title:response.data.results[i].title,
             summary:response.data.results[i].summary,
-            writer:(`${response.data.results[i].author_fname} ${response.data.results[i].author_lname}`)
+            writer:(`${response.data.results[i].author_fname} ${response.data.results[i].author_lname}`),
+            author_fname:response.data.results[i].author_fname,
+            author_lname:response.data.results[i].author_lname,
+            accesses:response.data.results[i].accesses
           }
         )
       }
+      console.log(a)
       SetData(a)
     })
     .catch((err) => {
@@ -198,6 +287,7 @@ const AdminReports = () => {
   )
   }, [, States.beLoad])
 
+  //roll
   useEffect(() => {
     axios.get(`${serverAddress}/accounts/role/`, 
     {
@@ -244,17 +334,14 @@ const AdminReports = () => {
           </button>
           </Col>
         </Row>
-      {/* { */}
-        {/* Loading ? */}
+
         <DataTable
           noHeader
           columns={columns}
           className='react-dataTable'
           data={data}
         />
-      {/* : */}
-      {/* <LocalLoading/> */}
-      {/* } */}
+
         <Modal
           isOpen={AddNewReportBox}
           className='modal-dialog-centered'
@@ -360,6 +447,89 @@ const AdminReports = () => {
                     <LoadingButton/>
                 :
                 'حذف'
+              }
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal
+          isOpen={EditBox}
+          className='modal-dialog-centered'
+          modalClassName={'modal-danger'}
+        >
+          <ModalBody>
+            {
+              EditSelectedReportContent !== null ?
+              <>
+                <h6>ویرایش گزارش</h6>
+
+                <span>عنوان گزارش</span>
+                <Input defaultValue={EditSelectedReportContent.title} placeholder='عنوان' id='EditreportTitle' className='mb-3'/>
+
+                <span>خلاصه گزارش</span>
+                <Input defaultValue={EditSelectedReportContent.summary} className='mb-3' id='Editsummary' placeholder='خلاصه' type='textarea' style={{minHeight:'50px'}}/>
+
+                <span>محتوا گزارش</span>
+                <Input defaultValue={EditSelectedReportContent.text} className='mb-3' id='EditContent' placeholder='محتوا' type='textarea' style={{minHeight:'150px'}}/>
+
+                <span>عکس مورد نظر را وارد کنید.</span>
+                <input onChange={imageHandler} accept="image/*" type='file' name='file' id='EditreportImage' />
+
+                <div className='mt-3'>
+                  {
+                    EditSelectedReportContent.publication_status === "انتشار یافته" ?
+                      <Input defaultChecked type='switch' name='customSwitch' id='EditShareReport' className='ms-2' />
+                    :
+                      <Input type='switch' name='customSwitch' id='EditShareReport' className='ms-2' />
+                  }
+                  <Label for='exampleCustomSwitch'>گزارش مورد نظر انتشار پیدا کند؟</Label>
+                </div>
+
+                <div className='mt-2'>
+                  <span>دسترسی ها</span>
+                  {
+                    Rolls.map((item) => {
+                      console.log(EditSelectedReportContent.accesses.some(access => access === item))
+                      if (EditSelectedReportContent.accesses.some(access => access === item.id)) {
+                        return (
+                          <div>
+                            <Input  type='switch' defaultChecked id={`EditRollText${item.id}`} />
+                            <Label for={`RollText${item.id}`} className='me-2'>{item.name}</Label>
+                          </div>
+                        )
+                      } else {
+                        <div>
+                          <Input  type='switch' id={`EditRollText${item.id}`} />
+                          <Label for={`RollText${item.id}`} className='me-2'>{item.name}</Label>
+                        </div>
+                      }
+                    })
+                  }
+                </div>
+                </>
+                :
+                <p>در حال پردازش</p>
+            }
+
+
+          </ModalBody>
+          <ModalFooter>
+            <Button color={'warning'} onClick={() => {
+                SetEditSelectedReportContent(null)
+                SetEditSelectedReport(null)
+                SetEditBox(false)
+              }}>
+              بازگشت
+              
+            </Button>
+            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => {
+                EditReport()
+            }}>
+              {
+                Loading ? 
+                    <LoadingButton/>
+                :
+                'ویرایش'
               }
             </Button>
           </ModalFooter>

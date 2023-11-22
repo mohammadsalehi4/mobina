@@ -6,10 +6,11 @@ import img2 from '@src/assets/images/slider/03.jpg'
 
 const CardSubMain = (props) => {
   return (
+    <a style={{color:'inherit'}}  href={`/reports/${props.data.id}`}>
     <div id='cardSubMain' className='container-fluid' style={{ width:"100%"}}>
         <div className='row'>
             <div className='col-6'>
-                <CardImg src={`images/news/${props.data.img}`} style={{width:"100%", borderRadius:"5px"}} />
+                <CardImg src={`${props.data.img}`} style={{width:"100%", borderRadius:"5px"}} />
             </div>
             <div className='col-6 p-2'>
                 <h6>
@@ -21,7 +22,7 @@ const CardSubMain = (props) => {
             </div>
         </div>
     </div>
-
+    </a>
   )
 }
 

@@ -6,18 +6,21 @@ import img2 from '@src/assets/images/slider/09.jpg'
 
 const CardNews = (props) => {
   return (
-    <Card id='CardNews' style={{cursor:"pointer"}}>
-    <CardImg top src={img2} alt='Card cap' />
-    <CardBody>
-      <CardTitle tag='h4'>{props.data.title}</CardTitle>
-      <p>              
-        {props.data.description}
-      </p>
-      <Button color='primary' outline>
-        ادامه
-      </Button>
-    </CardBody>
-    </Card>
+    <a style={{color:'inherit'}} href={`/reports/${props.data.id}`}>
+      <Card id='CardNews' style={{cursor:"pointer"}}>
+      <CardImg top  src={`${props.data.img}`} alt='Card cap' />
+      <CardBody>
+        <CardTitle tag='h4'>{props.data.title}</CardTitle>
+        <p>              
+          {props.data.description}
+        </p>
+        <Button color='primary' outline>
+          ادامه
+        </Button>
+      </CardBody>
+      </Card>
+    </a>
+ 
 
   )
 }

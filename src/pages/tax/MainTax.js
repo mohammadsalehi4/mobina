@@ -32,9 +32,9 @@ const MainTax = () => {
     }, [])
 
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid' id='MainTax'>
 
-        <Row className='mt-5'>
+        <Row >
             <Col xl={{size:1}} lg={{size:1}} md={{size:0}} >
             </Col>
 

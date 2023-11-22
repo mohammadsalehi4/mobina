@@ -5,17 +5,18 @@ import { Button, Card, CardTitle, CardBody, CardText, CardSubtitle, CardLink, Ca
 import img1 from '../../../public/images/news/1.jpg'
 const CardMain = (props) => {
   return (
-    <div id='cardMain' style={{background:"white", width:"100%"}}>
-        <CardImg src={img1} style={{height:"33%", borderRadius:"10px"}} />
-        <CardBody className='p-3'>
-            <h5>{props.data.title}</h5>
-            <p>
-              {props.data.description}
-            </p>
-            <Button className=' mb-3' style={{float:"left"}} outline>ادامه</Button>
-        </CardBody>
-    </div>
-
+    <a style={{color:'inherit'}} href={`/reports/${props.data.id}`}>
+      <div id='cardMain' style={{background:"white", width:"100%"}}>
+          <CardImg src={`${props.data.img}`}  style={{height:"33%", borderRadius:"10px"}} />
+          <CardBody className='p-3'>
+              <h5>{props.data.title}</h5>
+              <p>
+                {props.data.description}
+              </p>
+              <Button className=' mb-3' style={{float:"left"}} outline>ادامه</Button>
+          </CardBody>
+      </div>
+    </a>
   )
 }
 
