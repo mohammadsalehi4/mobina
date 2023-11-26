@@ -154,6 +154,7 @@ const FuckingGraph = (props) => {
           AllNodes.push({
             id: States.GraphData[i].address,
             address:States.GraphData[i].address,
+            Label:States.GraphData[i].Label,
             from:myFrom,
             to:myTo,
             symbole:'ETH',
@@ -164,6 +165,7 @@ const FuckingGraph = (props) => {
           myData = {
             id: States.GraphData[i].address,
             address:States.GraphData[i].address,
+            Label:States.GraphData[i].Label,
             from:myFrom,
             to:myTo,
             symbole:'ETH',
@@ -178,6 +180,7 @@ const FuckingGraph = (props) => {
               id: States.GraphData[i].address,
               address:States.GraphData[i].address,
               from:myFrom,
+              Label:States.GraphData[i].Label,
               to:myTo,
               symbole:'ETH',
               group:'main',
@@ -188,6 +191,7 @@ const FuckingGraph = (props) => {
               id: States.GraphData[i].address,
               address:States.GraphData[i].address,
               from:myFrom,
+              Label:States.GraphData[i].Label,
               to:myTo,
               symbole:'ETH',
               group:'main',
@@ -199,6 +203,7 @@ const FuckingGraph = (props) => {
               id: States.GraphData[i].address,
               address:States.GraphData[i].address,
               from:myFrom,
+              Label:States.GraphData[i].Label,
               to:myTo,
               symbole:'ETH',
               group:'main',
@@ -209,6 +214,7 @@ const FuckingGraph = (props) => {
               id: States.GraphData[i].address,
               address:States.GraphData[i].address,
               from:myFrom,
+              Label:States.GraphData[i].Label,
               to:myTo,
               symbole:'ETH',
               group:'main',
@@ -332,6 +338,12 @@ const FuckingGraph = (props) => {
         if (CheckPage(GraphData[i].x, y)) {
           let newNode
           if (GraphData[i].group === 'main') {
+            let showLabel = false
+            if (GraphData[i].Label) {
+              showLabel = GraphData[i].Label
+            } else {
+              showLabel = `...${(GraphData[i].address).substring(0, 7)}`
+            }
             newNode = {
               id: GraphData[i].id,
               x: GraphData[i].x * Distance,
@@ -339,7 +351,7 @@ const FuckingGraph = (props) => {
               group: GraphData[i].group,
               address:GraphData[i].address,
               image:`/public/images/Location.png`,
-              label: `...${(GraphData[i].address).substring(0, 7)}`
+              label: showLabel
             }
           } else if (GraphData[i].group === 'mid') {
             newNode = {

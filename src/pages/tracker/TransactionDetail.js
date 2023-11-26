@@ -96,6 +96,7 @@ const TransactionDetail1 = () => {
       inputAddresses.push(
         {
           address:data.inputs[i].address,
+          Label:data.inputs[i].Label,
           value:data.inputs[i].value,
           symbole:data.symbole,
           show:false,
@@ -109,6 +110,7 @@ const TransactionDetail1 = () => {
         {
           address:data.outputs[i].address,
           value:data.outputs[i].value,
+          Label:data.outputs[i].Label,
           symbole:data.symbole,
           show:false,
           valueInDollar:data.outputs[i].valueInDollar
@@ -139,6 +141,8 @@ const TransactionDetail1 = () => {
   }
 
   const AccountBaseTr = (data) => {
+    console.log('tr')
+    console.log(data)
     const blockNumber = data.blockNumber
     const address = data.hash
     const BlockDate = data.timestamp
@@ -159,6 +163,7 @@ const TransactionDetail1 = () => {
       {
         address:data.from,
         value:data.value,
+        Label:data.FromLabel,
         symbole:data.symbole,
         show:false,
         valueInDollar:data.valueInDollar
@@ -169,6 +174,7 @@ const TransactionDetail1 = () => {
       {
         address:data.to,
         value:data.value,
+        Label:data.ToLabel,
         symbole:data.symbole,
         show:false,
         valueInDollar:data.valueInDollar

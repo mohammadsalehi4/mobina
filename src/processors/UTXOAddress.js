@@ -1,13 +1,18 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
-export function UTXOAddress (array, address, symbole, decimal) {
+export function UTXOAddress (data, address, symbole, decimal) {
 
     const inputs = []
     const outputs = []
-
     let isError = false
     let ErrorText = ''
+    const mainGetLabel = data.labels_tags.labels
+    let mainLabel = false
+    if (mainGetLabel.length !== 0) {
+        mainLabel = data.labels_tags.labels[0].label
+    }
+    const array = data.result
     try {
         for (let i = 0; i < array.length; i++) {
             let inputValue = 0
@@ -39,12 +44,18 @@ export function UTXOAddress (array, address, symbole, decimal) {
                         }
                     }
                     if (!check) {
+                        const Getlabel = array[i].outputs[j].address.labels
+                        let label = false
+                        if (Getlabel.length !== 0) {
+                            label = Getlabel[0].label
+                        }
                         innerOutputs.push(
                             {
                                 address:array[i].outputs[j].address.address,
                                 value:Number(array[i].outputs[j].value) / decimal,
                                 symbole,
-                                ValueInDollar:Number(array[i].outputs[j].ValueInDollar)
+                                ValueInDollar:Number(array[i].outputs[j].ValueInDollar),
+                                label
                             }
                         )
                     } else {
@@ -85,12 +96,18 @@ export function UTXOAddress (array, address, symbole, decimal) {
                         }
                     }
                     if (!check) {
+                        const Getlabel = array[i].inputs[j].coin.address.labels
+                        let label = false
+                        if (Getlabel.length !== 0) {
+                            label = Getlabel[0].label
+                        }
                         innerInputs.push(
                             {
                                 address:array[i].inputs[j].coin.address.address,
                                 value:Number(array[i].inputs[j].coin.value) / decimal,
                                 symbole,
-                                ValueInDollar:Number(array[i].inputs[j].coin.ValueInDollar)
+                                ValueInDollar:Number(array[i].inputs[j].coin.ValueInDollar),
+                                label
                             }
                         )
                     } else {
@@ -141,7 +158,8 @@ export function UTXOAddress (array, address, symbole, decimal) {
                 address,
                 symbole,
                 inputs,
-                outputs
+                outputs,
+                label:mainLabel
             }
         )
     }

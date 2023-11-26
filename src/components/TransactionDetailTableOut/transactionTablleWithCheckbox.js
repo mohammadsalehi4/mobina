@@ -31,12 +31,12 @@ const TransactionTablleWithCheckbox2 = (props) => {
 
   
   useEffect(() => {
-    console.log(props.data)
     const a = []
     for (let i = 0; i < props.data.outputAddresses.length; i++) {
       a.push({
         address:props.data.outputAddresses[i].address,
         amount:props.data.outputAddresses[i].value,
+        Label:props.data.outputAddresses[i].Label,
         currencyType:props.data.outputAddresses[i].symbole,
         show:false,
         valueInDollar:props.data.outputAddresses[i].valueInDollar
@@ -68,9 +68,6 @@ const TransactionTablleWithCheckbox2 = (props) => {
 
   const addSelectedData = (row) => {
     const getData = States.GraphData
-    console.log('trs')
-    console.log(props)
-    console.log(row)
     if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
       getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).inputs.push({
         hash:props.data.address,
@@ -85,6 +82,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
       getData.push({
         address: row.address,
         symbole:row.currencyType,
+        Label:row.Label,
         inputs:[
           {
             hash:props.data.address,
@@ -167,9 +165,15 @@ const TransactionTablleWithCheckbox2 = (props) => {
       minWidth: '200px',
       selector: row => row.address,
       cell: row => {
-        return (
-          <NiceAddress2 text={row.address} number={6}/>
-        )
+        if (row.Label) {
+          return (
+            row.Label
+          )
+        } else {
+          return (
+            <NiceAddress2 text={row.address} number={6}/>
+          )
+        }
       }
     },
     {

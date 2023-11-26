@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 export function UTXOTransaction (array, symbole, decimal) {
-    console.log('array')
-    console.log(array)
+
     const blockNumber = array.blockNumber
     const fee = array.fee
     const hash = array.hash
@@ -13,6 +12,12 @@ export function UTXOTransaction (array, symbole, decimal) {
 
     let isError = false
     let ErrorText = ''
+
+    const GetMainLabel = array.label_tag.labels
+    let MainLabel = false
+    if (GetMainLabel.length !== 0) {
+        MainLabel = GetMainLabel[0].label
+    }
     
     try {
         
@@ -24,11 +29,18 @@ export function UTXOTransaction (array, symbole, decimal) {
                 }
             }
             if (!check) {
-                console.log(array.inputs[i].coin.value)
+                
+                const GetLabel = array.inputs[i].coin.address.labels
+                let Label = false
+                if (GetLabel.length !== 0) {
+                    Label = array.inputs[i].coin.address.labels[0].label
+                }
+                
                 inputs.push({
                     address: array.inputs[i].coin.address.address,
                     value: Number(array.inputs[i].coin.value) / decimal,
-                    valueInDollar: array.inputs[i].coin.ValueInDollar
+                    valueInDollar: array.inputs[i].coin.ValueInDollar,
+                    Label
                 })
             } else {
                 for (let j = 0; j < inputs.length; j++) {
@@ -48,10 +60,18 @@ export function UTXOTransaction (array, symbole, decimal) {
                 }
             }
             if (!check) {
+                                
+                const GetLabel = array.outputs[i].address.labels
+                let Label = false
+                if (GetLabel.length !== 0) {
+                    Label = array.outputs[i].address.labels[0].label
+                }
+                
                 outputs.push({
                     address: array.outputs[i].address.address,
                     value: array.outputs[i].value / decimal,
-                    valueInDollar: array.outputs[i].ValueInDollar
+                    valueInDollar: array.outputs[i].ValueInDollar,
+                    Label
                 })
             } else {
                 for (let j = 0; j < outputs.length; j++) {
@@ -76,20 +96,6 @@ export function UTXOTransaction (array, symbole, decimal) {
         )
     } else {
 
-        console.log('proccessor')
-        console.log(
-            {
-                isError,
-                blockNumber,
-                fee,
-                hash,
-                time,
-                inputs,
-                outputs,
-                symbole
-            }
-        )
-
         return (
             {
                 isError,
@@ -99,7 +105,8 @@ export function UTXOTransaction (array, symbole, decimal) {
                 time,
                 inputs,
                 outputs,
-                symbole
+                symbole,
+                MainLabel
             }
         )
     }

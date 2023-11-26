@@ -585,7 +585,7 @@ const EcommerceDashboard2 = () => {
                 }
               )
 
-              SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data.result, hash, 'BTC', 100000000)))
+              SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'BTC', 100000000)))
               SetMode(2)
               SetLoading(false)
             } catch (error) {
@@ -644,7 +644,7 @@ const EcommerceDashboard2 = () => {
                   TagInfo
                 }
               )
-                SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data.result, hash, 'BTC', 1000000000000000000)))
+                SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data, hash, 'BTC', 1000000000000000000)))
                 SetMode(2)
               } catch (error) {
                 console.log(error)

@@ -72,9 +72,11 @@ const Tracker = () => {
 
     //processors
     const UTXOAdd = (data) => {
+
         const mainAddress = {
             address: data.address,
             symbole : data.symbole,
+            Label:data.label,
             inputs : [
                 {
                     hash:null,
@@ -106,7 +108,8 @@ const Tracker = () => {
                     symbole: '',
                     valueInDollar:0
                 }
-            ]
+            ],
+            Label:false
         }
         const outputAddress = {
             address : '',
@@ -120,7 +123,8 @@ const Tracker = () => {
                     valueInDollar:0
                 }
             ],
-            outputs : []
+            outputs : [],
+            Label:false
         }
 
         let inputCheck = false
@@ -135,6 +139,7 @@ const Tracker = () => {
 
             inputAddress.address = data.inputs[0].sender[0].address
             inputAddress.symbole = data.inputs[0].sender[0].symbole
+            inputAddress.Label = data.inputs[0].sender[0].label
             inputAddress.outputs[0].hash = data.inputs[0].hash
             inputAddress.outputs[0].value = parseFloat(data.inputs[0].sender[0].value.toFixed(5))
             inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
@@ -153,6 +158,7 @@ const Tracker = () => {
 
             outputAddress.address = data.outputs[0].reciver[0].address
             outputAddress.symbole = data.outputs[0].reciver[0].symbole
+            outputAddress.Label = data.outputs[0].reciver[0].label
             outputAddress.inputs[0].hash = data.outputs[0].hash
             outputAddress.inputs[0].value = parseFloat(data.outputs[0].reciver[0].value.toFixed(5))
             outputAddress.inputs[0].timeStamp = data.outputs[0].timestamp
@@ -176,6 +182,7 @@ const Tracker = () => {
                     {
                         address: mainAddress.address,
                         symbole: mainAddress.symbole,
+                        Label: mainAddress.Label,
                         inputs:[
                             {
                                 hash:mainAddress.inputs[0].hash,
@@ -196,6 +203,7 @@ const Tracker = () => {
                     {
                         address: mainAddress.address,
                         symbole: mainAddress.symbole,
+                        Label: mainAddress.Label,
                         inputs:[],
                         outputs:[
                             {
@@ -216,6 +224,7 @@ const Tracker = () => {
                     {
                         address: mainAddress.address,
                         symbole: mainAddress.symbole,
+                        Label: mainAddress.Label,
                         inputs:[],
                         outputs:[]
                     }
@@ -227,6 +236,7 @@ const Tracker = () => {
         const LeftAddress = {
             address: data.outputs[0].address,
             symbole : data.symbole,
+            Label : data.Label,
             inputs : [
                 {
                     hash:data.hash,
@@ -241,6 +251,7 @@ const Tracker = () => {
         const RightAddress = {
             address : data.inputs[0].address,
             symbole : data.symbole,
+            Label : data.Label,
             inputs : [],
             outputs : [
                 {
@@ -261,9 +272,11 @@ const Tracker = () => {
         )
     }
     const AccountAdd = (data) => {
+
         const mainAddress = {
             address: '',
             symbole : '',
+            Label:false,
             inputs : [
                 {
                     hash:null,
@@ -286,6 +299,7 @@ const Tracker = () => {
         const inputAddress = {
             address : '',
             symbole : '',
+            Label:false,
             inputs : [],
             outputs : [
                 {
@@ -300,6 +314,7 @@ const Tracker = () => {
         const outputAddress = {
             address : '',
             symbole: '',
+            Label:false,
             inputs : [
                 {
                     hash:null,
@@ -314,6 +329,7 @@ const Tracker = () => {
 
         mainAddress.address = data.address
         mainAddress.symbole = data.symbole
+        mainAddress.Label = data.Label
 
         let inputCheck = false
         let outputCheck = false
@@ -327,6 +343,7 @@ const Tracker = () => {
 
             inputAddress.address = data.inputs[0].address
             inputAddress.symbole = data.inputs[0].symbole
+            inputAddress.Label = data.inputs[0].Label
             inputAddress.outputs[0].hash = data.inputs[0].hash
             inputAddress.outputs[0].value = parseFloat(data.inputs[0].value.toFixed(5))
             inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
@@ -345,6 +362,7 @@ const Tracker = () => {
 
             outputAddress.address = data.outputs[0].address
             outputAddress.symbole = data.outputs[0].symbole
+            outputAddress.Label = data.outputs[0].Label
             outputAddress.inputs[0].hash = data.outputs[0].hash
             outputAddress.inputs[0].value = parseFloat(data.outputs[0].value.toFixed(5))
             outputAddress.inputs[0].timeStamp = data.outputs[0].timestamp
@@ -368,6 +386,7 @@ const Tracker = () => {
                     {
                         address: mainAddress.address,
                         symbole: mainAddress.symbole,
+                        Label: mainAddress.Label,
                         inputs:[
                             {
                                 hash:mainAddress.inputs[0].hash,
@@ -388,6 +407,7 @@ const Tracker = () => {
                     {
                         address: mainAddress.address,
                         symbole: mainAddress.symbole,
+                        Label: mainAddress.Label,
                         inputs:[],
                         outputs:[
                             {
@@ -408,6 +428,7 @@ const Tracker = () => {
                     {
                         address: mainAddress.address,
                         symbole: mainAddress.symbole,
+                        Label: mainAddress.Label,
                         inputs:[],
                         outputs:[]
                     }
@@ -416,9 +437,11 @@ const Tracker = () => {
         }
     }
     const AccountTr = (data) => {
+
         const LeftAddress = {
-            address: data.from,
+            address: data.to,
             symbole : data.symbole,
+            Label : data.ToLabel,
             inputs : [
                 {
                     hash:data.hash,
@@ -431,8 +454,9 @@ const Tracker = () => {
             outputs : []
         }
         const RightAddress = {
-            address : data.to,
+            address : data.from,
             symbole : data.value,
+            Label : data.FromLabel,
             inputs : [],
             outputs : [
                 {
@@ -471,13 +495,13 @@ const Tracker = () => {
                         if (response.data.network === 'ETH') {
                             dispatch({type:"Network", value:'ETH'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:AccountAdd(AccountBaseAddress(response.data.data.result, hash, 'ETH', 1000000000000000000))})
+                            dispatch({type:"GRAPHDATA", value:AccountAdd(AccountBaseAddress(response.data.data, hash, 'ETH', 1000000000000000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
                         } else if (response.data.network === 'BTC') {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data.result, hash, 'BTC', 100000000))})
+                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'BTC', 100000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
                         }

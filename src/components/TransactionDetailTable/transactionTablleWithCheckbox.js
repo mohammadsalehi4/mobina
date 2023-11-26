@@ -36,6 +36,7 @@ const TransactionTablleWithCheckbox = (props) => {
         address:props.data.inputAddresses[i].address,
         amount:props.data.inputAddresses[i].value,
         currencyType:props.data.inputAddresses[i].symbole,
+        Label:props.data.inputAddresses[i].Label,
         show:false,
         valueInDollar:props.data.inputAddresses[i].valueInDollar
       })
@@ -82,6 +83,7 @@ const TransactionTablleWithCheckbox = (props) => {
       getData.push({
         address: row.address,
         symbole:row.currencyType,
+        Label:row.Label,
         outputs:[
           {
             hash:props.data.address,
@@ -167,9 +169,13 @@ const TransactionTablleWithCheckbox = (props) => {
       minWidth: '200px',
       selector: row => row.address,
       cell: row => {
-        return (
-          <NiceAddress2 text={row.address} number={6}/>
-        )
+        if (row.Label) {
+          return (row.Label)
+        } else {
+          return (
+            <NiceAddress2 text={row.address} number={6}/>
+          )
+        }
       }
     },
     {

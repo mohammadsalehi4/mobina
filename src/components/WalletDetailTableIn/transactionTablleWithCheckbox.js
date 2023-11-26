@@ -115,6 +115,7 @@ const  WalletDetailTableBottom = (props) => {
           const newNode = {
             address:row.address,
             symbole:row.symbole,
+            Label:row.Label,
             inputs:[],
             outputs:[
               {
@@ -225,6 +226,7 @@ const  WalletDetailTableBottom = (props) => {
       if (AllHash.some(item => item.toUpperCase() === (props.data.inputs[i].hash).toUpperCase())) {
         a.push({
           amount:props.data.inputs[i].amount,
+          Label:props.data.inputs[i].Label,
           senderAmount:props.data.inputs[i].senderAmount,
           address:props.data.inputs[i].address,
           date:props.data.inputs[i].date,
@@ -239,6 +241,7 @@ const  WalletDetailTableBottom = (props) => {
         a.push({
           address:props.data.inputs[i].address,
           amount:props.data.inputs[i].amount,
+          Label:props.data.inputs[i].Label,
           senderAmount:props.data.inputs[i].senderAmount,
           date:props.data.inputs[i].date,
           time:props.data.inputs[i].time,
@@ -255,6 +258,7 @@ const  WalletDetailTableBottom = (props) => {
         a.push({
           address:props.data.outputs[i].address,
           amount:props.data.outputs[i].amount,
+          Label:props.data.outputs[i].Label,
           reciverAmount:props.data.outputs[i].reciverAmount,
           date:props.data.outputs[i].date,
           time:props.data.outputs[i].time,
@@ -268,6 +272,7 @@ const  WalletDetailTableBottom = (props) => {
         a.push({
           address:props.data.outputs[i].address,
           amount:props.data.outputs[i].amount,
+          Label:props.data.outputs[i].Label,
           reciverAmount:props.data.outputs[i].reciverAmount,
           date:props.data.outputs[i].date,
           time:props.data.outputs[i].time,

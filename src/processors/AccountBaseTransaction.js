@@ -10,6 +10,24 @@ export function AccountBaseTransaction (array, symbole, decimal) {
     const fee = (Number(array.gasPrice) * Number(array.gasUsed)) / decimal
     const logs = []
 
+    const GetFromLabel = array.from.labels
+    let FromLabel = false
+    if (GetFromLabel.length !== 0) {
+        FromLabel = GetFromLabel[0].label
+    }
+
+    const GetToLabel = array.to.labels
+    let ToLabel = false
+    if (GetToLabel.length !== 0) {
+        ToLabel = GetToLabel[0].label
+    }
+
+    const GetMainLabel = array.label_tag.labels
+    let MainLabel = false
+    if (GetMainLabel.length !== 0) {
+        MainLabel = GetMainLabel[0].label
+    }
+
     for (let i = 0; i < array.logs.length; i++) {
         try {
             if (typeof (array.logs[i].address.symbol) === 'string') {
@@ -36,7 +54,10 @@ export function AccountBaseTransaction (array, symbole, decimal) {
             value,
             valueInDollar,
             fee,
-            logs
+            logs,
+            FromLabel,
+            ToLabel,
+            MainLabel
         }
     )
 }

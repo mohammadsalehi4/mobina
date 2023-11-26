@@ -42,6 +42,7 @@ const CurrencyDetail = () => {
       inputs.push({
         address:getData.inputs[i].address,
         hash:getData.inputs[i].hash,
+        Label:getData.inputs[i].Label,
         date:getData.inputs[i].timestamp,
         time:getData.inputs[i].timestamp,
         amount:parseFloat(getData.inputs[i].value.toFixed(5)),
@@ -55,6 +56,7 @@ const CurrencyDetail = () => {
       outputs.push({
         address:getData.outputs[i].address,
         hash:getData.outputs[i].hash,
+        Label:getData.outputs[i].Label,
         date:getData.outputs[i].timestamp,
         time:getData.outputs[i].timestamp,
         amount:parseFloat(getData.outputs[i].value.toFixed(5)),
@@ -77,6 +79,7 @@ const CurrencyDetail = () => {
     for (let j = 0; j < data.inputs.length; j++) {
       inputs.push({
         address:data.inputs[j].sender[0].address,
+        Label:data.inputs[j].sender[0].label,
         hash:data.inputs[j].hash,
         date:data.inputs[j].timestamp,
         time:data.inputs[j].timestamp,
@@ -90,6 +93,7 @@ const CurrencyDetail = () => {
     for (let j = 0; j < data.outputs.length; j++) {
       outputs.push({
         address:data.outputs[j].reciver[0].address,
+        Label:data.outputs[j].reciver[0].label,
         hash:data.outputs[j].hash,
         date:data.outputs[j].timestamp,
         time:data.outputs[j].timestamp,
@@ -126,10 +130,10 @@ const CurrencyDetail = () => {
     .then((response) => {
       try {
         if (response.data.network === 'ETH') {
-          SetData(AccountBaseAdd(AccountBaseAddress(response.data.data.result, address, 'ETH', 1000000000000000000)))
+          SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000)))
           SetLoading(false)
         } else if (response.data.network === 'BTC') {
-          SetData(UTXOAdd(UTXOAddress(response.data.data.result, address, 'BTC', 100000000)))
+          SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BTC', 100000000)))
           SetLoading(false)
         }
       } catch (error) {
