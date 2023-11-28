@@ -7,8 +7,11 @@ import { Card, CardHeader, Row, CardBody, Col } from 'reactstrap'
 import { Input, Label, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap'
 import { ArrowLeft, ArrowRight, Check } from 'react-feather'
 import { WriteNumber } from '../../processors/PersianWriteNumber'
-
+import { useDispatch, useSelector } from 'react-redux'
 const IncreaseTax = ({ stepper }) => {
+    const dispatch = useDispatch()
+    const States = useSelector(state => state)
+
   return (
     <Card className='m-0 ' style={{boxShadow:'none'}}>
         <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
@@ -18,7 +21,7 @@ const IncreaseTax = ({ stepper }) => {
             <Row>
                 <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
                     <Label for='TaxCount'>مالیات محاسبه شده (ریال)</Label>
-                    <Input id='TaxCount' placeholder='نام کسب و کار' disabled value={WriteNumber(45000000)}/>
+                    <Input id='TaxCount' placeholder='نام کسب و کار' disabled value={WriteNumber(States.taxAmount)}/>
                 </Col>
             </Row>
             <Row>
@@ -34,7 +37,7 @@ const IncreaseTax = ({ stepper }) => {
             <Row>
                 <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
                     <Label for='finalTax'>مالیات نهایی</Label>
-                    <Input id='finalTax' placeholder='درصد' value={WriteNumber(40000000)} disabled/>
+                    <Input id='finalTax' placeholder='محاسبه نشده.' disabled/>
                 </Col>
             </Row>
             <Row className='mt-3'>

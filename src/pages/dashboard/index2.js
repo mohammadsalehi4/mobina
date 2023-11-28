@@ -202,7 +202,7 @@ const EcommerceDashboard2 = () => {
   }
 
   const UTXOTr =(data) => {
-    console.log(data)
+
     const CurrencyPrice=28000
     const USDPrice=490000
     const fee=data.fee

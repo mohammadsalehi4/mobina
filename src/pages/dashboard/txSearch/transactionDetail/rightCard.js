@@ -258,19 +258,17 @@ const CardContentTypes = (props) => {
           </div>
         </div>
 
+
         <div className='row mt-3'>
           <div className='col-12'>
-          <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink15' style={{background:MainSiteOrange}}>
+          <button href='/' onClick={ () => { window.location.assign(`/tracker/${props.data.address}`) } } className='cardLink225' id='cardLink15' style={{background:MainSiteOrange}}>
             انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
           </button>
-          <UncontrolledTooltip placement='top' target={`cardLink15`}>
-                          در نسخه دمو قابل انجام نیست!
-          </UncontrolledTooltip>
           <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink25' style={{background:MainSiteyellow}}>
             افزودن به پرونده <ion-icon name="alert-circle-outline"></ion-icon>
           </button>
           <UncontrolledTooltip placement='top' target={`cardLink25`}>
-                          در نسخه دمو قابل انجام نیست!
+            در نسخه دمو قابل انجام نیست!
           </UncontrolledTooltip>
           </div>
         </div>

@@ -1,4 +1,21 @@
-@media only screen and (max-width:400px) {
+@media only screen and (max-width:768px) {
+    .zm-DaysButton{
+        padding: 0px !important;
+        margin: 0px !important;
+        width: 37px !important;
+        height: 37px !important;
+    } 
+    .css-1tniij6{
+        width: 50px !important;
+        height: 50px !important;
+    }
+    .css-137m4ck{
+        width: 300px !important;
+        height: 350px !important;
+    }
+}
+
+@media only screen and (max-width:430px) {
     .zm-DaysButton{
         padding: 0px !important;
         margin: 0px !important;

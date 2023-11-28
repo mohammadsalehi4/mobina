@@ -12,13 +12,20 @@ import {
   CardTitle,
   UncontrolledTooltip,
   CardHeader,
-  CardBody
+  CardBody,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Input,
+  Label
 } from 'reactstrap'
+import { XCircle } from 'react-feather'
 import { MainSiteOrange, MainSiteyellow } from '../../../../public/colors'
 import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
 import { RecognizeNetwork } from '../../../processors/recognizeNetwork'
-
+import Chip from '@mui/material/Chip'
 const CardContentTypes = (props) => {
   //barchasb ha
   const [addressMark, SetAddressMark] = useState(false)
@@ -28,10 +35,12 @@ const CardContentTypes = (props) => {
   //tag
   const [TagValues, setTagValues] = useState([])
   const [TagId, setTagId] = useState([])
+  const [AddTagModal, setAddTagModal] = useState(false)
+  const [TagList, setAddTagList] = useState(false)
+  const [SelectedTag, setSelectedTag] = useState(false)
 
   //add new tag
-  const GetTag = () => {
-    const userInput = prompt('تگ مورد نظر را وارد کنید:')
+  const GetTag = (userInput) => {
     if (userInput) {
       axios.post(serverAddress + "/address-labels/tag/", 
       {
@@ -73,6 +82,35 @@ const CardContentTypes = (props) => {
         })
       })
     }
+  }
+
+  const getTagList = () => {
+    axios.get(serverAddress + "/address-labels/tag/", 
+    {
+      headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    }
+    )
+    .then((response) => {
+      console.log(response)
+      if (response.status === 200) {
+        const AllTagList = []
+        for (let i = 0; i < response.data.results.length; i++) {
+          if (AllTagList.some(item => item.tag === response.data.results[i].tag) === false) {
+            AllTagList.push(
+              {
+                tag:response.data.results[i].tag
+              }
+            )
+          }
+        }
+        setAddTagList(AllTagList)
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
 
   //delete tag
@@ -196,6 +234,7 @@ const CardContentTypes = (props) => {
         setTagId(prevTags => [...prevTags, TagData.TagInfo[i]])
       }
     }
+    getTagList()
   }, [, props.labelData, props.TagData])
 
 
@@ -206,7 +245,7 @@ const CardContentTypes = (props) => {
         <div className='row mt-3'>
           <div style={{float:"right"}} className='col-12'>
             <div style={{textAlign:"left", float:"left"}}>
-              <div style={{display:"inline-block"}} id='AddressTagIcons021' onClick={GetTag}>
+              <div style={{display:"inline-block"}} id='AddressTagIcons021' onClick={() => { setAddTagModal(!AddTagModal) }}>
                 <ion-icon style={{ borderRadius:"50%", zIndex:2, color:"black", marginRight:"0px", marginTop:"8px", background:MainSiteOrange, fontSize:"8px", cursor:"pointer", position:"absolute"}} name="add-outline"></ion-icon>
                 <ion-icon style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}} name="pricetag-outline"></ion-icon>
               </div>
@@ -301,42 +340,106 @@ const CardContentTypes = (props) => {
     )
   }
 
-
+  const [LastTagSelected, SetLastTagSelected] = useState(false)
+  const handleDelete = () => {
+    SetLastTagSelected(false)
+    setSelectedTag(false)
+  }
   return (
+    <>
+      <Card className='card-transaction' id='rightCard1' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
+        <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
+          <CardTitle tag='h4' style={{width:"100%", boxSizing:"border-box"}} >
+            <span >آدرس</span> {props.data.name}
 
-    <Card className='card-transaction' id='rightCard1' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
-      <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
-        <CardTitle tag='h4' style={{width:"100%", boxSizing:"border-box"}} >
-          <span >آدرس</span> {props.data.name}
-
-          {
-            !addressMark ? 
-              <div style={{display:"inline-block"}} className='me-1' id='AddressTitleName021'>
-                <ion-icon onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", cursor:"pointer" }} name="bookmark-outline"></ion-icon>
-                <UncontrolledTooltip placement='left' target='AddressTitleName021'>
-                  افزودن برچسب
-                </UncontrolledTooltip>
-              </div>
-            :
-              <div style={{display:"inline-block"}} className='me-0' id='AddressTitleDeleteName021'>
-                <ion-icon  onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon>
-                <small style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px"}}>{addressText}</small>
-                <UncontrolledTooltip placement='left' target='AddressTitleDeleteName021'>
-                  حذف برچسب
-                </UncontrolledTooltip>
-              </div>
-          }
+            {
+              !addressMark ? 
+                <div style={{display:"inline-block"}} className='me-1' id='AddressTitleName021'>
+                  <ion-icon onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", cursor:"pointer" }} name="bookmark-outline"></ion-icon>
+                  <UncontrolledTooltip placement='left' target='AddressTitleName021'>
+                    افزودن برچسب
+                  </UncontrolledTooltip>
+                </div>
+              :
+                <div style={{display:"inline-block"}} className='me-0' id='AddressTitleDeleteName021'>
+                  <ion-icon  onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon>
+                  <small style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px"}}>{addressText}</small>
+                  <UncontrolledTooltip placement='left' target='AddressTitleDeleteName021'>
+                    حذف برچسب
+                  </UncontrolledTooltip>
+                </div>
+            }
 
 
-          <span style={{float:"left"}} title={"ریسک"}>
-            <span>{props.data.risk}</span>
-            <ion-icon style={{color:"green", fontSize:"16px"}}  name="flash"></ion-icon>
-          </span>
-        </CardTitle>
+            <span style={{float:"left"}} title={"ریسک"}>
+              <span>{props.data.risk}</span>
+              <ion-icon style={{color:"green", fontSize:"16px"}}  name="flash"></ion-icon>
+            </span>
+          </CardTitle>
 
-      </CardHeader>
-      <CardBody>{renderTransactions()}</CardBody>
-    </Card>
+          </CardHeader>
+        <CardBody>{renderTransactions()}</CardBody>
+      </Card>
+
+      <Modal
+          isOpen={AddTagModal}
+          className='modal-dialog-centered'
+          modalClassName={'modal-danger'}
+          toggle={() => setAddTagModal(!AddTagModal)}
+        >
+          <ModalBody>
+            <h6>تگ مورد نظر خود را وارد کنید یا از لیست زیر انتخاب کنید.</h6>
+            <Label style={{display:'block'}}>تگ مورد نظر</Label>
+            {
+              !LastTagSelected ? 
+              <Input id='CreateNewTagInput' />
+              :
+              <Chip label={SelectedTag} onDelete={handleDelete} style={{direction:'ltr'}} />
+            }
+            {
+              TagList === false ? 
+                <p>در حال دریافت اطلاعات...</p>
+              :
+              TagList.length === 0 ? 
+                <p>بدون تگ ذخیره شده</p>
+              :
+                <>
+                  <p className='mt-3'>
+                    لیست تگ های ذخیره شده
+                  </p>
+                  {
+                    TagList.map((item, index) => {
+                      return (
+                        <div style={{ marginTop:'4px'}}>
+                          <Chip label={item.tag} style={{direction:'ltr', cursor:'pointer'}} onClick={ () => { SetLastTagSelected(true), setSelectedTag(item.tag) } }/>
+                        </div>
+                      )
+                    })
+                  }
+                </>
+
+            }
+          </ModalBody>
+          <ModalFooter>
+
+            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setAddTagModal(false) } }>
+              بسته
+            </Button>
+            <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { 
+              if (LastTagSelected) {
+                GetTag(SelectedTag)
+              } else {
+                GetTag(document.getElementById('CreateNewTagInput').value)
+              }
+              SetLastTagSelected(false)
+              setAddTagModal(false) 
+            } }>
+              افزودن
+            </Button>
+          </ModalFooter>
+        </Modal>
+    </>
+
   )
 }
 

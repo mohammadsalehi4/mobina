@@ -1,9 +1,13 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import './tax.css'
-import { Card, CardHeader, Row, CardBody, Col } from 'reactstrap'
+import { Card, CardHeader, Row, CardBody, Col, Modal,
+  ModalBody,
+  ModalFooter,
+  Button } from 'reactstrap'
 import { Input, Label, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
@@ -12,9 +16,13 @@ import { useState, useEffect } from 'react'
 import { ArrowLeft, ArrowRight, Check } from 'react-feather'
 import axios from 'axios'
 import { Calendar, CalendarProvider } from "zaman"
-
+import { GetMillisecond } from '../../processors/getMillisecond'
+import { useDispatch, useSelector } from 'react-redux'
 
 const TaxTable = ({ stepper }) => {
+  const dispatch = useDispatch()
+  const States = useSelector(state => state)
+
   const [Startmodal, setStartModal] = useState(false)
   const handleStartModal = () => setStartModal(!Startmodal)
 
@@ -59,7 +67,7 @@ const TaxTable = ({ stepper }) => {
 
   useEffect(() => {
     const GetTokens = []
-    axios.get(`${serverAddress}/explorer/tokens/`,
+    axios.get(`${serverAddress}/explorer/assets/`,
     {
       headers: {
         Authorization: `Bearer ${Cookies.get('access')}`
@@ -86,44 +94,43 @@ const TaxTable = ({ stepper }) => {
     })
   }, [])
 
-  document.addEventListener('click', function(event) {
-    const myElement = document.getElementById('endTaxBox') // المنتی که نمی‌خواهید روی آن عملی انجام شود
-    const clickedInside = myElement.contains(event.target)
-  
-    if (!clickedInside) {
-      setEndModal(false)
-    }
-  })
-
-  document.addEventListener('click', function(event) {
-    const myElement = document.getElementById('startTaxBox') // المنتی که نمی‌خواهید روی آن عملی انجام شود
-    const clickedInside = myElement.contains(event.target)
-  
-    if (!clickedInside) {
-      setStartModal(false)
-    }
-  })
-
   const [startTime, SetStartTime] = useState(0)
   const [EndTime, SetEndTime] = useState(0)
+  const [StartTimeShowModal, setStartTimeShowModal] = useState(false)
+  const [EndTimeShowModal, setEndTimeShowModal] = useState(false)
 
   const check = () => {
     let Valid = true
 
     const JobName = document.getElementById('JobName').value
+    const walletAddress = document.getElementById('walletAddress').value
     const SelectedNetwork = document.getElementById('Network_select_Options').value
     const SelectedToken = document.getElementById('Token_select_Options').value
     const GardeshZarib = document.getElementById('GardeshZarib').value
+    const TaxPercent = document.getElementById('TaxPercent').value
     const USDIRR = document.getElementById('USDIRR').value
     const Sood = document.getElementById('Sood').value
-    const InCome = document.getElementById('InCome').checked
-    const OutCome = document.getElementById('OutCome').checked
+    let radios = document.getElementsByName('transferType')
+    let type 
+    let typeCheck = false
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            type = radios[i].value
+            typeCheck = true
+            console.log('type')
+            console.log(type)
+        }
+    }
     const NewStartdate = new Date(startTime).setHours(0, 0, 0, 0)
     const NewEnddate = new Date(EndTime).setHours(23, 59, 59, 59)
 
     if (JobName === '') {
       Valid = false
       document.getElementById('JobName').style.borderColor = 'red'
+    }
+    if (walletAddress === '') {
+      Valid = false
+      document.getElementById('walletAddress').style.borderColor = 'red'
     }
     if (SelectedNetwork === '0') {
       Valid = false
@@ -152,33 +159,54 @@ const TaxTable = ({ stepper }) => {
     if (EndTime === 0) {
       Valid = false
       document.getElementById('EndTaxPeriod').style.borderColor = 'red'
-    }
-    
-    if (!InCome && !OutCome) {
+    } 
+    if (!typeCheck) {
       Valid = false
       document.getElementById('TaxTrMode').style.color = 'red'
     }
 
-    if (!Valid) {
-      console.log('error')
-    } else {
-      stepper.next()
-    }
+    const lastStartData = `${GetMillisecond(NewStartdate).year}-${GetMillisecond(NewStartdate).month}-${GetMillisecond(NewStartdate).day}`
+    const lastEndtData = `${GetMillisecond(NewEnddate).year}-${GetMillisecond(NewEnddate).month}-${GetMillisecond(NewEnddate).day}`
 
-    console.log(
+    console.log(lastStartData)
+    console.log(lastEndtData)
+    const bodyFormData = new FormData()
+
+    bodyFormData.append('bussiness', JobName)
+    bodyFormData.append('wallet_address', walletAddress)
+    bodyFormData.append('start_date_of_calculations', lastStartData)
+    bodyFormData.append('end_date_of_calculations', lastEndtData)
+    bodyFormData.append('type', type)
+    bodyFormData.append('applied_circulation_coefficient', GardeshZarib)
+    bodyFormData.append('rial_price', USDIRR)
+    bodyFormData.append('asset', SelectedToken)
+    bodyFormData.append('network', SelectedNetwork)
+    bodyFormData.append('precentage_profit_exchange', Sood)
+    bodyFormData.append('precentage_tax_income', TaxPercent)
+    bodyFormData.append('forgiveness_precentage', 0)
+    bodyFormData.append('forgiveness_mount', 0)
+
+    if (Valid) {
+      axios.post(`${serverAddress}/taxing/operation/`, 
+      bodyFormData,
       {
-        JobName,
-        SelectedNetwork,
-        SelectedToken,
-        GardeshZarib,
-        USDIRR,
-        Sood,
-        InCome,
-        OutCome,
-        NewStartdate,
-        NewEnddate
-      }
-    )
+          headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`, 
+              'Content-Type': 'multipart/form-data'
+          }
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          console.log(response.data)
+          dispatch({type:"taxAmount", value:Number(response.data.price_without_forgiveness)})
+          dispatch({type:"taxId", value:Number(response.data.id)})
+          stepper.next()
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
   }
 
   return (
@@ -191,6 +219,11 @@ const TaxTable = ({ stepper }) => {
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='JobName'>نام کسب و کار</Label>
             <Input id='JobName' placeholder='نام کسب و کار'/>
+          </Col>
+
+          <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
+            <Label for='walletAddress'>آدرس کیف پول</Label>
+            <Input id='walletAddress' placeholder='آدرس کیف پول'/>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
@@ -214,7 +247,7 @@ const TaxTable = ({ stepper }) => {
               {
                 Tokens.map((item, index) => {
                   return (
-                    <option style={{fontSize:'12px'}} key={index} value={`${item.id}`}>{item.contract_address} | {item.name}<small></small></option>
+                    <option style={{fontSize:'15px'}} key={index} value={`${item.id}`}>{item.name}</option>
                   )
                 })
               }
@@ -237,66 +270,41 @@ const TaxTable = ({ stepper }) => {
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
+            <Label for='TaxPercent'>درصد مالیات بر درآمد (درصد)</Label>
+            <Input id='TaxPercent' type='number' placeholder='درصد'/>
+          </Col>
+
+          <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='JobName' className='mt-1'>شروع دوره زمانی</Label>
-            <Dropdown isOpen={Startmodal}  tag='div' className='dropdown-cart nav-item'  id='startTaxBox'>
-            <DropdownToggle onClick={(event) => (handleStartModal())}  id='StartTaxPeriod' tag='div' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
+            <div onClick={(event) => (setStartTimeShowModal(true))}  id='StartTaxPeriod' tag='div' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
                 {
                   startTime !== 0 ? 
                   `${JalaliCalendar(startTime).year}/${JalaliCalendar(startTime).month}/${JalaliCalendar(startTime).day}`
                   :
                   <span>انتخاب نشده</span>
                 }
-              </DropdownToggle>
-              <DropdownMenu end tag='ul' className='dropdown-menu-media dropdown-cart mt-0' style={{minWidth:'260px', zIndex:111111111111111}} >
-                <div id='newTaxStartTime'>
-                  <CalendarProvider locale={'fa'}>
-                    <Calendar
-                      onChange={(date) => {
-                        SetStartTime(date)
-                        setStartModal(false)
-                      }}
-                    />
-                  </CalendarProvider>
-                </div>
-              </DropdownMenu>
-            </Dropdown>
+              </div>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
           <Label for='JobName' className='mt-1'>پایان دوره زمانی</Label>
-            <Dropdown isOpen={Endmodal}  tag='div' className='dropdown-cart nav-item' id='endTaxBox'>
-            <DropdownToggle onClick={(event) => (handleEndModal())} tag='div' id='EndTaxPeriod' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
-            {
-              EndTime !== 0 ? 
-              `${JalaliCalendar(EndTime).year}/${JalaliCalendar(EndTime).month}/${JalaliCalendar(EndTime).day}`
-              :
-              <span>انتخاب نشده</span>
-            }
-            {/* {String(`${JalaliCalendar(EndTime).year}/${JalaliCalendar(EndTime).month}/${JalaliCalendar(EndTime).day}`)} */}
-            
-            </DropdownToggle>
-              <DropdownMenu end tag='ul' className='dropdown-menu-media dropdown-cart mt-0' >
-                <div id='newTaxEndTime'>
-                  <CalendarProvider locale={'fa'}>
-                    <Calendar
-                      onChange={(date) => {
-                        SetEndTime(date)
-                        setEndModal(false)
-                      }}
-                    />
-                  </CalendarProvider>
-                </div>
-              </DropdownMenu>
-            </Dropdown>
+            <div onClick={(event) => (setEndTimeShowModal(true))} id='EndTaxPeriod' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
+              {
+                EndTime !== 0 ? 
+                `${JalaliCalendar(EndTime).year}/${JalaliCalendar(EndTime).month}/${JalaliCalendar(EndTime).day}`
+                :
+                <span>انتخاب نشده</span>
+              }
+            </div>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label style={{display:'block'}} id='TaxTrMode'>نوع تراکنش ها</Label>
-                <Input id='InCome' type='checkbox'  className=''/>
-                <Label for='InCome'  className=' me-1'>واریز</Label>
+                <Input type='radio' name='transferType'  id='deposit' value='deposit'/>
+                <Label for='deposit'  className=' me-1'>واریز</Label>
+                <Input type='radio' name='transferType' id='withdraw'  value='withdraw' className='me-5' />
+                <Label for='withdraw'  className=' me-1'>برداشت</Label>
 
-                <Input id='OutCome' type='checkbox'  className=' me-5'/>
-                <Label for='OutCome'  className=' me-1'>برداشت</Label>
           </Col>
         </Row>
         
@@ -319,6 +327,60 @@ const TaxTable = ({ stepper }) => {
         </Row>
 
     </CardBody>
+
+    <Modal
+      isOpen={StartTimeShowModal}
+      className='modal-dialog-centered'
+      modalClassName={'modal-danger'}
+      toggle={() => setStartTimeShowModal(!StartTimeShowModal)}
+      style={{maxWidth:'370px'}}
+    >
+      <ModalBody>
+        <h6>
+          انتخاب زمان شروع
+        </h6>
+          <CalendarProvider locale={'fa'} >
+            <Calendar
+              onChange={(date) => {
+                SetStartTime(date)
+                setStartTimeShowModal(false)
+              }}
+            />
+          </CalendarProvider>
+      </ModalBody>
+      <ModalFooter>
+        <Button color='danger' onClick={ () => { setStartTimeShowModal(false) } }>
+          بستن
+        </Button>
+      </ModalFooter>
+    </Modal>
+
+    <Modal
+      isOpen={EndTimeShowModal}
+      className='modal-dialog-centered'
+      modalClassName={'modal-danger'}
+      toggle={() => setEndTimeShowModal(!EndTimeShowModal)}
+      style={{maxWidth:'370px'}}
+    >
+      <ModalBody>
+        <h6>
+          انتخاب زمان اتمام
+        </h6>
+          <CalendarProvider locale={'fa'} >
+            <Calendar
+              onChange={(date) => {
+                SetEndTime(date)
+                setEndTimeShowModal(false)
+              }}
+            />
+          </CalendarProvider>
+      </ModalBody>
+      <ModalFooter>
+        <Button color='danger' onClick={ () => { setEndTimeShowModal(false) } }>
+          بستن
+        </Button>
+      </ModalFooter>
+    </Modal>
 
 </Card>
   )

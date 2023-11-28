@@ -20,21 +20,54 @@ import { WriteNumber } from '../../processors/PersianWriteNumber'
 import { digitsEnToFa } from 'persian-tools'
 const ShowLastTaxes = ({ stepper }) => {
     const [currentPage, setCurrentPage] = useState(0)
+
+    const getLink = (id) => {
+        axios.get(`${serverAddress}/taxing/pdf/${id}/`, 
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+          }
+        })
+        .then((response) => {
+            console.log(response.data)
+            if (response.status === 200) {
+                const url = response.data.file_url 
+                window.open(url, '_blank')             
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
     
     const basicColumns = [
         {
             name: 'نام کسب و کار',
             sortable: true,
-            maxWidth: '250px',
-            minWidth: '250px',
+            maxWidth: '200px',
+            minWidth: '200px',
             cell: row => row.name
         },
         {
-            name: 'تاریخ',
+            name: 'تاریخ محاسبه',
             sortable: true,
             maxWidth: '200px',
             minWidth: '200px',
             cell: row => digitsEnToFa(row.date)
+        },
+        {
+          name: 'تاریخ شروع',
+          sortable: true,
+          maxWidth: '200px',
+          minWidth: '200px',
+          cell: row => digitsEnToFa(row.startDate)
+        },
+        {
+          name: 'تاریخ پایان',
+          sortable: true,
+          maxWidth: '200px',
+          minWidth: '200px',
+          cell: row => digitsEnToFa(row.endDate)
         },
         {
             name: 'مبلغ مالیات',
@@ -46,80 +79,18 @@ const ShowLastTaxes = ({ stepper }) => {
         {
             name: 'دریافت جزئیات',
             sortable: true,
-            maxWidth: '200px',
-            minWidth: '200px',
-            cell: () => {
+            maxWidth: '150px',
+            minWidth: '150px',
+            cell: row => {
                 return (
-                    <div style={{cursor:'pointer'}}>
+                    <div onClick={ () => { getLink(row.id) } } style={{cursor:'pointer'}}>
                         <DownloadCloud />
                     </div>
                 )
             }
         }
     ]
-    const data = [
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        },
-        {
-            name:'آریان کوین',
-            date:'1398/12/20',
-            amount:25000000
-        }
-    ]
-
+    const [data, SetData] = useState([])
     const handlePagination = page => {
         setCurrentPage(page.selected)
       }
@@ -146,6 +117,37 @@ const ShowLastTaxes = ({ stepper }) => {
         />
       )
         
+      //get data
+      useEffect(() => {
+        axios.get(`${serverAddress}/taxing/operation/`, 
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+          }
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                const getData = []
+                for (let i = 0; i < response.data.length; i++) {
+                    getData.push({
+                        name:response.data[i].bussiness,
+                        date:`${JalaliCalendar(response.data[i].created_date).year}/${JalaliCalendar(response.data[i].created_date).month}/${JalaliCalendar(response.data[i].created_date).day}`,
+                        // date:response.data[i].created_date,
+                        startDate:`${JalaliCalendar(response.data[i].start_date_of_calculations).year}/${JalaliCalendar(response.data[i].start_date_of_calculations).month}/${JalaliCalendar(response.data[i].start_date_of_calculations).day}`,
+                        endDate:`${JalaliCalendar(response.data[i].end_date_of_calculations).year}/${JalaliCalendar(response.data[i].end_date_of_calculations).month}/${JalaliCalendar(response.data[i].end_date_of_calculations).day}`,
+                        amount:Number(response.data[i].final_tax),
+                        id:response.data[i].id
+                    })
+                }
+                SetData(getData)
+                console.log(getData)
+            }
+        })
+        .catch((err) => {
+
+        })
+      }, [])
+      
   return (
     <Card className='m-0 TaxAllTables ' style={{boxShadow:'none', overflowX:'hidden'}} id='ShowLastTaxes'>
     <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>

@@ -59,10 +59,28 @@ const initialState = {
 
     //admin panel
     CustomLoading: false,
-    beLoad: false
+    beLoad: false,
+
+    //tax
+    taxAmount:0,
+    taxId:0
 }
 
 const reducer = (state = initialState, action) => {
+        
+    if (action.type === 'taxId') {
+        return {
+            ...state,
+            taxId:action.value
+        }
+    }
+    
+    if (action.type === 'taxAmount') {
+        return {
+            ...state,
+            taxAmount:action.value
+        }
+    }
 
     if (action.type === 'Network') {
         return {

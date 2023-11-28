@@ -43,8 +43,8 @@ const Profile = () => {
         setBrowser('نامشخص')
       }
 
-      const res = await axios.get("https://api.ipify.org/?format=json")
-      setIP(res.data.ip)
+      // const res = await axios.get("https://api.ipify.org/?format=json")
+      // setIP(res.data.ip)
 
       axios.get(`${serverAddress}/accounts/user_profile/`,
       {
@@ -53,6 +53,7 @@ const Profile = () => {
         }
       })
       .then((response) => {
+        console.log(response.data.results[0])
         setData(response.data.results[0])
       })
       .catch((err) => {

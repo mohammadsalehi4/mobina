@@ -133,7 +133,7 @@ const FuckingGraph = (props) => {
             timestamp:States.GraphData[i].inputs[j].timeStamp,
             valueInDollar:States.GraphData[i].inputs[j].valueInDollar
           })
-          if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) !== undefined) {
+          if (AllNodes.find(item => item.address.toUpperCase() === States.GraphData[i].inputs[j].hash.toUpperCase()) !== undefined) {
             DefaultX = AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash).x - 1
           }
         }
@@ -145,12 +145,20 @@ const FuckingGraph = (props) => {
             timestamp:States.GraphData[i].outputs[j].timeStamp,
             valueInDollar:States.GraphData[i].outputs[j].valueInDollar
           })
-          if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) !== undefined) {
+          if (AllNodes.find(item => item.address.toUpperCase() === States.GraphData[i].outputs[j].hash.toUpperCase()) !== undefined) {
             DefaultX = AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash).x + 1
           }
         }
 
         if (DefaultX !== null) {
+
+          let getX
+          if (SavedPositions.some(item => item.id.toUpperCase() === States.GraphData[i].address.toUpperCase())) {
+            getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].address.toUpperCase()).x
+          } else {
+            getX = DefaultX
+          }
+
           AllNodes.push({
             id: States.GraphData[i].address,
             address:States.GraphData[i].address,
@@ -160,7 +168,7 @@ const FuckingGraph = (props) => {
             symbole:'ETH',
             group:'main',
             mode:'main',
-            x: DefaultX
+            x: getX
           }) 
           myData = {
             id: States.GraphData[i].address,
@@ -171,11 +179,12 @@ const FuckingGraph = (props) => {
             symbole:'ETH',
             group:'main',
             mode:'main',
-            x: DefaultX
+            x: getX
           }
         } else {
           if (SavedPositions.some(item => item.id.toUpperCase() === States.GraphData[i].address.toUpperCase())) {
             const getX = SavedPositions.find(item => item.id.toUpperCase() === States.GraphData[i].address.toUpperCase()).x
+
             AllNodes.push({
               id: States.GraphData[i].address,
               address:States.GraphData[i].address,
@@ -199,6 +208,8 @@ const FuckingGraph = (props) => {
               x: getX
             }
           } else {
+            console.log('not found')
+            console.log(States.GraphData[i].address)
             AllNodes.push({
               id: States.GraphData[i].address,
               address:States.GraphData[i].address,
@@ -226,6 +237,7 @@ const FuckingGraph = (props) => {
 
         //mokhtasat X
         for (let j = 0; j < States.GraphData[i].inputs.length; j++) {
+          console.log('MID')
           if (AllNodes.find(item => item.address === States.GraphData[i].inputs[j].hash) === undefined) {
             let getX
 
@@ -244,9 +256,22 @@ const FuckingGraph = (props) => {
               group:'mid',
               x: getX
             })
+            
+            console.log(
+              {
+                address:States.GraphData[i].inputs[j].hash,
+                id: States.GraphData[i].inputs[j].hash,
+                value:States.GraphData[i].inputs[j].value,
+                mode:'in',
+                symbole:States.Network,
+                group:'mid',
+                x: getX
+              }
+            )
           }
         }
         for (let j = 0; j < States.GraphData[i].outputs.length; j++) {
+          console.log('MID')
           if (AllNodes.find(item => item.address === States.GraphData[i].outputs[j].hash) === undefined) {
               let getX
 
@@ -265,64 +290,77 @@ const FuckingGraph = (props) => {
                 group:'mid',
                 x: getX
               })
+
+              console.log(
+                {
+                  address:States.GraphData[i].outputs[j].hash,
+                  id: States.GraphData[i].outputs[j].hash,
+                  value:States.GraphData[i].outputs[j].value,
+                  mode:'out',
+                  symbole:States.Network,
+                  group:'mid',
+                  x: getX
+                }
+              )
           }
         }
       }
 
-      //eslah mokhtasat
-      for (let i = 0; i < AllNodes.length; i++) {
-        if (AllNodes[i].group === 'mid') {
-          let check = false
-          let checkNumber = 0
-          if (AllNodes[i].mode === 'out') {
-            for (let j = 0; j < AllNodes.length; j++) {
-              if (AllNodes[j].group === 'main') {
-                for (let k = 0; k < AllNodes[j].from.length; k++) {
-                  if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
-                    checkNumber++
-                    if (AllNodes[j].x < AllNodes[i].x) {
-                      check = true
-                    }
-                  }
-                }
-                for (let k = 0; k < AllNodes[j].to.length; k++) {
-                  if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
-                    checkNumber++
-                  }
-                }
-              }
-            }
-            if (!check && checkNumber >= 2) {
-              AllNodes[i].x = AllNodes[i].x + 2
-            }
-          } else {
-            for (let j = 0; j < AllNodes.length; j++) {
-              if (AllNodes[j].group === 'main') {
-                for (let k = 0; k < AllNodes[j].to.length; k++) {
-                  if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
-                    checkNumber++
-                    if (AllNodes[j].x > AllNodes[i].x) {
-                      check = true
-                    }
-                  }
-                }
-                for (let k = 0; k < AllNodes[j].from.length; k++) {
-                  if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
-                    checkNumber++
-                  }
-                }
-              }
-            }
-            if (!check && checkNumber >= 2) {
-              AllNodes[i].x = AllNodes[i].x - 2
-            }
-          }
-        }
-      }
+      // //eslah mokhtasat
+      // for (let i = 0; i < AllNodes.length; i++) {
+      //   if (AllNodes[i].group === 'mid') {
+      //     let check = false
+      //     let checkNumber = 0
+      //     if (AllNodes[i].mode === 'out') {
+      //       for (let j = 0; j < AllNodes.length; j++) {
+      //         if (AllNodes[j].group === 'main') {
+      //           for (let k = 0; k < AllNodes[j].from.length; k++) {
+      //             if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
+      //               checkNumber++
+      //               if (AllNodes[j].x < AllNodes[i].x) {
+      //                 check = true
+      //               }
+      //             }
+      //           }
+      //           for (let k = 0; k < AllNodes[j].to.length; k++) {
+      //             if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
+      //               checkNumber++
+      //             }
+      //           }
+      //         }
+      //       }
+      //       if (!check && checkNumber >= 2) {
+      //         AllNodes[i].x = AllNodes[i].x + 2
+      //       }
+      //     } else {
+      //       for (let j = 0; j < AllNodes.length; j++) {
+      //         if (AllNodes[j].group === 'main') {
+      //           for (let k = 0; k < AllNodes[j].to.length; k++) {
+      //             if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
+      //               checkNumber++
+      //               if (AllNodes[j].x > AllNodes[i].x) {
+      //                 check = true
+      //               }
+      //             }
+      //           }
+      //           for (let k = 0; k < AllNodes[j].from.length; k++) {
+      //             if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
+      //               checkNumber++
+      //             }
+      //           }
+      //         }
+      //       }
+      //       if (!check && checkNumber >= 2) {
+      //         AllNodes[i].x = AllNodes[i].x - 2
+      //       }
+      //     }
+      //   }
+      // }
 
       dispatch({type:"itemNumbers", value:AllNodes.length})
 
       SetGraphData(AllNodes)
+      console.log(AllNodes)
       SetSavedPositions(AllNodes)
     }
   }, [States.GraphData, States.BeGraphReload])
