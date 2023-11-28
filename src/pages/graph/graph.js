@@ -388,7 +388,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`/public/images/Location.png`,
+              image:`images/Location.png`,
               label: showLabel
             }
           } else if (GraphData[i].group === 'mid') {
@@ -398,7 +398,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`/public/images/Location.png`,
+              image:`images/Location.png`,
               label: GraphData[i].symbole
             }
           }

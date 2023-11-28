@@ -8,9 +8,42 @@ import { Input, Label, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap
 import { ArrowLeft, ArrowRight, Check } from 'react-feather'
 import { WriteNumber } from '../../processors/PersianWriteNumber'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import { serverAddress } from '../../address'
+import Cookies from 'js-cookie'
 const IncreaseTax = ({ stepper }) => {
     const dispatch = useDispatch()
     const States = useSelector(state => state)
+
+    const Increase = () => {
+        const percent = document.getElementById('percent').value
+        const IncAmount = document.getElementById('IncAmount').value
+
+        const bodyFormData = new FormData()
+
+        bodyFormData.append('forgiveness_precentage', percent)
+        bodyFormData.append('forgiveness_mount', IncAmount)
+
+        axios.put(`${serverAddress}/taxing/update/${States.taxId}/`, 
+        bodyFormData,
+        {
+            headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`, 
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data)
+            dispatch({type:"taxAmount", value:Number(response.data.final_tax)})
+            dispatch({type:"taxData", value:1})
+            stepper.next()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
 
   return (
     <Card className='m-0 ' style={{boxShadow:'none'}}>
@@ -49,7 +82,7 @@ const IncreaseTax = ({ stepper }) => {
                         <span className='align-middle d-sm-inline-block d-none'>قبلی</span>
                     </button>
                     <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => {
-                        stepper.next()
+                        Increase()
                         }}>
                         <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
                         <ArrowLeft size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowLeft>

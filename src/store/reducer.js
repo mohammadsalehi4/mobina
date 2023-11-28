@@ -63,10 +63,18 @@ const initialState = {
 
     //tax
     taxAmount:0,
-    taxId:0
+    taxId:0,
+    taxData:{}
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'taxData') {
+        return {
+            ...state,
+            taxData:action.value
+        }
+    }
         
     if (action.type === 'taxId') {
         return {
