@@ -88,7 +88,7 @@ const Tax = () => {
                 ref={ref}
                 steps={steps}
                 options={{
-                  linear: false
+                  linear: true
                 }}
                 instance={el => setStepper(el)}
               />

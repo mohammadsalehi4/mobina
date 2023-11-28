@@ -18,23 +18,22 @@ import axios from 'axios'
 import { Calendar, CalendarProvider } from "zaman"
 import { GetMillisecond } from '../../processors/getMillisecond'
 import { useDispatch, useSelector } from 'react-redux'
+import LoadingButton from '../../components/loadinButton/LoadingButton'
+import toast from 'react-hot-toast'
 
 const TaxTable = ({ stepper }) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
 
-  const [Startmodal, setStartModal] = useState(false)
-  const handleStartModal = () => setStartModal(!Startmodal)
-
-  const [Endmodal, setEndModal] = useState(false)
-  const handleEndModal = () => setEndModal(!Endmodal)
-
   const [Tokens, SetTokens] = useState([])
+  const [Loading, SetLoading] = useState(false)
+  const [NetworkId, SetNetworkId] = useState(0)
+  const [FiltredTokens, SetFiltredTokens] = useState([])
   const [Networks, SetNetworks] = useState(
     [    
       {
         name:'Ethereum',
-        id:1,
+        id:4,
         contract_address:'0x73bFE136fEba2c73F441605752b2B8CAAB6843Ec',
         symbol:'ETH'
       },
@@ -42,11 +41,11 @@ const TaxTable = ({ stepper }) => {
         name:'Bitcoin',
         contract_address:'0x73bFE136fEba2c73F441605752b2B8CAAB6843Ec',
         symbol:'BTC',
-        id:2
+        id:1
       },
       {
         name:'Bitcoin Cash',
-        id:3,
+        id:2,
         contract_address:'0x8fF795a6F4D97E7887C79beA79aba5cc76444aDf',
         symbol:'BCH'
       },
@@ -54,16 +53,26 @@ const TaxTable = ({ stepper }) => {
         name:'Binance Smart Chain',
         contract_address:'0x095418A82BC2439703b69fbE1210824F2247D77c',
         symbol:'BNB',
-        id:4
+        id:5
       },
       {
         name:'Litecoin',
         contract_address:'0x4338665cbb7b2485a8855a139b75d5e34ab0db94.',
         symbol:'LTC',
-        id:5
+        id:3
       }
     ]
   )
+
+  useEffect(() => {
+    const fld = []
+    for (let i = 0; i < Tokens.length; i++) {
+      if (Number(Tokens[i].network) === Number(NetworkId)) {
+        fld.push(Tokens[i])
+      }
+    }
+    SetFiltredTokens(fld)
+  }, [NetworkId])
 
   useEffect(() => {
     const GetTokens = []
@@ -74,6 +83,7 @@ const TaxTable = ({ stepper }) => {
       }
     })
     .then((response) => {
+    console.log(response)
       if (response.status === 200) {
         for (let i = 0; i < response.data.results.length; i++) {
           GetTokens.push(
@@ -90,7 +100,7 @@ const TaxTable = ({ stepper }) => {
       }
     })
     .catch((err) => {
-
+    console.log(err)
     })
   }, [])
 
@@ -152,6 +162,10 @@ const TaxTable = ({ stepper }) => {
       Valid = false
       document.getElementById('Sood').style.borderColor = 'red'
     }
+    if (TaxPercent === '') {
+      Valid = false
+      document.getElementById('TaxPercent').style.borderColor = 'red'
+    }
     if (startTime === 0) {
       Valid = false
       document.getElementById('StartTaxPeriod').style.borderColor = 'red'
@@ -168,8 +182,6 @@ const TaxTable = ({ stepper }) => {
     const lastStartData = `${GetMillisecond(NewStartdate).year}-${GetMillisecond(NewStartdate).month}-${GetMillisecond(NewStartdate).day}`
     const lastEndtData = `${GetMillisecond(NewEnddate).year}-${GetMillisecond(NewEnddate).month}-${GetMillisecond(NewEnddate).day}`
 
-    console.log(lastStartData)
-    console.log(lastEndtData)
     const bodyFormData = new FormData()
 
     bodyFormData.append('bussiness', JobName)
@@ -187,6 +199,8 @@ const TaxTable = ({ stepper }) => {
     bodyFormData.append('forgiveness_mount', 0)
 
     if (Valid) {
+      SetLoading(true)
+
       axios.post(`${serverAddress}/taxing/operation/`, 
       bodyFormData,
       {
@@ -196,7 +210,8 @@ const TaxTable = ({ stepper }) => {
           }
       })
       .then((response) => {
-        if (response.status === 201) {
+    SetLoading(false)
+    if (response.status === 201) {
           console.log(response.data)
           dispatch({type:"taxAmount", value:Number(response.data.price_without_forgiveness)})
           dispatch({type:"taxId", value:Number(response.data.id)})
@@ -204,7 +219,17 @@ const TaxTable = ({ stepper }) => {
         }
       })
       .catch((err) => {
+        SetLoading(false)
         console.log(err)
+        if (err.response.status === 404) {
+          return toast.error('آدرس مورد نظر یافت نشد.', {
+            position: 'bottom-left'
+          })
+        } else {
+          return toast.error('ناموفق در پردازش', {
+            position: 'bottom-left'
+          })
+        }
       })
     }
   }
@@ -218,17 +243,17 @@ const TaxTable = ({ stepper }) => {
         <Row>
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='JobName'>نام کسب و کار</Label>
-            <Input id='JobName' placeholder='نام کسب و کار'/>
+            <Input id='JobName' onChange={ () => { document.getElementById('JobName').style.borderColor = 'rgb(220,220,220)' } } placeholder='نام کسب و کار'/>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='walletAddress'>آدرس کیف پول</Label>
-            <Input id='walletAddress' placeholder='آدرس کیف پول'/>
+            <Input id='walletAddress' placeholder='آدرس کیف پول'  onChange={ () => { document.getElementById('walletAddress').style.borderColor = 'rgb(220,220,220)' } }/>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='Network_select_Options'>انتخاب شبکه</Label>
-            <select class="form-select" id='Network_select_Options' aria-label="Default select example">
+            <select class="form-select" id='Network_select_Options'  onChange={ () => { document.getElementById('Network_select_Options').style.borderColor = 'rgb(220,220,220)', SetNetworkId(event.target.value) } } aria-label="Default select example" >
               <option selected value="0">انتخاب شبکه</option>
               {
                 Networks.map((item, index) => {
@@ -242,10 +267,10 @@ const TaxTable = ({ stepper }) => {
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='Token_select_Options'>انتخاب توکن</Label>
-            <select class="form-select" id='Token_select_Options' aria-label="Default select example">
+            <select class="form-select" id='Token_select_Options' onChange={ () => { document.getElementById('Token_select_Options').style.borderColor = 'rgb(220,220,220)' } } aria-label="Default select example">
               <option selected value="0">انتخاب توکن</option>
               {
-                Tokens.map((item, index) => {
+                FiltredTokens.map((item, index) => {
                   return (
                     <option style={{fontSize:'15px'}} key={index} value={`${item.id}`}>{item.name}</option>
                   )
@@ -256,27 +281,27 @@ const TaxTable = ({ stepper }) => {
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='GardeshZarib'>ضریب گردش اعمالی</Label>
-            <Input id='GardeshZarib' type='number'/>
+            <Input id='GardeshZarib' type='number'  onChange={ () => { document.getElementById('GardeshZarib').style.borderColor = 'rgb(220,220,220)' } }/>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='USDIRR'>نرخ برابری ریال-دلار (ریال)</Label>
-            <Input id='USDIRR' type='number' placeholder='ریال'/>
+            <Input id='USDIRR' type='number' placeholder='ریال'  onChange={ () => { document.getElementById('USDIRR').style.borderColor = 'rgb(220,220,220)' } }/>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='Sood'>درصد سود صرافی (درصد)</Label>
-            <Input id='Sood' type='number' placeholder='درصد'/>
+            <Input id='Sood' type='number' placeholder='درصد'  onChange={ () => { document.getElementById('Sood').style.borderColor = 'rgb(220,220,220)' } }/>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='TaxPercent'>درصد مالیات بر درآمد (درصد)</Label>
-            <Input id='TaxPercent' type='number' placeholder='درصد'/>
+            <Input id='TaxPercent' type='number' placeholder='درصد'  onChange={ () => { document.getElementById('TaxPercent').style.borderColor = 'rgb(220,220,220)' } }/>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
-            <Label for='JobName' className='mt-1'>شروع دوره زمانی</Label>
-            <div onClick={(event) => (setStartTimeShowModal(true))}  id='StartTaxPeriod' tag='div' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
+            <Label className='mt-1'>شروع دوره زمانی</Label>
+            <div onClick={(event) => (setStartTimeShowModal(true))} id='StartTaxPeriod' tag='div' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
                 {
                   startTime !== 0 ? 
                   `${JalaliCalendar(startTime).year}/${JalaliCalendar(startTime).month}/${JalaliCalendar(startTime).day}`
@@ -287,8 +312,8 @@ const TaxTable = ({ stepper }) => {
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
-          <Label for='JobName' className='mt-1'>پایان دوره زمانی</Label>
-            <div onClick={(event) => (setEndTimeShowModal(true))} id='EndTaxPeriod' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
+          <Label  className='mt-1'>پایان دوره زمانی</Label>
+            <div onClick={(event) => (setEndTimeShowModal(true))}  id='EndTaxPeriod' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
               {
                 EndTime !== 0 ? 
                 `${JalaliCalendar(EndTime).year}/${JalaliCalendar(EndTime).month}/${JalaliCalendar(EndTime).day}`
@@ -300,9 +325,9 @@ const TaxTable = ({ stepper }) => {
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label style={{display:'block'}} id='TaxTrMode'>نوع تراکنش ها</Label>
-                <Input type='radio' name='transferType'  id='deposit' value='deposit'/>
+                <Input type='radio' name='transferType'  id='deposit'  onChange={ () => { document.getElementById('TaxTrMode').style.color = 'rgb(100,100,100)' } } value='deposit'/>
                 <Label for='deposit'  className=' me-1'>واریز</Label>
-                <Input type='radio' name='transferType' id='withdraw'  value='withdraw' className='me-5' />
+                <Input type='radio' name='transferType' id='withdraw'  value='withdraw' className='me-5'  onChange={ () => { document.getElementById('withdraw').style.color = 'rgb(100,100,100)' } }/>
                 <Label for='withdraw'  className=' me-1'>برداشت</Label>
 
           </Col>
@@ -310,7 +335,7 @@ const TaxTable = ({ stepper }) => {
         
         <Row className='mt-3'>
           <Col>
-            <button disabled style={{background:"gray", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next' onClick={() => {
+            <button  style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next' onClick={() => {
               stepper.previous()
             }}>
               <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
@@ -320,8 +345,17 @@ const TaxTable = ({ stepper }) => {
               check()
               
             }}>
-              <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
-              <ArrowLeft size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowLeft>
+              {
+                Loading ? 
+                <LoadingButton/>
+                :
+                <>
+                  <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
+                  <ArrowLeft size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowLeft>
+                </>
+
+
+              }
             </button>
           </Col>
         </Row>
@@ -342,6 +376,7 @@ const TaxTable = ({ stepper }) => {
           <CalendarProvider locale={'fa'} >
             <Calendar
               onChange={(date) => {
+                document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
                 SetStartTime(date)
                 setStartTimeShowModal(false)
               }}
@@ -369,6 +404,7 @@ const TaxTable = ({ stepper }) => {
           <CalendarProvider locale={'fa'} >
             <Calendar
               onChange={(date) => {
+                document.getElementById('EndTaxPeriod').style.borderColor = 'rgb(220,220,220)'
                 SetEndTime(date)
                 setEndTimeShowModal(false)
               }}

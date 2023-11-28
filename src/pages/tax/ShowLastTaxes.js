@@ -22,24 +22,10 @@ const ShowLastTaxes = ({ stepper }) => {
     const [currentPage, setCurrentPage] = useState(0)
 
     const getLink = (id) => {
-        axios.get(`${serverAddress}/taxing/pdf/${id}/`, 
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('access')}`
-          }
-        })
-        .then((response) => {
-            console.log(response.data)
-            if (response.status === 200) {
-                const url = response.data.file_url 
-                window.open(url, '_blank')             
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        const url = id
+        window.open(url, '_blank') 
     }
-    
+
     const basicColumns = [
         {
             name: 'نام کسب و کار',
@@ -83,7 +69,7 @@ const ShowLastTaxes = ({ stepper }) => {
             minWidth: '150px',
             cell: row => {
                 return (
-                    <div onClick={ () => { getLink(row.id) } } style={{cursor:'pointer'}}>
+                    <div onClick={ () => { getLink(row.download_link) } } style={{cursor:'pointer'}}>
                         <DownloadCloud />
                     </div>
                 )
@@ -132,15 +118,14 @@ const ShowLastTaxes = ({ stepper }) => {
                     getData.push({
                         name:response.data[i].bussiness,
                         date:`${JalaliCalendar(response.data[i].created_date).year}/${JalaliCalendar(response.data[i].created_date).month}/${JalaliCalendar(response.data[i].created_date).day}`,
-                        // date:response.data[i].created_date,
                         startDate:`${JalaliCalendar(response.data[i].start_date_of_calculations).year}/${JalaliCalendar(response.data[i].start_date_of_calculations).month}/${JalaliCalendar(response.data[i].start_date_of_calculations).day}`,
                         endDate:`${JalaliCalendar(response.data[i].end_date_of_calculations).year}/${JalaliCalendar(response.data[i].end_date_of_calculations).month}/${JalaliCalendar(response.data[i].end_date_of_calculations).day}`,
                         amount:Number(response.data[i].final_tax),
-                        id:response.data[i].id
+                        id:response.data[i].id,
+                        download_link:response.data[i].download_link
                     })
                 }
                 SetData(getData)
-                console.log(getData)
             }
         })
         .catch((err) => {

@@ -49,14 +49,14 @@ const MainTax = () => {
                     <Row className='m-3'>
                         <Col xl='4' lg='6' md='6'>
                             <a href='/tax/management' style={{color:'inherit', textDecoration:'none'}}>
-                                <TokenInformation TokenImage='/public/images/income.png' TokenTitle='مالیات بر درآمد' status='ورود به پنل' color1='primary' TokenDescription='این مالیات بر اساس درآمدهای ناشی جریان کلی ورودی و خروجی از کیف پول‌ کریپتویی کسب و کار در مدت مشخص شده، محاسبه و اعلام می‌شود.'/>
+                                <TokenInformation TokenImage='images/income.png' TokenTitle='مالیات بر درآمد' status='ورود به پنل' color1='primary' TokenDescription='این مالیات بر اساس درآمدهای ناشی جریان کلی ورودی و خروجی از کیف پول‌ کریپتویی کسب و کار در مدت مشخص شده، محاسبه و اعلام می‌شود.'/>
                             </a>
                         </Col>
                         <Col xl='4' lg='6' md='6'>
-                            <TokenInformation TokenImage='/public/images/invest.png' TokenTitle='مالیات بر عایدی سرمایه' status='به زودی' color1='warning' TokenDescription='این مالیات بر مبنای میزان رشد ارزش ریالی سرمایه‌ٔ کریپتویی کسب و کار در مدت زمانی مشخص شده محاسبه می‌شود.'/>
+                            <TokenInformation TokenImage='images/invest.png' TokenTitle='مالیات بر عایدی سرمایه' status='به زودی' color1='warning' TokenDescription='این مالیات بر مبنای میزان رشد ارزش ریالی سرمایه‌ٔ کریپتویی کسب و کار در مدت زمانی مشخص شده محاسبه می‌شود.'/>
                         </Col>
                         <Col xl='4' lg='6' md='6'>
-                            <TokenInformation TokenImage='/public/images/trade.png' TokenTitle='مالیات بر معامله' status='به زودی' color1='warning' TokenDescription='در محاسبه این مالیات فرض می‌شود که تراکنش‌های انتخابی از کیف پول، مبنای یک معامله رمز ارزی هستند.'/>
+                            <TokenInformation TokenImage='images/trade.png' TokenTitle='مالیات بر معامله' status='به زودی' color1='warning' TokenDescription='در محاسبه این مالیات فرض می‌شود که تراکنش‌های انتخابی از کیف پول، مبنای یک معامله رمز ارزی هستند.'/>
                         </Col>
                     </Row>
 

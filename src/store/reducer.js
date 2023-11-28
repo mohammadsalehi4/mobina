@@ -64,7 +64,7 @@ const initialState = {
     //tax
     taxAmount:0,
     taxId:0,
-    taxData:{}
+    taxData:0
 }
 
 const reducer = (state = initialState, action) => {

@@ -11,9 +11,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
+import LoadingButton from '../../components/loadinButton/LoadingButton'
+import { useState } from 'react'
+
 const IncreaseTax = ({ stepper }) => {
     const dispatch = useDispatch()
     const States = useSelector(state => state)
+    const [Loading, SetLoading] = useState(false)
 
     const Increase = () => {
         const percent = document.getElementById('percent').value
@@ -23,6 +27,7 @@ const IncreaseTax = ({ stepper }) => {
 
         bodyFormData.append('forgiveness_precentage', percent)
         bodyFormData.append('forgiveness_mount', IncAmount)
+        SetLoading(true)
 
         axios.put(`${serverAddress}/taxing/update/${States.taxId}/`, 
         bodyFormData,
@@ -33,15 +38,16 @@ const IncreaseTax = ({ stepper }) => {
             }
         })
         .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data)
+      SetLoading(false)
+      if (response.status === 200) {
             dispatch({type:"taxAmount", value:Number(response.data.final_tax)})
             dispatch({type:"taxData", value:1})
             stepper.next()
           }
         })
         .catch((err) => {
-          console.log(err)
+      SetLoading(false)
+      console.log(err)
         })
     }
 
@@ -75,7 +81,7 @@ const IncreaseTax = ({ stepper }) => {
             </Row>
             <Row className='mt-3'>
                 <Col>
-                    <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next' onClick={() => {
+                    <button disabled style={{background:"gray", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next' onClick={() => {
                         stepper.previous()
                         }}>
                         <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
@@ -84,8 +90,16 @@ const IncreaseTax = ({ stepper }) => {
                     <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => {
                         Increase()
                         }}>
-                        <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
-                        <ArrowLeft size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowLeft>
+                            {
+                                Loading ? 
+                                <LoadingButton/>
+                                :
+                                <>
+                                    <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
+                                    <ArrowLeft size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowLeft>
+                                </>
+                            }
+
                     </button>
                 </Col>
             </Row>

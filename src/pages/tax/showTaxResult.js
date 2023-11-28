@@ -20,9 +20,7 @@ const ShowTaxResult = ({ stepper }) => {
     const [data, SetData] = useState(false)
     useEffect(() => {
         if (States.taxData === 1) {
-            console.log('States.taxId')
-            console.log(States.taxId)
-            axios.get(`${serverAddress}/taxing/operation/${States.taxId}/`, 
+            axios.get(`${serverAddress}/taxing/operation`, 
             {
                 headers: {
                     Authorization: `Bearer ${Cookies.get('access')}`, 
@@ -30,10 +28,9 @@ const ShowTaxResult = ({ stepper }) => {
                 }
             })
             .then((response) => {
-                SetData(response.data)
-                console.log(response.data)
-                console.log('response.data.download_link')
-                console.log(response.data.download_link)
+                if (response.status === 200) {
+                    SetData(response.data.find(item => item.id === States.taxId))
+                }
             })
             .catch((err) => {
               console.log(err)
@@ -53,7 +50,8 @@ const ShowTaxResult = ({ stepper }) => {
                     </Col>
                     <Col xl='6' className='mt-3' style={{textAlign:'left'}}>
                         <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => {
-                                window.open(data.download_link)
+                                const url = data.download_link
+                                window.open(url, '_blank') 
                             }}>
                             <span className='align-middle d-sm-inline-block d-none'>دریافت</span>
                         </button>
@@ -61,7 +59,7 @@ const ShowTaxResult = ({ stepper }) => {
                 </Row>
                 <Row>
                     <Col className='mt-3' style={{textAlign:'right'}}>
-                        <CountedTaxTable  />
+                        <CountedTaxTable  data={data}/>
                     </Col>
 
                 </Row>
