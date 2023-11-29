@@ -308,6 +308,7 @@ const  WalletDetailTableBottom = (props) => {
         } else {
             return (
               <ion-icon style={{fontSize:'32px', color:'green', cursor:'pointer'}} name="add-circle-outline" onClick={ () => {
+                console.log(row)
                 addSelectedData(row)
                 SetReload(!Reload)
               } }>no</ion-icon>
@@ -343,7 +344,7 @@ const  WalletDetailTableBottom = (props) => {
       }
     },
     {
-      name: `حجم (${props.data.symbole})`,
+      name: `حجم`,
       sortable: false,
       minWidth: '110px',
       maxWidth: '110px',
@@ -351,12 +352,12 @@ const  WalletDetailTableBottom = (props) => {
       cell: row => {
         if (row.mode === "in") {
           return (
-            <p style={{color:"green", marginTop:"15px"}}>{digitsEnToFa(parseFloat((row.amount).toFixed(5)).toString())}</p>
+            <p style={{color:"green", marginTop:"15px", direction:'ltr'}}>{digitsEnToFa(parseFloat((row.amount).toFixed(5)).toString())} {row.symbole}</p>
           )
         }
         if (row.mode === "out") {
           return (
-            <p style={{color:"red"}}>{digitsEnToFa(parseFloat((row.amount).toFixed(5)).toString())}</p>
+            <p style={{color:"red", direction:'ltr'}}>{digitsEnToFa(parseFloat((row.amount).toFixed(5)).toString())} {row.symbole}</p>
           )
         }
   

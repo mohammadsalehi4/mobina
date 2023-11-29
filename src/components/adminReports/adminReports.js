@@ -345,6 +345,7 @@ const AdminReports = () => {
         <Modal
           isOpen={AddNewReportBox}
           className='modal-dialog-centered'
+          toggle={ () => { SetAddNewReportBox(false) } }
           modalClassName={'modal-danger'}
         >
           <ModalBody>
@@ -406,6 +407,7 @@ const AdminReports = () => {
         <Modal
           isOpen={DeleteBox}
           className='modal-dialog-centered'
+          toggle={ () => { SetDeleteBox(false) } }
           modalClassName={'modal-danger'}
         >
           <ModalBody>
@@ -431,15 +433,18 @@ const AdminReports = () => {
                 })
                 .then((response) => {
                   if (response.status === 200) {
-                    SetLoading(true)
+                    SetLoading(false)
+                    SetDeleteBox(false)
+                    dispatch({type:"beLoad", value:!(States.beLoad)})
                     return toast.success('با موفقیت حذف شد.', {
                       position: 'bottom-left'
                     })
                   }
                 })
                 .catch((err) => {
-                  SetLoading(true)
-                  console.log(err)
+                  SetLoading(false)
+                    SetDeleteBox(false)
+                    console.log(err)
                 })
             }}>
               {
@@ -455,6 +460,11 @@ const AdminReports = () => {
         <Modal
           isOpen={EditBox}
           className='modal-dialog-centered'
+          toggle={ () => { 
+            SetEditBox(false)
+            SetEditSelectedReportContent(null)
+            SetEditSelectedReport(null)
+          } }
           modalClassName={'modal-danger'}
         >
           <ModalBody>

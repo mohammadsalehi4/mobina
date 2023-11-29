@@ -74,11 +74,14 @@ const VisualizationDetail = (props) => {
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
           .then((response) => {
             SetLoading(false)
-            if (response.status >= 200 && response.status < 300) {
+            //adad daghigh set she
+            if (response.status === 200) {
               SetOpenSaveBox(false)
+              window.location.assign(`/loadGraph/${response.data.id}`)
               return toast.success('با موفقیت ذخیره شد.', {
                 position: 'bottom-left'
               })
+              alert('yes')
             } else {
               return toast.error('ناموفق', {
                 position: 'bottom-left'
@@ -108,7 +111,7 @@ const VisualizationDetail = (props) => {
             }
           })
         } else {
-          SetLoading(true)
+          SetLoading(false)
           //Error Done
           axios.post(`${serverAddress}/tracing/graph/`, 
           {
@@ -126,9 +129,11 @@ const VisualizationDetail = (props) => {
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
           .then((response) => {
+            console.log(response)
             SetLoading(false)
-            if (response.status >= 200 && response.status < 300) {
+            if (response.status === 201) {
               SetOpenSaveBox(false)
+              // window.location.assign(`/loadGraph/${response.data.id}`)
               return toast.success('با موفقیت ذخیره شد.', {
                 position: 'bottom-left'
               })
@@ -257,8 +262,12 @@ const VisualizationDetail = (props) => {
               </div>
               <div className='row'>
                 <div className='col-md-12'>
-                  <p style={{display:"inline-block"}}>ذخیره گراف</p>
-                  <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginRight:'12px', marginBottom:'-4px', cursor:'pointer'}} name="save-outline"></ion-icon>
+                  <Button.Ripple outline color='secondary' onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } className="p-2">
+                    <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginLeft:'12px', cursor:'pointer', color:'gray'}} name="save-outline"></ion-icon>
+                    <span className='align-middle ms-25' style={{color:'gray', fontSize:'13px'}}>ذخیره</span>
+                  </Button.Ripple>
+                  {/* <p style={{display:"inline-block"}}>ذخیره گراف</p> */}
+                  {/* <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginRight:'12px', marginBottom:'-4px', cursor:'pointer'}} name="save-outline"></ion-icon> */}
                 </div>
               </div>
             </div>
@@ -267,6 +276,7 @@ const VisualizationDetail = (props) => {
         </Col>
       </Row>
     </Fragment>
+
     <Modal
       isOpen={OpenSaveBox}
       className='modal-dialog-centered'

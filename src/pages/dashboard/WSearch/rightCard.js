@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-template */
 /* eslint-disable multiline-ternary */
@@ -26,6 +27,7 @@ import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
 import { RecognizeNetwork } from '../../../processors/recognizeNetwork'
 import Chip from '@mui/material/Chip'
+import LoadingButton from '../../../components/loadinButton/LoadingButton'
 const CardContentTypes = (props) => {
   //barchasb ha
   const [addressMark, SetAddressMark] = useState(false)
@@ -36,53 +38,13 @@ const CardContentTypes = (props) => {
   const [TagValues, setTagValues] = useState([])
   const [TagId, setTagId] = useState([])
   const [AddTagModal, setAddTagModal] = useState(false)
+  const [AddLabelModal, setAddLabelModal] = useState(false)
+  const [DeleteLabelModal, setDeleteLabelModal] = useState(false)
+  const [DeleteTagModal, setDeleteTagModal] = useState(false)
+  const [DeleteTagText, setDeleteTagText] = useState('')
   const [TagList, setAddTagList] = useState(false)
   const [SelectedTag, setSelectedTag] = useState(false)
-
-  //add new tag
-  const GetTag = (userInput) => {
-    if (userInput) {
-      axios.post(serverAddress + "/address-labels/tag/", 
-      {
-        items:[
-          {
-            address: props.data.address,
-            tag: userInput,
-            // network need set
-            network:RecognizeNetwork(props.data.name)
-          }
-        ]
-      },
-      {
-        headers: {
-            Authorization: `Bearer ${Cookies.get('access')}`
-        }
-      }
-      )
-      .then((response) => {
-        if (Number(response.status) >= 200 && Number(response.status) < 300) {
-          setTagValues(prevTags => [...prevTags, userInput])
-          setTagId(prevTags => [
-            ...prevTags, 
-            {
-              tagText:userInput,
-              tagId:response.data[0].id
-            }
-          ])
-        } else {
-          return toast.error('خطا در پردازش', {
-            position: 'bottom-left'
-          })
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-        return toast.error('خطا در پردازش', {
-          position: 'bottom-left'
-        })
-      })
-    }
-  }
+  const [Loading, setLoading] = useState(false)
 
   const getTagList = () => {
     axios.get(serverAddress + "/address-labels/tag/", 
@@ -113,13 +75,73 @@ const CardContentTypes = (props) => {
     })
   }
 
-  //delete tag
-  const DeleteTag = (name) => {
+  //add new tag
+  const GetTag = (userInput) => {
+    if (userInput) {
+    setLoading(true)
+    axios.post(serverAddress + "/address-labels/tag/", 
+      {
+        items:[
+          {
+            address: props.data.address,
+            tag: userInput,
+            // network need set
+            network:RecognizeNetwork(props.data.name)
+          }
+        ]
+      },
+      {
+        headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      }
+      )
+      .then((response) => {
+    setLoading(false)
+    if (Number(response.status) >= 200 && Number(response.status) < 300) {
+          setTagValues(prevTags => [...prevTags, userInput])
+          setTagId(prevTags => [
+            ...prevTags, 
+            {
+              tagText:userInput,
+              tagId:response.data[0].id
+            }
+          ])
+        } else {
+          if (err.response.status === 400) {
+            return toast.error('تگ مورد نظر تکراری است.', {
+              position: 'bottom-left'
+            })
+          } else {}
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        }
+      })
+      .catch((err) => {
+        setLoading(false)
+        console.log(err)
+        if (err.response.status === 400) {
+          return toast.error('تگ مورد نظر تکراری است.', {
+            position: 'bottom-left'
+          })
+        } else {
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        }
+      })
+    }
+  }
 
+  //delete tag
+  const DeleteTag = () => {
+    const name = DeleteTagText
     let getTagValues = TagValues
     let getTagId = TagId
     
     const thisTag = getTagId.filter(element => element.tagText === name)[0]
+    setLoading(true)
     axios.delete(serverAddress + `/address-labels/tag/${thisTag.tagId}/`, 
     {
       headers: {
@@ -128,13 +150,15 @@ const CardContentTypes = (props) => {
     }
     )
     .then((response) => {
-      if (Number(response.status) >= 200 && Number(response.status) < 300) {
+    setLoading(false)
+    if (Number(response.status) >= 200 && Number(response.status) < 300) {
 
         getTagValues = getTagValues.filter(element => element !== name)
         getTagId = getTagId.filter(element => element.tagText !== name)
     
         setTagValues(getTagValues)
         setTagId(getTagId)
+        setDeleteTagModal(false)
       } else {
         return toast.error('خطا در پردازش', {
           position: 'bottom-left'
@@ -142,7 +166,8 @@ const CardContentTypes = (props) => {
       }
     })
     .catch((err) => {
-      console.log(err)
+    setLoading(false)
+    console.log(err)
       return toast.error('خطا در پردازش', {
         position: 'bottom-left'
       })
@@ -152,69 +177,84 @@ const CardContentTypes = (props) => {
   // Label
   const getAddressMark = () => {
     if (addressMark) {
-      axios.delete(serverAddress + `/address-labels/label/${addressId}/`, 
-      {
-        headers: {
-            Authorization: `Bearer ${Cookies.get('access')}`
-        }
+      deleteLabel()
+    } else {
+      setAddLabelModal(true)
+    }
+  }
+
+  //delete label
+  const deleteLabel = () => {
+    setLoading(true)
+    axios.delete(serverAddress + `/address-labels/label/${addressId}/`, 
+    {
+      headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
       }
-      )
-      .then((response) => {
-        if (Number(response.status) >= 200 && Number(response.status) < 300) {
-          SetAddressMark(false)
-          SetAddressText('')
-          SetAddressId('')
-        } else {
-          return toast.error('خطا در پردازش', {
-            position: 'bottom-left'
-          })
-        }
-      })
-      .catch((err) => {
-        console.log(err)
+    }
+    )
+    .then((response) => {
+    setLoading(false)
+    if (Number(response.status) >= 200 && Number(response.status) < 300) {
+        SetAddressMark(false)
+        SetAddressText('')
+        SetAddressId('')
+        setDeleteLabelModal(false)
+      } else {
         return toast.error('خطا در پردازش', {
           position: 'bottom-left'
         })
+      }
+    })
+    .catch((err) => {
+    setLoading(false)
+    console.log(err)
+      return toast.error('خطا در پردازش', {
+        position: 'bottom-left'
       })
-    } else {
-      const userInput = prompt('برچسب مورد نظر را وارد کنید:')
-      if (userInput) {
-        axios.post(serverAddress + "/address-labels/label/", 
+    })
+  }
+
+  //add label
+  const addNewLabel = () => {
+    setLoading(true)
+    axios.post(serverAddress + "/address-labels/label/", 
+    {
+      items:[
         {
-          items:[
-            {
-              address: props.data.address,
-              label: userInput,
-              // network need set
-              network:RecognizeNetwork(props.data.name)
-            }
-          ]
-        },
-        {
-          headers: {
-              Authorization: `Bearer ${Cookies.get('access')}`
-          }
+          address: props.data.address,
+          label:document.getElementById('CreateNewLabelInput').value,
+          // network need set
+          network:RecognizeNetwork(props.data.name)
         }
-        )
-        .then((response) => {
-          if (Number(response.status) >= 200 && Number(response.status) < 300) {
-            SetAddressMark(true)
-            SetAddressText(userInput)
-            SetAddressId(response.data[0].id)
-          } else {
-            return toast.error('خطا در پردازش', {
-              position: 'bottom-left'
-            })
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          return toast.error('خطا در پردازش', {
-            position: 'bottom-left'
-          })
-        })
+      ]
+    },
+    {
+      headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
       }
     }
+    )
+    .then((response) => {
+    setLoading(false)
+    if (Number(response.status) >= 200 && Number(response.status) < 300) {
+        SetAddressMark(true)
+        SetAddressText(document.getElementById('CreateNewLabelInput').value)
+        SetAddressId(response.data[0].id)
+        setAddLabelModal(false)
+      } else {
+        return toast.error('خطا در پردازش', {
+          position: 'bottom-left'
+        })
+      }
+    })
+    .catch((err) => {
+    setLoading(false)
+    console.log(err)
+      return toast.error('خطا در پردازش', {
+        position: 'bottom-left'
+      })
+    })
   }
 
   //show label
@@ -262,7 +302,7 @@ const CardContentTypes = (props) => {
                 TagValues.map((item, index) => {
                   return (
                     index === 0 ?
-                      <div style={{display:"inline-block", float:'right'}} onClick={ () => { DeleteTag(item) } }>
+                      <div style={{display:"inline-block", float:'right'}} onClick={ () => { setDeleteTagText(item), setDeleteTagModal(true) } }>
                         <div style={{display:"inline-block", marginRight:"0px", cursor:"pointer"}} id={`tag` + index}>
                           <small style={{background:"rgb(248,248,248)", padding:"1px 5px", borderRadius:"5px"}}><ion-icon style={{marginBottom:"-2px"}} name="ticket-outline"></ion-icon> {item}</small>
                         </div>
@@ -271,7 +311,7 @@ const CardContentTypes = (props) => {
                         </UncontrolledTooltip>
                       </div>
                     :
-                      <div style={{display:"inline-block", float:'right'}} onClick={ () => { DeleteTag(item) } }>
+                      <div style={{display:"inline-block", float:'right'}} onClick={ () => { setDeleteTagText(item), setDeleteTagModal(true) } }>
                         <div style={{display:"inline-block", marginRight:"5px", cursor:"pointer"}} id={`tag` + index}>
                           <small style={{background:"rgb(248,248,248)", padding:"1px 5px", borderRadius:"5px"}}><ion-icon style={{marginBottom:"-2px"}} name="ticket-outline"></ion-icon> {item}</small>
                         </div>
@@ -362,7 +402,7 @@ const CardContentTypes = (props) => {
                 </div>
               :
                 <div style={{display:"inline-block"}} className='me-0' id='AddressTitleDeleteName021'>
-                  <ion-icon  onClick={() => { getAddressMark() }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon>
+                  <ion-icon  onClick={() => { setDeleteLabelModal(true) }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon>
                   <small style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px"}}>{addressText}</small>
                   <UncontrolledTooltip placement='left' target='AddressTitleDeleteName021'>
                     حذف برچسب
@@ -382,62 +422,152 @@ const CardContentTypes = (props) => {
       </Card>
 
       <Modal
-          isOpen={AddTagModal}
-          className='modal-dialog-centered'
-          modalClassName={'modal-danger'}
-          toggle={() => setAddTagModal(!AddTagModal)}
-        >
-          <ModalBody>
-            <h6>تگ مورد نظر خود را وارد کنید یا از لیست زیر انتخاب کنید.</h6>
-            <Label style={{display:'block'}}>تگ مورد نظر</Label>
-            {
-              !LastTagSelected ? 
-              <Input id='CreateNewTagInput' />
-              :
-              <Chip label={SelectedTag} onDelete={handleDelete} style={{direction:'ltr'}} />
-            }
-            {
-              TagList === false ? 
-                <p>در حال دریافت اطلاعات...</p>
-              :
-              TagList.length === 0 ? 
-                <p>بدون تگ ذخیره شده</p>
-              :
-                <>
-                  <p className='mt-3'>
-                    لیست تگ های ذخیره شده
-                  </p>
-                  {
-                    TagList.map((item, index) => {
-                      return (
-                        <div style={{ marginTop:'4px'}}>
-                          <Chip label={item.tag} style={{direction:'ltr', cursor:'pointer'}} onClick={ () => { SetLastTagSelected(true), setSelectedTag(item.tag) } }/>
-                        </div>
-                      )
-                    })
-                  }
-                </>
+        isOpen={AddTagModal}
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+        toggle={() => setAddTagModal(!AddTagModal)}
+      >
+        <ModalBody>
+          <h6>تگ مورد نظر خود را وارد کنید یا از لیست زیر انتخاب کنید.</h6>
+          <Label style={{display:'block'}}>تگ مورد نظر</Label>
+          {
+            !LastTagSelected ? 
+            <Input id='CreateNewTagInput' />
+            :
+            <Chip label={SelectedTag} onDelete={handleDelete} style={{direction:'ltr'}} />
+          }
+          {
+            TagList === false ? 
+              <p>در حال دریافت اطلاعات...</p>
+            :
+            TagList.length === 0 ? 
+              <p>بدون تگ ذخیره شده</p>
+            :
+              <>
+                <p className='mt-3'>
+                  لیست تگ های ذخیره شده
+                </p>
+                {
+                  TagList.map((item, index) => {
+                    return (
+                      <div style={{ marginTop:'4px'}}>
+                        <Chip label={item.tag} style={{direction:'ltr', cursor:'pointer'}} onClick={ () => { SetLastTagSelected(true), setSelectedTag(item.tag) } }/>
+                      </div>
+                    )
+                  })
+                }
+              </>
 
-            }
-          </ModalBody>
-          <ModalFooter>
+          }
+        </ModalBody>
+        <ModalFooter>
 
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setAddTagModal(false) } }>
-              بسته
-            </Button>
-            <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { 
-              if (LastTagSelected) {
-                GetTag(SelectedTag)
-              } else {
-                GetTag(document.getElementById('CreateNewTagInput').value)
-              }
-              SetLastTagSelected(false)
-              setAddTagModal(false) 
-            } }>
-              افزودن
-            </Button>
-          </ModalFooter>
-        </Modal>
+          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setAddTagModal(false) } }>
+            بسته
+          </Button>
+          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { 
+            if (LastTagSelected) {
+              GetTag(SelectedTag)
+            } else {
+              GetTag(document.getElementById('CreateNewTagInput').value)
+            }
+            SetLastTagSelected(false)
+            setAddTagModal(false) 
+          } }>
+            {
+              Loading ? 
+              <LoadingButton/>
+              :
+              <span>
+            افزودن
+              </span>
+            }
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal
+        isOpen={AddLabelModal}
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+        toggle={() => setAddLabelModal(!AddLabelModal)}
+      >
+        <ModalBody>
+          <h6>برچسب مورد نظر خود را وارد کنید.</h6>
+          <Label style={{display:'block'}}>برچسب مورد نظر</Label>
+          <Input id='CreateNewLabelInput' />
+        </ModalBody>
+        <ModalFooter>
+
+          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setAddLabelModal(false) } }>
+            بسته
+          </Button>
+          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { addNewLabel() } }>
+            {
+              Loading ? 
+              <LoadingButton/>
+              :
+              <span>
+            افزودن
+              </span>
+            }
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal
+        isOpen={DeleteLabelModal}
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+        toggle={() => setDeleteLabelModal(!DeleteLabelModal)}
+      >
+        <ModalBody>
+          <h6>آیا اطمینان دارید که می‌خواهید برچسب مورد نظر را حذف کنید؟</h6>
+        </ModalBody>
+        <ModalFooter>
+
+          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setDeleteLabelModal(false) } }>
+            بسته
+          </Button>
+          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
+          {
+              Loading ? 
+              <LoadingButton/>
+              :
+              <span>
+                حذف
+              </span>
+            }
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal
+        isOpen={DeleteTagModal}
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+        toggle={() => setDeleteTagModal(!DeleteTagModal)}
+      >
+        <ModalBody>
+          <h6>آیا اطمینان دارید که می‌خواهید تگ مورد نظر را حذف کنید؟</h6>
+        </ModalBody>
+        <ModalFooter>
+
+          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setDeleteTagModal(false) } }>
+            بسته
+          </Button>
+          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { DeleteTag() } }>
+            {
+              Loading ? 
+              <LoadingButton/>
+              :
+              <span>
+                حذف
+              </span>
+            }
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
 
   )

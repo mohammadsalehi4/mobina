@@ -222,7 +222,7 @@ const DataTableWithButtons = (props) => {
     let csv = convertArrayOfObjectsToCSV(array)
     if (csv === null) return
 
-    const filename = 'export.csv'
+    const filename = `${props.data.address}.csv`
 
     if (!csv.match(/^data:text\/csv/i)) {
       csv = `data:text/csv;charset=utf-8,${csv}`
@@ -247,12 +247,12 @@ const DataTableWithButtons = (props) => {
         if (NoNumberData[i].mode) { mode='in' } else { mode='out' }
         
         myData.push({
-          Address:NoNumberData[i].address,
+          hash:NoNumberData[i].address,
           Mode:mode,
           Amount:NoNumberData[i].BTCAmount,
           Time:date,
           Fee:NoNumberData[i].Fee,
-          Type:NoNumberData[i].currencyType
+          symbole:NoNumberData[i].currencyType
         })
       }
       SetDownloadData(myData)

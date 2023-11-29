@@ -37,7 +37,7 @@ const CurrencyDetail = () => {
 
     const inputs=[]
     const outputs=[]
-
+    console.log(getData)
     for (let i = 0; i < getData.inputs.length; i++) {
       inputs.push({
         address:getData.inputs[i].address,
@@ -65,6 +65,34 @@ const CurrencyDetail = () => {
         valueInDollar:getData.outputs[i].ValueInDollar
       })
     }
+
+    // for (let i = 0; i < getData.logs.inputs.length; i++) {
+    //   inputs.push({
+    //     address:getData.logs.inputs[i].address,
+    //     hash:getData.logs.inputs[i].hash,
+    //     Label:false,
+    //     date:getData.logs.inputs[i].timestamp,
+    //     time:getData.logs.inputs[i].timestamp,
+    //     amount:parseFloat(getData.logs.inputs[i].value.toFixed(5)),
+    //     senderAmount:parseFloat(getData.logs.inputs[i].value.toFixed(5)),
+    //     currencyType:getData.logs.inputs[i].symbole,
+    //     valueInDollar:getData.logs.inputs[i].ValueInDollar
+    //   })
+    // }
+
+    // for (let i = 0; i < getData.logs.outputs.length; i++) {
+    //   outputs.push({
+    //     address:getData.logs.outputs[i].address,
+    //     hash:getData.logs.outputs[i].hash,
+    //     Label:false,
+    //     date:getData.logs.outputs[i].timestamp,
+    //     time:getData.logs.outputs[i].timestamp,
+    //     amount:parseFloat(getData.logs.outputs[i].value.toFixed(5)),
+    //     reciverAmount:parseFloat(getData.logs.outputs[i].value.toFixed(5)),
+    //     currencyType:getData.logs.outputs[i].symbole,
+    //     valueInDollar:getData.logs.outputs[i].ValueInDollar
+    //   })
+    // }
     
     return {
       symbole:'ETH',
