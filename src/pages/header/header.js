@@ -230,7 +230,7 @@ function Header() {
       <div id='MobileHeaderBox'>
         <div id='menuItems'>
           <div style={{display:"block", marginRight:"15px", width:"calc(100% - 30px)"}}>
-            <img src='images/logoPanta.png' id='logo' style={{display:"inline-block", marginRight:"15px"}}/>
+            <img src='images/myLogo.png' id='logo' style={{display:"inline-block", marginRight:"15px"}}/>
             <h1 onClick={() => { window.location.assign('/researcher') }} style={{ cursor:"pointer", display:"inline-block", marginRight:"20px", paddingTop:"10px"}}>پنتا</h1>
           </div>
           <a className="vazir" id='MobileheaderLink1' href="#"><ion-icon name="people-outline" className="headerIonIcon"></ion-icon> حساب کاربری</a>
