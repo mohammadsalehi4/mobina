@@ -191,7 +191,7 @@ const CurrencyDetail = () => {
           })
       }
     })
-  }, [])
+  }, [, States.WDetail])
 
   const deleteAddress = (value) => {
     const getGraph = States.GraphData

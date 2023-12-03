@@ -251,41 +251,44 @@ const AdminReports = () => {
   }, [EditSelectedReport])
 
   useEffect(() => {
-    SetData([])
-    SetLoading(true)
-    axios.get(`${serverAddress}/reports/panel-reports/`, 
-    {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('access')}`
-      }
-    })
-    .then((response) => {
-    SetLoading(false)
-    const a = []
-      for (let i = 0; i < response.data.results.length; i++) {
-        a.push(
-          {
-            id: response.data.results[i].id,
-            status: response.data.results[i].publication_status,
-            date:response.data.results[i].latest_update,
-            title:response.data.results[i].title,
-            summary:response.data.results[i].summary,
-            writer:(`${response.data.results[i].author_fname} ${response.data.results[i].author_lname}`),
-            author_fname:response.data.results[i].author_fname,
-            author_lname:response.data.results[i].author_lname,
-            accesses:response.data.results[i].accesses
-          }
-        )
-      }
-      console.log(a)
-      SetData(a)
-    })
-    .catch((err) => {
+    if (States.rollsLoading === 4) {
+      SetData([])
+      SetLoading(true)
+      axios.get(`${serverAddress}/reports/panel-reports/`, 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
       SetLoading(false)
-      console.log(err)
+      const a = []
+        for (let i = 0; i < response.data.results.length; i++) {
+          a.push(
+            {
+              id: response.data.results[i].id,
+              status: response.data.results[i].publication_status,
+              date:response.data.results[i].latest_update,
+              title:response.data.results[i].title,
+              summary:response.data.results[i].summary,
+              writer:(`${response.data.results[i].author_fname} ${response.data.results[i].author_lname}`),
+              author_fname:response.data.results[i].author_fname,
+              author_lname:response.data.results[i].author_lname,
+              accesses:response.data.results[i].accesses
+            }
+          )
+        }
+        console.log(a)
+        SetData(a)
+      })
+      .catch((err) => {
+        SetLoading(false)
+        console.log(err)
+      }
+    )
     }
-  )
-  }, [, States.beLoad])
+
+  }, [, States.beLoad, States.rollsLoading])
 
   //roll
   useEffect(() => {

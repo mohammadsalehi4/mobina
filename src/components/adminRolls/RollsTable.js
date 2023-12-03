@@ -122,32 +122,35 @@ const RollsTable = () => {
       }
     ])
     useEffect(() => {
-      dispatch({type:"LOADINGEFFECT", value:true})
-      axios.get(`${serverAddress}/accounts/role/`, 
-      {
-        headers: {
-          Authorization: `Bearer ${Cookies.get('access')}`
-        }
-      })
-      .then((response) => {
-          dispatch({type:"LOADINGEFFECT", value:false})
-          if (response.data.results.length > 0) {
-              const array = response.data.results
-              array.sort((a, b) => ((a['id'] > b['id']) ? 1 : ((b['id'] > a['id']) ? -1 : 0)))
-              SetRolls(array)
+      if (States.rollsLoading === 2) {
+        dispatch({type:"LOADINGEFFECT", value:true})
+        axios.get(`${serverAddress}/accounts/role/`, 
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
           }
-      })
-      .catch((err) => {
-          dispatch({type:"LOADINGEFFECT", value:false})
-          try {
-            if (err.response.data.results.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
+        })
+        .then((response) => {
+            dispatch({type:"LOADINGEFFECT", value:false})
+            if (response.data.results.length > 0) {
+                const array = response.data.results
+                array.sort((a, b) => ((a['id'] > b['id']) ? 1 : ((b['id'] > a['id']) ? -1 : 0)))
+                SetRolls(array)
             }
-          } catch (error) {}
-      })
-    }, [, States.beLoad])
+        })
+        .catch((err) => {
+            dispatch({type:"LOADINGEFFECT", value:false})
+            try {
+              if (err.response.data.results.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+            } catch (error) {}
+        })
+      }
+
+    }, [States.rollsLoading, States.rollsLoading])
 
     const [data, SetData] = useState([])
 

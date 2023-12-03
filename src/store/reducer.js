@@ -64,10 +64,46 @@ const initialState = {
     //tax
     taxAmount:0,
     taxId:0,
-    taxData:0
+    taxData:0,
+
+    //loadingAdminPanel
+    rollsLoading:1,
+
+    //loading profile
+    ProfileLabel:false,
+    ProfileTag:false,
+    ProfileGraph:false
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'ProfileLabel') {
+        return {
+            ...state,
+            ProfileLabel:action.value
+        }
+    }
+
+    if (action.type === 'ProfileTag') {
+        return {
+            ...state,
+            ProfileTag:action.value
+        }
+    }
+
+    if (action.type === 'ProfileGraph') {
+        return {
+            ...state,
+            ProfileGraph:action.value
+        }
+    }
+
+    if (action.type === 'rollsLoading') {
+        return {
+            ...state,
+            rollsLoading:action.value
+        }
+    }
 
     if (action.type === 'taxData') {
         return {

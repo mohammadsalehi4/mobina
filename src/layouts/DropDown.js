@@ -15,6 +15,7 @@ import axios from 'axios'
 import { serverAddress } from '../address'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
+import Avatar from "boring-avatars"
 import LoadingButton from '../components/loadinButton/LoadingButton'
 const DropDown = () => {
     const [Loading, SetLoading] = useState(false)
@@ -116,8 +117,8 @@ const DropDown = () => {
 
         <li className='dropdown-menu-header p-2' style={{direction:'rtl', textAlign:'right'}}>
             <div className='row container-fluid pb-2' style={{borderBottomStyle:'solid', borderBottomColor:'rgb(220,220,220)', borderBottomWidth:'1px'}}>
-                <div className='col-3'>
-                    <svg viewBox="0 0 80 80" fill="none" role="img" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                <div className='col-3' style={{ padding:'4px'}}>
+                    {/* <svg viewBox="0 0 80 80" fill="none" role="img" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
                         <mask id=":r3j:" maskUnits="userSpaceOnUse" x="0" y="0" width="80" height="80">
                         <rect width="80" height="80" rx="160" fill="#FFFFFF"></rect>
                         </mask>
@@ -144,7 +145,15 @@ const DropDown = () => {
                             <feGaussianBlur stdDeviation="7" result="effect1_foregroundBlur"></feGaussianBlur>
                         </filter>
                         </defs>
-                    </svg>
+                    </svg> */}
+                    <Avatar
+                        size={'100%'}
+                        name="Maya Angelou"
+                        variant="ring"
+                        square={false}
+                        colors={["#daa520", "#2f4f4f", "#daa520", "#2f4f4f", "#cdcd32"]}
+                        style={{ borderRadius: '8px' }}
+                    />
                 </div>
                 <div className='col-9'>
                     <span style={{fontSize:'14px'}}>{Cookies.get('name')} {Cookies.get('lastname')}</span><br/>
@@ -190,6 +199,7 @@ const DropDown = () => {
         <Modal
           isOpen={ChangePasswordModal}
           className='modal-dialog-centered'
+          toggle={ () => { setChangePasswordModal(false) } }
           modalClassName={'modal-danger'}
         >
           <ModalBody>

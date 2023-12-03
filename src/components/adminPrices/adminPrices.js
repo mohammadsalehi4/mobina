@@ -16,36 +16,40 @@ import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../pub
 import {Button, Modal, ModalBody, ModalFooter}  from 'reactstrap'
 import LocalLoading from '../localLoading/localLoading'
 const AdminPrices = () => {
+    const States = useSelector(state => state)
 
     const [Data, SetData] = useState([])
     const [ShowGapModal, SetShowGapModal] = useState(false)
     const [Gap, SetGap] = useState(['ssssss', 'aaaaaaaaaa'])
-    // useEffect(() => {
-    //     axios.get(`${serverAddress}/explorer/status-price-service/`, 
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${Cookies.get('access')}`
-    //       }
-    //     })
-    //     .then((response) => {
-    //         const getData = response.data.results
-    //         const mainData = []
-    //         for (let i = 0; i < getData.length; i++) {
-    //             mainData.push({
-    //                 network:getData[i].network,
-    //                 token:getData[i].symbol,
-    //                 from:getData[i].history_from,
-    //                 to:getData[i].history_end,
-    //                 noGap:getData[i].gap.status,
-    //                 days:getData[i].gap.days
-    //             })
-    //         }
-    //         SetData(mainData)
-    //     })
-    //     .catch((err) => {
+    useEffect(() => {
+        if (States.rollsLoading === 5) {
+            axios.get(`${serverAddress}/explorer/status-price-service/`, 
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+                const getData = response.data.results
+                const mainData = []
+                for (let i = 0; i < getData.length; i++) {
+                    mainData.push({
+                        network:getData[i].network,
+                        token:getData[i].symbol,
+                        from:getData[i].history_from,
+                        to:getData[i].history_end,
+                        noGap:getData[i].gap.status,
+                        days:getData[i].gap.days
+                    })
+                }
+                SetData(mainData)
+            })
+            .catch((err) => {
+    
+            })
+        }
 
-    //     })
-    // }, [])
+    }, [, States.rollsLoading])
     const basicColumns = [
         {
           name: 'شبکه',

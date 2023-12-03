@@ -74,6 +74,7 @@ const DataTablesBasic = () => {
     ]
 
     useEffect(() => {
+      if (States.rollsLoading === 1) {
         let getUsers = []
         dispatch({type:"CustomLoading", value:true})
         axios.get(`${serverAddress}/accounts/users`, 
@@ -127,7 +128,8 @@ const DataTablesBasic = () => {
             } catch (error) {}
         }
       )
-    }, [, States.beLoad])
+      }
+    }, [, States.beLoad, States.rollsLoading])
 
     //pagination
     const [currentPage, setCurrentPage] = useState(0)

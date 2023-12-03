@@ -73,6 +73,7 @@ const Admin = () => {
                                 id='Link1'
                                 active={active === '1'}
                                 onClick={() => {
+                                dispatch({type:"rollsLoading", value:1})
                                 toggle('1')
                             }}>
                                 <span className='align-middle'>کاربران</span>
@@ -84,6 +85,7 @@ const Admin = () => {
                                 id='Link2'
                                 active={active === '2'}
                                 onClick={() => {
+                                dispatch({type:"rollsLoading", value:2})
                                 toggle('2')
                                 }}>
 
@@ -95,6 +97,7 @@ const Admin = () => {
                                 id='Link3'
                                 active={active === '3'}
                                 onClick={() => {
+                                dispatch({type:"rollsLoading", value:3})
                                 toggle('3')
                                 }}>
                                 <span className='align-middle'>رخداد‌ها</span>
@@ -105,6 +108,7 @@ const Admin = () => {
                                 id='Link4'
                                 active={active === '4'}
                                 onClick={() => {
+                                dispatch({type:"rollsLoading", value:4})
                                 toggle('4')
                                 }}>
                                 <span className='align-middle'>گزارش‌ها</span>
@@ -115,6 +119,7 @@ const Admin = () => {
                                 id='Link5'
                                 active={active === '5'}
                                 onClick={() => {
+                                dispatch({type:"rollsLoading", value:5})
                                 toggle('5')
                                 }}>
                                 <span className='align-middle'>قیمت‌ها</span>
@@ -125,6 +130,7 @@ const Admin = () => {
                                 id='Link6'
                                 active={active === '6'}
                                 onClick={() => {
+                                dispatch({type:"rollsLoading", value:6})
                                 toggle('6')
                                 }}>
                                 <span className='align-middle'>مالیات</span>

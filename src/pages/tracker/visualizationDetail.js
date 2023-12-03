@@ -11,7 +11,7 @@ import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import CardAction from '@components/card-actions'
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector, useDispatch } from "react-redux"
-import { CardBody, CardText, Row, Col, Table, Label, Modal, ModalBody, ModalFooter, Button, Input, InputGroup, InputGroupText } from 'reactstrap'
+import { CardBody, CardHeader, Row, Col, Table, Label, Modal, ModalBody, ModalFooter, Button, Input, InputGroup, InputGroupText } from 'reactstrap'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { serverAddress } from '../../address'
@@ -77,7 +77,7 @@ const VisualizationDetail = (props) => {
             //adad daghigh set she
             if (response.status === 200) {
               SetOpenSaveBox(false)
-              window.location.assign(`/loadGraph/${response.data.id}`)
+              window.location.assign(`/tracker/loadGraph/${response.data.id}`)
               return toast.success('با موفقیت ذخیره شد.', {
                 position: 'bottom-left'
               })
@@ -133,10 +133,7 @@ const VisualizationDetail = (props) => {
             SetLoading(false)
             if (response.status === 201) {
               SetOpenSaveBox(false)
-              // window.location.assign(`/loadGraph/${response.data.id}`)
-              return toast.success('با موفقیت ذخیره شد.', {
-                position: 'bottom-left'
-              })
+              window.location.assign(`/tracker/loadGraph/${response.data.id}`)
             } else {
               return toast.error('ناموفق', {
                 position: 'bottom-left'
@@ -179,6 +176,13 @@ const VisualizationDetail = (props) => {
 
   }
 
+  let BoxTitle
+  if (id === undefined) {
+    BoxTitle = 'نمایش گراف'
+  } else {
+    BoxTitle = `گراف ${Name}`
+  }
+
   useEffect(() => {
     if (props.hash !== undefined) {
       SetAddress(props.hash)
@@ -189,8 +193,11 @@ const VisualizationDetail = (props) => {
     <Fragment>
       <Row>
         <Col md='12' sm='12'>
-          <CardAction title='نمایش گراف' actions='collapse' onClick='collapse' >
-          <CardBody className='pt-0'>
+          <CardAction 
+          title={BoxTitle} 
+          actions='collapse' onClick='collapse' 
+          >
+          <CardBody className='pt-2'>
             <div className='container-fluid'>
               <div className='row'>
                 <div className='col-md-12'>

@@ -78,7 +78,7 @@ export function UTXOAddress (data, address, symbole, decimal) {
                     {
                         blockNumber: array[i].blockNumber,
                         hash: array[i].hash,
-                        fee: array[i].fee,
+                        fee: Number(array[i].fee) / decimal,
                         value: outputValue / decimal,
                         timestamp: array[i].time,
                         ValueInDollar: outputDollarValue,
@@ -130,7 +130,7 @@ export function UTXOAddress (data, address, symbole, decimal) {
                     {
                         blockNumber: array[i].blockNumber,
                         hash: array[i].hash,
-                        fee: array[i].fee,
+                        fee: Number(array[i].fee) / decimal,
                         value: inputValue / decimal,
                         ValueInDollar: inputDollarValue,
                         timestamp: array[i].time,

@@ -38,7 +38,6 @@ const CountedTaxTable = (props) => {
     const basicColumns = [
         {
           name: 'تراکنش',
-          sortable: true,
           maxWidth: '250px',
           minWidth: '250px',
           cell: row => {
@@ -53,6 +52,7 @@ const CountedTaxTable = (props) => {
             sortable: true,
             maxWidth: '150px',
             minWidth: '150px',
+            selector: row => row.date,
             cell: row => digitsEnToFa(row.date)
           },
           {
@@ -60,6 +60,7 @@ const CountedTaxTable = (props) => {
             sortable: true,
             maxWidth: '150px',
             minWidth: '150px',
+            selector: row => row.amount,
             cell: row => WriteNumber(row.amount)
           },
           {
@@ -67,6 +68,7 @@ const CountedTaxTable = (props) => {
             sortable: true,
             maxWidth: '150px',
             minWidth: '150px',
+            selector: row => row.usd,
             cell: row => WriteNumber(row.usd)
           },
           {
@@ -74,6 +76,7 @@ const CountedTaxTable = (props) => {
             sortable: true,
             maxWidth: '150px',
             minWidth: '150px',
+            selector: row => row.irr,
             cell: row => WriteNumber(row.irr)
           }
     ]

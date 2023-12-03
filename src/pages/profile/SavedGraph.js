@@ -15,8 +15,13 @@ import { RecognizeNetwork } from '../../processors/recognizeNetwork'
 import NiceAddress from '../../components/niceAddress/niceAddress'
 import toast from 'react-hot-toast'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
+import { useDispatch, useSelector } from 'react-redux'
+
 
 const SavedGraph = () => {
+  const dispatch = useDispatch()
+  const States = useSelector(state => state)
+
   const [data, SetData] = useState([])
   const [isEmpty, SetIsEmpty] = useState(false)
   const [OpenDeleteBox, SetOpenDeleteBox] = useState(false)
@@ -27,8 +32,8 @@ const SavedGraph = () => {
     {
       name: 'نام',
       sortable: true,
-      maxWidth: '130px',
-      minWidth: '130px',
+      maxWidth: '160px',
+      minWidth: '160px',
       selector: row => row.name,
       cell: row => {
         return (
@@ -38,8 +43,8 @@ const SavedGraph = () => {
     },
     {
       name: 'توضیحات',
-      maxWidth: '250px',
-      minWidth: '250px',
+      maxWidth: '280px',
+      minWidth: '280px',
       selector: row => row.description
     },
     {
@@ -50,15 +55,15 @@ const SavedGraph = () => {
       selector: row => row.items
     },
     {
-      name: 'حذف',
-      maxWidth: '130px',
-      minWidth: '130px',
+      name: 'عملیات',
+      maxWidth: '100px',
+      minWidth: '100px',
       cell: row => {
         return (
           <Trash2 onClick={ () => { 
             SetRowId(row.id),
             SetOpenDeleteBox(true)
-          } } size={18} style={{cursor:'pointer'}} />
+          } } size={20} style={{cursor:'pointer'}} />
         )
       }
     }
@@ -75,7 +80,7 @@ const SavedGraph = () => {
     .then((response) => {
       SetLoading(false)
       if (response.status >= 200 && response.status < 300) {
-        window.location.reload()
+        dispatch({type:"ProfileGraph", value:!States.ProfileGraph})
         return toast.success('با موفقیت حذف شد', {
           position: 'bottom-left'
         })
@@ -128,7 +133,7 @@ const SavedGraph = () => {
     .catch((err) => {
       console.log(err)
     })
-  }, [])
+  }, [, States.ProfileGraph])
 
   return (
     <Card className='post'> 
@@ -152,6 +157,8 @@ const SavedGraph = () => {
       <Modal
         isOpen={OpenDeleteBox}
         className='modal-dialog-centered'
+        toggle={ () => { SetOpenDeleteBox(false) } }
+
         modalClassName={'modal-danger'}
       >
         <ModalBody>

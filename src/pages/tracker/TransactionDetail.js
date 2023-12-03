@@ -263,7 +263,7 @@ const TransactionDetail1 = () => {
           })
       }
     })
-  }, [])
+  }, [, States.WDetail])
 
   const deleteTransaction = (hash) => {
     const getGraph = States.GraphData
@@ -374,7 +374,7 @@ const TransactionDetail1 = () => {
         <div className='row'>
           <div className='col-12'>
             {
-              IsGet ? 
+              !Loading1 ? 
               <>
                 <TransactionTablleWithCheckbox data={Data} address={States.WDetail} />
                 <TransactionTablleWithCheckbox2 data={Data} address={States.WDetail} />

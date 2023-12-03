@@ -7,6 +7,7 @@ import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 const AdminRolls = () => {
     const dispatch = useDispatch()
+    const States = useSelector(state => state)
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})
         dispatch({type:"SETWITCHPAGE", value:0})

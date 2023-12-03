@@ -40,7 +40,7 @@ const IncreaseTax = ({ stepper }) => {
         .then((response) => {
       SetLoading(false)
       if (response.status === 200) {
-            dispatch({type:"taxAmount", value:Number(response.data.final_tax)})
+            dispatch({type:"taxAmount", value:Number(response.data.final_calcualation_price)})
             dispatch({type:"taxData", value:1})
             stepper.next()
           }
