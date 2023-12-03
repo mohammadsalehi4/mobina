@@ -173,7 +173,6 @@ const VisualizationDetail = (props) => {
         position: 'bottom-left'
       })
     }
-
   }
 
   let BoxTitle
