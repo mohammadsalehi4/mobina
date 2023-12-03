@@ -31,6 +31,7 @@ const CurrencyDetail = () => {
     dispatch({type:"SETshowWalletData", value:false})
   }
   const [Loading1, SetLoading] = useState(true)
+  const [Error, SetError] = useState(false)
   const [Data, SetData] = useState({})
 
   const AccountBaseAdd = (getData) => {
@@ -156,23 +157,37 @@ const CurrencyDetail = () => {
       }
     })
     .then((response) => {
-      try {
-        if (response.data.network === 'ETH') {
-          SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000)))
+      console.log(response)
+      SetError(false)
+      if (response.status === 200) {
+        try {
+          if (response.data.network === 'ETH') {
+            SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000)))
+            SetLoading(false)
+          } else if (response.data.network === 'BTC') {
+            SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BTC', 100000000)))
+            SetLoading(false)
+          }
+        } catch (error) {
+          console.log(error)
           SetLoading(false)
-        } else if (response.data.network === 'BTC') {
-          SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BTC', 100000000)))
-          SetLoading(false)
+          return toast.error('خطا در دریافت اطلاعات از سرور', {
+            position: 'bottom-left'
+          })
         }
-      } catch (error) {
-        console.log(error)
-        SetLoading(false)
+      } else if (response.status === 404) {
+        return toast.error('آدرس مورد نظر یافت نشد!', {
+          position: 'bottom-left'
+        })
+      } else {
         return toast.error('خطا در دریافت اطلاعات از سرور', {
           position: 'bottom-left'
         })
       }
+
     })
     .catch((err) => {
+      SetError(true)
       console.log(err)
       SetLoading(false)
       try {
@@ -261,12 +276,16 @@ const CurrencyDetail = () => {
             <div className='col-12'>
                 {
                   Loading1 ?
+                  
                     <div className='mt-3' style={{textAlign:'center'}}>
                       <Spinner />
                       <p>در حال دریافت اطلاعات</p>
                     </div>
                   :
+                  !Error ? 
                     <WalletDetailTableBottom data={Data} address={States.WDetail}/>
+                  :
+                  <p>خطا در دریافت اطلاعات</p>
                 }
             </div>
           </div>

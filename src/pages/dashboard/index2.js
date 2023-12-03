@@ -750,7 +750,7 @@ const EcommerceDashboard2 = () => {
                                     نمونه کاوش:
                                     <span onClick={() => {
                                       document.getElementById("MainDashboardInputBox").focus()
-                                      document.getElementById('MainDashboardInputBox').value = '1CpfTRNPjoy8hP6GEgySBwMxkYcJaNLtoj' 
+                                      document.getElementById('MainDashboardInputBox').value = '1Fw7wvVPhv5eioWQZ2if2zRUcHNdNBfu9r' 
                                     }} style={{display:'inline-block', marginLeft:'12px', marginRight:'12px', cursor:'pointer'}}>
                                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                                         {' '}
