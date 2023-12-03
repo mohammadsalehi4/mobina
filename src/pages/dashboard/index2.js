@@ -750,7 +750,7 @@ const EcommerceDashboard2 = () => {
                                     نمونه کاوش:
                                     <span onClick={() => {
                                       document.getElementById("MainDashboardInputBox").focus()
-                                      document.getElementById('MainDashboardInputBox').value = '1Fw7wvVPhv5eioWQZ2if2zRUcHNdNBfu9r' 
+                                      document.getElementById('MainDashboardInputBox').value = '1CpfTRNPjoy8hP6GEgySBwMxkYcJaNLtoj' 
                                     }} style={{display:'inline-block', marginLeft:'12px', marginRight:'12px', cursor:'pointer'}}>
                                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                                         {' '}
@@ -758,7 +758,7 @@ const EcommerceDashboard2 = () => {
                                     </span>
                                     <span onClick={() => {
                                       document.getElementById("MainDashboardInputBox").focus()
-                                      document.getElementById('MainDashboardInputBox').value = '0xb515742dc2065871c98c411a5e55c4cca102cb7c7cd48b093a2a659c546e8035'
+                                      document.getElementById('MainDashboardInputBox').value = '0xd4c84b4e935f1e493e55295ebccdbb3744c2d1a444a03d150f23206900a618dd'
                                     }} style={{display:'inline-block', cursor:'pointer'}} >
                                         <ion-icon name="git-compare-outline"></ion-icon>
                                         {' '}
