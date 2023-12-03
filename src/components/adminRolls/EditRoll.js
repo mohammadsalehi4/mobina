@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 import { ArrowRight, X, Check} from 'react-feather'
@@ -10,7 +11,7 @@ import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import { digitsEnToFa } from 'persian-tools'
 import { CheckBox } from '@mui/icons-material'
-
+import LoadingButton from '../loadinButton/LoadingButton'
 
 const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
   const dispatch = useDispatch()
@@ -18,9 +19,11 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
 
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
   const [accesses, SetAccesses] = useState([])
+  const [Loading, SetLoading] = useState(false)
   const submit = (event) => {
     if (Roles.name !== 'ادمین سیستم') {
       dispatch({type:"CustomLoading", value:true})
+      SetLoading(true)
       axios.put(`${serverAddress}/accounts/role/${number}/`, 
       {
         accesses
@@ -32,14 +35,23 @@ const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
           }
       })
       .then((response) => {
+      SetLoading(false)
+      console.log(response)
           dispatch({type:"CustomLoading", value:false})
           dispatch({type:"beLoad", value:!(States.beLoad)})
+          dispatch({type:"rollsBeload", value:!(States.rollsBeload)})
+          handleModal(event)
 
       })
       .catch((err) => {
-          dispatch({type:"CustomLoading", value:false})
+      SetLoading(false)
+      dispatch({type:"CustomLoading", value:false})
+          if (err.response.status === 403) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
       })
-      handleModal(event)
     } else {
       alert('no')
     }
@@ -137,7 +149,14 @@ try {
         </div>
         <div style={{textAlign:"left"}}>
           <button onClick={(event) => { submit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
-            <span className='align-middle'>ویرایش نقش</span>
+            
+            {
+              Loading ? 
+              <LoadingButton/>
+              :
+              <span className='align-middle'>ویرایش نقش</span>
+            }
+
           </button>
         </div>
 

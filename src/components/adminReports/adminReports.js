@@ -36,7 +36,7 @@ const AdminReports = () => {
   }
 
   const addNewReports = () => {
-    
+    SetLoading(true)
     const title = document.getElementById('reportTitle').value
     const summary = document.getElementById('summary').value
     const Content = document.getElementById('Content').value
@@ -76,13 +76,34 @@ const AdminReports = () => {
     })
     .then((response) => {
       console.log(response)
+      SetLoading(false)
+      if (response.status === 201) {
+        SetAddNewReportBox(false)
+        dispatch({type:"reportsBeload", value:!(States.reportsBeload)})
+        return toast.success('با موفقیت ساخته شد.', {
+          position: 'bottom-left'
+        })
+      }
     })
     .catch((err) => {
       console.log(err)
+      SetLoading(false)
+
+      if (err.response.status === 403) {
+        Cookies.set('refresh', '')
+        Cookies.set('access', '')
+        window.location.assign('/')
+      }
+      if (err.response.status === 401) {
+        Cookies.set('refresh', '')
+        Cookies.set('access', '')
+        window.location.assign('/')
+      }
     })
   }
 
   const EditReport = () => {
+    SetLoading(true)
     const title = document.getElementById('EditreportTitle').value
     const summary = document.getElementById('Editsummary').value
     const Content = document.getElementById('EditContent').value
@@ -125,10 +146,26 @@ const AdminReports = () => {
         }
     })
     .then((response) => {
-      console.log(response)
+    SetLoading(false)
+    console.log(response)
+    if (response.status === 200) {
+      dispatch({type:"reportsBeload", value:!(States.reportsBeload)})
+      SetEditBox(false)
+    }
     })
     .catch((err) => {
-      console.log(err)
+    SetLoading(false)
+    console.log(err)
+    if (err.response.status === 403) {
+      Cookies.set('refresh', '')
+      Cookies.set('access', '')
+      window.location.assign('/')
+    }
+    if (err.response.status === 401) {
+      Cookies.set('refresh', '')
+      Cookies.set('access', '')
+      window.location.assign('/')
+    }
     })
 
   }
@@ -239,13 +276,16 @@ const AdminReports = () => {
       })
       .catch((err) => {
         SetEditLoading(false)
-          try {
-            if (err.response.status === 401) {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
-            }
-          } catch (error) {}
+        if (err.response.status === 403) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
+        if (err.response.status === 401) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
       })
     }
   }, [EditSelectedReport])
@@ -284,11 +324,21 @@ const AdminReports = () => {
       .catch((err) => {
         SetLoading(false)
         console.log(err)
+        if (err.response.status === 403) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
+        if (err.response.status === 401) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
       }
     )
     }
 
-  }, [, States.beLoad, States.rollsLoading])
+  }, [, States.reportsBeload, States.rollsLoading])
 
   //roll
   useEffect(() => {
@@ -324,7 +374,7 @@ const AdminReports = () => {
           لیست گزارش‌‌ها
 
           <ion-icon size={18} onClick={ () => { 
-              dispatch({type:"beLoad", value:!(States.beLoad)})
+              dispatch({type:"reportsBeload", value:!(States.reportsBeload)})
             }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>  
 
         </CardTitle>
@@ -338,12 +388,18 @@ const AdminReports = () => {
           </Col>
         </Row>
 
-        <DataTable
+        {
+          Loading ? 
+          <LocalLoading/>
+          :
+          <DataTable
           noHeader
           columns={columns}
           className='react-dataTable'
           data={data}
         />
+        }
+
 
         <Modal
           isOpen={AddNewReportBox}
@@ -438,7 +494,7 @@ const AdminReports = () => {
                   if (response.status === 200) {
                     SetLoading(false)
                     SetDeleteBox(false)
-                    dispatch({type:"beLoad", value:!(States.beLoad)})
+                    dispatch({type:"reportsBeload", value:!(States.reportsBeload)})
                     return toast.success('با موفقیت حذف شد.', {
                       position: 'bottom-left'
                     })

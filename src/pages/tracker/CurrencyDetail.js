@@ -190,6 +190,16 @@ const CurrencyDetail = () => {
       SetError(true)
       console.log(err)
       SetLoading(false)
+      if (err.response.status === 403) {
+        Cookies.set('refresh', '')
+        Cookies.set('access', '')
+        window.location.assign('/')
+      }
+      if (err.response.status === 401) {
+        Cookies.set('refresh', '')
+        Cookies.set('access', '')
+        window.location.assign('/')
+      }
       try {
           if (err.response.statusText === 'Unauthorized') {
               Cookies.set('refresh', '')
@@ -201,6 +211,7 @@ const CurrencyDetail = () => {
               })
           }
       } catch (error) {
+        
           return toast.error('خطا در دریافت اطلاعات', {
               position: 'bottom-left'
           })

@@ -107,25 +107,26 @@ const DataTablesBasic = () => {
                 })
                 .catch((err) => {
                     dispatch({type:"CustomLoading", value:false})
-                    try {
-                      if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                        Cookies.set('refresh', '')
-                        Cookies.set('access', '')
-                        window.location.assign('/')
-                      }
-                    } catch (error) {}
+                    if (err.response.status === 403) {
+                      Cookies.set('refresh', '')
+                      Cookies.set('access', '')
+                      window.location.assign('/')
+                    }
+                    if (err.response.status === 401) {
+                      Cookies.set('refresh', '')
+                      Cookies.set('access', '')
+                      window.location.assign('/')
+                    }
                 })
             }
         })
         .catch((err) => {
             dispatch({type:"CustomLoading", value:false})
-            try {
-              if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
-                window.location.assign('/')
-              }
-            } catch (error) {}
+            if (response.status === 403) {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
         }
       )
       }

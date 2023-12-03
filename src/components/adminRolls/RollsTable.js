@@ -24,6 +24,8 @@ import {
 } from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 import LocalLoading from '../localLoading/localLoading'
+import LoadingButton from '../loadinButton/LoadingButton'
+
 const BootstrapCheckbox = forwardRef((props, ref) => (
   <div className='form-check'>
     <Input type='checkbox' ref={ref} {...props} />
@@ -40,6 +42,7 @@ const RollsTable = () => {
   const [number, SetNumber] = useState(0)
   const [modal1, setModal1] = useState(null)
   const [DeleteItem, setDeleteItem] = useState(null)
+  const [Loading, setLoading] = useState(false)
 
 
   const handleModal = () => setModal(!modal)
@@ -48,6 +51,7 @@ const RollsTable = () => {
 
   const DeleteRole = (index) => {
     dispatch({type:"CustomLoading", value:true})
+    setLoading(true)
     axios.delete(`${serverAddress}/accounts/role/${index}`, 
       {
         headers: {
@@ -55,11 +59,28 @@ const RollsTable = () => {
         }
       })
       .then((response) => {
+    setLoading(false)
+        if (response.status === 202) {
           dispatch({type:"CustomLoading", value:false})
           dispatch({type:"beLoad", value:!(States.beLoad)})
+          dispatch({type:"rollsBeload", value:!(States.rollsBeload)})
+          setModal1(null)
+        }
+
       })
       .catch((err) => {
-        dispatch({type:"CustomLoading", value:false})
+    setLoading(false)
+    dispatch({type:"CustomLoading", value:false})
+    if (err.response.status === 403) {
+      Cookies.set('refresh', '')
+      Cookies.set('access', '')
+      window.location.assign('/')
+    }
+    if (err.response.status === 401) {
+      Cookies.set('refresh', '')
+      Cookies.set('access', '')
+      window.location.assign('/')
+    }
       })
   }
 
@@ -124,6 +145,7 @@ const RollsTable = () => {
     useEffect(() => {
       if (States.rollsLoading === 2) {
         dispatch({type:"LOADINGEFFECT", value:true})
+        setLoading(true)
         axios.get(`${serverAddress}/accounts/role/`, 
         {
           headers: {
@@ -131,7 +153,8 @@ const RollsTable = () => {
           }
         })
         .then((response) => {
-            dispatch({type:"LOADINGEFFECT", value:false})
+        setLoading(false)
+        dispatch({type:"LOADINGEFFECT", value:false})
             if (response.data.results.length > 0) {
                 const array = response.data.results
                 array.sort((a, b) => ((a['id'] > b['id']) ? 1 : ((b['id'] > a['id']) ? -1 : 0)))
@@ -139,18 +162,22 @@ const RollsTable = () => {
             }
         })
         .catch((err) => {
-            dispatch({type:"LOADINGEFFECT", value:false})
-            try {
-              if (err.response.data.results.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
-                window.location.assign('/')
-              }
-            } catch (error) {}
+        setLoading(false)
+        dispatch({type:"LOADINGEFFECT", value:false})
+        if (err.response.status === 403) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
+        if (err.response.status === 401) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
         })
       }
 
-    }, [States.rollsLoading, States.rollsLoading])
+    }, [States.rollsLoading, States.rollsBeload])
 
     const [data, SetData] = useState([])
 
@@ -178,7 +205,7 @@ const RollsTable = () => {
           </Col>
         </Row>
         {
-          States.CustomLoading ?
+          Loading ?
             <LocalLoading/>
           :
             <div className='react-dataTable react-dataTable-selectable-rows'>
@@ -201,6 +228,7 @@ const RollsTable = () => {
       
       <Modal
           isOpen={modal1 === 4}
+          toggle={ () => { setModal1(null) } }
           className='modal-dialog-centered'
           modalClassName={'modal-danger'}
         >
@@ -213,11 +241,17 @@ const RollsTable = () => {
               }}>
               بازگشت
             </Button>
-            <Button color={'danger'} onClick={() => {
+            <Button color={'danger'} style={{height:'37px'}} onClick={() => {
                 DeleteRole(DeleteItem)
-                setModal1(null)              
             }}>
-              حذف
+              {
+                Loading ? 
+                <LoadingButton/>
+                :
+                <span>
+                    حذف
+                </span>
+              }
             </Button>
           </ModalFooter>
         </Modal>

@@ -608,6 +608,16 @@ const Tracker = () => {
             .catch((err) => {
                 SetLoading(false)
                 console.log(err)
+                if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                  if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
               return toast.error('خطا در دریافت اطلاعات', {
                 position: 'bottom-left'
               })

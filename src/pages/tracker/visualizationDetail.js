@@ -190,8 +190,8 @@ const VisualizationDetail = (props) => {
   return (
     <div id="visualizationDetail">
     <Fragment>
-      <Row>
-        <Col md='12' sm='12'>
+      <Row >
+        <Col md='12' sm='12' id='visualisationDetailCol'>
           <CardAction 
           title={BoxTitle} 
           actions='collapse' onClick='collapse' 

@@ -665,7 +665,12 @@ const EcommerceDashboard2 = () => {
         SetLoading(false)
         console.log(err)
         try {
-          if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
+          if (err.response.status === 403) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+          if (err.response.status === 401) {
             Cookies.set('refresh', '')
             Cookies.set('access', '')
             window.location.assign('/')

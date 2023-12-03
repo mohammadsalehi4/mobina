@@ -248,15 +248,20 @@ const TransactionDetail1 = () => {
       console.log(err)
       SetLoading(false)
       try {
-          if (err.response.statusText === 'Unauthorized') {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
-          } else {
-              return toast.error('خطا در دریافت اطلاعات', {
-                  position: 'bottom-left'
-              })
-          }
+        if (err.response.status === 403) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
+        if (err.response.status === 401) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
+
+        return toast.error('خطا در دریافت اطلاعات', {
+            position: 'bottom-left'
+        })
       } catch (error) {
           return toast.error('خطا در دریافت اطلاعات', {
               position: 'bottom-left'

@@ -68,6 +68,8 @@ const initialState = {
 
     //loadingAdminPanel
     rollsLoading:1,
+    rollsBeload:false,
+    reportsBeload:false,
 
     //loading profile
     ProfileLabel:false,
@@ -76,6 +78,20 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'reportsBeload') {
+        return {
+            ...state,
+            reportsBeload:action.value
+        }
+    }
+
+    if (action.type === 'rollsBeload') {
+        return {
+            ...state,
+            rollsBeload:action.value
+        }
+    }
 
     if (action.type === 'ProfileLabel') {
         return {

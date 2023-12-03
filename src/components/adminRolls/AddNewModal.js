@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 import { ArrowRight, X, Check} from 'react-feather'
@@ -8,21 +9,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import axios from 'axios'
+import toast from 'react-hot-toast'
+import LoadingButton from '../loadinButton/LoadingButton'
+
 const AddNewModal = ({ open, handleModal, Roles, number, AllRoles }) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
 
   const [showData, SetShowData] = useState([])
   const [accesses, SetAccesses] = useState([])
+  const [Loading, SetLoading] = useState(false)
 
   const submit = (event) => {
     const name = document.getElementById('full-name').value
+    SetLoading(true)
     if (name === '') {
       document.getElementById('nameErrLabel').style.display = "block"
       document.getElementById('full-name').style.borderColor = "red"
     } else {
-      dispatch({type:"CustomLoading", value:true})
-
       axios.post(`${serverAddress}/accounts/role/`, 
       {
           role : {
@@ -37,15 +41,26 @@ const AddNewModal = ({ open, handleModal, Roles, number, AllRoles }) => {
           }
       })
       .then((response) => {
-          dispatch({type:"CustomLoading", value:false})
-          dispatch({type:"beLoad", value:!(States.beLoad)})
-          console.log(response.data)
+        SetLoading(false)
+        if (response.status === 201) {
+            dispatch({type:"CustomLoading", value:false})
+            dispatch({type:"rollsBeload", value:!States.rollsBeload})
+            dispatch({type:"rollsLoading", value:2})
+
+            handleModal(event)
+          }
       })
       .catch((err) => {
         console.log(err)
+        SetLoading(false)
+
           dispatch({type:"CustomLoading", value:false})
+          if (err.response.status === 403) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
       })
-      handleModal(event)
     }
   }
 
@@ -126,8 +141,17 @@ const AddNewModal = ({ open, handleModal, Roles, number, AllRoles }) => {
           </div>
         </div>
         <div style={{textAlign:"left"}}>
+
           <button onClick={(event) => { submit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
-            <span className='align-middle'>ایجاد نقش</span>
+            
+            {
+              Loading ? 
+                <LoadingButton/>
+              :
+                <span className='align-middle'>ایجاد نقش</span>
+
+            }
+              
           </button>
         </div>
 

@@ -48,6 +48,16 @@ const IncreaseTax = ({ stepper }) => {
         .catch((err) => {
       SetLoading(false)
       console.log(err)
+      if (err.response.status === 403) {
+        Cookies.set('refresh', '')
+        Cookies.set('access', '')
+        window.location.assign('/')
+      }
+      if (err.response.status === 401) {
+        Cookies.set('refresh', '')
+        Cookies.set('access', '')
+        window.location.assign('/')
+      }
         })
     }
 

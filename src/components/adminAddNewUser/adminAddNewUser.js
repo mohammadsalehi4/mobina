@@ -156,6 +156,16 @@ const AdminAddNewUser = () => {
                   .catch((err) => {
                     console.log(err)
                       dispatch({type:"LOADINGEFFECT", value:false})
+                      if (err.response.status === 403) {
+                        Cookies.set('refresh', '')
+                        Cookies.set('access', '')
+                        window.location.assign('/')
+                      }
+                      if (err.response.status === 401) {
+                        Cookies.set('refresh', '')
+                        Cookies.set('access', '')
+                        window.location.assign('/')
+                      }
                       return toast.error('عدم ارتباط با سرور', {
                         position: 'bottom-left'
                       })
@@ -270,13 +280,11 @@ const AdminAddNewUser = () => {
       })
       .catch((err) => {
           dispatch({type:"LOADINGEFFECT", value:false})
-          try {
-            if (err.response.data.detail === 'Token is expired' || err.response.statusText === "Unauthorized") {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
-            }
-          } catch (error) {}
+          if (response.status === 403) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
       })
     }, [])
 

@@ -56,6 +56,16 @@ const DropDown = () => {
             })
             .catch((err) => {
                 SetLoading(false)
+                if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                  if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
                 try {
                     if (err.response.data.password[0] === "Password should have at least one uppercase letter.") {
                         return toast.error('رمز انتخاب شده باید حداقل یک حرف بزرگ داشته باشد.', {
