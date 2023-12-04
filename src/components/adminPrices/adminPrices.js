@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable comma-spacing */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable multiline-ternary */
@@ -15,13 +16,18 @@ import { Card, Input, CardTitle, Row, Col, ModalHeader} from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 import {Button, Modal, ModalBody, ModalFooter}  from 'reactstrap'
 import LocalLoading from '../localLoading/localLoading'
-
+import toast from 'react-hot-toast'
 const AdminPrices = () => {
     const States = useSelector(state => state)
 
     const [Data, SetData] = useState([])
     const [ShowGapModal, SetShowGapModal] = useState(false)
-    const [Gap, SetGap] = useState(['ssssss', 'aaaaaaaaaa'])
+    const [Loading, SetLoading] = useState(false)
+    const [Gap, SetGap] = useState(
+      {
+        days:[]
+      }
+    )
     useEffect(() => {
         if (States.rollsLoading === 5) {
             axios.get(`${serverAddress}/explorer/status-price-service/`, 
@@ -113,13 +119,70 @@ const AdminPrices = () => {
               <div style={{width:'100px'}}>
                 <ion-icon style={{fontSize:'28px', cursor:'pointer'}} name="eye-outline" onClick={ () => {
                     SetShowGapModal(true)
-                    SetGap(row.days)
+                    SetGap(row)
+                    console.log(Gap)
                 } }></ion-icon>
               </div>
             )
           }
         }
     ]
+
+    const setPrice = (time,price,symbol) => {
+
+      if (price === '') {
+        alert('قیمت را وارد کنید.')
+      } else {
+        SetLoading(true)
+        axios.post(`${serverAddress}/explorer/price/`, 
+        {
+          price:Number(price),
+          symbol,
+          date:time
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`, 
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => {
+            SetLoading(false)
+            console.log(response)  
+            if (response.status === 201) {
+              let getGap = Gap
+              let editedData = getGap.days
+              let index = editedData.findIndex(obj => obj === time)
+              if (index !== -1) {
+                editedData.splice(index, 1)
+              }
+              getGap.days = editedData
+              SetGap(getGap)
+              return toast.success('قیمت با موفقیت ثبت شد.', {
+                position: 'bottom-left'
+              })
+            }            
+        })
+        .catch((err) => {
+            SetLoading(false)
+            console.log(err)
+            dispatch({type:"LOADINGEFFECT", value:false})
+            if (err.response.status === 403) {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+            if (err.response.status === 401) {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+            return toast.error('خطا در پردازش', {
+              position: 'bottom-left'
+            })
+        })
+      }
+    }
 
     return (
         <div className='react-dataTable'>
@@ -146,20 +209,25 @@ const AdminPrices = () => {
                     لیست حفره ها
                 </h6>
                 {
-                    Gap.length > 0 ?
+                    (Gap.days).length > 0 ?
+                    
                     <div>
                         {
-                            Gap.map((item, index) => {
-                                return (
-                                  <>
-                                    <span key={index}>
-                                      {item}
-                                    </span>
-                                    <Input type='number' className='mb-3'/>
-                                  </>
+                          Loading ? 
+                          <LocalLoading/>
+                          : 
+                          Gap.days.map((item, index) => {
+                            return (
+                              <form onSubmit={ () => { setPrice(item, document.getElementById(`InputTokenPrice${index}`).value, Gap.token) } }>
+                                <span key={index} style={{display:"block"}}>
+                                  {item}
+                                </span>
+                                <Input className='mb-3' style={{display:'inline-block', width:'80%'}} id={`InputTokenPrice${index}`}/>
+                                <Button  style={{display:'inline-block', marginRight:'8px'}} color='warning' onClick={ () => { setPrice(item, document.getElementById(`InputTokenPrice${index}`).value, Gap.token) } }>ثبت</Button>
+                              </form>
 
-                                )
-                            })
+                            )
+                          })
                         }
                     </div>
                     :
@@ -167,9 +235,6 @@ const AdminPrices = () => {
                 }
             </ModalBody>
             <ModalFooter>
-                <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => (SetShowGapModal(false)) }>
-                افزودن
-                </Button>
                 <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => (SetShowGapModal(false)) }>
                 بسته
                 </Button>
