@@ -11,10 +11,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import ReactPaginate from 'react-paginate'
 import { ChevronDown, Edit3 } from 'react-feather'
 import DataTable from 'react-data-table-component'
-import { Card, CardHeader, CardTitle, Row, Col, ModalHeader} from 'reactstrap'
+import { Card, Input, CardTitle, Row, Col, ModalHeader} from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 import {Button, Modal, ModalBody, ModalFooter}  from 'reactstrap'
 import LocalLoading from '../localLoading/localLoading'
+
 const AdminPrices = () => {
     const States = useSelector(state => state)
 
@@ -138,6 +139,7 @@ const AdminPrices = () => {
             isOpen={ShowGapModal}
             className='modal-dialog-centered'
             modalClassName={'modal-danger'}
+            toggle={ () => { SetShowGapModal(false) } }
             >
             <ModalBody>
                 <h6>
@@ -149,9 +151,13 @@ const AdminPrices = () => {
                         {
                             Gap.map((item, index) => {
                                 return (
-                                    <p key={index}>
-                                        {item}
-                                    </p>
+                                  <>
+                                    <span key={index}>
+                                      {item}
+                                    </span>
+                                    <Input type='number' className='mb-3'/>
+                                  </>
+
                                 )
                             })
                         }
@@ -161,6 +167,9 @@ const AdminPrices = () => {
                 }
             </ModalBody>
             <ModalFooter>
+                <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => (SetShowGapModal(false)) }>
+                افزودن
+                </Button>
                 <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => (SetShowGapModal(false)) }>
                 بسته
                 </Button>

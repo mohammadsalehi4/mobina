@@ -56,6 +56,7 @@ const initialState = {
     EndFilterTime:0,
     All_Input_Output:0,
     Network:'',
+    edgesColors:[],
 
     //admin panel
     CustomLoading: false,
@@ -78,6 +79,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'edgesColors') {
+        return {
+            ...state,
+            edgesColors:action.value
+        }
+    }
 
     if (action.type === 'reportsBeload') {
         return {

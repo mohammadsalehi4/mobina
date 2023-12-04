@@ -707,6 +707,26 @@ const FuckingGraph = (props) => {
       }
     });
 
+    const k = States.edgesColors
+    network.on("doubleClick", function (params) {
+      if (params.edges.length > 0) {
+        let edgeId = params.edges[0]; // فرض بر این است که فقط یک یال انتخاب شده است
+        let edgeData = network.body.data.edges.get(edgeId);
+        const edgefrom = edgeData.from
+        const edgeto = edgeData.to
+
+        const newColor = {
+          from:edgefrom,
+          to:edgeto,
+          color:'red'
+        }
+        if (k.some(item => (item.from === edgefrom && item.to === edgeto)) === false) {
+          k.push(newColor)
+        }
+        dispatch({type:"edgesColors", value:k})
+      }
+    });
+
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload])
 
   return <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
