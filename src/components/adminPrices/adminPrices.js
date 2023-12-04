@@ -12,13 +12,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import ReactPaginate from 'react-paginate'
 import { ChevronDown, Edit3 } from 'react-feather'
 import DataTable from 'react-data-table-component'
-import { Card, Input, CardTitle, Row, Col, ModalHeader} from 'reactstrap'
+import { Card, Input, CardTitle,CardHeader, Row, Col, ModalHeader} from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 import {Button, Modal, ModalBody, ModalFooter}  from 'reactstrap'
 import LocalLoading from '../localLoading/localLoading'
 import toast from 'react-hot-toast'
 const AdminPrices = () => {
     const States = useSelector(state => state)
+    const dispatch = useDispatch()
 
     const [Data, SetData] = useState([])
     const [ShowGapModal, SetShowGapModal] = useState(false)
@@ -30,6 +31,7 @@ const AdminPrices = () => {
     )
     useEffect(() => {
         if (States.rollsLoading === 5) {
+          SetData([])
             axios.get(`${serverAddress}/explorer/status-price-service/`, 
             {
               headers: {
@@ -66,7 +68,7 @@ const AdminPrices = () => {
             })
         }
 
-    }, [, States.rollsLoading])
+    }, [, States.rollsLoading, States.PriceBeload])
     const basicColumns = [
         {
           name: 'شبکه',
@@ -190,13 +192,28 @@ const AdminPrices = () => {
                 Data.length === 0 ?
                     <LocalLoading/>
                 :
-                    <DataTable
+
+                    <Card className='overflow-hidden mt-4' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
+                      <CardHeader>
+                          <CardTitle tag='h6' className='m-2' style={{width:'100%'}}>
+                              <h5 style={{display:'inline-block'}}>
+                                قیمت های ثبت شده
+                              </h5>   
+                              <ion-icon size={18} onClick={ () => { 
+                                dispatch({type:"PriceBeload", value:!States.PriceBeload})
+                              }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
+                          </CardTitle>
+                      </CardHeader>
+              
+                      <DataTable
                         noHeader
                         data={Data}
                         columns={basicColumns}
-                        className='react-dataTable mt-3'
+                        className='react-dataTable'
                         sortIcon={<ChevronDown size={10} />}
                     />
+                  </Card >
+
             }
             <Modal
             isOpen={ShowGapModal}

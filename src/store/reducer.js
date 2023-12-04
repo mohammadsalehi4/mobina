@@ -71,6 +71,7 @@ const initialState = {
     rollsLoading:1,
     rollsBeload:false,
     reportsBeload:false,
+    PriceBeload:false,
 
     //loading profile
     ProfileLabel:false,
@@ -79,6 +80,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'PriceBeload') {
+        return {
+            ...state,
+            PriceBeload:action.value
+        }
+    }
 
     if (action.type === 'edgesColors') {
         return {
