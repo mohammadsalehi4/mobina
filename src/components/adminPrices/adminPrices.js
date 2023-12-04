@@ -160,6 +160,11 @@ const AdminPrices = () => {
               }
               getGap.days = editedData
               SetGap(getGap)
+              if (Gap.days.length === 0) {
+                const myData = Data
+                myData.find(item => item.token === symbol).noGap = true
+                SetData(myData)
+              }
               return toast.success('قیمت با موفقیت ثبت شد.', {
                 position: 'bottom-left'
               })
