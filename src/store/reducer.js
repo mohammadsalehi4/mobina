@@ -73,6 +73,7 @@ const initialState = {
     rollsBeload:false,
     reportsBeload:false,
     PriceBeload:false,
+    TaxBeload:false,
 
     //loading profile
     ProfileLabel:false,
@@ -84,6 +85,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'TaxBeload') {
+        return {
+            ...state,
+            TaxBeload:action.value
+        }
+    }
 
     if (action.type === 'graphNetworkName') {
         return {

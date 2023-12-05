@@ -534,7 +534,6 @@ const Tracker = () => {
                             SetIsShow(true)
                         }
                     }
-
                 } catch (error) {
                     console.log(error)
                     return toast.error('خطا در دریافت اطلاعات', {
