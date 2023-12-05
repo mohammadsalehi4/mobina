@@ -3,8 +3,6 @@
 /* eslint-disable no-unused-vars */
 export function UTXOAddress (data, address, symbole, decimal) {
 
-    console.log(data)
-
     const inputs = []
     const outputs = []
     let isError = false
@@ -51,20 +49,32 @@ export function UTXOAddress (data, address, symbole, decimal) {
                         if (Getlabel.length !== 0) {
                             label = Getlabel[0].label
                         }
+
+                        let VID = Number(array[i].outputs[j].ValueInDollar)
+                        if (typeof (VID) !== 'number') {
+                            VID = 0
+                        }
+
                         innerOutputs.push(
                             {
                                 address:array[i].outputs[j].address.address,
                                 value:Number(array[i].outputs[j].value) / decimal,
                                 symbole,
-                                ValueInDollar:Number(array[i].outputs[j].ValueInDollar),
+                                ValueInDollar:VID,
                                 label
                             }
                         )
                     } else {
                         for (let k = 0; k < innerOutputs.length; k++) {
+
+                            let VID = Number(array[i].outputs[j].ValueInDollar)
+                            if (typeof (VID) !== 'number') {
+                                VID = 0
+                            }
+
                             if (innerOutputs[k].address.toUpperCase() === array[i].outputs[j].address) {
                                 innerOutputs[k].value = innerOutputs[k].value + Number(array[i].outputs[j].value) / decimal
-                                innerOutputs[k].ValueInDollar = innerOutputs[k].ValueInDollar + Number(array[i].outputs[j].ValueInDollar)
+                                innerOutputs[k].ValueInDollar = innerOutputs[k].ValueInDollar + VID
                             }
                         }
                     }
@@ -75,6 +85,9 @@ export function UTXOAddress (data, address, symbole, decimal) {
                         innerOutputs[0] = innerOutputs[1]
                         innerOutputs[1] = a
                     }
+                }
+                if (typeof (outputDollarValue) !== 'number') {
+                    outputDollarValue = 0
                 }
                 outputs.push(
                     {
@@ -103,20 +116,32 @@ export function UTXOAddress (data, address, symbole, decimal) {
                         if (Getlabel.length !== 0) {
                             label = Getlabel[0].label
                         }
+
+                        let VID = Number(array[i].inputs[j].coin.ValueInDollar)
+                        if (typeof (VID) !== 'number') {
+                            VID = 0
+                        }
+
                         innerInputs.push(
                             {
                                 address:array[i].inputs[j].coin.address.address,
                                 value:Number(array[i].inputs[j].coin.value) / decimal,
                                 symbole,
-                                ValueInDollar:Number(array[i].inputs[j].coin.ValueInDollar),
+                                ValueInDollar:VID,
                                 label
                             }
                         )
                     } else {
                         for (let k = 0; k < innerInputs.length; k++) {
+                            
+                            let VID = Number(array[i].inputs[j].coin.ValueInDollar)
+                            if (typeof (VID) !== 'number') {
+                                VID = 0
+                            }
+
                             if (innerInputs[k].address.toUpperCase() === array[i].inputs[j].coin.address.address) {
                                 innerInputs[k].value = innerInputs[k].value + Number(array[i].inputs[j].coin.value) / decimal
-                                innerInputs[k].ValueInDollar = innerInputs[k].ValueInDollar + Number(array[i].inputs[j].coin.ValueInDollar)
+                                innerInputs[k].ValueInDollar = innerInputs[k].ValueInDollar + VID
                             }
                         }
                     }
@@ -127,6 +152,9 @@ export function UTXOAddress (data, address, symbole, decimal) {
                         innerInputs[0] = innerInputs[1]
                         innerInputs[1] = a
                     }
+                }
+                if (typeof (inputDollarValue) !== 'number') {
+                    inputDollarValue = 0
                 }
                 inputs.push(
                     {
@@ -155,6 +183,16 @@ export function UTXOAddress (data, address, symbole, decimal) {
             }
         )
     } else {
+        console.log(
+            {
+                isError,
+                address,
+                symbole,
+                inputs,
+                outputs,
+                label:mainLabel
+            }
+        )
         return (
             {
                 isError,

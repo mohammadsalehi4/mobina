@@ -23,6 +23,7 @@ const Walletdetail = (props) => {
       let send=0
   
       let transactions=[]
+      
       for (let i=0; i<props.data.length; i++) {
 
         //total send and get
@@ -63,7 +64,7 @@ const Walletdetail = (props) => {
           })
         }
       }
-      
+
       SetTotalget(send)
       SetTotalsend(get)
       SetTotalSum(send-get)

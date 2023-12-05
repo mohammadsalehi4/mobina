@@ -46,7 +46,7 @@ const EcommerceDashboard2 = () => {
   const [TagData, SetTagData] = useState({})
   const [SelectToken, SetSelectToken] = useState(false)
   
-  const UTXOAdd =(getData) => {
+  const UTXOAdd =(getData, symbol) => {
     let data=[]
     for (let i=0; i<getData.inputs.length; i++) {
 
@@ -86,10 +86,10 @@ const EcommerceDashboard2 = () => {
         gasPrice,
         value,
         hash,
-        currencyType:"BTC",
-        Logo:"BTC.png",
-        image:"BTC.png",
-        Type:"coin"
+        currencyType:`${symbol}`,
+        Logo:`${symbol}.png`,
+        image:`${symbol}.png`,
+        Type:`coin`
       })
     }
 
@@ -131,12 +131,13 @@ const EcommerceDashboard2 = () => {
         gasPrice,
         value,
         hash,
-        currencyType:"BTC",
-        Logo:"BTC.png",
-        image:"BTC.png",
+        currencyType:`${symbol}`,
+        Logo:`${symbol}.png`,
+        image:`${symbol}.png`,
         Type:"coin"
       })
     }
+
     return data
   }
 
@@ -205,17 +206,16 @@ const EcommerceDashboard2 = () => {
     return data
   }
 
-  const UTXOTr =(data) => {
-
+  const UTXOTr =(data, symbol, name) => {
+    console.log(data)
     const CurrencyPrice=28000
     const USDPrice=490000
     const fee=data.fee
     const address=data.hash
     const blockNumber=data.blockNumber
-    const name='بیت کوین'
-    const image='BTC.png'
+    const image=`${symbol}.png`
     const BlockDate=data.time
-    const symbole="BTC"
+    const symbole=symbol
     const color='#f8a23a'
     let TotalOutput=0
     let TotalInput=0
@@ -277,7 +277,7 @@ const EcommerceDashboard2 = () => {
       throw new Error('TotalInput Error')
     }
 
-    if (typeof (fee) !== 'number') {
+    if (typeof (Number(fee)) !== 'number') {
       throw new Error('fee Error')
     }
 
@@ -423,11 +423,12 @@ const EcommerceDashboard2 = () => {
     })
   }
 
+  //utxo
   const processHandler = (addressMode, index) => {
     if (addressMode.data.query === 'transaction') {
       if (addressMode.data.network[index] === 'BTC') {
         try {
-          SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'BTC', 100000000)))
+          SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'BTC', 100000000), 'BTC', 'بیت کوین'))
           dispatch({type:"networkName", value:'BTC'})
           //labels
           let labelText = null
@@ -473,12 +474,10 @@ const EcommerceDashboard2 = () => {
             position: 'bottom-left'
           })
         }
-      } else if (addressMode.data.network[index] === 'ETH') {
-        SetLoading(false)
+      } else if (addressMode.data.network[index] === 'LTC') {
         try {
-          // SetTrData
-          SetTrData(AccountBaseTr(AccountBaseTransaction(addressMode.data.data, 'ETH', 1000000000000000000)))
-
+          SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'LTC', 1), 'LTC', 'لایت کوین'))
+          dispatch({type:"networkName", value:'LTC'})
           //labels
           let labelText = null
           let labelId = null
@@ -516,17 +515,13 @@ const EcommerceDashboard2 = () => {
           )
 
           SetMode(1)
+          SetLoading(false)
         } catch (error) {
           console.log(error)
           return toast.error('خطا در دریافت اطلاعات از سرور', {
             position: 'bottom-left'
           })
         }
-      } else if (addressMode.data.network[index] === 'LTC') {
-        SetLoading(false)
-        return toast.error('لایت کوین سرچ نکن!!', {
-          position: 'bottom-left'
-        })
       }
     } else if (addressMode.data.query === 'address') {
       if (addressMode.data.network[index] === 'BTC') {
@@ -579,7 +574,7 @@ const EcommerceDashboard2 = () => {
             }
           )
 
-          SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'BTC', 100000000)))
+          SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'BTC', 100000000), 'BTC'))
           SetMode(2)
           SetLoading(false)
         } catch (error) {
@@ -589,19 +584,19 @@ const EcommerceDashboard2 = () => {
             position: 'bottom-left'
           })
         }
-      } else if (addressMode.data.network[index] === 'ETH') {
-          try {
-            SetAddress(hash)
-            SetLoading(false)
-            SetCoinData({
-              name:'اتریوم',
-              symbole:"ETH",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#627eea",
-              image:"ethereum.png"
+      } else if (addressMode.data.network[index] === 'LTC') {
+        SetLoading(false)
+        dispatch({type:"networkName", value:'LTC'})
+        try {
+          SetCoinData({
+            name:'لایت کوین',
+            symbole:"LTC",
+            risk:"0%",
+            owner:"بدون اطلاعات",
+            ownerMode:"بدون اطلاعات",
+            website:"بدون اطلاعات",
+            color:"#345d9d",
+            image:"LTC.png"
           })
 
           //labels
@@ -638,24 +633,22 @@ const EcommerceDashboard2 = () => {
               TagInfo
             }
           )
-            SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data, hash, 'BTC', 1000000000000000000)))
-            SetMode(2)
-          } catch (error) {
-            console.log(error)
-            SetLoading(false)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-      } else if (addressMode.data.network[index] === 'LTC') {
-        SetLoading(false)
-        return toast.error('لایت کوین سرچ نکن!!', {
-          position: 'bottom-left'
-        })
+
+          SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'LTC', 1), 'LTC'))
+          SetMode(2)
+          SetLoading(false)
+        } catch (error) {
+          console.log(error)
+          SetLoading(false)
+          return toast.error('خطا در دریافت اطلاعات از سرور', {
+            position: 'bottom-left'
+          })
+        }
       }
     }
   }
 
+  //account base
   const SelectProcessHandler = (network) => {
     SetLoading(true)
     axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}`,
@@ -667,55 +660,7 @@ const EcommerceDashboard2 = () => {
     .then((addressMode) => {
       SetLoading(false)
       if (addressMode.data.query === 'transaction') {
-        if (addressMode.data.network[0] === 'BTC') {
-          try {
-            SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'BTC', 100000000)))
-            
-            //labels
-            let labelText = null
-            let labelId = null
-            if (addressMode.data.data.label_tag.labels.length > 0) {
-              labelText = addressMode.data.data.label_tag.labels[0].label
-              labelId = addressMode.data.data.label_tag.labels[0].id
-            }
-            SetLabelData(
-              {
-                labelText,
-                labelId
-              }
-            )
-  
-            //tags
-            let isTag = false
-            let TagInfo = []
-            if (addressMode.data.data.label_tag.tags.length > 0) {
-              isTag = true
-              for (let i = 0; i < addressMode.data.data.label_tag.tags.length; i++) {
-                TagInfo.push(
-                  {
-                    tagText:addressMode.data.data.label_tag.tags[i].tag,
-                    tagId:addressMode.data.data.label_tag.tags[i].id
-                  }
-                )
-              }
-            }
-  
-            SetTagData(
-              {
-                isTag,
-                TagInfo
-              }
-            )
-  
-            SetMode(1)
-            SetLoading(false)
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'ETH') {
+        if (addressMode.data.network[0] === 'ETH') {
           SetLoading(false)
           try {
             // SetTrData
@@ -764,73 +709,9 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
-        } else if (addressMode.data.network[0] === 'LTC') {
-          SetLoading(false)
-          return toast.error('لایت کوین سرچ نکن!!', {
-            position: 'bottom-left'
-          })
         }
       } else if (addressMode.data.query === 'address') {
-        if (addressMode.data.network[0] === 'BTC') {
-          SetLoading(false)
-          try {
-            SetCoinData({
-              name:'بیت کوین',
-              symbole:"BTC",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#f8a23a",
-              image:"bitcoin.png"
-            })
-  
-            //labels
-            let labelText = null
-            let labelId = null
-            if (addressMode.data.data.labels_tags.labels.length > 0) {
-              labelText = addressMode.data.data.labels_tags.labels[0].label
-              labelId = addressMode.data.data.labels_tags.labels[0].id
-            }
-            SetLabelData(
-              {
-                labelText,
-                labelId
-              }
-            )
-  
-            //tags
-            let isTag = false
-            let TagInfo = []
-            if (addressMode.data.data.labels_tags.tags.length > 0) {
-              isTag = true
-              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
-                TagInfo.push(
-                  {
-                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
-                    tagId:addressMode.data.data.labels_tags.tags[i].id
-                  }
-                )
-              }
-            }
-            SetTagData(
-              {
-                isTag,
-                TagInfo
-              }
-            )
-  
-            SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'BTC', 100000000)))
-            SetMode(2)
-            SetLoading(false)
-          } catch (error) {
-            console.log(error)
-            SetLoading(false)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'ETH') {
+        if (addressMode.data.network[0] === 'ETH') {
             try {
               SetAddress(hash)
               SetLoading(false)
@@ -888,11 +769,6 @@ const EcommerceDashboard2 = () => {
                 position: 'bottom-left'
               })
             }
-        } else if (addressMode.data.network[0] === 'LTC') {
-          SetLoading(false)
-          return toast.error('لایت کوین سرچ نکن!!', {
-            position: 'bottom-left'
-          })
         }
       }
 

@@ -491,6 +491,7 @@ const Tracker = () => {
               }
             })
             .then((response) => {
+                console.log(response)
                 try {
                     if (response.data.query === 'address') {
                         if (network === 'ETH') {
@@ -505,6 +506,12 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'BTC', 100000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
+                        } else if (network === 'LTC') {
+                            dispatch({type:"Network", value:'LTC'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'LTC', 1))})
+                            dispatch({type:"positionX", value:0})
+                            SetIsShow(true)
                         }
                     } else if (response.data.query === 'transaction') {
                         if (network === 'ETH') {
@@ -517,6 +524,12 @@ const Tracker = () => {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'BTC', 100000000))})
+                            dispatch({type:"positionX", value:320})
+                            SetIsShow(true)
+                        } else if (network === 'LTC') {
+                            dispatch({type:"Network", value:'LTC'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'LTC', 1))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         }

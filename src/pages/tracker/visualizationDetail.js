@@ -129,7 +129,8 @@ const VisualizationDetail = (props) => {
               positionX,
               positionY,
               NodesPosition,
-              Network
+              Network,
+              networkName
             }
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
@@ -212,7 +213,7 @@ const VisualizationDetail = (props) => {
             <div className='container-fluid'>
               <div className='row'>
                 <div className='col-md-12'>
-                  <form onSubmit={ (event) => { 
+                  {/* <form onSubmit={ (event) => { 
                     event.preventDefault()
                     window.location.assign(`/tracker/${document.getElementById('MainDashboardInputBox').value}`) 
                   }}>
@@ -222,7 +223,7 @@ const VisualizationDetail = (props) => {
                       </InputGroupText>
                       <Input id='MainDashboardInputBox' placeholder='آدرس یا شناسه تراکنش' />
                     </InputGroup>
-                  </form>
+                  </form> */}
                 </div>
                 <hr/>
               </div>

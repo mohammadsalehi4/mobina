@@ -35,18 +35,28 @@ export function UTXOTransaction (array, symbole, decimal) {
                 if (GetLabel.length !== 0) {
                     Label = array.inputs[i].coin.address.labels[0].label
                 }
-                
+
+                let VID = array.inputs[i].coin.ValueInDollar
+                if (typeof (VID) !== 'number') {
+                    VID = 0
+                }
+
                 inputs.push({
                     address: array.inputs[i].coin.address.address,
                     value: Number(array.inputs[i].coin.value) / decimal,
-                    valueInDollar: array.inputs[i].coin.ValueInDollar,
+                    valueInDollar: VID,
                     Label
                 })
             } else {
+                let VID = (array.inputs[i].coin.ValueInDollar)
+                if (typeof (VID) !== 'number') {
+                    VID = 0
+                }
+
                 for (let j = 0; j < inputs.length; j++) {
                     if (inputs[j].address.toUpperCase() === array.inputs[i].coin.address.address.toUpperCase()) {
                         inputs[j].value = inputs[j].value + (Number(array.inputs[i].coin.value) / decimal)
-                        inputs[j].valueInDollar = inputs[j].valueInDollar + (array.inputs[i].coin.ValueInDollar)
+                        inputs[j].valueInDollar = inputs[j].valueInDollar + VID
                     }
                 }
             }
@@ -66,18 +76,29 @@ export function UTXOTransaction (array, symbole, decimal) {
                 if (GetLabel.length !== 0) {
                     Label = array.outputs[i].address.labels[0].label
                 }
-                
+
+                let VID = array.outputs[i].ValueInDollar
+                if (typeof (VID) !== 'number') {
+                    VID = 0
+                }
+
                 outputs.push({
                     address: array.outputs[i].address.address,
                     value: array.outputs[i].value / decimal,
-                    valueInDollar: array.outputs[i].ValueInDollar,
+                    valueInDollar: VID,
                     Label
                 })
             } else {
+
+                let VID = (array.outputs[i].ValueInDollar)
+                if (typeof (VID) !== 'number') {
+                    VID = 0
+                }
+
                 for (let j = 0; j < outputs.length; j++) {
                     if (outputs[j].address.toUpperCase() === array.outputs[i].address.address) {
                         outputs[j].value = outputs[j].value + (array.outputs[i].value / decimal)
-                        outputs[j].valueInDollar = outputs[j].valueInDollar + (array.outputs[i].ValueInDollar)
+                        outputs[j].valueInDollar = outputs[j].valueInDollar + VID
                     }
                 }
             }

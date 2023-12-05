@@ -143,6 +143,9 @@ const CurrencyDetail = () => {
           } else if (network === 'BTC') {
             SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BTC', 100000000)))
             SetLoading(false)
+          } else if (network === 'LTC') {
+            SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'LTC', 1)))
+            SetLoading(false)
           }
         } catch (error) {
           console.log(error)

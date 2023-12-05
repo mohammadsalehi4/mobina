@@ -237,6 +237,16 @@ const TransactionDetail1 = () => {
           SetDate(TrData.BlockDate)
           SetLoading(false)
           SetData(TrData)
+        } else if (network === 'LTC') {
+          
+          const TrData = (UTXOTr(UTXOTransaction(response.data.data, 'LTC', 1)))
+          SetIsGet(true)
+          SetValue(Number(TrData.value))
+          SetSymbole(TrData.symbole)
+          SetFee(Number(TrData.fee))
+          SetDate(TrData.BlockDate)
+          SetLoading(false)
+          SetData(TrData)
         }
 
       } catch (error) {

@@ -31,6 +31,7 @@ const TransactionTablleWithCheckbox = (props) => {
 
   useEffect(() => {
     const a = []
+    console.log(props.data)
     for (let i = 0; i < (props.data.inputAddresses).length; i++) {
       a.push({
         address:props.data.inputAddresses[i].address,
