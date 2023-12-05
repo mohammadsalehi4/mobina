@@ -194,8 +194,8 @@ const DropDown = () => {
             <li 
                 onClick={
                     () => {
-                        Cookies.set('refresh', '')
-                        Cookies.set('access', '') 
+                        Cookies.set('refresh', 0)
+                        Cookies.set('access', 0) 
                         window.location.assign('/') 
                     }
                 }

@@ -63,13 +63,13 @@ const App = () => {
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/tracker/:hash"  element={<Tracker/>}/>
+                <Route path="/tracker/:network/:hash"  element={<Tracker/>}/>
               :
               null
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/tracker/loadGraph/:id"  element={<Tracker/>}/>
+                <Route path="/tracker/loadGraph/:network/:id"  element={<Tracker/>}/>
               :
               null
             }

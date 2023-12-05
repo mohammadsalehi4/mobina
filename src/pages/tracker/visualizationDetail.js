@@ -30,6 +30,7 @@ const VisualizationDetail = (props) => {
   const [ Name , SetName] = useState(props.GraphName)
   const [ Description , SetDescription] = useState(props.GraphDescription)
   const { id } = useParams()
+  const { network } = useParams()
 
   useEffect(() => {
     SetName(props.GraphName)
@@ -44,6 +45,7 @@ const VisualizationDetail = (props) => {
     const NodesPosition = States.NodesPosition
     const itemNumbers = States.itemNumbers
     const Network = States.Network
+    const networkName = network
     let GraphName
     let GraphDescription
 
@@ -68,7 +70,8 @@ const VisualizationDetail = (props) => {
               Scale,
               positionX,
               positionY,
-              NodesPosition:States.NodesPosition
+              NodesPosition:States.NodesPosition,
+              networkName
             }
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
@@ -77,7 +80,7 @@ const VisualizationDetail = (props) => {
             //adad daghigh set she
             if (response.status === 200) {
               SetOpenSaveBox(false)
-              window.location.assign(`/tracker/loadGraph/${response.data.id}`)
+              window.location.assign(`/tracker/loadGraph/${networkName}/${response.data.id}`)
               return toast.success('با موفقیت ذخیره شد.', {
                 position: 'bottom-left'
               })
@@ -90,15 +93,17 @@ const VisualizationDetail = (props) => {
           })
           .catch((err) => {
             SetLoading(false)
+            console.log('err.response')
             console.log(err.response)
             try {
               if (err.response.status === 403) {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
+                Cookies.set('refresh', '0')
+                Cookies.set('access', '0')
                 window.location.assign('/')
-                return toast.error('دوباره به حساب کاربری وارد شوید.', {
-                  position: 'bottom-left'
-                })
+              } else if (err.response.status === 401) {
+                Cookies.set('refresh', '0')
+                Cookies.set('access', '0')
+                window.location.assign('/')
               } else {
                 return toast.error('ناموفق', {
                   position: 'bottom-left'
@@ -133,7 +138,7 @@ const VisualizationDetail = (props) => {
             SetLoading(false)
             if (response.status === 201) {
               SetOpenSaveBox(false)
-              window.location.assign(`/tracker/loadGraph/${response.data.id}`)
+              window.location.assign(`/tracker/loadGraph/${networkName}/${response.data.id}`)
             } else {
               return toast.error('ناموفق', {
                 position: 'bottom-left'
@@ -145,6 +150,13 @@ const VisualizationDetail = (props) => {
             console.log(err.response.status)
             try {
               if (err.response.status === 403) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+                return toast.error('دوباره به حساب کاربری وارد شوید.', {
+                  position: 'bottom-left'
+                })
+              } else if (err.response.status === 401) {
                 Cookies.set('refresh', '')
                 Cookies.set('access', '')
                 window.location.assign('/')

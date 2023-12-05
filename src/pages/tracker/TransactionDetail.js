@@ -15,6 +15,7 @@ import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { Spinner } from 'reactstrap'
+import { useParams } from "react-router-dom"
 
 import { UTXOTransaction } from '../../processors/UTXOTransaction'
 import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
@@ -22,6 +23,8 @@ import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
 const TransactionDetail1 = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
+  const { network } = useParams()
+
   const close = () => {
     dispatch({type:"SETSHOWTRANSACTIONDATA", value:false})
   }
@@ -206,7 +209,7 @@ const TransactionDetail1 = () => {
   useEffect(() => {
     const address = States.WDetail
     SetLoading(true)
-    axios.get(`${serverAddress}/explorer/search/?query=${address}`,
+    axios.get(`${serverAddress}/explorer/search/?query=${address}&network=${network}`,
     {
       headers: {
         Authorization: `Bearer ${Cookies.get('access')}`
@@ -216,7 +219,7 @@ const TransactionDetail1 = () => {
 
       try {
 
-        if (response.data.network === 'ETH') {
+        if (network === 'ETH') {
           const TrData = (AccountBaseTr(AccountBaseTransaction(response.data.data, 'ETH', 1000000000000000000)))
           SetIsGet(true)
           SetValue(TrData.value)
@@ -225,7 +228,7 @@ const TransactionDetail1 = () => {
           SetDate(TrData.BlockDate)
           SetLoading(false)
           SetData(TrData)
-        } else if (response.data.network === 'BTC') {
+        } else if (network === 'BTC') {
           const TrData = (UTXOTr(UTXOTransaction(response.data.data, 'BTC', 100000000)))
           SetIsGet(true)
           SetValue(TrData.value)

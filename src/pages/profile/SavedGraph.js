@@ -37,7 +37,7 @@ const SavedGraph = () => {
       selector: row => row.name,
       cell: row => {
         return (
-          <a href={`/tracker/loadGraph/${row.id}`} style={{textDecoration:'none', color:'rgb(111,107,125)'}}>{row.name}</a>
+          <a href={`/tracker/loadGraph/${row.networkName}/${row.id}`} style={{textDecoration:'none', color:'rgb(111,107,125)'}}>{row.name}</a>
         )
       }
     },
@@ -124,6 +124,7 @@ const SavedGraph = () => {
       }
     })
     .then((response) => {
+      console.log(response)
       const getResults = []
       if (response.data.results.length === 0) {
         SetIsEmpty(true)
@@ -135,7 +136,8 @@ const SavedGraph = () => {
           name:response.data.results[i].value.GraphName,
           description:response.data.results[i].value.GraphDescription,
           items:response.data.results[i].value.itemNumbers,
-          id:response.data.results[i].id
+          id:response.data.results[i].id,
+          networkName:response.data.results[i].value.networkName
         })
       }
       SetData(getResults)

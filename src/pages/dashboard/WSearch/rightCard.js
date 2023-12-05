@@ -28,7 +28,13 @@ import toast from 'react-hot-toast'
 import { RecognizeNetwork } from '../../../processors/recognizeNetwork'
 import Chip from '@mui/material/Chip'
 import LoadingButton from '../../../components/loadinButton/LoadingButton'
+import { useDispatch, useSelector } from 'react-redux'
+
 const CardContentTypes = (props) => {
+  
+  const States = useSelector(state => state)
+  const dispatch = useDispatch()
+
   //barchasb ha
   const [addressMark, SetAddressMark] = useState(false)
   const [addressText, SetAddressText] = useState('')
@@ -365,7 +371,7 @@ const CardContentTypes = (props) => {
         </div>
         
         <div style={{marginTop:"4px"}}>
-          <button onClick={() => (window.location.assign(`/tracker/${props.data.address}`))} className='cardLink22' id='cardLink1' style={{background:MainSiteOrange, fontSize:'13px'}}>
+          <button onClick={() => (window.location.assign(`/tracker/${States.networkName}/${props.data.address}`))} className='cardLink22' id='cardLink1' style={{background:MainSiteOrange, fontSize:'13px'}}>
             انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
           </button>
           <button href='/' onClick={e => e.preventDefault()} className='cardLink22' id='cardLink2' style={{background:MainSiteyellow, fontSize:'13px'}}>

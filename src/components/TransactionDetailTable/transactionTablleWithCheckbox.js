@@ -68,7 +68,6 @@ const TransactionTablleWithCheckbox = (props) => {
   //add new node to graph
   const addSelectedData = (row) => {
     const getData = States.GraphData
-
     if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
       getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).outputs.push({
         hash:props.data.address,
@@ -90,7 +89,7 @@ const TransactionTablleWithCheckbox = (props) => {
             symbole: row.currencyType,
             timeStamp:props.data.BlockDate,
             value:String(parseFloat(Number(row.amount).toFixed(5)).toString()),
-            valueInDollar:(row.amount)
+            valueInDollar:(row.valueInDollar)
           }
         ],
         inputs:[]

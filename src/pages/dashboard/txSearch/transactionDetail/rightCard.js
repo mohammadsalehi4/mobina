@@ -13,6 +13,7 @@ import { RecognizeNetwork } from '../../../../processors/recognizeNetwork'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import './transactiondetail.css'
+import { useDispatch, useSelector } from 'react-redux'
 // ** Reactstrap Imports
 import {
   Card,
@@ -35,6 +36,9 @@ import toast from 'react-hot-toast'
 // ** Images
 
 const CardContentTypes = (props) => {
+  const States = useSelector(state => state)
+  const dispatch = useDispatch()
+
   //barchasb ha
   const [addressMark, SetAddressMark] = useState(false)
   const [addressText, SetAddressText] = useState('')
@@ -51,175 +55,6 @@ const CardContentTypes = (props) => {
   const [TagList, setAddTagList] = useState(false)
   const [SelectedTag, setSelectedTag] = useState(false)
   const [Loading, setLoading] = useState(false)
-
-  // //add new tag
-  // const GetTag = () => {
-  //   const userInput = prompt('تگ مورد نظر را وارد کنید:')
-  //   if (userInput) {
-  //     axios.post(serverAddress + "/address-labels/tag/", 
-  //     {
-  //       items:[
-  //         {
-  //           address: props.data.address,
-  //           tag: userInput,
-  //           // network need set
-  //           network:RecognizeNetwork(props.data.name)
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       headers: {
-  //           Authorization: `Bearer ${Cookies.get('access')}`
-  //       }
-  //     }
-  //     )
-  //     .then((response) => {
-  //       if (Number(response.status) >= 200 && Number(response.status) < 300) {
-  //         setTagValues(prevTags => [...prevTags, userInput])
-  //         setTagId(prevTags => [
-  //           ...prevTags, 
-  //           {
-  //             tagText:userInput,
-  //             tagId:response.data[0].id
-  //           }
-  //         ])
-  //       } else {
-  //         return toast.error('خطا در پردازش', {
-  //           position: 'bottom-left'
-  //         })
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //       return toast.error('خطا در پردازش', {
-  //         position: 'bottom-left'
-  //       })
-  //     })
-  //   }
-  // }
-
-  // //delete tag
-  // const DeleteTag = (name) => {
-  //   let getTagValues = TagValues
-  //   let getTagId = TagId
-    
-  //   const thisTag = getTagId.filter(element => element.tagText === name)[0]
-  //   console.log(thisTag)
-  //   axios.delete(serverAddress + `/address-labels/tag/${thisTag.tagId}/`, 
-  //   {
-  //     headers: {
-  //         Authorization: `Bearer ${Cookies.get('access')}`
-  //     }
-  //   }
-  //   )
-  //   .then((response) => {
-  //     if (Number(response.status) >= 200 && Number(response.status) < 300) {
-
-  //       getTagValues = getTagValues.filter(element => element !== name)
-  //       getTagId = getTagId.filter(element => element.tagText !== name)
-    
-  //       setTagValues(getTagValues)
-  //       setTagId(getTagId)
-  //     } else {
-  //       return toast.error('خطا در پردازش', {
-  //         position: 'bottom-left'
-  //       })
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //     return toast.error('خطا در پردازش', {
-  //       position: 'bottom-left'
-  //     })
-  //   })
-  // }
-
-  // // Label
-  // const getAddressMark = () => {
-  //   if (addressMark) {
-  //     axios.delete(serverAddress + `/address-labels/label/${addressId}/`, 
-  //     {
-  //       headers: {
-  //           Authorization: `Bearer ${Cookies.get('access')}`
-  //       }
-  //     }
-  //     )
-  //     .then((response) => {
-  //       if (Number(response.status) >= 200 && Number(response.status) < 300) {
-  //         SetAddressMark(false)
-  //         SetAddressText('')
-  //         SetAddressId('')
-  //       } else {
-  //         return toast.error('خطا در پردازش', {
-  //           position: 'bottom-left'
-  //         })
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //       return toast.error('خطا در پردازش', {
-  //         position: 'bottom-left'
-  //       })
-  //     })
-  //   } else {
-  //     const userInput = prompt('برچسب مورد نظر را وارد کنید:')
-  //     if (userInput) {
-  //       axios.post(serverAddress + "/address-labels/label/", 
-  //       {
-  //         items:[
-  //           {
-  //             address: props.data.address,
-  //             label: userInput,
-  //             // network need set
-  //             network:RecognizeNetwork(props.data.name)
-  //           }
-  //         ]
-  //       },
-  //       {
-  //         headers: {
-  //             Authorization: `Bearer ${Cookies.get('access')}`
-  //         }
-  //       }
-  //       )
-  //       .then((response) => {
-  //         if (Number(response.status) >= 200 && Number(response.status) < 300) {
-  //           SetAddressMark(true)
-  //           SetAddressText(userInput)
-  //           SetAddressId(response.data[0].id)
-  //         } else {
-  //           return toast.error('خطا در پردازش', {
-  //             position: 'bottom-left'
-  //           })
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err)
-  //         return toast.error('خطا در پردازش', {
-  //           position: 'bottom-left'
-  //         })
-  //       })
-  //     }
-  //   }
-  // }
-
-  // //show label
-  // useEffect(() => {
-  //   const labelText = props.labelData.labelText
-  //   const labelId = props.labelData.labelId
-  //   if (labelText !== null && labelId !== null) {
-  //     SetAddressMark(true)
-  //     SetAddressText(labelText)
-  //     SetAddressId(labelId)
-  //   }
-
-  //   const TagData = props.TagData
-  //   if (TagData.isTag) {
-  //     for (let i = 0; i < TagData.TagInfo.length; i++) {
-  //       setTagValues(prevTags => [...prevTags, TagData.TagInfo[i].tagText])
-  //       setTagId(prevTags => [...prevTags, TagData.TagInfo[i]])
-  //     }
-  //   }
-  // }, [, props.labelData, props.TagData])
 
   const getTagList = () => {
     axios.get(serverAddress + "/address-labels/tag/", 
@@ -517,7 +352,7 @@ const CardContentTypes = (props) => {
 
         <div className='row mt-3'>
           <div className='col-12'>
-          <button href='/' onClick={ () => { window.location.assign(`/tracker/${props.data.address}`) } } className='cardLink225' id='cardLink15' style={{background:MainSiteOrange}}>
+          <button href='/' onClick={ () => { window.location.assign(`/tracker/${States.networkName}/${props.data.address}`) } } className='cardLink225' id='cardLink15' style={{background:MainSiteOrange}}>
             انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
           </button>
           <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink25' style={{background:MainSiteyellow}}>

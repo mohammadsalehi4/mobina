@@ -3,6 +3,8 @@
 /* eslint-disable no-unused-vars */
 export function UTXOAddress (data, address, symbole, decimal) {
 
+    console.log(data)
+
     const inputs = []
     const outputs = []
     let isError = false
@@ -142,6 +144,7 @@ export function UTXOAddress (data, address, symbole, decimal) {
     } catch (error) {
         isError = true
         ErrorText = error
+        console.log(ErrorText)
     }
     
     if (isError) {

@@ -84,6 +84,7 @@ const DataTablesBasic = () => {
           }
         })
         .then((response) => {
+          console.log(response)
             if (response.data.results.length > 0) {
                 getUsers = response.data.results
                 axios.get(`${serverAddress}/accounts/role/`, 
@@ -107,6 +108,7 @@ const DataTablesBasic = () => {
                 })
                 .catch((err) => {
                     dispatch({type:"CustomLoading", value:false})
+                    console.log(err)
                     if (err.response.status === 403) {
                       Cookies.set('refresh', '')
                       Cookies.set('access', '')
@@ -122,7 +124,13 @@ const DataTablesBasic = () => {
         })
         .catch((err) => {
             dispatch({type:"CustomLoading", value:false})
-            if (response.status === 403) {
+            console.log(err)
+            if (err.response.status === 403) {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+            if (err.response.status === 401) {
               Cookies.set('refresh', '')
               Cookies.set('access', '')
               window.location.assign('/')

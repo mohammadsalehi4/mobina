@@ -57,6 +57,7 @@ const initialState = {
     All_Input_Output:0,
     Network:'',
     edgesColors:[],
+    graphNetworkName:'',
 
     //admin panel
     CustomLoading: false,
@@ -76,10 +77,27 @@ const initialState = {
     //loading profile
     ProfileLabel:false,
     ProfileTag:false,
-    ProfileGraph:false
+    ProfileGraph:false,
+
+    //network set
+    networkName:''
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'graphNetworkName') {
+        return {
+            ...state,
+            graphNetworkName:action.value
+        }
+    }
+
+    if (action.type === 'networkName') {
+        return {
+            ...state,
+            networkName:action.value
+        }
+    }
 
     if (action.type === 'PriceBeload') {
         return {

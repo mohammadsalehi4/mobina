@@ -89,7 +89,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
             symbole: row.currencyType,
             timeStamp:props.data.BlockDate,
             value:String(parseFloat(Number(row.amount).toFixed(5)).toString()),
-            valueInDollar:(row.amount)
+            valueInDollar:(row.valueInDollar)
           }
         ],
         outputs:[]

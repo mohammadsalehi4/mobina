@@ -30,6 +30,7 @@ import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
 const Tracker = () => {
     const { hash } = useParams()
     const { id } = useParams()
+    const { network } = useParams()
 
     const [IsShow, SetIsShow] = useState(false)
     const [Loading, SetLoading] = useState(false)
@@ -483,23 +484,22 @@ const Tracker = () => {
     useEffect(() => {
         if (hash !== undefined) {
             SetLoading(true)
-            axios.get(`${serverAddress}/explorer/search/?query=${hash}`,
+            axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}`,
             {
               headers: {
                 Authorization: `Bearer ${Cookies.get('access')}`
               }
             })
             .then((response) => {
-
                 try {
                     if (response.data.query === 'address') {
-                        if (response.data.network === 'ETH') {
+                        if (network === 'ETH') {
                             dispatch({type:"Network", value:'ETH'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:AccountAdd(AccountBaseAddress(response.data.data, hash, 'ETH', 1000000000000000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
-                        } else if (response.data.network === 'BTC') {
+                        } else if (network === 'BTC') {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'BTC', 100000000))})
@@ -507,13 +507,13 @@ const Tracker = () => {
                             SetIsShow(true)
                         }
                     } else if (response.data.query === 'transaction') {
-                        if (response.data.network === 'ETH') {
+                        if (network === 'ETH') {
                             dispatch({type:"Network", value:'ETH'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:AccountTr(AccountBaseTransaction(response.data.data, 'ETH', 1000000000000000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
-                        } else if (response.data.network === 'BTC') {
+                        } else if (network === 'BTC') {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'BTC', 100000000))})
@@ -521,6 +521,7 @@ const Tracker = () => {
                             SetIsShow(true)
                         }
                     }
+
                 } catch (error) {
                     console.log(error)
                     return toast.error('خطا در دریافت اطلاعات', {
@@ -577,6 +578,7 @@ const Tracker = () => {
                 let positionY 
                 let NodesPosition 
                 let Network 
+                let networkName 
 
                 for (let i = 0; i < response.data.results.length; i++) {
                     if (response.data.results[i].id === Number(id)) {
@@ -586,6 +588,7 @@ const Tracker = () => {
                         positionX = response.data.results[i].value.positionX
                         positionY = response.data.results[i].value.positionY
                         NodesPosition = response.data.results[i].value.NodesPosition
+                        networkName = response.data.results[i].value.networkName
                         SetGraphName(response.data.results[i].value.GraphName)
                         SetGraphDescription(response.data.results[i].value.GraphDescription)
                     }
