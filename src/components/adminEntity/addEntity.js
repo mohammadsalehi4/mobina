@@ -1,11 +1,18 @@
-import React from 'react'
+/* eslint-disable multiline-ternary */
+/* eslint-disable no-unused-vars */
+import React, {useState, useEffect} from 'react'
 import {
     Col,
     Row,
     Input,
-    Label
+    Label,
+    Button
 } from 'reactstrap'
+import LoadingButton from '../loadinButton/LoadingButton'
 const AddEntity = () => {
+
+    const [Loading, SetLoading] = useState(false)
+
   return (
     <div className='container-fluid'>
         <Row>
@@ -80,6 +87,20 @@ const AddEntity = () => {
                     مجوز
                 </Label>
                 <Input/>
+            </Col>
+        </Row>
+        <Row>
+            <Col className='mt-3'>
+                <Button color='warning' style={{height:'36px', float:'left'}}>
+                    {
+                        Loading ? 
+                        <LoadingButton/>
+                        :
+                        <span>
+                            ثبت
+                        </span>
+                    }
+                </Button>
             </Col>
         </Row>
     </div>

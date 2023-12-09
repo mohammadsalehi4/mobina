@@ -14,7 +14,7 @@ const AdminEntity = () => {
         setActive(tab)
       }
   return (
-    <div >
+    <div className='nav-vertical'>
         <Nav tabs className='nav-left JDAdmin' style={{marginRight:"0px", width:"140px", border:"none"}}>
             <NavItem style={{ marginRight:"-40px", cursor:"pointer"}} >
                 <a

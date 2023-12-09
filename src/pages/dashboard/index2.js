@@ -853,11 +853,11 @@ const EcommerceDashboard2 = () => {
           let TagInfo = []
           if (addressMode.data.data.tag_labels.tags.length > 0) {
             isTag = true
-            for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+            for (let i = 0; i < addressMode.data.data.tag_labels.tags.length; i++) {
               TagInfo.push(
                 {
-                  tagText:addressMode.data.data.labels_tags.tags[i].tag,
-                  tagId:addressMode.data.data.labels_tags.tags[i].id
+                  tagText:addressMode.data.data.tag_labels.tags[i].tag,
+                  tagId:addressMode.data.data.tag_labels.tags[i].id
                 }
               )
             }
