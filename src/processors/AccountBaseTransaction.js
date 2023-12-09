@@ -9,6 +9,7 @@ export function AccountBaseTransaction (array, symbole, decimal) {
     const valueInDollar = Number(array.valueInDollar)
     const fee = (Number(array.gasPrice) * Number(array.gasUsed)) / decimal
     const logs = []
+    
 
     const GetFromLabel = array.from.labels
     let FromLabel = false

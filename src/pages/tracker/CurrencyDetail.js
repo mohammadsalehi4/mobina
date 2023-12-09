@@ -24,6 +24,7 @@ import { useParams } from "react-router-dom"
 //processors
 import { UTXOAddress } from '../../processors/UTXOAddress'
 import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
+import { BSCAddress } from '../../processors/BSCAddress'
 
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
@@ -145,6 +146,9 @@ const CurrencyDetail = () => {
             SetLoading(false)
           } else if (network === 'LTC') {
             SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'LTC', 1)))
+            SetLoading(false)
+          } else if (network === 'BSC') {
+            SetData(AccountBaseAdd(BSCAddress(response.data.data, address, 'BSC', 1000000000000000000)))
             SetLoading(false)
           }
         } catch (error) {

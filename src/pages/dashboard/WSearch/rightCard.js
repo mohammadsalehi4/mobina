@@ -31,7 +31,7 @@ import LoadingButton from '../../../components/loadinButton/LoadingButton'
 import { useDispatch, useSelector } from 'react-redux'
 
 const CardContentTypes = (props) => {
-  
+  console.log(props.data)
   const States = useSelector(state => state)
   const dispatch = useDispatch()
 
@@ -223,6 +223,7 @@ const CardContentTypes = (props) => {
 
   //add label
   const addNewLabel = () => {
+    console.log(props.data.name)
     setLoading(true)
     axios.post(serverAddress + "/address-labels/label/", 
     {

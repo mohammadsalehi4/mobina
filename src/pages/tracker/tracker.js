@@ -26,6 +26,8 @@ import { UTXOTransaction } from '../../processors/UTXOTransaction'
 import { UTXOAddress } from '../../processors/UTXOAddress'
 import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
 import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
+import { BSCTransaction } from '../../processors/BSCTransaction'
+import { BSCAddress } from '../../processors/BSCAddress'
 
 const Tracker = () => {
     const { hash } = useParams()
@@ -512,6 +514,12 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'LTC', 1))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
+                        } else if (network === 'BSC') {
+                            dispatch({type:"Network", value:'BSC'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountAdd(BSCAddress(response.data.data, hash, 'BSC', 1000000000000000000))})
+                            dispatch({type:"positionX", value:0})
+                            SetIsShow(true)
                         }
                     } else if (response.data.query === 'transaction') {
                         if (network === 'ETH') {
@@ -530,6 +538,12 @@ const Tracker = () => {
                             dispatch({type:"Network", value:'LTC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'LTC', 1))})
+                            dispatch({type:"positionX", value:320})
+                            SetIsShow(true)
+                        } else if (network === 'BSC') {
+                            dispatch({type:"Network", value:'BSC'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountTr(BSCTransaction(response.data.data, 'BSC', 1000000000000000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         }

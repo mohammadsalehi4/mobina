@@ -29,6 +29,8 @@ import { UTXOTransaction } from '../../processors/UTXOTransaction'
 import { UTXOAddress } from '../../processors/UTXOAddress'
 import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
 import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
+import { BSCAddress } from '../../processors/BSCAddress'
+import { BSCTransaction } from '../../processors/BSCTransaction'
 
 const EcommerceDashboard2 = () => {
   const { hash } = useParams()
@@ -141,7 +143,7 @@ const EcommerceDashboard2 = () => {
     return data
   }
 
-  const AccountBaseAdd =(getData) => {
+  const AccountBaseAdd =(getData, symbol) => {
     let data = []
     for (let i = 0; i < getData.inputs.length; i++) {
       data.push({
@@ -152,9 +154,9 @@ const EcommerceDashboard2 = () => {
         gasPrice:1,
         value:(Number(getData.inputs[i].value)),
         hash:getData.inputs[i].hash,
-        currencyType:"ETH",
-        Logo:"ETH.png",
-        Type:"coin"
+        currencyType:`${symbol}`,
+        Logo:`${symbol}.png`,
+        Type:`coin`
       })
     }
 
@@ -167,8 +169,8 @@ const EcommerceDashboard2 = () => {
         gasPrice:1,
         value:(Number(getData.outputs[i].value)),
         hash:getData.outputs[i].hash,
-        currencyType:"ETH",
-        Logo:"ETH.png",
+        currencyType:`${symbol}`,
+        Logo:`${symbol}.png`,
         Type:"coin"
       })
     }
@@ -324,17 +326,15 @@ const EcommerceDashboard2 = () => {
     })
   }
 
-  const AccountBaseTr =(data) => {
+  const AccountBaseTr =(data, symbole, name) => {
     console.log(data)
     const blockNumber=data.blockNumber
     const address=data.hash
     const BlockDate=data.timestamp
-    const name='اتریوم'
-    const image='ETH.png'
+    const image=`${symbole}.png`
     const color='#627eea'
     const RiskScore='0%'
     let TotalOutput=0
-    let symbole="ETH"
     let TotalInput=0
     let fee = data.fee
     let transfers=[]
@@ -343,28 +343,28 @@ const EcommerceDashboard2 = () => {
       transfers.push({
         from:data.from,
         to:data.to,
-        currencyType:'ETH',
+        currencyType:symbole,
         amount:data.value
       })
     } else if (data.from === null && data.to !== null) {
       transfers.push({
         from:'coin base',
         to:data.to,
-        currencyType:'ETH',
+        currencyType:symbole,
         amount:data.value
       })
     } else if (data.from !== null && data.to === null) {
       transfers.push({
         from:data.from,
         to:'coin base',
-        currencyType:'ETH',
+        currencyType:symbole,
         amount:data.value
       })
     } else {
       transfers.push({
         from:'coin base',
         to:'coin base',
-        currencyType:'ETH',
+        currencyType:symbole,
         amount:data.value
       })
     }
@@ -664,7 +664,7 @@ const EcommerceDashboard2 = () => {
           SetLoading(false)
           try {
             // SetTrData
-            SetTrData(AccountBaseTr(AccountBaseTransaction(addressMode.data.data, 'ETH', 1000000000000000000)))
+            SetTrData(AccountBaseTr(AccountBaseTransaction(addressMode.data.data, 'ETH', 1000000000000000000), 'ETH', 'اتریوم'))
   
             //labels
             let labelText = null
@@ -690,6 +690,55 @@ const EcommerceDashboard2 = () => {
                   {
                     tagText:addressMode.data.data.label_tag.tags[i].tag,
                     tagId:addressMode.data.data.label_tag.tags[i].id
+                  }
+                )
+              }
+            }
+  
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+  
+            SetMode(1)
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
+        } else if (addressMode.data.network[0] === 'BSC') {
+          SetLoading(false)
+          try {
+            // SetTrData
+            SetTrData(AccountBaseTr(BSCTransaction(addressMode.data.data, 'BSC', 1000000000000000000), 'BNB', 'بایننس اسمارت چین'))
+  
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.tag_labels.labels.length > 0) {
+              labelText = addressMode.data.data.tag_labels.labels[0].label
+              labelId = addressMode.data.data.tag_labels.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.tag_labels.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.tag_labels.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.tag_labels.tags[i].tag,
+                    tagId:addressMode.data.data.tag_labels.tags[i].id
                   }
                 )
               }
@@ -760,7 +809,7 @@ const EcommerceDashboard2 = () => {
                 TagInfo
               }
             )
-              SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data, hash, 'BTC', 1000000000000000000)))
+              SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data, hash, 'ETH', 1000000000000000000), 'ETH'))
               SetMode(2)
             } catch (error) {
               console.log(error)
@@ -769,6 +818,65 @@ const EcommerceDashboard2 = () => {
                 position: 'bottom-left'
               })
             }
+        } else if (addressMode.data.network[0] === 'BSC') {
+          
+          try {
+            SetAddress(hash)
+            SetLoading(false)
+            SetCoinData({
+              name:'بایننس اسمارت چین',
+              symbole:"BNB",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#f3ba2f",
+              image:"BNB.png"
+          })
+
+          //labels
+          let labelText = null
+          let labelId = null
+          if (addressMode.data.data.tag_labels.labels.length > 0) {
+            labelText = addressMode.data.data.tag_labels.labels[0].label
+            labelId = addressMode.data.data.tag_labels.labels[0].id
+          }
+          SetLabelData(
+            {
+              labelText,
+              labelId
+            }
+          )
+
+          //tags
+          let isTag = false
+          let TagInfo = []
+          if (addressMode.data.data.tag_labels.tags.length > 0) {
+            isTag = true
+            for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+              TagInfo.push(
+                {
+                  tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                  tagId:addressMode.data.data.labels_tags.tags[i].id
+                }
+              )
+            }
+          }
+          SetTagData(
+            {
+              isTag,
+              TagInfo
+            }
+          )
+            SetAdData(AccountBaseAdd(BSCAddress(addressMode.data.data, hash, 'BNB', 1000000000000000000), 'BNB'))
+            SetMode(2)
+          } catch (error) {
+            console.log(error)
+            SetLoading(false)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
         }
       }
 
@@ -929,17 +1037,19 @@ const EcommerceDashboard2 = () => {
                                 {
                                   SelectToken ? 
                                     <Card>
-                                      <Row className='p-3'>
-                                        <Col style={{textAlign:'right'}}>
-                                          شبکه مورد نظرتان را انتخاب کنید
-                                        </Col>
-                                      </Row>
-                                      <div onClick={ () => { SelectProcessHandler('ETH'), dispatch({type:"networkName", value:'ETH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s'}}>
-                                        ETH - اتریوم
+
+                                      <div onClick={ () => { SelectProcessHandler('ETH'), dispatch({type:"networkName", value:'ETH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                        <span>
+                                          ETH - اتریوم
+                                        </span>
+                                        <img src='/public/images/ETH.png' style={{width:'20px', float:'left'}} />
                                       </div>
 
-                                      <div onClick={ () => { SelectProcessHandler('BSC'), dispatch({type:"networkName", value:'BSC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s'}}>
-                                        BSC - بایننس اسمارت چین
+                                      <div onClick={ () => { SelectProcessHandler('BSC'), dispatch({type:"networkName", value:'BSC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                        <span>
+                                          BSC - بایننس اسمارت چین
+                                        </span>
+                                        <img src='/public/images/BNB.png' style={{width:'20px', float:'left'}} />
                                       </div>
                                     </Card>
                                   :

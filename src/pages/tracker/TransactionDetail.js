@@ -19,6 +19,7 @@ import { useParams } from "react-router-dom"
 
 import { UTXOTransaction } from '../../processors/UTXOTransaction'
 import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
+import { BSCTransaction } from '../../processors/BSCTransaction'
 
 const TransactionDetail1 = () => {
   const States = useSelector(state => state)
@@ -221,6 +222,15 @@ const TransactionDetail1 = () => {
 
         if (network === 'ETH') {
           const TrData = (AccountBaseTr(AccountBaseTransaction(response.data.data, 'ETH', 1000000000000000000)))
+          SetIsGet(true)
+          SetValue(TrData.value)
+          SetSymbole(TrData.symbole)
+          SetFee(TrData.fee)
+          SetDate(TrData.BlockDate)
+          SetLoading(false)
+          SetData(TrData)
+        } else if (network === 'BSC') {
+          const TrData = (AccountBaseTr(BSCTransaction(response.data.data, 'BSC', 1000000000000000000)))
           SetIsGet(true)
           SetValue(TrData.value)
           SetSymbole(TrData.symbole)
