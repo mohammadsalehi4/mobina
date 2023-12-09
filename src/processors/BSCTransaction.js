@@ -33,14 +33,14 @@ export function BSCTransaction (array, symbole, decimal) {
         MainLabel = GetMainLabel[0].label
     }
 
-    // for (let i = 0; i < array.bep-20-transfers.length; i++) {
-    //     logs.push({
-    //         symbole: array.bep-20-transfers[i].token_symbol,
-    //         value: Number(array.bep-20-transfers[i].value) / Math.pow(10, Number(array.bep-20-transfers[i].token_decimal)),
-    //         from: array.bep-20-transfers[i].from, 
-    //         to: array.bep-20-transfers[i].to
-    //     })
-    // }
+    for (let i = 0; i < array.bep_20_transfers.length; i++) {
+        logs.push({
+            symbole: array.bep_20_transfers[i].token_symbol,
+            value: Number(array.bep_20_transfers[i].value) / Math.pow(10, Number(array.bep_20_transfers[i].token_decimal)),
+            from: array.bep_20_transfers[i].from, 
+            to: array.bep_20_transfers[i].to
+        })
+    }
 
     console.log(
         {

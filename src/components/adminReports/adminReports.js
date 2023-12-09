@@ -567,10 +567,12 @@ const AdminReports = () => {
                           </div>
                         )
                       } else {
-                        <div>
+                        return (
+                          <div>
                           <Input  type='switch' id={`EditRollText${item.id}`} />
                           <Label for={`RollText${item.id}`} className='me-2'>{item.name}</Label>
-                        </div>
+                          </div>
+                        )
                       }
                     })
                   }

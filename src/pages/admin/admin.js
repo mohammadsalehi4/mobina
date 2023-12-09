@@ -3,8 +3,6 @@ import react, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-import UILoader from '@components/ui-loader'
-import Spinner from '@components/spinner/Loading-spinner'
 
 import './admin.css'
 import {
@@ -21,13 +19,15 @@ import AdminRolls from '../../components/adminRolls/adminRolls'
 import AdminUsers from '../../components/adminUsers/adminUsers'
 import AdminPrices from '../../components/adminPrices/adminPrices'
 import AdminTax from '../../components/adminTax/adminTax'
+import AdminEntity from '../../components/adminEntity/adminEntity'
+
 const Admin = () => {
   const [active, setActive] = useState('1')
   const dispatch = useDispatch()
   const States = useSelector(state => state)
 
   useEffect(() => {
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= 7; i++) {
         document.getElementById(`Link${i}`).className = 'NotActiveAdmin'
     }
     document.getElementById(`Link${active}`).className = 'ActiveAdmin'
@@ -136,6 +136,17 @@ const Admin = () => {
                                 <span className='align-middle'>مالیات</span>
                             </a>
                         </NavItem>
+                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
+                            <a
+                                id='Link7'
+                                active={active === '7'}
+                                onClick={() => {
+                                dispatch({type:"rollsLoading", value:7})
+                                toggle('7')
+                                }}>
+                                <span className='align-middle'>موجودیت</span>
+                            </a>
+                        </NavItem>
                     </Nav>
                     <TabContent className='py-50' activeTab={active}>
                         <TabPane tabId='1'>
@@ -155,6 +166,9 @@ const Admin = () => {
                         </TabPane>
                         <TabPane tabId='6'>
                             <AdminTax/>
+                        </TabPane>
+                        <TabPane tabId='7'>
+                            <AdminEntity/>
                         </TabPane>
                     </TabContent>
                 </Fragment>

@@ -68,9 +68,9 @@ export function BSCAddress (data, address, symbole, decimal) {
                         value: Number(array[i].main_transaction.value) / decimal,
                         ValueInDollar: VID,
                         hash:array[i].main_transaction.transactionHash,
-                        blockNumber:array[i].blockNumber,
-                        timestamp:array[i].timestamp,
-                        fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal,
+                        blockNumber:array[i].main_transaction.blockNumber,
+                        timestamp:array[i].main_transaction.timestamp,
+                        fee: Number(array[i].main_transaction.gasUsed) * Number(array[i].main_transaction.effectiveGasPrice) / decimal,
                         Label
                     }
                 )
