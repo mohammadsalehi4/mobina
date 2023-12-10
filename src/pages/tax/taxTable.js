@@ -220,8 +220,8 @@ const TaxTable = ({ stepper }) => {
           }
       })
       .then((response) => {
-    SetLoading(false)
-    if (response.status === 201) {
+        SetLoading(false)
+        if (response.status === 201) {
           console.log(response.data)
           dispatch({type:"taxAmount", value:Number(response.data.price_without_forgiveness)})
           dispatch({type:"taxId", value:Number(response.data.id)})

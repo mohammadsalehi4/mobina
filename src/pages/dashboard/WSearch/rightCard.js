@@ -21,7 +21,7 @@ import {
   Input,
   Label
 } from 'reactstrap'
-import { XCircle, Trello } from 'react-feather'
+import { UserCheck } from 'react-feather'
 import { MainSiteOrange, MainSiteyellow } from '../../../../public/colors'
 import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
@@ -337,17 +337,15 @@ const CardContentTypes = (props) => {
             <div className='col-12' style={{float:"right"}}>
               <p style={{marginBottom:"5px", color:"rgb(150,150,150)"}}>مالک</p>
             <div>
-
-                
                 {
                   props.Entity.isEntity ? 
                   <span style={{}}>
-                  <Trello size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px"}} />
+                  <UserCheck size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px"}} />
                   {props.Entity.EntityInfo}
                   </span>
                   :
                   <span>
-                  <Trello size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px"}} />
+                    <UserCheck size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px"}} />
                     بدون اطلاعات
                   </span>
                 }
