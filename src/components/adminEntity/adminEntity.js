@@ -7,6 +7,7 @@ import {
     TabContent
   } from 'reactstrap'
 import AddEntity from './addEntity'
+import ShowEntity from './showEntity'
 
 const AdminEntity = () => {
     const [active, setActive] = useState('1')
@@ -65,7 +66,7 @@ const AdminEntity = () => {
 
         <TabContent activeTab={active}>
           <TabPane tabId='1'>
-            
+            <ShowEntity/>
           </TabPane>
           <TabPane tabId='2'>
             <AddEntity/>

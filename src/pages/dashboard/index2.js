@@ -1042,14 +1042,14 @@ const EcommerceDashboard2 = () => {
                                         <span>
                                           ETH - اتریوم
                                         </span>
-                                        <img src='/public/images/ETH.png' style={{width:'20px', float:'left'}} />
+                                        <img src='https://cryptologos.cc/logos/ethereum-eth-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                       </div>
 
                                       <div onClick={ () => { SelectProcessHandler('BSC'), dispatch({type:"networkName", value:'BSC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
                                         <span>
                                           BSC - بایننس اسمارت چین
                                         </span>
-                                        <img src='/public/images/BNB.png' style={{width:'20px', float:'left'}} />
+                                        <img src='https://cryptologos.cc/logos/bnb-bnb-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                       </div>
                                     </Card>
                                   :
