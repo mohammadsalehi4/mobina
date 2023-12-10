@@ -46,6 +46,7 @@ const EcommerceDashboard2 = () => {
   const [coinData, SetCoinData] = useState({})
   const [labelData, SetLabelData] = useState({})
   const [TagData, SetTagData] = useState({})
+  const [Entity, SetEntity] = useState({})
   const [SelectToken, SetSelectToken] = useState(false)
   
   const UTXOAdd =(getData, symbol) => {
@@ -573,7 +574,18 @@ const EcommerceDashboard2 = () => {
               TagInfo
             }
           )
-
+          let isEntity = false
+          let EntityInfo = false
+          if (addressMode.data.data.entity !== null) {
+            isEntity = true
+            EntityInfo = addressMode.data.data.entity
+          }
+          SetEntity(
+            {
+              isEntity,
+              EntityInfo
+            }
+          )
           SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'BTC', 100000000), 'BTC'))
           SetMode(2)
           SetLoading(false)
@@ -633,7 +645,18 @@ const EcommerceDashboard2 = () => {
               TagInfo
             }
           )
-
+          let isEntity = false
+          let EntityInfo = false
+          if (addressMode.data.data.entity !== null) {
+            isEntity = true
+            EntityInfo = addressMode.data.data.entity
+          }
+          SetEntity(
+            {
+              isEntity,
+              EntityInfo
+            }
+          )
           SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'LTC', 1), 'LTC'))
           SetMode(2)
           SetLoading(false)
@@ -773,42 +796,56 @@ const EcommerceDashboard2 = () => {
                 website:"بدون اطلاعات",
                 color:"#627eea",
                 image:"ethereum.png"
-            })
+              })
   
-            //labels
-            let labelText = null
-            let labelId = null
-            if (addressMode.data.data.labels_tags.labels.length > 0) {
-              labelText = addressMode.data.data.labels_tags.labels[0].label
-              labelId = addressMode.data.data.labels_tags.labels[0].id
-            }
-            SetLabelData(
-              {
-                labelText,
-                labelId
+              //labels
+              let labelText = null
+              let labelId = null
+              if (addressMode.data.data.labels_tags.labels.length > 0) {
+                labelText = addressMode.data.data.labels_tags.labels[0].label
+                labelId = addressMode.data.data.labels_tags.labels[0].id
               }
-            )
-  
-            //tags
-            let isTag = false
-            let TagInfo = []
-            if (addressMode.data.data.labels_tags.tags.length > 0) {
-              isTag = true
-              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
-                TagInfo.push(
-                  {
-                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
-                    tagId:addressMode.data.data.labels_tags.tags[i].id
-                  }
-                )
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+    
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (addressMode.data.data.labels_tags.tags.length > 0) {
+                isTag = true
+                for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                      tagId:addressMode.data.data.labels_tags.tags[i].id
+                    }
+                  )
+                }
               }
-            }
-            SetTagData(
-              {
-                isTag,
-                TagInfo
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+
+              let isEntity = false
+              let EntityInfo = false
+              if (addressMode.data.data.entity !== null) {
+                isEntity = true
+                EntityInfo = addressMode.data.data.entity
               }
-            )
+              SetEntity(
+                {
+                  isEntity,
+                  EntityInfo
+                }
+              )
+
               SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data, hash, 'ETH', 1000000000000000000), 'ETH'))
               SetMode(2)
             } catch (error) {
@@ -868,6 +905,20 @@ const EcommerceDashboard2 = () => {
               TagInfo
             }
           )
+          
+          let isEntity = false
+          let EntityInfo = false
+          if (addressMode.data.data.entity !== null) {
+            isEntity = true
+            EntityInfo = addressMode.data.data.entity
+          }
+          SetEntity(
+            {
+              isEntity,
+              EntityInfo
+            }
+          )
+
             SetAdData(AccountBaseAdd(BSCAddress(addressMode.data.data, hash, 'BNB', 1000000000000000000), 'BNB'))
             SetMode(2)
           } catch (error) {
@@ -1051,6 +1102,7 @@ const EcommerceDashboard2 = () => {
                                         </span>
                                         <img src='https://cryptologos.cc/logos/bnb-bnb-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                       </div>
+
                                     </Card>
                                   :
                                     null
@@ -1107,7 +1159,7 @@ const EcommerceDashboard2 = () => {
             }
             
             {
-                mode === 2 ? <Walletdetail labelData={labelData} TagData={TagData} data={adData} address={address} coinData={coinData}/> : null
+                mode === 2 ? <Walletdetail labelData={labelData} Entity={Entity} TagData={TagData} data={adData} address={address} coinData={coinData}/> : null
             }
             </Col>
             <Col class="col-lg-2">

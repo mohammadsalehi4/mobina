@@ -77,7 +77,7 @@ const CardTransactions = (props) => {
   const renderTransactions = () => {
     return (
       <div className=''>
-        <div className='row mt-3'>
+        <div className='row mt-2'>
           <div className='col-6'>
               <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'ارسال شده'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
@@ -96,7 +96,7 @@ const CardTransactions = (props) => {
           </div>
         </div>
 
-        <div className='row mt-3'>
+        <div className='row mt-2'>
           <div className='col-6'>
               <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'موجودی'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
@@ -116,7 +116,7 @@ const CardTransactions = (props) => {
           </div>
         </div>
 
-        <div className='row mt-3'>
+        <div className='row mt-2'>
           <div className='col-6'>
               <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'اولین فعالیت'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>

@@ -192,7 +192,7 @@ const VisualizationDetail = (props) => {
   if (id === undefined) {
     BoxTitle = 'نمایش گراف'
   } else {
-    BoxTitle = `گراف ${Name}`
+    BoxTitle = `${Name}`
   }
 
   useEffect(() => {

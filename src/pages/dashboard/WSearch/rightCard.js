@@ -21,7 +21,7 @@ import {
   Input,
   Label
 } from 'reactstrap'
-import { XCircle } from 'react-feather'
+import { XCircle, Trello } from 'react-feather'
 import { MainSiteOrange, MainSiteyellow } from '../../../../public/colors'
 import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
@@ -333,45 +333,30 @@ const CardContentTypes = (props) => {
           </div>
         </div>
         
-        <div className='row mt-3'>
-          <div className='col-12' style={{float:"right"}}>
-              <h6 style={{display:"inline-block", marginBottom:"5px"}}>مالک:</h6>
-            <div style={{textAlign:"left", float:"left"}}>
-              <span style={{}}>
-                {props.data.owner}
-              </span>
-            </div>
-          </div>
-
-        </div>
-
-        <div className='row mt-2'>
-          <div className="col-4">
+        <div className='row mt-4'>
+            <div className='col-12' style={{float:"right"}}>
+              <p style={{marginBottom:"5px", color:"rgb(150,150,150)"}}>مالک</p>
             <div>
-              <h6 style={{display:"inline-block", marginBottom:"5px"}}>نوع:</h6>
-            </div>
-            </div>
-          <div className='col-8' style={{textAlign:"left"}}>
-            <span style={{}}>
-              {props.data.ownerMode}
-            </span>
-          </div>
-        </div>
 
-        <div className='row mt-2'>
-          <div className="col-4">
-            <div>
-              <h6 style={{display:"inline-block", marginBottom:"5px"}}>آدرس:</h6>
+                
+                {
+                  props.Entity.isEntity ? 
+                  <span style={{}}>
+                  <Trello size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px"}} />
+                  {props.Entity.EntityInfo}
+                  </span>
+                  :
+                  <span>
+                  <Trello size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px"}} />
+                    بدون اطلاعات
+                  </span>
+                }
             </div>
-            </div>
-          <div className='col-8' style={{textAlign:"left"}}>
-            <span style={{}}>
-              {props.data.website}
-            </span>
           </div>
+
         </div>
         
-        <div style={{marginTop:"4px"}}>
+        <div style={{marginTop:"4px"}} className='mt-4'>
           <button onClick={() => (window.location.assign(`/tracker/${States.networkName}/${props.data.address}`))} className='cardLink22' id='cardLink1' style={{background:MainSiteOrange, fontSize:'13px'}}>
             انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
           </button>

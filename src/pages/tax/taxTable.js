@@ -231,10 +231,14 @@ const TaxTable = ({ stepper }) => {
       .catch((err) => {
         SetLoading(false)
         console.log(err)
-        if (err.response.status === 404) {
-          return toast.error('آدرس مورد نظر یافت نشد.', {
-            position: 'bottom-left'
-          })
+        if (err.response.status === 403) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        } else if (err.response.status === 401) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
         } else {
           return toast.error('ناموفق در پردازش', {
             position: 'bottom-left'

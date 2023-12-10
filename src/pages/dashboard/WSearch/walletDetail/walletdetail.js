@@ -91,7 +91,7 @@ const Walletdetail = (props) => {
     <div className='container-fluid mt-0' style={{borderRadius:"8px", boxSizing:"border-box", background:"rgb(248,248,248)"}}>
         <div className='row mb-0' style={{borderRadius:"8px"}}>
           <div className='col-lg-6  mt-2'>
-            <CardContentTypes data={data} labelData={props.labelData} TagData={props.TagData}/>
+            <CardContentTypes data={data} Entity={props.Entity} labelData={props.labelData} TagData={props.TagData}/>
           </div>
           <div className='col-lg-6  mt-2'>
             <CardTransactions data={data} transactions={GetTr}/>

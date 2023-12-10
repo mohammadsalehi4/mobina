@@ -371,7 +371,7 @@ const AdminReports = () => {
     <Card className='overflow-hidden mt-4' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='border-bottom'>
         <CardTitle tag='h6' style={{width:'100%'}}>
-          لیست گزارش‌‌ها
+          لیست مقالات
 
           <ion-icon size={18} onClick={ () => { 
               dispatch({type:"reportsBeload", value:!(States.reportsBeload)})

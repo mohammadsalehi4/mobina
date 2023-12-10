@@ -26,6 +26,7 @@ const ShowEntity = () => {
     const [AddBox, setAddBox] = useState(false)
     const [ShowBox, setShowBox] = useState(false)
     const [Loading, setLoading] = useState(false)
+
         const basicColumns = [
         {
             name: 'نام',
@@ -66,7 +67,7 @@ const ShowEntity = () => {
             minWidth: '150px',
             cell: () => {
                 return (
-                    <>
+                    <div>
                         <Eye id='Eye' style={{cursor:'pointer'}} onClick={ () => { setShowBox(true) } } />
                         <UncontrolledTooltip placement='top' target={'Eye'}>
                           مشاهده
@@ -81,11 +82,12 @@ const ShowEntity = () => {
                         <UncontrolledTooltip placement='top' target={'AddNew'}>
                           افزودن آدرس
                         </UncontrolledTooltip>
-                    </>
+                    </div>
                 )
             }
         }
     ]
+
         //pagination
         const [currentPage, setCurrentPage] = useState(0)
         const handlePagination = page => {
@@ -117,7 +119,7 @@ const ShowEntity = () => {
         const [active, setActive] = useState('1')
         const toggle = tab => {
             setActive(tab)
-          }
+        }
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
