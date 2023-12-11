@@ -24,7 +24,7 @@ export function BSCAddress (data, address, symbole, decimal) {
 
     try {
         for (let i = 0; i < array.length; i++) {
-            if (array[i].main_transaction.from.address === address) {
+            if ((array[i].main_transaction.from.address === address) && (array[i].main_transaction.to.address !== null)) {
 
                 const GetLabel = array[i].main_transaction.to.labels
                 let Label = false
@@ -49,7 +49,7 @@ export function BSCAddress (data, address, symbole, decimal) {
                         Label
                     }
                 )
-            } else if (array[i].main_transaction.to.address === address) {
+            } else if ((array[i].main_transaction.to.address === address) && (array[i].main_transaction.from.address !== null)) {
                 const GetLabel = array[i].main_transaction.from.labels
                 let Label = false
                 if (GetLabel.length !== 0) {
