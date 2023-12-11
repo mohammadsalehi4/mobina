@@ -24,7 +24,7 @@ export function BSCAddress (data, address, symbole, decimal) {
 
     try {
         for (let i = 0; i < array.length; i++) {
-            if (array[i].main_transaction.from.address.toUpperCase() === address.toUpperCase()) {
+            if (array[i].main_transaction.from.address === address) {
 
                 const GetLabel = array[i].main_transaction.to.labels
                 let Label = false
@@ -49,7 +49,7 @@ export function BSCAddress (data, address, symbole, decimal) {
                         Label
                     }
                 )
-            } else if (array[i].main_transaction.to.address.toUpperCase() === address.toUpperCase()) {
+            } else if (array[i].main_transaction.to.address === address) {
                 const GetLabel = array[i].main_transaction.from.labels
                 let Label = false
                 if (GetLabel.length !== 0) {
@@ -78,7 +78,7 @@ export function BSCAddress (data, address, symbole, decimal) {
         } 
         for (let i = 0; i < tokens.length; i++) {
             try {
-                if (tokens[i].from.toUpperCase() === address.toUpperCase()) {
+                if (tokens[i].from === address) {
                     let Label = false
                     logs.outputs.push(
                         {
@@ -93,7 +93,7 @@ export function BSCAddress (data, address, symbole, decimal) {
                             Label
                         }
                     )
-                } else if (tokens[i].to.toUpperCase() === address.toUpperCase()) {
+                } else if (tokens[i].to === address) {
                     let Label = false
 
                     logs.inputs.push(

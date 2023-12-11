@@ -43,6 +43,7 @@ export function UTXOTransaction (array, symbole, decimal) {
 
                 inputs.push({
                     address: array.inputs[i].coin.address.address,
+                    entity:array.inputs[i].coin.address.entity,
                     value: Number(array.inputs[i].coin.value) / decimal,
                     valueInDollar: VID,
                     Label
@@ -84,6 +85,7 @@ export function UTXOTransaction (array, symbole, decimal) {
 
                 outputs.push({
                     address: array.outputs[i].address.address,
+                    entity:array.outputs[i].address.entity,
                     value: array.outputs[i].value / decimal,
                     valueInDollar: VID,
                     Label

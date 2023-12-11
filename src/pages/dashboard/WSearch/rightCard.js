@@ -341,7 +341,7 @@ const CardContentTypes = (props) => {
                   props.Entity.isEntity ? 
                   <span style={{}}>
                   <UserCheck size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px"}} />
-                  {props.Entity.EntityInfo}
+                    {props.Entity.EntityInfo.persian_name}
                   </span>
                   :
                   <span>

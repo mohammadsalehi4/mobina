@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Eye, Edit, Edit2 } from 'react-feather'
+import { ChevronDown, Eye, Edit, PlusCircle } from 'react-feather'
 import { Card, CardHeader, CardTitle, Row, Col, UncontrolledTooltip, Modal, ModalBody, ModalFooter, Button, Label, Input, Nav,
     TabPane,
     NavItem,
@@ -78,7 +78,7 @@ const ShowEntity = () => {
                           ویرایش
                         </UncontrolledTooltip>
 
-                        <Edit2 id='AddNew' style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setAddBox(true) } }  />
+                        <PlusCircle id='AddNew' style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setAddBox(true) } }   />
                         <UncontrolledTooltip placement='top' target={'AddNew'}>
                           افزودن آدرس
                         </UncontrolledTooltip>

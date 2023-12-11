@@ -908,9 +908,9 @@ const EcommerceDashboard2 = () => {
           
           let isEntity = false
           let EntityInfo = false
-          if (addressMode.data.data.entity !== null) {
+          if (addressMode.data.data.tag_labels.entity !== null) {
             isEntity = true
-            EntityInfo = addressMode.data.data.entity
+            EntityInfo = addressMode.data.data.tag_labels.entity
           }
           SetEntity(
             {

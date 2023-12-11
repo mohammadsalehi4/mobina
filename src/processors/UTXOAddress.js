@@ -12,6 +12,9 @@ export function UTXOAddress (data, address, symbole, decimal) {
     if (mainGetLabel.length !== 0) {
         mainLabel = data.labels_tags.labels[0].label
     }
+
+    const mainEntity = data.entity
+
     const array = data.result
     try {
         for (let i = 0; i < array.length; i++) {
@@ -60,6 +63,7 @@ export function UTXOAddress (data, address, symbole, decimal) {
                                 address:array[i].outputs[j].address.address,
                                 value:Number(array[i].outputs[j].value) / decimal,
                                 symbole,
+                                entity:array[i].outputs[j].address.entity,
                                 ValueInDollar:VID,
                                 label
                             }
@@ -125,6 +129,7 @@ export function UTXOAddress (data, address, symbole, decimal) {
                         innerInputs.push(
                             {
                                 address:array[i].inputs[j].coin.address.address,
+                                entity:array[i].inputs[j].coin.address.entity,
                                 value:Number(array[i].inputs[j].coin.value) / decimal,
                                 symbole,
                                 ValueInDollar:VID,
@@ -190,7 +195,8 @@ export function UTXOAddress (data, address, symbole, decimal) {
                 symbole,
                 inputs,
                 outputs,
-                label:mainLabel
+                label:mainLabel,
+                entity:mainEntity
             }
         )
         return (
@@ -200,7 +206,8 @@ export function UTXOAddress (data, address, symbole, decimal) {
                 symbole,
                 inputs,
                 outputs,
-                label:mainLabel
+                label:mainLabel,
+                entity:mainEntity
             }
         )
     }

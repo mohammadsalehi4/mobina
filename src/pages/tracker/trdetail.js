@@ -11,6 +11,7 @@ import { RotateCw } from 'react-feather'
 // ** Reactstrap Imports
 import { CardBody, CardText, Row, Col, Table } from 'reactstrap'
 
+
 const TrDetail = () => {
   return (
 

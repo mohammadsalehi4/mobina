@@ -19,14 +19,18 @@ export function AccountBaseAddress (data, address, symbole, decimal) {
         mainLabel = data.labels_tags.labels[0].label
     }
 
+    const mainEntity = data.entity
+
     try {
         for (let i = 0; i < array.length; i++) {
             if (array[i].from.address.toUpperCase() === address.toUpperCase()) {
+
                 const GetLabel = array[i].to.labels
                 let Label = false
                 if (GetLabel.length !== 0) {
                     Label = array[i].to.labels[0].label
                 }
+                
                 outputs.push(
                     {
                         address: array[i].to.address,
@@ -34,6 +38,7 @@ export function AccountBaseAddress (data, address, symbole, decimal) {
                         value: Number(array[i].value) / decimal,
                         ValueInDollar: Number(array[i].valueInDollar),
                         hash:array[i].hash,
+                        entity:array[i].to.entity,
                         blockNumber:array[i].blockNumber,
                         timestamp:array[i].timestamp,
                         fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal,
@@ -53,6 +58,7 @@ export function AccountBaseAddress (data, address, symbole, decimal) {
                         value: Number(array[i].value) / decimal,
                         ValueInDollar: Number(array[i].valueInDollar),
                         hash:array[i].hash,
+                        entity:array[i].from.entity,
                         blockNumber:array[i].blockNumber,
                         timestamp:array[i].timestamp,
                         fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal,
@@ -75,6 +81,7 @@ export function AccountBaseAddress (data, address, symbole, decimal) {
                                 value: Number(array[i].logs[j].amount) / Math.pow(10, Number(array[i].logs[j].address.decimal)),
                                 ValueInDollar: 0,
                                 hash:array[i].hash,
+                                entity:null,
                                 blockNumber:array[i].blockNumber,
                                 timestamp:array[i].timestamp,
                                 fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal,
@@ -95,6 +102,7 @@ export function AccountBaseAddress (data, address, symbole, decimal) {
                                 value: Number(array[i].logs[j].amount) / Math.pow(10, Number(array[i].logs[j].address.decimal)),
                                 ValueInDollar: 0,
                                 hash:array[i].hash,
+                                entity:null,
                                 blockNumber:array[i].blockNumber,
                                 timestamp:array[i].timestamp,
                                 fee: Number(array[i].gasUsed) * Number(array[i].gasPrice) / decimal,
@@ -126,7 +134,8 @@ export function AccountBaseAddress (data, address, symbole, decimal) {
                 inputs,
                 outputs,
                 logs,
-                Label:mainLabel
+                Label:mainLabel,
+                entity:mainEntity
             }
         )
     }
