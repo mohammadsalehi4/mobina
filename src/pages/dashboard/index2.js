@@ -523,6 +523,54 @@ const EcommerceDashboard2 = () => {
             position: 'bottom-left'
           })
         }
+      } else if (addressMode.data.network[index] === 'BCH') {
+        try {
+          SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'BCH', 1), 'BCH', 'بیت کوین کش'))
+          dispatch({type:"networkName", value:'BCH'})
+          //labels
+          let labelText = null
+          let labelId = null
+          if (addressMode.data.data.label_tag.labels.length > 0) {
+            labelText = addressMode.data.data.label_tag.labels[0].label
+            labelId = addressMode.data.data.label_tag.labels[0].id
+          }
+          SetLabelData(
+            {
+              labelText,
+              labelId
+            }
+          )
+
+          //tags
+          let isTag = false
+          let TagInfo = []
+          if (addressMode.data.data.label_tag.tags.length > 0) {
+            isTag = true
+            for (let i = 0; i < addressMode.data.data.label_tag.tags.length; i++) {
+              TagInfo.push(
+                {
+                  tagText:addressMode.data.data.label_tag.tags[i].tag,
+                  tagId:addressMode.data.data.label_tag.tags[i].id
+                }
+              )
+            }
+          }
+
+          SetTagData(
+            {
+              isTag,
+              TagInfo
+            }
+          )
+
+          SetMode(1)
+          SetLoading(false)
+        } catch (error) {
+          console.log(error)
+          return toast.error('خطا در دریافت اطلاعات از سرور', {
+            position: 'bottom-left'
+          })
+        }
       }
     } else if (addressMode.data.query === 'address') {
       if (addressMode.data.network[index] === 'BTC') {
@@ -601,14 +649,14 @@ const EcommerceDashboard2 = () => {
         dispatch({type:"networkName", value:'LTC'})
         try {
           SetCoinData({
-            name:'لایت کوین',
-            symbole:"LTC",
+            name:'بیت کوین کش',
+            symbole:"BSC",
             risk:"0%",
             owner:"بدون اطلاعات",
             ownerMode:"بدون اطلاعات",
             website:"بدون اطلاعات",
             color:"#345d9d",
-            image:"LTC.png"
+            image:"BSC.png"
           })
 
           //labels
@@ -658,6 +706,77 @@ const EcommerceDashboard2 = () => {
             }
           )
           SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'LTC', 1), 'LTC'))
+          SetMode(2)
+          SetLoading(false)
+        } catch (error) {
+          console.log(error)
+          SetLoading(false)
+          return toast.error('خطا در دریافت اطلاعات از سرور', {
+            position: 'bottom-left'
+          })
+        }
+      } else if (addressMode.data.network[index] === 'BCH') {
+        SetLoading(false)
+        dispatch({type:"networkName", value:'BCH'})
+        try {
+          SetCoinData({
+            name:'بیت کوین کش',
+            symbole:"BCH",
+            risk:"0%",
+            owner:"بدون اطلاعات",
+            ownerMode:"بدون اطلاعات",
+            website:"بدون اطلاعات",
+            color:"#345d9d",
+            image:"BCH.png"
+          })
+
+          //labels
+          let labelText = null
+          let labelId = null
+          if (addressMode.data.data.labels_tags.labels.length > 0) {
+            labelText = addressMode.data.data.labels_tags.labels[0].label
+            labelId = addressMode.data.data.labels_tags.labels[0].id
+          }
+          SetLabelData(
+            {
+              labelText,
+              labelId
+            }
+          )
+
+          //tags
+          let isTag = false
+          let TagInfo = []
+          if (addressMode.data.data.labels_tags.tags.length > 0) {
+            isTag = true
+            for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+              TagInfo.push(
+                {
+                  tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                  tagId:addressMode.data.data.labels_tags.tags[i].id
+                }
+              )
+            }
+          }
+          SetTagData(
+            {
+              isTag,
+              TagInfo
+            }
+          )
+          let isEntity = false
+          let EntityInfo = false
+          if (addressMode.data.data.entity !== null) {
+            isEntity = true
+            EntityInfo = addressMode.data.data.entity
+          }
+          SetEntity(
+            {
+              isEntity,
+              EntityInfo
+            }
+          )
+          SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'BCH', 1), 'BCH'))
           SetMode(2)
           SetLoading(false)
         } catch (error) {

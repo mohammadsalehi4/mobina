@@ -520,6 +520,12 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:AccountAdd(BSCAddress(response.data.data, hash, 'BSC', 1000000000000000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
+                        } else if (network === 'BCH') {
+                            dispatch({type:"Network", value:'BCH'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountAdd(UTXOAddress(response.data.data, hash, 'BCH', 1))})
+                            dispatch({type:"positionX", value:0})
+                            SetIsShow(true)
                         }
                     } else if (response.data.query === 'transaction') {
                         if (network === 'ETH') {
@@ -544,6 +550,12 @@ const Tracker = () => {
                             dispatch({type:"Network", value:'BSC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:AccountTr(BSCTransaction(response.data.data, 'BSC', 1000000000000000000))})
+                            dispatch({type:"positionX", value:320})
+                            SetIsShow(true)
+                        } else if (network === 'BCH') {
+                            dispatch({type:"Network", value:'BCH'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'BCH', 1))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         }

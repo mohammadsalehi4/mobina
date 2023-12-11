@@ -7,8 +7,9 @@ export function UTXOAddress (data, address, symbole, decimal) {
     const outputs = []
     let isError = false
     let ErrorText = ''
-    const mainGetLabel = data.labels_tags.labels
     let mainLabel = false
+    const mainGetLabel = data.labels_tags.labels
+
     if (mainGetLabel.length !== 0) {
         mainLabel = data.labels_tags.labels[0].label
     }

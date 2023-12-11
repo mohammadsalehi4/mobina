@@ -150,6 +150,9 @@ const CurrencyDetail = () => {
           } else if (network === 'BSC') {
             SetData(AccountBaseAdd(BSCAddress(response.data.data, address, 'BSC', 1000000000000000000)))
             SetLoading(false)
+          } else if (network === 'BCH') {
+            SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BCH', 1)))
+            SetLoading(false)
           }
         } catch (error) {
           console.log(error)
@@ -213,7 +216,7 @@ const CurrencyDetail = () => {
       <div id='CurrencyDetail' className='container-fluid' style={{overflowY:"auto"}}>
       <div className='row'>
         <div className='col-12'>
-          <h6 style={{display:"inline-block"}}>جزئیات آدرس بیت کوین</h6>
+          <h6 style={{display:"inline-block"}}>جزئیات آدرس</h6>
           <span onClick={close}><ion-icon name="close-outline" id="closeIcon" ></ion-icon></span>
         </div>
       </div>
@@ -243,7 +246,7 @@ const CurrencyDetail = () => {
       </div>
       <div className='row'>
         <div className='col-12 mt-3' >
-          <button type="button" class="btn btn-outline-warning">نمایش آدرس <ion-icon name="open-outline"></ion-icon></button>
+          <a href={`/researcher/${States.WDetail}`}><button type="button" class="btn btn-outline-warning">نمایش آدرس <ion-icon name="open-outline"></ion-icon></button></a>
           <button type="button" class="btn btn-outline-danger me-3">گزارش آدرس <ion-icon name="alert-circle-outline"></ion-icon></button>
         </div>
       </div>

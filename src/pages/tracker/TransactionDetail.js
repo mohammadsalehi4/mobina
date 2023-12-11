@@ -248,8 +248,16 @@ const TransactionDetail1 = () => {
           SetLoading(false)
           SetData(TrData)
         } else if (network === 'LTC') {
-          
           const TrData = (UTXOTr(UTXOTransaction(response.data.data, 'LTC', 1)))
+          SetIsGet(true)
+          SetValue(Number(TrData.value))
+          SetSymbole(TrData.symbole)
+          SetFee(Number(TrData.fee))
+          SetDate(TrData.BlockDate)
+          SetLoading(false)
+          SetData(TrData)
+        } else if (network === 'BCH') {
+          const TrData = (UTXOTr(UTXOTransaction(response.data.data, 'BCH', 1)))
           SetIsGet(true)
           SetValue(Number(TrData.value))
           SetSymbole(TrData.symbole)
@@ -312,12 +320,12 @@ const TransactionDetail1 = () => {
   return (
     
     <div id='CurrencyDetail' className='container-fluid' style={{overflowY:"auto"}}>
-        <div className='row mb-4'>
+        <div className='row mb-2 mt-1'>
           <div className='col-12'>
-            <h6 style={{display:"inline-block"}}>جزئیات تراکنش بیت کوین</h6>
+            <h6 style={{display:"inline-block"}}>جزئیات تراکنش</h6>
             <span onClick={close}><ion-icon name="close-outline" id="closeIcon" ></ion-icon></span>
           </div>
-          <Switch options={["BTC", "USD", "IRR"]} specialProps="TransactionDetailCurrencyMode"/>
+          {/* <Switch options={["BTC", "USD", "IRR"]} specialProps="TransactionDetailCurrencyMode"/> */}
         </div>
 
         <div className='row'>
@@ -339,7 +347,7 @@ const TransactionDetail1 = () => {
         </div>
         <div className='row'>
           <div className='col-12 mt-3' >
-            <button type="button" class="btn btn-outline-warning">نمایش آدرس <ion-icon name="open-outline"></ion-icon></button>
+            <a href={`/researcher/${States.WDetail}`}><button type="button" class="btn btn-outline-warning">نمایش تراکنش <ion-icon name="open-outline"></ion-icon></button></a>
           </div>
         </div>
         <div className='row' id='scrollingWalletDetail' style={{boxSizing:"border-box"}}>
