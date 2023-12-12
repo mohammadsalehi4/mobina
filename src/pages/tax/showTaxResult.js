@@ -59,12 +59,11 @@ const ShowTaxResult = ({ stepper }) => {
                         <Input id='TaxCount' placeholder='نام کسب و کار' disabled value={WriteNumber(States.taxAmount)}/>
                     </Col>
                     <Col xl='6' className='mt-3' style={{textAlign:'left'}}>
-                        <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => {
-                                const url = data.download_link
-                                window.open(url, '_blank') 
-                            }}>
-                            <span className='align-middle d-sm-inline-block d-none'>دریافت</span>
-                        </button>
+                        <a href={data.download_link} target="_blank">
+                            <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next'>
+                                <span className='align-middle d-sm-inline-block d-none'>دریافت</span>
+                            </button>
+                        </a>
                     </Col>
                 </Row>
                 <Row>
