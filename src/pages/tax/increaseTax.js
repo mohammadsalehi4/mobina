@@ -13,6 +13,7 @@ import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 const IncreaseTax = ({ stepper }) => {
     const dispatch = useDispatch()
@@ -23,42 +24,48 @@ const IncreaseTax = ({ stepper }) => {
         const percent = document.getElementById('percent').value
         const IncAmount = document.getElementById('IncAmount').value
 
-        const bodyFormData = new FormData()
+        if (percent !== '' && IncAmount !== '') {
+            const bodyFormData = new FormData()
 
-        bodyFormData.append('forgiveness_precentage', percent)
-        bodyFormData.append('forgiveness_mount', IncAmount)
-        SetLoading(true)
-
-        axios.put(`${serverAddress}/taxing/update/${States.taxId}/`, 
-        bodyFormData,
-        {
-            headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`, 
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-        .then((response) => {
-      SetLoading(false)
-      if (response.status === 200) {
-            dispatch({type:"taxAmount", value:Number(response.data.final_calcualation_price)})
-            dispatch({type:"taxData", value:1})
-            stepper.next()
-          }
-        })
-        .catch((err) => {
-      SetLoading(false)
-      console.log(err)
-      if (err.response.status === 403) {
-        Cookies.set('refresh', '')
-        Cookies.set('access', '')
-        window.location.assign('/')
-      }
-      if (err.response.status === 401) {
-        Cookies.set('refresh', '')
-        Cookies.set('access', '')
-        window.location.assign('/')
-      }
-        })
+            bodyFormData.append('forgiveness_precentage', percent)
+            bodyFormData.append('forgiveness_mount', IncAmount)
+            SetLoading(true)
+    
+            axios.put(`${serverAddress}/taxing/update/${States.taxId}/`, 
+            bodyFormData,
+            {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`, 
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then((response) => {
+                SetLoading(false)
+                if (response.status === 200) {
+                    dispatch({type:"taxAmount", value:Number(response.data.final_calcualation_price)})
+                    dispatch({type:"taxData", value:1})
+                    stepper.next()
+                }
+            })
+            .catch((err) => {
+                SetLoading(false)
+                console.log(err)
+                if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                }
+                if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                }
+            })
+        } else {
+            return toast.error('مقادیر را به طور کامل وارد کنید.', {
+                position: 'bottom-left'
+            })
+        }
     }
 
   return (
