@@ -14,6 +14,7 @@ import AddressList from './AddressList'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { serverAddress } from '../../address'
+import LocalLoading from '../localLoading/localLoading'
 
 const ShowEntity = () => {
     const [data, SetData] = useState([])
@@ -21,6 +22,7 @@ const ShowEntity = () => {
     const [AddBox, setAddBox] = useState(false)
     const [ShowBox, setShowBox] = useState(false)
     const [Loading, setLoading] = useState(false)
+    const [EntityDetail, setEntityDetail] = useState({})
 
     const basicColumns = [
         {
@@ -61,21 +63,21 @@ const ShowEntity = () => {
             sortable: true,
             maxWidth: '150px',
             minWidth: '150px',
-            cell: () => {
+            cell: row => {
                 return (
                     <div>
-                        <Eye id='Eye' style={{cursor:'pointer'}} onClick={ () => { setShowBox(true) } } />
-                        <UncontrolledTooltip placement='top' target={'Eye'}>
+                        <Eye id={`Eye${row.id}`} style={{cursor:'pointer'}} onClick={ () => { setShowBox(true) } } />
+                        <UncontrolledTooltip placement='top' target={`Eye${row.id}`}>
                           مشاهده
                         </UncontrolledTooltip>
 
-                        <Edit id='Edit' style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setEditBox(true) } } />
-                        <UncontrolledTooltip placement='top' target={'Edit'}>
+                        <Edit id={`Edit${row.id}`} style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setEditBox(true) } } />
+                        <UncontrolledTooltip placement='top' target={`Edit${row.id}`}>
                           ویرایش
                         </UncontrolledTooltip>
 
-                        <PlusCircle id='AddNew' style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setAddBox(true) } }   />
-                        <UncontrolledTooltip placement='top' target={'AddNew'}>
+                        <PlusCircle id={`AddNew${row.id}`} style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setAddBox(true) } }   />
+                        <UncontrolledTooltip placement='top' target={`AddNew${row.id}`}>
                           افزودن آدرس
                         </UncontrolledTooltip>
                     </div>
@@ -118,6 +120,7 @@ const ShowEntity = () => {
         }
 
         useEffect(() => {
+            setLoading(true)
             axios.get(`${serverAddress}/entity/`, 
             {
               headers: {
@@ -125,6 +128,7 @@ const ShowEntity = () => {
               }
             })
             .then((response) => {
+                setLoading(false)
                 const getData = []
                 if (response.status === 200) {
                     for (let i = 0; i < response.data.results.length; i++) {
@@ -133,7 +137,9 @@ const ShowEntity = () => {
                                 name:response.data.results[i].persian_name,
                                 type:response.data.results[i].type,
                                 website:response.data.results[i].web_site,
-                                legal_name:response.data.results[i].legal_name
+                                legal_name:response.data.results[i].legal_name,
+                                id:response.data.results[i].uuid,
+                                data:response.data.results[i]
                             }
                         )
                         SetData(getData)
@@ -141,7 +147,7 @@ const ShowEntity = () => {
                 }
             })
             .catch((err) => {
-                
+                setLoading(false)
                 console.log(err)
                 if (err.response.status === 403) {
                   Cookies.set('refresh', '')
@@ -164,17 +170,25 @@ const ShowEntity = () => {
         </CardTitle>
       </CardHeader>
         <div className='react-dataTable'>
-            <DataTable
-                noHeader
-                data={data}
-                columns={basicColumns}
-                pagination
-                className='react-dataTable'
-                paginationDefaultPage={currentPage + 1}
-                paginationComponent={CustomPagination}
-                sortIcon={<ChevronDown size={10} />}
-                paginationRowsPerPageOptions={[10, 25, 50, 100]}
-            />
+            {
+                Loading ? 
+                <div className='mt-5'>
+                    <LocalLoading/>
+                </div>
+                :
+                <DataTable
+                    noHeader
+                    data={data}
+                    columns={basicColumns}
+                    pagination
+                    className='react-dataTable'
+                    paginationDefaultPage={currentPage + 1}
+                    paginationComponent={CustomPagination}
+                    sortIcon={<ChevronDown size={10} />}
+                    paginationRowsPerPageOptions={[10, 25, 50, 100]}
+                />
+            }
+
         </div>
         
         <Modal
