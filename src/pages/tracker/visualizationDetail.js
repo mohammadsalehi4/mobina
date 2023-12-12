@@ -46,9 +46,9 @@ const VisualizationDetail = (props) => {
     const itemNumbers = States.itemNumbers
     const Network = States.Network
     const networkName = network
+    const SavedPositions = States.SavedPositions
     let GraphName
     let GraphDescription
-
 
     GraphName = document.getElementById('GraphName').value
     GraphDescription = document.getElementById('GraphDescription').value
@@ -71,7 +71,8 @@ const VisualizationDetail = (props) => {
               positionX,
               positionY,
               NodesPosition:States.NodesPosition,
-              networkName
+              networkName,
+              SavedPositions
             }
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
@@ -84,7 +85,7 @@ const VisualizationDetail = (props) => {
               return toast.success('با موفقیت ذخیره شد.', {
                 position: 'bottom-left'
               })
-              alert('yes')
+              
             } else {
               return toast.error('ناموفق', {
                 position: 'bottom-left'
@@ -130,7 +131,8 @@ const VisualizationDetail = (props) => {
               positionY,
               NodesPosition,
               Network,
-              networkName
+              networkName,
+              SavedPositions
             }
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})

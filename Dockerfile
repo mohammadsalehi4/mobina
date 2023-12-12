@@ -19,8 +19,8 @@ COPY entrypoint.sh /entrypoint.sh
 # Set the script as the ENTRYPOINT
 ENTRYPOINT ["/entrypoint.sh"]
 
-# # Build the application
-# RUN npm run build
+# Build the application
+RUN npm run build
 
-# # Specify the default command to run when the container starts
-# CMD ["npm", "run", "preview"]
+# Specify the default command to run when the container starts
+CMD ["npm", "run", "preview"]
