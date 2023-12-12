@@ -617,6 +617,7 @@ const Tracker = () => {
                 let NodesPosition 
                 let Network 
                 let networkName 
+                let SavedPositions
 
                 for (let i = 0; i < response.data.results.length; i++) {
                     if (response.data.results[i].id === Number(id)) {
@@ -627,6 +628,7 @@ const Tracker = () => {
                         positionY = response.data.results[i].value.positionY
                         NodesPosition = response.data.results[i].value.NodesPosition
                         networkName = response.data.results[i].value.networkName
+                        SavedPositions = response.data.results[i].value.SavedPositions
                         SetGraphName(response.data.results[i].value.GraphName)
                         SetGraphDescription(response.data.results[i].value.GraphDescription)
                     }
@@ -638,6 +640,7 @@ const Tracker = () => {
                     dispatch({type:"positionY", value:positionY})
                     dispatch({type:"NodesPosition", value:NodesPosition})
                     dispatch({type:"Network", value:Network})
+                    dispatch({type:"SavedPositions", value:SavedPositions})
 
                     SetIsShow(true)
                 } else {

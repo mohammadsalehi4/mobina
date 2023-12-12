@@ -113,8 +113,8 @@ const FuckingGraph = (props) => {
   const [Distance, SetDistance] = useState(300)
   const [NewPositions, SetNewPositions] = useState(States.NodesPosition)
 
-  const [SavedPositions, SetSavedPositions] = useState([])
-  
+  const [SavedPositions, SetSavedPositions] = useState(States.SavedPositions)
+
   useEffect(() => {
 
     //set nodes data
