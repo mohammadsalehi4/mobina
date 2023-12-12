@@ -72,6 +72,7 @@ const AddEntity = () => {
                 position: 'bottom-left'
             })
         } else {
+            SetLoading(true)
             axios.post(`${serverAddress}/entity/`, 
             {
                 name:Ename,
@@ -94,6 +95,7 @@ const AddEntity = () => {
                 }
             })
             .then((response) => {
+                SetLoading(false)
                 if (response.status === 200) {
                     SetStep(2)
                     setEntityId(response.data.id)
@@ -103,7 +105,7 @@ const AddEntity = () => {
                 }                 
             })
             .catch((err) => {
-                
+                SetLoading(false)
                 console.log(err)
                 if (err.response.status === 403) {
                   Cookies.set('refresh', '')
@@ -302,6 +304,8 @@ const AddEntity = () => {
                   window.location.assign('/')
                 }
             })
+        } else {
+            SetStep(1)
         }
     }
 
@@ -418,7 +422,7 @@ const AddEntity = () => {
 
                     <Col xl='4' lg='6' className='mt-3'>
                         <Label>
-                            تاسیس
+                            تاریخ تاسیس
                         </Label>
                         {
                             EstablishmentDate === '' ? 
@@ -477,6 +481,7 @@ const AddEntity = () => {
                             <Calendar
                             onChange={(date) => {
                                 setEstablishmentDate(date)
+                                setEstablishmentBox(false)
                             }}
                             />
                         </CalendarProvider>

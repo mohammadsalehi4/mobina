@@ -76,11 +76,11 @@ const IncreaseTax = ({ stepper }) => {
             <Row>
                 <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
                     <Label for='percent'>درصد بخشش (درصد)</Label>
-                    <Input id='percent' placeholder='درصد' />
+                    <Input id='percent' defaultValue={0} placeholder='درصد' />
                 </Col>
                 <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
                     <Label for='IncAmount'>مبلغ بخشش (ریال)</Label>
-                    <Input id='IncAmount' placeholder='ریال' />
+                    <Input id='IncAmount' defaultValue={0} placeholder='ریال' />
                 </Col>
             </Row>
             <Row>

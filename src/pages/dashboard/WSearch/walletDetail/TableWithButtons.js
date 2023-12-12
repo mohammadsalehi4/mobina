@@ -187,7 +187,7 @@ const DataTableWithButtons = (props) => {
       sortable: true,
       minWidth: '130px',
       maxWidth: '130px',
-      selector: row => digitsEnToFa(row.Fee)
+      selector: row => digitsEnToFa(Math.abs(Number(row.Fee)))
     }
   ]
 

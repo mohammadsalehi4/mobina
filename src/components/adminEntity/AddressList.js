@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
 import ReactPaginate from 'react-paginate'
@@ -6,7 +7,11 @@ import { ChevronDown, Trash2 } from 'react-feather'
 import NiceAddress2 from '../niceAddress2/niceAddress'
 import './style.css'
 import {Row, Col} from 'reactstrap'
-const AddressList = () => {
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { serverAddress } from '../../address'
+import LocalLoading from '../localLoading/localLoading'
+const AddressList = (props) => {
 
   const basicColumns = [
     {
@@ -41,12 +46,51 @@ const AddressList = () => {
     }
   ]
 
-  const [Data, SetData] = useState([
-    {
-      address:'aaaaaaaaaaaaaaabbbbbbbbbbbbbbbb',
-      network:'btc'
+  const [Data, SetData] = useState([])
+  const [Loading, SetLoading] = useState(false)
+
+  useEffect(() => {
+    if (true) {
+      SetLoading(true)
+      const id = props.data.uuid
+      axios.get(`${serverAddress}/entity/addresses/${id}/`, 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+      SetLoading(false)
+
+          if (response.status === 200) {
+            const getData = []
+            for (let i = 0; i < response.data.addresses.length; i++) {
+              getData.push(
+                {
+                  address:response.data.addresses[i].address,
+                  network:response.data.addresses[i].network
+                }
+              )
+            }
+            SetData(getData)
+          }
+      })
+      .catch((err) => {
+          setLoading(false)
+          console.log(err)
+          if (err.response.status === 403) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+          if (err.response.status === 401) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+      })
     }
-  ])
+  }, [props.data])
 
   //pagination
   const [currentPage, setCurrentPage] = useState(0)
@@ -84,7 +128,15 @@ const AddressList = () => {
           <h6>
             لیست آدرس ها
           </h6>
-          <DataTable
+          {
+            Loading ? 
+            <LocalLoading/>
+            : Data.length === 0 ? 
+            <p style={{textAlign:'center'}}>
+              بدون آدرس
+            </p>
+            :
+            <DataTable
             noHeader
             data={Data}
             columns={basicColumns}
@@ -95,6 +147,8 @@ const AddressList = () => {
             sortIcon={<ChevronDown size={10} />}
             paginationRowsPerPageOptions={[10, 25, 50, 100]}
           />
+          }
+
         </Col>
       </Row>
     </div>

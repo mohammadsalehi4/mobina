@@ -74,6 +74,7 @@ const initialState = {
     reportsBeload:false,
     PriceBeload:false,
     TaxBeload:false,
+    EntityBeload:false,
 
     //loading profile
     ProfileLabel:false,
@@ -85,6 +86,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'EntityBeload') {
+        return {
+            ...state,
+            EntityBeload:action.value
+        }
+    }
 
     if (action.type === 'TaxBeload') {
         return {

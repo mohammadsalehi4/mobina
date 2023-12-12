@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
@@ -15,14 +17,22 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { serverAddress } from '../../address'
 import LocalLoading from '../localLoading/localLoading'
+import toast from 'react-hot-toast'
+
+import { useDispatch, useSelector } from 'react-redux'
 
 const ShowEntity = () => {
+    
+    const dispatch = useDispatch()
+    const States = useSelector(state => state)
+
     const [data, SetData] = useState([])
     const [EditBox, setEditBox] = useState(false)
     const [AddBox, setAddBox] = useState(false)
     const [ShowBox, setShowBox] = useState(false)
     const [Loading, setLoading] = useState(false)
-    const [EntityDetail, setEntityDetail] = useState({})
+    const [AddLoading, setAddLoading] = useState(false)
+    const [EntityDetail, setEntityDetail] = useState(null)
 
     const basicColumns = [
         {
@@ -66,17 +76,17 @@ const ShowEntity = () => {
             cell: row => {
                 return (
                     <div>
-                        <Eye id={`Eye${row.id}`} style={{cursor:'pointer'}} onClick={ () => { setShowBox(true) } } />
+                        <Eye id={`Eye${row.id}`} style={{cursor:'pointer'}} onClick={ () => { toggle('1'), setEntityDetail(row.data), setShowBox(true) } } />
                         <UncontrolledTooltip placement='top' target={`Eye${row.id}`}>
                           مشاهده
                         </UncontrolledTooltip>
 
-                        <Edit id={`Edit${row.id}`} style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setEditBox(true) } } />
+                        {/* <Edit id={`Edit${row.id}`} style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setEditBox(true) } } />
                         <UncontrolledTooltip placement='top' target={`Edit${row.id}`}>
                           ویرایش
-                        </UncontrolledTooltip>
+                        </UncontrolledTooltip> */}
 
-                        <PlusCircle id={`AddNew${row.id}`} style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setAddBox(true) } }   />
+                        <PlusCircle id={`AddNew${row.id}`} style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setEntityDetail(row.data), setAddBox(true) } }   />
                         <UncontrolledTooltip placement='top' target={`AddNew${row.id}`}>
                           افزودن آدرس
                         </UncontrolledTooltip>
@@ -85,6 +95,116 @@ const ShowEntity = () => {
             }
         }
     ]
+
+    const addAllAddress = () => {
+        const ethAddress = document.getElementById('ETH').value
+        const mainETH = ethAddress.split('\n')
+        
+        const btcAddress = document.getElementById('BTC').value
+        const mainBTC = btcAddress.split('\n')
+        
+        const BSCAddress = document.getElementById('BSC').value
+        const mainBSC = BSCAddress.split('\n')
+
+        const LTCAddress = document.getElementById('LTC').value
+        const mainLTC = LTCAddress.split('\n')
+
+        const BCHAddress = document.getElementById('BCH').value
+        const mainBCH = BCHAddress.split('\n')
+
+        const array = []
+
+        if (mainETH[0] !== '') {
+            for (let i = 0; i < mainETH.length; i++) {
+                array.push(
+                    {
+                        name:mainETH[i],
+                        network:4
+                    }
+                )
+            }
+        }
+
+        if (mainBTC[0] !== '') {
+            for (let i = 0; i < mainBTC.length; i++) {
+                array.push(
+                    {
+                        name:mainBTC[i],
+                        network:1
+                    }
+                )
+            }
+        }
+
+        if (mainBSC[0] !== '') {
+            for (let i = 0; i < mainBSC.length; i++) {
+                array.push(
+                    {
+                        name:mainBSC[i],
+                        network:5
+                    }
+                )
+            }
+        }
+
+        if (mainLTC[0] !== '') {
+            for (let i = 0; i < mainLTC.length; i++) {
+                array.push(
+                    {
+                        name:mainLTC[i],
+                        network:3
+                    }
+                )
+            }
+        }
+
+        if (mainBCH[0] !== '') {
+            for (let i = 0; i < mainBCH.length; i++) {
+                array.push(
+                    {
+                        name:mainBCH[i],
+                        network:2
+                    }
+                )
+            }
+        }
+
+        if (array.length > 0) {
+            setAddLoading(true)
+            axios.put(`${serverAddress}/entity/${EntityDetail.uuid}/`, 
+            {
+                addresses:array
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`, 
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                setAddLoading(false)
+                if (response.status === 200) {
+                    return toast.success('آدرس ها با موفقیت اضافه شدند.', {
+                        position: 'bottom-left'
+                    })
+                }               
+            })
+            .catch((err) => {
+                setAddLoading(false)
+                console.log(err)
+                if (err.response.status === 403) {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+                if (err.response.status === 401) {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+            })
+        }
+    }
 
         //pagination
         const [currentPage, setCurrentPage] = useState(0)
@@ -120,52 +240,56 @@ const ShowEntity = () => {
         }
 
         useEffect(() => {
-            setLoading(true)
-            axios.get(`${serverAddress}/entity/`, 
-            {
-              headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`
-              }
-            })
-            .then((response) => {
-                setLoading(false)
-                const getData = []
-                if (response.status === 200) {
-                    for (let i = 0; i < response.data.results.length; i++) {
-                        getData.push(
-                            {
-                                name:response.data.results[i].persian_name,
-                                type:response.data.results[i].type,
-                                website:response.data.results[i].web_site,
-                                legal_name:response.data.results[i].legal_name,
-                                id:response.data.results[i].uuid,
-                                data:response.data.results[i]
-                            }
-                        )
-                        SetData(getData)
+            if (States.rollsLoading === 7) {
+                
+                setLoading(true)
+                axios.get(`${serverAddress}/entity/`, 
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`
+                  }
+                })
+                .then((response) => {
+                    setLoading(false)
+                    const getData = []
+                    if (response.status === 200) {
+                        for (let i = 0; i < response.data.results.length; i++) {
+                            getData.push(
+                                {
+                                    name:response.data.results[i].persian_name,
+                                    type:response.data.results[i].type,
+                                    website:response.data.results[i].web_site,
+                                    legal_name:response.data.results[i].legal_name,
+                                    id:response.data.results[i].uuid,
+                                    data:response.data.results[i]
+                                }
+                            )
+                            SetData(getData)
+                        }
                     }
-                }
-            })
-            .catch((err) => {
-                setLoading(false)
-                console.log(err)
-                if (err.response.status === 403) {
-                  Cookies.set('refresh', '')
-                  Cookies.set('access', '')
-                  window.location.assign('/')
-                }
-                if (err.response.status === 401) {
-                  Cookies.set('refresh', '')
-                  Cookies.set('access', '')
-                  window.location.assign('/')
-                }
-            })
-        }, [])
+                })
+                .catch((err) => {
+                    setLoading(false)
+                    console.log(err)
+                    if (err.response.status === 403) {
+                      Cookies.set('refresh', '')
+                      Cookies.set('access', '')
+                      window.location.assign('/')
+                    }
+                    if (err.response.status === 401) {
+                      Cookies.set('refresh', '')
+                      Cookies.set('access', '')
+                      window.location.assign('/')
+                    }
+                })
+            }
+        }, [States.rollsLoading, States.EntityBeload])
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
         <CardTitle tag='h6' style={{width:'100%'}}>لیست موجودیت ها
               <ion-icon size={18} onClick={ () => { 
+                dispatch({type:"EntityBeload", value:!States.EntityBeload})
             }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
         </CardTitle>
       </CardHeader>
@@ -226,10 +350,15 @@ const ShowEntity = () => {
 
                 <TabContent activeTab={active}>
                     <TabPane tabId='1'>
-                        <LegalDetail/>
+                        {
+                            EntityDetail !== null ? 
+                            <LegalDetail data={EntityDetail}/>
+                            :
+                            null
+                        }
                     </TabPane>
                     <TabPane tabId='2'>
-                        <AddressList/>
+                        <AddressList  data={EntityDetail}/>
                     </TabPane>
                 </TabContent>
             </div>
@@ -379,8 +508,15 @@ const ShowEntity = () => {
 
           </ModalBody>
           <ModalFooter>
-            <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={() => {}}>
-                افزودن
+            <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={() => { addAllAddress() }}>
+                {
+                    !AddLoading ? 
+                    <span>
+                        افزودن
+                    </span>
+                    :
+                    <LoadingButton/>
+                }
             </Button>
             <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => { setEditBox(false) }}>
                 بسته

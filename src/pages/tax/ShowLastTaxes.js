@@ -69,9 +69,9 @@ const ShowLastTaxes = ({ stepper }) => {
             minWidth: '150px',
             cell: row => {
                 return (
-                    <div onClick={ () => { getLink(row.download_link) } } style={{cursor:'pointer'}}>
+                    <a href={row.download_link} target="_blank" style={{cursor:'pointer', color:'inherit'}}>
                         <DownloadCloud />
-                    </div>
+                    </a>
                 )
             }
         }
