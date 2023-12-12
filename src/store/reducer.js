@@ -50,6 +50,7 @@ const initialState = {
     showDollar:false,
     itemNumbers:0,
     NodesPosition:[],
+    SavedPositions:[],
     StartFilterAmount:0,
     EndFilterAmount:0,
     StartFilterTime:0,
@@ -86,6 +87,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'SavedPositions') {
+        return {
+            ...state,
+            SavedPositions:action.value
+        }
+    }
 
     if (action.type === 'EntityBeload') {
         return {

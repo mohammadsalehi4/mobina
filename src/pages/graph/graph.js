@@ -362,6 +362,7 @@ const FuckingGraph = (props) => {
       SetGraphData(AllNodes)
       console.log(AllNodes)
       SetSavedPositions(AllNodes)
+      dispatch({type:"SavedPositions", value:AllNodes})
     }
   }, [States.GraphData, States.BeGraphReload])
 
