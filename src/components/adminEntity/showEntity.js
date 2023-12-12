@@ -11,23 +11,18 @@ import ReactPaginate from 'react-paginate'
 import LoadingButton from '../loadinButton/LoadingButton'
 import LegalDetail from './legalDetail'
 import AddressList from './AddressList'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { serverAddress } from '../../address'
+
 const ShowEntity = () => {
-    const [data, SetData] = useState(
-        [
-        {
-            name:'کوفت',
-            type:'هیچ',
-            website:'www.ariancoin.com',
-            mainName:'صرافی کوفتی'
-        }
-        ]
-    )
+    const [data, SetData] = useState([])
     const [EditBox, setEditBox] = useState(false)
     const [AddBox, setAddBox] = useState(false)
     const [ShowBox, setShowBox] = useState(false)
     const [Loading, setLoading] = useState(false)
 
-        const basicColumns = [
+    const basicColumns = [
         {
             name: 'نام',
             sortable: true,
@@ -47,6 +42,7 @@ const ShowEntity = () => {
             sortable: true,
             maxWidth: '200px',
             minWidth: '200px',
+            selector: row => row.website,
             cell: row => {
                 return (
                     <a href={`https://${row.website}`} style={{color:'inherit'}}>{row.website}</a>
@@ -58,7 +54,7 @@ const ShowEntity = () => {
             sortable: true,
             maxWidth: '200px',
             minWidth: '200px',
-            selector: row => row.mainName
+            selector: row => row.legal_name
         },
         {
             name: 'عملیات',
@@ -120,6 +116,45 @@ const ShowEntity = () => {
         const toggle = tab => {
             setActive(tab)
         }
+
+        useEffect(() => {
+            axios.get(`${serverAddress}/entity/`, 
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+                const getData = []
+                if (response.status === 200) {
+                    for (let i = 0; i < response.data.results.length; i++) {
+                        getData.push(
+                            {
+                                name:response.data.results[i].persian_name,
+                                type:response.data.results[i].type,
+                                website:response.data.results[i].web_site,
+                                legal_name:response.data.results[i].legal_name
+                            }
+                        )
+                        SetData(getData)
+                    }
+                }
+            })
+            .catch((err) => {
+                
+                console.log(err)
+                if (err.response.status === 403) {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+                if (err.response.status === 401) {
+                  Cookies.set('refresh', '')
+                  Cookies.set('access', '')
+                  window.location.assign('/')
+                }
+            })
+        }, [])
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>

@@ -726,7 +726,7 @@ const EcommerceDashboard2 = () => {
             owner:"بدون اطلاعات",
             ownerMode:"بدون اطلاعات",
             website:"بدون اطلاعات",
-            color:"#345d9d",
+            color:"#8dc351",
             image:"BCH.png"
           })
 
