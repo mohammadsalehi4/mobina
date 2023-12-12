@@ -50,7 +50,6 @@ const AdminTax = () => {
                 }
               )
             }
-            console.log(getData)
             SetData(getData)
           }
         })
@@ -112,10 +111,13 @@ const AdminTax = () => {
           minWidth: '200px',
           maxWidth: '200px',
           cell: row => (
-            <a style={{cursor:'pointer'}} onClick={ () => {
-              const url = row.link
-              window.open(url, '_blank') 
-            } }>
+            <a style={{cursor:'pointer', color:'inherit'}} href={row.link} target='blank' 
+            onClick={ () => {
+              // const url = row.link
+              // window.open(url, '_blank') 
+              alert(row.link)
+            } }
+            >
                 <DownloadCloud />
             </a>
           )
