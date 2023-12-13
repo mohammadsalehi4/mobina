@@ -269,7 +269,7 @@ const AdminReports = () => {
       })
       .then((response) => {
         SetEditLoading(false)
-
+        console.log(response.data)
           if (response.status === 200) {
             SetEditSelectedReportContent(response.data)
           }
@@ -541,6 +541,7 @@ const AdminReports = () => {
                 <span>محتوا گزارش</span>
                 <Input defaultValue={EditSelectedReportContent.text} className='mb-3' id='EditContent' placeholder='محتوا' type='textarea' style={{minHeight:'150px'}}/>
 
+                <img style={{width:'100px'}}  />
                 <span>عکس مورد نظر را وارد کنید.</span>
                 <input onChange={imageHandler} accept="image/*" type='file' name='file' id='EditreportImage' />
 

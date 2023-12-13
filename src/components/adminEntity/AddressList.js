@@ -31,7 +31,7 @@ const AddressList = (props) => {
         sortable: true,
         maxWidth: '100px',
         minWidth: '100px',
-        selector: row => row.network
+        selector: row => row.network.toUpperCase()
     },
     {
         name: 'عملیات',

@@ -47,7 +47,7 @@ const EcommerceDashboard2 = () => {
   const [labelData, SetLabelData] = useState({})
   const [TagData, SetTagData] = useState({})
   const [Entity, SetEntity] = useState({})
-  const [SelectToken, SetSelectToken] = useState(false)
+  const [SelectToken, SetSelectToken] = useState(0)
   
   const UTXOAdd =(getData, symbol) => {
     let data=[]
@@ -900,6 +900,150 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
+        } else if (addressMode.data.network[0] === 'BTC') {
+          try {
+            SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'BTC', 100000000), 'BTC', 'بیت کوین'))
+            dispatch({type:"networkName", value:'BTC'})
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.label_tag.labels.length > 0) {
+              labelText = addressMode.data.data.label_tag.labels[0].label
+              labelId = addressMode.data.data.label_tag.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.label_tag.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.label_tag.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.label_tag.tags[i].tag,
+                    tagId:addressMode.data.data.label_tag.tags[i].id
+                  }
+                )
+              }
+            }
+  
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+  
+            SetMode(1)
+            SetLoading(false)
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
+        } else if (addressMode.data.network[0] === 'LTC') {
+          try {
+            SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'LTC', 1), 'LTC', 'لایت کوین'))
+            dispatch({type:"networkName", value:'LTC'})
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.label_tag.labels.length > 0) {
+              labelText = addressMode.data.data.label_tag.labels[0].label
+              labelId = addressMode.data.data.label_tag.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.label_tag.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.label_tag.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.label_tag.tags[i].tag,
+                    tagId:addressMode.data.data.label_tag.tags[i].id
+                  }
+                )
+              }
+            }
+  
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+  
+            SetMode(1)
+            SetLoading(false)
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
+        } else if (addressMode.data.network[0] === 'BCH') {
+          try {
+            SetTrData(UTXOTr(UTXOTransaction(addressMode.data.data, 'BCH', 1), 'BCH', 'بیت کوین کش'))
+            dispatch({type:"networkName", value:'BCH'})
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.label_tag.labels.length > 0) {
+              labelText = addressMode.data.data.label_tag.labels[0].label
+              labelId = addressMode.data.data.label_tag.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.label_tag.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.label_tag.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.label_tag.tags[i].tag,
+                    tagId:addressMode.data.data.label_tag.tags[i].id
+                  }
+                )
+              }
+            }
+  
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+  
+            SetMode(1)
+            SetLoading(false)
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
         }
       } else if (addressMode.data.query === 'address') {
         if (addressMode.data.network[0] === 'ETH') {
@@ -1047,6 +1191,219 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
+        } else if (addressMode.data.network[0] === 'BTC') {
+          SetLoading(false)
+          dispatch({type:"networkName", value:'BTC'})
+          try {
+            SetCoinData({
+              name:'بیت کوین',
+              symbole:"BTC",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#f8a23a",
+              image:"bitcoin.png"
+            })
+  
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.labels_tags.labels.length > 0) {
+              labelText = addressMode.data.data.labels_tags.labels[0].label
+              labelId = addressMode.data.data.labels_tags.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.labels_tags.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                    tagId:addressMode.data.data.labels_tags.tags[i].id
+                  }
+                )
+              }
+            }
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+            let isEntity = false
+            let EntityInfo = false
+            if (addressMode.data.data.entity !== null) {
+              isEntity = true
+              EntityInfo = addressMode.data.data.entity
+            }
+            SetEntity(
+              {
+                isEntity,
+                EntityInfo
+              }
+            )
+            SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'BTC', 100000000), 'BTC'))
+            SetMode(2)
+            SetLoading(false)
+          } catch (error) {
+            console.log(error)
+            SetLoading(false)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
+        } else if (addressMode.data.network[0] === 'LTC') {
+          SetLoading(false)
+          dispatch({type:"networkName", value:'LTC'})
+          try {
+            SetCoinData({
+              name:'بیت کوین کش',
+              symbole:"BSC",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#345d9d",
+              image:"BSC.png"
+            })
+  
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.labels_tags.labels.length > 0) {
+              labelText = addressMode.data.data.labels_tags.labels[0].label
+              labelId = addressMode.data.data.labels_tags.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.labels_tags.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                    tagId:addressMode.data.data.labels_tags.tags[i].id
+                  }
+                )
+              }
+            }
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+            let isEntity = false
+            let EntityInfo = false
+            if (addressMode.data.data.entity !== null) {
+              isEntity = true
+              EntityInfo = addressMode.data.data.entity
+            }
+            SetEntity(
+              {
+                isEntity,
+                EntityInfo
+              }
+            )
+            SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'LTC', 1), 'LTC'))
+            SetMode(2)
+            SetLoading(false)
+          } catch (error) {
+            console.log(error)
+            SetLoading(false)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
+        } else if (addressMode.data.network[0] === 'BCH') {
+          SetLoading(false)
+          dispatch({type:"networkName", value:'BCH'})
+          try {
+            SetCoinData({
+              name:'بیت کوین کش',
+              symbole:"BCH",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#8dc351",
+              image:"BCH.png"
+            })
+  
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.labels_tags.labels.length > 0) {
+              labelText = addressMode.data.data.labels_tags.labels[0].label
+              labelId = addressMode.data.data.labels_tags.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.labels_tags.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                    tagId:addressMode.data.data.labels_tags.tags[i].id
+                  }
+                )
+              }
+            }
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+            let isEntity = false
+            let EntityInfo = false
+            if (addressMode.data.data.entity !== null) {
+              isEntity = true
+              EntityInfo = addressMode.data.data.entity
+            }
+            SetEntity(
+              {
+                isEntity,
+                EntityInfo
+              }
+            )
+            SetAdData(UTXOAdd(UTXOAddress(addressMode.data.data, hash, 'BCH', 1), 'BCH'))
+            SetMode(2)
+            SetLoading(false)
+          } catch (error) {
+            console.log(error)
+            SetLoading(false)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
         }
       }
 
@@ -1092,7 +1449,11 @@ const EcommerceDashboard2 = () => {
         if (addressMode.data.network.length === 1) {
           processHandler(addressMode, 0)
         } else if (addressMode.data.network.length > 1) {
-          SetSelectToken(true)
+          if (addressMode.data.network[0] === 'ETH' || addressMode.data.network[0] === 'BSC') {
+            SetSelectToken(1)
+          } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH') {
+            SetSelectToken(2)
+          }
         }
       })
       .catch((err) => {
@@ -1205,7 +1566,7 @@ const EcommerceDashboard2 = () => {
                                     </span>
                                 </p>
                                 {
-                                  SelectToken ? 
+                                  SelectToken === 1 ? 
                                     <Card>
 
                                       <div onClick={ () => { SelectProcessHandler('ETH'), dispatch({type:"networkName", value:'ETH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
@@ -1223,6 +1584,24 @@ const EcommerceDashboard2 = () => {
                                       </div>
 
                                     </Card>
+                                  : SelectToken === 2 ?
+                                  <Card>
+
+                                    <div onClick={ () => { SelectProcessHandler('BTC'), dispatch({type:"networkName", value:'BTC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                      <span>
+                                        BTC - بیت‌کوین
+                                      </span>
+                                      <img src='https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=029' style={{width:'20px', float:'left'}} />
+                                    </div>
+
+                                    <div onClick={ () => { SelectProcessHandler('BCH'), dispatch({type:"networkName", value:'BCH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                      <span>
+                                        BCH - بیت‌کوین کش
+                                      </span>
+                                      <img src='https://cryptologos.cc/logos/bitcoin-cash-bch-logo.png?v=029' style={{width:'20px', float:'left'}} />
+                                    </div>
+
+                                  </Card>
                                   :
                                     null
                                 }

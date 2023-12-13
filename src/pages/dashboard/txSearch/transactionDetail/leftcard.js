@@ -53,7 +53,7 @@ const CardTransactions = (props) => {
           <div className='col-6'>
               <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'کارمزد'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                {digitsEnToFa(`${String(parseFloat(Number(props.data.fee).toFixed(5)).toString())} `)}
+                {digitsEnToFa(`${String(parseFloat(Math.abs(Number(props.data.fee)).toFixed(5)).toString())} `)}
                 <small>{props.data.symbole}</small>
                 <AlertOctagon size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>

@@ -94,26 +94,36 @@ const TrackerAmountLimit = (props) => {
 
   return (
     <Dropdown  isOpen={dropdownOpen} toggle={toggle}  style={{display:'inline-block', width:'100%'}}>
-      <DropdownToggle onClick={(event) => (handleToggleClick(event))} color='secondary' id='TaxLimitButton' outline style={{width:'100%'}}>
+      <DropdownToggle onClick={(event) => (handleToggleClick(event))} color='secondary' id='TaxLimitButton' outline style={{width:'100%', height:'40px'}}>
         <span style={{direction:"ltr", fontSize:'13px'}} className='align-middle ms-50'>
           {
             ShowTitle === 0 ?
               <div style={{display:'inline-block'}}>
                 محدوده حجم
               </div>
+              
             :
               <div>
                 {digitsEnToFa(ShowTitle)}
               </div>
           }
         </span>
-        <span onClick={() => (SetMin(0), SetMax(0), handleSpanClick)} id='DeleteTimeLimitBox2' className='NotAlignMiddle' style={{ cursor:'pointer', textAlign:'center', float:"left", padding:'0px'}}>
-              <X size={15} style={{ marginTop:'2px'}} />
-          </span>
+        {
+          ShowTitle !== 0 ?
+          <>
+            <span onClick={() => (SetMin(0), SetMax(0), handleSpanClick)} id='DeleteTimeLimitBox2' className='NotAlignMiddle' style={{ cursor:'pointer', textAlign:'center', float:"left", padding:'0px', margin:'0px'}}>
+              <X size={15} style={{ marginTop:'2px', margin:'0px', padding:'0px'}} />
+            </span>
+            <UncontrolledTooltip placement='top' target='DeleteTimeLimitBox2'>
+              حذف محدودیت حجم
+            </UncontrolledTooltip>
+          </>
+          :
+          null
+        }
+
       </DropdownToggle>
-      <UncontrolledTooltip placement='top' target='DeleteTimeLimitBox2'>
-        حذف محدودیت حجم
-      </UncontrolledTooltip>
+
       <DropdownMenu style={{padding:"5px 10px", zIndex:'1'}}>
           <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
           <Input placeholder={min} onChange={setMin} id={`StartAmountValue`}  type='number'/>

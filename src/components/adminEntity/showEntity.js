@@ -38,15 +38,15 @@ const ShowEntity = () => {
         {
             name: 'نام',
             sortable: true,
-            maxWidth: '200px',
-            minWidth: '200px',
+            maxWidth: '150px',
+            minWidth: '150px',
             selector: row => row.name
         },
         {
             name: 'نوع',
             sortable: true,
-            maxWidth: '150px',
-            minWidth: '150px',
+            maxWidth: '130px',
+            minWidth: '130px',
             selector: row => row.type
         },
         {
@@ -64,15 +64,15 @@ const ShowEntity = () => {
         {
             name: 'نام حقوقی',
             sortable: true,
-            maxWidth: '200px',
-            minWidth: '200px',
+            maxWidth: '130px',
+            minWidth: '130px',
             selector: row => row.legal_name
         },
         {
             name: 'عملیات',
             sortable: true,
-            maxWidth: '150px',
-            minWidth: '150px',
+            maxWidth: '100px',
+            minWidth: '100px',
             cell: row => {
                 return (
                     <div>
@@ -256,7 +256,7 @@ const ShowEntity = () => {
                         for (let i = 0; i < response.data.results.length; i++) {
                             getData.push(
                                 {
-                                    name:response.data.results[i].persian_name,
+                                    name:response.data.results[i].name,
                                     type:response.data.results[i].type,
                                     website:response.data.results[i].web_site,
                                     legal_name:response.data.results[i].legal_name,
@@ -326,25 +326,55 @@ const ShowEntity = () => {
             <div>
                 <Nav tabs style={{fontSize:"12px", marginRight:"0px", paddingBottom:"12px"}}>
                     <NavItem className="NavItem" style={{  cursor:"pointer"}} >
-                        <a
-                            id='Link1'
-                            active={active === '1'}
-                            onClick={() => {
-                            toggle('1')
-                        }}>
-                            <span className='align-right'>مشخصات حقوقی</span>
-                        </a>
+                        {
+                            active === '1' ?
+                            <a
+                                id='Link1'
+                                active={active === '1'}
+                                onClick={() => {
+                                toggle('1')
+                            }}>
+                                <span className='align-right'
+                                 style={{fontWeight:'bold', fontSize:'14px'}}
+                                >مشخصات حقوقی</span>
+                            </a>
+                        :
+                            <a
+                                id='Link1'
+                                active={active === '1'}
+                                onClick={() => {
+                                toggle('1')
+                            }}>
+                                <span className='align-right'
+                                 style={{ fontSize:'14px'}}
+                                >مشخصات حقوقی</span>
+                            </a>
+                        }
+
                     </NavItem>
 
                     <NavItem className="NavItem" style={{ marginRight:'16px' }} >
-                        <a
-                            id='Link1'
-                            active={active === '2'}
-                            onClick={() => {
-                            toggle('2')
-                        }}>
-                            <span className='align-right'>فهرست آدرس ها</span>
-                        </a>
+                        {
+                            active === '2' ? 
+                            <a
+                                id='Link1'
+                                active={active === '2'}
+                                onClick={() => {
+                                toggle('2')
+                            }}>
+                                <span className='align-right' style={{fontWeight:'bold', fontSize:'14px'}} >فهرست آدرس ها</span>
+                            </a>
+                            :
+                            <a
+                                id='Link1'
+                                active={active === '2'}
+                                onClick={() => {
+                                toggle('2')
+                            }}>
+                                <span className='align-right' style={{ fontSize:'14px'}}>فهرست آدرس ها</span>
+                            </a>
+                        }
+
                     </NavItem>
                 </Nav>
 
@@ -518,7 +548,7 @@ const ShowEntity = () => {
                     <LoadingButton/>
                 }
             </Button>
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => { setEditBox(false) }}>
+            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => { setAddBox(false) }}>
                 بسته
             </Button>
           </ModalFooter>

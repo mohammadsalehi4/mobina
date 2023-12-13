@@ -299,7 +299,12 @@ const CardContentTypes = (props) => {
               <UncontrolledTooltip placement='right' target='AddressTagIcons021'>
                 افزودن تگ
               </UncontrolledTooltip>
-              <ion-icon id="copyIcon" name="copy-outline" onClick={() => { navigator.clipboard.writeText(props.data.address) }} style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}}></ion-icon>
+              <ion-icon id="copyIcon" name="copy-outline" onClick={() => { 
+                navigator.clipboard.writeText(props.data.address) 
+                return toast.success('در کلیپ‌بورد ذخیره شد.', {
+                  position: 'bottom-left'
+                })
+              }} style={{marginBottom:"-2px", cursor:"pointer", marginLeft:"2px"}}></ion-icon>
               <UncontrolledTooltip placement='top' target='copyIcon'>
                 کپی آدرس
               </UncontrolledTooltip>

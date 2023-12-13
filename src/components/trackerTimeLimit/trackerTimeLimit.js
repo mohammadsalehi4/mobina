@@ -134,7 +134,7 @@ const TrackerTimeLimit = (props) => {
   const [ShowTitle, SetShowTitle] = useState(0)
   return (
     <Dropdown  isOpen={dropdownOpen} toggle={toggle}  style={{display:'inline-block', width:'100%'}}>
-      <DropdownToggle onClick={(event) => (handleToggleClick(event))} color='secondary' id='TaxLimitButton' outline style={{width:'100%'}}>
+      <DropdownToggle onClick={(event) => (handleToggleClick(event))} color='secondary' id='TaxLimitButton' outline style={{width:'100%', height:'40px'}}>
           <span className='align-middle' style={{direction:"ltr", fontSize:'13px'}}>
               {
                   ShowTitle === 0 ?
@@ -147,14 +147,24 @@ const TrackerTimeLimit = (props) => {
                       </div>
               }
           </span>
-          <span onClick={() => (SetStartTime(0), SetEndTime(0), handleSpanClick)} id='DeleteTimeLimitBox' className='NotAlignMiddle' style={{ cursor:'pointer', textAlign:'center', float:"left"}}>
-              <X size={15} style={{ marginTop:'2px'}} />
-          </span>
+          {
+            ShowTitle !== 0 ?
+            <>
+            <span onClick={() => (SetStartTime(0), SetEndTime(0), handleSpanClick)} id='DeleteTimeLimitBox' className='NotAlignMiddle' style={{ cursor:'pointer', textAlign:'center', float:"left"}}>
+                <X size={15} style={{ marginTop:'2px'}} />
+            </span>
+            <UncontrolledTooltip placement='top' target='DeleteTimeLimitBox'>
+              حذف محدودیت زمان
+            </UncontrolledTooltip>
+            </>
+
+            :
+            null
+          }
+
       </DropdownToggle>
 
-      <UncontrolledTooltip placement='top' target='DeleteTimeLimitBox'>
-        حذف محدودیت زمان
-      </UncontrolledTooltip>
+
       <DropdownMenu style={{padding:"5px 10px", width:"220px", height:"165px", zIndex:'1'}} >
           <Label style={{float:"right"}} className='mt-1 mb-1'>از</Label>
           <Input id={`GetStartAmountValue`}  type='text' value={startText} 
