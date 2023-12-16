@@ -346,8 +346,8 @@ const  WalletDetailTableBottom = (props) => {
     {
       name: `حجم`,
       sortable: false,
-      minWidth: '110px',
-      maxWidth: '110px',
+      minWidth: '160px',
+      maxWidth: '160px',
       selector: row => row.amount,
       cell: row => {
         if (row.mode === "in") {

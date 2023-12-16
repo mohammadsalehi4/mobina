@@ -566,7 +566,7 @@ const FuckingGraph = (props) => {
             },
           size:15,
           font:{
-              
+              family:'Vazir'
           }
       },
       interaction: {
@@ -601,7 +601,7 @@ const FuckingGraph = (props) => {
                 size: 50,
                 color: 'black'
             },
-            font: { size: 13, family:"Arial", color:'#2f4f4f', align: 'left'},
+            font: { size: 13, face:"Vazir", color:'#2f4f4f', align: 'left'},
             color:{
                 border: '#2f4f4f'
             },

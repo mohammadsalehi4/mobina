@@ -111,13 +111,7 @@ const AdminTax = () => {
           minWidth: '200px',
           maxWidth: '200px',
           cell: row => (
-            <a style={{cursor:'pointer', color:'inherit'}} href={row.link} target='blank' 
-            onClick={ () => {
-              // const url = row.link
-              // window.open(url, '_blank') 
-              alert(row.link)
-            } }
-            >
+            <a style={{cursor:'pointer', color:'inherit'}} href={row.link} target='blank' >
                 <DownloadCloud />
             </a>
           )

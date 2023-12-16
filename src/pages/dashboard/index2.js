@@ -210,6 +210,7 @@ const EcommerceDashboard2 = () => {
   }
 
   const UTXOTr =(data, symbol, name) => {
+    console.log('data')
     console.log(data)
     const CurrencyPrice=28000
     const USDPrice=490000
@@ -227,12 +228,14 @@ const EcommerceDashboard2 = () => {
     const outputData=[]
     for (let i=0; i<data.inputs.length; i++) {
       if (data.inputs[i].address !== null) {
+        TotalInput = TotalInput+data.inputs[i].valueInDollar
         inputData.push({
           BTCAmount:data.inputs[i].value,
           RiskScore:"0%",
           address:data.inputs[i].address
         })
       } else {
+        TotalInput = TotalInput+data.inputs[i].valueInDollar
         inputData.push({
           BTCAmount:data.inputs[i].value,
           RiskScore:"0%",
@@ -243,12 +246,15 @@ const EcommerceDashboard2 = () => {
     }
     for (let i=0; i<data.outputs.length; i++) {
       if (data.outputs[i].address !== null) {
+        TotalOutput=TotalOutput+data.outputs[i].valueInDollar
         outputData.push({
           BTCAmount:data.outputs[i].value,
           RiskScore:"0%",
           address:data.outputs[i].address
+          
         })
       } else {
+        TotalOutput=TotalOutput+data.outputs[i].valueInDollar
         outputData.push({
           BTCAmount:data.outputs[i].value,
           RiskScore:"0%",
@@ -335,8 +341,8 @@ const EcommerceDashboard2 = () => {
     const image=`${symbole}.png`
     const color='#627eea'
     const RiskScore='0%'
-    let TotalOutput=0
-    let TotalInput=0
+    let TotalOutput=data.valueInDollar
+    let TotalInput=data.valueInDollar
     let fee = data.fee
     let transfers=[]
 
