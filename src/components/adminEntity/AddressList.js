@@ -53,22 +53,24 @@ const AddressList = (props) => {
     if (true) {
       SetLoading(true)
       const id = props.data.uuid
-      axios.get(`${serverAddress}/entity/addresses/${id}/`, 
+      console.log(id)
+      axios.get(`${serverAddress}/entity/addresses/?entity_uuid=${id}`, 
       {
         headers: {
           Authorization: `Bearer ${Cookies.get('access')}`
         }
       })
       .then((response) => {
+        console.log(response.data)
       SetLoading(false)
 
           if (response.status === 200) {
             const getData = []
-            for (let i = 0; i < response.data.addresses.length; i++) {
+            for (let i = 0; i < response.data.results[0].addresses.length; i++) {
               getData.push(
                 {
-                  address:response.data.addresses[i].address,
-                  network:response.data.addresses[i].network
+                  address:response.data.results[0].addresses[i].address,
+                  network:response.data.results[0].addresses[i].network
                 }
               )
             }
@@ -76,7 +78,6 @@ const AddressList = (props) => {
           }
       })
       .catch((err) => {
-          setLoading(false)
           console.log(err)
           if (err.response.status === 403) {
             Cookies.set('refresh', '')

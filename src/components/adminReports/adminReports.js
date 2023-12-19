@@ -14,7 +14,8 @@ import { MainSiteOrange } from '../../../public/colors'
 import LoadingButton from '../loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
 import { Calendar, CalendarProvider } from "zaman"
-
+import { JalaliCalendar } from '../../processors/jalaliCalendar'
+import { MiladiCalendar } from '../../processors/MiladiCalendar'
 const AdminReports = () => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
@@ -30,7 +31,8 @@ const AdminReports = () => {
   const [EditSelectedReport, SetEditSelectedReport] = useState(null)
   const [EditSelectedReportContent, SetEditSelectedReportContent] = useState(null)
   const [EditBox, SetEditBox] = useState(false)
-  const [Time, SetTime] = useState('')
+  const [Time, SetTime] = useState('انتخاب نشده')
+  const [EditTime, SetEditTime] = useState('')
   const [EditLoading, SetEditLoading] = useState(false)
 
   const imageHandler = (event) => {
@@ -42,7 +44,8 @@ const AdminReports = () => {
     const title = document.getElementById('reportTitle').value
     const summary = document.getElementById('summary').value
     const Content = document.getElementById('Content').value
-    const author = document.getElementById('author').value
+    const author_fname = document.getElementById('author_fname').value
+    const author_lname = document.getElementById('author_lname').value
     const checked = document.getElementById('ShareReport').checked
 
     let publication_status
@@ -54,19 +57,21 @@ const AdminReports = () => {
     }
 
     const bodyFormData = new FormData()
-
+    console.log(`${MiladiCalendar(Time).year}-${MiladiCalendar(Time).month}-${MiladiCalendar(Time).day}`)
     bodyFormData.append('title', title)
     bodyFormData.append('summary', summary)
     bodyFormData.append('text', Content)
-    bodyFormData.append('author', author)
+    bodyFormData.append('author_fname', author_fname)
+    bodyFormData.append('author_lname', author_lname)
     bodyFormData.append('image', image)
     bodyFormData.append('publication_status', publication_status)
+    bodyFormData.append('date_choices', `${MiladiCalendar(Time).year}-${MiladiCalendar(Time).month}-${MiladiCalendar(Time).day}`)
     for (let i = 0; i < Rolls.length; i++) {
       if (document.getElementById(`RollText${Rolls[i].id}`).checked) {
         bodyFormData.append('accesses', Rolls[i].id)
       }
     }
-
+    SetTime('انتخاب نشده')
     axios.post(`${serverAddress}/reports/create/`, 
     bodyFormData,
     {
@@ -109,6 +114,8 @@ const AdminReports = () => {
     const summary = document.getElementById('Editsummary').value
     const Content = document.getElementById('EditContent').value
     const checked = document.getElementById('EditShareReport').checked
+    const author_fname = document.getElementById('authorEdit_fname').value
+    const author_lname = document.getElementById('authorEdit_lname').value
     let publication_status
 
     if (checked) {
@@ -122,9 +129,9 @@ const AdminReports = () => {
     bodyFormData.append('title', title)
     bodyFormData.append('summary', summary)
     bodyFormData.append('text', Content)
-    bodyFormData.append('author_fname', `${Cookies.get('name')}`)
-    bodyFormData.append('author_lname', `${Cookies.get('lastname')}`)
-    bodyFormData.append('author', `${Cookies.get('name')} ${Cookies.get('lastname')}`)
+    bodyFormData.append('author_fname', author_fname)
+    bodyFormData.append('author_lname', author_lname)
+    bodyFormData.append('date_choices', `${MiladiCalendar(EditTime).year}-${MiladiCalendar(EditTime).month}-${MiladiCalendar(EditTime).day}`)
     bodyFormData.append('publication_status', publication_status)
 
     for (let i = 0; i < Rolls.length; i++) {
@@ -137,7 +144,7 @@ const AdminReports = () => {
       const getImage = document.getElementById('EditreportImage').files[0]
       bodyFormData.append('image', getImage)
     }
-
+    SetEditTime('')
     axios.put(`${serverAddress}/reports/edit/${EditSelectedReport}/`, 
     bodyFormData,
     {
@@ -269,11 +276,13 @@ const AdminReports = () => {
         }
       })
       .then((response) => {
-        SetEditLoading(false)
         console.log(response.data)
           if (response.status === 200) {
+            SetEditTime(response.data.date_choices)
             SetEditSelectedReportContent(response.data)
           }
+        SetEditLoading(false)
+
       })
       .catch((err) => {
         SetEditLoading(false)
@@ -368,6 +377,12 @@ const AdminReports = () => {
 
   }, [])
 
+  useEffect(() => {
+    try {
+      console.log(JalaliCalendar(Time))
+    } catch (error) {}
+  }, [Time])
+
   return (
     <Card className='overflow-hidden mt-4' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='border-bottom'>
@@ -420,18 +435,37 @@ const AdminReports = () => {
             <span>محتوا گزارش</span>
             <Input className='mb-3' id='Content' placeholder='محتوا' type='textarea' style={{minHeight:'150px'}}/>
 
-            <span>نویسنده گزارش</span>
-            <Input placeholder='نویسنده' id='author' className='mb-3'/>
+            <span>نام نویسنده گزارش</span>
+            <Input placeholder='نام' id='author_fname' className='mb-3'/>
+
+            <span>نام خانوادگی نویسنده گزارش</span>
+            <Input placeholder='نام خانوادگی' id='author_lname' className='mb-3'/>
 
             <span>تاریخ انتشار گزارش</span>
-            <CalendarProvider locale={'fa'} >
+            <br/>
+            <span>
+              {
+                Time === 'انتخاب نشده' ?
+                  <span>
+                    انتخاب نشده
+                  </span>
+                  :
+                  <span>
+                    {
+                      `${JalaliCalendar(Time).year}/${JalaliCalendar(Time).month}/${JalaliCalendar(Time).day}`
+                    }
+                  </span>
+              }
+            </span>
+            <CalendarProvider locale={'fa'}>
               <Calendar
                 onChange={(date) => {
-                  SetTime(date)
+                  SetTime(String(date))
                 }}
               />
             </CalendarProvider>
             <br/>
+
             <span className='mt-3'>عکس مورد نظر را وارد کنید.</span>
             <input onChange={imageHandler} accept="image/*" type='file' name='file' id='reportImage' />
 
@@ -553,8 +587,38 @@ const AdminReports = () => {
 
                 <span>محتوا گزارش</span>
                 <Input defaultValue={EditSelectedReportContent.text} className='mb-3' id='EditContent' placeholder='محتوا' type='textarea' style={{minHeight:'150px'}}/>
+                <span>نام نویسنده گزارش</span>
+                <Input placeholder='نام' id='authorEdit_fname' defaultValue={EditSelectedReportContent.author_fname} className='mb-3'/>
 
-                <img style={{width:'100px'}}  />
+                <span>نام خانوادگی نویسنده گزارش</span>
+                <Input placeholder='نام خانوادگی' defaultValue={EditSelectedReportContent.author_lname} id='authorEdit_lname' className='mb-3'/>
+
+                <span>تاریخ انتشار گزارش</span>
+                <br/>
+                <span>
+                  {
+                    EditTime === '' ?
+                      <span>
+                        انتخاب نشده
+                      </span>
+                      :
+                      <span>
+                        {
+                          `${JalaliCalendar(EditTime).year}/${JalaliCalendar(EditTime).month}/${JalaliCalendar(EditTime).day}`
+                        }
+                      </span>
+                  }
+                </span>
+                <CalendarProvider locale={'fa'}>
+                  <Calendar
+                    onChange={(date) => {
+                      SetEditTime(String(date))
+                    }}
+                  />
+                </CalendarProvider>
+                <br/>
+                <img style={{width:'200px'}} src={`${EditSelectedReportContent.image}`} />
+                <br/>
                 <span>عکس مورد نظر را وارد کنید.</span>
                 <input onChange={imageHandler} accept="image/*" type='file' name='file' id='EditreportImage' />
 
