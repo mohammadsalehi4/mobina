@@ -523,7 +523,7 @@ const Tracker = () => {
                         } else if (network === 'BCH') {
                             dispatch({type:"Network", value:'BCH'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'BNB', 1))})
+                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'BCH', 1))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
                         }

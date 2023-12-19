@@ -1646,6 +1646,15 @@ const EcommerceDashboard2 = () => {
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
                             <TokenInformation color1="success" status="توسعه یافته" TokenImage={'https://cryptologos.cc/logos/bnb-bnb-logo.png?v=026'} TokenTitle={'بایننس اسمارت چین'} TokenDescription={'BSC یا زنجیره هوشمند بایننس یک پلتفرم بلاک چین است که توسط صرافی بایننس برای ایجاد و اجرای قراردادهای هوشمند ساخته شده است که اغلب به دلیل تراکنش های سریع و کارمزدهای پایین تر در مقایسه با اتریوم شناخته می شود.'}/>
                         </Col>
+                        <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
+                            <TokenInformation color1="warning" status="در حال توسعه" TokenImage={'https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=029'} TokenTitle={'دوج'} TokenDescription={'ابتدا به عنوان شوخی شروع شد اما طرفداران زیادی در فضای آنلاین به دست آورد.'}/>
+                        </Col>
+                        <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
+                            <TokenInformation color1="warning" status="در حال توسعه" TokenImage={'https://cryptologos.cc/logos/tron-trx-logo.png?v=029'} TokenTitle={'ترون'} TokenDescription={'شبکه بلاکچین ترون یک پلتفرم غیرمتمرکز است که بر روی به اشتراک‌گذاری محتوای دیجیتال و سرگرمی تمرکز دارد.'}/>
+                        </Col>
+                        <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
+                            <TokenInformation color1="warning" status="در حال توسعه" TokenImage={'https://cryptologos.cc/logos/polygon-matic-logo.png?v=029'} TokenTitle={'متیک'} TokenDescription={'شبکه بلاکچین پلیگان یک پلتفرم قابل توسعه و همکاری‌پذیر است که برای اتصال و ساخت شبکه‌های بلاکچین سازگار با اتریوم طراحی شده است.'}/>
+                        </Col>
                     </Row>
                 </Col>
 

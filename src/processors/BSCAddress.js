@@ -42,7 +42,7 @@ export function BSCAddress (data, address, symbole, decimal) {
                 outputs.push(
                     {
                         address: array[i].main_transaction.to.address,
-                        symbole:'BSC',
+                        symbole:'BNB',
                         value: Number(array[i].main_transaction.value) / decimal,
                         ValueInDollar: VID,
                         hash:array[i].main_transaction.transactionHash,
@@ -67,7 +67,7 @@ export function BSCAddress (data, address, symbole, decimal) {
                 inputs.push(
                     {
                         address: array[i].main_transaction.from.address,
-                        symbole:'BSC',
+                        symbole:'BNB',
                         value: Number(array[i].main_transaction.value) / decimal,
                         ValueInDollar: VID,
                         hash:array[i].main_transaction.transactionHash,

@@ -38,7 +38,7 @@ const CurrencyDetail = () => {
   const [Error, SetError] = useState(false)
   const [Data, SetData] = useState({})
 
-  const AccountBaseAdd = (getData) => {
+  const AccountBaseAdd = (getData, symbole) => {
 
     const inputs=[]
     const outputs=[]
@@ -72,7 +72,7 @@ const CurrencyDetail = () => {
     }
     
     return {
-      symbole:'ETH',
+      symbole,
       inputs,
       outputs
     }
@@ -139,7 +139,7 @@ const CurrencyDetail = () => {
       if (response.status === 200) {
         try {
           if (network === 'ETH') {
-            SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000)))
+            SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000), 'ETH'))
             SetLoading(false)
           } else if (network === 'BTC') {
             SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BTC', 100000000)))
@@ -148,7 +148,7 @@ const CurrencyDetail = () => {
             SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'LTC', 1)))
             SetLoading(false)
           } else if (network === 'BSC') {
-            SetData(AccountBaseAdd(BSCAddress(response.data.data, address, 'BSC', 1000000000000000000)))
+            SetData(AccountBaseAdd(BSCAddress(response.data.data, address, 'BNB', 1000000000000000000), 'BNB'))
             SetLoading(false)
           } else if (network === 'BCH') {
             SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BCH', 1)))
