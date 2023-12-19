@@ -50,6 +50,7 @@ const EcommerceDashboard2 = () => {
   const [SelectToken, SetSelectToken] = useState(0)
   
   const UTXOAdd =(getData, symbol) => {
+    
     let data=[]
     for (let i=0; i<getData.inputs.length; i++) {
 
@@ -145,6 +146,7 @@ const EcommerceDashboard2 = () => {
   }
 
   const AccountBaseAdd =(getData, symbol) => {
+    console.log(getData)
     let data = []
     for (let i = 0; i < getData.inputs.length; i++) {
       data.push({

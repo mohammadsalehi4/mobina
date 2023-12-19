@@ -13,6 +13,7 @@ import LocalLoading from '../localLoading/localLoading'
 import { MainSiteOrange } from '../../../public/colors'
 import LoadingButton from '../loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
+import { Calendar, CalendarProvider } from "zaman"
 
 const AdminReports = () => {
   const dispatch = useDispatch()
@@ -29,6 +30,7 @@ const AdminReports = () => {
   const [EditSelectedReport, SetEditSelectedReport] = useState(null)
   const [EditSelectedReportContent, SetEditSelectedReportContent] = useState(null)
   const [EditBox, SetEditBox] = useState(false)
+  const [Time, SetTime] = useState('')
   const [EditLoading, SetEditLoading] = useState(false)
 
   const imageHandler = (event) => {
@@ -40,6 +42,7 @@ const AdminReports = () => {
     const title = document.getElementById('reportTitle').value
     const summary = document.getElementById('summary').value
     const Content = document.getElementById('Content').value
+    const author = document.getElementById('author').value
     const checked = document.getElementById('ShareReport').checked
 
     let publication_status
@@ -55,9 +58,7 @@ const AdminReports = () => {
     bodyFormData.append('title', title)
     bodyFormData.append('summary', summary)
     bodyFormData.append('text', Content)
-    bodyFormData.append('author_fname', `${Cookies.get('name')}`)
-    bodyFormData.append('author_lname', `${Cookies.get('lastname')}`)
-    bodyFormData.append('author', `${Cookies.get('name')} ${Cookies.get('lastname')}`)
+    bodyFormData.append('author', author)
     bodyFormData.append('image', image)
     bodyFormData.append('publication_status', publication_status)
     for (let i = 0; i < Rolls.length; i++) {
@@ -419,7 +420,19 @@ const AdminReports = () => {
             <span>محتوا گزارش</span>
             <Input className='mb-3' id='Content' placeholder='محتوا' type='textarea' style={{minHeight:'150px'}}/>
 
-            <span>عکس مورد نظر را وارد کنید.</span>
+            <span>نویسنده گزارش</span>
+            <Input placeholder='نویسنده' id='author' className='mb-3'/>
+
+            <span>تاریخ انتشار گزارش</span>
+            <CalendarProvider locale={'fa'} >
+              <Calendar
+                onChange={(date) => {
+                  SetTime(date)
+                }}
+              />
+            </CalendarProvider>
+            <br/>
+            <span className='mt-3'>عکس مورد نظر را وارد کنید.</span>
             <input onChange={imageHandler} accept="image/*" type='file' name='file' id='reportImage' />
 
             <div className='mt-3'>
