@@ -145,8 +145,7 @@ const TransactionDetail1 = () => {
   }
 
   const AccountBaseTr = (data, symbole) => {
-    console.log('tr')
-    console.log(data)
+
     const blockNumber = data.blockNumber
     const address = data.hash
     const BlockDate = data.timestamp

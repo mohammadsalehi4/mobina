@@ -37,22 +37,22 @@ const ShowLastTaxes = ({ stepper }) => {
         {
             name: 'تاریخ محاسبه',
             sortable: true,
-            maxWidth: '200px',
-            minWidth: '200px',
+            maxWidth: '130px',
+            minWidth: '130px',
             cell: row => digitsEnToFa(row.date)
         },
         {
           name: 'تاریخ شروع',
           sortable: true,
-          maxWidth: '200px',
-          minWidth: '200px',
+          maxWidth: '120px',
+          minWidth: '120px',
           cell: row => digitsEnToFa(row.startDate)
         },
         {
           name: 'تاریخ پایان',
           sortable: true,
-          maxWidth: '200px',
-          minWidth: '200px',
+          maxWidth: '120px',
+          minWidth: '120px',
           cell: row => digitsEnToFa(row.endDate)
         },
         {

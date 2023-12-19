@@ -3,8 +3,6 @@
 /* eslint-disable no-unused-vars */
 export function BSCTransaction (array, symbole, decimal) {
 
-    console.log(array)
-
     const hash = array.main_transaction.transactionHash
     const blockNumber = array.main_transaction.blockNumber
     const timestamp = array.main_transaction.timestamp
