@@ -84,11 +84,6 @@ const ShowTaxResult = ({ stepper }) => {
         <Card className='m-0 ShowLastTaxes' style={{boxShadow:'none', maxWidth:'100%'}} id='ShowTaxResult' >
             <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
                 <div style={{textAlign:'right'}}>
-                    <a className='m-0 mb-3' href={'/tax/list'}>
-                        <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className=''>
-                            <span className='align-middle d-sm-inline-block d-none'>بازگشت به لیست مالیات ها</span>
-                        </button>
-                    </a>
                     <h5 className='mt-3'>نتیجه نهایی محاسبه مالیات</h5>
                 </div>
             </CardHeader>
@@ -96,28 +91,28 @@ const ShowTaxResult = ({ stepper }) => {
                 {
                     data && Networks.length > 0 ? 
                     <Row className='mt-3'>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'نام کسب و کار'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.bussiness}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'آدرس کیف پول'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             <NiceAddress2 text={data.wallet_address} number={6}/>
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'شبکه'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {RecognizeNetwork(data.network)}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'توکن'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {
@@ -126,49 +121,49 @@ const ShowTaxResult = ({ stepper }) => {
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'ضریب گردش اعمالی'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.applied_circulation_coefficient}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'نرخ برابری ریال-دلار'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.rial_price}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'درصد سود صرافی'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.precentage_profit_exchange}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'درصد مالیات بر درآمد'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.precentage_tax_income}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'شروع دوره زمانی'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.start_date_of_calculations}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'پایان دوره زمانی'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.end_date_of_calculations}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'نوع تراکنش ها'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {
@@ -182,7 +177,7 @@ const ShowTaxResult = ({ stepper }) => {
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'مالیات بدون بخشش'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.final_tax}
@@ -191,14 +186,14 @@ const ShowTaxResult = ({ stepper }) => {
                     </Col>
                     <hr className='mt-3'/>
 
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'درصد بخشش'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.final_tax}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
-                    <Col xl='3' style={{textAlign:'right'}} className='mt-3'>
+                    <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'مبلغ بخشش'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                             {data.final_tax}
@@ -227,6 +222,12 @@ const ShowTaxResult = ({ stepper }) => {
                 <Row>
                     <Col className='mt-3' style={{textAlign:'right'}}>
                         <CountedTaxTable  data={data}/>
+                        <br/>
+                        <a className='m-0 mt-3' href={'/tax/list'}>
+                        <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className=''>
+                            <span className='align-middle d-sm-inline-block d-none'>بازگشت به لیست مالیات ها</span>
+                        </button>
+                    </a>
                     </Col>
 
                 </Row>
