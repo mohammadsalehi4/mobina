@@ -26,6 +26,7 @@ import './App.css'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import MainTax from './pages/tax/MainTax'
 import ShowReport from './pages/reports/ShowReport'
+import ShowLastTaxes from './pages/tax/ShowLastTaxes'
 const App = () => {
   const States = useSelector(state => state)
   return (
@@ -95,6 +96,12 @@ const App = () => {
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
                 <Route path="/tax/management"  element={<Tax/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
+                <Route path="/tax/list"  element={<ShowLastTaxes/>}/>
               :
               null
             }

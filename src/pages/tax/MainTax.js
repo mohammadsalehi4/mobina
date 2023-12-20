@@ -48,7 +48,7 @@ const MainTax = () => {
                     </Row>
                     <Row className='m-3'>
                         <Col xl='4' lg='6' md='6'>
-                            <a href='/tax/management' style={{color:'inherit', textDecoration:'none'}}>
+                            <a href='/tax/list' style={{color:'inherit', textDecoration:'none'}}>
                                 <TokenInformation TokenImage='images/income.png' TokenTitle='مالیات بر درآمد' status='ورود به پنل' color1='primary' TokenDescription='این مالیات بر اساس درآمدهای ناشی جریان کلی ورودی و خروجی از کیف پول‌ کریپتویی کسب و کار در مدت مشخص شده، محاسبه و اعلام می‌شود.'/>
                             </a>
                         </Col>

@@ -7,7 +7,7 @@
 import { Fragment, useState, useEffect } from 'react'
 import { digitsEnToFa } from 'persian-tools'
 import NiceAddress2 from '../../../../components/niceAddress2/niceAddress'
-import {ArrowDownCircle, ArrowUpCircle, AlertOctagon, Calendar} from 'react-feather'
+import {ArrowDownCircle, Package, AlertOctagon, Calendar} from 'react-feather'
 import { serverAddress } from '../../../../address'
 import { RecognizeNetwork } from '../../../../processors/recognizeNetwork'
 import Cookies from 'js-cookie'
@@ -293,6 +293,19 @@ const CardContentTypes = (props) => {
     setSelectedTag(false)
   }
 
+  function formatNumber(num, index) {
+    num = parseFloat(num.toFixed(index))
+  
+    const parts = num.toString().split(".")
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  
+    if (parts[1]) {
+        parts[1] = parts[1].replace(/0+$/, '')
+    }
+  
+    return parts.join(".")
+  }
+
   const renderTransactions = () => {
     return (
       <div>
@@ -340,15 +353,22 @@ const CardContentTypes = (props) => {
           </div>
 
         <div className='row mt-3'>
-          <div className='col-12'>
+          <div className='col-6'>
               <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'شماره بلاک'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {digitsEnToFa(props.data.blockNumber)}
                 <AlertOctagon size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
           </div>
-        </div>
 
+          <div className='col-6'>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'حجم تراکنش'}</p>
+              <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                {digitsEnToFa((props.data.TotalAmount).toFixed(5))} {props.data.symbole}
+                <Package size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+              </div>
+          </div>
+        </div>
 
         <div className='row mt-3'>
           <div className='col-12'>

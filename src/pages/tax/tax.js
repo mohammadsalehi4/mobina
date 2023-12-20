@@ -46,29 +46,23 @@ const Tax = () => {
   }, [])
 
     const steps = [
+
       {
         id: 'step1',
-        title: 'لیست مالیات ها',
-        subtitle: 'مالیات های محاسبه شده',
-        icon: <List />,
-        content: <ShowLastTaxes stepper={stepper} type='wizard-modern'  style={{marginLeft:"5px"}} />
-      },
-      {
-        id: 'step2',
         title: 'ورود اطلاعات',
         subtitle: 'اطلاعات کسب و کار',
         icon: <Edit2 />,
         content: <TaxTable stepper={stepper} type='wizard-modern'  style={{marginLeft:"5px"}} />
       },
       {
-        id: 'step3',
+        id: 'step2',
         title: 'بخشش های مالیاتی',
         subtitle: 'میزان و درصد بخشش',
         icon: <CreditCard />,
         content: <IncreaseTax stepper={stepper} type='wizard-modern' />
       },
       {
-        id: 'step4',
+        id: 'step3',
         title: 'مشاهده نتیجه',
         subtitle: 'نتیجه مالیات کسب و کار',
         icon: <AlignRight />,

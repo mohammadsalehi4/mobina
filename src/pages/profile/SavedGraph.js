@@ -32,8 +32,8 @@ const SavedGraph = () => {
     {
       name: 'نام',
       sortable: true,
-      maxWidth: '160px',
-      minWidth: '160px',
+      maxWidth: '170px',
+      minWidth: '170px',
       selector: row => row.name,
       cell: row => {
         return (
@@ -43,8 +43,8 @@ const SavedGraph = () => {
     },
     {
       name: 'توضیحات',
-      maxWidth: '280px',
-      minWidth: '280px',
+      maxWidth: '310px',
+      minWidth: '310px',
       selector: row => row.description
     },
     {

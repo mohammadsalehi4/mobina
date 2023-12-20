@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
@@ -32,39 +33,43 @@ const AddEntity = () => {
     const [EntityId, setEntityId] = useState(null)
 
     const addNewEntity = () => {
-        const name = document.getElementById('name').value
-        const Ename = document.getElementById('Ename').value
-        const website = document.getElementById('website').value
-        const type = SelectedType
-        const supervisor = document.getElementById('supervisor').value
-        const legalName = document.getElementById('legalName').value
-        const registerNumber = document.getElementById('registerNumber').value
-        const licence = document.getElementById('licence').value
-        const fiatSupport = document.getElementById('fiatSupport').value
-        const PrivateCoin = document.getElementById('PrivateCoin').value
-        const getTime = `${JalaliCalendar(EstablishmentDate).year}-${JalaliCalendar(EstablishmentDate).month}-${JalaliCalendar(EstablishmentDate).day}`
-        const country = SelectedCountry
+        let name = document.getElementById('name').value
+        let Ename = document.getElementById('Ename').value
+        let website = document.getElementById('website').value
+        let type = SelectedType
+        let supervisor = document.getElementById('supervisor').value
+        let legalName = document.getElementById('legalName').value
+        let registerNumber = document.getElementById('registerNumber').value
+        let licence = document.getElementById('licence').value
+        let fiatSupport = document.getElementById('fiatSupport').value
+        let PrivateCoin = document.getElementById('PrivateCoin').value
+        let getTime
+        if (EstablishmentDate !== '') {
+            getTime = `${JalaliCalendar(EstablishmentDate).year}-${JalaliCalendar(EstablishmentDate).month}-${JalaliCalendar(EstablishmentDate).day}`
+        } else {
+            getTime = null
+        }
+        let country = SelectedCountry
 
-        console.log(type)
         let error  = false
 
         if (name === '') {
-            error = true
+            name = null
         }
         if (Ename === '') {
-            error = true
+            Ename = null
         }
         if (website === '') {
-            error = true
+            website = null
         }
         if (supervisor === '') {
-            error = true
+            supervisor = null
         }
         if (legalName === '') {
-            error = true
+            legalName = null
         }
         if (registerNumber === '') {
-            error = true
+            registerNumber = null
         }
 
         if (error) {
@@ -75,17 +80,40 @@ const AddEntity = () => {
             SetLoading(true)
             axios.post(`${serverAddress}/entity/`, 
             {
+                //
                 name:Ename,
+
+                //
                 persian_name:name,
+
+                //
                 web_site:website,
+
+                //
                 type,
+
+                //
                 establishment:getTime,
+
+                //
                 fiat_support:fiatSupport,
+
+                //
                 private_coin:PrivateCoin,
+
+                //
                 supervisory_body:supervisor,
+
+                //
                 legal_name:legalName,
+
+                //
                 registration_number:registerNumber,
+
+                //
                 licence,
+                
+                //
                 country
             },
             {

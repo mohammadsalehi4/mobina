@@ -77,15 +77,15 @@ const LabelAddresses = () => {
     {
       name: 'برچسب',
       sortable: true,
-      maxWidth: '130px',
-      minWidth: '130px',
+      maxWidth: '120px',
+      minWidth: '120px',
       selector: row => row.label
     },
     {
       name: 'شبکه',
       sortable: true,
-      maxWidth: '100px',
-      minWidth: '100px',
+      maxWidth: '150px',
+      minWidth: '150px',
       selector: row => (row.network)
     },
     {

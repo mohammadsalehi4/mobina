@@ -269,6 +269,7 @@ const AdminReports = () => {
   useEffect(() => {
     if (EditSelectedReport !== null) {
       SetEditLoading(true)
+      console.log((EditTime))
       axios.get(`${serverAddress}/reports/detail/${EditSelectedReport}/`, 
       {
         headers: {
@@ -602,11 +603,15 @@ const AdminReports = () => {
                         انتخاب نشده
                       </span>
                       :
-                      <span>
-                        {
-                          `${JalaliCalendar(EditTime).year}/${JalaliCalendar(EditTime).month}/${JalaliCalendar(EditTime).day}`
-                        }
-                      </span>
+                        EditTime !== null ? 
+                        <span>
+                          {`${JalaliCalendar(EditTime).year}/${JalaliCalendar(EditTime).month}/${JalaliCalendar(EditTime).day}`}
+                        </span>
+                        :
+                        <span>
+                          بدون اطلاعات
+                        </span>
+
                   }
                 </span>
                 <CalendarProvider locale={'fa'}>

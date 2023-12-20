@@ -88,8 +88,8 @@ const Profile = () => {
     <>
       {data !== null ? <div className="container-fluid">
           <Row id="MainProfileBox">
-            <Col xl='2'></Col>
-            <Col xl='8'>
+            <Col xl='1'></Col>
+            <Col xl='10'>
               <Row>
                 <Col sm='12'>
                   <ProfileHeader  ip={IP} Browser={Browser} data={data} />
@@ -106,7 +106,7 @@ const Profile = () => {
                 </Col>
               </Row>
             </Col>
-            <Col xl='2'></Col>
+            <Col xl='1'></Col>
           </Row>
         </div> : <UILoader blocking={true} loader={<Spinner />}>
       </UILoader>
