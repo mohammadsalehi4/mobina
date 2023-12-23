@@ -29,6 +29,37 @@ import ShowReport from './pages/reports/ShowReport'
 import ShowLastTaxes from './pages/tax/ShowLastTaxes'
 const App = () => {
   const States = useSelector(state => state)
+
+  const myFunction = () => {
+    const refresh = Cookies.get('refresh')
+    const bodyFormData = new FormData()
+    bodyFormData.append('refresh', refresh)
+    axios.post(`${serverAddress}/accounts/api/token/refresh/`, 
+    bodyFormData,
+    {
+        headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`, 
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        Cookies.set('access', response.data.access)
+      }
+    })
+    .catch((err) => {})
+  }
+
+  useEffect(() => {
+    // تنظیم یک تایمر برای اجرای تابع هر 50 دقیقه
+    const interval = setInterval(() => {
+      myFunction()
+    }, 5 * 60 * 1000) // 50 دقیقه به میلی‌ثانیه
+
+    // پاک‌سازی تایمر هنگام unmount شدن کامپوننت
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div>
           {
