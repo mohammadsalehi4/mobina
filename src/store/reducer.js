@@ -63,6 +63,7 @@ const initialState = {
     ColorType:'red',
     UpdateColorType:false,
     deleteColor:false,
+    mouseMode:false,
 
     //admin panel
     CustomLoading: false,
@@ -91,6 +92,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'mouseMode') {
+        return {
+            ...state,
+            mouseMode:action.value
+        }
+    }
 
     if (action.type === 'deleteColor') {
         return {

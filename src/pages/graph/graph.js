@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable object-shorthand */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable prefer-const */
@@ -104,6 +105,7 @@ const getMyTime = (index) => {
   })
 }
 
+
 const FuckingGraph = (props) => {
   const networkRef = useRef(null)
   const dispatch = useDispatch()
@@ -121,12 +123,19 @@ const FuckingGraph = (props) => {
   const [deleteColor, SetdeleteColor] = useState(States.graphAddColor)
   let k = States.edgesColors
 
-  const [mouseMode, SetMouseMode] = useState(false)
-  const [ShowSelectBox, SetShowSelectBox] = useState(false)
+  const [mouseMode, SetMouseMode] = useState(true)
+
+  let selectionStart = { x: 0, y: 0 };
+  let selectionEnd = { x: 0, y: 0 };
 
   useEffect(() => {
     dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
   }, [Color, ColorBeReload, deleteColor])
+
+  useEffect(() => {
+    SetMouseMode(States.mouseMode)
+    dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
+  }, [States.mouseMode])
 
   useEffect(() => {
 
@@ -402,7 +411,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`images/Location.png`,
+              image:`/public/images/location.png`,
               label: showLabel
             }
           } else if (GraphData[i].group === 'mid') {
@@ -412,7 +421,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`images/Location.png`,
+              image:`/public/images/location.png`,
               label: GraphData[i].symbole
             }
           }
@@ -542,7 +551,7 @@ const FuckingGraph = (props) => {
       edges
     }
 
-    const options = {
+    const MouseModeOptions = {
       layout: {
         hierarchical: false
       },
@@ -657,7 +666,122 @@ const FuckingGraph = (props) => {
         }
     }
 
-    const network = new Network(networkRef.current, data, options)
+    const SingleOptions = {
+      layout: {
+        hierarchical: false
+      },
+      physics: false,
+
+      edges: {
+          color: "#000000",
+          width:2,
+          border: {
+          color: "String",
+          width: "Number",
+          style: "String"
+          },
+          smooth: {
+            type: 'cubicBezier',
+            forceDirection:'horizontal',
+            roundness: 0.4
+          },
+          strokeWidth: 2,
+          arrows: {
+          to: {
+              enabled: true
+          }
+          },
+          font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
+          color: "#2f4f4f",
+          fixed: true
+      },
+      nodes:{
+          borderWidth:1,
+          color: {
+              border: "white",
+              background:"white"
+            },
+          size:15,
+          font:{
+              family:'Vazir'
+          }
+      },
+      interaction: {
+          selectable: true,
+          hover: false,
+          hoverConnectedEdges: false,
+          dragNodes:true
+      },
+      groups: {
+          //گره های واسط
+          mid:{
+            shape:'dot',
+            size:6,
+            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            color:{
+                border: '#2f4f4f',
+                background:'#2f4f4f',
+                highlight: {
+                  background: '#2f4f4f',
+                  border: '#2f4f4f'
+                }
+            },
+            borderWidth: 0,
+            borderColor:"#2f4f4f"
+          },
+          //گره اصلی
+          main:{
+              shape:'icon',
+              icon: {
+                face: 'FontAwesome',
+                code: '\uf007',  // This is a user icon as an example
+                size: 50,
+                color: 'black'
+            },
+            font: { size: 13, face:"Vazir", color:'#2f4f4f', align: 'left'},
+            color:{
+                border: '#2f4f4f'
+            },
+            borderWidth: 2,
+            align: 'horizontal',
+            // image:"/images/location.png",
+            borderColor:"#2f4f4f",            
+            shape:'circularImage'
+          },
+          //فرستنده ها
+          sender:{
+              shape:'dot',
+            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            color:{
+                border: '#2f4f4f'
+            },
+            borderWidth: 3,
+            align: 'horizontal',
+            image:"/images/greenLocation.png",
+            borderColor:"#2f4f4f",            
+            shape:'circularImage'
+          },
+          //گیرنده ها
+          reciver:{
+              shape:'dot',
+            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            color:{
+                border: '#2f4f4f'
+            },
+            borderWidth: 3,
+            align: 'horizontal',
+            image:"/images/redLocation.png",
+            borderColor:"#2f4f4f",            
+            shape:'circularImage'
+          }
+        }
+    }
+    let network
+    if (mouseMode) {
+      network = new Network(networkRef.current, data, MouseModeOptions)
+    } else {
+      network = new Network(networkRef.current, data, SingleOptions)
+    }
 
     network.on("click", function(params) {
         const nodeId = params.nodes[0];
@@ -740,62 +864,56 @@ const FuckingGraph = (props) => {
     });
 
   //*************************************************************************/
-  let selectionStart = { x: 0, y: 0 };
-  let selectionEnd = { x: 0, y: 0 };
 
   //select edges
   function selectEdgesInRegion(network, edges, regionStart, regionEnd) {
-    const selectedEdges = [];
-    const selectedEdgesData = [];
-    const selectedNodes = [];
-    console.log('______________________')
-
-    edges.forEach((edge) => {
+    if (mouseMode) {
+      const selectedEdges = [];
+      const selectedEdgesData = [];
+      const selectedNodes = [];
   
-      let minX = Math.min(regionStart.x, regionEnd.x);
-      let maxX = Math.max(regionStart.x, regionEnd.x);
-      let minY = Math.min(regionStart.y, regionEnd.y);
-      let maxY = Math.max(regionStart.y, regionEnd.y);
-  
-      const allNodePositions = network.getPositions();
-      for (let nodeId in allNodePositions) {
-        let nodePosition = allNodePositions[nodeId];
-        // بررسی اینکه آیا گره داخل محدوده قرار دارد
-        if (nodePosition.x >= minX && nodePosition.x <= maxX) {
-          if (nodePosition.y >= minY && nodePosition.y <= maxY) {
-            selectedNodes.push(nodeId)
+      edges.forEach((edge) => {
+        let minX = Math.min(regionStart.x, regionEnd.x);
+        let maxX = Math.max(regionStart.x, regionEnd.x);
+        let minY = Math.min(regionStart.y, regionEnd.y);
+        let maxY = Math.max(regionStart.y, regionEnd.y);
+    
+        const allNodePositions = network.getPositions();
+        for (let nodeId in allNodePositions) {
+          let nodePosition = allNodePositions[nodeId];
+          // بررسی اینکه آیا گره داخل محدوده قرار دارد
+          if (nodePosition.x >= minX && nodePosition.x <= maxX) {
+            if (nodePosition.y >= minY && nodePosition.y <= maxY) {
+              selectedNodes.push(nodeId)
+            }
           }
         }
-      }
-
-      if (selectedNodes.includes(edge.from) && selectedNodes.includes(edge.to)) {
-        selectedEdges.push(edge.id)
+  
+        if (selectedNodes.includes(edge.from) && selectedNodes.includes(edge.to)) {
+          selectedEdges.push(edge.id)
+          
+          selectedEdgesData.push(
+            {
+              from:edge.from,
+              to:edge.to,
+              color:States.ColorType
+            }
+          )
+        }
         
-        selectedEdgesData.push(
-          {
-            from:edge.from,
-            to:edge.to,
-            color:States.ColorType
-          }
-        )
-      }
-      
-    });
-    SetEdgeSelected(selectedEdgesData)
-    network.selectEdges(selectedEdges);
+      });
+      SetEdgeSelected(selectedEdgesData)
+      network.selectEdges(selectedEdges);
+    }
   }
 
   network.on("dragStart", function (params) {
-    // جلوگیری از حرکت گراف
     params.event.preventDefault();
-  
     selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
   });
   
   network.on("dragEnd", function (params) {
     selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
-  
-    // انتخاب یال‌ها در محدوده انتخاب
     selectEdgesInRegion(network, edges, selectionStart, selectionEnd);
   });
 
@@ -833,19 +951,21 @@ const FuckingGraph = (props) => {
 
   //select single edge
   network.on("click", function (params) {
-    if (params.edges.length > 0) {
-      const edgeId = params.edges[0]; // شناسه یال انتخاب شده
-      const edgeData = edges.get(edgeId); // دریافت داده‌های یال
-
-      const selectedEdgesData = [];
-      selectedEdgesData.push(
-        {
-          from:edgeData.from,
-          to:edgeData.to,
-          color:States.ColorType
-        }
-      )
-      SetEdgeSelected(selectedEdgesData)
+    if (mouseMode) {
+      if (params.edges.length > 0) {
+        const edgeId = params.edges[0]; // شناسه یال انتخاب شده
+        const edgeData = edges.get(edgeId); // دریافت داده‌های یال
+  
+        const selectedEdgesData = [];
+        selectedEdgesData.push(
+          {
+            from:edgeData.from,
+            to:edgeData.to,
+            color:States.ColorType
+          }
+        )
+        SetEdgeSelected(selectedEdgesData)
+      }
     }
   });
 
@@ -864,6 +984,7 @@ const FuckingGraph = (props) => {
     SetdeleteColor(States.deleteColor)
   }
 
+  //اگر روی صفحه کلیک شد، یال ها از حالت سلکت خارج شوند
   network.on("click", function (params) {
     if (params.nodes.length === 0 && params.edges.length === 0) {
       SetEdgeSelected([])
@@ -873,7 +994,7 @@ const FuckingGraph = (props) => {
   //***************************************************************************************************/
 
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload, States.graphAddColor, States.deleteColor, States.ColorType])
-  if (mouseMode) {
+  if (!mouseMode) {
     return (
       <>
         <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>

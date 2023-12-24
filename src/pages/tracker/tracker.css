@@ -118,11 +118,45 @@
 #Guide svg:hover {
   stroke: black;
 }
-@media only screen and (max-width: 840px) {
+@media only screen and (max-width: 1200px) {
   #Guide {
     right: 2%;
   }
   #Guide svg {
+    cursor: pointer;
+    stroke: gray;
+    transition: 0.2s;
+    width: 24px;
+    height: 24px;
+    margin-right: 0px;
+  }
+}
+
+#Mouse {
+  position: fixed;
+  direction: ltr;
+  background: white;
+  padding: 5px;
+  top: 130px;
+  right: 10px;
+  border-radius: 8px;
+}
+#Mouse svg {
+  cursor: pointer;
+  transition: 0.2s;
+  width: 24px;
+  height: 24px;
+  stroke-width:1px
+}
+#Mouse svg:hover {
+  stroke: black;
+}
+@media only screen and (max-width: 1200px) {
+  #Mouse {
+    right: 2%;
+    top: 70px;
+  }
+  #Mouse svg {
     cursor: pointer;
     stroke: gray;
     transition: 0.2s;

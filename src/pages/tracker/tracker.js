@@ -20,7 +20,7 @@ import axios from 'axios'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import toast from 'react-hot-toast'
-
+import Mouse from './mouse'
 //processors
 import { UTXOTransaction } from '../../processors/UTXOTransaction'
 import { UTXOAddress } from '../../processors/UTXOAddress'
@@ -688,6 +688,7 @@ const Tracker = () => {
 
                 <VisualizationDetail hash={hash} GraphName={GraphName} GraphDescription={GraphDescription}/>
                 <Guide/>
+                <Mouse/>
             </div>
         </UILoader>
     )
