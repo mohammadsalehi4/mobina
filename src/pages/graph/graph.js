@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable prefer-const */
 /* eslint-disable array-bracket-newline */
@@ -114,6 +115,18 @@ const FuckingGraph = (props) => {
   const [NewPositions, SetNewPositions] = useState(States.NodesPosition)
 
   const [SavedPositions, SetSavedPositions] = useState(States.SavedPositions)
+  const [Color, SetColor] = useState('red')
+  const [EdgeSelected, SetEdgeSelected] = useState([])
+  const [ColorBeReload, SetColorBeReload] = useState(States.graphAddColor)
+  const [deleteColor, SetdeleteColor] = useState(States.graphAddColor)
+  let k = States.edgesColors
+
+  const [mouseMode, SetMouseMode] = useState(false)
+  const [ShowSelectBox, SetShowSelectBox] = useState(false)
+
+  useEffect(() => {
+    dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
+  }, [Color, ColorBeReload, deleteColor])
 
   useEffect(() => {
 
@@ -537,7 +550,7 @@ const FuckingGraph = (props) => {
 
       edges: {
           color: "#000000",
-          width:1.2,
+          width:2,
           border: {
           color: "String",
           width: "Number",
@@ -573,7 +586,11 @@ const FuckingGraph = (props) => {
           selectable: true,
           hover: false,
           hoverConnectedEdges: false,
-          dragNodes:true
+          dragNodes:false
+      },
+      interaction: {
+        dragNodes: false,  // جلوگیری از جابجایی گره‌ها با موس
+        dragView: false    // جلوگیری از پان کردن گراف با موس
       },
       groups: {
           //گره های واسط
@@ -708,29 +725,168 @@ const FuckingGraph = (props) => {
       }
     });
 
-    const k = States.edgesColors
-    network.on("doubleClick", function (params) {
-      if (params.edges.length > 0) {
-        let edgeId = params.edges[0]; // فرض بر این است که فقط یک یال انتخاب شده است
-        let edgeData = network.body.data.edges.get(edgeId);
-        const edgefrom = edgeData.from
-        const edgeto = edgeData.to
-
-        const newColor = {
-          from:edgefrom,
-          to:edgeto,
-          color:'red'
-        }
-        if (k.some(item => (item.from === edgefrom && item.to === edgeto)) === false) {
-          k.push(newColor)
-        }
-        dispatch({type:"edgesColors", value:k})
+    //add color to edges
+    edges.forEach(function (edge) {
+      if (States.edgesColors.some(item => (item.from === edge.from && item.to === edge.to)) === true) {
+        edges.update({
+          id: edge.id,
+          color: {
+              color: States.edgesColors.find(item => (item.from === edge.from && item.to === edge.to)).color, // رنگ پیش‌فرض
+              highlight: States.edgesColors.find(item => (item.from === edge.from && item.to === edge.to)).color, // رنگ حالت selected
+              hover: States.edgesColors.find(item => (item.from === edge.from && item.to === edge.to)).color // رنگ حالت هاور (اختیاری)
+          }
+        });
       }
     });
 
-  }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload])
+  //*************************************************************************/
+  let selectionStart = { x: 0, y: 0 };
+  let selectionEnd = { x: 0, y: 0 };
 
-  return <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
+  //select edges
+  function selectEdgesInRegion(network, edges, regionStart, regionEnd) {
+    const selectedEdges = [];
+    const selectedEdgesData = [];
+    const selectedNodes = [];
+    console.log('______________________')
+
+    edges.forEach((edge) => {
+  
+      let minX = Math.min(regionStart.x, regionEnd.x);
+      let maxX = Math.max(regionStart.x, regionEnd.x);
+      let minY = Math.min(regionStart.y, regionEnd.y);
+      let maxY = Math.max(regionStart.y, regionEnd.y);
+  
+      const allNodePositions = network.getPositions();
+      for (let nodeId in allNodePositions) {
+        let nodePosition = allNodePositions[nodeId];
+        // بررسی اینکه آیا گره داخل محدوده قرار دارد
+        if (nodePosition.x >= minX && nodePosition.x <= maxX) {
+          if (nodePosition.y >= minY && nodePosition.y <= maxY) {
+            selectedNodes.push(nodeId)
+          }
+        }
+      }
+
+      if (selectedNodes.includes(edge.from) && selectedNodes.includes(edge.to)) {
+        selectedEdges.push(edge.id)
+        
+        selectedEdgesData.push(
+          {
+            from:edge.from,
+            to:edge.to,
+            color:States.ColorType
+          }
+        )
+      }
+      
+    });
+    SetEdgeSelected(selectedEdgesData)
+    network.selectEdges(selectedEdges);
+  }
+
+  network.on("dragStart", function (params) {
+    // جلوگیری از حرکت گراف
+    params.event.preventDefault();
+  
+    selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
+  });
+  
+  network.on("dragEnd", function (params) {
+    selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
+  
+    // انتخاب یال‌ها در محدوده انتخاب
+    selectEdgesInRegion(network, edges, selectionStart, selectionEnd);
+  });
+
+  //change color and add
+  if (Color !== States.ColorType) {
+    for (let i = 0; i < EdgeSelected.length; i++) {
+      if (k.some(item => item.from === EdgeSelected[i].from && item.to === EdgeSelected[i].to) === false) {
+        const newColor = {
+          from:EdgeSelected[i].from,
+          to:EdgeSelected[i].to,
+          color:States.ColorType
+        }
+        k.push(newColor)
+      }
+    }
+    SetColor(States.ColorType)
+  }
+
+  //set last color
+  if (States.graphAddColor !== ColorBeReload) {
+    for (let i = 0; i < EdgeSelected.length; i++) {
+      const newColor = {
+        from:EdgeSelected[i].from,
+        to:EdgeSelected[i].to,
+        color:EdgeSelected[i].color
+      }
+      if (k.some(item => (item.from === EdgeSelected[i].from && item.to === EdgeSelected[i].to)) === false) {
+        k.push(newColor)
+      }
+    }
+    SetEdgeSelected([])
+    dispatch({type:"edgesColors", value:k})
+    SetColorBeReload(States.graphAddColor)
+  }
+
+  //select single edge
+  network.on("click", function (params) {
+    if (params.edges.length > 0) {
+      const edgeId = params.edges[0]; // شناسه یال انتخاب شده
+      const edgeData = edges.get(edgeId); // دریافت داده‌های یال
+
+      const selectedEdgesData = [];
+      selectedEdgesData.push(
+        {
+          from:edgeData.from,
+          to:edgeData.to,
+          color:States.ColorType
+        }
+      )
+      SetEdgeSelected(selectedEdgesData)
+    }
+  });
+
+  //delete edges color
+  if (deleteColor !== States.deleteColor) {
+    for (let i = 0; i < EdgeSelected.length; i++) {
+      if (k.some(item => item.from === EdgeSelected[i].from && item.to === EdgeSelected[i].to) === true) {
+        const index = k.findIndex(item => (item.from ===  EdgeSelected[i].from && item.to === EdgeSelected[i].to))
+        if (index !== -1) {
+          k.splice(index, 1);
+        }
+      }
+    }
+    dispatch({type:"edgesColors", value:k})
+    SetEdgeSelected([])
+    SetdeleteColor(States.deleteColor)
+  }
+
+  network.on("click", function (params) {
+    if (params.nodes.length === 0 && params.edges.length === 0) {
+      SetEdgeSelected([])
+    }
+  });
+
+  //***************************************************************************************************/
+
+  }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload, States.graphAddColor, States.deleteColor, States.ColorType])
+  if (mouseMode) {
+    return (
+      <>
+        <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
+      </>
+    ) 
+  } else {
+    return (
+      <>
+        <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s', cursor:'pointer' }}></div>
+      </>
+    ) 
+  }
+
 }
 
 export default FuckingGraph

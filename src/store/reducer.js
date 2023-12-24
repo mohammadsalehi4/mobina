@@ -59,6 +59,10 @@ const initialState = {
     Network:'',
     edgesColors:[],
     graphNetworkName:'',
+    graphAddColor:false,
+    ColorType:'red',
+    UpdateColorType:false,
+    deleteColor:false,
 
     //admin panel
     CustomLoading: false,
@@ -87,6 +91,34 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'deleteColor') {
+        return {
+            ...state,
+            deleteColor:action.value
+        }
+    }
+
+    if (action.type === 'UpdateColorType') {
+        return {
+            ...state,
+            UpdateColorType:action.value
+        }
+    }
+
+    if (action.type === 'ColorType') {
+        return {
+            ...state,
+            ColorType:action.value
+        }
+    }
+
+    if (action.type === 'graphAddColor') {
+        return {
+            ...state,
+            graphAddColor:action.value
+        }
+    }
 
     if (action.type === 'SavedPositions') {
         return {

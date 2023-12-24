@@ -18,13 +18,14 @@ import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import { useParams } from "react-router-dom"
-import { Search } from 'react-feather'
+import { Trash2 } from 'react-feather'
 
 const VisualizationDetail = (props) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
   
   const [ Address , SetAddress] = useState(false)
+  const [ ColorType , SetColorType] = useState('red')
   const [ OpenSaveBox , SetOpenSaveBox] = useState(false)
   const [ Loading , SetLoading] = useState(false)
   const [ Name , SetName] = useState(props.GraphName)
@@ -281,6 +282,79 @@ const VisualizationDetail = (props) => {
                 </div>
                 <hr/>
               </div>
+
+
+              <div className='row'>
+                <div className='col-md-12'>
+                  <h6 style={{display:'inline-block'}}>رنگ</h6>
+                  <div style={{display:'inline-block', float:'left'}}>
+                    <Input
+                      onClick={ () => {
+                          if (ColorType === 'red') {
+                            dispatch({type:"graphAddColor", value:!States.graphAddColor})
+                          }
+                      } } 
+                      onChange={
+                        () => {
+                          dispatch({type:"ColorType", value:'red'})
+                          dispatch({type:"UpdateColorType", value:!States.UpdateColorType})
+                          SetColorType('red')
+                        }
+                      }
+                      type='radio' 
+                    className='ms-1' name='kuft' defaultChecked style={{borderColor:'red', backgroundColor:'red'}} />
+
+                    <Input
+                      onClick={ () => {
+                          if (ColorType === 'orange') {
+                            dispatch({type:"graphAddColor", value:!States.graphAddColor})
+                          }
+                      } }  
+                      onChange={
+                        () => {
+                          dispatch({type:"ColorType", value:'orange'})
+                          dispatch({type:"UpdateColorType", value:!States.UpdateColorType})
+                          SetColorType('orange')
+                        }
+                      }
+                    type='radio' className='ms-1' name='kuft' style={{borderColor:'orange', backgroundColor:'orange'}}  />
+
+                    <Input
+                      onClick={ () => {
+                          if (ColorType === 'blue') {
+                            dispatch({type:"graphAddColor", value:!States.graphAddColor})
+                          }
+                      } }  
+                      onChange={
+                        () => {
+                          dispatch({type:"ColorType", value:'blue'})
+                          dispatch({type:"UpdateColorType", value:!States.UpdateColorType})
+                          SetColorType('blue')
+                        }
+                      }
+                    type='radio' className='ms-1' name='kuft' style={{borderColor:'blue', backgroundColor:'blue'}}  />
+
+                    <Input
+                      onClick={ () => {
+                          if (ColorType === 'purple') {
+                            dispatch({type:"graphAddColor", value:!States.graphAddColor})
+                          }
+                      } }  
+                      onChange={
+                        () => {
+                          dispatch({type:"ColorType", value:'purple'})
+                          dispatch({type:"UpdateColorType", value:!States.UpdateColorType})
+                          SetColorType('purple')
+                        }
+                      }
+                    type='radio' className='ms-1' name='kuft' style={{borderColor:'purple', backgroundColor:'purple'}}  />
+
+                    <Trash2 onClick={ () => { dispatch({type:"deleteColor", value:!States.deleteColor}) } } size={18} style={{cursor:'pointer'}} />
+                  </div>
+
+                </div>
+              </div>
+              <hr/>
               <div className='row'>
                 <div className='col-md-12'>
                   <Button.Ripple outline color='secondary' onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } className="p-2">
@@ -291,6 +365,7 @@ const VisualizationDetail = (props) => {
                   {/* <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginRight:'12px', marginBottom:'-4px', cursor:'pointer'}} name="save-outline"></ion-icon> */}
                 </div>
               </div>
+
             </div>
           </CardBody>
         </CardAction>
