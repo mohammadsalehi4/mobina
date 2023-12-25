@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 /* eslint-disable multiline-ternary */
 /* eslint-disable object-shorthand */
 /* eslint-disable no-mixed-operators */
@@ -9,7 +8,7 @@
 /* eslint-disable semi */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-duplicate-imports
-import html2canvas from 'html2canvas';
+
 import React, { useRef, useEffect, useState } from "react"
 import { DataSet, Network } from 'vis'
 import { useSelector, useDispatch } from "react-redux"
@@ -106,6 +105,7 @@ const getMyTime = (index) => {
   })
 }
 
+
 const FuckingGraph = (props) => {
   const networkRef = useRef(null)
   const dispatch = useDispatch()
@@ -148,6 +148,14 @@ const FuckingGraph = (props) => {
     SetMouseMode(States.mouseMode)
     dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
   }, [States.mouseMode])
+
+  useEffect(() => {
+    console.log('___________________')
+    console.log('startX')
+    console.log(startX)
+    console.log('startY')
+    console.log(startY)
+  }, [startX])
 
   useEffect(() => {
 
@@ -930,13 +938,13 @@ const FuckingGraph = (props) => {
     selectEdgesInRegion(network, edges, selectionStart, selectionEnd);
   });
 
-  // network.canvas.frame.canvas.addEventListener('mousemove', function(event) {
-  //   var canvasCoords = network.DOMtoCanvas({ x: event.clientX, y: event.clientY - 110 });
-  //   console.log(`Canvas Coordinates: X=${  canvasCoords.x  }, Y=${  canvasCoords.y}`);
-  //   console.log(showDivغ);
-  //   SetmoveX(canvasCoords.x)
-  //   SetmoveY(canvasCoords.y)
-  // });
+  network.canvas.frame.canvas.addEventListener('mousemove', function(event) {
+    var canvasCoords = network.DOMtoCanvas({ x: event.clientX, y: event.clientY - 110 });
+    console.log(`Canvas Coordinates: X=${  canvasCoords.x  }, Y=${  canvasCoords.y}`);
+    console.log(showDiv);
+    SetmoveX(canvasCoords.x)
+    SetmoveY(canvasCoords.y)
+  });
 
   //change color and add
   if (Color !== States.ColorType) {
@@ -948,11 +956,6 @@ const FuckingGraph = (props) => {
           color:States.ColorType
         }
         k.push(newColor)
-      } else {
-        const index = k.findIndex(item => item.from === EdgeSelected[i].from && item.to === EdgeSelected[i].to)
-        if (index !== -1) {
-          k[index].color = States.ColorType
-        }
       }
     }
     SetColor(States.ColorType)
@@ -1014,17 +1017,15 @@ const FuckingGraph = (props) => {
     if (params.nodes.length === 0 && params.edges.length === 0) {
       SetEdgeSelected([])
     }
-    // SetShowDiv(!showDiv)
-    // if (!check) {
-    //   const myCorditate = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
-    //   SetstartX(myCorditate.x)
-    //   SetstartY(myCorditate.y)
-    //   Setcheck(true)
-    // } else {
-    //   Setcheck(false)
-    // }
-
-
+    SetShowDiv(!showDiv)
+    if (!check) {
+      const myCorditate = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
+      SetstartX(myCorditate.x)
+      SetstartY(myCorditate.y)
+      Setcheck(true)
+    } else {
+      Setcheck(false)
+    }
   });
 
   //***************************************************************************************************/
@@ -1052,34 +1053,16 @@ const FuckingGraph = (props) => {
   //   SetShowDiv(!showDiv)
   // }
 
-  const download  = () => {
-    const element = document.getElementById('myGraphDiv'); // گرفتن المنت بر اساس آی‌دی
-    html2canvas(element).then(canvas => {
-      const image = canvas.toDataURL("image/png"); // تبدیل کانواس به تصویر پی‌ان‌جی
-      const link = document.createElement('a');
-      link.download = 'graph.png'; // نام فایل خروجی
-      link.href = image;
-      document.body.appendChild(link);
-      link.click(); // دانلود تصویر
-      document.body.removeChild(link); // پاک کردن لینک از DOM پس از دانلود
-    });
-  }
-  useEffect(() => {
-    if (States.downloadGraph !== null) {
-      download()
-    }
-  }, [States.downloadGraph])
-
   if (!mouseMode) {
     return (
       <>
-        <div id='myGraphDiv' ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s', cursor:'pointer' }}></div>
+        <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
       </>
     ) 
   } else {
     return (
       <>
-        <div id='myGraphDiv' ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
+        <div ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s', cursor:'pointer' }}></div>
         {
           showDiv ? 
           <div id="myDiv" style={{position:'absolute', borderRadius:'4px', background:'#2f4f4f', opacity:'0.1', width:`${Math.abs(moveX - startX)}px`, height:`${Math.abs(moveY - (startY) - 110)}px`, top:`${startY - 10}px`, left:`${startX}px`}}></div>

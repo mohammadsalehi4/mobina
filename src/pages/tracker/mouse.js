@@ -1,6 +1,6 @@
 /* eslint-disable no-tabs */
 import React from 'react'
-import { MousePointer, Paperclip } from 'react-feather'
+import { MousePointer, Move, DownloadCloud } from 'react-feather'
 import { useSelector, useDispatch } from "react-redux"
 
 const Mouse = () => {
@@ -9,7 +9,7 @@ const Mouse = () => {
     
   return (
     <div id='Mouse'>
-        <Paperclip
+        <MousePointer
             size={12}
             style={{
                 fontWeight:'100'
@@ -23,7 +23,8 @@ const Mouse = () => {
                 }
             }
         />
-        <MousePointer
+        <Move
+        
             style={{
                 marginLeft:'12px'
             }}
@@ -35,6 +36,21 @@ const Mouse = () => {
                     dispatch({type:"mouseMode", value:false})
                 }
             }
+        />
+        <DownloadCloud 
+                style={{
+                    marginLeft:'12px'
+                }}
+
+                onClick={ 
+                    () => {
+                        if (States.downloadGraph !== null) {
+                            dispatch({type:"downloadGraph", value:!States.downloadGraph})
+                        } else {
+                            dispatch({type:"downloadGraph", value:false})
+                        }
+                    }
+                }
         />
     </div>
   )

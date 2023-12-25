@@ -64,6 +64,7 @@ const initialState = {
     UpdateColorType:false,
     deleteColor:false,
     mouseMode:false,
+    downloadGraph:null,
 
     //admin panel
     CustomLoading: false,
@@ -92,6 +93,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'downloadGraph') {
+        return {
+            ...state,
+            downloadGraph:action.value
+        }
+    }
 
     if (action.type === 'mouseMode') {
         return {
