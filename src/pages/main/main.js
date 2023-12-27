@@ -19,7 +19,6 @@ import '../../app-assets/css-rtl/core/menu/menu-types/vertical-menu.css'
 import '../../app-assets/css-rtl/themes/bordered-layout.css'
 import '../../app-assets/css-rtl/colors.css'
 import './main.css'
-import ReCAPTCHA from "react-google-recaptcha"
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import axios from 'axios'
@@ -76,6 +75,7 @@ const Main = () => {
                 SetLoading(false)
             })
             .catch((err) => {
+                SetLoading(false)
                 console.log(err)
                 if (err.message === 'Network Error') {
                     SetLoading(false)
@@ -161,10 +161,6 @@ const Main = () => {
                                                     <label for="remember_me" className='gray vazir'>به خاطر داشته باش</label>
                                                 </div>
                                             </div>
-                                            <ReCAPTCHA
-                                                sitekey="6LcANTopAAAAAMPKIbGRiuJdDOCjMhUYaQyQdh5z"
-                                                // onChange={onCaptchaChange}
-                                            />
                                             <button class="btn  w-100 login_form" style={{background:'#2f4f4f', color:"white"}} tabindex="4" onClick={login}>ورود</button>
                                         </form>
                                         <div class="d-flex mt-2">

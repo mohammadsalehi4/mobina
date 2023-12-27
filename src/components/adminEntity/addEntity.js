@@ -145,10 +145,13 @@ const AddEntity = () => {
                   Cookies.set('access', '')
                   window.location.assign('/')
                 }
+                if (err.response.status === 400) {
+                    return toast.error('مقادیر را به طور کامل وارد کنید.', {
+                        position: 'bottom-left'
+                    })
+                }
             })
         }
-
-
     }
 
     //get types

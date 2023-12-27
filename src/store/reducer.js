@@ -64,7 +64,7 @@ const initialState = {
     UpdateColorType:false,
     deleteColor:false,
     mouseMode:false,
-    downloadGraph:null,
+    downloadGraph:false,
 
     //admin panel
     CustomLoading: false,

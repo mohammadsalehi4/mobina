@@ -927,6 +927,16 @@ const FuckingGraph = (props) => {
     }
   }
 
+  // network.on("dragStart", function (params) {
+  //   params.event.preventDefault();
+  //   selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
+  // });
+  
+  // network.on("dragEnd", function (params) {
+  //   selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
+  //   selectEdgesInRegion(network, edges, selectionStart, selectionEnd);
+  // });
+
   //change color and add
   if (Color !== States.ColorType) {
     for (let i = 0; i < EdgeSelected.length; i++) {
