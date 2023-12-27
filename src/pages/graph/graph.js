@@ -1007,11 +1007,14 @@ const FuckingGraph = (props) => {
 
   //اگر روی صفحه کلیک شد، یال ها از حالت سلکت خارج شوند و شروع و پایان ناحیه انتخاب یال ها
   network.on("click", function (params) {
+    console.log(showDiv)
+  });
+  
+  network.on("click", function (params) {
     if (params.nodes.length === 0 && params.edges.length === 0) {
       SetEdgeSelected([])
     }
-
-    if (!check) {
+    if (check) {
       selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
     } else {
       selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
@@ -1021,12 +1024,6 @@ const FuckingGraph = (props) => {
 
   });
 
-  network.on("dragStart", function (params) {
-    if (mouseMode) {
-      check = !check
-    }
-  });
-  
   //take picture
   function takeFullGraphScreenshot() {
     const originalScale = network.getScale();
@@ -1056,6 +1053,8 @@ const FuckingGraph = (props) => {
     takeFullGraphScreenshot()
   }
 
+  //خودمم نمیدونم چرا این باید باشه ولی باید باشه
+  check = !showDiv
   //***************************************************************************************************/
 
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload, States.graphAddColor, States.deleteColor, States.ColorType])
