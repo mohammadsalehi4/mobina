@@ -1,10 +1,11 @@
+/* eslint-disable no-tabs */
 /* eslint-disable no-unused-vars */
 /* eslint-disable quote-props */
 /* eslint-disable brace-style */
 /* eslint-disable object-shorthand */
 /* eslint-disable prefer-template */
 /* eslint-disable space-infix-ops */
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import '../../app-assets/vendors/css/vendors-rtl.min.css'
 import '../../app-assets/css-rtl/bootstrap-extended.css'
 import '../../app-assets/css-rtl/components.css'
@@ -26,8 +27,18 @@ import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 import Cookies from 'js-cookie'
 import jwt from 'jsonwebtoken'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const Main = () => {
+    const recaptchaRef = useRef()
+	const [recaptchaToken, setRecaptchaToken] = useState('')
+	const [recaptchaLoad, setRecaptchaLoad] = useState(false)
+    const recaptchaOnChange = token => {
+		setRecaptchaToken(token)
+		console.log('token')
+		console.log(token)
+	}
+
     const [Loading, SetLoading]=useState(false)
 
     const login = (event) => {
@@ -41,7 +52,8 @@ const Main = () => {
             SetLoading(true)
             axios.post(serverAddress+"/accounts/api/token/", {
                 username:username,
-                password:password
+                password:password,
+                token:recaptchaToken
             })
             .then((response) => {
                 if (response.data.refresh && response.data.access) {
@@ -162,6 +174,15 @@ const Main = () => {
                                                 </div>
                                             </div>
                                             <button class="btn  w-100 login_form" style={{background:'#2f4f4f', color:"white"}} tabindex="4" onClick={login}>ورود</button>
+                                            <ReCAPTCHA
+                                                style={{display: 'inline-block'}}
+                                                theme="dark"
+                                                size="invisible"
+                                                hl='fa'
+                                                sitekey={'6LcANTopAAAAAMPKIbGRiuJdDOCjMhUYaQyQdh5z'}
+                                                ref={recaptchaRef}
+                                                onChange={recaptchaOnChange}
+                                            />
                                         </form>
                                         <div class="d-flex mt-2">
                                            <a href="/recovery " class='login_forgote_password_link'><small style={{color:"#2f4f4f"}}>رمز عبور را فراموش کرده اید؟</small></a>
