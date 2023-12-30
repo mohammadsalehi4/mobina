@@ -48,12 +48,12 @@ const VisualizationDetail = (props) => {
     const Network = States.Network
     const networkName = network
     const SavedPositions = States.SavedPositions
+    const edgesColors = States.edgesColors
     let GraphName
     let GraphDescription
 
     GraphName = document.getElementById('GraphName').value
     GraphDescription = document.getElementById('GraphDescription').value
-
 
     if (GraphName !== '' || id !== undefined) {
       if (GraphData.length > 0) {
@@ -73,7 +73,8 @@ const VisualizationDetail = (props) => {
               positionY,
               NodesPosition:States.NodesPosition,
               networkName,
-              SavedPositions
+              SavedPositions,
+              edgesColors
             }
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
@@ -133,7 +134,8 @@ const VisualizationDetail = (props) => {
               NodesPosition,
               Network,
               networkName,
-              SavedPositions
+              SavedPositions,
+              edgesColors
             }
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})

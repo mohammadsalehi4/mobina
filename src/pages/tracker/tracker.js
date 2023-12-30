@@ -629,6 +629,7 @@ const Tracker = () => {
                         NodesPosition = response.data.results[i].value.NodesPosition
                         networkName = response.data.results[i].value.networkName
                         SavedPositions = response.data.results[i].value.SavedPositions
+                        edgesColors = response.data.results[i].value.edgesColors
                         SetGraphName(response.data.results[i].value.GraphName)
                         SetGraphDescription(response.data.results[i].value.GraphDescription)
                     }
@@ -641,6 +642,7 @@ const Tracker = () => {
                     dispatch({type:"NodesPosition", value:NodesPosition})
                     dispatch({type:"Network", value:Network})
                     dispatch({type:"SavedPositions", value:SavedPositions})
+                    dispatch({type:"edgesColors", value:edgesColors})
 
                     SetIsShow(true)
                 } else {
