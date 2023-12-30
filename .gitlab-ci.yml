@@ -17,7 +17,7 @@ build_front:
     - docker build . -f Dockerfile --tag $IMAGE_NAME
     - docker push $IMAGE_NAME
   tags:
-    - app4
+    - app3
   when: manual
   only:
     - tags
@@ -41,5 +41,5 @@ deploy_front:
     - echo $IMAGE_NAME
     - docker compose -f docker-compose.yml up -d
   tags:
-    - app2
+    - app3
   when: manual
