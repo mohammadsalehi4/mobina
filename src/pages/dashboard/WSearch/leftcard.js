@@ -78,16 +78,16 @@ const CardTransactions = (props) => {
     return (
       <div className=''>
         <div className='row mt-2'>
-          <div className='col-6'>
-              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'ارسال شده'}</p>
+          <div className='col-6' style={{textAlign:'right'}}>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'ارسال شده'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {digitsEnToFa(props.data.OutCome)}
                 <small> {props.data.symbole}</small>
                 <CornerUpRight size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
           </div>
-          <div style={{ marginBottom:'-10px'}} className={` col-6`}>
-          <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'دریافت شده'}</p>
+          <div style={{ marginBottom:'-10px', textAlign:'right'}} className={` col-6`}>
+          <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'دریافت شده'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {digitsEnToFa(props.data.InCome)}
                 <small> {props.data.symbole}</small>
@@ -97,16 +97,16 @@ const CardTransactions = (props) => {
         </div>
 
         <div className='row mt-2'>
-          <div className='col-6'>
-              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'موجودی'}</p>
+          <div className='col-6' style={{textAlign:'right'}}>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'موجودی'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {digitsEnToFa(props.data.Total)}
                 <small> {props.data.symbole}</small>
                 <Crop size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px", transform:"rotate(90deg)"}} />
               </div>
           </div>
-          <div style={{ marginBottom:'-10px'}} className={` col-6`}>
-              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'تعداد تراکنش'}</p>
+          <div style={{ marginBottom:'-10px', textAlign:'right'}} className={` col-6`}>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'تعداد تراکنش'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {digitsEnToFa(
                   countSpecificObjects(props.transactions, 'Type', 'coin')
@@ -117,15 +117,15 @@ const CardTransactions = (props) => {
         </div>
 
         <div className='row mt-2'>
-          <div className='col-6'>
-              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'اولین فعالیت'}</p>
+          <div className='col-6' style={{textAlign:'right'}}>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'اولین فعالیت'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {digitsEnToFa(FirstTime)}
                 <Circle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
               </div>
           </div>
-          <div style={{ marginBottom:'-10px'}} className={` col-6`}>
-              <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'آخرین فعالیت'}</p>
+          <div style={{ marginBottom:'-10px', textAlign:'right'}} className={` col-6`}>
+              <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'آخرین فعالیت'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {digitsEnToFa(LastTime)}
                 <Aperture size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />

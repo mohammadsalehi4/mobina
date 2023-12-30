@@ -11,7 +11,7 @@ import DashboardAccWallet from '../../../../components/dashboardAccWallet/dashbo
 
 const TransactionDetail = (props) => {
   return (
-    <div id='TransactionDetail' class="container-fluid vazir">
+    <div id='TransactionDetail' class="container-fluid vazir" style={{textAlign:'right'}}>
         <div class="row vazir">
             <div className='col-lg-6 mt-2'>
               <CardContentTypes data={props.data} labelData={props.labelData} TagData={props.TagData}/>

@@ -369,7 +369,7 @@ const DataTableWithButtons = (props) => {
       <Card style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom' id="mainTable">
           <CardTitle className='mb-2' tag='h3' id="CardTitle">
-            <div className='row'>
+            <div className='row' style={{textAlign:'right'}}>
               <div className='col-sm-6 mt-2'>
                 آخرین تراکنش‌ها
               </div>

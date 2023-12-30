@@ -338,7 +338,7 @@ const CardContentTypes = (props) => {
           </div>
         </div>
         
-        <div className='row mt-4'>
+        <div className='row mt-4' style={{textAlign:'right'}}>
             <div className='col-12' style={{float:"right"}}>
               <p style={{marginBottom:"5px", color:"rgb(150,150,150)"}}>مالک</p>
             <div>
@@ -386,7 +386,7 @@ const CardContentTypes = (props) => {
     <>
       <Card className='card-transaction' id='rightCard1' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
-          <CardTitle tag='h4' style={{width:"100%", boxSizing:"border-box"}} >
+          <CardTitle tag='h4' style={{width:"100%", boxSizing:"border-box", textAlign:'right'}} >
             <span >آدرس</span> {props.data.name}
 
             {

@@ -1537,7 +1537,14 @@ const EcommerceDashboard2 = () => {
                 <Col xl={{size:1}} lg={{size:1}} md={{size:0}} >
                 </Col>
 
-                <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center'}} id='CenterDashboardBox'>
+                <Col xl={{size:10}} lg={{size:10}} md={{size:12}}id='CenterDashboardBox'
+                    style={{
+                      textAlign: 'center', 
+                      maxWidth: '1280px', 
+                      marginLeft: 'auto', 
+                      marginRight: 'auto'
+                    }}
+                >
                     <Row className='pt-5 pb-5' id='DashboardTopRow'>
                         <Col xl={{size:3}} lg={{size:2}} md={{size:1}} sm={{size:0}}>
                         </Col>
@@ -1671,9 +1678,16 @@ const EcommerceDashboard2 = () => {
         }
 
         <Row class="row row2 pb-2">
-            <Col xl={{size:2}} lg={{size:1}} md={{size:1}} class="col-lg-2">
+            <Col xl={{size:2}} lg={{size:1}} md={{size:1}} class="">
             </Col>
-            <Col xl={{size:8}} lg={{size:10}} md={{size:10}} sm={{size:12}} class="col-lg-8 p-0">
+            <Col xl={{size:8}} lg={{size:10}} md={{size:10}} sm={{size:12}} class=" p-0"
+              style={{
+                textAlign: 'center', 
+                maxWidth: '1280px', 
+                marginLeft: 'auto', 
+                marginRight: 'auto'
+              }}
+            >
             {
                 mode === 1 ? <TransactionDetail data={trData} labelData={labelData} TagData={TagData}/> : null
             }
@@ -1682,7 +1696,7 @@ const EcommerceDashboard2 = () => {
                 mode === 2 ? <Walletdetail labelData={labelData} Entity={Entity} TagData={TagData} data={adData} address={address} coinData={coinData}/> : null
             }
             </Col>
-            <Col class="col-lg-2">
+            <Col xl={{size:2}} lg={{size:1}} md={{size:1}}>
             </Col>
         </Row>
     </div>
