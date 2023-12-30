@@ -53,7 +53,7 @@ const Main = () => {
             axios.post(serverAddress+"/accounts/api/token/", {
                 username:username,
                 password:password,
-                token:recaptchaToken
+                recaptcha:recaptchaToken
             })
             .then((response) => {
                 if (response.data.refresh && response.data.access) {
@@ -183,7 +183,7 @@ const Main = () => {
                                                 theme="dark"
                                                 size="invisible"
                                                 hl='fa'
-                                                sitekey={'6LeMh0ApAAAAADLZc2OFx-POjZLkqtQmfIWvdJnj'}
+                                                sitekey={'6LcANTopAAAAAMPKIbGRiuJdDOCjMhUYaQyQdh5z'}
                                                 ref={recaptchaRef}
                                                 onChange={recaptchaOnChange}
                                                 asyncScriptOnLoad={asyncScriptOnLoad}
