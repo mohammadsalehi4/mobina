@@ -1,9 +1,10 @@
+/* eslint-disable no-tabs */
 /* eslint-disable no-unused-vars */
 /* eslint-disable brace-style */
 /* eslint-disable object-shorthand */
 /* eslint-disable prefer-template */
 /* eslint-disable space-infix-ops */
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import '../../app-assets/vendors/css/vendors-rtl.min.css'
 import '../../app-assets/css-rtl/bootstrap-extended.css'
 import '../../app-assets/css-rtl/components.css'
@@ -23,9 +24,19 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const Recovery = () => {
     const [Loading, SetLoading]=useState(false)
+    
+    const recaptchaRef = useRef()
+	const [recaptchaToken, setRecaptchaToken] = useState('')
+	const [recaptchaLoad, setRecaptchaLoad] = useState(false)
+    const recaptchaOnChange = token => {
+		setRecaptchaToken(token)
+		console.log('token')
+		console.log(token)
+	}
 
     const submit = (event) => {
         event.preventDefault()
@@ -94,6 +105,15 @@ const Recovery = () => {
                                            <a href="/ " class='login_forgote_password_link ' style={{color:"#2f4f4f"}}><small>بازگشت به صفحه اصلی</small></a>
                                         </div>
                                     </div>
+                                    <ReCAPTCHA
+                                        style={{display: 'inline-block'}}
+                                        theme="dark"
+                                        size="invisible"
+                                        hl='fa'
+                                        sitekey={'6LcANTopAAAAAMPKIbGRiuJdDOCjMhUYaQyQdh5z'}
+                                        ref={recaptchaRef}
+                                        onChange={recaptchaOnChange}
+                                    />
                                 </div>
                                 <div class="d-none d-lg-flex col-lg-8 align-items-center p-5" id='rightLoginBackground'>
                                 </div>

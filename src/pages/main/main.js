@@ -175,7 +175,7 @@ const Main = () => {
                                             </div>
                                             <button class="btn  w-100 login_form" style={{background:'#2f4f4f', color:"white"}} tabindex="4" onClick={login}>ورود</button>
                                             <ReCAPTCHA
-                                                style={{display: 'inline-block'}}
+                                                style={{display: 'inline-block', fontFamily:'vazir'}}
                                                 theme="dark"
                                                 size="invisible"
                                                 hl='fa'
