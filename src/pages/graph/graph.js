@@ -1007,17 +1007,16 @@ const FuckingGraph = (props) => {
 
   //اگر روی صفحه کلیک شد، یال ها از حالت سلکت خارج شوند و شروع و پایان ناحیه انتخاب یال ها
   network.on("click", function (params) {
-    if (params.nodes.length === 0 && params.edges.length === 0) {
-      SetEdgeSelected([])
-    }
-    if (check) {
-      selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
-    } else {
-      selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
-      selectEdgesInRegion(network, edges, selectionStart, selectionEnd)
-    }
-    check = !check
-
+      if (params.nodes.length === 0 && params.edges.length === 0) {
+        SetEdgeSelected([])
+      }
+      if (check) {
+        selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
+      } else {
+        selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
+        selectEdgesInRegion(network, edges, selectionStart, selectionEnd)
+      }
+      check = !check
   });
 
   //take picture

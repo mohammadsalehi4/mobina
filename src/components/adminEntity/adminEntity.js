@@ -24,7 +24,7 @@ const AdminEntity = () => {
                     onClick={() => {
                     toggle('1')
                 }}>
-                    <span className='align-right'>مشاهده موجودیت ها</span>
+                    <span className='align-right'>مشاهده موجودیت‌ها</span>
                 </a>
             </NavItem>
 
@@ -48,7 +48,7 @@ const AdminEntity = () => {
                     onClick={() => {
                     toggle('1')
                 }}>
-                    <span className='align-right'>مشاهده موجودیت ها</span>
+                    <span className='align-right'>مشاهده موجودیت‌ها</span>
                 </a>
             </NavItem>
 

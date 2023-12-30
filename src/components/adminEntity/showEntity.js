@@ -287,7 +287,7 @@ const ShowEntity = () => {
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
-        <CardTitle tag='h6' style={{width:'100%'}}>لیست موجودیت ها
+        <CardTitle tag='h6' style={{width:'100%'}}>لیست موجودیت‌ها
               <ion-icon size={18} onClick={ () => { 
                 dispatch({type:"EntityBeload", value:!States.EntityBeload})
             }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>

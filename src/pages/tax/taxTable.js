@@ -468,8 +468,8 @@ const TaxTable = ({ stepper }) => {
             <Calendar
               onChange={(date) => {
                 document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                SetStartTime(date)
-                setStartTimeShowModal(false)
+                SetEndTime(date)
+                setEndTimeShowModal(false)
               }}
             />
           </CalendarProvider>
@@ -478,8 +478,8 @@ const TaxTable = ({ stepper }) => {
           <Calendar
             onChange={(date) => {
               document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-              SetStartTime(date)
-              setStartTimeShowModal(false)
+              SetEndTime(date)
+              setEndTimeShowModal(false)
             }}
           />
         </CalendarProvider>

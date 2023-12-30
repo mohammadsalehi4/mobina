@@ -144,7 +144,7 @@ const Admin = () => {
                                 dispatch({type:"rollsLoading", value:7})
                                 toggle('7')
                                 }}>
-                                <span className='align-middle'>موجودیت</span>
+                                <span className='align-middle'>موجودیت‌ها</span>
                             </a>
                         </NavItem>
                     </Nav>
