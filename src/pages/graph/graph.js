@@ -1056,7 +1056,8 @@ const FuckingGraph = (props) => {
   //خودمم نمیدونم چرا این باید باشه ولی باید باشه
   check = !showDiv
   //***************************************************************************************************/
-
+  console.log('colors')
+  console.log(k)
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload, States.graphAddColor, States.deleteColor, States.ColorType])
   
   const mouseMove = (event) => {

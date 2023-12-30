@@ -143,6 +143,10 @@ const Main = () => {
         }
     }, [])
 
+	const asyncScriptOnLoad = () => {
+		recaptchaRef.current.execute()
+	}
+
     return (
         <UILoader blocking={Loading} loader={<Spinner />}>
         <body id='main' class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static vazir " data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">
@@ -179,9 +183,10 @@ const Main = () => {
                                                 theme="dark"
                                                 size="invisible"
                                                 hl='fa'
-                                                sitekey={'6LcANTopAAAAAMPKIbGRiuJdDOCjMhUYaQyQdh5z'}
+                                                sitekey={'6LeMh0ApAAAAADLZc2OFx-POjZLkqtQmfIWvdJnj'}
                                                 ref={recaptchaRef}
                                                 onChange={recaptchaOnChange}
+                                                asyncScriptOnLoad={asyncScriptOnLoad}
                                             />
                                         </form>
                                         <div class="d-flex mt-2">
