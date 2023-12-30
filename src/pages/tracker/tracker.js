@@ -618,6 +618,7 @@ const Tracker = () => {
                 let Network 
                 let networkName 
                 let SavedPositions
+                let edgesColors
 
                 for (let i = 0; i < response.data.results.length; i++) {
                     if (response.data.results[i].id === Number(id)) {
