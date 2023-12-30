@@ -139,6 +139,7 @@ const FuckingGraph = (props) => {
   const [DownloadGraph, SetDownloadGraph] = useState(States.downloadGraph)
 
   let check = false
+  let dragCheck = false
 
   useEffect(() => {
     dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
@@ -431,7 +432,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`/public/images/location.png`,
+              image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
               label: showLabel
             }
           } else if (GraphData[i].group === 'mid') {
@@ -441,7 +442,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`/public/images/location.png`,
+              image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
               label: GraphData[i].symbole
             }
           }
@@ -837,14 +838,14 @@ const FuckingGraph = (props) => {
       dispatch({type:"Scale", value:(params.scale)})
     })
 
-    //save new position after drag nodes
+    //save new position of graph after drag
     network.on("dragEnd", function () {
       var FullPosition = network.getViewPosition();
       dispatch({type:"positionX", value:(FullPosition.x)})
       dispatch({type:"positionY", value:(FullPosition.y)})
     })
 
-    //save new position after drag nodes
+    //save new position of nodes after drag nodes
     network.on("dragEnd", function (params) {
       var MyNodeId = params.nodes[0];
       if (MyNodeId) {
@@ -869,11 +870,6 @@ const FuckingGraph = (props) => {
         }
       }
     });
-
-    // network.on("dragStart", function (params) {
-    //   params.event.preventDefault();
-    //   selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
-    // });
 
     //add color to edges
     edges.forEach(function (edge) {
