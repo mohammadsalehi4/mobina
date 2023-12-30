@@ -50,7 +50,7 @@ const Recovery = () => {
             SetLoading(true)
             axios.post(serverAddress+"/accounts/recover_password/", {
                 phone_number:phone_number,
-                token:recaptchaToken
+                recaptcha:recaptchaToken
             })
             .then((response) => {
                 if (response.data.Success === true) {

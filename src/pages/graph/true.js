@@ -131,6 +131,8 @@ const FuckingGraph = (props) => {
   const [showDiv, SetShowDiv] = useState(true)
   const [startX, SetstartX] = useState(0)
   const [startY, SetstartY] = useState(0)
+  const [MainStartX, SetMainStartX] = useState(0)
+  const [MainStartY, SetMainStartY] = useState(0)
   const [moveX, SetmoveX] = useState(0)
   const [moveY, SetmoveY] = useState(0)
 
@@ -401,6 +403,10 @@ const FuckingGraph = (props) => {
       dispatch({type:"SavedPositions", value:AllNodes})
     }
   }, [States.GraphData, States.BeGraphReload])
+
+  useEffect(() => {
+    check = showDiv
+  }, [showDiv])
 
   useEffect(() => {
     //Nodes
@@ -927,16 +933,6 @@ const FuckingGraph = (props) => {
     }
   }
 
-  // network.on("dragStart", function (params) {
-  //   params.event.preventDefault();
-  //   selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
-  // });
-  
-  // network.on("dragEnd", function (params) {
-  //   selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
-  //   selectEdgesInRegion(network, edges, selectionStart, selectionEnd);
-  // });
-
   //change color and add
   if (Color !== States.ColorType) {
     for (let i = 0; i < EdgeSelected.length; i++) {
@@ -1008,12 +1004,17 @@ const FuckingGraph = (props) => {
     SetEdgeSelected([])
     SetdeleteColor(States.deleteColor)
   }
-  //اگر روی صفحه کلیک شد، یال ها از حالت سلکت خارج شوند
+
+  //اگر روی صفحه کلیک شد، یال ها از حالت سلکت خارج شوند و شروع و پایان ناحیه انتخاب یال ها
+  network.on("click", function (params) {
+    console.log(showDiv)
+  });
+  
   network.on("click", function (params) {
     if (params.nodes.length === 0 && params.edges.length === 0) {
       SetEdgeSelected([])
     }
-    if (!check) {
+    if (check) {
       selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
     } else {
       selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
@@ -1023,7 +1024,6 @@ const FuckingGraph = (props) => {
 
   });
 
-  
   //take picture
   function takeFullGraphScreenshot() {
     const originalScale = network.getScale();
@@ -1053,37 +1053,36 @@ const FuckingGraph = (props) => {
     takeFullGraphScreenshot()
   }
 
-  //***************************************************************************************************/
+  //خودمم نمیدونم چرا این باید باشه ولی باید باشه
+  check = !showDiv
 
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload, States.graphAddColor, States.deleteColor, States.ColorType])
   
   const mouseMove = (event) => {
     if (showDiv) {
-
-      if (event.clientX < startX) {
-        SetstartX(event.clientX)
-      } else {
+      if (event.clientX >= MainStartX) {
         SetmoveX(event.clientX)
+      } else {
+        SetmoveX(MainStartX)
+        SetstartX(event.clientX)
       }
 
-      if (event.clientY < startY) {
-        SetstartY(event.clientY)
-      } else {
+      if (event.clientY >= MainStartY) {
         SetmoveY(event.clientY)
+      } else {
+        SetmoveY(MainStartY)
+        SetstartY(event.clientY)
       }
-      
     }
   }
   const mouseClick = (event) => {
     if (showDiv === false) {
-      
       SetstartX(event.clientX)
       SetstartY((event.clientY))
+      SetMainStartX(event.clientX)
+      SetMainStartY((event.clientY))
       SetmoveX(event.clientX)
       SetmoveY((event.clientY))
-      
-    } else {
-      check = false
     }
     SetShowDiv(!showDiv)
   }
