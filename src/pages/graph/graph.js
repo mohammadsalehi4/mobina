@@ -1089,8 +1089,9 @@ const FuckingGraph = (props) => {
       SetmoveX(event.clientX)
       SetmoveY((event.clientY))
     } else {
-
-      dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
+      if (mouseMode) {
+        dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
+      }
     }
     SetShowDiv(!showDiv)
   }
