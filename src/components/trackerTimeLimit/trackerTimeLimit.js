@@ -26,11 +26,23 @@ function getMyTime(millis) {
   const date = new Date(millis)
 
   const year = date.getFullYear()
-  const month = date.getMonth()
-  const day = date.getDate()
+  let month = date.getMonth()
+  let day = date.getDate()
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
+
+  if (month > 12) {
+    month  = 12
+  } else if (month < 1) {
+      month = 1
+  }
+
+  if (day > 31) {
+      day  = 31
+  } else if (day < 1) {
+      day = 1
+  }
 
   return {
     year,

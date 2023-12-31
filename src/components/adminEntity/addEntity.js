@@ -18,6 +18,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { serverAddress } from '../../address'
 import { JalaliCalendar } from '../../processors/jalaliCalendar'
+import { GetMillisecond } from '../../processors/getMillisecond'
 import toast from 'react-hot-toast'
 
 const AddEntity = () => {
@@ -511,6 +512,7 @@ const AddEntity = () => {
                         <CalendarProvider locale={'fa'} >
                             <Calendar
                             onChange={(date) => {
+                                console.log(GetMillisecond(date))
                                 setEstablishmentDate(date)
                                 setEstablishmentBox(false)
                             }}

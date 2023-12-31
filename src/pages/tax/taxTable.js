@@ -29,6 +29,7 @@ const TaxTable = ({ stepper }) => {
   const [Loading, SetLoading] = useState(false)
   const [NetworkId, SetNetworkId] = useState(0)
   const [FiltredTokens, SetFiltredTokens] = useState([])
+
   const [Networks, SetNetworks] = useState(
     [    
       {
@@ -344,7 +345,6 @@ const TaxTable = ({ stepper }) => {
                 <Label for='deposit'  className=' me-1'>واریز</Label>
                 <Input type='radio' name='transferType' id='withdraw'  value='withdraw' className='me-5'  onChange={ () => { document.getElementById('withdraw').style.color = 'rgb(100,100,100)' } }/>
                 <Label for='withdraw'  className=' me-1'>برداشت</Label>
-
           </Col>
         </Row>
         
@@ -368,8 +368,6 @@ const TaxTable = ({ stepper }) => {
                   <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
                   <ArrowLeft size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowLeft>
                 </>
-
-
               }
             </button>
           </Col>
