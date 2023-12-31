@@ -398,8 +398,14 @@ const TaxTable = ({ stepper }) => {
               onChange={(date) => {
                 console.log('start date')
                 console.log(date)
+                console.log(date.value)
+
                 document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                SetTaxStartTime(date.value)
+                if (date.value !== undefined) {
+                  SetTaxStartTime(date.value)
+                } else {
+                  SetTaxStartTime(date)
+                }
                 setStartTimeShowModal(false)
               }}
             />
@@ -428,8 +434,15 @@ const TaxTable = ({ stepper }) => {
               onChange={(date) => {
                 console.log('end date')
                 console.log(date)
+                console.log(date.value)
+
                 document.getElementById('EndTaxPeriod').style.borderColor = 'rgb(220,220,220)'
                 SetTaxEndTime(date.value)
+                if (date.value !== undefined) {
+                  SetTaxEndTime(date.value)
+                } else {
+                  SetTaxEndTime(date.value)
+                }
                 setEndTimeShowModal(false)
               }}
             />
