@@ -11,8 +11,6 @@ import { Card, CardHeader, Row, CardBody, Col, Modal,
 import { Input, Label, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-import { JalaliCalendar } from '../../processors/jalaliCalendar'
-import { MiladiCalendar } from '../../processors/MiladiCalendar'
 import { useState, useEffect } from 'react'
 import { ArrowLeft, ArrowRight, Check } from 'react-feather'
 import axios from 'axios'
@@ -20,6 +18,7 @@ import { Calendar, CalendarProvider } from "zaman"
 import { useDispatch, useSelector } from 'react-redux'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
+import moment from "jalali-moment"
 
 function GetMillisecond (time) {
   const date = new Date(time)
@@ -30,6 +29,47 @@ function GetMillisecond (time) {
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
+  
+  return {
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second
+  }
+}
+
+function MiladiCalendar (time) {
+  const date = new Date(time)
+  
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+  
+  return {
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second
+  }
+}
+
+function JalaliCalendar (time) {
+  const date = new Date(time)
+  
+  const year = moment(time).locale('fa').format('YYYY')
+  const month = moment(time).locale('fa').format('MM')
+  const day = moment(time).locale('fa').format('DD')
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+  console.log(moment(time).locale('fa').format('YYYY'))
   
   return {
       year,
