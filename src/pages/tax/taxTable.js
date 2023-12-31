@@ -17,10 +17,29 @@ import { useState, useEffect } from 'react'
 import { ArrowLeft, ArrowRight, Check } from 'react-feather'
 import axios from 'axios'
 import { Calendar, CalendarProvider } from "zaman"
-import { GetMillisecond } from '../../processors/getMillisecond'
 import { useDispatch, useSelector } from 'react-redux'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
+
+function GetMillisecond (time) {
+  const date = new Date(time)
+  
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+  
+  return {
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second
+  }
+}
 
 const TaxTable = ({ stepper }) => {
   const dispatch = useDispatch()
@@ -400,8 +419,6 @@ const TaxTable = ({ stepper }) => {
                   <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
                   <ArrowLeft size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowLeft>
                 </>
-
-
               }
             </button>
           </Col>
