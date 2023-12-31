@@ -887,7 +887,7 @@ const FuckingGraph = (props) => {
 
   //*************************************************************************/
 
-  //select edges
+  //افزودن یال های سلکت شده به استیت مورد نظر
   function selectEdgesInRegion(network, edges, regionStart, regionEnd) {
     if (mouseMode) {
       const selectedEdges = [];
@@ -925,7 +925,6 @@ const FuckingGraph = (props) => {
         
       });
       SetEdgeSelected(selectedEdgesData)
-      network.selectEdges(selectedEdges);
     }
   }
 
@@ -1047,6 +1046,21 @@ const FuckingGraph = (props) => {
   //خودمم نمیدونم چرا این باید باشه ولی باید باشه
   check = !showDiv
 
+  //روش جدید برای انتخاب یال ها برای رنگ کردن
+  function selectMyEdges(network, edges, selectedEdges) {
+    if (mouseMode) {
+      const selectedEdgesData = [];
+      edges.forEach((edge) => {
+
+        if (selectedEdges.some(item => item.to === edge.to && item.from === edge.from)) {
+          selectedEdgesData.push(edge.id)
+        }
+      });
+      network.selectEdges(selectedEdgesData);
+    }
+  }
+  selectMyEdges(network, edges, EdgeSelected)
+  
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload, States.graphAddColor, States.deleteColor, States.ColorType])
   
   const mouseMove = (event) => {
@@ -1074,6 +1088,9 @@ const FuckingGraph = (props) => {
       SetMainStartY((event.clientY))
       SetmoveX(event.clientX)
       SetmoveY((event.clientY))
+    } else {
+
+      dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
     }
     SetShowDiv(!showDiv)
   }
