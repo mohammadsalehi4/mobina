@@ -26,7 +26,7 @@ function getMyTime(millis) {
   const date = new Date(millis)
 
   const year = date.getFullYear()
-  const month = date.getMonth() + 1 
+  const month = date.getMonth()
   const day = date.getDate()
   const hour = date.getHours()
   const minute = date.getMinutes()

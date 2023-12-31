@@ -7,7 +7,7 @@ export function GetMillisecond (time) {
     const hour = date.getHours()
     const minute = date.getMinutes()
     const second = date.getSeconds()
-    
+
     return {
         year,
         month,

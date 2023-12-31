@@ -114,12 +114,12 @@ const TaxTable = ({ stepper }) => {
     })
   }, [])
 
-  const [startTime, SetStartTime] = useState(0)
-  const [EndTime, SetEndTime] = useState(0)
+  const [TaxstartTime, SetTaxStartTime] = useState(0)
+  const [TaxEndTime, SetTaxEndTime] = useState(0)
   const [StartTimeShowModal, setStartTimeShowModal] = useState(false)
   const [EndTimeShowModal, setEndTimeShowModal] = useState(false)
 
-  const check = () => {
+ const check = () => {
     let Valid = true
 
     const JobName = document.getElementById('JobName').value
@@ -141,8 +141,8 @@ const TaxTable = ({ stepper }) => {
             console.log(type)
         }
     }
-    const NewStartdate = new Date(startTime).setHours(0, 0, 0, 0)
-    const NewEnddate = new Date(EndTime).setHours(23, 59, 59, 59)
+    const NewStartdate = new Date(TaxstartTime).setHours(0, 0, 0, 0)
+    const NewEnddate = new Date(TaxEndTime).setHours(23, 59, 59, 59)
 
     if (JobName === '') {
       Valid = false
@@ -176,11 +176,11 @@ const TaxTable = ({ stepper }) => {
       Valid = false
       document.getElementById('TaxPercent').style.borderColor = 'red'
     }
-    if (startTime === 0) {
+    if (TaxstartTime === 0) {
       Valid = false
       document.getElementById('StartTaxPeriod').style.borderColor = 'red'
     }
-    if (EndTime === 0) {
+    if (TaxEndTime === 0) {
       Valid = false
       document.getElementById('EndTaxPeriod').style.borderColor = 'red'
     } 
@@ -317,8 +317,8 @@ const TaxTable = ({ stepper }) => {
             <Label className='mt-1'>شروع دوره زمانی</Label>
             <div onClick={(event) => (setStartTimeShowModal(true))} id='StartTaxPeriod' tag='div' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
                 {
-                  startTime !== 0 ? 
-                  `${JalaliCalendar(startTime).year}/${JalaliCalendar(startTime).month}/${JalaliCalendar(startTime).day}`
+                  TaxstartTime !== 0 ? 
+                  `${JalaliCalendar(TaxstartTime).year}/${JalaliCalendar(TaxstartTime).month}/${JalaliCalendar(TaxstartTime).day}`
                   :
                   <span>انتخاب نشده</span>
                 }
@@ -329,8 +329,8 @@ const TaxTable = ({ stepper }) => {
           <Label  className='mt-1'>پایان دوره زمانی</Label>
             <div onClick={(event) => (setEndTimeShowModal(true))}  id='EndTaxPeriod' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
               {
-                EndTime !== 0 ? 
-                `${JalaliCalendar(EndTime).year}/${JalaliCalendar(EndTime).month}/${JalaliCalendar(EndTime).day}`
+                TaxEndTime !== 0 ? 
+                `${JalaliCalendar(TaxEndTime).year}/${JalaliCalendar(TaxEndTime).month}/${JalaliCalendar(TaxEndTime).day}`
                 :
                 <span>انتخاب نشده</span>
               }
@@ -349,13 +349,12 @@ const TaxTable = ({ stepper }) => {
         
         <Row className='mt-3'>
           <Col>
-            <a href='/tax/list'>
-              <button  style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next'>
-                <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
-                <span className='align-middle d-sm-inline-block d-none'>قبلی</span>
-              </button>
-            </a>
-
+            <button  style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next' onClick={() => {
+              stepper.previous()
+            }}>
+              <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
+              <span className='align-middle d-sm-inline-block d-none'>قبلی</span>
+            </button>
             <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => {
               check()
               
@@ -392,7 +391,7 @@ const TaxTable = ({ stepper }) => {
             <Calendar
               onChange={(date) => {
                 document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                SetStartTime(date)
+                SetTaxStartTime(date)
                 setStartTimeShowModal(false)
               }}
             />
@@ -420,7 +419,7 @@ const TaxTable = ({ stepper }) => {
             <Calendar
               onChange={(date) => {
                 document.getElementById('EndTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                SetEndTime(date)
+                SetTaxEndTime(date)
                 setEndTimeShowModal(false)
               }}
             />
