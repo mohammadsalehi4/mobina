@@ -437,11 +437,10 @@ const TaxTable = ({ stepper }) => {
                 console.log(date.value)
 
                 document.getElementById('EndTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                SetTaxEndTime(date.value)
                 if (date.value !== undefined) {
                   SetTaxEndTime(date.value)
                 } else {
-                  SetTaxEndTime(date.value)
+                  SetTaxEndTime(date)
                 }
                 setEndTimeShowModal(false)
               }}
