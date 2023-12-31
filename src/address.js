@@ -1,1 +1,1 @@
-export const serverAddress = "https://testapi.pantachain.com"
+export const serverAddress = "https://pantaapi.kahroba.top"
