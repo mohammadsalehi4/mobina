@@ -20,6 +20,7 @@ import { GetMillisecond } from '../../processors/getMillisecond'
 import { useDispatch, useSelector } from 'react-redux'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
+import DevelopCalendar from '../../components/developedCalendar/developCalendar'
 
 const TaxTable = ({ stepper }) => {
   const dispatch = useDispatch()
@@ -398,7 +399,7 @@ const TaxTable = ({ stepper }) => {
                 console.log('start date')
                 console.log(date)
                 document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                SetTaxStartTime(date)
+                SetTaxStartTime(date.value)
                 setStartTimeShowModal(false)
               }}
             />
@@ -428,7 +429,7 @@ const TaxTable = ({ stepper }) => {
                 console.log('end date')
                 console.log(date)
                 document.getElementById('EndTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                SetTaxEndTime(date)
+                SetTaxEndTime(date.value)
                 setEndTimeShowModal(false)
               }}
             />
