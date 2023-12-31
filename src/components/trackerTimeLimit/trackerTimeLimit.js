@@ -189,7 +189,11 @@ const TrackerTimeLimit = (props) => {
             <CalendarProvider locale={Mode}>
               <Calendar
                 onChange={(date) => {
-                  SetStartTime(dateToMilliseconds(date))
+                  if (date.value !== undefined) {
+                    SetStartTime(dateToMilliseconds(date.value))
+                  } else {
+                    SetStartTime(dateToMilliseconds(date))
+                  }
                   document.getElementById('fromLimitTime').style.display = 'none'
                 }}
               />
@@ -207,7 +211,11 @@ const TrackerTimeLimit = (props) => {
               <Calendar
               size={1}
                 onChange={(date) => {
-                  SetEndTime(convertToEndOfDayMilliseconds(date))
+                  if (date.value !== undefined) {
+                    SetEndTime(convertToEndOfDayMilliseconds(date.value))
+                  } else {
+                    SetEndTime(convertToEndOfDayMilliseconds(date))
+                  }
                   document.getElementById('toLimitTime').style.display = 'none'
                 }}
               />

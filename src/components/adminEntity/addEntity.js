@@ -512,8 +512,11 @@ const AddEntity = () => {
                         <CalendarProvider locale={'fa'} >
                             <Calendar
                             onChange={(date) => {
-                                console.log(GetMillisecond(date))
-                                setEstablishmentDate(date)
+                                if (date.value !== undefined) {
+                                    setEstablishmentDate(date.value)
+                                } else {
+                                    setEstablishmentDate(date)
+                                }
                                 setEstablishmentBox(false)
                             }}
                             />
