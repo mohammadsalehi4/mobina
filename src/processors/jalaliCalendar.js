@@ -20,6 +20,15 @@ export function JalaliCalendar (time) {
     } else if (day > 31) {
         day = 31
     }
+
+    console.log({
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        second
+    })
     
     return {
         year,

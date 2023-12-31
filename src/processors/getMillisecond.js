@@ -20,6 +20,17 @@ export function GetMillisecond (time) {
         day = 1
     }
 
+    console.log(
+        {
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            second
+        }
+    )
+
     return {
         year,
         month,
