@@ -142,6 +142,12 @@ const TaxTable = ({ stepper }) => {
             console.log(type)
         }
     }
+
+    console.log('TaxstartTime')
+    console.log(TaxstartTime)
+    console.log('TaxEndTime')
+    console.log(TaxEndTime)
+
     const NewStartdate = new Date(TaxstartTime)
     const NewEnddate = new Date(TaxEndTime)
 
@@ -389,6 +395,8 @@ const TaxTable = ({ stepper }) => {
           <CalendarProvider locale={'fa'} >
             <Calendar
               onChange={(date) => {
+                console.log('start date')
+                console.log(date)
                 document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
                 SetTaxStartTime(date)
                 setStartTimeShowModal(false)
@@ -417,6 +425,8 @@ const TaxTable = ({ stepper }) => {
           <CalendarProvider locale={'fa'} >
             <Calendar
               onChange={(date) => {
+                console.log('end date')
+                console.log(date)
                 document.getElementById('EndTaxPeriod').style.borderColor = 'rgb(220,220,220)'
                 SetTaxEndTime(date)
                 setEndTimeShowModal(false)
