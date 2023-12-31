@@ -141,8 +141,8 @@ const TaxTable = ({ stepper }) => {
             console.log(type)
         }
     }
-    const NewStartdate = new Date(TaxstartTime).setHours(0, 0, 0, 0)
-    const NewEnddate = new Date(TaxEndTime).setHours(23, 59, 59, 59)
+    const NewStartdate = new Date(TaxstartTime)
+    const NewEnddate = new Date(TaxEndTime)
 
     if (JobName === '') {
       Valid = false
@@ -191,7 +191,8 @@ const TaxTable = ({ stepper }) => {
 
     const lastStartData = `${GetMillisecond(NewStartdate).year}-${GetMillisecond(NewStartdate).month}-${GetMillisecond(NewStartdate).day}`
     const lastEndtData = `${GetMillisecond(NewEnddate).year}-${GetMillisecond(NewEnddate).month}-${GetMillisecond(NewEnddate).day}`
-
+    console.log(lastStartData)
+    console.log(lastEndtData)
     const bodyFormData = new FormData()
 
     bodyFormData.append('bussiness', JobName)
