@@ -143,8 +143,8 @@ const TaxTable = ({ stepper }) => {
             console.log(type)
         }
     }
-    const NewStartdate = new Date(startTime).setHours(0, 0, 0, 0)
-    const NewEnddate = new Date(EndTime).setHours(23, 59, 59, 59)
+    const NewStartdate = new Date(startTime)
+    const NewEnddate = new Date(EndTime)
 
     if (JobName === '') {
       Valid = false
