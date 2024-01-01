@@ -238,7 +238,7 @@ function Header() {
           <a className="vazir" id='MobileheaderLink4' href="/tracker"><ion-icon name="locate-outline"></ion-icon>ردیابی</a>
           <a className="vazir" id='MobileheaderLink3' href="/mining"><ion-icon name="diamond-outline" className="headerIonIcon"></ion-icon> استخراج</a>
           <a className="vazir" id='MobileheaderLink5' href="/tax"><ion-icon name="cash-outline" className="headerIonIcon"></ion-icon> مالیات</a>
-          <a className="vazir" id='MobileheaderLink6' href="/reports"><ion-icon name="reader-outline" className="headerIonIcon"></ion-icon> گزارش ها</a>
+          <a className="vazir" id='MobileheaderLink6' href="/reports"><ion-icon name="reader-outline" className="headerIonIcon"></ion-icon>مقالات</a>
           <a className="vazir" id='MobileheaderLink7' href="/folders"><ion-icon name="folder-open-outline" className="headerIonIcon"></ion-icon> پرونده ها</a>
           <div id='mobileOptionsSeprator'></div>
           <a className="vazir" id='MobileheaderLink7' href="#"><ion-icon name="exit-outline"></ion-icon> خروج</a>

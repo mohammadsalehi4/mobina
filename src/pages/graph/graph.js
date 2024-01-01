@@ -115,20 +115,12 @@ const FuckingGraph = (props) => {
   const [GraphData, SetGraphData] = useState([])
   const [Distance, SetDistance] = useState(300)
   const [NewPositions, SetNewPositions] = useState(States.NodesPosition)
-
   const [SavedPositions, SetSavedPositions] = useState(States.SavedPositions)
   const [Color, SetColor] = useState('red')
   const [EdgeSelected, SetEdgeSelected] = useState([])
   const [ColorBeReload, SetColorBeReload] = useState(States.graphAddColor)
   const [deleteColor, SetdeleteColor] = useState(States.graphAddColor)
   const [graphAddColor, SetgraphAddColor] = useState(States.graphAddColor)
-  let k = States.edgesColors
-
-  const [mouseMode, SetMouseMode] = useState(true)
-
-  let selectionStart = { x: 0, y: 0 };
-  let selectionEnd = { x: 0, y: 0 };
-
   const [showDiv, SetShowDiv] = useState(true)
   const [startX, SetstartX] = useState(0)
   const [startY, SetstartY] = useState(0)
@@ -136,8 +128,13 @@ const FuckingGraph = (props) => {
   const [MainStartY, SetMainStartY] = useState(0)
   const [moveX, SetmoveX] = useState(0)
   const [moveY, SetmoveY] = useState(0)
-
+  const [mouseMode, SetMouseMode] = useState(true)
   const [DownloadGraph, SetDownloadGraph] = useState(States.downloadGraph)
+
+  let k = States.edgesColors
+
+  let selectionStart = { x: 0, y: 0 };
+  let selectionEnd = { x: 0, y: 0 };
 
   let check = false
   let dragCheck = false
