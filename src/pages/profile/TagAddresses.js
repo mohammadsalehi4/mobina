@@ -153,6 +153,8 @@ const TagAddresses = () => {
         </div>     
         {
           !isEmpty ? 
+            data.length > 0 ?
+
             <DataTable
               noHeader
               data={data}
@@ -160,6 +162,8 @@ const TagAddresses = () => {
               className='react-dataTable'
               sortIcon={<ChevronDown size={10} />}
             />
+            :
+            <p style={{textAlign:'center'}}>بدون تگ ذخیره شده</p>
         :
         <p style={{textAlign:'center'}}>بدون تگ ذخیره شده</p>
         }      
