@@ -12,6 +12,7 @@ import { Input, Label, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import { JalaliCalendar } from '../../processors/jalaliCalendar'
+import { MiladiCalendar } from '../../processors/MiladiCalendar'
 import { useState, useEffect } from 'react'
 import { ArrowLeft, ArrowRight, Check } from 'react-feather'
 import axios from 'axios'
@@ -20,17 +21,16 @@ import { GetMillisecond } from '../../processors/getMillisecond'
 import { useDispatch, useSelector } from 'react-redux'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
-import DevelopCalendar from '../../components/developedCalendar/developCalendar'
 
 const TaxTable = ({ stepper }) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
 
   const [Tokens, SetTokens] = useState([])
+  const [CalendarType, SetCalendarType] = useState(false)
   const [Loading, SetLoading] = useState(false)
   const [NetworkId, SetNetworkId] = useState(0)
   const [FiltredTokens, SetFiltredTokens] = useState([])
-
   const [Networks, SetNetworks] = useState(
     [    
       {
@@ -116,12 +116,12 @@ const TaxTable = ({ stepper }) => {
     })
   }, [])
 
-  const [TaxstartTime, SetTaxStartTime] = useState(0)
-  const [TaxEndTime, SetTaxEndTime] = useState(0)
+  const [startTime, SetStartTime] = useState(0)
+  const [EndTime, SetEndTime] = useState(0)
   const [StartTimeShowModal, setStartTimeShowModal] = useState(false)
   const [EndTimeShowModal, setEndTimeShowModal] = useState(false)
 
- const check = () => {
+  const check = () => {
     let Valid = true
 
     const JobName = document.getElementById('JobName').value
@@ -143,14 +143,8 @@ const TaxTable = ({ stepper }) => {
             console.log(type)
         }
     }
-
-    console.log('TaxstartTime')
-    console.log(TaxstartTime)
-    console.log('TaxEndTime')
-    console.log(TaxEndTime)
-
-    const NewStartdate = new Date(TaxstartTime)
-    const NewEnddate = new Date(TaxEndTime)
+    const NewStartdate = new Date(startTime).setHours(0, 0, 0, 0)
+    const NewEnddate = new Date(EndTime).setHours(23, 59, 59, 59)
 
     if (JobName === '') {
       Valid = false
@@ -184,11 +178,11 @@ const TaxTable = ({ stepper }) => {
       Valid = false
       document.getElementById('TaxPercent').style.borderColor = 'red'
     }
-    if (TaxstartTime === 0) {
+    if (startTime === 0) {
       Valid = false
       document.getElementById('StartTaxPeriod').style.borderColor = 'red'
     }
-    if (TaxEndTime === 0) {
+    if (EndTime === 0) {
       Valid = false
       document.getElementById('EndTaxPeriod').style.borderColor = 'red'
     } 
@@ -199,8 +193,7 @@ const TaxTable = ({ stepper }) => {
 
     const lastStartData = `${GetMillisecond(NewStartdate).year}-${GetMillisecond(NewStartdate).month}-${GetMillisecond(NewStartdate).day}`
     const lastEndtData = `${GetMillisecond(NewEnddate).year}-${GetMillisecond(NewEnddate).month}-${GetMillisecond(NewEnddate).day}`
-    console.log(lastStartData)
-    console.log(lastEndtData)
+
     const bodyFormData = new FormData()
 
     bodyFormData.append('bussiness', JobName)
@@ -257,6 +250,21 @@ const TaxTable = ({ stepper }) => {
     }
   }
 
+  const checkCalendar = () => {
+    let value
+    const radios = document.getElementsByName('calendarType')
+    for (let i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        value = radios[i].value
+      }
+    }
+    if (value === 'shamsi') {
+      SetCalendarType(false)
+    } else {
+      SetCalendarType(true)
+    }
+  }
+
   return (
     <Card className='m-0 ' style={{boxShadow:'none'}}>
     <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
@@ -264,6 +272,7 @@ const TaxTable = ({ stepper }) => {
     </CardHeader>
     <CardBody style={{textAlign:'left', boxShadow:'none'}}>
         <Row>
+
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='JobName'>نام کسب و کار</Label>
             <Input id='JobName' onChange={ () => { document.getElementById('JobName').style.borderColor = 'rgb(220,220,220)' } } placeholder='نام کسب و کار'/>
@@ -302,6 +311,14 @@ const TaxTable = ({ stepper }) => {
             </select>
           </Col>
 
+          <Col xl='12' lg='12' className='mt-3' style={{textAlign:'right'}}>
+            <Label style={{display:'block'}} id='TaxTrMode'>نوع تراکنش ها</Label>
+            <Input type='radio' name='transferType'  id='deposit'  onChange={ () => { document.getElementById('TaxTrMode').style.color = 'rgb(100,100,100)' } } value='deposit'/>
+            <Label for='deposit'  className=' me-1'>واریز</Label>
+            <Input type='radio' name='transferType' id='withdraw'  value='withdraw' className='me-5'  onChange={ () => { document.getElementById('withdraw').style.color = 'rgb(100,100,100)' } }/>
+            <Label for='withdraw'  className=' me-1'>برداشت</Label>
+          </Col>
+
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label for='GardeshZarib'>ضریب گردش اعمالی</Label>
             <Input id='GardeshZarib' type='number'  onChange={ () => { document.getElementById('GardeshZarib').style.borderColor = 'rgb(220,220,220)' } }/>
@@ -322,12 +339,23 @@ const TaxTable = ({ stepper }) => {
             <Input id='TaxPercent' type='number' placeholder='درصد'  onChange={ () => { document.getElementById('TaxPercent').style.borderColor = 'rgb(220,220,220)' } }/>
           </Col>
 
+          <Col xl='12' lg='12' className='mt-3' style={{textAlign:'right'}}>
+            <Label style={{display:'block'}}>نوع تاریخ ورودی</Label>
+            <Input onChange={() => { checkCalendar() }} type='radio' name='calendarType' defaultChecked value='shamsi'/>
+            <Label className=' me-1'>شمسی</Label>
+            <Input onChange={() => { checkCalendar() }} type='radio' name='calendarType' value='miladi' className='me-5'/>
+            <Label className=' me-1'>میلادی</Label>
+          </Col>
+
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
             <Label className='mt-1'>شروع دوره زمانی</Label>
             <div onClick={(event) => (setStartTimeShowModal(true))} id='StartTaxPeriod' tag='div' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
                 {
-                  TaxstartTime !== 0 ? 
-                  `${JalaliCalendar(TaxstartTime).year}/${JalaliCalendar(TaxstartTime).month}/${JalaliCalendar(TaxstartTime).day}`
+                  startTime !== 0 ? 
+                    !CalendarType ? 
+                      `${JalaliCalendar(startTime).year}/${JalaliCalendar(startTime).month}/${JalaliCalendar(startTime).day}`
+                    :
+                      `${MiladiCalendar(startTime).year}/${MiladiCalendar(startTime).month}/${MiladiCalendar(startTime).day}`
                   :
                   <span>انتخاب نشده</span>
                 }
@@ -338,31 +366,28 @@ const TaxTable = ({ stepper }) => {
           <Label  className='mt-1'>پایان دوره زمانی</Label>
             <div onClick={(event) => (setEndTimeShowModal(true))}  id='EndTaxPeriod' outline style={{width:'100%', textAlign:'right', borderColor:'rgb(215,215,215)', borderWidth:'1px', borderStyle:'solid', borderRadius:'6px', padding:'7px 16px', marginTop:'-1px', cursor:'pointer'}}>
               {
-                TaxEndTime !== 0 ? 
-                `${JalaliCalendar(TaxEndTime).year}/${JalaliCalendar(TaxEndTime).month}/${JalaliCalendar(TaxEndTime).day}`
+                EndTime !== 0 ? 
+                  !CalendarType ? 
+                    `${JalaliCalendar(EndTime).year}/${JalaliCalendar(EndTime).month}/${JalaliCalendar(EndTime).day}`
+                  :
+                    `${MiladiCalendar(EndTime).year}/${MiladiCalendar(EndTime).month}/${MiladiCalendar(EndTime).day}`
                 :
                 <span>انتخاب نشده</span>
               }
             </div>
           </Col>
 
-          <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>
-            <Label style={{display:'block'}} id='TaxTrMode'>نوع تراکنش ها</Label>
-                <Input type='radio' name='transferType'  id='deposit'  onChange={ () => { document.getElementById('TaxTrMode').style.color = 'rgb(100,100,100)' } } value='deposit'/>
-                <Label for='deposit'  className=' me-1'>واریز</Label>
-                <Input type='radio' name='transferType' id='withdraw'  value='withdraw' className='me-5'  onChange={ () => { document.getElementById('withdraw').style.color = 'rgb(100,100,100)' } }/>
-                <Label for='withdraw'  className=' me-1'>برداشت</Label>
-          </Col>
         </Row>
         
         <Row className='mt-3'>
           <Col>
-            <button  style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next' onClick={() => {
-              stepper.previous()
-            }}>
-              <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
-              <span className='align-middle d-sm-inline-block d-none'>قبلی</span>
-            </button>
+            <a href='/tax/list'>
+              <button  style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", float:'right'}} className='btn-next'>
+                <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
+                <span className='align-middle d-sm-inline-block d-none'>قبلی</span>
+              </button>
+            </a>
+
             <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => {
               check()
               
@@ -375,6 +400,8 @@ const TaxTable = ({ stepper }) => {
                   <span className='align-middle d-sm-inline-block d-none'>بعدی</span>
                   <ArrowLeft size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowLeft>
                 </>
+
+
               }
             </button>
           </Col>
@@ -393,23 +420,36 @@ const TaxTable = ({ stepper }) => {
         <h6>
           انتخاب زمان شروع
         </h6>
-          <CalendarProvider locale={'fa'} >
+        {
+          CalendarType ? 
+          <CalendarProvider locale={'en'} >
             <Calendar
               onChange={(date) => {
-                console.log('start date')
-                console.log(date)
-                console.log(date.value)
-
                 document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                if (date.value !== undefined) {
-                  SetTaxStartTime(date.value)
-                } else {
-                  SetTaxStartTime(date)
-                }
+                SetStartTime(date)
                 setStartTimeShowModal(false)
               }}
             />
           </CalendarProvider>
+        :
+        <CalendarProvider locale={'fa'} >
+          <Calendar
+            onChange={(date) => {
+              console.log('start time')
+              console.log(date)
+              console.log(date.value)
+              document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
+              if (date.value !== undefined) {
+                SetStartTime(date.value)
+              } else {
+                SetStartTime(date)
+              }
+              setStartTimeShowModal(false)
+            }}
+          />
+        </CalendarProvider>
+        }
+  
       </ModalBody>
       <ModalFooter>
         <Button color='danger' onClick={ () => { setStartTimeShowModal(false) } }>
@@ -429,23 +469,32 @@ const TaxTable = ({ stepper }) => {
         <h6>
           انتخاب زمان اتمام
         </h6>
-          <CalendarProvider locale={'fa'} >
+        {
+          CalendarType ? 
+          <CalendarProvider locale={'en'} >
             <Calendar
               onChange={(date) => {
-                console.log('end date')
-                console.log(date)
-                console.log(date.value)
-
-                document.getElementById('EndTaxPeriod').style.borderColor = 'rgb(220,220,220)'
+                document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
                 if (date.value !== undefined) {
-                  SetTaxEndTime(date.value)
+                  SetEndTime(date.value)
                 } else {
-                  SetTaxEndTime(date)
+                  SetEndTime(date)
                 }
                 setEndTimeShowModal(false)
               }}
             />
           </CalendarProvider>
+        :
+        <CalendarProvider locale={'fa'} >
+          <Calendar
+            onChange={(date) => {
+              document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
+              SetEndTime(date)
+              setEndTimeShowModal(false)
+            }}
+          />
+        </CalendarProvider>
+        }
       </ModalBody>
       <ModalFooter>
         <Button color='danger' onClick={ () => { setEndTimeShowModal(false) } }>

@@ -1022,7 +1022,7 @@ const FuckingGraph = (props) => {
     setTimeout(() => {
         const element = document.getElementById('myGraphDiv');
         const options = {
-            scale: 10 * window.devicePixelRatio,
+            scale: 4 * window.devicePixelRatio,
             useCORS: true
         };
         html2canvas(element, options).then(canvas => {
