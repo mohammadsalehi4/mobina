@@ -121,6 +121,7 @@ const FuckingGraph = (props) => {
   const [EdgeSelected, SetEdgeSelected] = useState([])
   const [ColorBeReload, SetColorBeReload] = useState(States.graphAddColor)
   const [deleteColor, SetdeleteColor] = useState(States.graphAddColor)
+  const [graphAddColor, SetgraphAddColor] = useState(States.graphAddColor)
   let k = States.edgesColors
 
   const [mouseMode, SetMouseMode] = useState(true)
@@ -408,6 +409,10 @@ const FuckingGraph = (props) => {
   useEffect(() => {
     check = showDiv
   }, [showDiv])
+
+  useEffect(() => {
+    dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
+  }, [States.graphAddColor])
 
   useEffect(() => {
     //Nodes
@@ -963,6 +968,22 @@ const FuckingGraph = (props) => {
     SetEdgeSelected([])
     dispatch({type:"edgesColors", value:k})
     SetColorBeReload(States.graphAddColor)
+  }
+
+  //اگر رنگ انتخاب شده تغییر نکرده بود، رنگ یال انتخاب شده رو تغییر بده
+  if (States.graphAddColor !== graphAddColor) {
+    for (let i = 0; i < EdgeSelected.length; i++) {
+      if (k.some(item => (item.from === EdgeSelected[i].from && item.to === EdgeSelected[i].to)) === true) {
+        const index = k.findIndex(item => (item.from === EdgeSelected[i].from && item.to === EdgeSelected[i].to))
+        if (index !== -1) {
+          k[index].color = States.ColorType
+        }
+      }
+    }
+    SetEdgeSelected([])
+    dispatch({type:"edgesColors", value:k})
+    SetColorBeReload(States.graphAddColor)
+    SetgraphAddColor(States.graphAddColor)
   }
 
   //select single edge

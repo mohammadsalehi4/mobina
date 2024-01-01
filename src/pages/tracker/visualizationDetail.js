@@ -75,7 +75,8 @@ const VisualizationDetail = (props) => {
               networkName,
               SavedPositions,
               edgesColors
-            }
+            },
+            title:GraphName
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
           .then((response) => {
@@ -136,7 +137,8 @@ const VisualizationDetail = (props) => {
               networkName,
               SavedPositions,
               edgesColors
-            }
+            },
+            title:GraphName
           },
           {headers: {Authorization: `Bearer ${Cookies.get('access')}`}})
           .then((response) => {
@@ -205,6 +207,7 @@ const VisualizationDetail = (props) => {
       SetAddress(props.hash)
     } else { SetAddress(false) }
   }, [,props.hash])
+
   return (
     <div id="visualizationDetail">
     <Fragment>
@@ -304,7 +307,8 @@ const VisualizationDetail = (props) => {
                         }
                       }
                       type='radio' 
-                    className='ms-1' name='kuft' defaultChecked style={{borderColor:'red', backgroundColor:'red'}} />
+                      className='ms-1' name='kuft' defaultChecked style={{borderColor:'red', backgroundColor:'red'}} 
+                    />
 
                     <Input
                       onClick={ () => {
@@ -319,7 +323,8 @@ const VisualizationDetail = (props) => {
                           SetColorType('orange')
                         }
                       }
-                    type='radio' className='ms-1' name='kuft' style={{borderColor:'orange', backgroundColor:'orange'}}  />
+                      type='radio' className='ms-1' name='kuft' style={{borderColor:'orange', backgroundColor:'orange'}}  
+                    />
 
                     <Input
                       onClick={ () => {
@@ -334,7 +339,8 @@ const VisualizationDetail = (props) => {
                           SetColorType('blue')
                         }
                       }
-                    type='radio' className='ms-1' name='kuft' style={{borderColor:'blue', backgroundColor:'blue'}}  />
+                      type='radio' className='ms-1' name='kuft' style={{borderColor:'blue', backgroundColor:'blue'}} 
+                    />
 
                     <Input
                       onClick={ () => {
@@ -349,7 +355,8 @@ const VisualizationDetail = (props) => {
                           SetColorType('purple')
                         }
                       }
-                    type='radio' className='ms-1' name='kuft' style={{borderColor:'purple', backgroundColor:'purple'}}  />
+                      type='radio' className='ms-1' name='kuft' style={{borderColor:'purple', backgroundColor:'purple'}}  
+                    />
 
                     <Trash2 onClick={ () => { dispatch({type:"deleteColor", value:!States.deleteColor}) } } size={18} style={{cursor:'pointer'}} />
                   </div>
@@ -363,8 +370,6 @@ const VisualizationDetail = (props) => {
                     <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginLeft:'12px', cursor:'pointer', color:'gray'}} name="save-outline"></ion-icon>
                     <span className='align-middle ms-25' style={{color:'gray', fontSize:'13px'}}>ذخیره</span>
                   </Button.Ripple>
-                  {/* <p style={{display:"inline-block"}}>ذخیره گراف</p> */}
-                  {/* <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginRight:'12px', marginBottom:'-4px', cursor:'pointer'}} name="save-outline"></ion-icon> */}
                 </div>
               </div>
 

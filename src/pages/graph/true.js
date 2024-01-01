@@ -139,6 +139,7 @@ const FuckingGraph = (props) => {
   const [DownloadGraph, SetDownloadGraph] = useState(States.downloadGraph)
 
   let check = false
+  let dragCheck = false
 
   useEffect(() => {
     dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
@@ -431,7 +432,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`/public/images/location.png`,
+              image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
               label: showLabel
             }
           } else if (GraphData[i].group === 'mid') {
@@ -441,7 +442,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`/public/images/location.png`,
+              image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
               label: GraphData[i].symbole
             }
           }
@@ -837,14 +838,14 @@ const FuckingGraph = (props) => {
       dispatch({type:"Scale", value:(params.scale)})
     })
 
-    //save new position after drag nodes
+    //save new position of graph after drag
     network.on("dragEnd", function () {
       var FullPosition = network.getViewPosition();
       dispatch({type:"positionX", value:(FullPosition.x)})
       dispatch({type:"positionY", value:(FullPosition.y)})
     })
 
-    //save new position after drag nodes
+    //save new position of nodes after drag nodes
     network.on("dragEnd", function (params) {
       var MyNodeId = params.nodes[0];
       if (MyNodeId) {
@@ -870,11 +871,6 @@ const FuckingGraph = (props) => {
       }
     });
 
-    network.on("dragStart", function (params) {
-      params.event.preventDefault();
-      selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 });
-    });
-
     //add color to edges
     edges.forEach(function (edge) {
       if (States.edgesColors.some(item => (item.from === edge.from && item.to === edge.to)) === true) {
@@ -891,7 +887,7 @@ const FuckingGraph = (props) => {
 
   //*************************************************************************/
 
-  //select edges
+  //افزودن یال های سلکت شده به استیت مورد نظر
   function selectEdgesInRegion(network, edges, regionStart, regionEnd) {
     if (mouseMode) {
       const selectedEdges = [];
@@ -929,7 +925,6 @@ const FuckingGraph = (props) => {
         
       });
       SetEdgeSelected(selectedEdgesData)
-      network.selectEdges(selectedEdges);
     }
   }
 
@@ -1007,21 +1002,16 @@ const FuckingGraph = (props) => {
 
   //اگر روی صفحه کلیک شد، یال ها از حالت سلکت خارج شوند و شروع و پایان ناحیه انتخاب یال ها
   network.on("click", function (params) {
-    console.log(showDiv)
-  });
-  
-  network.on("click", function (params) {
-    if (params.nodes.length === 0 && params.edges.length === 0) {
-      SetEdgeSelected([])
-    }
-    if (check) {
-      selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
-    } else {
-      selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
-      selectEdgesInRegion(network, edges, selectionStart, selectionEnd)
-    }
-    check = !check
-
+      if (params.nodes.length === 0 && params.edges.length === 0) {
+        SetEdgeSelected([])
+      }
+      if (check) {
+        selectionStart = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
+      } else {
+        selectionEnd = network.DOMtoCanvas({ x: params.event.center.x, y: params.event.center.y - 110 })
+        selectEdgesInRegion(network, edges, selectionStart, selectionEnd)
+      }
+      check = !check
   });
 
   //take picture
@@ -1032,7 +1022,7 @@ const FuckingGraph = (props) => {
     setTimeout(() => {
         const element = document.getElementById('myGraphDiv');
         const options = {
-            scale: 10 * window.devicePixelRatio,
+            scale: 4 * window.devicePixelRatio,
             useCORS: true
         };
         html2canvas(element, options).then(canvas => {
@@ -1056,6 +1046,21 @@ const FuckingGraph = (props) => {
   //خودمم نمیدونم چرا این باید باشه ولی باید باشه
   check = !showDiv
 
+  //روش جدید برای انتخاب یال ها برای رنگ کردن
+  function selectMyEdges(network, edges, selectedEdges) {
+    if (mouseMode) {
+      const selectedEdgesData = [];
+      edges.forEach((edge) => {
+
+        if (selectedEdges.some(item => item.to === edge.to && item.from === edge.from)) {
+          selectedEdgesData.push(edge.id)
+        }
+      });
+      network.selectEdges(selectedEdgesData);
+    }
+  }
+  selectMyEdges(network, edges, EdgeSelected)
+  
   }, [, GraphData, Distance, States.Scale, States.showValues, States.showTime, States.showDollar, States.BeGraphReload, States.graphAddColor, States.deleteColor, States.ColorType])
   
   const mouseMove = (event) => {
@@ -1083,6 +1088,10 @@ const FuckingGraph = (props) => {
       SetMainStartY((event.clientY))
       SetmoveX(event.clientX)
       SetmoveY((event.clientY))
+    } else {
+      if (mouseMode) {
+        dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
+      }
     }
     SetShowDiv(!showDiv)
   }
