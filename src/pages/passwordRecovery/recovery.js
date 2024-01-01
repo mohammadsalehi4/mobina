@@ -111,7 +111,7 @@ const Recovery = () => {
                                         theme="dark"
                                         size="invisible"
                                         hl='fa'
-                                        sitekey={'6LeMh0ApAAAAADLZc2OFx-POjZLkqtQmfIWvdJnj'}
+                                        sitekey={'6LeTDjcpAAAAAPUoTa4fbRcU6v_PrSBQFi0rQNuv'}
                                         ref={recaptchaRef}
                                         onChange={recaptchaOnChange}
                                     />
