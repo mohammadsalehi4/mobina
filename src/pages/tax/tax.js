@@ -25,20 +25,6 @@ const Tax = () => {
   const dispatch = useDispatch()
   const ref = useRef(null)
   const [stepper, setStepper] = useState(null)
-  useEffect(() => {
-    try {
-        const access = Cookies.get('access')
-        const decoded = jwt.decode(access)
-        const currentTime = Date.now() / 1000
-        if (decoded.exp < currentTime || !decoded || decoded === '') {
-            window.location.assign('/')
-        } else {
-            Cookies.set('refresh', '')
-            Cookies.set('access', '')
-        }
-    } catch {
-    }
-  }, [])
 
   useEffect(() => {
       dispatch({type:"SHOWNAVBAR"})

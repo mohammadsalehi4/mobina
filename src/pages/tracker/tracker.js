@@ -75,11 +75,25 @@ const Tracker = () => {
 
     //processors
     const UTXOAdd = (data) => {
+        console.log('tracker')
+        console.log(data)
+
+        let getEntity
+
+        try {
+            if (data.entity !== null && data.entity !== undefined) {
+                getEntity = data.entity.name
+            } else {
+                getEntity = data.label
+            }
+        } catch (error) {
+            getEntity = false
+        }
 
         const mainAddress = {
             address: data.address,
             symbole : data.symbole,
-            Label:data.label,
+            Label:getEntity,
             inputs : [
                 {
                     hash:null,
@@ -140,9 +154,21 @@ const Tracker = () => {
             mainAddress.inputs[0].symbole = data.symbole
             mainAddress.inputs[0].valueInDollar = parseFloat(data.inputs[0].ValueInDollar.toFixed(5))
 
+            let InputEntity
+            try {
+                if (data.inputs[0].sender[0].entity !== null &&  data.inputs[0].sender[0].entity !== undefined) {
+                    InputEntity =  data.inputs[0].sender[0].entity.name
+                } else {
+                    InputEntity = data.inputs[0].sender[0].label
+                }
+            } catch (error) {
+                InputEntity = false
+            }
+
+
             inputAddress.address = data.inputs[0].sender[0].address
             inputAddress.symbole = data.inputs[0].sender[0].symbole
-            inputAddress.Label = data.inputs[0].sender[0].label
+            inputAddress.Label = InputEntity
             inputAddress.outputs[0].hash = data.inputs[0].hash
             inputAddress.outputs[0].value = parseFloat(data.inputs[0].sender[0].value.toFixed(5))
             inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
@@ -159,9 +185,21 @@ const Tracker = () => {
             mainAddress.outputs[0].symbole = data.symbole
             mainAddress.outputs[0].valueInDollar = parseFloat(data.outputs[0].ValueInDollar.toFixed(5))
 
+            let OutputEntity
+            try {
+                if (data.outputs[0].reciver[0].entity !== null &&  data.outputs[0].reciver[0].entity !== undefined) {
+                    OutputEntity =  data.outputs[0].reciver[0].entity.name
+                } else {
+                    OutputEntity = data.outputs[0].reciver[0].label
+                }
+            } catch (error) {
+                OutputEntity = false
+            }
+
+            
             outputAddress.address = data.outputs[0].reciver[0].address
             outputAddress.symbole = data.outputs[0].reciver[0].symbole
-            outputAddress.Label = data.outputs[0].reciver[0].label
+            outputAddress.Label = OutputEntity
             outputAddress.inputs[0].hash = data.outputs[0].hash
             outputAddress.inputs[0].value = parseFloat(data.outputs[0].reciver[0].value.toFixed(5))
             outputAddress.inputs[0].timeStamp = data.outputs[0].timestamp
@@ -236,6 +274,8 @@ const Tracker = () => {
         }
     }
     const UTXOTr = (data) => {
+        console.log('tracker')
+        console.log(data)
         const LeftAddress = {
             address: data.outputs[0].address,
             symbole : data.symbole,
@@ -275,6 +315,8 @@ const Tracker = () => {
         )
     }
     const AccountAdd = (data) => {
+        console.log('tracker')
+        console.log(data)
 
         const mainAddress = {
             address: '',
@@ -333,7 +375,18 @@ const Tracker = () => {
 
         mainAddress.address = data.address
         mainAddress.symbole = data.symbole
-        mainAddress.Label = data.Label
+        let getEntity
+        try {
+            if (data.entity !== null && data.entity !== undefined) {
+                getEntity = data.entity.name
+            } else {
+                getEntity = data.Label
+            }
+        } catch (error) {
+            getEntity = false
+        }
+
+        mainAddress.Label = getEntity
 
         let inputCheck = false
         let outputCheck = false
@@ -347,7 +400,19 @@ const Tracker = () => {
 
             inputAddress.address = data.inputs[0].address
             inputAddress.symbole = data.inputs[0].symbole
-            inputAddress.Label = data.inputs[0].Label
+
+            let InputEntity
+            try {
+                if (data.inputs[0].entity !== null && data.inputs[0].entity !== undefined) {
+                    InputEntity = data.inputs[0].entity.name
+                } else {
+                    InputEntity = data.inputs[0].Label
+                }
+            } catch (error) {
+                InputEntity = false
+            }
+
+            inputAddress.Label = InputEntity
             inputAddress.outputs[0].hash = data.inputs[0].hash
             inputAddress.outputs[0].value = parseFloat(data.inputs[0].value.toFixed(5))
             inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
@@ -363,6 +428,17 @@ const Tracker = () => {
             mainAddress.outputs[0].timeStamp = data.outputs[0].timestamp
             mainAddress.outputs[0].symbole = data.outputs[0].symbole
             mainAddress.outputs[0].valueInDollar = parseFloat(data.outputs[0].ValueInDollar.toFixed(5))
+
+            let OutputEntity
+            try {
+                if (data.outputs[0].entity !== null && data.outputs[0].entity !== undefined) {
+                    OutputEntity = data.outputs[0].entity.name
+                } else {
+                    OutputEntity = data.outputs[0].Label
+                }
+            } catch (error) {
+                OutputEntity = false
+            }
 
             outputAddress.address = data.outputs[0].address
             outputAddress.symbole = data.outputs[0].symbole
@@ -441,7 +517,8 @@ const Tracker = () => {
         }
     }
     const AccountTr = (data) => {
-
+        console.log('tracker')
+        console.log(data)
         const LeftAddress = {
             address: data.to,
             symbole : data.symbole,

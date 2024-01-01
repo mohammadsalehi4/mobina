@@ -121,6 +121,7 @@ const TaxTable = ({ stepper }) => {
   const [StartTimeShowModal, setStartTimeShowModal] = useState(false)
   const [EndTimeShowModal, setEndTimeShowModal] = useState(false)
 
+
   const check = () => {
     let Valid = true
 
@@ -233,19 +234,19 @@ const TaxTable = ({ stepper }) => {
       .catch((err) => {
         SetLoading(false)
         console.log(err)
-        if (err.response.status === 403) {
-          Cookies.set('refresh', '')
-          Cookies.set('access', '')
-          window.location.assign('/')
-        } else if (err.response.status === 401) {
-          Cookies.set('refresh', '')
-          Cookies.set('access', '')
-          window.location.assign('/')
-        } else {
-          return toast.error('ناموفق در پردازش', {
-            position: 'bottom-left'
-          })
-        }
+        // if (err.response.status === 403) {
+        //   Cookies.set('refresh', '')
+        //   Cookies.set('access', '')
+        //   window.location.assign('/')
+        // } else if (err.response.status === 401) {
+        //   Cookies.set('refresh', '')
+        //   Cookies.set('access', '')
+        //   window.location.assign('/')
+        // } else {
+        //   return toast.error('ناموفق در پردازش', {
+        //     position: 'bottom-left'
+        //   })
+        // }
       })
     }
   }
