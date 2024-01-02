@@ -169,17 +169,19 @@ const Tracker = () => {
                 InputEntity = false
             }
 
+            if (data.inputs[0].sender.length > 0) {
+                inputAddress.address = data.inputs[0].sender[0].address
+                inputAddress.symbole = data.inputs[0].sender[0].symbole
+                inputAddress.Label = InputEntity
+                inputAddress.outputs[0].hash = data.inputs[0].hash
+                inputAddress.outputs[0].value = parseFloat(data.inputs[0].sender[0].value.toFixed(5))
+                inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
+                inputAddress.outputs[0].symbole = data.inputs[0].sender[0].symbole
+                inputAddress.outputs[0].valueInDollar = parseFloat(data.inputs[0].sender[0].ValueInDollar.toFixed(5))
+    
+                inputCheck = true
+            }
 
-            inputAddress.address = data.inputs[0].sender[0].address
-            inputAddress.symbole = data.inputs[0].sender[0].symbole
-            inputAddress.Label = InputEntity
-            inputAddress.outputs[0].hash = data.inputs[0].hash
-            inputAddress.outputs[0].value = parseFloat(data.inputs[0].sender[0].value.toFixed(5))
-            inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
-            inputAddress.outputs[0].symbole = data.inputs[0].sender[0].symbole
-            inputAddress.outputs[0].valueInDollar = parseFloat(data.inputs[0].sender[0].ValueInDollar.toFixed(5))
-
-            inputCheck = true
         }
 
         if (data.outputs.length > 0) {
@@ -202,17 +204,19 @@ const Tracker = () => {
                 OutputEntity = false
             }
 
-            
-            outputAddress.address = data.outputs[0].reciver[0].address
-            outputAddress.symbole = data.outputs[0].reciver[0].symbole
-            outputAddress.Label = OutputEntity
-            outputAddress.inputs[0].hash = data.outputs[0].hash
-            outputAddress.inputs[0].value = parseFloat(data.outputs[0].reciver[0].value.toFixed(5))
-            outputAddress.inputs[0].timeStamp = data.outputs[0].timestamp
-            outputAddress.inputs[0].symbole = data.outputs[0].reciver[0].symbole
-            outputAddress.inputs[0].valueInDollar = parseFloat(data.outputs[0].reciver[0].ValueInDollar.toFixed(5))
+            if (data.outputs[0].reciver.length > 0) {
+                outputAddress.address = data.outputs[0].reciver[0].address
+                outputAddress.symbole = data.outputs[0].reciver[0].symbole
+                outputAddress.Label = OutputEntity
+                outputAddress.inputs[0].hash = data.outputs[0].hash
+                outputAddress.inputs[0].value = parseFloat(data.outputs[0].reciver[0].value.toFixed(5))
+                outputAddress.inputs[0].timeStamp = data.outputs[0].timestamp
+                outputAddress.inputs[0].symbole = data.outputs[0].reciver[0].symbole
+                outputAddress.inputs[0].valueInDollar = parseFloat(data.outputs[0].reciver[0].ValueInDollar.toFixed(5))
+    
+                outputCheck = true
+            }
 
-            outputCheck = true
         }
 
         if (inputCheck && outputCheck) {
