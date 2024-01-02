@@ -427,7 +427,11 @@ const TaxTable = ({ stepper }) => {
             <Calendar
               onChange={(date) => {
                 document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                SetStartTime(date)
+                if (date.value !== undefined) {
+                  SetStartTime(date.value)
+                } else {
+                  SetStartTime(date)
+                }
                 setStartTimeShowModal(false)
               }}
             />
@@ -436,9 +440,6 @@ const TaxTable = ({ stepper }) => {
         <CalendarProvider locale={'fa'} >
           <Calendar
             onChange={(date) => {
-              console.log('start time')
-              console.log(date)
-              console.log(date.value)
               document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
               if (date.value !== undefined) {
                 SetStartTime(date.value)
@@ -474,15 +475,18 @@ const TaxTable = ({ stepper }) => {
           CalendarType ? 
           <CalendarProvider locale={'en'} >
             <Calendar
-              onChange={(date) => {
-                document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-                if (date.value !== undefined) {
-                  SetEndTime(date.value)
-                } else {
-                  SetEndTime(date)
-                }
-                setEndTimeShowModal(false)
-              }}
+            onChange={(date) => {
+              console.log('start time')
+              console.log(date)
+              console.log(date.value)
+              document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
+              if (date.value !== undefined) {
+                SetEndTime(date.value)
+              } else {
+                SetEndTime(date)
+              }
+              setEndTimeShowModal(false)
+            }}
             />
           </CalendarProvider>
         :
@@ -490,7 +494,11 @@ const TaxTable = ({ stepper }) => {
           <Calendar
             onChange={(date) => {
               document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
-              SetEndTime(date)
+              if (date.value !== undefined) {
+                SetEndTime(date.value)
+              } else {
+                SetEndTime(date)
+              }
               setEndTimeShowModal(false)
             }}
           />

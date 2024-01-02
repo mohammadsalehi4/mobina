@@ -81,10 +81,12 @@ const Tracker = () => {
         let getEntity
 
         try {
-            if (data.entity !== null && data.entity !== undefined) {
+            if (data.label) {
+                getEntity = data.label
+            } else if (data.entity !== null && data.entity !== undefined) {
                 getEntity = data.entity.name
             } else {
-                getEntity = data.label
+                getEntity = false
             }
         } catch (error) {
             getEntity = false
@@ -156,10 +158,12 @@ const Tracker = () => {
 
             let InputEntity
             try {
-                if (data.inputs[0].sender[0].entity !== null &&  data.inputs[0].sender[0].entity !== undefined) {
-                    InputEntity =  data.inputs[0].sender[0].entity.name
-                } else {
+                if (data.inputs[0].sender[0].label) {
                     InputEntity = data.inputs[0].sender[0].label
+                } else if (data.inputs[0].sender[0].entity !== null &&  data.inputs[0].sender[0].entity !== undefined) {
+                    InputEntity = data.inputs[0].sender[0].entity.name
+                } else {
+                    InputEntity = false
                 }
             } catch (error) {
                 InputEntity = false
@@ -187,10 +191,12 @@ const Tracker = () => {
 
             let OutputEntity
             try {
-                if (data.outputs[0].reciver[0].entity !== null &&  data.outputs[0].reciver[0].entity !== undefined) {
+                if (data.outputs[0].reciver[0].label) {
+                    OutputEntity = data.outputs[0].reciver[0].label
+                } else if (data.outputs[0].reciver[0].entity !== null &&  data.outputs[0].reciver[0].entity !== undefined) {
                     OutputEntity =  data.outputs[0].reciver[0].entity.name
                 } else {
-                    OutputEntity = data.outputs[0].reciver[0].label
+                    OutputEntity = false
                 }
             } catch (error) {
                 OutputEntity = false
@@ -377,10 +383,12 @@ const Tracker = () => {
         mainAddress.symbole = data.symbole
         let getEntity
         try {
-            if (data.entity !== null && data.entity !== undefined) {
+            if (data.Label) {
+                getEntity = data.Label
+            } else if (data.entity !== null && data.entity !== undefined) {
                 getEntity = data.entity.name
             } else {
-                getEntity = data.Label
+                getEntity = false
             }
         } catch (error) {
             getEntity = false
@@ -403,10 +411,12 @@ const Tracker = () => {
 
             let InputEntity
             try {
-                if (data.inputs[0].entity !== null && data.inputs[0].entity !== undefined) {
+                if (data.inputs[0].Label) {
+                    InputEntity = data.inputs[0].Label
+                } else if (data.inputs[0].entity !== null && data.inputs[0].entity !== undefined) {
                     InputEntity = data.inputs[0].entity.name
                 } else {
-                    InputEntity = data.inputs[0].Label
+                    InputEntity = false
                 }
             } catch (error) {
                 InputEntity = false
@@ -431,10 +441,12 @@ const Tracker = () => {
 
             let OutputEntity
             try {
-                if (data.outputs[0].entity !== null && data.outputs[0].entity !== undefined) {
+                if (data.outputs[0].Label) {
+                    OutputEntity = data.outputs[0].Label
+                } else if (data.outputs[0].entity !== null && data.outputs[0].entity !== undefined) {
                     OutputEntity = data.outputs[0].entity.name
                 } else {
-                    OutputEntity = data.outputs[0].Label
+                    OutputEntity = false
                 }
             } catch (error) {
                 OutputEntity = false
