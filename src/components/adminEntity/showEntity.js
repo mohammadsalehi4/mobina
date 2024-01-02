@@ -33,6 +33,46 @@ const ShowEntity = () => {
     const [Loading, setLoading] = useState(false)
     const [AddLoading, setAddLoading] = useState(false)
     const [EntityDetail, setEntityDetail] = useState(null)
+    const [Types, setTypes] = useState([])
+
+        //get types
+        useEffect(() => {
+            axios.get(`${serverAddress}/entity/type/`, 
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                const getType = []
+                for (let i = 0; i < response.data.types.length; i++) {
+                    getType.push({
+                        id:response.data.types[i].id,
+                        value:response.data.types[i].name,
+                        label:response.data.types[i].name
+                    })
+                }
+                console.log('getType')
+                console.log(getType)
+                setTypes(getType)
+              }
+            })
+            .catch((err) => {
+                console.log(err)
+              SetEditLoading(false)
+              if (err.response.status === 403) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+              if (err.response.status === 401) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+            })
+        }, [])
 
     const basicColumns = [
         {
@@ -47,7 +87,29 @@ const ShowEntity = () => {
             sortable: true,
             maxWidth: '130px',
             minWidth: '130px',
-            selector: row => row.type
+            selector: row => row.type,
+            cell: row => {
+                if (row.type === null) {
+                    return (
+                        <span>
+                            
+                        </span>
+                    )
+                } else {
+                    if (Types.length > 0) {
+                        return (
+                            <span>
+                                {Types.find(item => item.id === row.type).value}
+                            </span>
+                        )
+                    } else {
+                        return (
+                            <span></span>
+                        )
+                    }
+                }
+            }
+            
         },
         {
             name: 'وب‌سایت',

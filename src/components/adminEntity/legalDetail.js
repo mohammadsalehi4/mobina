@@ -1,14 +1,57 @@
 /* eslint-disable multiline-ternary */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Row, Col, Label} from 'reactstrap'
 import {
   AlertCircle
 } from 'react-feather'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { serverAddress } from '../../address'
 const LegalDetail = (props) => {
+  const [Types, setTypes] = useState([])
 
   useEffect(() => {
     console.log(props.data)
   }, [props.data])
+
+    //get types
+    useEffect(() => {
+        axios.get(`${serverAddress}/entity/type/`, 
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+          }
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            const getType = []
+            for (let i = 0; i < response.data.types.length; i++) {
+                getType.push({
+                    id:response.data.types[i].id,
+                    value:response.data.types[i].name,
+                    label:response.data.types[i].name
+                })
+            }
+            console.log('getType')
+            console.log(getType)
+            setTypes(getType)
+          }
+        })
+        .catch((err) => {
+            console.log(err)
+          SetEditLoading(false)
+          if (err.response.status === 403) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+          if (err.response.status === 401) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+        })
+    }, [])
 
   return (
     <div className='container-fluid'>
@@ -52,11 +95,16 @@ const LegalDetail = (props) => {
                   {
                     (props.data.type === null) ?
                       <span>
-                        null
+                        
                       </span>
                     :
                       <span>
-                        false
+                        {
+                          Types.length > 0 ? 
+                            Types.find(item => item.id === props.data.type).value
+                          :
+                            <span></span>
+                        }
                       </span>
                   }
                 </p>

@@ -662,7 +662,7 @@ const EcommerceDashboard2 = () => {
         dispatch({type:"networkName", value:'LTC'})
         try {
           SetCoinData({
-            name:'بیت کوین کش',
+            name:'لایت‌کوین',
             symbole:"BSC",
             risk:"0%",
             owner:"بدون اطلاعات",

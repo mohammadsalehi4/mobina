@@ -28,7 +28,9 @@ const Admin = () => {
 
   useEffect(() => {
     for (let i = 1; i <= 7; i++) {
-        document.getElementById(`Link${i}`).className = 'NotActiveAdmin'
+        if (i !== 3) {
+            document.getElementById(`Link${i}`).className = 'NotActiveAdmin'
+        }
     }
     document.getElementById(`Link${active}`).className = 'ActiveAdmin'
     document.getElementById(`Link${active}`).style.borderColor = MainSiteOrange
@@ -92,7 +94,7 @@ const Admin = () => {
                                 <span className='align-middle'>نقش‌ها</span>
                             </a>
                         </NavItem>
-                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
+                        {/* <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
                             <a
                                 id='Link3'
                                 active={active === '3'}
@@ -102,7 +104,7 @@ const Admin = () => {
                                 }}>
                                 <span className='align-middle'>رخداد‌ها</span>
                             </a>
-                        </NavItem>
+                        </NavItem> */}
                         <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
                             <a
                                 id='Link4'
