@@ -426,6 +426,9 @@ const TaxTable = ({ stepper }) => {
           <CalendarProvider locale={'en'} >
             <Calendar
               onChange={(date) => {
+                console.log('start time')
+                console.log(date)
+                console.log(date.value)
                 document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
                 if (date.value !== undefined) {
                   SetStartTime(date.value)
@@ -441,6 +444,9 @@ const TaxTable = ({ stepper }) => {
           <Calendar
             onChange={(date) => {
               document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
+              console.log('start time')
+              console.log(date)
+              console.log(date.value)
               if (date.value !== undefined) {
                 SetStartTime(date.value)
               } else {
@@ -476,7 +482,7 @@ const TaxTable = ({ stepper }) => {
           <CalendarProvider locale={'en'} >
             <Calendar
             onChange={(date) => {
-              console.log('start time')
+              console.log('end time')
               console.log(date)
               console.log(date.value)
               document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
@@ -493,6 +499,9 @@ const TaxTable = ({ stepper }) => {
         <CalendarProvider locale={'fa'} >
           <Calendar
             onChange={(date) => {
+              console.log('end time')
+              console.log(date)
+              console.log(date.value)
               document.getElementById('StartTaxPeriod').style.borderColor = 'rgb(220,220,220)'
               if (date.value !== undefined) {
                 SetEndTime(date.value)
