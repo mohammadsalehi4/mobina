@@ -35,7 +35,7 @@ export function BSCAddress (data, address, symbole, decimal) {
                     Label = array[i].main_transaction.to.labels[0].label
                 }
 
-                let VID = Number(array[i].main_transaction.valueInDollar)
+                let VID = Number(array[i].main_transaction.value_dollor)
                 if ((typeof (VID) !== 'number') || VID === NaN) {
                     VID = 0
                 }
@@ -59,7 +59,7 @@ export function BSCAddress (data, address, symbole, decimal) {
                     Label = array[i].main_transaction.from.labels[0].label
                 }
 
-                let VID = Number(array[i].main_transaction.valueInDollar)
+                let VID = Number(array[i].main_transaction.value_dollor)
                 if ((typeof (VID) !== 'number') || VID === NaN) {
                     VID = 0
                 }
