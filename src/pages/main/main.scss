@@ -7,20 +7,20 @@
     }
     input[type="checkbox"] {
         background-color: white; /* تغییر رنگ پس زمینه تیک به زرد */
-        border-color: #2f4f4f;
+        border-color: #01153a;
     }
     
     /* تغییر رنگ علامت تیک زمانی که چک باکس انتخاب شده باشد */
     input[type="checkbox"]:checked {
-        background-color: #2f4f4f; /* تغییر رنگ پس زمینه تیک به نارنجی زمانی که انتخاب شده باشد */
+        background-color: #01153a; /* تغییر رنگ پس زمینه تیک به نارنجی زمانی که انتخاب شده باشد */
     }
 
     input[type="text"]:focus {
-        border-color: #2f4f4f;
+        border-color: #01153a;
     }
 
     input[type="password"]:focus {
-        border-color: #2f4f4f;
+        border-color: #01153a;
     }
 
     .login_form{

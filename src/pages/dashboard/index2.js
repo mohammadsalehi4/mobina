@@ -13,7 +13,7 @@ import Spinner from '@components/spinner/Loading-spinner'
 import TransactionDetail from './txSearch/transactionDetail/transactionDetail'
 import Walletdetail from './WSearch/walletDetail/walletdetail'
 import { useDispatch, useSelector } from 'react-redux'
-import { MainSiteGray, MainSiteOrange } from '../../../public/colors'
+import { MainSiteGray, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
@@ -34,6 +34,7 @@ import { BSCTransaction } from '../../processors/BSCTransaction'
 
 const EcommerceDashboard2 = () => {
   const { hash } = useParams()
+  const { network } = useParams()
 
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -1448,50 +1449,55 @@ const EcommerceDashboard2 = () => {
 
   useEffect(() => {
     if (hash !== undefined) {
-      document.getElementById("MainDashboardInputBox").value=hash
-      SetLoading(true)
-      SetAddress(hash)
-      axios.get(`${serverAddress}/explorer/search/?query=${hash}`,
-      {
-        headers: {
-          Authorization: `Bearer ${Cookies.get('access')}`
-        }
-      })
-      .then((addressMode) => {
-        SetLoading(false)
-        if (addressMode.data.network.length === 1) {
-          processHandler(addressMode, 0)
-        } else if (addressMode.data.network.length > 1) {
-          if (addressMode.data.network[0] === 'ETH' || addressMode.data.network[0] === 'BSC') {
-            SetSelectToken(1)
-          } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH') {
-            SetSelectToken(2)
+      if (network === undefined) {
+        document.getElementById("MainDashboardInputBox").value=hash
+        SetLoading(true)
+        SetAddress(hash)
+        axios.get(`${serverAddress}/explorer/search/?query=${hash}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
           }
-        }
-      })
-      .catch((err) => {
-        SetLoading(false)
-        console.log(err)
-        try {
-          if (err.response.status === 403) {
-            Cookies.set('refresh', '')
-            Cookies.set('access', '')
-            window.location.assign('/')
+        })
+        .then((addressMode) => {
+          SetLoading(false)
+          if (addressMode.data.network.length === 1) {
+            processHandler(addressMode, 0)
+          } else if (addressMode.data.network.length > 1) {
+            if (addressMode.data.network[0] === 'ETH' || addressMode.data.network[0] === 'BSC') {
+              SetSelectToken(1)
+            } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH') {
+              SetSelectToken(2)
+            }
           }
-          if (err.response.status === 401) {
-            Cookies.set('refresh', '')
-            Cookies.set('access', '')
-            window.location.assign('/')
-          }
-        } catch (error) {}
-        try {
-          if (err.response.data.detail === 'Not found.') {
-            return toast.error('آدرس مورد نظر یافت نشد.', {
-              position: 'bottom-left'
-            })
-          }
-        } catch (error) {}
-      })
+        })
+        .catch((err) => {
+          SetLoading(false)
+          console.log(err)
+          try {
+            if (err.response.status === 403) {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+            if (err.response.status === 401) {
+              Cookies.set('refresh', '')
+              Cookies.set('access', '')
+              window.location.assign('/')
+            }
+          } catch (error) {}
+          try {
+            if (err.response.data.detail === 'Not found.') {
+              return toast.error('آدرس مورد نظر یافت نشد.', {
+                position: 'bottom-left'
+              })
+            }
+          } catch (error) {}
+        })
+      } else {
+        dispatch({type:"networkName", value:network})
+        SelectProcessHandler(network)
+      }
     }
   }, [])
 
@@ -1550,9 +1556,9 @@ const EcommerceDashboard2 = () => {
                         </Col>
 
                         <Col xl={{size:6}} lg={{size:8}} md={{size:10}} sm={{size:12}} style={{marginTop:'80px', marginBottom:'32px'}}>
-                            <h4 style={{color:'#2f4f4f'}}>
+                            <h4 style={{color:'#01153a'}}>
                                 آدرس یا شناسه تراکنش خود را به کمک
-                                <span style={{color:MainSiteOrange}}> پنتا </span> 
+                                <span style={{color:MainSiteyellow}}> پنتا </span> 
                                 جست‌وجو کنید!
                             </h4>
                             <form  onSubmit={ (event) => { 

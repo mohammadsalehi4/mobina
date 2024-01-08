@@ -1,4 +1,7 @@
 const initialState = {
+    //All
+    LoadingEffect:false,
+
     //header
     showNavbar:false,
     showMobileMenu:false,
@@ -93,6 +96,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'LoadingEffect') {
+        return {
+            ...state,
+            LoadingEffect:action.value
+        }
+    }
 
     if (action.type === 'downloadGraph') {
         return {

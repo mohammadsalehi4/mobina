@@ -1,7 +1,7 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"
 import jwt from 'jsonwebtoken'
 import Cookies from 'js-cookie'
@@ -29,8 +29,19 @@ import ShowReport from './pages/reports/ShowReport'
 import ShowLastTaxes from './pages/tax/ShowLastTaxes'
 import axios from 'axios'
 import { serverAddress } from './address'
+
+import UILoader from '@components/ui-loader'
+import Spinner from '@components/spinner/Loading-spinner'
+
 const App = () => {
+  const [Loading, SetLoading] = useState(false)
+
   const States = useSelector(state => state)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    SetLoading(States.LoadingEffect)
+  }, [States.LoadingEffect])
 
   const myFunction = () => {
     const refresh = Cookies.get('refresh')
@@ -62,7 +73,10 @@ const App = () => {
     return () => clearInterval(interval)
   }, [])
 
+
   return (
+    <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
+
     <div>
           {
             States.showNavbar ? < Header/> : null
@@ -86,6 +100,12 @@ const App = () => {
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
                 <Route path="/researcher/:hash"  element={<EcommerceDashboard2/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                <Route path="/researcher/:network/:hash"  element={<EcommerceDashboard2/>}/>
               :
               null
             }
@@ -153,6 +173,8 @@ const App = () => {
             
           </Routes>
     </div>
+    </UILoader>
+
   )
 }
 

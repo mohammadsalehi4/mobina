@@ -6,7 +6,7 @@
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react'
 import {  Row, Col, Input, Label } from 'reactstrap'
-import { MainSiteGray, MainSiteOrange } from '../../../public/colors'
+import { MainSiteGray, MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 import { serverAddress } from '../../address'
 import { Alert} from 'reactstrap'
 import axios from 'axios'
@@ -429,7 +429,7 @@ const AdminAddNewUser = () => {
             
           </Label>
           <div style={{textAlign:"left"}}>
-            <button style={{border:"none", float:"left", background:MainSiteOrange, color:"white", padding:"6px 16px", borderRadius:"6px", marginTop:"4px"}}>افزودن</button>
+            <button style={{border:"none", float:"left", background:MainSiteyellow, color:"white", padding:"6px 16px", borderRadius:"6px", marginTop:"4px"}}>افزودن</button>
           </div>
         </Col>
       </Row>

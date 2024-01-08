@@ -128,40 +128,12 @@ const DropDown = () => {
         <li className='dropdown-menu-header p-2' style={{direction:'rtl', textAlign:'right'}}>
             <div className='row container-fluid pb-2' style={{borderBottomStyle:'solid', borderBottomColor:'rgb(220,220,220)', borderBottomWidth:'1px'}}>
                 <div className='col-3' style={{ padding:'4px'}}>
-                    {/* <svg viewBox="0 0 80 80" fill="none" role="img" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
-                        <mask id=":r3j:" maskUnits="userSpaceOnUse" x="0" y="0" width="80" height="80">
-                        <rect width="80" height="80" rx="160" fill="#FFFFFF"></rect>
-                        </mask>
-                        <g mask="url(#:r3j:)">
-                        <rect width="80" height="80" fill="#ffb238"></rect>
-                        <path 
-                            filter="url(#prefix__filter0_f)" 
-                            d="M32.414 59.35L50.376 70.5H72.5v-71H33.728L26.5 13.381l19.057 27.08L32.414 59.35z" 
-                            fill="#0a0310" 
-                            transform="translate(2 -2) rotate(18 40 40) scale(1.5)">
-                        </path>
-                        <path 
-                            filter="url(#prefix__filter0_f)" 
-                            d="M22.216 24L0 46.75l14.108 38.129L78 86l-3.081-59.276-22.378 4.005 12.972 20.186-23.35 27.395L22.215 24z" 
-                            fill="#49007e" 
-                            transform="translate(-7 7) rotate(-207 40 40) scale(1.5)" 
-                            style={{ mixBlendMode: 'overlay' }}>
-                        </path>
-                        </g>
-                        <defs>
-                        <filter id="prefix__filter0_f" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                            <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
-                            <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
-                            <feGaussianBlur stdDeviation="7" result="effect1_foregroundBlur"></feGaussianBlur>
-                        </filter>
-                        </defs>
-                    </svg> */}
                     <Avatar
                         size={'100%'}
                         name="Maya Angelou"
                         variant="ring"
                         square={false}
-                        colors={["#daa520", "#2f4f4f", "#daa520", "#2f4f4f", "#cdcd32"]}
+                        colors={["#daa520", "#01153a", "#daa520", "#01153a", "#cdcd32"]}
                         style={{ borderRadius: '8px' }}
                     />
                 </div>
@@ -214,21 +186,16 @@ const DropDown = () => {
         >
           <ModalBody>
             <h6>تغییر رمز عبور</h6>
-            <span>رمز عبور قدیمی خود را وارد کنید!</span>
-            <Input id='oldPasswordField' placeholder='رمز عبور قدیمی' type='password' className='mb-3'/>
-            <span>رمز عبور جدید خود را وارد کنید!</span>
-            <Input onClick={ () => (document.getElementById('newPasswordField').style.borderColor = 'rgb(200,200,200)')} id='newPasswordField' className='mb-3' placeholder='رمز عبور جدید' type='password'/>
-            <span>رمز عبور انتخاب شده را دوباره وارد کنید!</span>
-            <Input onClick={ () => (document.getElementById('duplicatedPasswordField').style.borderColor = 'rgb(200,200,200)')} id='duplicatedPasswordField' placeholder='تکرار رمز عبور جدید' type='password'/>
+            <span>رمز عبور قدیمی</span>
+            <Input id='oldPasswordField' type='password' className='mb-3'/>
+            <span>رمز عبور جدید</span>
+            <Input onClick={ () => (document.getElementById('newPasswordField').style.borderColor = 'rgb(200,200,200)')} id='newPasswordField' className='mb-3' type='password'/>
+            <span>تکرار رمز عبور جدید</span>
+            <Input onClick={ () => (document.getElementById('duplicatedPasswordField').style.borderColor = 'rgb(200,200,200)')} id='duplicatedPasswordField' type='password'/>
           </ModalBody>
           <ModalFooter>
-            <Button color={'warning'} onClick={() => {
-                setChangePasswordModal(false)
-              }}>
-              بازگشت
-              
-            </Button>
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => {
+
+            <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={() => {
                 changePassword()
             }}>
               {

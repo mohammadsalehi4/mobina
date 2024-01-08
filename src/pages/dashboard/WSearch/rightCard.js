@@ -361,11 +361,11 @@ const CardContentTypes = (props) => {
         
         <div style={{marginTop:"4px"}} className='mt-4'>
           <a href={`/tracker/${States.networkName}/${props.data.address}`}>
-            <button className='cardLink22' id='cardLink1' style={{background:MainSiteOrange, fontSize:'13px'}}>
+            <button className='cardLink22' id='cardLink1' style={{background:'none', fontSize:'13px', borderColor:MainSiteyellow, borderStyle:'solid', color:MainSiteyellow, borderWidth:'1px'}}>
               انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
             </button>
           </a>
-          <button href='/' onClick={e => e.preventDefault()} className='cardLink22' id='cardLink2' style={{background:MainSiteyellow, fontSize:'13px'}}>
+          <button href='/' onClick={e => e.preventDefault()} className='cardLink22' id='cardLink2' style={{background:MainSiteyellow, fontSize:'13px', borderColor:MainSiteyellow, borderStyle:'solid', borderWidth:'1px'}}>
             افزودن به پرونده <ion-icon name="alert-circle-outline"></ion-icon>
           </button>
           
@@ -399,8 +399,8 @@ const CardContentTypes = (props) => {
                 </div>
               :
                 <div style={{display:"inline-block"}} className='me-0' id='AddressTitleDeleteName021'>
-                  <ion-icon  onClick={() => { setDeleteLabelModal(true) }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon>
-                  <small style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px"}}>{addressText}</small>
+                  {/* <ion-icon  onClick={() => { setDeleteLabelModal(true) }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon> */}
+                  <small className='me-1' onClick={() => { setDeleteLabelModal(true) }} style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px", color:'white', cursor:'pointer'}}>{addressText}</small>
                   <UncontrolledTooltip placement='left' target='AddressTitleDeleteName021'>
                     حذف برچسب
                   </UncontrolledTooltip>
@@ -459,10 +459,7 @@ const CardContentTypes = (props) => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setAddTagModal(false) } }>
-            بسته
-          </Button>
-          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { 
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { 
             if (LastTagSelected) {
               GetTag(SelectedTag)
             } else {
@@ -496,10 +493,7 @@ const CardContentTypes = (props) => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setAddLabelModal(false) } }>
-            بسته
-          </Button>
-          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { addNewLabel() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { addNewLabel() } }>
             {
               Loading ? 
               <LoadingButton/>
@@ -523,10 +517,7 @@ const CardContentTypes = (props) => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setDeleteLabelModal(false) } }>
-            بسته
-          </Button>
-          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
           {
               Loading ? 
               <LoadingButton/>
@@ -550,10 +541,7 @@ const CardContentTypes = (props) => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setDeleteTagModal(false) } }>
-            بسته
-          </Button>
-          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { DeleteTag() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { DeleteTag() } }>
             {
               Loading ? 
               <LoadingButton/>

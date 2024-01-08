@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { X } from 'react-feather'
 import { Modal, Input, Label, ModalHeader, ModalBody } from 'reactstrap'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
-import { MainSiteOrange} from '../../../public/colors'
+import { MainSiteOrange, MainSiteyellow} from '../../../public/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { serverAddress } from '../../address'
@@ -425,7 +425,7 @@ const EditUser = ({ open, handleModal, users }) => {
           </div>
         </div>
         <div style={{textAlign:"left"}} className='mt-3'>
-          <button onClick={(event) => { handleSubmit(event) }} style={{ color:"white", background:MainSiteOrange, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
+          <button onClick={(event) => { handleSubmit(event) }} style={{ color:"white", background:MainSiteyellow, border:"none", padding:"8px 16px", borderRadius:"8px"}} color='secondary'  outline>
             <span className='align-middle'>ویرایش کاربر</span>
           </button>
 

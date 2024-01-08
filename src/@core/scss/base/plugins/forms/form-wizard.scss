@@ -59,7 +59,7 @@ $step-box-width: 38px;
 
           .bs-stepper-title {
             display: inherit;
-            color: #2f4f4f;
+            color: #01153a;
             font-weight: 600;
             line-height: 1rem;
             margin-bottom: 0rem;
@@ -84,7 +84,7 @@ $step-box-width: 38px;
         .step-trigger {
           .bs-stepper-box {
             background-color: $primary;
-            background-color: #2f4f4f;
+            background-color: #01153a;
             color: $white;
             box-shadow: 0 3px 6px 0 rgba($primary, 0.4);
           }
@@ -101,16 +101,16 @@ $step-box-width: 38px;
           .bs-stepper-box {
             background-color: rgba($color: $primary, $alpha: 0.12);
             // color: $primary !important;
-            // color: #2f4f4f !important;
+            // color: #01153a !important;
           }
           .bs-stepper-label {
             .bs-stepper-title {
-              color: #2f4f4f;
+              color: #01153a;
             }
           }
         }
         & + .line {
-          color: #2f4f4f !important;
+          color: #01153a !important;
 
         }
       }

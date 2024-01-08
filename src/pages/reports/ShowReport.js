@@ -14,6 +14,7 @@ const ShowReport = () => {
     const dispatch = useDispatch()
     const [data, SetData] = useState(null)
     const [Html, SetHtml] = useState(null)
+    const [AccessError, SetAccessError] = useState(false)
     
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})
@@ -56,11 +57,12 @@ const ShowReport = () => {
               Cookies.set('refresh', '')
               Cookies.set('access', '')
               window.location.assign('/')
-            }
-            if (err.response.status === 401) {
+            } else if (err.response.status === 401) {
               Cookies.set('refresh', '')
               Cookies.set('access', '')
               window.location.assign('/')
+            } else {
+                SetAccessError(true)
             }
         })
     }, [])
@@ -97,7 +99,9 @@ const ShowReport = () => {
         <Row>
             <Col lg='2'></Col>
             <Col lg='8'>
-                <Card className='p-5'>
+                {
+                    !AccessError ? 
+                    <Card className='p-5'>
                     {
                         Html !== null ? 
                             <>
@@ -139,6 +143,12 @@ const ShowReport = () => {
                         null
                     }
                 </Card>
+                :
+                <Card className='p-5'>
+                    <p>شما دسترسی مشاهده این گزارش را ندارید!</p>
+                </Card>
+                }
+
             </Col>
             <Col lg='2'></Col>
         </Row>

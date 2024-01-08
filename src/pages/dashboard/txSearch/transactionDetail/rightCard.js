@@ -372,10 +372,10 @@ const CardContentTypes = (props) => {
 
         <div className='row mt-3'>
           <div className='col-12'>
-          <button href='/' onClick={ () => { window.location.assign(`/tracker/${States.networkName}/${props.data.address}`) } } className='cardLink225' id='cardLink15' style={{background:MainSiteOrange}}>
+          <button href='/' onClick={ () => { window.location.assign(`/tracker/${States.networkName}/${props.data.address}`) } } className='cardLink225' id='cardLink15' style={{color:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:'solid', background:'white', borderWidth:'1px'}}>
             انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
           </button>
-          <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink25' style={{background:MainSiteyellow}}>
+          <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink25' style={{background:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:'solid', borderWidth:'1px'}}>
             افزودن به پرونده <ion-icon name="alert-circle-outline"></ion-icon>
           </button>
           <UncontrolledTooltip placement='top' target={`cardLink25`}>
@@ -392,7 +392,7 @@ const CardContentTypes = (props) => {
       <Card className='card-transaction' id='leftCard1' style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)", height:"100%"}}>
         <CardHeader  style={{borderBottomStyle:"solid", borderWidth:"2px", borderColor:"rgb(240,240,240)", padding:"15px 24px"}}>
           <CardTitle tag='h4' style={{width:"100%"}}>
-          <img src={`../images/${props.data.image}`} style={{width:"25px"}}/> 
+          <img src={`../../images/${props.data.image}`} style={{width:"25px", marginLeft:'4px'}}/> 
           تراکنش {props.data.name}  
 
           {
@@ -405,8 +405,8 @@ const CardContentTypes = (props) => {
                 </div>
               :
                 <div style={{display:"inline-block"}} className='me-0' id='AddressTitleDeleteName021'>
-                  <ion-icon  onClick={() => { setDeleteLabelModal(true) }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon>
-                  <small style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px"}}>{addressText}</small>
+                  {/* <ion-icon  onClick={() => { setDeleteLabelModal(true) }} style={{marginBottom:"-7px", color:MainSiteOrange, cursor:"pointer"}} name="bookmark"></ion-icon> */}
+                  <small className='me-1' onClick={() => { setDeleteLabelModal(true) }} style={{background:MainSiteyellow, fontSize:"12px", padding:"0px 3px", borderRadius:"5px", color:'white', cursor:'pointer'}}>{addressText}</small>
                   <UncontrolledTooltip placement='left' target='AddressTitleDeleteName021'>
                     حذف برچسب
                   </UncontrolledTooltip>
@@ -459,10 +459,7 @@ const CardContentTypes = (props) => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setAddTagModal(false) } }>
-            بسته
-          </Button>
-          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { 
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { 
             if (LastTagSelected) {
               GetTag(SelectedTag)
             } else {
@@ -496,10 +493,7 @@ const CardContentTypes = (props) => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setAddLabelModal(false) } }>
-            بسته
-          </Button>
-          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { addNewLabel() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { addNewLabel() } }>
             {
               Loading ? 
               <LoadingButton/>
@@ -523,10 +517,7 @@ const CardContentTypes = (props) => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setDeleteLabelModal(false) } }>
-            بسته
-          </Button>
-          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
           {
               Loading ? 
               <LoadingButton/>
@@ -550,10 +541,7 @@ const CardContentTypes = (props) => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { setDeleteTagModal(false) } }>
-            بسته
-          </Button>
-          <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={ () => { DeleteTag() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { DeleteTag() } }>
             {
               Loading ? 
               <LoadingButton/>

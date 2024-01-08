@@ -1,8 +1,14 @@
+/* eslint-disable no-tabs */
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import './style.css'
+import { useSelector } from "react-redux"
+// eslint-disable-next-line no-duplicate-imports
+import { useDispatch } from "react-redux"
 import { MainSiteGreen, MainSiteLightGreen, MainSiteOrange, MainSitePurple, MainSiteRed } from '../../../public/colors'
 const NiceAddress2 = (props) => {
+    const States = useSelector(state => state)
+	const dispatch = useDispatch()
     const text = props.text
     const firstEightChars = text.substring(0, props.number)
     const lastEightChars = text.substring(text.length - props.number)

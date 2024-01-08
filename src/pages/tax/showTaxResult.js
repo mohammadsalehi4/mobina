@@ -207,7 +207,7 @@ const ShowTaxResult = ({ stepper }) => {
                         </Col>
                         <Col xl='6' className='mt-3' style={{textAlign:'left'}}>
                             <a href={data.download_link} target="_blank">
-                                <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next'>
+                                <button style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next'>
                                     <span className='align-middle d-sm-inline-block d-none'>اکسل محاسبات</span>
                                 </button>
                             </a>
@@ -224,7 +224,7 @@ const ShowTaxResult = ({ stepper }) => {
                         <CountedTaxTable  data={data}/>
                         <br/>
                         <a className='m-0 mt-3' href={'/tax/list'}>
-                        <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className=''>
+                        <button style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className=''>
                             <span className='align-middle d-sm-inline-block d-none'>بازگشت به لیست مالیات ها</span>
                         </button>
                     </a>

@@ -289,7 +289,6 @@ const Autocomplete = props => {
 
   let suggestionsListComponent
 
-  if (showSuggestions) {
     suggestionsListComponent = (
       <PerfectScrollbar
         className={classnames('suggestions-list', {
@@ -302,31 +301,9 @@ const Autocomplete = props => {
         {renderSuggestions()}
       </PerfectScrollbar>
     )
-  }
 
   return (
     <div className='autocomplete-container' ref={container}>
-      <input
-        type='text'
-        onChange={e => {
-          onChange(e)
-          if (props.onChange) {
-            props.onChange(e)
-          }
-        }}
-        onKeyDown={e => onKeyDown(e)}
-        value={userInput}
-        className={`autocomplete-search ${props.className ? props.className : ''}`}
-        placeholder={props.placeholder}
-        onClick={onInputClick}
-        ref={inputElRef}
-        onFocus={() => setFocused(true)}
-        autoFocus={props.autoFocus}
-        onBlur={e => {
-          if (props.onBlur) props.onBlur(e)
-          setFocused(false)
-        }}
-      />
       {suggestionsListComponent}
     </div>
   )

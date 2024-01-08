@@ -268,84 +268,85 @@ const ShowEntity = () => {
         }
     }
 
-        //pagination
-        const [currentPage, setCurrentPage] = useState(0)
-        const handlePagination = page => {
-          setCurrentPage(page.selected)
-        }
-        const CustomPagination = () => (
-          <ReactPaginate
-            nextLabel=''
-            breakLabel='...'
-            previousLabel=''
-            pageRangeDisplayed={2}
-            forcePage={(currentPage)}
-            marginPagesDisplayed={2}
-            activeClassName='active'
-            pageClassName='page-item'
-            breakClassName='page-item'
-            nextLinkClassName='page-link'
-            pageLinkClassName='page-link'
-            breakLinkClassName='page-link'
-            previousLinkClassName='page-link'
-            nextClassName='page-item next-item'
-            previousClassName='page-item prev-item'
-            pageCount={Math.ceil(data.length / 10) || 1}
-            onPageChange={page => handlePagination(page)}
-            containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-center pe-1 mt-3'
-          />
-        )
+    //pagination
+    const [currentPage, setCurrentPage] = useState(0)
+    const handlePagination = page => {
+        setCurrentPage(page.selected)
+    }
+    const CustomPagination = () => (
+        <ReactPaginate
+        nextLabel=''
+        breakLabel='...'
+        previousLabel=''
+        pageRangeDisplayed={2}
+        forcePage={(currentPage)}
+        marginPagesDisplayed={2}
+        activeClassName='active'
+        pageClassName='page-item'
+        breakClassName='page-item'
+        nextLinkClassName='page-link'
+        pageLinkClassName='page-link'
+        breakLinkClassName='page-link'
+        previousLinkClassName='page-link'
+        nextClassName='page-item next-item'
+        previousClassName='page-item prev-item'
+        pageCount={Math.ceil(data.length / 10) || 1}
+        onPageChange={page => handlePagination(page)}
+        containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-center pe-1 mt-3'
+        />
+    )
 
-        const [active, setActive] = useState('1')
-        const toggle = tab => {
-            setActive(tab)
-        }
+    const [active, setActive] = useState('1')
+    const toggle = tab => {
+        setActive(tab)
+    }
 
-        useEffect(() => {
-            if (States.rollsLoading === 7) {
-                
-                setLoading(true)
-                axios.get(`${serverAddress}/entity/`, 
-                {
-                  headers: {
-                    Authorization: `Bearer ${Cookies.get('access')}`
-                  }
-                })
-                .then((response) => {
-                    setLoading(false)
-                    const getData = []
-                    if (response.status === 200) {
-                        for (let i = 0; i < response.data.results.length; i++) {
-                            getData.push(
-                                {
-                                    name:response.data.results[i].name,
-                                    type:response.data.results[i].type,
-                                    website:response.data.results[i].web_site,
-                                    legal_name:response.data.results[i].legal_name,
-                                    id:response.data.results[i].uuid,
-                                    data:response.data.results[i]
-                                }
-                            )
-                            SetData(getData)
-                        }
+    useEffect(() => {
+        if (States.rollsLoading === 7) {
+            
+            setLoading(true)
+            axios.get(`${serverAddress}/entity/`, 
+            {
+                headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+                }
+            })
+            .then((response) => {
+                setLoading(false)
+                const getData = []
+                if (response.status === 200) {
+                    for (let i = 0; i < response.data.results.length; i++) {
+                        getData.push(
+                            {
+                                name:response.data.results[i].name,
+                                type:response.data.results[i].type,
+                                website:response.data.results[i].web_site,
+                                legal_name:response.data.results[i].legal_name,
+                                id:response.data.results[i].uuid,
+                                data:response.data.results[i]
+                            }
+                        )
+                        SetData(getData)
                     }
-                })
-                .catch((err) => {
-                    setLoading(false)
-                    console.log(err)
-                    if (err.response.status === 403) {
-                      Cookies.set('refresh', '')
-                      Cookies.set('access', '')
-                      window.location.assign('/')
-                    }
-                    if (err.response.status === 401) {
-                      Cookies.set('refresh', '')
-                      Cookies.set('access', '')
-                      window.location.assign('/')
-                    }
-                })
-            }
-        }, [States.rollsLoading, States.EntityBeload])
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+                if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                }
+                if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                }
+            })
+        }
+    }, [States.rollsLoading, States.EntityBeload])
+
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
@@ -455,11 +456,7 @@ const ShowEntity = () => {
                 </TabContent>
             </div>
           </ModalBody>
-          <ModalFooter>
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => { setShowBox(false) }}>
-                بسته
-            </Button>
-          </ModalFooter>
+
         </Modal>
 
         <Modal
@@ -546,12 +543,10 @@ const ShowEntity = () => {
 
           </ModalBody>
           <ModalFooter>
-            <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={() => {}}>
+            <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={() => {}}>
                 ویرایش
             </Button>
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => { setEditBox(false) }}>
-                بسته
-            </Button>
+
           </ModalFooter>
         </Modal>
 
@@ -600,7 +595,7 @@ const ShowEntity = () => {
 
           </ModalBody>
           <ModalFooter>
-            <Button color={'warning'} style={{height:'37px', width:'80px'}} onClick={() => { addAllAddress() }}>
+            <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={() => { addAllAddress() }}>
                 {
                     !AddLoading ? 
                     <span>
@@ -610,9 +605,7 @@ const ShowEntity = () => {
                     <LoadingButton/>
                 }
             </Button>
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => { setAddBox(false) }}>
-                بسته
-            </Button>
+
           </ModalFooter>
         </Modal>
     </Card>

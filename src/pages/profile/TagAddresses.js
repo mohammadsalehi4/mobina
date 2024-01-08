@@ -181,7 +181,7 @@ const TagAddresses = () => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteTag() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteTag() } }>
             {
               Loading ? 
                 <LoadingButton/>
@@ -189,9 +189,7 @@ const TagAddresses = () => {
               <span>حذف</span>
             }
           </Button>
-          <Button onClick={ () => { SetOpenDeleteBox(false) } } color={'warning'} style={{height:'37px', width:'80px'}}>
-            بازگشت
-          </Button>
+
         </ModalFooter>
       </Modal>
     </>

@@ -22,7 +22,7 @@ const ProfileHeader = (props) => {
                     name="Maya Angelou"
                     variant="ring"
                     square={true}
-                    colors={["#daa520", "#2f4f4f", "#daa520", "#2f4f4f", "#cdcd32"]}
+                    colors={["#daa520", "#01153a", "#daa520", "#01153a", "#cdcd32"]}
                     style={{ borderRadius: '8px' }}
                   />
                 </div>

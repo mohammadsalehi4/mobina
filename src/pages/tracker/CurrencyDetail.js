@@ -239,7 +239,7 @@ const CurrencyDetail = () => {
       </div>
       <div className='row'>
         <div className='col-12 mt-3' >
-          <div style={{background:"#2f4f4f", height:"75px", borderRadius:"10px"}}>
+          <div style={{background:"#01153a", height:"75px", borderRadius:"10px"}}>
             <a className='text-whit mt-3 me-3' style={{transition:"0.2s", color:"black", background:MainSiteOrange, borderRadius:"8px", padding:"10px 15px", display:"inline-block"}}>نمایش مالک</a>
           </div>
         </div>

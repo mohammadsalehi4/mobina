@@ -11,7 +11,7 @@ import {
   NavItem,
   TabContent
 } from 'reactstrap'
-import { MainSiteOrange } from '../../../public/colors'
+import { MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 
 import AdminEvents from '../../components/adminEvents/adminEvents'
 import AdminReports from '../../components/adminReports/adminReports'
@@ -33,7 +33,7 @@ const Admin = () => {
         }
     }
     document.getElementById(`Link${active}`).className = 'ActiveAdmin'
-    document.getElementById(`Link${active}`).style.borderColor = MainSiteOrange
+    document.getElementById(`Link${active}`).style.borderColor = MainSiteyellow
   }, [active])
 
   useEffect(() => {

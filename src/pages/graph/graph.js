@@ -600,7 +600,7 @@ const FuckingGraph = (props) => {
           }
           },
           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
-          color: "#2f4f4f",
+          color: "#01153a",
           fixed: true
       },
       nodes:{
@@ -629,17 +629,17 @@ const FuckingGraph = (props) => {
           mid:{
             shape:'dot',
             size:6,
-            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            font: { size: 13, family:"Arial", color:'#01153a'  },
             color:{
-                border: '#2f4f4f',
-                background:'#2f4f4f',
+                border: '#01153a',
+                background:'#01153a',
                 highlight: {
-                  background: '#2f4f4f',
-                  border: '#2f4f4f'
+                  background: '#01153a',
+                  border: '#01153a'
                 }
             },
             borderWidth: 0,
-            borderColor:"#2f4f4f"
+            borderColor:"#01153a"
           },
           //گره اصلی
           main:{
@@ -650,40 +650,40 @@ const FuckingGraph = (props) => {
                 size: 50,
                 color: 'black'
             },
-            font: { size: 13, face:"Vazir", color:'#2f4f4f', align: 'left'},
+            font: { size: 13, face:"Vazir", color:'#01153a', align: 'left'},
             color:{
-                border: '#2f4f4f'
+                border: '#01153a'
             },
             borderWidth: 2,
             align: 'horizontal',
             // image:"/images/location.png",
-            borderColor:"#2f4f4f",            
+            borderColor:"#01153a",            
             shape:'circularImage'
           },
           //فرستنده ها
           sender:{
               shape:'dot',
-            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            font: { size: 13, family:"Arial", color:'#01153a'  },
             color:{
-                border: '#2f4f4f'
+                border: '#01153a'
             },
             borderWidth: 3,
             align: 'horizontal',
             image:"/images/greenLocation.png",
-            borderColor:"#2f4f4f",            
+            borderColor:"#01153a",            
             shape:'circularImage'
           },
           //گیرنده ها
           reciver:{
               shape:'dot',
-            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            font: { size: 13, family:"Arial", color:'#01153a'  },
             color:{
-                border: '#2f4f4f'
+                border: '#01153a'
             },
             borderWidth: 3,
             align: 'horizontal',
             image:"/images/redLocation.png",
-            borderColor:"#2f4f4f",            
+            borderColor:"#01153a",            
             shape:'circularImage'
           }
         }
@@ -715,7 +715,7 @@ const FuckingGraph = (props) => {
           }
           },
           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
-          color: "#2f4f4f",
+          color: "#01153a",
           fixed: true
       },
       nodes:{
@@ -740,17 +740,17 @@ const FuckingGraph = (props) => {
           mid:{
             shape:'dot',
             size:6,
-            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            font: { size: 13, family:"Arial", color:'#01153a'  },
             color:{
-                border: '#2f4f4f',
-                background:'#2f4f4f',
+                border: '#01153a',
+                background:'#01153a',
                 highlight: {
-                  background: '#2f4f4f',
-                  border: '#2f4f4f'
+                  background: '#01153a',
+                  border: '#01153a'
                 }
             },
             borderWidth: 0,
-            borderColor:"#2f4f4f"
+            borderColor:"#01153a"
           },
           //گره اصلی
           main:{
@@ -761,40 +761,40 @@ const FuckingGraph = (props) => {
                 size: 50,
                 color: 'black'
             },
-            font: { size: 13, face:"Vazir", color:'#2f4f4f', align: 'left'},
+            font: { size: 13, face:"Vazir", color:'#01153a', align: 'left'},
             color:{
-                border: '#2f4f4f'
+                border: '#01153a'
             },
             borderWidth: 2,
             align: 'horizontal',
             // image:"/images/location.png",
-            borderColor:"#2f4f4f",            
+            borderColor:"#01153a",            
             shape:'circularImage'
           },
           //فرستنده ها
           sender:{
               shape:'dot',
-            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            font: { size: 13, family:"Arial", color:'#01153a'  },
             color:{
-                border: '#2f4f4f'
+                border: '#01153a'
             },
             borderWidth: 3,
             align: 'horizontal',
             image:"/images/greenLocation.png",
-            borderColor:"#2f4f4f",            
+            borderColor:"#01153a",            
             shape:'circularImage'
           },
           //گیرنده ها
           reciver:{
               shape:'dot',
-            font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+            font: { size: 13, family:"Arial", color:'#01153a'  },
             color:{
-                border: '#2f4f4f'
+                border: '#01153a'
             },
             borderWidth: 3,
             align: 'horizontal',
             image:"/images/redLocation.png",
-            borderColor:"#2f4f4f",            
+            borderColor:"#01153a",            
             shape:'circularImage'
           }
         }
@@ -1126,7 +1126,7 @@ const FuckingGraph = (props) => {
         <div id='myGraphDiv' onClick={mouseClick} onMouseMove={mouseMove}  ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
         {
           showDiv ? 
-          <div id="myDiv" onClick={mouseClick} onMouseMove={mouseMove} style={{position:'absolute', borderRadius:'4px', background:'#2f4f4f', opacity:'0.1', width:`${Math.abs(moveX - startX)}px`, height:`${Math.abs(moveY - (startY))}px`, top:`${startY - 120}px`, left:`${startX}px`}}></div>
+          <div id="myDiv" onClick={mouseClick} onMouseMove={mouseMove} style={{position:'absolute', borderRadius:'4px', background:'#01153a', opacity:'0.1', width:`${Math.abs(moveX - startX)}px`, height:`${Math.abs(moveY - (startY))}px`, top:`${startY - 120}px`, left:`${startX}px`}}></div>
           :
           null
         }

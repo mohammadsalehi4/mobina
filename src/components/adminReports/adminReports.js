@@ -10,7 +10,7 @@ import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import LocalLoading from '../localLoading/localLoading'
-import { MainSiteOrange } from '../../../public/colors'
+import { MainSiteOrange, MainSiteyellow } from '../../../public/colors'
 import LoadingButton from '../loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
 import { Calendar, CalendarProvider } from "zaman"
@@ -399,7 +399,7 @@ const AdminReports = () => {
       </CardHeader>
       <Row className='justify-content-end mx-0'>
           <Col className='d-flex align-items-center justify-content-end mt-2 mb-2' md='6' sm='12'>
-          <button onClick={() => { SetAddNewReportBox(true) }} style={{background:MainSiteOrange, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px", float:'left', fontSize:'15px'}} className='ms-3' color='primary'>
+          <button onClick={() => { SetAddNewReportBox(true) }} style={{background:MainSiteyellow, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px", float:'left', fontSize:'15px'}} className='ms-3' color='primary'>
             <span className='align-middle'>افزودن گزارش</span>
           </button>
           </Col>
@@ -492,13 +492,8 @@ const AdminReports = () => {
 
           </ModalBody>
           <ModalFooter>
-            <Button color={'warning'} onClick={() => {
-                SetAddNewReportBox(false)
-              }}>
-              بازگشت
-              
-            </Button>
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => {
+
+            <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={() => {
                 addNewReports()
             }}>
               {
@@ -524,13 +519,7 @@ const AdminReports = () => {
 
           </ModalBody>
           <ModalFooter>
-            <Button color={'warning'} onClick={() => {
-                SetDeleteBox(false)
-              }}>
-              بازگشت
-              
-            </Button>
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => {
+            <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={() => {
                 SetLoading(true)
                 axios.delete(`${serverAddress}/reports/edit/${DeleteSelectedReport}/`, 
                 {
@@ -668,15 +657,8 @@ const AdminReports = () => {
 
           </ModalBody>
           <ModalFooter>
-            <Button color={'warning'} onClick={() => {
-                SetEditSelectedReportContent(null)
-                SetEditSelectedReport(null)
-                SetEditBox(false)
-              }}>
-              بازگشت
-              
-            </Button>
-            <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={() => {
+
+            <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={() => {
                 EditReport()
             }}>
               {

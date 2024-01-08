@@ -16,7 +16,7 @@
   background: linear-gradient(135deg, rgb(208, 208, 208) 0%, rgb(247, 247, 247) 100%);
 }
 #header li.thisActive a div, #header li.thisActive a ion-icon {
-  color: #2f4f4f;
+  color: #01153a;
 }
 #header #logo {
   width: 40px;
@@ -54,17 +54,17 @@
   top: 0px;
   z-index: 8;
   width: 100%;
-  background: #2f4f4f;
+  background: #01153a;
   box-shadow: rgba(234, 234, 234, 0.5) 0px 0px 0px 1px;
 }
 #header #row2HeaderBox {
   position: absolute;
   left: 0px;
   top: 60px;
-  background: #2f4f4f;
+  background: #01153a;
   width: 100%;
   z-index: 6;
-  box-shadow: #2f4f4f 0px 1px 4px;
+  box-shadow: #01153a 0px 1px 4px;
 }
 #header #row2HeaderBox li {
   margin: 8px;

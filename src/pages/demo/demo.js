@@ -14,7 +14,7 @@ const Demo = () => {
             <p>
               در این نسخه از برنامه، نمیتوانید این صفحه را مشاهده کنید.
             </p>
-            <button onClick={ () => { window.location.assign('/researcher') } } style={{padding:"8px 24px", color:"white", background:"#2f4f4f", border:"none", borderRadius:"8px"}}>
+            <button onClick={ () => { window.location.assign('/researcher') } } style={{padding:"8px 24px", color:"white", background:"#01153a", border:"none", borderRadius:"8px"}}>
               بازگشت به صفحه اصلی
             </button>
             <img src='../../../public/images/demo.png' style={{width:"100%", marginTop:"50px"}}/>

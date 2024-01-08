@@ -245,7 +245,7 @@ const AdminPrices = () => {
                                   {item}
                                 </span>
                                 <Input className='mb-3' style={{display:'inline-block', width:'80%'}} id={`InputTokenPrice${index}`}/>
-                                <Button  style={{display:'inline-block', marginRight:'8px'}} color='warning' onClick={ () => { setPrice(item, document.getElementById(`InputTokenPrice${index}`).value, Gap.token) } }>ثبت</Button>
+                                <Button  style={{display:'inline-block', marginRight:'8px'}} color='primary' onClick={ () => { setPrice(item, document.getElementById(`InputTokenPrice${index}`).value, Gap.token) } }>ثبت</Button>
                               </form>
 
                             )
@@ -256,11 +256,7 @@ const AdminPrices = () => {
                     <p>بدون حفره</p>
                 }
             </ModalBody>
-            <ModalFooter>
-                <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => (SetShowGapModal(false)) }>
-                بسته
-                </Button>
-            </ModalFooter>
+
             </Modal>
         </div>
     )

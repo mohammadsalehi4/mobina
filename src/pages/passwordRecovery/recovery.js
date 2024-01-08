@@ -100,10 +100,10 @@ const Recovery = () => {
                                                 <label class="form-label gray" for="login_username">شماره موبایل</label>
                                                 <input class="form-control login_form gray " id="login_Number" type="text" name="login_Number" placeholder="شماره موبایل..." aria-describedby="login-email" autofocus="" tabindex="1" />
                                             </div>
-                                            <button class="btn  w-100 login_form mt-2" style={{background:"#2f4f4f", color:"white"}} tabindex="4">بازیابی</button>
+                                            <button class="btn  w-100 login_form mt-2" style={{background:"#01153a", color:"white"}} tabindex="4">بازیابی</button>
                                         </form>
                                         <div class="d-flex mt-2">
-                                           <a href="/ " class='login_forgote_password_link ' style={{color:"#2f4f4f"}}><small>بازگشت به صفحه اصلی</small></a>
+                                           <a href="/ " class='login_forgote_password_link ' style={{color:"#01153a"}}><small>بازگشت به صفحه اصلی</small></a>
                                         </div>
                                     </div>
                                     <ReCAPTCHA

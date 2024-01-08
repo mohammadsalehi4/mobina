@@ -177,7 +177,7 @@ const Main = () => {
                                                     <label for="remember_me" className='gray vazir'>به خاطر داشته باش</label>
                                                 </div>
                                             </div>
-                                            <button class="btn  w-100 login_form" style={{background:'#2f4f4f', color:"white"}} tabindex="4" onClick={login}>ورود</button>
+                                            <button class="btn  w-100 login_form" style={{background:'#01153a', color:"white"}} tabindex="4" onClick={login}>ورود</button>
                                             <ReCAPTCHA
                                                 style={{display: 'inline-block', fontFamily:'vazir'}}
                                                 theme="dark"
@@ -190,7 +190,7 @@ const Main = () => {
                                             />
                                         </form>
                                         <div class="d-flex mt-2">
-                                           <a href="/recovery " class='login_forgote_password_link'><small style={{color:"#2f4f4f"}}>رمز عبور را فراموش کرده اید؟</small></a>
+                                           <a href="/recovery " class='login_forgote_password_link'><small style={{color:"#01153a"}}>رمز عبور را فراموش کرده اید؟</small></a>
                                         </div>
                                     </div>
                                 </div>

@@ -120,11 +120,11 @@ const St3 = ({ stepper, type }) => {
           </Col>
         </Row>
         <div className='d-flex justify-content-between mt-3'>
-          <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => stepper.previous()}>
+          <button style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => stepper.previous()}>
             <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
             <span className='align-middle d-sm-inline-block d-none'>قبلی</span>
           </button>
-          <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} type='submit' className='btn-next' 
+          <button style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} type='submit' className='btn-next' 
             // onClick={() => { submit() }}
           >
             <span className='align-middle d-sm-inline-block d-none'>اتمام</span>

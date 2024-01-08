@@ -69,7 +69,7 @@
 //           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
 //           color: { color: '#000000', highlight: '#00ff00' },
 //           strokeWidth: 2,
-//           color: "#2f4f4f",
+//           color: "#01153a",
 //           shadow: true,
 //           fixed: true,
 //           smooth: true
@@ -81,7 +81,7 @@
 //           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
 //           color: { color: '#000000', highlight: '#00ff00' },
 //           strokeWidth: 2,
-//           color: "#2f4f4f",
+//           color: "#01153a",
 //           shadow: true,
 //           fixed: true,
 //           smooth: true
@@ -93,7 +93,7 @@
 //           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
 //           color: { color: '#000000', highlight: '#00ff00' },
 //           strokeWidth: 2,
-//           color: "#2f4f4f",
+//           color: "#01153a",
 //           shadow: true,
 //           fixed: true,
 //           smooth: true
@@ -105,7 +105,7 @@
 //           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
 //           color: { color: '#000000', highlight: '#00ff00' },
 //           strokeWidth: 2,
-//           color: "#2f4f4f",
+//           color: "#01153a",
 //           shadow: true,
 //           fixed: true,
 //           smooth: true
@@ -117,7 +117,7 @@
 //           font: { size: 14, align: "middle", background: "white", family: "Vazir", align: 'horizontal' },
 //           color: { color: '#000000', highlight: '#00ff00' },
 //           strokeWidth: 2,
-//           color: "#2f4f4f",
+//           color: "#01153a",
 //           shadow: true,
 //           fixed: true,
 //           smooth: true
@@ -186,55 +186,55 @@
 //         middle:{
 //           shape:'dot',
 //           size:6,
-//           font: { size: 3, family:"Arial", color:'#2f4f4f'  },
+//           font: { size: 3, family:"Arial", color:'#01153a'  },
 //           color:{
-//               border: '#2f4f4f',
-//               background:'#2f4f4f',
+//               border: '#01153a',
+//               background:'#01153a',
 //               highlight: {
-//                 background: '#2f4f4f',
-//                 border: '#2f4f4f'
+//                 background: '#01153a',
+//                 border: '#01153a'
 //               }
 //           },
 //           borderWidth: 0,
-//           borderColor:"#2f4f4f"
+//           borderColor:"#01153a"
 
 //         },
 //         //گره اصلی
 //         main:{
-//           font: { size: 13, family:"Arial", color:'#2f4f4f' },
+//           font: { size: 13, family:"Arial", color:'#01153a' },
 //           color:{
-//               border: '#2f4f4f'
+//               border: '#01153a'
 //           },
 //           borderWidth: 3,
 //           align: 'horizontal',
 //           image:"/images/location.png",
-//           borderColor:"#2f4f4f",            
+//           borderColor:"#01153a",            
 //           fixed:true,
 //           shape:'circularImage'
 //         },
 //         //فرستنده ها
 //         senderMain:{
-//           font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+//           font: { size: 13, family:"Arial", color:'#01153a'  },
 //           color:{
-//               border: '#2f4f4f'
+//               border: '#01153a'
 //           },
 //           borderWidth: 3,
 //           align: 'horizontal',
 //           image:"/images/greenLocation.png",
-//           borderColor:"#2f4f4f",            
+//           borderColor:"#01153a",            
 //           fixed:true,
 //           shape:'circularImage'
 //         },
 //         //گیرنده ها
 //         reciverMain:{
-//           font: { size: 13, family:"Arial", color:'#2f4f4f'  },
+//           font: { size: 13, family:"Arial", color:'#01153a'  },
 //           color:{
-//               border: '#2f4f4f'
+//               border: '#01153a'
 //           },
 //           borderWidth: 3,
 //           align: 'horizontal',
 //           image:"/images/redLocation.png",
-//           borderColor:"#2f4f4f",            
+//           borderColor:"#01153a",            
 //           fixed:true,
 //           shape:'circularImage'
 //         },

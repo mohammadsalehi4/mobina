@@ -3,7 +3,7 @@
 import React, {useState, useEffect} from 'react'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Trash2 } from 'react-feather'
+import { ChevronDown, Trash2, Copy } from 'react-feather'
 import NiceAddress2 from '../niceAddress2/niceAddress'
 import './style.css'
 import {Row, Col} from 'reactstrap'
@@ -11,7 +11,13 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { serverAddress } from '../../address'
 import LocalLoading from '../localLoading/localLoading'
+import toast from 'react-hot-toast'
+
 const AddressList = (props) => {
+
+  const copy = (address) => {
+    
+  }
 
   const basicColumns = [
     {
@@ -40,7 +46,15 @@ const AddressList = (props) => {
         maxWidth: '100px',
         cell: row => {
           return (
+            <>
+            <Copy size={18} style={{cursor:'pointer'}} className='ms-2' onClick={ () => { 
+              navigator.clipboard.writeText(row.address) 
+              return toast.success('در کلیپ‌بورد ذخیره شد.', {
+                position: 'bottom-left'
+              })
+            }} />
             <Trash2 size={18} style={{cursor:'pointer'}} />
+            </>
           )
         }
     }

@@ -171,7 +171,7 @@ const TrackerAmountLimit = (props) => {
             </Label>
           </div>
         </div>
-        <span style={{fontSize:"12px", float:"right", color:"#2f4f4f", cursor:"pointer", display:'block'}} className='m-1' onClick={() => { SetMin(0), SetMax(0) }}>حذف محدودیت</span>
+        <span style={{fontSize:"12px", float:"right", color:"#01153a", cursor:"pointer", display:'block'}} className='m-1' onClick={() => { SetMin(0), SetMax(0) }}>حذف محدودیت</span>
 
       </DropdownMenu>
     </Dropdown>

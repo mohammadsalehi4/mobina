@@ -177,8 +177,7 @@ const SavedGraph = () => {
           <h6>آیا با حذف گراف مورد نظر موافق هستید؟</h6>            
         </ModalBody>
         <ModalFooter>
-
-          <Button onClick={ () => { deleteGraph(rowId), SetOpenDeleteBox(false) } } color={'danger'} style={{height:'37px', width:'80px'}}>
+          <Button onClick={ () => { deleteGraph(rowId), SetOpenDeleteBox(false) } } color={'primary'} style={{height:'37px', width:'80px'}}>
             {
               Loading ? 
                 <LoadingButton/>
@@ -186,9 +185,7 @@ const SavedGraph = () => {
               <span>حذف</span>
             }
           </Button>
-          <Button onClick={ () => { SetOpenDeleteBox(false) } } color={'warning'} style={{height:'37px', width:'80px'}}>
-            بازگشت
-          </Button>
+
         </ModalFooter>
       </Modal>
     </Card>

@@ -18,7 +18,7 @@
 }
 
 .thisIsActivePageForce a{
-    background: #2f4f4f !important;
+    background: #01153a !important;
 }
 .nextLinkHoverForce{
     /* background: red !important */
@@ -36,7 +36,7 @@ input::placeholder {
     color: rgb(180, 180, 180);
 }
 .mainPollete{
-    background: #2f4f4f !important;
+    background: #01153a !important;
 }
 
 .dropdown-menu{
@@ -51,11 +51,11 @@ input::placeholder {
 }
 
 Input:focus {
-    border: 1px solid #2f4f4f !important;
+    border: 1px solid #01153a !important;
 }
 
 Input:focus + .input-group-text {
-    border-color: #2f4f4f !important;
+    border-color: #01153a !important;
 }
 
 .step{

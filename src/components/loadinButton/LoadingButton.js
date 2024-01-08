@@ -3,10 +3,15 @@ import React, { useEffect } from 'react'
 const LoadingButton = () => {
   useEffect(() => {
     setInterval(() => {
-      const a = document.getElementById('LoadinDiv3').style.background
-      document.getElementById('LoadinDiv3').style.background = document.getElementById('LoadinDiv2').style.background
-      document.getElementById('LoadinDiv2').style.background = document.getElementById('LoadinDiv1').style.background
-      document.getElementById('LoadinDiv1').style.background = a
+      try {
+        const myEl = document.getElementById('LoadinDiv3')
+        if (myEl.style !== null) {
+          const a = document.getElementById('LoadinDiv3').style.background
+          document.getElementById('LoadinDiv3').style.background = document.getElementById('LoadinDiv2').style.background
+          document.getElementById('LoadinDiv2').style.background = document.getElementById('LoadinDiv1').style.background
+          document.getElementById('LoadinDiv1').style.background = a
+        }
+      } catch (error) {}
     }, 200)
   }, [])
   return (

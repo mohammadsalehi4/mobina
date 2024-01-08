@@ -485,7 +485,7 @@ const AddEntity = () => {
 
                 <Row>
                     <Col className='mt-3 mb-3'>
-                        <Button color='warning' style={{height:'36px', float:'left'}} onClick={ () => { addNewEntity() } }>
+                        <Button color='primary' style={{height:'36px', float:'left'}} onClick={ () => { addNewEntity() } }>
                             {
                                 Loading ? 
                                 <LoadingButton/>
@@ -522,11 +522,7 @@ const AddEntity = () => {
                             />
                         </CalendarProvider>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color='danger' onClick={ () => { setEstablishmentBox(false) } }>
-                            بستن
-                        </Button>
-                    </ModalFooter>
+
                 </Modal>
 
             </div>

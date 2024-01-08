@@ -383,6 +383,7 @@ const VisualizationDetail = (props) => {
     <Modal
       isOpen={OpenSaveBox}
       className='modal-dialog-centered'
+      toggle={ () => { SetOpenSaveBox(false) } }
       modalClassName={'modal-danger'}
     >
       <ModalBody>
@@ -424,7 +425,7 @@ const VisualizationDetail = (props) => {
           SetDescription(document.getElementById('GraphDescription').value)
           saveGraph()
         }} 
-        color={'warning'} style={{height:'37px', width:'80px'}}>
+        color={'primary'} style={{height:'37px', width:'80px'}}>
           {
             Loading ? 
               <LoadingButton/>
@@ -432,9 +433,7 @@ const VisualizationDetail = (props) => {
             <span>ذخیره</span>
           }
         </Button>
-        <Button onClick={ () => { SetOpenSaveBox(false) } } color={'danger'} style={{height:'37px', width:'80px'}}>
-          بازگشت
-        </Button>
+
       </ModalFooter>
     </Modal>
     </div>

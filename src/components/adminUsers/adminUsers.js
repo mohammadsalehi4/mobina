@@ -19,8 +19,8 @@ const AdminUsers = () => {
         document.getElementById(`AdminUsersDesktopLink${i}`).style.color = "rgb(120,120,120)"
         document.getElementById(`AdminUsersMobileLink${i}`).style.color = "rgb(120,120,120)"
     }
-    document.getElementById(`AdminUsersDesktopLink${active}`).style.color = MainSiteOrange
-    document.getElementById(`AdminUsersMobileLink${active}`).style.color = MainSiteOrange
+    document.getElementById(`AdminUsersDesktopLink${active}`).style.color = MainSiteyellow
+    document.getElementById(`AdminUsersMobileLink${active}`).style.color = MainSiteyellow
   }, [active])
 
   return (
@@ -31,7 +31,7 @@ const AdminUsers = () => {
             <a
               active={active === '1'}
               id='AdminUsersDesktopLink1'
-              style={{marginRight:"0px", color:MainSiteOrange}}
+              style={{marginRight:"0px", color:MainSiteyellow}}
               onClick={() => {
                 toggle('1')
               }}

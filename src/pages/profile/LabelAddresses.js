@@ -178,7 +178,7 @@ const LabelAddresses = () => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'danger'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
             {
               Loading ? 
                 <LoadingButton/>
@@ -186,9 +186,7 @@ const LabelAddresses = () => {
               <span>حذف</span>
             }
           </Button>
-          <Button onClick={ () => { SetOpenDeleteBox(false) } } color={'warning'} style={{height:'37px', width:'80px'}}>
-            بازگشت
-          </Button>
+
         </ModalFooter>
       </Modal>
     </>

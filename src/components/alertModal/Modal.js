@@ -21,7 +21,7 @@ const MyModal = () => {
                 {/* <ModalGraph text1="Via BTC" text2="Abr Pardazesh"/> */}
             </ModalBody>
             <ModalFooter>
-                <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} onClick={() => dispatch({type:"SETBASICMODAL", value:false})}>
+                <button style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} onClick={() => dispatch({type:"SETBASICMODAL", value:false})}>
                     تایید
                 </button>
             </ModalFooter>

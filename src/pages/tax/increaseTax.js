@@ -104,7 +104,7 @@ const IncreaseTax = ({ stepper }) => {
                         <ArrowRight size={14} className='align-middle ms-sm-25 ms-1 me-0'></ArrowRight>
                         <span className='align-middle d-sm-inline-block d-none'>قبلی</span>
                     </button>
-                    <button style={{background:"#2f4f4f", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => {
+                    <button style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => {
                         Increase()
                         }}>
                             {
