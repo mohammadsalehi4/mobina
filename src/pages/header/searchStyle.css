@@ -1,0 +1,22 @@
+#MainSearchInputGroup{
+    border: none !important;
+    margin: 0px !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
+    border-bottom-style: solid !important;
+    border-bottom-color: rgb(220, 220, 220) !important;
+    border-bottom-width: 1px !important;
+}
+
+#MainSearchInputSymbole{
+    border: none !important;
+    cursor: pointer;
+    border-radius: 0px !important;
+}
+
+#MainSearchInputBox{
+    border: none !important;
+    border-radius: 0px !important;
+    padding: 24px 24px;
+
+}

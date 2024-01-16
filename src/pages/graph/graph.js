@@ -343,57 +343,6 @@ const FuckingGraph = (props) => {
         }
       }
 
-      // //eslah mokhtasat
-      // for (let i = 0; i < AllNodes.length; i++) {
-      //   if (AllNodes[i].group === 'mid') {
-      //     let check = false
-      //     let checkNumber = 0
-      //     if (AllNodes[i].mode === 'out') {
-      //       for (let j = 0; j < AllNodes.length; j++) {
-      //         if (AllNodes[j].group === 'main') {
-      //           for (let k = 0; k < AllNodes[j].from.length; k++) {
-      //             if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
-      //               checkNumber++
-      //               if (AllNodes[j].x < AllNodes[i].x) {
-      //                 check = true
-      //               }
-      //             }
-      //           }
-      //           for (let k = 0; k < AllNodes[j].to.length; k++) {
-      //             if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
-      //               checkNumber++
-      //             }
-      //           }
-      //         }
-      //       }
-      //       if (!check && checkNumber >= 2) {
-      //         AllNodes[i].x = AllNodes[i].x + 2
-      //       }
-      //     } else {
-      //       for (let j = 0; j < AllNodes.length; j++) {
-      //         if (AllNodes[j].group === 'main') {
-      //           for (let k = 0; k < AllNodes[j].to.length; k++) {
-      //             if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
-      //               checkNumber++
-      //               if (AllNodes[j].x > AllNodes[i].x) {
-      //                 check = true
-      //               }
-      //             }
-      //           }
-      //           for (let k = 0; k < AllNodes[j].from.length; k++) {
-      //             if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
-      //               checkNumber++
-      //             }
-      //           }
-      //         }
-      //       }
-      //       if (!check && checkNumber >= 2) {
-      //         AllNodes[i].x = AllNodes[i].x - 2
-      //       }
-      //     }
-      //   }
-      // }
-
       dispatch({type:"itemNumbers", value:AllNodes.length})
 
       SetGraphData(AllNodes)
@@ -412,6 +361,7 @@ const FuckingGraph = (props) => {
   }, [States.graphAddColor])
 
   useEffect(() => {
+    console.clear()
     //Nodes
     const nodes = new DataSet();
     resetPage()

@@ -115,19 +115,12 @@ const FuckingGraph = (props) => {
   const [GraphData, SetGraphData] = useState([])
   const [Distance, SetDistance] = useState(300)
   const [NewPositions, SetNewPositions] = useState(States.NodesPosition)
-
   const [SavedPositions, SetSavedPositions] = useState(States.SavedPositions)
   const [Color, SetColor] = useState('red')
   const [EdgeSelected, SetEdgeSelected] = useState([])
   const [ColorBeReload, SetColorBeReload] = useState(States.graphAddColor)
   const [deleteColor, SetdeleteColor] = useState(States.graphAddColor)
-  let k = States.edgesColors
-
-  const [mouseMode, SetMouseMode] = useState(true)
-
-  let selectionStart = { x: 0, y: 0 };
-  let selectionEnd = { x: 0, y: 0 };
-
+  const [graphAddColor, SetgraphAddColor] = useState(States.graphAddColor)
   const [showDiv, SetShowDiv] = useState(true)
   const [startX, SetstartX] = useState(0)
   const [startY, SetstartY] = useState(0)
@@ -135,8 +128,13 @@ const FuckingGraph = (props) => {
   const [MainStartY, SetMainStartY] = useState(0)
   const [moveX, SetmoveX] = useState(0)
   const [moveY, SetmoveY] = useState(0)
-
+  const [mouseMode, SetMouseMode] = useState(true)
   const [DownloadGraph, SetDownloadGraph] = useState(States.downloadGraph)
+
+  let k = States.edgesColors
+
+  let selectionStart = { x: 0, y: 0 };
+  let selectionEnd = { x: 0, y: 0 };
 
   let check = false
   let dragCheck = false
@@ -345,57 +343,6 @@ const FuckingGraph = (props) => {
         }
       }
 
-      // //eslah mokhtasat
-      // for (let i = 0; i < AllNodes.length; i++) {
-      //   if (AllNodes[i].group === 'mid') {
-      //     let check = false
-      //     let checkNumber = 0
-      //     if (AllNodes[i].mode === 'out') {
-      //       for (let j = 0; j < AllNodes.length; j++) {
-      //         if (AllNodes[j].group === 'main') {
-      //           for (let k = 0; k < AllNodes[j].from.length; k++) {
-      //             if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
-      //               checkNumber++
-      //               if (AllNodes[j].x < AllNodes[i].x) {
-      //                 check = true
-      //               }
-      //             }
-      //           }
-      //           for (let k = 0; k < AllNodes[j].to.length; k++) {
-      //             if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
-      //               checkNumber++
-      //             }
-      //           }
-      //         }
-      //       }
-      //       if (!check && checkNumber >= 2) {
-      //         AllNodes[i].x = AllNodes[i].x + 2
-      //       }
-      //     } else {
-      //       for (let j = 0; j < AllNodes.length; j++) {
-      //         if (AllNodes[j].group === 'main') {
-      //           for (let k = 0; k < AllNodes[j].to.length; k++) {
-      //             if ((AllNodes[j].to[k].address) === AllNodes[i].address) {
-      //               checkNumber++
-      //               if (AllNodes[j].x > AllNodes[i].x) {
-      //                 check = true
-      //               }
-      //             }
-      //           }
-      //           for (let k = 0; k < AllNodes[j].from.length; k++) {
-      //             if ((AllNodes[j].from[k].address) === AllNodes[i].address) {
-      //               checkNumber++
-      //             }
-      //           }
-      //         }
-      //       }
-      //       if (!check && checkNumber >= 2) {
-      //         AllNodes[i].x = AllNodes[i].x - 2
-      //       }
-      //     }
-      //   }
-      // }
-
       dispatch({type:"itemNumbers", value:AllNodes.length})
 
       SetGraphData(AllNodes)
@@ -408,6 +355,10 @@ const FuckingGraph = (props) => {
   useEffect(() => {
     check = showDiv
   }, [showDiv])
+
+  useEffect(() => {
+    dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
+  }, [States.graphAddColor])
 
   useEffect(() => {
     //Nodes
@@ -963,6 +914,22 @@ const FuckingGraph = (props) => {
     SetEdgeSelected([])
     dispatch({type:"edgesColors", value:k})
     SetColorBeReload(States.graphAddColor)
+  }
+
+  //اگر رنگ انتخاب شده تغییر نکرده بود، رنگ یال انتخاب شده رو تغییر بده
+  if (States.graphAddColor !== graphAddColor) {
+    for (let i = 0; i < EdgeSelected.length; i++) {
+      if (k.some(item => (item.from === EdgeSelected[i].from && item.to === EdgeSelected[i].to)) === true) {
+        const index = k.findIndex(item => (item.from === EdgeSelected[i].from && item.to === EdgeSelected[i].to))
+        if (index !== -1) {
+          k[index].color = States.ColorType
+        }
+      }
+    }
+    SetEdgeSelected([])
+    dispatch({type:"edgesColors", value:k})
+    SetColorBeReload(States.graphAddColor)
+    SetgraphAddColor(States.graphAddColor)
   }
 
   //select single edge

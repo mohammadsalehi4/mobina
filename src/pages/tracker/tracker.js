@@ -1,3 +1,5 @@
+/* eslint-disable array-bracket-newline */
+/* eslint-disable prefer-const */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-use-before-define */
@@ -28,6 +30,10 @@ import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
 import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
 import { BSCTransaction } from '../../processors/BSCTransaction'
 import { BSCAddress } from '../../processors/BSCAddress'
+
+//new peocessors
+import { UTXO_Address } from '../../newProcessors/UTXO_Address'
+import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
 
 const Tracker = () => {
     const { hash } = useParams()
@@ -75,11 +81,10 @@ const Tracker = () => {
 
     //processors
     const UTXOAdd = (data) => {
-        console.log('tracker')
+        console.log('UTXO')
         console.log(data)
 
         let getEntity
-
         try {
             if (data.label) {
                 getEntity = data.label
@@ -115,36 +120,6 @@ const Tracker = () => {
                 }
             ]
         }
-        const inputAddress = {
-            address : '',
-            symbole : '',
-            inputs : [],
-            outputs : [
-                {
-                    hash:null,
-                    value:0,
-                    timeStamp:0,
-                    symbole: '',
-                    valueInDollar:0
-                }
-            ],
-            Label:false
-        }
-        const outputAddress = {
-            address : '',
-            symbole: '',
-            inputs : [
-                {
-                    hash:null,
-                    value:0,
-                    timeStamp:0,
-                    symbole : '',
-                    valueInDollar:0
-                }
-            ],
-            outputs : [],
-            Label:false
-        }
 
         let inputCheck = false
         let outputCheck = false
@@ -155,32 +130,7 @@ const Tracker = () => {
             mainAddress.inputs[0].timeStamp = data.inputs[0].timestamp
             mainAddress.inputs[0].symbole = data.symbole
             mainAddress.inputs[0].valueInDollar = parseFloat(data.inputs[0].ValueInDollar.toFixed(5))
-
-            let InputEntity
-            try {
-                if (data.inputs[0].sender[0].label) {
-                    InputEntity = data.inputs[0].sender[0].label
-                } else if (data.inputs[0].sender[0].entity !== null &&  data.inputs[0].sender[0].entity !== undefined) {
-                    InputEntity = data.inputs[0].sender[0].entity.name
-                } else {
-                    InputEntity = false
-                }
-            } catch (error) {
-                InputEntity = false
-            }
-
-            if (data.inputs[0].sender.length > 0) {
-                inputAddress.address = data.inputs[0].sender[0].address
-                inputAddress.symbole = data.inputs[0].sender[0].symbole
-                inputAddress.Label = InputEntity
-                inputAddress.outputs[0].hash = data.inputs[0].hash
-                inputAddress.outputs[0].value = parseFloat(data.inputs[0].sender[0].value.toFixed(5))
-                inputAddress.outputs[0].timeStamp = data.inputs[0].timestamp
-                inputAddress.outputs[0].symbole = data.inputs[0].sender[0].symbole
-                inputAddress.outputs[0].valueInDollar = parseFloat(data.inputs[0].sender[0].ValueInDollar.toFixed(5))
-    
-                inputCheck = true
-            }
+            inputCheck = true
 
         }
 
@@ -190,129 +140,57 @@ const Tracker = () => {
             mainAddress.outputs[0].timeStamp = data.outputs[0].timestamp
             mainAddress.outputs[0].symbole = data.symbole
             mainAddress.outputs[0].valueInDollar = parseFloat(data.outputs[0].ValueInDollar.toFixed(5))
-
-            let OutputEntity
-            try {
-                if (data.outputs[0].reciver[0].label) {
-                    OutputEntity = data.outputs[0].reciver[0].label
-                } else if (data.outputs[0].reciver[0].entity !== null &&  data.outputs[0].reciver[0].entity !== undefined) {
-                    OutputEntity =  data.outputs[0].reciver[0].entity.name
-                } else {
-                    OutputEntity = false
-                }
-            } catch (error) {
-                OutputEntity = false
-            }
-
-            if (data.outputs[0].reciver.length > 0) {
-                outputAddress.address = data.outputs[0].reciver[0].address
-                outputAddress.symbole = data.outputs[0].reciver[0].symbole
-                outputAddress.Label = OutputEntity
-                outputAddress.inputs[0].hash = data.outputs[0].hash
-                outputAddress.inputs[0].value = parseFloat(data.outputs[0].reciver[0].value.toFixed(5))
-                outputAddress.inputs[0].timeStamp = data.outputs[0].timestamp
-                outputAddress.inputs[0].symbole = data.outputs[0].reciver[0].symbole
-                outputAddress.inputs[0].valueInDollar = parseFloat(data.outputs[0].reciver[0].ValueInDollar.toFixed(5))
-    
-                outputCheck = true
-            }
-
+            outputCheck = true
         }
 
-        if (inputCheck && outputCheck) {
-            return (
-                [
-                    mainAddress,
-                    inputAddress,
-                    outputAddress
-                ]
-            )
-        } else if (inputCheck && !outputCheck) {
-            return (
-                [
-                    {
-                        address: mainAddress.address,
-                        symbole: mainAddress.symbole,
-                        Label: mainAddress.Label,
-                        inputs:[
-                            {
-                                hash:mainAddress.inputs[0].hash,
-                                value:mainAddress.inputs[0].value,
-                                timeStamp:mainAddress.inputs[0].timeStamp,
-                                symbole: mainAddress.inputs[0].symbole,
-                                valueInDollar:mainAddress.inputs[0].valueInDollar
-                            }
-                        ],
-                        outputs:[]
-                    },
-                    inputAddress
-                ]
-            )
-        } else if (!inputCheck && outputCheck) {
-            return (
-                [
-                    {
-                        address: mainAddress.address,
-                        symbole: mainAddress.symbole,
-                        Label: mainAddress.Label,
-                        inputs:[],
-                        outputs:[
-                            {
-                                hash:mainAddress.outputs[0].hash,
-                                value:mainAddress.outputs[0].value,
-                                timeStamp:mainAddress.outputs[0].timeStamp,
-                                symbole: mainAddress.outputs[0].symbole,
-                                valueInDollar:mainAddress.outputs[0].valueInDollar
-                            }
-                        ]
-                    },
-                    outputAddress
-                ]
-            )
-        } else {
-            return (
-                [
-                    {
-                        address: mainAddress.address,
-                        symbole: mainAddress.symbole,
-                        Label: mainAddress.Label,
-                        inputs:[],
-                        outputs:[]
-                    }
-                ]
-            )
-        }
+        return (
+            [
+                mainAddress
+            ]
+        )
+
     }
     const UTXOTr = (data) => {
-        console.log('tracker')
-        console.log(data)
+
+        const newData = data
+
+        for (let i = 0; i < newData.inputs.length; i++) {
+            const thisAddress = newData.inputs[i].address
+            for (let j = 0; j < newData.outputs.length; j++) {
+                if (newData.outputs[j].address === thisAddress) {
+                    newData.inputs[i].value = (newData.inputs[i].value - newData.outputs[j].value)
+                    newData.outputs.splice(j, 1)
+                }
+            }
+        }
+
         const LeftAddress = {
-            address: data.outputs[0].address,
-            symbole : data.symbole,
-            Label : data.Label,
+            address: newData.outputs[0].address,
+            symbole : newData.symbole,
+            Label : newData.Label,
             inputs : [
                 {
-                    hash:data.hash,
-                    value:parseFloat(data.outputs[0].value.toFixed(5)),
-                    timeStamp:data.time,
-                    symbole: data.symbole,
-                    valueInDollar:parseFloat(data.outputs[0].valueInDollar.toFixed(5))
+                    hash:newData.hash,
+                    value:parseFloat(newData.outputs[0].value.toFixed(5)),
+                    timeStamp:newData.time,
+                    symbole: newData.symbole,
+                    valueInDollar:parseFloat(newData.outputs[0].valueInDollar.toFixed(5))
                 }
             ],
             outputs : []
         }
         const RightAddress = {
-            address : data.inputs[0].address,
-            symbole : data.symbole,
-            Label : data.Label,
+            address : newData.inputs[0].address,
+            symbole : newData.symbole,
+            Label : newData.Label,
             inputs : [],
             outputs : [
                 {
-                    hash:data.hash,
-                    value:parseFloat(data.inputs[0].value.toFixed(5)),
-                    timeStamp:data.time,
-                    symbole: data.symbole,
-                    valueInDollar:parseFloat(data.inputs[0].valueInDollar.toFixed(5))
+                    hash:newData.hash,
+                    value:parseFloat(newData.inputs[0].value.toFixed(5)),
+                    timeStamp:newData.time,
+                    symbole: newData.symbole,
+                    valueInDollar:parseFloat(newData.inputs[0].valueInDollar.toFixed(5))
                 }
             ]
         }
@@ -586,9 +464,9 @@ const Tracker = () => {
               }
             })
             .then((response) => {
-                console.log(response)
                 try {
                     if (response.data.query === 'address') {
+
                         if (network === 'ETH') {
                             dispatch({type:"Network", value:'ETH'})
                             SetLoading(false)
@@ -598,13 +476,13 @@ const Tracker = () => {
                         } else if (network === 'BTC') {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'BTC', 100000000))})
+                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXO_Address(hash, response.data.data, 'BTC', 100000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
                         } else if (network === 'LTC') {
                             dispatch({type:"Network", value:'LTC'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'LTC', 1))})
+                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXO_Address(hash, response.data.data, 'LTC', 1))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
                         } else if (network === 'BSC') {
@@ -616,7 +494,7 @@ const Tracker = () => {
                         } else if (network === 'BCH') {
                             dispatch({type:"Network", value:'BCH'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXOAddress(response.data.data, hash, 'BCH', 1))})
+                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXO_Address(hash, response.data.data, 'BCH', 1))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
                         }
@@ -630,13 +508,14 @@ const Tracker = () => {
                         } else if (network === 'BTC') {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'BTC', 100000000))})
+                            // UTXOTr(UTXO_Transaction(response.data.data, 'BTC', 100000000))
+                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXO_Transaction(response.data.data, 'BTC', 100000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         } else if (network === 'LTC') {
                             dispatch({type:"Network", value:'LTC'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'LTC', 1))})
+                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXO_Transaction(response.data.data, 'LTC', 1))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         } else if (network === 'BSC') {
@@ -648,11 +527,12 @@ const Tracker = () => {
                         } else if (network === 'BCH') {
                             dispatch({type:"Network", value:'BCH'})
                             SetLoading(false)
-                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXOTransaction(response.data.data, 'BCH', 1))})
+                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXO_Transaction(response.data.data, 'BCH', 1))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         }
                     }
+
                 } catch (error) {
                     console.log(error)
                     return toast.error('خطا در دریافت اطلاعات', {

@@ -25,11 +25,12 @@ import { useDispatch } from "react-redux"
 import { Search, X } from 'react-feather'
 import {
   Input,
-  InputGroup, InputGroupText
+  InputGroup, InputGroupText, Modal, ModalBody
 } from 'reactstrap'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import FoundItems from './FoundItems'
+import * as Icon from 'react-feather'
 
 function Header() {
   const myInputRef = useRef(null)
@@ -99,123 +100,6 @@ function Header() {
   }, [, Cookies.get('roll')])
 
   const [SearchBox, SetSearchBox] = useState(false)
-  const [IsSearching, SetIsSearching] = useState(false)
-  const [SearchCompleted, SetSearchCompleted] = useState(false)
-  const [ReportsFound, SetReportsFound] = useState([])
-  const [tagsFound, SettagsFound] = useState([])
-  const [labelsFound, SetlabelsFound] = useState([])
-  const [graphsFound, SetgraphsFound] = useState([])
-  const [NetworkFound, SetNetworkFound] = useState([])
-
-  const searchSubmit = (event) => {
-    event.preventDefault()
-    dispatch({type:"LoadingEffect", value:true})
-
-    SetReportsFound([])
-    SettagsFound([])
-    SetlabelsFound([])
-    SetgraphsFound([])
-    SetNetworkFound([])
-
-    SetIsSearching(true)
-    const searchItem = document.getElementById('MainSearchHeaderInputBox').value
-    axios.get(`${serverAddress}/search/?search=${searchItem}`,
-    {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('access')}`
-      }
-    })
-    .then((response) => {
-      console.log(response.data)
-      SetSearchCompleted(true)
-
-      const getNetworks = []
-      if (response.data.hash !== null) {
-        for (let i = 0; i < response.data.hash.networks.length; i++) {
-          getNetworks.push(
-            {
-              network:response.data.hash.networks[i],
-              address:item
-            }
-          )
-        }
-      } 
-      SetNetworkFound(getNetworks)
-
-
-      const getReports = []
-      const gettags = []
-      const getlabels = []
-      const getgraphs = []
-
-      for (let i = 0; i < response.data.reports.length; i++) {
-        getReports.push(
-          {
-            id:response.data.reports[i].id,
-            title:response.data.reports[i].title
-          }
-        )
-      }
-      for (let i = 0; i < response.data.tags.length; i++) {
-        gettags.push(
-          {
-            id:response.data.tags[i].id,
-            title:response.data.tags[i].tag,
-            address:response.data.tags[i].address,
-            network:response.data.tags[i].network
-          }
-        )
-      }
-      for (let i = 0; i < response.data.labels.length; i++) {
-        getlabels.push(
-          {
-            id:response.data.labels[i].id,
-            title:response.data.labels[i].label,
-            address:response.data.labels[i].address,
-            network:response.data.labels[i].network
-          }
-        )
-      }
-      for (let i = 0; i < response.data.graphs.length; i++) {
-        getgraphs.push(
-          {
-            id:response.data.graphs[i].id,
-            title:response.data.graphs[i].title
-          }
-        )
-      }
-      SetReportsFound(getReports)
-      SettagsFound(gettags)
-      SetlabelsFound(getlabels)
-      SetgraphsFound(getgraphs)
-
-      dispatch({type:"LoadingEffect", value:false})
-
-    })
-    .catch((err) => {
-      dispatch({type:"LoadingEffect", value:false})
-      try {
-        if (err.response.status === 403) {
-          Cookies.set('refresh', '')
-          Cookies.set('access', '')
-          window.location.assign('/')
-        }
-        if (err.response.status === 401) {
-          Cookies.set('refresh', '')
-          Cookies.set('access', '')
-          window.location.assign('/')
-        }
-      } catch (error) {}
-      try {
-        if (err.response.data.detail === 'Not found.') {
-          return toast.error('آدرس مورد نظر یافت نشد.', {
-            position: 'bottom-left'
-          })
-        }
-      } catch (error) {}
-    })
-
-  }
 
   return (
 
@@ -237,8 +121,18 @@ function Header() {
               </a>
             </div>
 
+            <div class="navbar-nav-right d-flex align-items-center">
+            </div>
+
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
               <ul class="navbar-nav flex-row ms-auto rightheaderItems">
+
+                <li id='AdminPanelHeaderIcon' title='پنل ادمین' class="nav-item dropdown-shortcuts navbar-dropdown dropdown  me-xl-0" onClick={ () => { SetSearchBox(true) } }>
+                    <a  class="nav-link dropdown-toggle hide-arrow topHeaderIcon" id='headerLinkAdminPanel' style={{direction:'rtl'}}>
+                      <Icon.Search />
+                    </a>
+                </li> 
 
                 {
                   (Number(Roll) === 2) ? 
@@ -254,6 +148,7 @@ function Header() {
                 <li title='پروفایل' class="nav-item dropdown-notifications navbar-dropdown dropdown">
                     <DropDown/>
                 </li>
+
               </ul>
             </div>
 
@@ -411,6 +306,18 @@ function Header() {
           </a>
         </div>
       </div>
+      
+      <Modal
+        isOpen={SearchBox}
+        toggle={ () => { SetSearchBox(false) } }
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+        style={{minWidth:'40%', padding:'0px'}}
+      >
+        <ModalBody style={{padding:'0px', borderRadius:'12px', overflow:'hidden'}}>
+          <FoundItems/>
+        </ModalBody>
+      </Modal>
 
     </div>
 

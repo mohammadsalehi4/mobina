@@ -26,6 +26,10 @@ import { UTXOAddress } from '../../processors/UTXOAddress'
 import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
 import { BSCAddress } from '../../processors/BSCAddress'
 
+//new processors
+import { UTXO_Address } from '../../newProcessors/UTXO_Address'
+import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
+
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -83,13 +87,10 @@ const CurrencyDetail = () => {
     const outputs = []
     for (let j = 0; j < data.inputs.length; j++) {
       inputs.push({
-        address:data.inputs[j].sender[0].address,
-        Label:data.inputs[j].sender[0].label,
         hash:data.inputs[j].hash,
         date:data.inputs[j].timestamp,
         time:data.inputs[j].timestamp,
         amount:parseFloat(data.inputs[j].value.toFixed(5)),
-        senderAmount:parseFloat(data.inputs[j].sender[0].value.toFixed(5)),
         currencyType:data.symbole,
         valueInDollar:data.inputs[j].ValueInDollar
       })
@@ -97,13 +98,10 @@ const CurrencyDetail = () => {
 
     for (let j = 0; j < data.outputs.length; j++) {
       outputs.push({
-        address:data.outputs[j].reciver[0].address,
-        Label:data.outputs[j].reciver[0].label,
         hash:data.outputs[j].hash,
         date:data.outputs[j].timestamp,
         time:data.outputs[j].timestamp,
         amount:parseFloat(data.outputs[j].value.toFixed(5)),
-        reciverAmount:parseFloat(data.outputs[j].reciver[0].value.toFixed(5)),
         currencyType:data.symbole,
         valueInDollar:data.outputs[j].ValueInDollar
       })
@@ -141,17 +139,17 @@ const CurrencyDetail = () => {
           if (network === 'ETH') {
             SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000), 'ETH'))
             SetLoading(false)
-          } else if (network === 'BTC') {
-            SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BTC', 100000000)))
-            SetLoading(false)
-          } else if (network === 'LTC') {
-            SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'LTC', 1)))
-            SetLoading(false)
           } else if (network === 'BSC') {
             SetData(AccountBaseAdd(BSCAddress(response.data.data, address, 'BNB', 1000000000000000000), 'BNB'))
             SetLoading(false)
+          } else if (network === 'BTC') {
+            SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BTC', 100000000)))
+            SetLoading(false)
+          } else if (network === 'LTC') {
+            SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'LTC', 1)))
+            SetLoading(false)
           } else if (network === 'BCH') {
-            SetData(UTXOAdd(UTXOAddress(response.data.data, address, 'BCH', 1)))
+            SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BCH', 1)))
             SetLoading(false)
           }
         } catch (error) {

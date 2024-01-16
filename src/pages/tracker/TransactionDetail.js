@@ -21,6 +21,9 @@ import { UTXOTransaction } from '../../processors/UTXOTransaction'
 import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
 import { BSCTransaction } from '../../processors/BSCTransaction'
 
+//new processors
+import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
+
 const TransactionDetail1 = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
@@ -123,6 +126,17 @@ const TransactionDetail1 = () => {
     }
 
     for (let i = 0; i < inputAddresses.length; i++) {
+      for (let j = 0; j < outputAddresses.length; j++) {
+        if (inputAddresses[i].address === outputAddresses[j].address) {
+          inputAddresses[i].value = inputAddresses[i].value - outputAddresses[j].value
+          inputAddresses[i].valueInDollar = inputAddresses[i].valueInDollar - outputAddresses[j].valueInDollar
+          outputAddresses.splice(j, 1)
+          j = j - 1
+        }
+      }
+    }
+
+    for (let i = 0; i < inputAddresses.length; i++) {
       value = value + inputAddresses[i].value
     }
 
@@ -206,6 +220,7 @@ const TransactionDetail1 = () => {
   }
 
   useEffect(() => {
+    
     const address = States.WDetail
     SetLoading(true)
     axios.get(`${serverAddress}/explorer/search/?query=${address}&network=${network}`,
@@ -237,7 +252,7 @@ const TransactionDetail1 = () => {
           SetLoading(false)
           SetData(TrData)
         } else if (network === 'BTC') {
-          const TrData = (UTXOTr(UTXOTransaction(response.data.data, 'BTC', 100000000)))
+          const TrData = (UTXOTr(UTXO_Transaction(response.data.data, 'BTC', 100000000)))
           SetIsGet(true)
           SetValue(TrData.value)
           SetSymbole(TrData.symbole)
@@ -246,7 +261,7 @@ const TransactionDetail1 = () => {
           SetLoading(false)
           SetData(TrData)
         } else if (network === 'LTC') {
-          const TrData = (UTXOTr(UTXOTransaction(response.data.data, 'LTC', 1)))
+          const TrData = (UTXOTr(UTXO_Transaction(response.data.data, 'LTC', 1)))
           SetIsGet(true)
           SetValue(Number(TrData.value))
           SetSymbole(TrData.symbole)
@@ -255,7 +270,7 @@ const TransactionDetail1 = () => {
           SetLoading(false)
           SetData(TrData)
         } else if (network === 'BCH') {
-          const TrData = (UTXOTr(UTXOTransaction(response.data.data, 'BCH', 1)))
+          const TrData = (UTXOTr(UTXO_Transaction(response.data.data, 'BCH', 1)))
           SetIsGet(true)
           SetValue(Number(TrData.value))
           SetSymbole(TrData.symbole)

@@ -10,18 +10,8 @@ import { useSelector, useDispatch } from "react-redux"
 import ReactPaginate from 'react-paginate'
 
 import {
-  Row,
-  Col,
   Card,
-  Input,
-  Label,
-  Button,
-  CardTitle,
-  CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledButtonDropdown
+  Input
 } from 'reactstrap'
 
 // ** Bootstrap Checkbox Component
@@ -93,12 +83,11 @@ const  WalletDetailTableBottom = (props) => {
               symbole:row.symbole,
               value:row.amount.toFixed(5),
               timeStamp:row.time,
-              address:props.data.address,
               valueInDollar:row.valueInDollar
             })
           }
         }
-        if (getGraph.find(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
+        if (getGraph.find(item => (item.address) === (row.address))) {
           for (let i = 0; i < getGraph.length; i++) {
             if ((getGraph[i].address).toUpperCase() === (row.address).toUpperCase()) {
               getGraph[i].outputs.push({
@@ -106,29 +95,10 @@ const  WalletDetailTableBottom = (props) => {
                 symbole:row.symbole,
                 value:row.senderAmount.toFixed(5),
                 timeStamp:row.time,
-                address:props.data.address,
                 valueInDollar:row.valueInDollar
               })
             }
           }
-        } else {
-          const newNode = {
-            address:row.address,
-            symbole:row.symbole,
-            Label:row.Label,
-            inputs:[],
-            outputs:[
-              {
-                hash:row.hash,
-                symbole:row.symbole,
-                value:row.senderAmount.toFixed(5),
-                timeStamp:row.time,
-                address:props.data.address,
-                valueInDollar:row.valueInDollar
-              }
-            ]
-          }
-          getGraph.push(newNode)
         }
 
         dispatch({type:"GRAPHDATA", value:getGraph})
@@ -141,12 +111,11 @@ const  WalletDetailTableBottom = (props) => {
               symbole:row.symbole,
               value:row.amount.toFixed(5),
               timeStamp:row.time,
-              address:row.address,
               valueInDollar:row.valueInDollar
             })
           }
         }
-        if (getGraph.find(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
+        if (getGraph.find(item => (item.address) === (row.address))) {
           for (let i = 0; i < getGraph.length; i++) {
             if ((getGraph[i].address).toUpperCase() === (row.address).toUpperCase()) {
               getGraph[i].inputs.push({
@@ -154,28 +123,10 @@ const  WalletDetailTableBottom = (props) => {
                 symbole:row.symbole,
                 value:row.reciverAmount.toFixed(5),
                 timeStamp:row.time,
-                address:props.data.address,
                 valueInDollar:row.valueInDollar
               })
             }
           }
-        } else {
-          const newNode = {
-            address:row.address,
-            symbole:row.symbole,
-            inputs:[
-              {
-                hash:row.hash,
-                symbole:row.symbole,
-                value:row.reciverAmount.toFixed(5),
-                timeStamp:row.time,
-                address:props.data.address,
-                valueInDollar:row.valueInDollar
-              }
-            ],
-            outputs:[]
-          }
-          getGraph.push(newNode)
         }
         dispatch({type:"GRAPHDATA", value:getGraph})
         dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
@@ -227,8 +178,6 @@ const  WalletDetailTableBottom = (props) => {
         a.push({
           amount:props.data.inputs[i].amount,
           Label:props.data.inputs[i].Label,
-          senderAmount:props.data.inputs[i].senderAmount,
-          address:props.data.inputs[i].address,
           date:props.data.inputs[i].date,
           time:props.data.inputs[i].time,
           hash:props.data.inputs[i].hash,
@@ -239,10 +188,8 @@ const  WalletDetailTableBottom = (props) => {
         })
       } else {
         a.push({
-          address:props.data.inputs[i].address,
           amount:props.data.inputs[i].amount,
           Label:props.data.inputs[i].Label,
-          senderAmount:props.data.inputs[i].senderAmount,
           date:props.data.inputs[i].date,
           time:props.data.inputs[i].time,
           hash:props.data.inputs[i].hash,
@@ -256,10 +203,8 @@ const  WalletDetailTableBottom = (props) => {
     for (let i = 0; i < props.data.outputs.length; i++) {
       if (AllHash.some(item => item.toUpperCase() === (props.data.outputs[i].hash).toUpperCase())) {
         a.push({
-          address:props.data.outputs[i].address,
           amount:props.data.outputs[i].amount,
           Label:props.data.outputs[i].Label,
-          reciverAmount:props.data.outputs[i].reciverAmount,
           date:props.data.outputs[i].date,
           time:props.data.outputs[i].time,
           hash:props.data.outputs[i].hash,
@@ -270,10 +215,8 @@ const  WalletDetailTableBottom = (props) => {
         })
       } else {
         a.push({
-          address:props.data.outputs[i].address,
           amount:props.data.outputs[i].amount,
           Label:props.data.outputs[i].Label,
-          reciverAmount:props.data.outputs[i].reciverAmount,
           date:props.data.outputs[i].date,
           time:props.data.outputs[i].time,
           hash:props.data.outputs[i].hash,
@@ -286,7 +229,8 @@ const  WalletDetailTableBottom = (props) => {
 
     }
     SetData(a)
-
+    console.log('myData')
+    console.log(a)
   }, [, props.data, currentPage, Reload])
 
   const columns = [
