@@ -315,7 +315,7 @@ function Header() {
         style={{minWidth:'40%', padding:'0px'}}
       >
         <ModalBody style={{padding:'0px', borderRadius:'12px', overflow:'hidden'}}>
-          <FoundItems/>
+          <FoundItems isOpen={SearchBox}/>
         </ModalBody>
       </Modal>
 

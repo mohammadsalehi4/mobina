@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './style.css' // فرض بر این است که استایل‌های شما در این فایل قرار دارند
 import {Card, Alert} from 'reactstrap'
-import {FileText, FileMinus, Info, GitMerge, Tag, Bookmark, GitCommit} from 'react-feather'
+import {FileText, GitMerge, Tag, Bookmark} from 'react-feather'
 const KeyboardNavigatableLinks = (props) => {
-
-  const [activeLink, setActiveLink] = useState(0)
+  
+  const [activeLink, setActiveLink] = useState(1)
   
   const [reportsNumber, setreportsNumber] = useState(0)
   const [labelsNumber, setlabelsNumber] = useState(0)
@@ -171,8 +171,12 @@ const KeyboardNavigatableLinks = (props) => {
     }
   }, [activeLink])
 
+  useEffect(() => {
+    setActiveLink(0)
+  }, [])
+
   return (
-   <Card className='mt-3' style={{boxShadow:'none', borderRadius:'0px'}}>
+   <Card className='mt-3' style={{boxShadow:'none', borderRadius:'0px'}} id='showSearchedDataCard'>
       {
         reportsNumber > 0 ?
         <h6  style={{fontSize:'13px', fontWeight:'100', color:'rgb(180,180,180)', marginTop:'16px'}} className='pe-3'>گزارش‌ها</h6>
@@ -183,6 +187,7 @@ const KeyboardNavigatableLinks = (props) => {
         if (link.type === 'reports') {
           return (
             <a 
+              id='kuft'
               key={link.id} 
               href={link.href} 
               style={{padding:'8px'}}
@@ -193,7 +198,6 @@ const KeyboardNavigatableLinks = (props) => {
               {link.title}
             </a>
           )
-          
         }
       })}
       {
@@ -292,6 +296,12 @@ const KeyboardNavigatableLinks = (props) => {
           )
         }
       })}
+      {
+        networksNumber === 0 && graphsNumber === 0 && labelsNumber === 0 && tagsNumber === 0 && reportsNumber === 0 ? 
+        <p style={{textAlign:'center'}} className='mt-3'>بدون اطلاعات یافت شده</p>
+        :
+        null
+      }
     </Card>
   )
 }

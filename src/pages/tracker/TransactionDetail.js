@@ -223,14 +223,18 @@ const TransactionDetail1 = () => {
     
     const address = States.WDetail
     SetLoading(true)
-    axios.get(`${serverAddress}/explorer/search/?query=${address}&network=${network}`,
-    {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('access')}`
-      }
-    })
-    .then((response) => {
 
+    const saveToStorage = (data) => {
+      const newData = {
+        data,
+        time:Date.now()
+      }
+      if (localStorage.getItem(address) === null) {
+        localStorage.setItem(address, JSON.stringify(newData))
+      }
+    }
+
+    const ProcessGetData = (response) => {
       try {
 
         if (network === 'ETH') {
@@ -287,31 +291,60 @@ const TransactionDetail1 = () => {
           position: 'bottom-left'
         })
       }
-    })
-    .catch((err) => {
-      console.log(err)
-      SetLoading(false)
-      try {
-        if (err.response.status === 403) {
-          Cookies.set('refresh', '')
-          Cookies.set('access', '')
-          window.location.assign('/')
-        }
-        if (err.response.status === 401) {
-          Cookies.set('refresh', '')
-          Cookies.set('access', '')
-          window.location.assign('/')
-        }
+    }
 
-        return toast.error('خطا در دریافت اطلاعات', {
-            position: 'bottom-left'
-        })
-      } catch (error) {
+    const getFromApi = () => {
+      axios.get(`${serverAddress}/explorer/search/?query=${address}&network=${network}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+        saveToStorage(response)
+        ProcessGetData(response)
+      })
+      .catch((err) => {
+        console.log(err)
+        SetLoading(false)
+        try {
+          if (err.response.status === 403) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+          if (err.response.status === 401) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+          }
+  
           return toast.error('خطا در دریافت اطلاعات', {
               position: 'bottom-left'
           })
+        } catch (error) {
+            return toast.error('خطا در دریافت اطلاعات', {
+                position: 'bottom-left'
+            })
+        }
+      })
+    }
+    
+    const getFromDB = localStorage.getItem(address)
+    if (getFromDB !== null) {
+      if (JSON.parse(getFromDB).time <= Date.now() + 300000) {
+        SetLoading(false)
+        ProcessGetData(JSON.parse(getFromDB).data)
+      } else {
+        localStorage.removeItem(address)
+        SetLoading(true)
+        getFromApi()
       }
-    })
+    } else {
+      SetLoading(true)
+      getFromApi()
+    }
+
   }, [, States.WDetail])
 
   const deleteTransaction = (hash) => {

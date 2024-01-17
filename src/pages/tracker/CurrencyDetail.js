@@ -123,84 +123,118 @@ const CurrencyDetail = () => {
     dispatch({type:"EndFilterTime", value:0})
     dispatch({type:"All_Input_Output", value:0})
     const address = States.WDetail
-    SetLoading(true)
-    axios.get(`${serverAddress}/explorer/search/?query=${address}&network=${network}`,
-    {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('access')}`
+
+    const saveToStorage = (data) => {
+      const newData = {
+        data,
+        time:Date.now()
       }
-    })
-    .then((response) => {
-      console.log(response)
-      console.log(network)
-      SetError(false)
-      if (response.status === 200) {
-        try {
-          if (network === 'ETH') {
-            SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000), 'ETH'))
-            SetLoading(false)
-          } else if (network === 'BSC') {
-            SetData(AccountBaseAdd(BSCAddress(response.data.data, address, 'BNB', 1000000000000000000), 'BNB'))
-            SetLoading(false)
-          } else if (network === 'BTC') {
-            SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BTC', 100000000)))
-            SetLoading(false)
-          } else if (network === 'LTC') {
-            SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'LTC', 1)))
-            SetLoading(false)
-          } else if (network === 'BCH') {
-            SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BCH', 1)))
-            SetLoading(false)
-          }
-        } catch (error) {
-          console.log(error)
+      if (localStorage.getItem(address) === null) {
+        localStorage.setItem(address, JSON.stringify(newData))
+      }
+    }
+
+    const processGetData = (response) => {
+      try {
+        if (network === 'ETH') {
+          SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000), 'ETH'))
           SetLoading(false)
-          return toast.error('خطا در دریافت اطلاعات از سرور', {
-            position: 'bottom-left'
-          })
+        } else if (network === 'BSC') {
+          SetData(AccountBaseAdd(BSCAddress(response.data.data, address, 'BNB', 1000000000000000000), 'BNB'))
+          SetLoading(false)
+        } else if (network === 'BTC') {
+          SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BTC', 100000000)))
+          SetLoading(false)
+        } else if (network === 'LTC') {
+          SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'LTC', 1)))
+          SetLoading(false)
+        } else if (network === 'BCH') {
+          SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BCH', 1)))
+          SetLoading(false)
         }
-      } else if (response.status === 404) {
-        return toast.error('آدرس مورد نظر یافت نشد!', {
-          position: 'bottom-left'
-        })
-      } else {
+      } catch (error) {
+        console.log(error)
+        SetLoading(false)
         return toast.error('خطا در دریافت اطلاعات از سرور', {
           position: 'bottom-left'
         })
       }
+    }
 
-    })
-    .catch((err) => {
-      SetError(true)
-      console.log(err)
-      SetLoading(false)
-      if (err.response.status === 403) {
-        Cookies.set('refresh', '')
-        Cookies.set('access', '')
-        window.location.assign('/')
-      }
-      if (err.response.status === 401) {
-        Cookies.set('refresh', '')
-        Cookies.set('access', '')
-        window.location.assign('/')
-      }
-      try {
-          if (err.response.statusText === 'Unauthorized') {
-              Cookies.set('refresh', '')
-              Cookies.set('access', '')
-              window.location.assign('/')
-          } else {
-              return toast.error('خطا در دریافت اطلاعات', {
-                  position: 'bottom-left'
-              })
-          }
-      } catch (error) {
-        
-          return toast.error('خطا در دریافت اطلاعات', {
-              position: 'bottom-left'
+    const getFromApi = () => {
+      SetLoading(true)
+      axios.get(`${serverAddress}/explorer/search/?query=${address}&network=${network}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+        console.log(response)
+        console.log(network)
+        SetError(false)
+        if (response.status === 200) {
+          saveToStorage(response)
+          processGetData(response)
+        } else if (response.status === 404) {
+          return toast.error('آدرس مورد نظر یافت نشد!', {
+            position: 'bottom-left'
           })
+        } else {
+          return toast.error('خطا در دریافت اطلاعات از سرور', {
+            position: 'bottom-left'
+          })
+        }
+  
+      })
+      .catch((err) => {
+        SetError(true)
+        console.log(err)
+        SetLoading(false)
+        if (err.response.status === 403) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
+        if (err.response.status === 401) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        }
+        try {
+            if (err.response.statusText === 'Unauthorized') {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+            } else {
+                return toast.error('خطا در دریافت اطلاعات', {
+                    position: 'bottom-left'
+                })
+            }
+        } catch (error) {
+          
+            return toast.error('خطا در دریافت اطلاعات', {
+                position: 'bottom-left'
+            })
+        }
+      })
+    }
+
+    const getFromDB = localStorage.getItem(address)
+    if (getFromDB !== null) {
+      if (JSON.parse(getFromDB).time <= Date.now() + 300000) {
+        SetLoading(false)
+        processGetData(JSON.parse(getFromDB).data)
+      } else {
+        localStorage.removeItem(address)
+        SetLoading(true)
+        getFromApi()
       }
-    })
+    } else {
+      SetLoading(true)
+      getFromApi()
+    }
+
   }, [, States.WDetail])
 
   const deleteAddress = (value) => {

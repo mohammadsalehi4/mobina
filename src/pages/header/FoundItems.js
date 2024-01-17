@@ -12,7 +12,7 @@ import Autocomplete from './autocomplete'
 import { Search, X } from 'react-feather'
 import Description from './autocomplete/description'
 import LocalLoading from '../../components/localLoading/localLoading'
-const FoundItems = () => {
+const FoundItems = (props) => {
 
   const [IsSearching, SetIsSearching] = useState(false)
   const [SearchCompleted, SetSearchCompleted] = useState(false)
@@ -23,9 +23,20 @@ const FoundItems = () => {
   const [NetworkFound, SetNetworkFound] = useState([])
   const [Value, SetValue] = useState('')
 
+  useEffect(() => {
+    if (props.isOpen) {
+      document.getElementById('MainSearchInputBox').focus()
+    }
+  }, [props.isOpen])
+
+  useEffect(() => {
+    if (SearchCompleted) {
+      document.getElementById('MainSearchInputBox').blur()
+    }
+  }, [SearchCompleted])
+
   const searchSubmit = (event) => {
     event.preventDefault()
-    console.log('start')
     SetReportsFound([])
     SettagsFound([])
     SetlabelsFound([])
@@ -168,7 +179,7 @@ const FoundItems = () => {
           <>
             {
               SearchCompleted  ?
-                <Autocomplete value={Value} ReportsFound={ReportsFound} tagsFound={tagsFound} labelsFound={labelsFound} graphsFound={graphsFound} NetworkFound={NetworkFound}/>
+                <Autocomplete SearchCompleted={SearchCompleted} value={Value} ReportsFound={ReportsFound} tagsFound={tagsFound} labelsFound={labelsFound} graphsFound={graphsFound} NetworkFound={NetworkFound}/>
               :
                 <Description/>
             }

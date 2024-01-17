@@ -126,6 +126,8 @@ const AdminReports = () => {
 
     const bodyFormData = new FormData()
 
+    console.log(`${MiladiCalendar(EditTime).year}-${MiladiCalendar(EditTime).month}-${MiladiCalendar(EditTime).day}`)
+
     bodyFormData.append('title', title)
     bodyFormData.append('summary', summary)
     bodyFormData.append('text', Content)
@@ -280,6 +282,7 @@ const AdminReports = () => {
         console.log(response.data)
           if (response.status === 200) {
             SetEditTime(response.data.date_choices)
+            console.log(response.data)
             SetEditSelectedReportContent(response.data)
           }
         SetEditLoading(false)

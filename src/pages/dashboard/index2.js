@@ -1360,7 +1360,7 @@ const EcommerceDashboard2 = () => {
                                     نمونه کاوش:
                                     <span onClick={() => {
                                       document.getElementById("MainDashboardInputBox").focus()
-                                      document.getElementById('MainDashboardInputBox').value = '1Fw7wvVPhv5eioWQZ2if2zRUcHNdNBfu9r' 
+                                      document.getElementById('MainDashboardInputBox').value = 'bc1qjqnv9f8jkp6xvwhz90dunzwygw90uha26g6uvn' 
                                     }} style={{display:'inline-block', marginLeft:'12px', marginRight:'12px', cursor:'pointer'}}>
                                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                                         {' '}
