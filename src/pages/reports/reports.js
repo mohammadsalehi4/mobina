@@ -90,7 +90,7 @@ const Reports = () => {
   }, [])
 
     return (
-        <div className='container-fluid bg-white pt-2' id='Reports'>
+        <div className='container-fluid bg-white pt-2' id='Reports' style={{ maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}>
             {
                 data.length > 0 ?
                     <div className='row'>

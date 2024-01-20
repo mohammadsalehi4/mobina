@@ -62,7 +62,7 @@ const Tax = () => {
             <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
             </Col>
 
-            <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none', overflow:'revert-layer'}}  id='centerTaxBox'>
+            <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none', overflow:'revert-layer', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}  id='centerTaxBox'>
               <Wizard
                 type='horizonal'
                 ref={ref}

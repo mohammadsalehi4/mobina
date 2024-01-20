@@ -94,7 +94,7 @@ const ShowReport = () => {
     }, [data])
 
     return (
-    <div className='container-fluid mt-3'  >
+    <div className='container-fluid mt-3' style={{ maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}  >
 
         <Row>
             <Col lg='2'></Col>

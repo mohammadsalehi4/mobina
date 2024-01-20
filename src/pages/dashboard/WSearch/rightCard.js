@@ -105,6 +105,7 @@ const CardContentTypes = (props) => {
       .then((response) => {
     setLoading(false)
     if (Number(response.status) >= 200 && Number(response.status) < 300) {
+          localStorage.removeItem(props.data.address)
           setTagValues(prevTags => [...prevTags, userInput])
           setTagId(prevTags => [
             ...prevTags, 
@@ -158,6 +159,7 @@ const CardContentTypes = (props) => {
     .then((response) => {
     setLoading(false)
     if (Number(response.status) >= 200 && Number(response.status) < 300) {
+      localStorage.removeItem(props.data.address)
 
         getTagValues = getTagValues.filter(element => element !== name)
         getTagId = getTagId.filter(element => element.tagText !== name)
@@ -200,7 +202,8 @@ const CardContentTypes = (props) => {
     }
     )
     .then((response) => {
-    setLoading(false)
+          localStorage.removeItem(props.data.address)
+          setLoading(false)
     if (Number(response.status) >= 200 && Number(response.status) < 300) {
         SetAddressMark(false)
         SetAddressText('')
@@ -245,7 +248,8 @@ const CardContentTypes = (props) => {
     .then((response) => {
     setLoading(false)
     if (Number(response.status) >= 200 && Number(response.status) < 300) {
-        SetAddressMark(true)
+          localStorage.removeItem(props.data.address)
+          SetAddressMark(true)
         SetAddressText(document.getElementById('CreateNewLabelInput').value)
         SetAddressId(response.data[0].id)
         setAddLabelModal(false)

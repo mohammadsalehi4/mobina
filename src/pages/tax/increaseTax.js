@@ -69,7 +69,7 @@ const IncreaseTax = ({ stepper }) => {
     }
 
   return (
-    <Card className='m-0 ' style={{boxShadow:'none'}}>
+    <Card className='m-0 ' style={{boxShadow:'none', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}>
         <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
             <h5>بخشش های مالیاتی</h5>
         </CardHeader>

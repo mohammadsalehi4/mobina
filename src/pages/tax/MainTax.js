@@ -38,7 +38,18 @@ const MainTax = () => {
             <Col xl={{size:1}} lg={{size:1}} md={{size:0}} >
             </Col>
 
-            <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', background:'white', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px', borderRadius:'8px'}} id='MainTax'>
+            <Col xl={{size:10}} lg={{size:10}} md={{size:12}} 
+                style={{
+                    textAlign:'center',
+                    background:'white', 
+                    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px', 
+                    borderRadius:'8px',
+                    maxWidth: '1280px', 
+                    marginLeft: 'auto', 
+                    marginRight: 'auto'
+                }} 
+                
+                id='MainTax'>
                     <Row className='m-3' >
                         <Col style={{textAlign:'right'}} id='MainTax'>
                             <h5 className='mt-3 mb-4'>

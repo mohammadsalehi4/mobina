@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import './style.css' // فرض بر این است که استایل‌های شما در این فایل قرار دارند
 import {Card, Alert} from 'reactstrap'
 import {FileText, GitMerge, Tag, Bookmark} from 'react-feather'
+import NiceAddress2 from '../../../components/niceAddress2/niceAddress'
 const KeyboardNavigatableLinks = (props) => {
   
   const [activeLink, setActiveLink] = useState(1)
@@ -85,6 +86,7 @@ const KeyboardNavigatableLinks = (props) => {
       getLink.push(
         {
           title:props.tagsFound[i].address,
+          tag:props.tagsFound[i].tag,
           type:'tags',
           href:`/researcher/${NetRec(props.tagsFound[i].network).network}/${props.tagsFound[i].address}`,
           id
@@ -97,6 +99,7 @@ const KeyboardNavigatableLinks = (props) => {
       getLink.push(
         {
           title:props.labelsFound[i].address,
+          label:props.labelsFound[i].label,
           type:'labels',
           href:`/researcher/${NetRec(props.labelsFound[i].network).network}/${props.labelsFound[i].address}`,
           id
@@ -217,7 +220,8 @@ const KeyboardNavigatableLinks = (props) => {
               onMouseEnter={() => handleMouseEnter(index)}
             >
               <Tag size={16} style={{marginLeft:'8px'}} />
-              {link.title}
+              {link.tag}
+              <span style={{float:'left'}}><NiceAddress2 text={link.title} number={8} /></span>
             </a>
           )
         }
@@ -239,7 +243,8 @@ const KeyboardNavigatableLinks = (props) => {
               onMouseEnter={() => handleMouseEnter(index)}
             >
               <Bookmark size={16} style={{marginLeft:'8px'}}/>
-              {link.title}
+              {link.label}
+              <span style={{float:'left'}}><NiceAddress2 text={link.title} number={8} /></span>
             </a>
           )
         }
@@ -298,7 +303,7 @@ const KeyboardNavigatableLinks = (props) => {
       })}
       {
         networksNumber === 0 && graphsNumber === 0 && labelsNumber === 0 && tagsNumber === 0 && reportsNumber === 0 ? 
-        <p style={{textAlign:'center'}} className='mt-3'>بدون اطلاعات یافت شده</p>
+        <p style={{textAlign:'center'}} className='mt-3'>چیزی برای شما پیدا نکردیم :( </p>
         :
         null
       }

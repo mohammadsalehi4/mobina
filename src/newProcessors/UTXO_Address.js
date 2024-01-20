@@ -89,10 +89,17 @@ export function UTXO_Address (address, data, symbole, decimal) {
         ErrorText = error
     }
 
+    console.log('ssss')
     console.log(
         {
             isError,
-            ErrorText
+            address,
+            symbole,
+            inputs,
+            outputs,
+            label:mainLabel,
+            tag:maintag,
+            entity:mainEntity
         }
     )
 

@@ -90,7 +90,8 @@ const FoundItems = (props) => {
               id:response.data.tags[i].id,
               title:response.data.tags[i].tag,
               address:response.data.tags[i].address,
-              network:response.data.tags[i].network
+              network:response.data.tags[i].network,
+              tag:response.data.tags[i].tag
             }
           )
         }
@@ -103,7 +104,8 @@ const FoundItems = (props) => {
               id:response.data.labels[i].id,
               title:response.data.labels[i].label,
               address:response.data.labels[i].address,
-              network:response.data.labels[i].network
+              network:response.data.labels[i].network,
+              label:response.data.labels[i].label
             }
           )
         }

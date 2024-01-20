@@ -107,7 +107,7 @@ const CountedTaxTable = (props) => {
       />
     )
   return (
-    <div  style={{borderRadius:'8px', marginTop:'80px', borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}} id='CountedTaxTable'>
+    <div  style={{borderRadius:'8px', marginTop:'80px', borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)", maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}} id='CountedTaxTable'>
       <h6 style={{margin:'24px 32px'}}>تراکنش های محاسبه شده</h6>
       {
         data.length > 0 ?

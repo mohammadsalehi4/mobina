@@ -392,8 +392,7 @@ const AddEntity = () => {
                             مجوز
                         </Label>
                         <select class="form-select" id='licence' aria-label="Default select example" >
-                            <option selected  value="complete">کامل</option>
-                            <option   value="imperfect">ناقص</option>
+                            <option selected  value="complete">دارد</option>
                             <option   value="dont_have">ندارد</option>
                         </select>
                     </Col>

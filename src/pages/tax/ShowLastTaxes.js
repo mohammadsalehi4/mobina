@@ -170,7 +170,7 @@ const ShowLastTaxes = ({ stepper }) => {
       <Row>
         <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
         </Col>
-        <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none', overflow:'revert-layer'}}>
+        <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none', overflow:'revert-layer', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}>
           <Card className='m-0 TaxAllTables ' style={{boxShadow:'none', overflowX:'hidden'}} id='ShowLastTaxes'>
             <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
               <h5>مالیات های محاسبه شده</h5>

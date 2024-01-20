@@ -89,7 +89,7 @@ const Profile = () => {
       {data !== null ? <div className="container-fluid">
           <Row id="MainProfileBox">
             <Col xl='1'></Col>
-            <Col xl='10'>
+            <Col xl='10' style={{ maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}>
               <Row>
                 <Col sm='12'>
                   <ProfileHeader  ip={IP} Browser={Browser} data={data} />

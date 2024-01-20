@@ -28,6 +28,7 @@ const TransactionTablleWithCheckbox = (props) => {
   const [searchValue, setSearchValue] = useState('')
   const [filteredData, setFilteredData] = useState([])
   const [data, SetData] = useState({})
+  const [Reload, SetReload] = useState(false)
 
   useEffect(() => {
     const a = []
@@ -64,7 +65,7 @@ const TransactionTablleWithCheckbox = (props) => {
     }
 
     SetData(a)
-  }, [, props.data])
+  }, [, props.data, Reload])
 
   //add new node to graph
   const addSelectedData = (row) => {
@@ -132,6 +133,7 @@ const TransactionTablleWithCheckbox = (props) => {
     }
   }
 
+
   const columns = [
     {
       minWidth: '50px',
@@ -141,23 +143,36 @@ const TransactionTablleWithCheckbox = (props) => {
       cell: row => {
         if (row.show) {
           return (
-            <Input id={row.hash} onChange={(event) => { 
-              if (event.target.checked) {
+            <ion-icon name="remove-circle-outline" style={{fontSize:'32px', color:'red', cursor:'pointer'}} onClick={
+              () => {
                 addSelectedData(row)
-              } else {
-                removeSelectedData(row)
+                // SetReload(!Reload)
               }
-            }} defaultChecked type='checkbox'/>
+            }>y</ion-icon>
+
+            // <Input id={row.hash} onChange={(event) => { 
+            //   if (event.target.checked) {
+            //     addSelectedData(row)
+            //   } else {
+            //     removeSelectedData(row)
+            //   }
+            // }} defaultChecked type='checkbox'/>
           )
         } else {
             return (
-              <Input id={row.hash} onChange={(event) => { 
-                if (event.target.checked) {
-                  addSelectedData(row)
-                } else {
-                  removeSelectedData(row)
-                }
-              }}  type='checkbox'/>
+              <ion-icon style={{fontSize:'32px', color:'green', cursor:'pointer'}} name="add-circle-outline" onClick={ () => {
+                console.log(row)
+                removeSelectedData(row)
+                SetReload(!Reload)
+              } }>no</ion-icon>
+
+              // <Input id={row.hash} onChange={(event) => { 
+              //   if (event.target.checked) {
+              //     addSelectedData(row)
+              //   } else {
+              //     removeSelectedData(row)
+              //   }
+              // }}  type='checkbox'/>
           )
         }
 

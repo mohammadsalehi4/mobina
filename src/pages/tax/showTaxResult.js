@@ -81,7 +81,7 @@ const ShowTaxResult = ({ stepper }) => {
         })
     }, [])
   return (
-        <Card className='m-0 ShowLastTaxes' style={{boxShadow:'none', maxWidth:'100%'}} id='ShowTaxResult' >
+        <Card className='m-0 ShowLastTaxes' style={{boxShadow:'none', maxWidth:'100%', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}} id='ShowTaxResult' >
             <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
                 <div style={{textAlign:'right'}}>
                     <h5 className='mt-3'>نتیجه نهایی محاسبه مالیات</h5>

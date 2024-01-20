@@ -67,7 +67,7 @@ const Admin = () => {
         <div className='row'>
             <div className='col-sm-1'>
             </div>
-            <div className='col-sm-10' style={{background:"white", borderRadius:"8px"}}>
+            <div className='col-sm-10' style={{background:"white", borderRadius:"8px", maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}>
                 <Fragment>
                     <Nav pills style={{background:"white"}} id='adminNav'>
                         <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}} id='AdminNavItem'>

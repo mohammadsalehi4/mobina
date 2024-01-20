@@ -233,6 +233,7 @@ const  WalletDetailTableBottom = (props) => {
     console.log(a)
   }, [, props.data, currentPage, Reload])
 
+  
   const columns = [
     {
       minWidth: '50px',

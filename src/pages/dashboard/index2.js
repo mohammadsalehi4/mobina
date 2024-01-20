@@ -912,9 +912,9 @@ const EcommerceDashboard2 = () => {
               //labels
               let labelText = null
               let labelId = null
-              if (getData.mainLabel) {
-                labelText = getData.mainLabel.label
-                labelId = getData.mainLabel.id
+              if (getData.label) {
+                labelText = getData.label.label
+                labelId = getData.label.id
               }
               SetLabelData(
                 {
@@ -926,13 +926,13 @@ const EcommerceDashboard2 = () => {
               //tags
               let isTag = false
               let TagInfo = []
-              if (getData.maintag) {
+              if (getData.tag) {
                 isTag = true
-                for (let i = 0; i < getData.maintag.length; i++) {
+                for (let i = 0; i < getData.tag.length; i++) {
                   TagInfo.push(
                     {
-                      tagText:getData.maintag[i].tag,
-                      tagId:getData.maintag[i].id
+                      tagText:getData.tag[i].tag,
+                      tagId:getData.tag[i].id
                     }
                   )
                 }
@@ -999,9 +999,9 @@ const EcommerceDashboard2 = () => {
               //labels
               let labelText = null
               let labelId = null
-              if (getData.mainLabel) {
-                labelText = getData.mainLabel.label
-                labelId = getData.mainLabel.id
+              if (getData.label) {
+                labelText = getData.label.label
+                labelId = getData.label.id
               }
               SetLabelData(
                 {
@@ -1013,13 +1013,13 @@ const EcommerceDashboard2 = () => {
               //tags
               let isTag = false
               let TagInfo = []
-              if (getData.maintag) {
+              if (getData.tag) {
                 isTag = true
-                for (let i = 0; i < getData.maintag.length; i++) {
+                for (let i = 0; i < getData.tag.length; i++) {
                   TagInfo.push(
                     {
-                      tagText:getData.maintag[i].tag,
-                      tagId:getData.maintag[i].id
+                      tagText:getData.tag[i].tag,
+                      tagId:getData.tag[i].id
                     }
                   )
                 }
@@ -1092,9 +1092,9 @@ const EcommerceDashboard2 = () => {
               //labels
               let labelText = null
               let labelId = null
-              if (getData.mainLabel) {
-                labelText = getData.mainLabel.label
-                labelId = getData.mainLabel.id
+              if (getData.label) {
+                labelText = getData.label.label
+                labelId = getData.label.id
               }
               SetLabelData(
                 {
@@ -1106,13 +1106,13 @@ const EcommerceDashboard2 = () => {
               //tags
               let isTag = false
               let TagInfo = []
-              if (getData.maintag) {
+              if (getData.tag) {
                 isTag = true
-                for (let i = 0; i < getData.maintag.length; i++) {
+                for (let i = 0; i < getData.tag.length; i++) {
                   TagInfo.push(
                     {
-                      tagText:getData.maintag[i].tag,
-                      tagId:getData.maintag[i].id
+                      tagText:getData.tag[i].tag,
+                      tagId:getData.tag[i].id
                     }
                   )
                 }
