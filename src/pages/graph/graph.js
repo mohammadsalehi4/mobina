@@ -361,7 +361,6 @@ const FuckingGraph = (props) => {
   }, [States.graphAddColor])
 
   useEffect(() => {
-    console.clear()
     //Nodes
     const nodes = new DataSet();
     resetPage()

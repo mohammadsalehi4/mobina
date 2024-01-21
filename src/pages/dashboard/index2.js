@@ -462,7 +462,7 @@ const EcommerceDashboard2 = () => {
           try {
             // SetTrData
             SetTrData(AccountBaseTr(Account_transaction(addressMode.data.data, 'ETH', 1000000000000000000), 'ETH', 'اتریوم'))
-  
+
             //labels
             let labelText = null
             let labelId = null

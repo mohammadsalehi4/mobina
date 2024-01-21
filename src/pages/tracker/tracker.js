@@ -81,13 +81,11 @@ const Tracker = () => {
 
     //processors
     const UTXOAdd = (data) => {
-        console.log('UTXO')
-        console.log(data)
 
         let getEntity
         try {
             if (data.label) {
-                getEntity = data.label
+                getEntity = data.label.label
             } else if (data.entity !== null && data.entity !== undefined) {
                 getEntity = data.entity.name
             } else {
@@ -466,7 +464,6 @@ const Tracker = () => {
             .then((response) => {
                 try {
                     if (response.data.query === 'address') {
-
                         if (network === 'ETH') {
                             dispatch({type:"Network", value:'ETH'})
                             SetLoading(false)
