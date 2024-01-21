@@ -332,7 +332,7 @@ const TransactionDetail1 = () => {
     
     const getFromDB = localStorage.getItem(address)
     if (getFromDB !== null) {
-      if (JSON.parse(getFromDB).time <= Date.now() + 300000) {
+      if (Date.now() <=  JSON.parse(getFromDB).time + 300000) {
         SetLoading(false)
         ProcessGetData(JSON.parse(getFromDB).data)
       } else {
