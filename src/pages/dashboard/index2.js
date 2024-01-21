@@ -35,6 +35,8 @@ import { BSCTransaction } from '../../processors/BSCTransaction'
 //new processors
 import { UTXO_Address } from '../../newProcessors/UTXO_Address'
 import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
+import { Account_Address } from '../../newProcessors/Account_Address'
+import { Account_transaction } from '../../newProcessors/Account_transaction'
 
 const EcommerceDashboard2 = () => {
   const { hash } = useParams()
@@ -150,7 +152,6 @@ const EcommerceDashboard2 = () => {
     return data
   }
   const AccountBaseAdd =(getData, symbol) => {
-    console.log(getData)
     let data = []
     for (let i = 0; i < getData.inputs.length; i++) {
       data.push({
@@ -460,7 +461,7 @@ const EcommerceDashboard2 = () => {
           SetLoading(false)
           try {
             // SetTrData
-            SetTrData(AccountBaseTr(AccountBaseTransaction(addressMode.data.data, 'ETH', 1000000000000000000), 'ETH', 'اتریوم'))
+            SetTrData(AccountBaseTr(Account_transaction(addressMode.data.data, 'ETH', 1000000000000000000), 'ETH', 'اتریوم'))
   
             //labels
             let labelText = null
@@ -804,7 +805,7 @@ const EcommerceDashboard2 = () => {
                 }
               )
 
-              SetAdData(AccountBaseAdd(AccountBaseAddress(addressMode.data.data, hash, 'ETH', 1000000000000000000), 'ETH'))
+              SetAdData(AccountBaseAdd(Account_Address(addressMode.data.data, hash, 'ETH', 1000000000000000000), 'ETH'))
               SetMode(2)
             } catch (error) {
               console.log(error)

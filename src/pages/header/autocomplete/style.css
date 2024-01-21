@@ -1,17 +1,17 @@
 
 
-.searchItemLink{
+#showSearchedDataCard .searchItemLink{
   color: gray;
   padding: 8px 12px !important;
   transition: 0.2s;
 }
 
-.searchItemLink:hover{
+#showSearchedDataCard .searchItemLink:hover{
   color: #1d78a5;
   background: #eef6fb;
 }
 
-.active {
+#showSearchedDataCard .active {
   color: #1d78a5;/* تغییر رنگ متن به قرمز برای لینک فعال */
   background: #eef6fb;
   padding: 0px 16px;

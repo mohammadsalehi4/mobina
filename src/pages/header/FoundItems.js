@@ -160,7 +160,7 @@ const FoundItems = (props) => {
   }
 
   return (
-    <div style={{}}>
+    <div style={{}} id='searchBoxDiv'>
       <form onSubmit={ (event) => { searchSubmit(event) }} style={{ margin:'0px'}}>
         <InputGroup id='MainSearchInputGroup' className='input-group-merge mb-2' style={{direction:'ltr', width:'100%'}}>
           <InputGroupText id='MainSearchInputSymbole'>

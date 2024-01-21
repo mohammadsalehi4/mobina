@@ -16,6 +16,14 @@ const Description = () => {
                     اطلاعات تراکنش یا آدرس
                     </span>    
                 </p>
+                <p>
+                    <span>
+                        <GitMerge size={16} style={{marginLeft:'8px'}}/>
+                    </span>
+                    <span>
+                    نمایش گراف
+                    </span>    
+                </p>
             </Col>
             <Col sm='6'>
                 <h6 style={{fontSize:'13px', fontWeight:'100', color:'rgb(180,180,180)'}}>کاوشگر</h6>

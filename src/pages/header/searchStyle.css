@@ -1,4 +1,4 @@
-#MainSearchInputGroup{
+#searchBoxDiv #MainSearchInputGroup{
     border: none !important;
     margin: 0px !important;
     box-shadow: none !important;
@@ -8,13 +8,13 @@
     border-bottom-width: 1px !important;
 }
 
-#MainSearchInputSymbole{
+#searchBoxDiv #MainSearchInputSymbole{
     border: none !important;
     cursor: pointer;
     border-radius: 0px !important;
 }
 
-#MainSearchInputBox{
+#searchBoxDiv #MainSearchInputBox{
     border: none !important;
     border-radius: 0px !important;
     padding: 24px 24px;

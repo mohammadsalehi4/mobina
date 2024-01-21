@@ -178,6 +178,7 @@ const KeyboardNavigatableLinks = (props) => {
     setActiveLink(0)
   }, [])
 
+  
   return (
    <Card className='mt-3' style={{boxShadow:'none', borderRadius:'0px'}} id='showSearchedDataCard'>
       {
