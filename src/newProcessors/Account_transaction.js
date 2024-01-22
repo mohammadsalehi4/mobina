@@ -6,11 +6,11 @@ export function Account_transaction (array, symbole, decimal) {
 
     const hash = array.hash
     const blockNumber = array.blockNumber
-    const timestamp = array.timestamp
+    const timestamp = array.time
     const from = array.from.address
     const to = array.to.address
     const value = Number(array.value)
-    const valueInDollar = Number(array.valueInDollar)
+    const valueInDollar = Number(array.ValueInDollor)
     const fee = Number(array.fee) 
     const logs = []
     const FromEntity = array.from.entity
@@ -28,7 +28,7 @@ export function Account_transaction (array, symbole, decimal) {
         ToLabel = GetToLabel[0].label
     }
 
-    const GetMainLabel = array.label_tag.labels
+    const GetMainLabel = array.labels_tags.labels
     let MainLabel = false
     if (GetMainLabel.length !== 0) {
         MainLabel = GetMainLabel[0].label
@@ -36,12 +36,12 @@ export function Account_transaction (array, symbole, decimal) {
 
     for (let i = 0; i < array.logs.length; i++) {
         try {
-            if (typeof (array.logs[i].address.symbol) === 'string') {
+            if (typeof (array.logs[i].symbol) === 'string') {
                 logs.push({
-                    symbole: array.logs[i].address.symbol,
-                    value: Number(array.logs[i].amount) / Math.pow(10, array.logs[i].address.decimal),
-                    from: array.logs[i].from, 
-                    to: array.logs[i].to
+                    symbole: array.logs[i].symbol,
+                    value: Number(array.logs[i].tokenValue) / Math.pow(10, array.logs[i].deciaml),
+                    from: array.logs[i].from.address, 
+                    to: array.logs[i].to.address
                 })
             }
         } catch (error) {

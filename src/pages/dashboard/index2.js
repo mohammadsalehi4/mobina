@@ -466,9 +466,9 @@ const EcommerceDashboard2 = () => {
             //labels
             let labelText = null
             let labelId = null
-            if (addressMode.data.data.label_tag.labels.length > 0) {
-              labelText = addressMode.data.data.label_tag.labels[0].label
-              labelId = addressMode.data.data.label_tag.labels[0].id
+            if (addressMode.data.data.labels_tags.labels.length > 0) {
+              labelText = addressMode.data.data.labels_tags.labels[0].label
+              labelId = addressMode.data.data.labels_tags.labels[0].id
             }
             SetLabelData(
               {
@@ -480,13 +480,13 @@ const EcommerceDashboard2 = () => {
             //tags
             let isTag = false
             let TagInfo = []
-            if (addressMode.data.data.label_tag.tags.length > 0) {
+            if (addressMode.data.data.labels_tags.tags.length > 0) {
               isTag = true
-              for (let i = 0; i < addressMode.data.data.label_tag.tags.length; i++) {
+              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
                 TagInfo.push(
                   {
-                    tagText:addressMode.data.data.label_tag.tags[i].tag,
-                    tagId:addressMode.data.data.label_tag.tags[i].id
+                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                    tagId:addressMode.data.data.labels_tags.tags[i].id
                   }
                 )
               }
