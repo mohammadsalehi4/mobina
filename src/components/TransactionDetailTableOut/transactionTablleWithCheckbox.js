@@ -68,6 +68,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
   }, [, props.data, Reload])
 
   const addSelectedData = (row) => {
+    console.log('add')
     const getData = States.GraphData
     if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
       getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).inputs.push({

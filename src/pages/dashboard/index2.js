@@ -1478,7 +1478,8 @@ const EcommerceDashboard2 = () => {
                 textAlign: 'center', 
                 maxWidth: '1280px', 
                 marginLeft: 'auto', 
-                marginRight: 'auto'
+                marginRight: 'auto',
+                marginTop:'32px'
               }}
             >
             {

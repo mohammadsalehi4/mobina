@@ -29,7 +29,7 @@ const TransactionTablleWithCheckbox = (props) => {
   const [filteredData, setFilteredData] = useState([])
   const [data, SetData] = useState({})
   const [Reload, SetReload] = useState(false)
-
+  
   useEffect(() => {
     const a = []
     console.log(props.data)
@@ -133,7 +133,6 @@ const TransactionTablleWithCheckbox = (props) => {
     }
   }
 
-
   const columns = [
     {
       minWidth: '50px',
@@ -145,8 +144,8 @@ const TransactionTablleWithCheckbox = (props) => {
           return (
             <ion-icon name="remove-circle-outline" style={{fontSize:'32px', color:'red', cursor:'pointer'}} onClick={
               () => {
-                addSelectedData(row)
-                // SetReload(!Reload)
+                removeSelectedData(row)
+                SetReload(!Reload)
               }
             }>y</ion-icon>
 
@@ -162,7 +161,7 @@ const TransactionTablleWithCheckbox = (props) => {
             return (
               <ion-icon style={{fontSize:'32px', color:'green', cursor:'pointer'}} name="add-circle-outline" onClick={ () => {
                 console.log(row)
-                removeSelectedData(row)
+                addSelectedData(row)
                 SetReload(!Reload)
               } }>no</ion-icon>
 
