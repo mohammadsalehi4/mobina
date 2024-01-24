@@ -1,0 +1,22 @@
+  #radyabi #MainDashboardInputGroup {
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-color: rgb(211, 211, 211) !important;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  #radyabi #MainDashboardInputGroup #MainDashboardInputSymbole {
+    border: none;
+    cursor: pointer;
+  }
+  #radyabi #MainDashboardInputGroup #MainDashboardInputBox {
+    border-style: none !important;
+    padding: 16px 24px !important;
+  }
+  #radyabi #MainDashboardInputBox:focus #MainDashboardInputGroup {
+    border-color: #01153a !important;
+  }
+  #radyabi .selectNetworkBox:hover{
+    background: rgb(220, 220, 220);
+    cursor: pointer;
+  }

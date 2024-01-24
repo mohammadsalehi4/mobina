@@ -164,18 +164,22 @@ const AdminReports = () => {
     }
     })
     .catch((err) => {
-    SetLoading(false)
-    console.log(err)
-    if (err.response.status === 403) {
-      Cookies.set('refresh', '')
-      Cookies.set('access', '')
-      window.location.assign('/')
-    }
-    if (err.response.status === 401) {
-      Cookies.set('refresh', '')
-      Cookies.set('access', '')
-      window.location.assign('/')
-    }
+      SetEditBox(false)
+      SetLoading(false)
+      console.log(err)
+      if (err.response.status === 403) {
+        Cookies.set('refresh', '')
+        Cookies.set('access', '')
+        window.location.assign('/')
+      } else if (err.response.status === 401) {
+        Cookies.set('refresh', '')
+        Cookies.set('access', '')
+        window.location.assign('/')
+      } else {
+        return toast.error('خطا در ویرایش گزارش', {
+          position: 'bottom-left'
+        })
+      }
     })
 
   }

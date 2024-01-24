@@ -383,7 +383,8 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
+              // image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
+              image:`سسس`,
               label: showLabel
             }
           } else if (GraphData[i].group === 'mid') {
@@ -393,7 +394,8 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
+              // image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
+              image:`سسس`,
               label: GraphData[i].symbole
             }
           }
@@ -988,20 +990,40 @@ const FuckingGraph = (props) => {
     network.fit();
     setTimeout(() => {
         const element = document.getElementById('myGraphDiv');
-        const options = {
-            scale: 4 * window.devicePixelRatio,
-            useCORS: true
-        };
-        html2canvas(element, options).then(canvas => {
-            const image = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.href = image;
-            link.download = 'full-graph-screenshot.png';
-            link.click();
-            network.moveTo({
-              position: originalPosition,
-              scale: originalScale
-            });
+        // const options = {
+        //   scale: 2, // میتوانید مقدار دیگری هم انتخاب کنید
+        //   logging: false, // غیرفعال کردن لاگ html2canvas
+        //   width: graphContainer.scrollWidth, // تنظیم عرض برابر با ابعاد محتوا
+        //   height: graphContainer.scrollHeight 
+        // };
+        // html2canvas(element, options).then(canvas => {
+        //     const image = canvas.toDataURL('image/png');
+        //     const link = document.createElement('a');
+        //     link.href = image;
+        //     link.download = 'full-graph-screenshot.png';
+        //     link.click();
+        //     network.moveTo({
+        //       position: originalPosition,
+        //       scale: originalScale
+        //     });
+        // });
+        const myGraphDiv = document.getElementById('myGraphDiv');
+        html2canvas(myGraphDiv, {
+          scale: 2, // میتوانید مقدار دیگری هم انتخاب کنید
+          logging: false, // غیرفعال کردن لاگ html2canvas
+          width: myGraphDiv.scrollWidth, // تنظیم عرض برابر با ابعاد محتوا
+          height: myGraphDiv.scrollHeight // تنظیم ارتفاع برابر با ابعاد محتوا
+        }).then(canvas => {
+          const imgData = canvas.toDataURL('image/png');
+          const link = document.createElement('a');
+          link.href = imgData;
+          link.download = 'full-graph-screenshot.png';
+          link.click();
+          network.moveTo({
+            position: originalPosition,
+            scale: originalScale
+          });
+          // انجام عملیات مورد نیاز با imgData
         });
         SetDownloadGraph(States.downloadGraph)
     }, 100);
@@ -1072,7 +1094,7 @@ const FuckingGraph = (props) => {
   } else {
     return (
       <>
-        <div id='myGraphDiv' onClick={mouseClick} onMouseMove={mouseMove}  ref={networkRef} style={{height:"calc(100%)", width:"100%", transition:'0.3s' }}></div>
+        <div id='myGraphDiv' onClick={mouseClick} onMouseMove={mouseMove}  ref={networkRef} style={{height:"calc(100%)", minWidth:"100%", transition:'0.3s' }}></div>
         {
           showDiv ? 
           <div id="myDiv" onClick={mouseClick} onMouseMove={mouseMove} style={{position:'absolute', borderRadius:'4px', background:'#01153a', opacity:'0.1', width:`${Math.abs(moveX - startX)}px`, height:`${Math.abs(moveY - (startY))}px`, top:`${startY - 120}px`, left:`${startX}px`}}></div>

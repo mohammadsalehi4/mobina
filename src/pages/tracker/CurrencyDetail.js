@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-imports */
 /* eslint-disable space-infix-ops */
 /* eslint-disable prefer-const */
 /* eslint-disable multiline-ternary */
@@ -20,6 +21,9 @@ import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
 import { Trash2 } from 'react-feather'
 import { useParams } from "react-router-dom"
+import { digitsEnToFa } from 'persian-tools'
+import {CornerLeftDown, CornerUpRight, Crop, CreditCard, Circle, Aperture} from 'react-feather'
+import moment from 'jalali-moment'
 
 //processors
 import { UTXOAddress } from '../../processors/UTXOAddress'
@@ -244,6 +248,75 @@ const CurrencyDetail = () => {
     dispatch({type:"BeGraphReload", value:(!(States.BeGraphReload))})
   }
 
+  function getMyTime(millis) {
+    const date = new Date(millis * 1000)
+  
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    const second = date.getSeconds()
+  
+    return {
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second
+    }
+  }
+
+  const [TotalInput, SetTotalInput] = useState(0)
+  const [TotalOutput, SetTotalOutput] = useState(0)
+  const [TotalHolding, SetTotalHolding] = useState(0)
+  const [TotalTransactions, SetTotalTransactions] = useState(0)
+  const [FirstActivity, SetFirstActivity] = useState(0)
+  const [LastActivity, SetLastActivity] = useState(0)
+  useEffect(() => {
+    console.log('Data')
+    console.log(Data)
+    try {
+      if (Data.inputs !== undefined) {
+        let inputs = 0
+        let outputs = 0
+        let firstActivity = Data.inputs[0].date
+        let lastActivity = 0
+        for (let i = 0; i < Data.inputs.length; i++) {
+          inputs = inputs + Data.inputs[i].amount
+          if (Data.inputs[i].date > lastActivity) {
+            lastActivity = Data.inputs[i].date
+          }
+          if (Data.inputs[i].date < firstActivity) {
+            firstActivity = Data.inputs[i].date
+          }
+        }
+        for (let i = 0; i < Data.outputs.length; i++) {
+          outputs = outputs + Data.outputs[i].amount
+          if (Data.outputs[i].date > lastActivity) {
+            lastActivity = Data.outputs[i].date
+          }
+          if (Data.outputs[i].date < firstActivity) {
+            firstActivity = Data.outputs[i].date
+          }
+        }
+        SetTotalInput(inputs)
+        SetTotalOutput(outputs)
+        SetTotalHolding(String(inputs - outputs))
+        SetTotalTransactions(Data.inputs.length + Data.outputs.length)
+        firstActivity = `${getMyTime(firstActivity).year}/${Number(getMyTime(firstActivity).month)}/${getMyTime(firstActivity).day}`
+        lastActivity = `${getMyTime(lastActivity).year}/${Number(getMyTime(lastActivity).month)}/${getMyTime(lastActivity).day}`
+        console.log(firstActivity)
+        console.log(lastActivity)
+        SetFirstActivity(firstActivity)
+        SetLastActivity(lastActivity)
+      }
+    } catch (error) {
+      
+    }
+  }, [Data])
+
   return (
       <div id='CurrencyDetail' className='container-fluid' style={{overflowY:"auto"}}>
       <div className='row'>
@@ -285,8 +358,70 @@ const CurrencyDetail = () => {
       <div className='row' id='scrollingWalletDetail' style={{boxSizing:"border-box"}}>
         <div className='col-12 p-4'>
           <div className='row' >
-            <div className='col-12'>
-            </div>
+            {
+              !Loading1 ? 
+                !Error ? 
+                  <div className='col-12'>
+                    <div className='row mt-2'>
+                      <div className='col-6' style={{textAlign:'right'}}>
+                          <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'ارسال شده'}</p>
+                          <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                            {digitsEnToFa(TotalInput.toFixed(5))}
+                            <small> {Data.symbole}</small>
+                            <CornerUpRight size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+                          </div>
+                      </div>
+                      <div style={{ marginBottom:'-10px', textAlign:'right'}} className={` col-6`}>
+                      <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'دریافت شده'}</p>
+                          <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                            {digitsEnToFa(TotalOutput.toFixed(5))}
+                            <small> {Data.symbole}</small>
+                            <CornerLeftDown size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+                          </div>
+                      </div>
+                    </div>
+
+                    <div className='row mt-2'>
+                      <div className='col-6' style={{textAlign:'right'}}>
+                          <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'موجودی'}</p>
+                          <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                            {digitsEnToFa(TotalHolding)}
+                            <small> {Data.symbole}</small>
+                            <Crop size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px", transform:"rotate(90deg)"}} />
+                          </div>
+                      </div>
+                      <div style={{ marginBottom:'-10px', textAlign:'right'}} className={` col-6`}>
+                          <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'تعداد تراکنش'}</p>
+                          <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                            {digitsEnToFa(TotalTransactions)}
+                            <CreditCard size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+                          </div>
+                      </div>
+                    </div>
+
+                    <div className='row mt-2'>
+                      <div className='col-6' style={{textAlign:'right'}}>
+                          <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'اولین فعالیت'}</p>
+                          <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                            {digitsEnToFa(FirstActivity)}
+                            <Circle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+                          </div>
+                      </div>
+                      <div style={{ marginBottom:'-10px', textAlign:'right'}} className={` col-6`}>
+                          <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'آخرین فعالیت'}</p>
+                          <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
+                            {digitsEnToFa(LastActivity)}
+                            <Aperture size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                :
+                null
+              :
+              null
+            }
+  
           </div>
           <div className='row mt-3' style={{borderBottomStyle:"solid", borderColor:"rgb(242,242,242)", borderWidth:"2px"}}>
             <div className='col-4' style={{borderBottomStyle:"solid", borderColor:"orange", borderWidth:"2px"}}>

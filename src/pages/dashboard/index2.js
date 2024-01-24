@@ -510,7 +510,7 @@ const EcommerceDashboard2 = () => {
           SetLoading(false)
           try {
             // SetTrData
-            SetTrData(AccountBaseTr(BSCTransaction(addressMode.data.data, 'BSC', 1000000000000000000), 'BNB', 'بایننس اسمارت چین'))
+            SetTrData(AccountBaseTr(Account_transaction(addressMode.data.data, 'BSC', 1000000000000000000), 'BNB', 'بایننس اسمارت چین'))
   
             //labels
             let labelText = null
@@ -878,7 +878,7 @@ const EcommerceDashboard2 = () => {
             }
           )
 
-            SetAdData(AccountBaseAdd(BSCAddress(addressMode.data.data, hash, 'BNB', 1000000000000000000), 'BNB'))
+            SetAdData(AccountBaseAdd(Account_Address(addressMode.data.data, hash, 'BNB', 1000000000000000000), 'BNB'))
             SetMode(2)
           } catch (error) {
             console.log(error)
