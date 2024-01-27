@@ -1,7 +1,7 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Download, X } from 'react-feather'
+import { ChevronDown, Eye, X } from 'react-feather'
 import React, { useState, forwardRef, useEffect } from 'react'
 import {
     Card,
@@ -11,7 +11,9 @@ import {
     UncontrolledTooltip,
     ModalBody,
     ModalFooter,
-    Button
+    Button,
+    Label,
+    Input
   } from 'reactstrap'
 import { digitsEnToFa } from 'persian-tools'
 import axios from 'axios'
@@ -25,8 +27,13 @@ const ShowAssets = () => {
 
     const [data, SetData] = useState([])
     const [DeleteBox, SetDeleteBox] = useState(false)
+    const [EditBox, SetEditBox] = useState(false)
     const [DeleteId, SetDeleteId] = useState(0)
+    const [EditData, SetEditData] = useState([])
     const [deleteLoading, SetDeleteLoading] = useState(false)
+    const [EditLoading, SetEditLoading] = useState(false)
+    const [Image, setImage] = useState()
+
     const columns = [
         {
             name: 'نماد',
@@ -81,17 +88,25 @@ const ShowAssets = () => {
         },
         {
             name: 'عملیات',
-            minWidth: '120px',
-            maxWidth: '120px',
+            minWidth: '160px',
+            maxWidth: '160px',
             sortable: true,
             cell : row => (
                 <>
-                    <ion-icon style={{fontSize:'24px', cursor:'pointer', marginRight:'16px'}} name="create-outline" id={`editReportIcon${row.id}`}></ion-icon>
+                    <ion-icon style={{fontSize:'24px', cursor:'pointer', marginRight:'8px'}} name="create-outline" id={`editReportIcon${row.id}`}
+                        onClick = {
+                            () => {
+                                SetEditData(row)
+                                SetEditBox(true)
+                                console.log(row)
+                            }
+                        }
+                    ></ion-icon>
                     <UncontrolledTooltip placement='top' target={`editReportIcon${row.id}`}>
                         ویرایش
                     </UncontrolledTooltip>
 
-                    <ion-icon style={{fontSize:'24px', cursor:'pointer', marginRight:'16px'}} name="trash-outline" id={`deleteReportIcon${row.id}`} 
+                    <ion-icon style={{fontSize:'24px', cursor:'pointer', marginRight:'8px'}} name="trash-outline" id={`deleteReportIcon${row.id}`} 
                         onClick = {
                         () => {
                             SetDeleteId(row.id)
@@ -101,6 +116,11 @@ const ShowAssets = () => {
                     ></ion-icon>
                     <UncontrolledTooltip placement='top' target={`deleteReportIcon${row.id}`}>
                         حذف
+                    </UncontrolledTooltip>
+
+                    <Eye style={{marginRight:'8px', cursor:'pointer'}} id={`ShowHolesIcon${row.id}`} />
+                    <UncontrolledTooltip placement='top' target={`ShowHolesIcon${row.id}`}>
+                        مشاهده حفره‌ها
                     </UncontrolledTooltip>
                 </>
             )
@@ -186,6 +206,71 @@ const ShowAssets = () => {
         })
     }
 
+    const imageHandler = (event) => {
+        setImage(event.target.files[0])
+    }
+
+    const EditSelectAsset = () => {
+        let name = document.getElementById('EditTitle').value
+        let persian_name = document.getElementById('EditPName').value
+        let symbol = document.getElementById('EditSymbol').value
+        let network = document.getElementById('EditNetwork').value
+        let image = document.getElementById('EditPicture').value
+        let decimal_number = document.getElementById('EditDecimal').value
+        let contract_address = document.getElementById('EditContract').value
+        let color = document.getElementById('EditColor').value
+
+        if (name === '') { name = null }
+        if (persian_name === '') { persian_name = null }
+        if (symbol === '') { symbol = null }
+        if (network === '') { network = null }
+        if (image === '') { image = null }
+        if (decimal_number === '') { decimal_number = null }
+        if (contract_address === '') { contract_address = null }
+        if (color === '') { color = null }
+
+        const bodyFormData = new FormData()
+        bodyFormData.append('name', name)
+        bodyFormData.append('persian_name', persian_name)
+        bodyFormData.append('symbol', symbol)
+        bodyFormData.append('network', network)
+        bodyFormData.append('color', color)
+        bodyFormData.append('decimal_number', decimal_number)
+        bodyFormData.append('contract_address', contract_address)
+        if (document.getElementById('EditPicture').files.length > 0) {
+            const getImage = document.getElementById('EditPicture').files[0]
+            bodyFormData.append('image', getImage)
+        }
+        SetEditLoading(true)
+        axios.put(`${serverAddress}/explorer/assets/${EditData.id}`, {
+            bodyFormData
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`, 
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => {
+        SetEditLoading(false)
+            SetEditBox(false)
+            console.log(response)
+            if (response.status === 200) {
+                return toast.success('دارایی با موفقیت ویرایش شد.', {
+                    position: 'bottom-left'
+                })
+            }
+        })
+        .catch((err) => {
+        SetEditLoading(false)
+
+            console.log(err)
+            return toast.error('خطا در ویرایش دارایی', {
+                position: 'bottom-left'
+              })
+        })
+    }
+
     return (
         <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
@@ -219,6 +304,47 @@ const ShowAssets = () => {
                     !deleteLoading ? 
                     <span>
                         حذف
+                    </span>
+                    :
+                    <LoadingButton/>
+                }
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal
+            isOpen={EditBox}
+            className='modal-dialog-centered'
+            toggle={ () => { SetEditBox(false) } }
+            modalClassName={'modal-danger'}
+          >
+          <ModalBody>
+            <h6>ویرایش دارایی</h6>
+
+            <Label>عنوان</Label>
+            <Input id='EditTitle' defaultValue={EditData.name}/>
+            <Label className='mt-3'>عنوان فارسی</Label>
+            <Input id='EditPName' defaultValue={EditData.persian_name}/>
+            <Label className='mt-3'>نماد</Label>
+            <Input id='EditSymbol' defaultValue={EditData.symbol}/>
+            <Label className='mt-3'>شبکه</Label>
+            <Input id='EditNetwork' defaultValue={EditData.network}/>
+            <Label className='mt-3'>تصویر</Label>
+            <Input id='EditPicture' type='file'/>
+            <Label className='mt-3'>دسیمال</Label>
+            <Input id='EditDecimal' defaultValue={EditData.decimal_number}/>
+            <Label className='mt-3'>آدرس قرارداد</Label>
+            <Input id='EditContract' defaultValue={EditData.contract_address}/>
+            <Label className='mt-3'>رنگ</Label>
+            <Input id='EditColor' defaultValue={EditData.color}/>
+            
+          </ModalBody>
+          <ModalFooter>
+            <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { EditSelectAsset() }}>
+                {
+                    !EditLoading ? 
+                    <span>
+                        ویرایش
                     </span>
                     :
                     <LoadingButton/>
