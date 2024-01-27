@@ -328,7 +328,13 @@ const ShowAssets = () => {
             <Label className='mt-3'>نماد</Label>
             <Input id='EditSymbol' defaultValue={EditData.symbol}/>
             <Label className='mt-3'>شبکه</Label>
-            <Input id='EditNetwork' defaultValue={EditData.network}/>
+            <select class="form-select" id='EditNetwork' aria-label="Default select example" >
+                <option selected={EditData.network === 1} value={1}>بیت‌کوین</option>
+                <option selected={EditData.network === 4} value={4}>اتریوم</option>
+                <option selected={EditData.network === 3}  value={3}>لایت‌کوین</option>
+                <option selected={EditData.network === 5}  value={5}>بایننس‌اسمارت‌چین</option>
+                <option selected={EditData.network === 2}  value={2}>بیت‌کوین‌کش</option>
+            </select>
             <Label className='mt-3'>تصویر</Label>
             <Input id='EditPicture' type='file'/>
             <Label className='mt-3'>دسیمال</Label>
