@@ -32,7 +32,6 @@ const ShowAssets = () => {
     const [EditData, SetEditData] = useState([])
     const [deleteLoading, SetDeleteLoading] = useState(false)
     const [EditLoading, SetEditLoading] = useState(false)
-    const [Image, setImage] = useState()
 
     const columns = [
         {
@@ -206,16 +205,11 @@ const ShowAssets = () => {
         })
     }
 
-    const imageHandler = (event) => {
-        setImage(event.target.files[0])
-    }
-
     const EditSelectAsset = () => {
         let name = document.getElementById('EditTitle').value
         let persian_name = document.getElementById('EditPName').value
         let symbol = document.getElementById('EditSymbol').value
         let network = document.getElementById('EditNetwork').value
-        let image = document.getElementById('EditPicture').value
         let decimal_number = document.getElementById('EditDecimal').value
         let contract_address = document.getElementById('EditContract').value
         let color = document.getElementById('EditColor').value
@@ -224,7 +218,6 @@ const ShowAssets = () => {
         if (persian_name === '') { persian_name = null }
         if (symbol === '') { symbol = null }
         if (network === '') { network = null }
-        if (image === '') { image = null }
         if (decimal_number === '') { decimal_number = null }
         if (contract_address === '') { contract_address = null }
         if (color === '') { color = null }
@@ -242,9 +235,9 @@ const ShowAssets = () => {
             bodyFormData.append('image', getImage)
         }
         SetEditLoading(true)
-        axios.put(`${serverAddress}/explorer/assets/${EditData.id}`, {
+        axios.put(`${serverAddress}/explorer/assets/${EditData.id}`,
             bodyFormData
-        },
+        ,
         {
             headers: {
                 Authorization: `Bearer ${Cookies.get('access')}`, 
