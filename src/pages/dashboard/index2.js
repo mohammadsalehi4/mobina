@@ -1380,7 +1380,7 @@ const EcommerceDashboard2 = () => {
                                 </p>
                                 {
                                   SelectToken === 1 ? 
-                                    <Card>
+                                    <Card id='SelectNetworkBox'>
 
                                       <div onClick={ () => { SelectProcessHandler('ETH'), dispatch({type:"networkName", value:'ETH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
                                         <span>
@@ -1398,7 +1398,7 @@ const EcommerceDashboard2 = () => {
 
                                     </Card>
                                   : SelectToken === 2 ?
-                                  <Card>
+                                  <Card id='SelectNetworkBox'>
 
                                     <div onClick={ () => { SelectProcessHandler('BTC'), dispatch({type:"networkName", value:'BTC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
                                       <span>

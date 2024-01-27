@@ -20,6 +20,7 @@ import AdminUsers from '../../components/adminUsers/adminUsers'
 import AdminPrices from '../../components/adminPrices/adminPrices'
 import AdminTax from '../../components/adminTax/adminTax'
 import AdminEntity from '../../components/adminEntity/adminEntity'
+import AdminAssets from '../../components/adminAssets/adminAssets'
 
 const Admin = () => {
   const [active, setActive] = useState('1')
@@ -27,7 +28,7 @@ const Admin = () => {
   const States = useSelector(state => state)
 
   useEffect(() => {
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 8; i++) {
         if (i !== 3) {
             document.getElementById(`Link${i}`).className = 'NotActiveAdmin'
         }
@@ -149,6 +150,17 @@ const Admin = () => {
                                 <span className='align-middle'>موجودیت‌ها</span>
                             </a>
                         </NavItem>
+                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
+                            <a
+                                id='Link8'
+                                active={active === '8'}
+                                onClick={() => {
+                                dispatch({type:"rollsLoading", value:8})
+                                toggle('8')
+                                }}>
+                                <span className='align-middle'>دارایی‌ها</span>
+                            </a>
+                        </NavItem>
                     </Nav>
                     <TabContent className='py-50' activeTab={active}>
                         <TabPane tabId='1'>
@@ -171,6 +183,9 @@ const Admin = () => {
                         </TabPane>
                         <TabPane tabId='7'>
                             <AdminEntity/>
+                        </TabPane>
+                        <TabPane tabId='8'>
+                            <AdminAssets/>
                         </TabPane>
                     </TabContent>
                 </Fragment>
