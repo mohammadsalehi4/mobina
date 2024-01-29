@@ -15,42 +15,60 @@ import { serverAddress } from '../../address'
 import { Card, CardHeader, CardBody, Modal, ModalBody, ModalFooter } from 'reactstrap'
 import toast from 'react-hot-toast'
 import LoadingButton from '../loadinButton/LoadingButton'
+import { useDispatch, useSelector } from 'react-redux'
+
 const AddAsset = () => {
     const [loading, SetLoading] = useState(false)
-    
+    const States = useSelector(state => state)
+    const dispatch = useDispatch()
+
   const addNewAsset = () => {
-    const symbol = document.getElementById('symbol').value
-    const name = document.getElementById('AssetName').value
-    const decimal_number = document.getElementById('decimal_number').value
-    const contract_address = document.getElementById('contract_address').value
-    const network = document.getElementById('network').value
-    console.log(
-        {
-            symbol,
-            name,
-            decimal_number,
-            contract_address,
-            network
-        }
-    )
+    let symbol = document.getElementById('symbol').value
+    let name = document.getElementById('AssetName').value
+    let persian_name = document.getElementById('PAssetName').value
+    let decimal_number = document.getElementById('decimal_number').value
+    let contract_address = document.getElementById('contract_address').value
+    let network = document.getElementById('network').value
+    let color = document.getElementById('AssetsColor').value
+
+    if (name === '') { name = null }
+    if (persian_name === '') { persian_name = null }
+    if (symbol === '') { symbol = null }
+    if (network === '') { network = null }
+    if (decimal_number === '') { decimal_number = null }
+    if (contract_address === '') { contract_address = null }
+    if (color === '') { color = null }
+
+    const bodyFormData = new FormData()
+    if (document.getElementById('AddAssetPicture').files.length > 0) {
+        const getImage = document.getElementById('AddAssetPicture').files[0]
+        bodyFormData.append('image', getImage)
+    }
+    bodyFormData.append('name', name)
+    bodyFormData.append('persian_name', persian_name)
+    bodyFormData.append('symbol', symbol)
+    bodyFormData.append('network', network)
+    bodyFormData.append('color', color)
+    bodyFormData.append('decimal_number', decimal_number)
+    bodyFormData.append('contract_address', contract_address)
+
+
     SetLoading(true)
-    axios.post(`${serverAddress}/explorer/assets/`, {
-        symbol,
-        name,
-        decimal_number,
-        contract_address,
-        network
-    },
+    axios.post(`${serverAddress}/explorer/assets/`, 
+        bodyFormData
+    ,
     {
         headers: {
             Authorization: `Bearer ${Cookies.get('access')}`, 
-            'Content-Type': 'application/json'
+            'Content-Type': 'multipart/form-data'
         }
     })
     .then((response) => {
         SetLoading(false)
         console.log(response)
         if (response.status === 201) {
+            dispatch({type:"AssetPage", value:!(States.AssetPage)})
+            dispatch({type:"AssetsBeload", value:!(States.AssetsBeload)})
             return toast.success('دارایی با موفقیت ساخته شد', {
                 position: 'bottom-left'
               })
@@ -92,6 +110,13 @@ const AddAsset = () => {
 
             <Col xl='4' lg='6' className='mt-3'>
                 <Label>
+                    عنوان فارسی
+                </Label>
+                <Input id='PAssetName'/>
+            </Col>
+
+            <Col xl='4' lg='6' className='mt-3'>
+                <Label>
                     دسیمال
                 </Label>
                 <Input id='decimal_number' type='number'/>
@@ -117,6 +142,20 @@ const AddAsset = () => {
                 </select>
             </Col>
 
+
+            <Col xl='4' lg='6' className='mt-3'>
+                <Label>
+                    تصویر
+                </Label>
+                <Input id='AddAssetPicture' type='file'/>
+            </Col>
+
+            <Col xl='4' lg='6' className='mt-3'>
+                <Label>
+                    رنگ
+                </Label>
+                <Input id='AssetsColor'/>
+            </Col>
         </Row>
 
         <Row>

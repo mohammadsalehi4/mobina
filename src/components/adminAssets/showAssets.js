@@ -1,7 +1,7 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Eye, X } from 'react-feather'
+import { ChevronDown, Eye, CameraOff } from 'react-feather'
 import React, { useState, forwardRef, useEffect } from 'react'
 import {
     Card,
@@ -22,8 +22,14 @@ import { serverAddress } from '../../address'
 import { RecognizeNetwork } from '../../processors/recognizeNetwork'
 import LoadingButton from '../loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import LocalLoading from '../localLoading/localLoading'
 
 const ShowAssets = () => {
+    const States = useSelector(state => state)
+    const dispatch = useDispatch()
+
+    const [image, setImage] = useState()
 
     const [data, SetData] = useState([])
     const [DeleteBox, SetDeleteBox] = useState(false)
@@ -32,7 +38,8 @@ const ShowAssets = () => {
     const [EditData, SetEditData] = useState([])
     const [deleteLoading, SetDeleteLoading] = useState(false)
     const [EditLoading, SetEditLoading] = useState(false)
-
+    const [Loading, SetLoading] = useState(false)
+    
     const columns = [
         {
             name: 'نماد',
@@ -60,9 +67,17 @@ const ShowAssets = () => {
             minWidth: '120px',
             maxWidth: '120px',
             sortable: true,
-            cell : row => (
-                <img src={row.image} style={{width:'30px'}} />
-            )
+            cell : row => {
+                if (typeof (row.image) === 'string') {
+                    return (
+                        <img src={row.image} style={{width:'30px'}} />
+                    )
+                } else {
+                    return (
+                        <CameraOff />
+                    )
+                }
+            }
         },
         {
             name: 'دسیمال',
@@ -127,14 +142,17 @@ const ShowAssets = () => {
     ]
 
     useEffect(() => {
-        axios.get(`${serverAddress}/explorer/assets`, 
+        if (States.rollsLoading === 8) {
+            SetLoading(true)
+            axios.get(`${serverAddress}/explorer/assets`, 
             {
                 headers: {
                 Authorization: `Bearer ${Cookies.get('access')}`
                 }
             })
             .then((response) => {
-                if (response.status === 200) {
+            SetLoading(false)
+            if (response.status === 200) {
                     const getData = []
                     for (let i = 0; i < response.data.results.length; i++) {
                         getData.push(
@@ -155,7 +173,7 @@ const ShowAssets = () => {
                 }
             })
             .catch((err) => {
-                setLoading(false)
+                SetLoading(false)
                 console.log(err)
                 if (err.response.status === 403) {
                     Cookies.set('refresh', '')
@@ -168,7 +186,8 @@ const ShowAssets = () => {
                     window.location.assign('/')
                 }
             })
-    }, [])
+        }
+    }, [, States.AssetsBeload, States.rollsLoading])
 
     const deleteSelectedAsset = () => {
         console.log(DeleteId)
@@ -230,8 +249,8 @@ const ShowAssets = () => {
         bodyFormData.append('color', color)
         bodyFormData.append('decimal_number', decimal_number)
         bodyFormData.append('contract_address', contract_address)
-        if (document.getElementById('EditPicture').files.length > 0) {
-            const getImage = document.getElementById('EditPicture').files[0]
+        if (document.getElementById('EditAssetImage1').files.length > 0) {
+            const getImage = document.getElementById('EditAssetImage1').files[0]
             bodyFormData.append('image', getImage)
         }
         SetEditLoading(true)
@@ -241,7 +260,7 @@ const ShowAssets = () => {
         {
             headers: {
                 Authorization: `Bearer ${Cookies.get('access')}`, 
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             }
         })
         .then((response) => {
@@ -264,20 +283,35 @@ const ShowAssets = () => {
         })
     }
 
+    const imageHandler = (event) => {
+        setImage(event.target.files[0])
+        console.log(event.target.files[0])
+    }
+
     return (
         <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
           <CardTitle tag='h6' style={{width:'100%'}}>لیست دارایی‌ها
+          <ion-icon size={18} onClick={ () => { 
+              dispatch({type:"AssetsBeload", value:!(States.AssetsBeload)})
+            }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
           </CardTitle>
         </CardHeader>
           <div className='react-dataTable'>
-            <DataTable
-                noHeader
-                data={data}
-                columns={columns}
-                className='react-dataTable'
-                sortIcon={<ChevronDown size={10} />}
-            />
+            {
+                Loading ? 
+                    <div className='mt-5'>
+                        <LocalLoading/>
+                    </div>
+                :
+                    <DataTable
+                        noHeader
+                        data={data}
+                        columns={columns}
+                        className='react-dataTable'
+                        sortIcon={<ChevronDown size={10} />}
+                    />
+            }
           </div>
           <Modal
             isOpen={DeleteBox}
@@ -330,6 +364,7 @@ const ShowAssets = () => {
             </select>
             <Label className='mt-3'>تصویر</Label>
             <Input id='EditPicture' type='file'/>
+            <input onChange={imageHandler} accept="image/*" type='file' name='file' id='EditAssetImage1' />
             <Label className='mt-3'>دسیمال</Label>
             <Input id='EditDecimal' defaultValue={EditData.decimal_number}/>
             <Label className='mt-3'>آدرس قرارداد</Label>

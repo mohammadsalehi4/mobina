@@ -325,7 +325,7 @@ const CurrencyDetail = () => {
           <span onClick={close}><ion-icon name="close-outline" id="closeIcon" ></ion-icon></span>
         </div>
       </div>
-      <div className='row'>
+      <div className='row' style={{background:"rgb(248,248,248)", width:"100%", padding:"15px", borderRadius:"10px", marginRight:'0px'}}>
         <div className='col-12' >
           <div id='address'>
             <a id='justUp500'>{States.WDetail}</a>
@@ -342,13 +342,7 @@ const CurrencyDetail = () => {
           </div>
         </div>
       </div>
-      <div className='row'>
-        <div className='col-12 mt-3' >
-          <div style={{background:"#01153a", height:"75px", borderRadius:"10px"}}>
-            <a className='text-whit mt-3 me-3' style={{transition:"0.2s", color:"black", background:MainSiteOrange, borderRadius:"8px", padding:"10px 15px", display:"inline-block"}}>نمایش مالک</a>
-          </div>
-        </div>
-      </div>
+
       <div className='row'>
         <div className='col-12 mt-3' >
           <a href={`/researcher/${States.WDetail}`}><button type="button" class="btn btn-outline-warning">نمایش آدرس <ion-icon name="open-outline"></ion-icon></button></a>

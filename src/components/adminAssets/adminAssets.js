@@ -8,12 +8,19 @@ import {
   } from 'reactstrap'
 import ShowAssets from './showAssets'
 import AddAsset from './AddAsset'
+import { useDispatch, useSelector } from 'react-redux'
 
 const AdminAssets = () => {
     const [active, setActive] = useState('1')
     const toggle = tab => {
         setActive(tab)
     }
+    const States = useSelector(state => state)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        setActive('1')
+    }, [States.AssetPage])
 
   return (
     <div className='nav-vertical'>

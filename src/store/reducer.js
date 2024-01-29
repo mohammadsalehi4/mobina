@@ -72,6 +72,7 @@ const initialState = {
     //admin panel
     CustomLoading: false,
     beLoad: false,
+    AssetPage:false,
 
     //tax
     taxAmount:0,
@@ -85,6 +86,7 @@ const initialState = {
     PriceBeload:false,
     TaxBeload:false,
     EntityBeload:false,
+    AssetsBeload:false,
 
     //loading profile
     ProfileLabel:false,
@@ -96,6 +98,20 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'AssetPage') {
+        return {
+            ...state,
+            AssetPage:action.value
+        }
+    }
+
+    if (action.type === 'AssetsBeload') {
+        return {
+            ...state,
+            AssetsBeload:action.value
+        }
+    }
 
     if (action.type === 'LoadingEffect') {
         return {
