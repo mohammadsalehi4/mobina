@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import DataTable from 'react-data-table-component'
@@ -34,11 +35,34 @@ const ShowAssets = () => {
     const [data, SetData] = useState([])
     const [DeleteBox, SetDeleteBox] = useState(false)
     const [EditBox, SetEditBox] = useState(false)
+    const [HolesBox, SetHolesBox] = useState(false)
     const [DeleteId, SetDeleteId] = useState(0)
     const [EditData, SetEditData] = useState([])
     const [deleteLoading, SetDeleteLoading] = useState(false)
     const [EditLoading, SetEditLoading] = useState(false)
     const [Loading, SetLoading] = useState(false)
+
+    const [Gap, SetGap] = useState([])
+    const [GapLoading, SetGapLoading] = useState(false)
+    const [GapId, SetGapId] = useState(null)
+
+    useEffect(() => {
+        SetGap([])
+        if (GapId !== null) {
+            SetGapLoading(true)
+            axios.get(`${serverAddress}/explorer/status-price-service/?symbol=${GapId}`)
+            .then((response) => {
+                console.log(response)
+                if (response.data.results[0].gap.days.length > 0) {
+                    SetGap(response.data.results[0].gap.days)
+                }
+                SetGapLoading(false)
+            })  
+            .catch((err) => {
+                SetGapLoading(false)
+            })
+        }
+    }, [GapId])
     
     const columns = [
         {
@@ -132,7 +156,7 @@ const ShowAssets = () => {
                         حذف
                     </UncontrolledTooltip>
 
-                    <Eye style={{marginRight:'8px', cursor:'pointer'}} id={`ShowHolesIcon${row.id}`} />
+                    <Eye style={{marginRight:'8px', cursor:'pointer'}} id={`ShowHolesIcon${row.id}`} onClick={ () => { SetHolesBox(true), SetGapId(row.symbol.toUpperCase()) }} />
                     <UncontrolledTooltip placement='top' target={`ShowHolesIcon${row.id}`}>
                         مشاهده حفره‌ها
                     </UncontrolledTooltip>
@@ -201,6 +225,7 @@ const ShowAssets = () => {
         .then((response) => {
             SetDeleteLoading(false)
             SetDeleteBox(false)
+            dispatch({type:"AssetsBeload", value:!(States.AssetsBeload)})
             return toast.success('دارایی با موفقیت حذف شد', {
                 position: 'bottom-left'
             })
@@ -286,6 +311,10 @@ const ShowAssets = () => {
     const imageHandler = (event) => {
         setImage(event.target.files[0])
         console.log(event.target.files[0])
+    }
+
+    const getHoles = () => {
+
     }
 
     return (
@@ -384,6 +413,40 @@ const ShowAssets = () => {
                     <LoadingButton/>
                 }
             </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal
+            isOpen={HolesBox}
+            className='modal-dialog-centered'
+            toggle={ () => { SetHolesBox(false) } }
+            modalClassName={'modal-danger'}
+          >
+          <ModalBody>
+            <h6> حفره‌های دارایی {GapId}</h6>
+            {
+                GapLoading ? 
+                <LocalLoading/>
+                :
+                Gap.length === 0 ?
+                <p style={{textAlign:'center'}}>بدون حفره</p>
+                :
+                Gap.map((item, index) => {
+                    return (
+                      <form >
+                        <span key={index} style={{display:"block"}}>
+                          {item}
+                        </span>
+                        <Input className='mb-3' style={{display:'inline-block', width:'80%'}} id={`InputTokenPrice${index}`}/>
+                        <Button  style={{display:'inline-block', marginRight:'8px'}} color='primary'>ثبت</Button>
+                      </form>
+
+                    )
+                })
+            }
+          </ModalBody>
+          <ModalFooter>
+
           </ModalFooter>
         </Modal>
       </Card>
