@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
@@ -63,6 +64,69 @@ const ShowAssets = () => {
             })
         }
     }, [GapId])
+
+    const setPrice = (time, price, symbol) => {
+        console.log(time)
+        console.log(price)
+        console.log(symbol)
+        if (price === '') {
+          alert('قیمت را وارد کنید.')
+        } else {
+          SetLoading(true)
+          axios.post(`${serverAddress}/explorer/price/`, 
+          {
+            price:Number(price),
+            symbol,
+            date:time
+          },
+          {
+              headers: {
+                  Authorization: `Bearer ${Cookies.get('access')}`, 
+                  'Content-Type': 'application/json'
+              }
+          })
+          .then((response) => {
+              SetLoading(false)
+              console.log(response)  
+              if (response.status === 201) {
+                let getGap = Gap
+                let editedData = getGap
+                let index = editedData.findIndex(obj => obj === time)
+                if (index !== -1) {
+                  editedData.splice(index, 1)
+                }
+                getGap.days = editedData
+                SetGap(getGap)
+                if (Gap.days.length === 0) {
+                  const myData = Data
+                  myData.find(item => item.token === symbol).noGap = true
+                  SetData(myData)
+                }
+                return toast.success('قیمت با موفقیت ثبت شد.', {
+                  position: 'bottom-left'
+                })
+              }            
+          })
+          .catch((err) => {
+              SetLoading(false)
+              console.log(err)
+              dispatch({type:"LOADINGEFFECT", value:false})
+              if (err.response.status === 403) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+              if (err.response.status === 401) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+              return toast.error('خطا در پردازش', {
+                position: 'bottom-left'
+              })
+          })
+        }
+      }
     
     const columns = [
         {
@@ -433,12 +497,12 @@ const ShowAssets = () => {
                 :
                 Gap.map((item, index) => {
                     return (
-                      <form >
+                      <form onSubmit={ (e) => {e.preventDefault(), setPrice(item, document.getElementById(`InputTokenPrice${index}`).value, GapId) }}>
                         <span key={index} style={{display:"block"}}>
                           {item}
                         </span>
                         <Input className='mb-3' style={{display:'inline-block', width:'80%'}} id={`InputTokenPrice${index}`}/>
-                        <Button  style={{display:'inline-block', marginRight:'8px'}} color='primary'>ثبت</Button>
+                        <Button  style={{display:'inline-block', marginRight:'8px'}} color='primary' onClick={ () => { setPrice(item, document.getElementById(`InputTokenPrice${index}`).value, GapId) } }>ثبت</Button>
                       </form>
 
                     )
