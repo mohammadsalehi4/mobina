@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-duplicate-imports */
@@ -31,19 +32,23 @@ const AddAsset = () => {
     let network = document.getElementById('network').value
     let color = document.getElementById('AssetsColor').value
 
-    if (name === '') { name = null }
-    if (persian_name === '') { persian_name = null }
-    if (symbol === '') { symbol = null }
-    if (network === '') { network = null }
-    if (decimal_number === '') { decimal_number = null }
-    if (contract_address === '') { contract_address = null }
+    let check = false
+    if (name === '') { check = true }
+    if (persian_name === '') { check = true }
+    if (symbol === '') { check = true }
+    if (network === '') { check = true }
+    if (decimal_number === '') { check = true }
+    if (contract_address === '') { check = true }
     if (color === '') { color = null }
 
     const bodyFormData = new FormData()
     if (document.getElementById('AddAssetPicture').files.length > 0) {
         const getImage = document.getElementById('AddAssetPicture').files[0]
         bodyFormData.append('image', getImage)
+    } else {
+        check = true
     }
+
     bodyFormData.append('name', name)
     bodyFormData.append('persian_name', persian_name)
     bodyFormData.append('symbol', symbol)
@@ -52,35 +57,41 @@ const AddAsset = () => {
     bodyFormData.append('decimal_number', decimal_number)
     bodyFormData.append('contract_address', contract_address)
 
-
-    SetLoading(true)
-    axios.post(`${serverAddress}/explorer/assets/`, 
-        bodyFormData
-    ,
-    {
-        headers: {
-            Authorization: `Bearer ${Cookies.get('access')}`, 
-            'Content-Type': 'multipart/form-data'
-        }
-    })
-    .then((response) => {
-        SetLoading(false)
-        console.log(response)
-        if (response.status === 201) {
-            dispatch({type:"AssetPage", value:!(States.AssetPage)})
-            dispatch({type:"AssetsBeload", value:!(States.AssetsBeload)})
-            return toast.success('دارایی با موفقیت ساخته شد', {
+    if (!check) {
+        SetLoading(true)
+        axios.post(`${serverAddress}/explorer/assets/`, 
+            bodyFormData
+        ,
+        {
+            headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`, 
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then((response) => {
+            SetLoading(false)
+            console.log(response)
+            if (response.status === 201) {
+                dispatch({type:"AssetPage", value:!(States.AssetPage)})
+                dispatch({type:"AssetsBeload", value:!(States.AssetsBeload)})
+                return toast.success('دارایی با موفقیت ساخته شد', {
+                    position: 'bottom-left'
+                  })
+            }
+        })
+        .catch((err) => {
+            SetLoading(false)
+            console.log(err)
+            return toast.error('خطا در ساخت دارایی', {
                 position: 'bottom-left'
               })
-        }
-    })
-    .catch((err) => {
-        SetLoading(false)
-        console.log(err)
-        return toast.error('خطا در ساخت دارایی', {
+        })
+    } else {
+        return toast.error('مقادیر را به طور کامل وارد کنید.', {
             position: 'bottom-left'
           })
-    })
+    }
+
   }
 
   return (

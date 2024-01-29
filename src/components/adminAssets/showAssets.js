@@ -129,13 +129,13 @@ const ShowAssets = () => {
     const columns = [
         {
             name: 'نماد',
-            minWidth: '100px',
-            maxWidth: '100px',
+            minWidth: '90px',
+            maxWidth: '90px',
             sortable: true,
             selector: row => row.symbol
         },
         {
-            name: 'نام',
+            name: 'نام فارسی',
             minWidth: '160px',
             maxWidth: '160px',
             sortable: true,
@@ -150,8 +150,8 @@ const ShowAssets = () => {
         },
         {
             name: 'لوگو',
-            minWidth: '120px',
-            maxWidth: '120px',
+            minWidth: '90px',
+            maxWidth: '90px',
             sortable: true,
             cell : row => {
                 if (typeof (row.image) === 'string') {
@@ -167,15 +167,15 @@ const ShowAssets = () => {
         },
         {
             name: 'دسیمال',
-            minWidth: '120px',
-            maxWidth: '120px',
+            minWidth: '100px',
+            maxWidth: '100px',
             sortable: true,
             selector: row => row.decimal_number
         },
         {
             name: 'شبکه',
-            minWidth: '120px',
-            maxWidth: '120px',
+            minWidth: '90px',
+            maxWidth: '90px',
             sortable: true,
             selector: row => row.network,
             cell : row => (
@@ -224,6 +224,13 @@ const ShowAssets = () => {
                     </UncontrolledTooltip>
                 </>
             )
+        },
+        {
+            name: 'آدرس قرارداد',
+            minWidth: '360px',
+            maxWidth: '360px',
+            sortable: true,
+            selector: row => row.contract_address
         }
     ]
 
