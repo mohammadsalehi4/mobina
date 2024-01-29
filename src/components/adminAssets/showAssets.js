@@ -66,9 +66,7 @@ const ShowAssets = () => {
     }, [GapId])
 
     const setPrice = (time, price, symbol) => {
-        console.log(time)
-        console.log(price)
-        console.log(symbol)
+
         if (price === '') {
           alert('قیمت را وارد کنید.')
         } else {
@@ -377,10 +375,6 @@ const ShowAssets = () => {
         console.log(event.target.files[0])
     }
 
-    const getHoles = () => {
-
-    }
-
     return (
         <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
@@ -456,8 +450,9 @@ const ShowAssets = () => {
                 <option selected={EditData.network === 2}  value={2}>بیت‌کوین‌کش</option>
             </select>
             <Label className='mt-3'>تصویر</Label>
-            <Input id='EditPicture' type='file'/>
-            <input onChange={imageHandler} accept="image/*" type='file' name='file' id='EditAssetImage1' />
+            <br/>
+            <img src={EditData.image} style={{width:'30px'}}/>
+            <Input onChange={imageHandler} id='EditAssetImage1' type='file'/>
             <Label className='mt-3'>دسیمال</Label>
             <Input id='EditDecimal' defaultValue={EditData.decimal_number}/>
             <Label className='mt-3'>آدرس قرارداد</Label>
@@ -497,7 +492,7 @@ const ShowAssets = () => {
                 :
                 Gap.map((item, index) => {
                     return (
-                      <form onSubmit={ (e) => {e.preventDefault(), setPrice(item, document.getElementById(`InputTokenPrice${index}`).value, GapId) }}>
+                      <form onSubmit={ (e) => { e.preventDefault(), setPrice(item, document.getElementById(`InputTokenPrice${index}`).value, GapId) }}>
                         <span key={index} style={{display:"block"}}>
                           {item}
                         </span>

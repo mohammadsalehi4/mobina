@@ -103,14 +103,14 @@ const AddAsset = () => {
 
             <Col xl='4' lg='6' className='mt-3'>
                 <Label>
-                    عنوان
+                    نام انگلیسی
                 </Label>
                 <Input id='AssetName'/>
             </Col>
 
             <Col xl='4' lg='6' className='mt-3'>
                 <Label>
-                    عنوان فارسی
+                    نام فارسی
                 </Label>
                 <Input id='PAssetName'/>
             </Col>
