@@ -21,11 +21,40 @@ import { digitsEnToFa } from 'persian-tools'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { serverAddress } from '../../address'
-import { RecognizeNetwork } from '../../processors/recognizeNetwork'
 import LoadingButton from '../loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import LocalLoading from '../localLoading/localLoading'
+
+function RecognizeNetwork (id) {
+    if (typeof (id) === 'number') {
+        if (id === 1) {
+            return ('BTC')
+        } else if (id === 2) {
+            return ('BCH')
+        } else if (id === 3) {
+            return ('LTC')
+        } else if (id === 4) {
+            return ('ETH')
+        } else if (id === 5) {
+            return ('BSC')
+        } else { return (false) }
+    } else if (typeof (id) === 'string') {
+        if (id === 'بیت کوین') {
+            return (1)
+        } else if (id === 'بیت کوین کش') {
+            return (2)
+        } else if (id === 'لایت کوین') {
+            return (3)
+        } else if (id === 'اتریوم') {
+            return (4)
+        } else if (id === 'بایننس اسمارت چین') {
+            return (5)
+        } else { return (false) }
+    } else {
+        return (false)
+    }
+}
 
 const ShowAssets = () => {
     const States = useSelector(state => state)
@@ -46,6 +75,51 @@ const ShowAssets = () => {
     const [Gap, SetGap] = useState([])
     const [GapLoading, SetGapLoading] = useState(false)
     const [GapId, SetGapId] = useState(null)
+
+    const [AssetNameText, SetAssetNameText] = useState('')
+    const AssetNameTextValidator = (e) => {
+      const value = e.target.value
+      const persianRegex = /^[A-Za-z\s]+$/
+      if (persianRegex.test(value) || value === '') {
+        SetAssetNameText(value)
+      }
+    }
+
+    const [SymbolText, SetSymbolText] = useState('')
+    const SymbolTextValidator = (e) => {
+      const value = e.target.value
+      const persianRegex = /^[A-Za-z\s]+$/
+      if (persianRegex.test(value) || value === '') {
+        SetSymbolText(value)
+      }
+    }
+  
+    const [PAssetNameText, SetPAssetNameText] = useState('')
+    const PAssetNameTextValidator = (e) => {
+      const value = e.target.value
+      const persianRegex = /^[\u0600-\u06FF\s\u200C]+$/
+      if (persianRegex.test(value) || value === '') {
+        SetPAssetNameText(value)
+      }
+    }
+  
+    const [contract_addressText, Setcontract_addressText] = useState('')
+    const contract_addressTextValidator = (e) => {
+      const value = e.target.value
+      const persianRegex = /^[A-Za-z0-9]+$/
+      if (persianRegex.test(value) || value === '') {
+        Setcontract_addressText(value)
+      }
+    }
+  
+    const [AssetsColorText, SetAssetsColorText] = useState('')
+    const AssetsColorTextValidator = (e) => {
+      const value = e.target.value
+      const persianRegex = /^[A-Za-z#]+$/
+      if (persianRegex.test(value) || value === '') {
+        SetAssetsColorText(value)
+      }
+    }
 
     useEffect(() => {
         SetGap([])
@@ -382,6 +456,16 @@ const ShowAssets = () => {
         console.log(event.target.files[0])
     }
 
+    useEffect(() => {
+        if (EditData.length !== 0) {
+            SetAssetNameText(EditData.name)
+            SetPAssetNameText(EditData.persian_name)
+            Setcontract_addressText(EditData.contract_address)
+            SetAssetsColorText(EditData.color)
+            SetSymbolText(EditData.symbol)
+        }
+    }, [EditData])
+
     return (
         <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
@@ -442,12 +526,12 @@ const ShowAssets = () => {
           <ModalBody>
             <h6>ویرایش دارایی</h6>
 
-            <Label>عنوان</Label>
-            <Input id='EditTitle' defaultValue={EditData.name}/>
+            <Label>عنوان انگلیسی</Label>
+            <Input id='EditTitle' value={AssetNameText} onChange={AssetNameTextValidator}/>
             <Label className='mt-3'>عنوان فارسی</Label>
-            <Input id='EditPName' defaultValue={EditData.persian_name}/>
+            <Input id='EditPName' value={PAssetNameText} onChange={PAssetNameTextValidator}/>
             <Label className='mt-3'>نماد</Label>
-            <Input id='EditSymbol' defaultValue={EditData.symbol}/>
+            <Input id='EditSymbol' value={SymbolText} onChange={SymbolTextValidator} />
             <Label className='mt-3'>شبکه</Label>
             <select class="form-select" id='EditNetwork' aria-label="Default select example" >
                 <option selected={EditData.network === 1} value={1}>بیت‌کوین</option>
@@ -461,11 +545,11 @@ const ShowAssets = () => {
             <img src={EditData.image} style={{width:'30px'}}/>
             <Input onChange={imageHandler} id='EditAssetImage1' type='file'/>
             <Label className='mt-3'>دسیمال</Label>
-            <Input id='EditDecimal' defaultValue={EditData.decimal_number}/>
+            <Input id='EditDecimal' defaultValue={EditData.decimal_number} type='number'/>
             <Label className='mt-3'>آدرس قرارداد</Label>
-            <Input id='EditContract' defaultValue={EditData.contract_address}/>
+            <Input id='EditContract' value={contract_addressText} onChange={contract_addressTextValidator}/>
             <Label className='mt-3'>رنگ</Label>
-            <Input id='EditColor' defaultValue={EditData.color}/>
+            <Input id='EditColor' value={AssetsColorText} onChange={AssetsColorTextValidator}/>
             
           </ModalBody>
           <ModalFooter>

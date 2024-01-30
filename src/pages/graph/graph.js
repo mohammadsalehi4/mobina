@@ -552,6 +552,11 @@ const FuckingGraph = (props) => {
           },
           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
           color: "#01153a",
+          color: {
+            color: '#01153a', // رنگ با HEX
+            opacity: 0.5 // شفافیت بین 0 و 1
+          },
+          dashes: true,
           fixed: true
       },
       nodes:{
@@ -667,6 +672,11 @@ const FuckingGraph = (props) => {
           },
           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
           color: "#01153a",
+          color: {
+            color: '#01153a', // رنگ با HEX
+            opacity: 0.5 // شفافیت بین 0 و 1
+          },
+          dashes: true,
           fixed: true
       },
       nodes:{

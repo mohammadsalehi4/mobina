@@ -94,6 +94,50 @@ const AddAsset = () => {
 
   }
 
+  const [AssetNameText, SetAssetNameText] = useState('')
+  const AssetNameTextValidator = (e) => {
+    const value = e.target.value
+    const persianRegex = /^[A-Za-z0-9]*$/
+    if (persianRegex.test(value) || value === '') {
+      SetAssetNameText(value)
+    }
+  }
+
+  const [PAssetNameText, SetPAssetNameText] = useState('')
+  const PAssetNameTextValidator = (e) => {
+    const value = e.target.value
+    const persianRegex = /^[\u0600-\u06FF\s0-9]+$/
+    if (persianRegex.test(value) || value === '') {
+      SetPAssetNameText(value)
+    }
+  }
+
+  const [contract_addressText, Setcontract_addressText] = useState('')
+  const contract_addressTextValidator = (e) => {
+    const value = e.target.value
+    const persianRegex = /^[A-Za-z0-9]+$/
+    if (persianRegex.test(value) || value === '') {
+      Setcontract_addressText(value)
+    }
+  }
+
+  const [AssetsColorText, SetAssetsColorText] = useState('')
+  const AssetsColorTextValidator = (e) => {
+    const value = e.target.value
+    const persianRegex = /^[A-Za-z#]+$/
+    if (persianRegex.test(value) || value === '') {
+      SetAssetsColorText(value)
+    }
+  }
+  const [SymbolText, SetSymbolText] = useState('')
+  const SymbolTextValidator = (e) => {
+    const value = e.target.value
+    const persianRegex = /^[A-Za-z\s]+$/
+    if (persianRegex.test(value) || value === '') {
+      SetSymbolText(value)
+    }
+  }
+
   return (
     <div className='container-fluid' style={{borderStyle:'solid', borderWidth:'1px', borderRadius:'8px', borderColor:"rgb(210,210,210)"}}>
         <Row>
@@ -109,21 +153,21 @@ const AddAsset = () => {
                 <Label>
                     نماد
                 </Label>
-                <Input id='symbol'/>
+                <Input id='symbol' value={SymbolText} onChange={SymbolTextValidator}/>
             </Col>
 
             <Col xl='4' lg='6' className='mt-3'>
                 <Label>
                     نام انگلیسی
                 </Label>
-                <Input id='AssetName'/>
+                <Input id='AssetName' value={AssetNameText} onChange={AssetNameTextValidator}/>
             </Col>
 
             <Col xl='4' lg='6' className='mt-3'>
                 <Label>
                     نام فارسی
                 </Label>
-                <Input id='PAssetName'/>
+                <Input id='PAssetName' value={PAssetNameText} onChange={PAssetNameTextValidator}/>
             </Col>
 
             <Col xl='4' lg='6' className='mt-3'>
@@ -137,7 +181,7 @@ const AddAsset = () => {
                 <Label>
                     آدرس قرارداد
                 </Label>
-                <Input id='contract_address'/>
+                <Input id='contract_address' value={contract_addressText} onChange={contract_addressTextValidator}/>
             </Col>
 
             <Col xl='4' lg='6' className='mt-3'>
@@ -165,7 +209,7 @@ const AddAsset = () => {
                 <Label>
                     رنگ
                 </Label>
-                <Input id='AssetsColor'/>
+                <Input id='AssetsColor' value={AssetsColorText} onChange={AssetsColorTextValidator}/>
             </Col>
         </Row>
 
