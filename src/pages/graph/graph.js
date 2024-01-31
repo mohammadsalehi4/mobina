@@ -532,10 +532,10 @@ const FuckingGraph = (props) => {
       physics: false,
 
       edges: {
-          color: "#000000",
+          
           width:2,
           border: {
-          color: "String",
+          
           width: "Number",
           style: "String"
           },
@@ -551,12 +551,10 @@ const FuckingGraph = (props) => {
           }
           },
           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
-          color: "#01153a",
+          
           color: {
-            color: '#01153a', // رنگ با HEX
-            opacity: 0.5 // شفافیت بین 0 و 1
+            color: '#344461'
           },
-          dashes: true,
           fixed: true
       },
       nodes:{
@@ -585,17 +583,17 @@ const FuckingGraph = (props) => {
           mid:{
             shape:'dot',
             size:6,
-            font: { size: 13, family:"Arial", color:'#01153a'  },
+            font: { size: 13, family:"Arial", color:'#344461'  },
             color:{
-                border: '#01153a',
-                background:'#01153a',
+                border: '#344461',
+                background:'#344461',
                 highlight: {
-                  background: '#01153a',
-                  border: '#01153a'
+                  background: '#344461',
+                  border: '#344461'
                 }
             },
             borderWidth: 0,
-            borderColor:"#01153a"
+            borderColor:"#344461"
           },
           //گره اصلی
           main:{
@@ -606,40 +604,40 @@ const FuckingGraph = (props) => {
                 size: 50,
                 color: 'black'
             },
-            font: { size: 13, face:"Vazir", color:'#01153a', align: 'left'},
+            font: { size: 13, face:"Vazir", color:'#344461', align: 'left'},
             color:{
-                border: '#01153a'
+                border: '#344461'
             },
             borderWidth: 2,
             align: 'horizontal',
             // image:"/images/location.png",
-            borderColor:"#01153a",            
+            borderColor:"#344461",            
             shape:'circularImage'
           },
           //فرستنده ها
           sender:{
               shape:'dot',
-            font: { size: 13, family:"Arial", color:'#01153a'  },
+            font: { size: 13, family:"Arial", color:'#344461'  },
             color:{
-                border: '#01153a'
+                border: '#344461'
             },
             borderWidth: 3,
             align: 'horizontal',
             image:"/images/greenLocation.png",
-            borderColor:"#01153a",            
+            borderColor:"#344461",            
             shape:'circularImage'
           },
           //گیرنده ها
           reciver:{
               shape:'dot',
-            font: { size: 13, family:"Arial", color:'#01153a'  },
+            font: { size: 13, family:"Arial", color:'#344461'  },
             color:{
-                border: '#01153a'
+                border: '#344461'
             },
             borderWidth: 3,
             align: 'horizontal',
             image:"/images/redLocation.png",
-            borderColor:"#01153a",            
+            borderColor:"#344461",            
             shape:'circularImage'
           }
         }
@@ -671,12 +669,10 @@ const FuckingGraph = (props) => {
           }
           },
           font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
-          color: "#01153a",
+          color: "#344461",
           color: {
-            color: '#01153a', // رنگ با HEX
-            opacity: 0.5 // شفافیت بین 0 و 1
+            color: '#344461' // رنگ با HEX
           },
-          dashes: true,
           fixed: true
       },
       nodes:{
@@ -701,17 +697,17 @@ const FuckingGraph = (props) => {
           mid:{
             shape:'dot',
             size:6,
-            font: { size: 13, family:"Arial", color:'#01153a'  },
+            font: { size: 13, family:"Arial", color:'#344461'  },
             color:{
-                border: '#01153a',
-                background:'#01153a',
+                border: '#344461',
+                background:'#344461',
                 highlight: {
-                  background: '#01153a',
-                  border: '#01153a'
+                  background: '#344461',
+                  border: '#344461'
                 }
             },
             borderWidth: 0,
-            borderColor:"#01153a"
+            borderColor:"#344461"
           },
           //گره اصلی
           main:{
@@ -722,40 +718,40 @@ const FuckingGraph = (props) => {
                 size: 50,
                 color: 'black'
             },
-            font: { size: 13, face:"Vazir", color:'#01153a', align: 'left'},
+            font: { size: 13, face:"Vazir", color:'#344461', align: 'left'},
             color:{
-                border: '#01153a'
+                border: '#344461'
             },
             borderWidth: 2,
             align: 'horizontal',
             // image:"/images/location.png",
-            borderColor:"#01153a",            
+            borderColor:"#344461",            
             shape:'circularImage'
           },
           //فرستنده ها
           sender:{
               shape:'dot',
-            font: { size: 13, family:"Arial", color:'#01153a'  },
+            font: { size: 13, family:"Arial", color:'#344461'  },
             color:{
-                border: '#01153a'
+                border: '#344461'
             },
             borderWidth: 3,
             align: 'horizontal',
             image:"/images/greenLocation.png",
-            borderColor:"#01153a",            
+            borderColor:"#344461",            
             shape:'circularImage'
           },
           //گیرنده ها
           reciver:{
               shape:'dot',
-            font: { size: 13, family:"Arial", color:'#01153a'  },
+            font: { size: 13, family:"Arial", color:'#344461'  },
             color:{
-                border: '#01153a'
+                border: '#344461'
             },
             borderWidth: 3,
             align: 'horizontal',
             image:"/images/redLocation.png",
-            borderColor:"#01153a",            
+            borderColor:"#344461",            
             shape:'circularImage'
           }
         }
@@ -1107,7 +1103,7 @@ const FuckingGraph = (props) => {
         <div id='myGraphDiv' onClick={mouseClick} onMouseMove={mouseMove}  ref={networkRef} style={{height:"calc(100%)", minWidth:"100%", transition:'0.3s' }}></div>
         {
           showDiv ? 
-          <div id="myDiv" onClick={mouseClick} onMouseMove={mouseMove} style={{position:'absolute', borderRadius:'4px', background:'#01153a', opacity:'0.1', width:`${Math.abs(moveX - startX)}px`, height:`${Math.abs(moveY - (startY))}px`, top:`${startY - 120}px`, left:`${startX}px`}}></div>
+          <div id="myDiv" onClick={mouseClick} onMouseMove={mouseMove} style={{position:'absolute', borderRadius:'4px', background:'#344461', opacity:'0.1', width:`${Math.abs(moveX - startX)}px`, height:`${Math.abs(moveY - (startY))}px`, top:`${startY - 120}px`, left:`${startX}px`}}></div>
           :
           null
         }

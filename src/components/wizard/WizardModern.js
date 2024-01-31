@@ -20,13 +20,13 @@ const WizardModern = () => {
   const [stepper, setStepper] = useState(null)
 
   const steps = [
-    // {
-    //   id: 'step1',
-    //   title: 'استخراج کننده',
-    //   subtitle: 'اطلاعات هویتی',
-    //   icon: <FileText size={18} />,
-    //   content: <St1 stepper={stepper} type='wizard-modern'  style={{marginLeft:"5px"}} />
-    // },
+    {
+      id: 'step1',
+      title: 'استخراج کننده',
+      subtitle: 'اطلاعات هویتی',
+      icon: <FileText size={18} />,
+      content: <St1 stepper={stepper} type='wizard-modern'  style={{marginLeft:"5px"}} />
+    },
     {
       id: 'personal-info',
       title: 'اطلاعات تکمیلی',
