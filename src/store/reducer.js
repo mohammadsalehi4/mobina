@@ -19,6 +19,7 @@ const initialState = {
 
     //mining
     miningMode:0,
+    miningData:[],
 
     //modal
     basicModal:false,
@@ -98,6 +99,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'miningData') {
+        return {
+            ...state,
+            miningData:action.value
+        }
+    }
 
     if (action.type === 'AssetPage') {
         return {

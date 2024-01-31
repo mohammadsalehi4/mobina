@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-duplicate-imports */
 // ** React Imports
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 // ** Icons Imports
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
@@ -21,6 +21,8 @@ import toast from 'react-hot-toast'
 
 const St1 = ({ stepper, type }) => {
   const States = useSelector(state => state)
+  const dispatch = useDispatch()
+
   const [getImage, SetImage] = useState(null)
   const [DatePickerBox, SetDatePickerBox] = useState(false)
   const [DatePickedText, SetDatePickedText] = useState('')
@@ -101,17 +103,17 @@ const St1 = ({ stepper, type }) => {
     extra_fields = JSON.stringify(extra_fields)
 
     const lines = reward_address.split('\n')
-    let addresses = []
+    const GetAddresses = []
 
     for (let i = 0; i < lines.length; i++) {
-      addresses.push(
+      GetAddresses.push(
         {
           hash:lines[i]
         }
       )
     }
 
-    addresses = JSON.stringify(addresses)
+    const addresses = JSON.stringify(GetAddresses)
 
     console.log(lines)
     if (!check) {
@@ -136,7 +138,6 @@ const St1 = ({ stepper, type }) => {
       bodyFormData.append('addresses', addresses)
       bodyFormData.append('logo', getImage)
 
-
       axios.post(`${serverAddress}/miners/create/`, 
           bodyFormData
       ,
@@ -149,6 +150,16 @@ const St1 = ({ stepper, type }) => {
       .then((response) => {
           console.log(response)
           if (response.status === 201) {
+            dispatch({type:"miningMode", value:1})
+            
+            console.log(GetAddresses)
+            dispatch({type:"miningData", 
+            value:
+              {
+                response:response.data,
+                addresses:GetAddresses
+              }
+            })
             stepper.next()
             return toast.success('اطلاعات مورد نظر با موفقیت ثبت شد.', {
               position: 'bottom-left'
@@ -236,6 +247,10 @@ const St1 = ({ stepper, type }) => {
   const imageHandler = (e) => {
     SetImage(e.target.files[0])
   }
+
+  useEffect(() => {
+    dispatch({type:"miningMode", value:0})
+  }, [])
 
   return (
     <Fragment>
