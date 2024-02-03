@@ -28,7 +28,6 @@ const St2 = ({ stepper, type }) => {
 
   useEffect(() => {
     SetLoaded(false)
-    console.log(States.miningData.response.miner_uuid)
     if (States.miningMode === 1) {
       axios.get(`${serverAddress}/miners/devices/`,
       {
