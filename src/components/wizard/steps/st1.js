@@ -18,12 +18,13 @@ import { serverAddress } from '../../../address'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-
+import LoadingButton from '../../loadinButton/LoadingButton'
 const St1 = ({ stepper, type }) => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
 
   const [getImage, SetImage] = useState(null)
+  const [Loading, SetLoading] = useState(false)
   const [DatePickerBox, SetDatePickerBox] = useState(false)
   const [DatePickedText, SetDatePickedText] = useState('')
   const [DatePicked, SetDatePicked] = useState('')
@@ -138,6 +139,8 @@ const St1 = ({ stepper, type }) => {
       bodyFormData.append('addresses', addresses)
       bodyFormData.append('logo', getImage)
 
+      SetLoading(true)
+
       axios.post(`${serverAddress}/miners/create/`, 
           bodyFormData
       ,
@@ -148,6 +151,7 @@ const St1 = ({ stepper, type }) => {
           }
       })
       .then((response) => {
+      SetLoading(false)
           console.log(response)
           if (response.status === 201) {
             dispatch({type:"miningMode", value:1})
@@ -167,6 +171,7 @@ const St1 = ({ stepper, type }) => {
           }
       })
       .catch((err) => {
+          SetLoading(false)
           console.log(err)
           return toast.error('خطا در ساخت دارایی', {
               position: 'bottom-left'
@@ -343,7 +348,16 @@ const St1 = ({ stepper, type }) => {
       </Row>
       <Row className='mt-3'>
         <Col>
-          <Button onClick={submit} color='primary'>ثبت</Button>
+          <button onClick={submit} style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px", height:'40px'}} className='btn-next'>
+          {
+              Loading ? 
+                <LoadingButton/>
+              :
+                <span>
+                  ثبت
+                </span>
+            }
+          </button>
         </Col>
       </Row>
 

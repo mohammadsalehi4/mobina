@@ -14,6 +14,8 @@ import Cookies from 'js-cookie'
 import { Label, Row, Col, Form, Input, Button } from 'reactstrap'
 import LocalLoading from '../../localLoading/localLoading'
 import '@styles/react/libs/react-select/_react-select.scss'
+import toast from 'react-hot-toast'
+import LoadingButton from '../../loadinButton/LoadingButton'
 
 const St2 = ({ stepper, type }) => {
   const States = useSelector(state => state)
@@ -21,13 +23,13 @@ const St2 = ({ stepper, type }) => {
   const [Addresses, SetAddresses] = useState([])
   const [DefaultPower, SetDefaultPower] = useState()
   const [Loaded, SetLoaded] = useState(false)
+  const [Loading, SetLoading] = useState(false)
   const [Data, SetData] = useState([])
 
   useEffect(() => {
     SetLoaded(false)
-    console.log()
+    console.log(States.miningData.response.miner_uuid)
     if (States.miningMode === 1) {
-      alert(States.miningMode)
       axios.get(`${serverAddress}/miners/devices/`,
       {
         headers: {
@@ -35,11 +37,11 @@ const St2 = ({ stepper, type }) => {
         }
       })
       .then((response) => {
-        SetDevices(response.data.results)
-        console.log('response.data.results')
+        const getDevices = []
         console.log(response.data.results)
-        SetDefaultPower(Math.floor(response.data.results[0].hash_rate / 1e12))
-        axios.get(`${serverAddress}/miners/miner-addresses/`,
+        SetDevices(response.data.results)
+        SetDefaultPower(Math.floor(response.data.results[0].hash_rate) / 1e12)
+        axios.get(`${serverAddress}/miners/miner-addresses/?UUID=${States.miningData.response.miner_uuid}`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get('access')}`
@@ -69,9 +71,7 @@ const St2 = ({ stepper, type }) => {
   }, [, States.miningMode])
 
   const changeDevice = (e) => {
-    console.log(devices)
-    console.log(e.target.value)
-    console.log(devices.find(item => item.id === e.target.value))
+    SetDefaultPower(Math.floor(devices.find(item => item.device_name === e.target.value).hash_rate) / 1e12)
   }
 
   const DailyWork = (e) => {
@@ -85,14 +85,20 @@ const St2 = ({ stepper, type }) => {
   }
 
   const addDevice = () => {
-    const deviceName = document.getElementById('deviceName').value
-    const rewardAddress = document.getElementById('rewardAddress').value
+    let deviceName = document.getElementById('deviceName').value
+    let rewardAddress = document.getElementById('rewardAddress').value
     const pool = document.getElementById('pool').value
     const DailyWork = document.getElementById('DailyWork').value
     const status = document.getElementById('status').value
     const network = document.getElementById('network').value
     const hashPower = document.getElementById('hashPower').value
     const DeviceNumber = document.getElementById('DeviceNumber').value
+
+    deviceName = devices.find(item => item.device_name === deviceName).id
+    rewardAddress = Addresses.find(item => item.hash === rewardAddress).id
+
+    console.log(deviceName)
+    console.log(rewardAddress)
 
     const newData = {
       device:deviceName,
@@ -110,13 +116,14 @@ const St2 = ({ stepper, type }) => {
 
     getData.push(newData)
     SetData(getData)
-
+    return toast.success('دستگاه با موفقیت اضافه شد', {
+      position: 'bottom-left'
+    })
     
   }
 
   const submit = () => {
-    console.log(Data)
-    console.log(States.miningData.response.miner_uuid)
+    SetLoading(true)
     axios.post(`${serverAddress}/miners/create/extraction-halde/`, 
       Data    
     ,
@@ -126,11 +133,21 @@ const St2 = ({ stepper, type }) => {
       }
     })
     .then((response) => {
+      SetLoading(false)
       console.log(response)
+      toast.success('ماینر ها با موفقیت ثبت شدند.', {
+        position: 'bottom-left'
+      })
+      window.location.reload()
     })
     .catch((err) => {
+      SetLoading(false)
       console.log(err)
     })
+  }
+
+  const changeDefaultValue = (e) => {
+    SetDefaultPower(e.target.value)
   }
 
   return (
@@ -145,7 +162,7 @@ const St2 = ({ stepper, type }) => {
               {
                 devices.map((item, index) => {
                   return (
-                    <option value={item.id} >{item.device_name}</option>
+                    <option value={item.device_name} >{item.device_name}</option>
                   )
                 })
               }
@@ -178,7 +195,7 @@ const St2 = ({ stepper, type }) => {
               {
                 Addresses.map((item, index) => {
                   return (
-                    <option value={item.id}>{item.hash}</option>
+                    <option value={item.hash}>{item.hash}</option>
                   )
                 })
               }
@@ -202,8 +219,8 @@ const St2 = ({ stepper, type }) => {
             </select>
           </Col>
           <Col xl={4} md={6} className='mt-3'>
-            <Label>قدرت هش</Label>
-            <Input type='number' id='hashPower' defaultValue={DefaultPower}/>
+            <Label> قدرت هش (تراهش)</Label>
+            <Input type='number' id='hashPower' value={DefaultPower} onChange={changeDefaultValue}/>
           </Col>
           <Col xl={4} md={6} className='mt-3'>
             <Label>تعداد</Label>
@@ -215,8 +232,16 @@ const St2 = ({ stepper, type }) => {
             <span className='align-middle d-sm-inline-block d-none'>ثبت دستگاه</span>
           </button>
           <button style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className='btn-next' onClick={() => { submit() }}>
-            <span className='align-middle d-sm-inline-block d-none'>اتمام</span>
-            <ArrowLeft size={14} className='align-middle ms-sm-25 ms-0 me-1'></ArrowLeft>
+            <span className='align-middle d-sm-inline-block d-none'>
+              {
+                Loading ? 
+                  <LoadingButton/>
+                :
+                  <span>
+                    اتمام
+                  </span>
+              }
+            </span>
           </button>
         </div>
       </Form>
