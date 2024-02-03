@@ -30,16 +30,10 @@ const WizardModern = () => {
     {
       id: 'personal-info',
       title: 'اطلاعات تکمیلی',
-      subtitle: 'اطلاعات حقوقی',
+      subtitle: 'اطلاعات ماینر‌ها',
       icon: <User size={18} />,
+      
       content: <St2 stepper={stepper} type='wizard-modern' />
-    },
-    {
-      id: 'step-address',
-      title: 'تجهیزات استخراج',
-      subtitle: 'مشاهده دستگاه ها',
-      icon: <MapPin size={18} />,
-      content: <St3 stepper={stepper} type='wizard-modern' />
     }
   ]
 
@@ -50,7 +44,7 @@ const WizardModern = () => {
         ref={ref}
         steps={steps}
         options={{
-          linear: false
+          linear: true
         }}
         instance={el => setStepper(el)}
       />
