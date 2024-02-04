@@ -123,26 +123,44 @@ const St2 = ({ stepper, type }) => {
 
   const submit = () => {
     SetLoading(true)
-    axios.post(`${serverAddress}/miners/create/extraction-halde/`, 
-      Data    
-    ,
-    {
-      headers: {
-          Authorization: `Bearer ${Cookies.get('access')}`
-      }
-    })
-    .then((response) => {
-      SetLoading(false)
-      console.log(response)
-      toast.success('ماینر ها با موفقیت ثبت شدند.', {
+    const getData = Data
+    if (getData.length !== 0) {
+      axios.post(`${serverAddress}/miners/create/extraction-halde/`, 
+        Data    
+      ,
+      {
+        headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+        SetLoading(false)
+        console.log(response)
+        if (response.status === 201) {
+          toast.success('ماینر ها با موفقیت ثبت شدند.', {
+            position: 'bottom-left'
+          })
+          window.location.reload()
+        } else {
+          toast.error('خطا در افزودن دستگاه ها', {
+            position: 'bottom-left'
+          })
+        }
+
+      })
+      .catch((err) => {
+        SetLoading(false)
+        console.log(err)
+        toast.error('خطا در افزودن دستگاه ها', {
+          position: 'bottom-left'
+        })
+      })
+    } else {
+      toast.error('دستگاهی افزوده نشده است!', {
         position: 'bottom-left'
       })
-      window.location.reload()
-    })
-    .catch((err) => {
-      SetLoading(false)
-      console.log(err)
-    })
+    }
+
   }
 
   const changeDefaultValue = (e) => {

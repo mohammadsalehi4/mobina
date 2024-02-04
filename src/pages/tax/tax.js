@@ -20,6 +20,7 @@ import ShowTaxResult from './showTaxResult'
 import { useRef } from 'react'
 import Wizard from '@components/wizard'
 import ShowLastTaxes from './ShowLastTaxes'
+import LoadingTax from './LoadingTax'
 // ** Steps
 const Tax = () => {
   const dispatch = useDispatch()
@@ -42,13 +43,20 @@ const Tax = () => {
       },
       {
         id: 'step2',
+        title: 'انجام محاسبات',
+        subtitle: 'محاسبات تراکنش‌ها',
+        icon: <Edit2 />,
+        content: <LoadingTax stepper={stepper} type='wizard-modern'  style={{marginLeft:"5px"}} />
+      },
+      {
+        id: 'step3',
         title: 'بخشش های مالیاتی',
         subtitle: 'میزان و درصد بخشش',
         icon: <CreditCard />,
         content: <IncreaseTax stepper={stepper} type='wizard-modern' />
       },
       {
-        id: 'step3',
+        id: 'step4',
         title: 'مشاهده نتیجه',
         subtitle: 'نتیجه مالیات کسب و کار',
         icon: <AlignRight />,

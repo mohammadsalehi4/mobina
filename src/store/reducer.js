@@ -79,6 +79,7 @@ const initialState = {
     taxAmount:0,
     taxId:0,
     taxData:0,
+    taxLoading:false,
 
     //loadingAdminPanel
     rollsLoading:1,
@@ -99,6 +100,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'taxLoading') {
+        return {
+            ...state,
+            taxLoading:action.value
+        }
+    }
 
     if (action.type === 'miningData') {
         return {

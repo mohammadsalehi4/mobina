@@ -21,7 +21,7 @@ import { GetMillisecond } from '../../processors/getMillisecond'
 import { useDispatch, useSelector } from 'react-redux'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
-
+import LoadingTax from './LoadingTax'
 const TaxTable = ({ stepper }) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
@@ -224,29 +224,31 @@ const TaxTable = ({ stepper }) => {
       })
       .then((response) => {
         SetLoading(false)
-        if (response.status === 201) {
+        console.log(response)
+        if (response.status === 202) {
           console.log(response.data)
-          dispatch({type:"taxAmount", value:Number(response.data.price_without_forgiveness)})
-          dispatch({type:"taxId", value:Number(response.data.id)})
+          // dispatch({type:"taxAmount", value:Number(response.data.price_without_forgiveness)})
+          dispatch({type:"taxId", value:Number(response.data.instance_id)})
+          dispatch({type:"taxLoading", value:!States.taxLoading})
           stepper.next()
         }
       })
       .catch((err) => {
         SetLoading(false)
         console.log(err)
-        // if (err.response.status === 403) {
-        //   Cookies.set('refresh', '')
-        //   Cookies.set('access', '')
-        //   window.location.assign('/')
-        // } else if (err.response.status === 401) {
-        //   Cookies.set('refresh', '')
-        //   Cookies.set('access', '')
-        //   window.location.assign('/')
-        // } else {
-        //   return toast.error('ناموفق در پردازش', {
-        //     position: 'bottom-left'
-        //   })
-        // }
+        if (err.response.status === 403) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        } else if (err.response.status === 401) {
+          Cookies.set('refresh', '')
+          Cookies.set('access', '')
+          window.location.assign('/')
+        } else {
+          return toast.error('ناموفق در پردازش', {
+            position: 'bottom-left'
+          })
+        }
       })
     }
   }
@@ -520,7 +522,6 @@ const TaxTable = ({ stepper }) => {
         </Button>
       </ModalFooter>
     </Modal>
-
 </Card>
   )
 }
