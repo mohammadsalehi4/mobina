@@ -122,9 +122,9 @@ const St2 = ({ stepper, type }) => {
   }
 
   const submit = () => {
-    SetLoading(true)
     const getData = Data
     if (getData.length !== 0) {
+    SetLoading(true)
       axios.post(`${serverAddress}/miners/create/extraction-halde/`, 
         Data    
       ,
