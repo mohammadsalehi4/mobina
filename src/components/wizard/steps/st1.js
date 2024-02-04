@@ -141,7 +141,7 @@ const St1 = ({ stepper, type }) => {
 
       SetLoading(true)
 
-      axios.post(`${serverAddress}/miners/create/`, 
+      axios.post(`${serverAddress}/miners/operation/`, 
           bodyFormData
       ,
       {

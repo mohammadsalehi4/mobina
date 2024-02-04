@@ -44,7 +44,7 @@ const WizardModern = () => {
         ref={ref}
         steps={steps}
         options={{
-          linear: true
+          linear: false
         }}
         instance={el => setStepper(el)}
       />
