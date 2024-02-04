@@ -193,6 +193,7 @@ const St2 = ({ stepper, type }) => {
                               const getData = Data
                               getData[index].device = devices.find(item3 => item3.device_name === e.target.value).id
                               SetData(getData)
+                              Setreload(!reload)
                             }
                           }
                         >
