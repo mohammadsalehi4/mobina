@@ -19,6 +19,7 @@ const CountedTaxTable = (props) => {
     useEffect(() => { 
       if (props.data) {
         const getData = []
+        console.log('props.data')
         console.log(props.data)
         for (let i = 0; i < props.data.transactions.length; i++) {
           getData.push(

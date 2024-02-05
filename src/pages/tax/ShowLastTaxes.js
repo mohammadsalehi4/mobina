@@ -82,6 +82,15 @@ const ShowLastTaxes = ({ stepper }) => {
             cell: row => WriteNumber(row.amount)
         },
         {
+          name: 'وضعیت',
+          sortable: true,
+          maxWidth: '120px',
+          minWidth: '120px',
+          cell: row => {
+            // باید از امیررضا بگیرم اینارو
+          }
+        },
+        {
             name: 'دریافت جزئیات',
             sortable: true,
             maxWidth: '150px',
@@ -135,7 +144,9 @@ const ShowLastTaxes = ({ stepper }) => {
           setLoading(false)
             if (response.status === 200) {
                 const getData = []
+                console.log(response.data)
                 for (let i = 0; i < response.data.length; i++) {
+                  
                     getData.push({
                         name:response.data[i].bussiness,
                         date:`${JalaliCalendar(response.data[i].created_date).year}/${JalaliCalendar(response.data[i].created_date).month}/${JalaliCalendar(response.data[i].created_date).day}`,
