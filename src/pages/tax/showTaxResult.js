@@ -34,7 +34,7 @@ const ShowTaxResult = ({ stepper }) => {
                 if (response.status === 200) {
                     SetData(response.data.find(item => item.id === States.taxId))
                     console.log('response.data.find(item => item.id === States.taxId)')
-                    console.log(response.data.find(item => item.id === States.taxId))
+                    console.log(response.data.find(item => Number(item.id) === Number(States.taxId)))
                 }
             })
             .catch((err) => {

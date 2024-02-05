@@ -6,10 +6,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
+import { useParams } from "react-router-dom"
 const LoadingTax = ({ stepper }) => {
     const dispatch = useDispatch()
     const States = useSelector(state => state)
     
+    const { id } = useParams()
+    const { state } = useParams()
+
+    useEffect(() => {
+        if (state === 'Ready_for_forgiveness') {
+          if (stepper !== null) {
+            stepper.next()
+          }
+        } else if (state === 'in_progress') {
+          dispatch({type:"taxLoading", value:!States.taxLoading})
+        }
+    }, [stepper])
+
     useEffect(() => {
         console.log('stepper')
         console.log(stepper)
@@ -33,6 +47,9 @@ const LoadingTax = ({ stepper }) => {
                             clearInterval(getData)
                             stepper.next()
                         } else if (response.data.state === "dont_have_tax") {
+                            clearInterval(getData)
+                            stepper.next()
+                        } else if (response.data.state === "Done") {
                             clearInterval(getData)
                             stepper.next()
                         }

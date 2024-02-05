@@ -9,7 +9,7 @@ import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import { JalaliCalendar } from '../../processors/jalaliCalendar'
 import { useState, useEffect } from 'react'
-import { ArrowRight, DownloadCloud, Edit2 } from 'react-feather'
+import { Edit, DownloadCloud, Edit2 } from 'react-feather'
 import axios from 'axios'
 import { Calendar, CalendarProvider } from "zaman"
 import ReactPaginate from 'react-paginate'
@@ -84,23 +84,44 @@ const ShowLastTaxes = ({ stepper }) => {
         {
           name: 'وضعیت',
           sortable: true,
-          maxWidth: '120px',
-          minWidth: '120px',
+          maxWidth: '140px',
+          minWidth: '140px',
           cell: row => {
-            // باید از امیررضا بگیرم اینارو
+            if (row.state === 'Done' || row.state === 'dont_have_tax') {
+              return (
+                <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 6px", borderRadius:"10px"}}>محاسبه شده</span>
+              )
+            } else if (row.state === 'Ready_for_forgiveness') {
+              return (
+                <span style={{fontSize:"12px", background:"rgb(154, 196, 255)", color:"blue", padding:"2px 6px", borderRadius:"10px"}}>محاسبه بخشش</span>
+              )
+            } else if (row.state === 'in_progress') {
+              return (
+                <span style={{fontSize:"12px", background:"rgb(241, 239, 120)", color:"yellow", padding:"2px 6px", borderRadius:"10px"}}>درحال محاسبه</span>
+              )
+            }
           }
         },
         {
-            name: 'دریافت جزئیات',
+            name: 'عملیات',
             sortable: true,
             maxWidth: '150px',
             minWidth: '150px',
             cell: row => {
+              if (row.state !== 'Ready_for_forgiveness' && row.state !== 'in_progress') {
                 return (
-                    <a href={row.download_link} target="_blank" style={{cursor:'pointer', color:'inherit'}}>
-                        <DownloadCloud />
-                    </a>
+                  <a href={row.download_link} target="_blank" style={{cursor:'pointer', color:'inherit'}}>
+                    <DownloadCloud />
+                  </a>
                 )
+              } else {
+                return (
+                  <a href={`/tax/management/${row.id}/${row.state}`} target="_blank" style={{cursor:'pointer', color:'inherit'}}>
+                    <Edit />
+                  </a>
+                )
+              }
+
             }
         }
     ]
@@ -148,6 +169,7 @@ const ShowLastTaxes = ({ stepper }) => {
                 for (let i = 0; i < response.data.length; i++) {
                   
                     getData.push({
+                        state:response.data[i].state,
                         name:response.data[i].bussiness,
                         date:`${JalaliCalendar(response.data[i].created_date).year}/${JalaliCalendar(response.data[i].created_date).month}/${JalaliCalendar(response.data[i].created_date).day}`,
                         startDate:`${JalaliCalendar(response.data[i].start_date_of_calculations).year}/${JalaliCalendar(response.data[i].start_date_of_calculations).month}/${JalaliCalendar(response.data[i].start_date_of_calculations).day}`,

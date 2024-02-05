@@ -154,6 +154,12 @@ const App = () => {
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
+                <Route path="/tax/management/:id/:state"  element={<Tax/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
                 <Route path="/tax/list"  element={<ShowLastTaxes/>}/>
               :
               null

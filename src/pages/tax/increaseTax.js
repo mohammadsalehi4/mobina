@@ -12,10 +12,14 @@ import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
+import { useParams } from "react-router-dom"
 
 const IncreaseTax = ({ stepper }) => {
+    const { id } = useParams()
+    const { state } = useParams()
+
     const dispatch = useDispatch()
     const States = useSelector(state => state)
     const [Loading, SetLoading] = useState(false)
@@ -67,6 +71,15 @@ const IncreaseTax = ({ stepper }) => {
             })
         }
     }
+
+    useEffect(() => {
+        if (state === 'Done') {
+          if (stepper !== null) {
+            dispatch({type:"taxId", value:id})
+            stepper.next()
+          }
+        }
+    }, [stepper])
 
   return (
     <Card className='m-0 ' style={{boxShadow:'none', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}>

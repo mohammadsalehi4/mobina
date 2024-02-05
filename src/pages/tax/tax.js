@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef} from 'react'
 import { useDispatch } from 'react-redux'
 import './tax.css'
 import { Input, Label, InputGroup, Card, Row, Col, CardHeader } from 'reactstrap'
@@ -17,15 +17,23 @@ import { JalaliCalendar } from '../../processors/jalaliCalendar'
 import TaxTable from './taxTable'
 import IncreaseTax from './increaseTax'
 import ShowTaxResult from './showTaxResult'
-import { useRef } from 'react'
 import Wizard from '@components/wizard'
 import ShowLastTaxes from './ShowLastTaxes'
 import LoadingTax from './LoadingTax'
+import { useParams } from "react-router-dom"
+import UILoader from '@components/ui-loader'
+import Spinner from '@components/spinner/Loading-spinner'
+import axios from 'axios'
+import { serverAddress } from '../../address'
 // ** Steps
 const Tax = () => {
   const dispatch = useDispatch()
   const ref = useRef(null)
+  const wizardRef = useRef()
   const [stepper, setStepper] = useState(null)
+  const [Loading, setLoading] = useState(true)
+  const { id } = useParams()
+  const { state } = useParams()
 
   useEffect(() => {
       dispatch({type:"SHOWNAVBAR"})
@@ -64,29 +72,32 @@ const Tax = () => {
       }
     ]
 
+
   return (
-    <div id='Tax' className='container-fluid'>
-        <Row style={{}} className=''>
-            <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
-            </Col>
+      <div id='Tax' className='container-fluid'>
+          <Row style={{}} className=''>
+              <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
+              </Col>
 
-            <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none', overflow:'revert-layer', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}  id='centerTaxBox'>
-              <Wizard
-                type='horizonal'
-                ref={ref}
-                steps={steps}
-                options={{
-                  linear: true
-                }}
-                instance={el => setStepper(el)}
-              />
-            </Col>
+              <Col xl={{size:10}} lg={{size:10}} md={{size:12}} style={{textAlign:'center', padding:'0px', background:'none', boxShadow:'none', overflow:'revert-layer', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}  id='centerTaxBox'>
+                
+                <Wizard
+                  type='horizonal'
+                  ref={ref}
+                  steps={steps}
+                  options={{
+                    linear: true
+                  }}
+                  instance={el => setStepper(el)}
+                />
+              </Col>
 
 
-            <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
-            </Col>
-        </Row>
-    </div>
+              <Col xl={{size:1}} lg={{size:1}} md={{size:0}}>
+              </Col>
+          </Row>
+      </div>
+
   )
 }
 

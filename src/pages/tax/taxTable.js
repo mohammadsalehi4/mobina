@@ -22,9 +22,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
 import LoadingTax from './LoadingTax'
+import { useParams } from "react-router-dom"
+
 const TaxTable = ({ stepper }) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
+
+  const { id } = useParams()
+  const { state } = useParams()
 
   const [Tokens, SetTokens] = useState([])
   const [CalendarType, SetCalendarType] = useState(false)
@@ -120,7 +125,6 @@ const TaxTable = ({ stepper }) => {
   const [EndTime, SetEndTime] = useState(0)
   const [StartTimeShowModal, setStartTimeShowModal] = useState(false)
   const [EndTimeShowModal, setEndTimeShowModal] = useState(false)
-
 
   const check = () => {
     let Valid = true
@@ -267,6 +271,15 @@ const TaxTable = ({ stepper }) => {
       SetCalendarType(true)
     }
   }
+
+  useEffect(() => {
+      if (state === 'in_progress' || state === 'Ready_for_forgiveness') {
+        if (stepper !== null) {
+          dispatch({type:"taxId", value:Number(id)})
+          stepper.next()
+        }
+      }
+  }, [stepper])
 
   return (
     <Card className='m-0 ' style={{boxShadow:'none', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}>
