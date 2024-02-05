@@ -17,11 +17,15 @@ import { Card, CardHeader, CardBody, Modal, ModalBody, ModalFooter } from 'react
 import toast from 'react-hot-toast'
 import LoadingButton from '../loadinButton/LoadingButton'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { Calendar, CalendarProvider } from "zaman"
+import { JalaliCalendar } from '../../processors/jalaliCalendar'
 const AddAsset = () => {
     const [loading, SetLoading] = useState(false)
     const States = useSelector(state => state)
     const dispatch = useDispatch()
+
+    const [EstablishmentDate, setEstablishmentDate] = useState('')
+    const [launchDateBox, SetLaunchDateBox] = useState(false)
 
   const addNewAsset = () => {
     let symbol = document.getElementById('symbol').value
@@ -39,6 +43,7 @@ const AddAsset = () => {
     if (network === '') { check = true }
     if (decimal_number === '') { check = true }
     if (contract_address === '') { check = true }
+    if (EstablishmentDate === '') { check = true }
     if (color === '') { color = null }
 
     const bodyFormData = new FormData()
@@ -56,6 +61,7 @@ const AddAsset = () => {
     bodyFormData.append('color', color)
     bodyFormData.append('decimal_number', decimal_number)
     bodyFormData.append('contract_address', contract_address)
+    bodyFormData.append('launch_date', EstablishmentDate !== '' ? `${JalaliCalendar(EstablishmentDate).year}-${JalaliCalendar(EstablishmentDate).month}-${JalaliCalendar(EstablishmentDate).day}` : null)
 
     if (!check) {
         SetLoading(true)
@@ -124,7 +130,7 @@ const AddAsset = () => {
   const [AssetsColorText, SetAssetsColorText] = useState('')
   const AssetsColorTextValidator = (e) => {
     const value = e.target.value
-    const persianRegex = /^[A-Za-z#]+$/
+    const persianRegex = /^[A-Za-z1-9#]+$/
     if (persianRegex.test(value) || value === '') {
       SetAssetsColorText(value)
     }
@@ -211,6 +217,17 @@ const AddAsset = () => {
                 </Label>
                 <Input id='AssetsColor' value={AssetsColorText} onChange={AssetsColorTextValidator}/>
             </Col>
+
+            <Col xl='4' lg='6' className='mt-3'>
+                <Label>
+                    تاریخ ایجاد
+                </Label>
+                <Input id='launch_date' onClick={ () => { SetLaunchDateBox(true) }} 
+                    value={
+                        `${JalaliCalendar(EstablishmentDate).year}/${JalaliCalendar(EstablishmentDate).month}/${JalaliCalendar(EstablishmentDate).day}`
+                    }
+                />
+            </Col>
         </Row>
 
         <Row>
@@ -227,6 +244,32 @@ const AddAsset = () => {
                 </Button>
             </Col>
         </Row>
+
+        <Modal
+            isOpen={launchDateBox}
+            className='modal-dialog-centered'
+            modalClassName={'modal-danger'}
+            toggle={() => SetLaunchDateBox(!launchDateBox)}
+            style={{maxWidth:'370px'}}
+            >
+            <ModalBody>
+                <h6>
+                انتخاب زمان ایجاد
+                </h6>
+                <CalendarProvider locale={'fa'} >
+                    <Calendar
+                    onChange={(date) => {
+                        if (date.value !== undefined) {
+                            setEstablishmentDate(date.value)
+                        } else {
+                            setEstablishmentDate(date)
+                        }
+                        SetLaunchDateBox(false)
+                    }}
+                    />
+                </CalendarProvider>
+            </ModalBody>
+        </Modal>
     </div>
   )
 }
