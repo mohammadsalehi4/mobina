@@ -109,6 +109,8 @@ const ShowLastTaxes = ({ stepper }) => {
             minWidth: '150px',
             cell: row => {
               if (row.state !== 'Ready_for_forgiveness' && row.state !== 'in_progress') {
+                console.log('row')
+                console.log(row.download_link)
                 return (
                   <a href={row.download_link} target="_blank" style={{cursor:'pointer', color:'inherit'}}>
                     <DownloadCloud />

@@ -223,8 +223,9 @@ const AddAsset = () => {
                     تاریخ ایجاد
                 </Label>
                 <Input id='launch_date' onClick={ () => { SetLaunchDateBox(true) }} 
-                    value={
-                        `${JalaliCalendar(EstablishmentDate).year}/${JalaliCalendar(EstablishmentDate).month}/${JalaliCalendar(EstablishmentDate).day}`
+                    value=
+                    {
+                        EstablishmentDate !== '' ? `${JalaliCalendar(EstablishmentDate).year}/${JalaliCalendar(EstablishmentDate).month}/${JalaliCalendar(EstablishmentDate).day}` : ''
                     }
                 />
             </Col>
