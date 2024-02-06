@@ -25,14 +25,9 @@ import { digitsEnToFa } from 'persian-tools'
 import {CornerLeftDown, CornerUpRight, Crop, CreditCard, Circle, Aperture} from 'react-feather'
 import moment from 'jalali-moment'
 
-//processors
-import { UTXOAddress } from '../../processors/UTXOAddress'
-import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
-import { BSCAddress } from '../../processors/BSCAddress'
-
 //new processors
 import { UTXO_Address } from '../../newProcessors/UTXO_Address'
-import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
+import { Account_Address } from '../../newProcessors/Account_Address'
 
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
@@ -141,10 +136,10 @@ const CurrencyDetail = () => {
     const processGetData = (response) => {
       try {
         if (network === 'ETH') {
-          SetData(AccountBaseAdd(AccountBaseAddress(response.data.data, address, 'ETH', 1000000000000000000), 'ETH'))
+          SetData(AccountBaseAdd(Account_Address(response.data.data, address, 'ETH', 1000000000000000000), 'ETH'))
           SetLoading(false)
         } else if (network === 'BSC') {
-          SetData(AccountBaseAdd(BSCAddress(response.data.data, address, 'BNB', 1000000000000000000), 'BNB'))
+          SetData(AccountBaseAdd(Account_Address(response.data.data, address, 'BNB', 1000000000000000000), 'BNB'))
           SetLoading(false)
         } else if (network === 'BTC') {
           SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BTC', 100000000)))

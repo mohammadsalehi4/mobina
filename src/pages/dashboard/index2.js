@@ -1371,7 +1371,7 @@ const EcommerceDashboard2 = () => {
                                     </span>
                                     <span onClick={() => {
                                       document.getElementById("MainDashboardInputBox").focus()
-                                      document.getElementById('MainDashboardInputBox').value = '0x489057fdf61b55137b632d68ee538cabde91e1ddb51d188c07c78927342b64b2'
+                                      document.getElementById('MainDashboardInputBox').value = '0x8c48c71a4350ad550de40e72b58bd83606b66366be5c52298b4b8153f8a5bd58'
                                     }} style={{display:'inline-block', cursor:'pointer'}} >
                                         <ion-icon name="git-compare-outline"></ion-icon>
                                         {' '}

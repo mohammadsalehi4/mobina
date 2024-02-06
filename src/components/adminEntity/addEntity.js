@@ -377,6 +377,8 @@ const AddEntity = () => {
                                 setSelectedType(event.target.value)
                             } }
                         >
+                            <option value={null}>بدون اطلاعات</option>
+
                             {
                                 Types.map((item, index) => {
                                     return (
@@ -392,8 +394,9 @@ const AddEntity = () => {
                             مجوز
                         </Label>
                         <select class="form-select" id='licence' aria-label="Default select example" >
-                            <option selected  value="complete">دارد</option>
-                            <option   value="dont_have">ندارد</option>
+                            <option selected value={''}>بدون اطلاعات</option>
+                            <option value="complete">دارد</option>
+                            <option value="dont_have">ندارد</option>
                         </select>
                     </Col>
 
@@ -402,7 +405,8 @@ const AddEntity = () => {
                             پشتیبانی از فیات
                         </Label>
                         <select class="form-select" id='fiatSupport' aria-label="Default select example" >
-                            <option selected value={true}>بلی</option>
+                            <option selected value={''}>بدون اطلاعات</option>
+                            <option value={true}>بلی</option>
                             <option value={false}>خیر</option>
                         </select>
                             
@@ -413,7 +417,8 @@ const AddEntity = () => {
                             سکه خصوصی
                         </Label>
                         <select class="form-select" id='PrivateCoin' aria-label="Default select example" >
-                            <option selected value={true}>بلی</option>
+                            <option selected value={''}>بدون اطلاعات</option>
+                            <option value={true}>بلی</option>
                             <option value={false}>خیر</option>
                         </select>
                     </Col>
@@ -441,6 +446,8 @@ const AddEntity = () => {
                                 setSelectedCountry(event.target.value)
                             }}
                         >
+                            <option value={''}>بدون اطلاعات</option>
+
                             {
                                 Countries.map((item, index) => {
                                 return (

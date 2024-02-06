@@ -23,6 +23,7 @@ import { BSCTransaction } from '../../processors/BSCTransaction'
 
 //new processors
 import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
+import { Account_transaction } from '../../newProcessors/Account_transaction'
 
 const TransactionDetail1 = () => {
   const States = useSelector(state => state)
@@ -160,6 +161,9 @@ const TransactionDetail1 = () => {
 
   const AccountBaseTr = (data, symbole) => {
 
+    console.log('data')
+    console.log(data)
+
     const blockNumber = data.blockNumber
     const address = data.hash
     const BlockDate = data.timestamp
@@ -238,7 +242,7 @@ const TransactionDetail1 = () => {
       try {
 
         if (network === 'ETH') {
-          const TrData = (AccountBaseTr(AccountBaseTransaction(response.data.data, 'ETH', 1000000000000000000), 'BNB'))
+          const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'ETH', 1000000000000000000), 'ETH'))
           SetIsGet(true)
           SetValue(TrData.value)
           SetSymbole(TrData.symbole)
@@ -247,7 +251,7 @@ const TransactionDetail1 = () => {
           SetLoading(false)
           SetData(TrData)
         } else if (network === 'BSC') {
-          const TrData = (AccountBaseTr(BSCTransaction(response.data.data, 'BNB', 1000000000000000000), 'BNB'))
+          const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'BNB', 1000000000000000000), 'BNB'))
           SetIsGet(true)
           SetValue(TrData.value)
           SetSymbole(TrData.symbole)

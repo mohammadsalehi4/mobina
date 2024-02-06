@@ -24,10 +24,25 @@ export function AccountBaseTransaction (array, symbole, decimal) {
         ToLabel = GetToLabel[0].label
     }
 
-    const GetMainLabel = array.label_tag.labels
+    console.log(array)
+
     let MainLabel = false
-    if (GetMainLabel.length !== 0) {
-        MainLabel = GetMainLabel[0].label
+    try {
+        const GetMainLabel = array.labels_tags.labels
+        
+        if (GetMainLabel.length !== 0) {
+            MainLabel = GetMainLabel[0].label
+        }
+    } catch (error) {
+        try {
+            const GetMainLabel = array.label_tag.labels
+            
+            if (GetMainLabel.length !== 0) {
+                MainLabel = GetMainLabel[0].label
+            }
+        } catch (error) {
+            
+        }
     }
 
     for (let i = 0; i < array.logs.length; i++) {

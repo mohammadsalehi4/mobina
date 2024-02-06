@@ -110,15 +110,13 @@ const St2 = ({ stepper, type }) => {
       pool
     }
 
-    console.log('newData')
-    console.log(newData)
-    console.log(document.getElementById('deviceName').value)
-
     const getData = Data
 
     getData.push(newData)
     SetData(getData)
     Setreload(!reload)
+    document.getElementById('DeviceNumber').value = 0
+    document.getElementById('DailyWork').value = 0
     return toast.success('دستگاه با موفقیت اضافه شد', {
       position: 'bottom-left'
     })
