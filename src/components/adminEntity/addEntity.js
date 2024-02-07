@@ -73,54 +73,36 @@ const AddEntity = () => {
             registerNumber = null
         }
 
+
         if (error) {
             return toast.error('مقادیر را به طور کامل وارد کنید.', {
                 position: 'bottom-left'
             })
         } else {
             SetLoading(true)
+            const bodyFormData = new FormData()
+
+            bodyFormData.append('name', Ename)
+            bodyFormData.append('persian_name', name)
+            bodyFormData.append('web_site', website)
+            bodyFormData.append('type', type)
+            bodyFormData.append('establishment', getTime)
+            bodyFormData.append('fiat_support', fiatSupport)
+            bodyFormData.append('private_coin', PrivateCoin)
+            bodyFormData.append('supervisory_body', supervisor)
+            bodyFormData.append('legal_name', legalName)
+            bodyFormData.append('registration_number', registerNumber)
+            if (licence !== 'noInfo') {
+                bodyFormData.append('licence', licence)
+            }
+            bodyFormData.append('country', country)
+
             axios.post(`${serverAddress}/entity/`, 
-            {
-                //
-                name:Ename,
-
-                //
-                persian_name:name,
-
-                //
-                web_site:website,
-
-                //
-                type,
-
-                //
-                establishment:getTime,
-
-                //
-                fiat_support:fiatSupport,
-
-                //
-                private_coin:PrivateCoin,
-
-                //
-                supervisory_body:supervisor,
-
-                //
-                legal_name:legalName,
-
-                //
-                registration_number:registerNumber,
-
-                //
-                licence,
-                
-                //
-                country
-            },
+            bodyFormData,
             {
                 headers: {
                     Authorization: `Bearer ${Cookies.get('access')}`, 
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 }
             })
             .then((response) => {
@@ -394,7 +376,7 @@ const AddEntity = () => {
                             مجوز
                         </Label>
                         <select class="form-select" id='licence' aria-label="Default select example" >
-                            <option selected value={''}>بدون اطلاعات</option>
+                            <option selected value={'noInfo'}>بدون اطلاعات</option>
                             <option value="complete">دارد</option>
                             <option value="dont_have">ندارد</option>
                         </select>

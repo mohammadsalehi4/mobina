@@ -1,3 +1,4 @@
+/* eslint-disable no-invalid-this */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-template */
@@ -288,7 +289,6 @@ const CardContentTypes = (props) => {
     getTagList()
   }, [, props.labelData, props.TagData])
 
-
   const renderTransactions = () => {
     return (
 
@@ -386,6 +386,7 @@ const CardContentTypes = (props) => {
     SetLastTagSelected(false)
     setSelectedTag(false)
   }
+
   return (
     <>
       <Card className='card-transaction' id='rightCard1' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
@@ -427,15 +428,27 @@ const CardContentTypes = (props) => {
         className='modal-dialog-centered'
         modalClassName={'modal-danger'}
         toggle={() => setAddTagModal(!AddTagModal)}
+        
       >
         <ModalBody>
           <h6>تگ مورد نظر خود را وارد کنید یا از لیست زیر انتخاب کنید.</h6>
           <Label style={{display:'block'}}>تگ مورد نظر</Label>
           {
             !LastTagSelected ? 
-            <Input id='CreateNewTagInput' />
+              <form onSubmit={ (e) => {
+                e.preventDefault()
+                if (LastTagSelected) {
+                  GetTag(SelectedTag)
+                } else {
+                  GetTag(document.getElementById('CreateNewTagInput').value)
+                }
+                SetLastTagSelected(false)
+                setAddTagModal(false)   
+              } }>
+                <Input id='CreateNewTagInput' />
+              </form>
             :
-            <Chip label={SelectedTag} onDelete={handleDelete} style={{direction:'ltr'}} />
+              <Chip label={SelectedTag} onDelete={handleDelete} style={{direction:'ltr'}} />
           }
           {
             TagList === false ? 
@@ -492,8 +505,10 @@ const CardContentTypes = (props) => {
       >
         <ModalBody>
           <h6>برچسب مورد نظر خود را وارد کنید.</h6>
-          <Label style={{display:'block'}}>برچسب مورد نظر</Label>
-          <Input id='CreateNewLabelInput' />
+          <form onSubmit={ (e) => { e.preventDefault(), addNewLabel() } }>
+            <Label style={{display:'block'}}>برچسب مورد نظر</Label>
+            <Input id='CreateNewLabelInput' />
+          </form>
         </ModalBody>
         <ModalFooter>
 

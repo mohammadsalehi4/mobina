@@ -429,7 +429,18 @@ const CardContentTypes = (props) => {
           <Label style={{display:'block'}}>تگ مورد نظر</Label>
           {
             !LastTagSelected ? 
-            <Input id='CreateNewTagInput' />
+            <form onSubmit={ (e) => {
+              e.preventDefault()
+              if (LastTagSelected) {
+                GetTag(SelectedTag)
+              } else {
+                GetTag(document.getElementById('CreateNewTagInput').value)
+              }
+              SetLastTagSelected(false)
+              setAddTagModal(false) 
+            }}>
+              <Input id='CreateNewTagInput' />
+            </form>
             :
             <Chip label={SelectedTag} onDelete={handleDelete} style={{direction:'ltr'}} />
           }
@@ -488,8 +499,13 @@ const CardContentTypes = (props) => {
       >
         <ModalBody>
           <h6>برچسب مورد نظر خود را وارد کنید.</h6>
-          <Label style={{display:'block'}}>برچسب مورد نظر</Label>
-          <Input id='CreateNewLabelInput' />
+          <form onSubmit={ (e) => {
+            e.preventDefault()
+            addNewLabel()
+          }}>
+            <Label style={{display:'block'}}>برچسب مورد نظر</Label>
+            <Input id='CreateNewLabelInput' />
+          </form>
         </ModalBody>
         <ModalFooter>
 
@@ -499,7 +515,7 @@ const CardContentTypes = (props) => {
               <LoadingButton/>
               :
               <span>
-            افزودن
+                افزودن
               </span>
             }
           </Button>

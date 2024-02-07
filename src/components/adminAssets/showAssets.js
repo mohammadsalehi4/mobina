@@ -25,6 +25,8 @@ import LoadingButton from '../loadinButton/LoadingButton'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import LocalLoading from '../localLoading/localLoading'
+import { Calendar, CalendarProvider } from "zaman"
+import { JalaliCalendar } from '../../processors/jalaliCalendar'
 
 function RecognizeNetwork (id) {
     if (typeof (id) === 'number') {
@@ -120,6 +122,8 @@ const ShowAssets = () => {
         SetAssetsColorText(value)
       }
     }
+
+    const [EditLauchDate, SetEditLauchDate] = useState('')
 
     useEffect(() => {
         SetGap([])
@@ -261,6 +265,25 @@ const ShowAssets = () => {
             )
         },
         {
+            name: 'تاریخ ایجاد',
+            minWidth: '120px',
+            maxWidth: '120px',
+            sortable: true,
+            selector: row => row.launch_date,
+            cell : row => {
+                if (row.launch_date === null) {
+                    return (
+                        <span>بدون اطلاعات</span>
+                    )
+                } else {
+                    return (
+                        <span>{row.launch_date}</span>
+                    )
+                }
+            }
+            
+        },
+        {
             name: 'عملیات',
             minWidth: '160px',
             maxWidth: '160px',
@@ -320,6 +343,7 @@ const ShowAssets = () => {
             .then((response) => {
             SetLoading(false)
             if (response.status === 200) {
+                    console.log(response.data)
                     const getData = []
                     for (let i = 0; i < response.data.results.length; i++) {
                         getData.push(
@@ -332,7 +356,8 @@ const ShowAssets = () => {
                                 image: response.data.results[i].image,
                                 decimal_number: response.data.results[i].decimal_number,
                                 contract_address: response.data.results[i].contract_address,
-                                network: response.data.results[i].network
+                                network: response.data.results[i].network,
+                                launch_date:response.data.results[i].launch_date
                             }
                         )
                     }
@@ -400,7 +425,8 @@ const ShowAssets = () => {
         let decimal_number = document.getElementById('EditDecimal').value
         let contract_address = document.getElementById('EditContract').value
         let color = document.getElementById('EditColor').value
-
+        let launch_date = EditLauchDate
+        console.log(launch_date)
         if (name === '') { name = null }
         if (persian_name === '') { persian_name = null }
         if (symbol === '') { symbol = null }
@@ -408,6 +434,7 @@ const ShowAssets = () => {
         if (decimal_number === '') { decimal_number = null }
         if (contract_address === '') { contract_address = null }
         if (color === '') { color = null }
+        if (launch_date === '') { launch_date = null }
 
         const bodyFormData = new FormData()
         bodyFormData.append('name', name)
@@ -417,6 +444,7 @@ const ShowAssets = () => {
         bodyFormData.append('color', color)
         bodyFormData.append('decimal_number', decimal_number)
         bodyFormData.append('contract_address', contract_address)
+        bodyFormData.append('launch_date', launch_date)
         if (document.getElementById('EditAssetImage1').files.length > 0) {
             const getImage = document.getElementById('EditAssetImage1').files[0]
             bodyFormData.append('image', getImage)
@@ -436,6 +464,7 @@ const ShowAssets = () => {
             SetEditBox(false)
             console.log(response)
             if (response.status === 200) {
+                dispatch({type:"AssetsBeload", value:(!States.AssetsBeload)})
                 return toast.success('دارایی با موفقیت ویرایش شد.', {
                     position: 'bottom-left'
                 })
@@ -463,6 +492,11 @@ const ShowAssets = () => {
             Setcontract_addressText(EditData.contract_address)
             SetAssetsColorText(EditData.color)
             SetSymbolText(EditData.symbol)
+            try {
+                SetEditLauchDate(EditData.launch_date)
+            } catch (error) {
+                SetEditLauchDate('')
+            }
         }
     }, [EditData])
 
@@ -550,7 +584,19 @@ const ShowAssets = () => {
             <Input id='EditContract' value={contract_addressText} onChange={contract_addressTextValidator}/>
             <Label className='mt-3'>رنگ</Label>
             <Input id='EditColor' value={AssetsColorText} onChange={AssetsColorTextValidator}/>
-            
+            <Label className='mt-3'>تاریخ ایجاد</Label>
+            <Input id='launch_date' value={EditLauchDate} className='mb-3'/>
+            <CalendarProvider locale='fa'>
+                <Calendar
+                    onChange={(date) => {
+                        if (date.value !== undefined) {
+                            SetEditLauchDate(`${JalaliCalendar(date.value).year}-${JalaliCalendar(date.value).month}-${JalaliCalendar(date.value).day}`)
+                        } else {
+                            SetEditLauchDate(`${JalaliCalendar(date).year}-${JalaliCalendar(date).month}-${JalaliCalendar(date).day}`)
+                        }
+                    }}
+                />
+            </CalendarProvider>
           </ModalBody>
           <ModalFooter>
             <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { EditSelectAsset() }}>
