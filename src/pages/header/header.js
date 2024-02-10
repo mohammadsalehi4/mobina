@@ -66,7 +66,7 @@ function Header() {
 
   useEffect(() => {
     if (States.witchPage) {
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 8; i++) {
         try {
           document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
           document.getElementById(`MobileheaderLink${i + 1}`).className = 'menu-item thisNotActive'
@@ -243,6 +243,18 @@ function Header() {
                       <div data-i18n="Forms" className='vazir'>مقالات</div>
                     </a>
                   </li>
+
+                  {
+                    (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                      <li id='MenuBottomItem7' class="menu-item thisNotActive">
+                        <a class="menu-link" href='/minersupervisor'>
+                        <ion-icon name="diamond-outline"></ion-icon>
+                          <div data-i18n="Pages" className='vazir'>ناظر استخراج</div>
+                        </a>
+                      </li>
+                    :
+                      null
+                  }
 
                 </ul>
               </div>

@@ -21,6 +21,7 @@ import Folders from './pages/folders/folders'
 import SingleCase from './components/folders/singleCase/singleCase'
 import Demo from './pages/demo/demo'
 import Profile from './pages/profile/profile'
+import WelcomePage from './pages/minerSupervisor/WelcomePage'
 import DropDown from './layouts/DropDown'
 import './App.css'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -167,6 +168,13 @@ const App = () => {
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
                 <Route path="/mining"  element={<Mining/>}/>
+              :
+              null
+            }
+
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                <Route path="/minersupervisor"  element={<WelcomePage/>}/>
               :
               null
             }

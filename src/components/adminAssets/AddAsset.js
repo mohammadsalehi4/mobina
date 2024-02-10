@@ -187,7 +187,7 @@ const AddAsset = () => {
                 <Label>
                     آدرس قرارداد
                 </Label>
-                <Input id='contract_address' value={contract_addressText} onChange={contract_addressTextValidator}/>
+                <Input id='contract_address'  value={contract_addressText} onChange={contract_addressTextValidator}/>
             </Col>
 
             <Col xl='4' lg='6' className='mt-3'>
@@ -228,6 +228,20 @@ const AddAsset = () => {
                         EstablishmentDate !== '' ? `${JalaliCalendar(EstablishmentDate).year}/${JalaliCalendar(EstablishmentDate).month}/${JalaliCalendar(EstablishmentDate).day}` : ''
                     }
                 />
+            </Col>
+
+            <Col xl='4' lg='6' className='mt-3'>
+                <Input id='launch_date' type='checkbox' className='ms-2' onChange={ (e) => {
+                    if (e.target.checked === true) {
+                        Setcontract_addressText('')
+                        document.getElementById('contract_address').disabled = true
+                    } else {
+                        document.getElementById('contract_address').disabled = false
+                    }
+                } }/>
+                <Label>
+                    کوین اصلی
+                </Label>
             </Col>
         </Row>
 
