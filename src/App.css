@@ -65,3 +65,8 @@ Input:focus + .input-group-text {
 .bs-stepper-label{
     text-align: right !important;
 }
+
+.btn-primary {
+    background-color: #2FA3DD !important; 
+    border-color: #2FA3DD !important;
+}

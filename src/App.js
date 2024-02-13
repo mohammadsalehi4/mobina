@@ -33,7 +33,7 @@ import { serverAddress } from './address'
 import MinerUsers from './pages/minerSupervisor/minerUsers/minerUsers'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
-
+import MinerProfile from './pages/mining/profile/minerprofile'
 const App = () => {
   const [Loading, SetLoading] = useState(false)
 
@@ -167,6 +167,12 @@ const App = () => {
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
+                <Route path="/minerprofile"  element={<MinerProfile/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
                 <Route path="/mining"  element={<Mining/>}/>
               :
               null
@@ -178,8 +184,7 @@ const App = () => {
               :
               null
             }
-
-{
+            {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
                 <Route path="/minerusers"  element={<MinerUsers/>}/>
               :

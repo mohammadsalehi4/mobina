@@ -551,6 +551,8 @@ const DataTableWithButtons = (props) => {
       .then((response) => {
         SetLoading(false)
         if (response.status === 200) {
+          console.log('response')
+          console.log(response)
           if (props.Token === 'BTC' || props.Token === 'LTC' || props.Token === 'BCH') {
             const getData = UTXO_Address(props.data.address, response.data.data, props.Token, 1)
             if (!getData.isError) {
@@ -561,7 +563,7 @@ const DataTableWithButtons = (props) => {
               console.log(getData)
             }
           } else if (props.Token === 'ETH' || props.Token === 'BSC') {
-            const getData = Account_Address(props.data.address, response.data.data, props.Token, 1)
+            const getData = Account_Address(response.data.data, props.data.address, props.Token, 1)
             if (!getData.isError) {
               const newData = AccountBaseAdd(getData, props.Token)
               dispatch({type:"paginationData", value:newData})
@@ -572,6 +574,7 @@ const DataTableWithButtons = (props) => {
           }
 
         } else if (response.status === 404) {
+
           return toast.error('تراکنش دیگری وجود ندارد.', {
             position: 'bottom-left'
           })
@@ -580,6 +583,7 @@ const DataTableWithButtons = (props) => {
       })
       .catch((err) => {
         SetLoading(false)
+        console.log('err')
         console.log(err)
         if (err.response.status === 404) {
           return toast.error('تراکنش دیگری وجود ندارد.', {

@@ -16,11 +16,17 @@ export function Account_Address (data, address, symbole, decimal) {
     let ErrorText = ''
     const array = data.result
 
-    const mainGetLabel = data.labels_tags.labels
     let mainLabel = false
-    if (mainGetLabel.length !== 0) {
-        mainLabel = data.labels_tags.labels[0].label
+
+    try {
+        const mainGetLabel = data.labels_tags.labels
+        if (mainGetLabel.length !== 0) {
+            mainLabel = data.labels_tags.labels[0].label
+        }
+    } catch (error) {
+        
     }
+
 
     const mainEntity = data.entity
 
