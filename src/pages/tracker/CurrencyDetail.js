@@ -48,7 +48,6 @@ const CurrencyDetail = () => {
 
     const inputs=[]
     const outputs=[]
-    console.log(getData)
     for (let i = 0; i < getData.inputs.length; i++) {
       inputs.push({
         address:getData.inputs[i].address,
@@ -172,8 +171,6 @@ const CurrencyDetail = () => {
         }
       })
       .then((response) => {
-        console.log(response)
-        console.log(network)
         SetError(false)
         if (response.status === 200) {
           saveToStorage(response)
@@ -273,8 +270,6 @@ const CurrencyDetail = () => {
   const [FirstActivity, SetFirstActivity] = useState(0)
   const [LastActivity, SetLastActivity] = useState(0)
   useEffect(() => {
-    console.log('Data')
-    console.log(Data)
     try {
       if (Data.inputs !== undefined) {
         let inputs = 0
@@ -305,8 +300,6 @@ const CurrencyDetail = () => {
         SetTotalTransactions(Data.inputs.length + Data.outputs.length)
         firstActivity = `${getMyTime(firstActivity).year}/${Number(getMyTime(firstActivity).month)}/${getMyTime(firstActivity).day}`
         lastActivity = `${getMyTime(lastActivity).year}/${Number(getMyTime(lastActivity).month)}/${getMyTime(lastActivity).day}`
-        console.log(firstActivity)
-        console.log(lastActivity)
         SetFirstActivity(firstActivity)
         SetLastActivity(lastActivity)
       }
@@ -317,9 +310,7 @@ const CurrencyDetail = () => {
 
   const LoadMore = () => {
 
-    const processGetData = (response) => {
-      console.log('DataDataDataData')
-      console.log(Data)
+    const processGetData = (response, address) => {
       try {
         const oldData = Data
 
@@ -335,7 +326,6 @@ const CurrencyDetail = () => {
         } else if (network === 'BCH') {
           newData = (UTXOAdd(UTXO_Address(address, response.data.data, 'BCH', 1)))
         }
-        console.log('newData')
 
         for (let i = 0; i < newData.inputs.length; i++) {
           oldData.inputs.push(newData.inputs[i])
@@ -343,7 +333,6 @@ const CurrencyDetail = () => {
         for (let i = 0; i < newData.outputs.length; i++) {
           oldData.outputs.push(newData.outputs[i])
         }
-        console.log(oldData)
         SetData(oldData)
         SetreLoad(!reLoad)
       } catch (error) {
@@ -365,7 +354,7 @@ const CurrencyDetail = () => {
     })
     .then((response) => {
       SetPaginationLoading(false)
-      processGetData(response)
+      processGetData(response, States.WDetail)
     })
     .catch((err) => {
       SetPaginationLoading(false)

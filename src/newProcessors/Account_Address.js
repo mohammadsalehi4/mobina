@@ -1,8 +1,6 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 export function Account_Address (data, address, symbole, decimal) {
-    console.log('data')
-    console.log(data)
 
     const inputs = []
     const outputs = []
