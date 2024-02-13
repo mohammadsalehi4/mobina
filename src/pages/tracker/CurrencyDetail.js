@@ -14,7 +14,7 @@ import AmountPickerRange from '../../components/amountRangePicker/PickerRange'
 import { MainSiteOrange } from '../../../public/colors'
 import TrackerTimeLimit from '../../components/trackerTimeLimit/trackerTimeLimit'
 import TrackerAmountLimit from '../../components/trackerAmountLimit/trackerAmountLimit'
-import { Spinner } from 'reactstrap'
+import { Spinner, Card } from 'reactstrap'
 import { serverAddress } from '../../address'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -24,7 +24,7 @@ import { useParams } from "react-router-dom"
 import { digitsEnToFa } from 'persian-tools'
 import {CornerLeftDown, CornerUpRight, Crop, CreditCard, Circle, Aperture} from 'react-feather'
 import moment from 'jalali-moment'
-
+import LoadingButton from '../../components/loadinButton/LoadingButton'
 //new processors
 import { UTXO_Address } from '../../newProcessors/UTXO_Address'
 import { Account_Address } from '../../newProcessors/Account_Address'
@@ -39,6 +39,9 @@ const CurrencyDetail = () => {
   }
   const [Loading1, SetLoading] = useState(true)
   const [Error, SetError] = useState(false)
+  const [reLoad, SetreLoad] = useState(false)
+  const [PaginationLoading, SetPaginationLoading] = useState(false)
+  const [Pagination, SetPagination] = useState(1)
   const [Data, SetData] = useState({})
 
   const AccountBaseAdd = (getData, symbole) => {
@@ -310,10 +313,68 @@ const CurrencyDetail = () => {
     } catch (error) {
       
     }
-  }, [Data])
+  }, [Data, reLoad])
+
+  const LoadMore = () => {
+
+    const processGetData = (response) => {
+      console.log('DataDataDataData')
+      console.log(Data)
+      try {
+        const oldData = Data
+
+        let newData
+        if (network === 'ETH') {
+          newData = (AccountBaseAdd(Account_Address(response.data.data, address, 'ETH', 1000000000000000000), 'ETH'))
+        } else if (network === 'BSC') {
+          newData = (AccountBaseAdd(Account_Address(response.data.data, address, 'BNB', 1000000000000000000), 'BNB'))
+        } else if (network === 'BTC') {
+          newData = (UTXOAdd(UTXO_Address(address, response.data.data, 'BTC', 100000000)))
+        } else if (network === 'LTC') {
+          newData = (UTXOAdd(UTXO_Address(address, response.data.data, 'LTC', 1)))
+        } else if (network === 'BCH') {
+          newData = (UTXOAdd(UTXO_Address(address, response.data.data, 'BCH', 1)))
+        }
+        console.log('newData')
+
+        for (let i = 0; i < newData.inputs.length; i++) {
+          oldData.inputs.push(newData.inputs[i])
+        }
+        for (let i = 0; i < newData.outputs.length; i++) {
+          oldData.outputs.push(newData.outputs[i])
+        }
+        console.log(oldData)
+        SetData(oldData)
+        SetreLoad(!reLoad)
+      } catch (error) {
+        console.log(error)
+        SetLoading(false)
+        return toast.error('خطا در دریافت اطلاعات از سرور', {
+          position: 'bottom-left'
+        })
+      }
+    }
+
+    SetPaginationLoading(true)
+    const getPG = Pagination + 1
+    axios.get(`${serverAddress}/explorer/search/?query=${States.WDetail}&network=${network}&page_number=${getPG}&page_size=10`,
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    })
+    .then((response) => {
+      SetPaginationLoading(false)
+      processGetData(response)
+    })
+    .catch((err) => {
+      SetPaginationLoading(false)
+      console.log(err)
+    })
+  }
 
   return (
-      <div id='CurrencyDetail' className='container-fluid' style={{overflowY:"auto"}}>
+    <div id='CurrencyDetail' className='container-fluid' style={{overflowY:"auto"}}>
       <div className='row'>
         <div className='col-12'>
           <h6 style={{display:"inline-block"}}>جزئیات آدرس</h6>
@@ -436,7 +497,21 @@ const CurrencyDetail = () => {
                     </div>
                   :
                   !Error ? 
-                    <WalletDetailTableBottom data={Data} address={States.WDetail}/>
+                  <>
+                    <WalletDetailTableBottom data={Data} address={States.WDetail} reLoad={reLoad}/>
+                    <Card onClick={LoadMore} style={{ textAlign:'center', borderColor:'gray', borderWidth:'1px', borderStyle:'solid', width:'200px', cursor:'pointer', margin:'8px 0px', marginLeft:'auto', marginRight:'auto', height:'40px', transition:'0s'}} 
+                      className = {!PaginationLoading ? 'p-2' : 'p-2 pt-3'}
+                    >
+                      {
+                        PaginationLoading ? 
+                          <LoadingButton/>
+                        :
+                          <span>
+                            نمایش بیشتر
+                          </span>
+                      }
+                    </Card>
+                  </>
                   :
                   <p>خطا در دریافت اطلاعات</p>
                 }

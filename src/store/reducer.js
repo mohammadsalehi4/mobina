@@ -13,6 +13,8 @@ const initialState = {
     showTransactionData:false,
     showWalletData:false,
     WDetail:{},
+    LoadMore:false,
+    paginationData:[],
 
     //researcher-transaction
     TransactionDetailCurrencyMode:0,
@@ -100,6 +102,20 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'paginationData') {
+        return {
+            ...state,
+            paginationData:action.value
+        }
+    }
+
+    if (action.type === 'LoadMore') {
+        return {
+            ...state,
+            LoadMore:action.value
+        }
+    }
 
     if (action.type === 'taxLoading') {
         return {

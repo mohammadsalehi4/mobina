@@ -30,7 +30,7 @@ import ShowReport from './pages/reports/ShowReport'
 import ShowLastTaxes from './pages/tax/ShowLastTaxes'
 import axios from 'axios'
 import { serverAddress } from './address'
-
+import MinerUsers from './pages/minerSupervisor/minerUsers/minerUsers'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 
@@ -175,6 +175,13 @@ const App = () => {
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
                 <Route path="/minersupervisor"  element={<WelcomePage/>}/>
+              :
+              null
+            }
+
+{
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                <Route path="/minerusers"  element={<MinerUsers/>}/>
               :
               null
             }

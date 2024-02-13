@@ -231,7 +231,7 @@ const  WalletDetailTableBottom = (props) => {
     SetData(a)
     console.log('myData')
     console.log(a)
-  }, [, props.data, currentPage, Reload])
+  }, [, props.data, currentPage, Reload, props.reLoad])
 
   
   const columns = [
@@ -426,12 +426,8 @@ const  WalletDetailTableBottom = (props) => {
           <DataTable
             noHeader
             columns={columns}
-            pagination
-            paginationPerPage={5}
             className='react-dataTable'
             data={Filtred}
-            paginationComponent={CustomPagination}
-            paginationDefaultPage={currentPage + 1}
           />
         </div>
       </Card>

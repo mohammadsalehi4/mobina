@@ -99,7 +99,7 @@ const Walletdetail = (props) => {
         </div>
         <div className='row mt-0'>
           <div className='col-lg-12 mt-2'>
-            <DataTableWithButtons data={data} transactions={GetTr}/>
+            <DataTableWithButtons Token={props.Token} data={data} transactions={GetTr}/>
           </div>
         </div>
     </div>

@@ -117,6 +117,7 @@ const St2 = ({ stepper, type }) => {
     Setreload(!reload)
     document.getElementById('DeviceNumber').value = 0
     document.getElementById('DailyWork').value = 0
+    SetDefaultPower(Math.floor(devices.find(item => item.device_name === document.getElementById('deviceName').value).hash_rate) / 1e12)
     return toast.success('دستگاه با موفقیت اضافه شد', {
       position: 'bottom-left'
     })

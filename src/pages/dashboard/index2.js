@@ -55,7 +55,8 @@ const EcommerceDashboard2 = () => {
   const [TagData, SetTagData] = useState({})
   const [Entity, SetEntity] = useState({})
   const [SelectToken, SetSelectToken] = useState(0)
-  
+  const [Token, SetToken] = useState(null)
+
   const UTXOAdd =(getData, symbol) => {
     
     let data=[]
@@ -457,6 +458,7 @@ const EcommerceDashboard2 = () => {
       }
 
       if (addressMode.data.query === 'transaction') {
+        SetToken(addressMode.data.network[0])
         if (addressMode.data.network[0] === 'ETH') {
           SetLoading(false)
           try {
@@ -742,6 +744,7 @@ const EcommerceDashboard2 = () => {
           }
         }
       } else if (addressMode.data.query === 'address') {
+        SetToken(addressMode.data.network[0])
         if (addressMode.data.network[0] === 'ETH') {
             try {
               SetAddress(hash)
@@ -1159,7 +1162,7 @@ const EcommerceDashboard2 = () => {
     }
 
     const GetFromApi = () => {
-      axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}`,
+      axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}&page_number=${1}&page_size=10`,
       {
         headers: {
           Authorization: `Bearer ${Cookies.get('access')}`
@@ -1320,6 +1323,19 @@ const EcommerceDashboard2 = () => {
     } catch {
     }
   }, [])
+
+  //Load more
+  useEffect(() => {
+    const getNewData = States.paginationData
+    const oldData = []
+    for (let i = 0; i < adData.length; i++) {
+      oldData.push(adData[i])
+    }
+    for (let i = 0; i < getNewData.length; i++) {
+      oldData.push(getNewData[i])
+    }
+    SetAdData(oldData)
+  }, [States.LoadMore])
 
   return (
     <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
@@ -1487,7 +1503,7 @@ const EcommerceDashboard2 = () => {
             }
             
             {
-                mode === 2 ? <Walletdetail labelData={labelData} Entity={Entity} TagData={TagData} data={adData} address={address} coinData={coinData}/> : null
+                mode === 2 ? <Walletdetail Token={Token} labelData={labelData} Entity={Entity} TagData={TagData} data={adData} address={address} coinData={coinData}/> : null
             }
             </Col>
             <Col xl={{size:2}} lg={{size:1}} md={{size:1}}>

@@ -15,7 +15,6 @@ import { digitsEnToFa } from 'persian-tools'
 import TokenSwitch from '../../../../components/dashboard/TokenSwitch/switch'
 import moment from 'jalali-moment'
 import ReactPaginate from 'react-paginate'
-
 import {
   Card,
   Input,
@@ -27,22 +26,194 @@ import {
 } from 'reactstrap'
 
 import { MainSiteGray } from '../../../../../public/colors'
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 // ** Bootstrap Checkbox Component
-
+import LoadingButton from '../../../../components/loadinButton/LoadingButton'
 const BootstrapCheckbox = forwardRef((props, ref) => (
   <div className='form-check'>
     <Input type='checkbox' ref={ref} {...props} />
   </div>
 ))
+import toast from 'react-hot-toast'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { serverAddress } from '../../../../address'
+
+import { UTXO_Address } from '../../../../newProcessors/UTXO_Address'
+import { Account_Address } from '../../../../newProcessors/Account_Address'
+
+
+const UTXOAdd =(getData, symbol) => {
+    
+  let data=[]
+  for (let i=0; i<getData.inputs.length; i++) {
+
+    let timeStamp=getData.inputs[i].timestamp
+    let from = 'test'
+    let to = getData.address
+    let gasUsed = getData.inputs[i].fee
+    let gasPrice = 1
+    let value = Number(getData.inputs[i].value)
+    let hash = getData.inputs[i].hash
+
+    if (typeof (timeStamp) !== 'number') {
+      throw new Error('timestamp Error')
+    }
+
+    if (typeof (from) !== 'string' && from !== null) {
+      throw new Error('from Error')
+    }
+
+    if (typeof (to) !== 'string' && to !== null) {
+      throw new Error('to Error')
+    }
+
+    if (typeof (value) !== 'number') {
+      throw new Error('value Error')
+    }
+
+    if (typeof (hash) !== 'string') {
+      throw new Error('hash Error')
+    }
+
+    data.push({
+      timeStamp,
+      from,
+      to,
+      gasUsed,
+      gasPrice,
+      value,
+      hash,
+      currencyType:`${symbol}`,
+      Logo:`${symbol}.png`,
+      image:`${symbol}.png`,
+      Type:`coin`
+    })
+  }
+
+  for (let i=0; i<getData.outputs.length; i++) {
+
+    let timeStamp=getData.outputs[i].timestamp
+    let from = getData.address
+    let to = 'test'
+    let gasUsed = getData.outputs[i].fee
+    let gasPrice = 1
+    let value = Number(getData.outputs[i].value)
+    let hash = getData.outputs[i].hash
+
+    if (typeof (timeStamp) !== 'number') {
+      throw new Error('timestamp Error')
+    }
+
+    if (typeof (from) !== 'string' && from !== null) {
+      throw new Error('from Error')
+    }
+
+    if (typeof (to) !== 'string' && to !== null) {
+      throw new Error('to Error')
+    }
+
+    if (typeof (value) !== 'number') {
+      throw new Error('value Error')
+    }
+
+    if (typeof (hash) !== 'string') {
+      throw new Error('hash Error')
+    }
+
+    data.push({
+      timeStamp,
+      from,
+      to,
+      gasUsed,
+      gasPrice,
+      value,
+      hash,
+      currencyType:`${symbol}`,
+      Logo:`${symbol}.png`,
+      image:`${symbol}.png`,
+      Type:"coin"
+    })
+  }
+
+  return data
+}
+
+const AccountBaseAdd =(getData, symbol) => {
+  let data = []
+  for (let i = 0; i < getData.inputs.length; i++) {
+    data.push({
+      timeStamp:getData.inputs[i].timestamp,
+      from:getData.inputs[i].address,
+      to:getData.address,
+      gasUsed:getData.inputs[i].fee,
+      gasPrice:1,
+      value:(Number(getData.inputs[i].value)),
+      hash:getData.inputs[i].hash,
+      currencyType:`${symbol}`,
+      Logo:`${symbol}.png`,
+      Type:`coin`
+    })
+  }
+
+  for (let i = 0; i < getData.outputs.length; i++) {
+    data.push({
+      timeStamp:getData.outputs[i].timestamp,
+      from:getData.address,
+      to:getData.outputs[i].address,
+      gasUsed:getData.outputs[i].fee,
+      gasPrice:1,
+      value:(Number(getData.outputs[i].value)),
+      hash:getData.outputs[i].hash,
+      currencyType:`${symbol}`,
+      Logo:`${symbol}.png`,
+      Type:"coin"
+    })
+  }
+
+  for (let i = 0; i < getData.logs.inputs.length; i++) {
+    data.push({
+      timeStamp:getData.logs.inputs[i].timestamp,
+      from:getData.logs.inputs[i].address,
+      to:getData.address,
+      gasUsed:getData.logs.inputs[i].fee,
+      gasPrice:1,
+      value:(Number(getData.logs.inputs[i].value)),
+      hash:getData.logs.inputs[i].hash,
+      currencyType:getData.logs.inputs[i].symbole,
+      Logo:`${getData.logs.inputs[i].symbole}.png`,
+      Type:"token"
+    })
+  }
+
+  for (let i = 0; i < getData.logs.outputs.length; i++) {
+    data.push({
+      timeStamp:getData.logs.outputs[i].timestamp,
+      from:getData.address,
+      to:getData.logs.outputs[i].address,
+      gasUsed:getData.logs.outputs[i].fee,
+      gasPrice:1,
+      value:(Number(getData.logs.outputs[i].value)),
+      hash:getData.logs.outputs[i].hash,
+      currencyType:getData.logs.outputs[i].symbole,
+      Logo:`${getData.logs.outputs[i].symbole}.png`,
+      Type:"token"
+    })
+  }
+
+  return data
+}
 
 const DataTableWithButtons = (props) => {
   const States = useSelector(state => state)
+  const dispatch = useDispatch()
+
   const [numberOfShow, SetNumberofShow] = useState(0)
   const [showData, SetShowData] = useState([])
   const [NoNumberData, SetNoNumberData] = useState([])
   const [DownloadData, SetDownloadData] = useState([])
-
+  const [Loading, SetLoading] = useState(false)
+  const [Pagination, SetPagination] = useState(1)
 
   const getMyTime=(index) => {
     
@@ -364,6 +535,67 @@ const DataTableWithButtons = (props) => {
     />
   )
 
+  const LoadMore = () => {
+
+    SetLoading(!Loading)
+    const newPagination = Pagination + 1
+    SetPagination(newPagination)
+
+    const getFromApi = () => {
+      axios.get(`${serverAddress}/explorer/search/?query=${props.data.address}&network=${props.Token}&page_number=${newPagination}&page_size=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+        SetLoading(false)
+        if (response.status === 200) {
+          if (props.Token === 'BTC' || props.Token === 'LTC' || props.Token === 'BCH') {
+            const getData = UTXO_Address(props.data.address, response.data.data, props.Token, 1)
+            if (!getData.isError) {
+              const newData = UTXOAdd(getData, props.Token)
+              dispatch({type:"paginationData", value:newData})
+              dispatch({type:"LoadMore", value:!States.LoadMore})
+            } else {
+              console.log(getData)
+            }
+          } else if (props.Token === 'ETH' || props.Token === 'BSC') {
+            const getData = Account_Address(props.data.address, response.data.data, props.Token, 1)
+            if (!getData.isError) {
+              const newData = AccountBaseAdd(getData, props.Token)
+              dispatch({type:"paginationData", value:newData})
+              dispatch({type:"LoadMore", value:!States.LoadMore})
+            } else {
+              console.log(getData)
+            }
+          }
+
+        } else if (response.status === 404) {
+          return toast.error('تراکنش دیگری وجود ندارد.', {
+            position: 'bottom-left'
+          })
+        }
+        console.log(response)
+      })
+      .catch((err) => {
+        SetLoading(false)
+        console.log(err)
+        if (err.response.status === 404) {
+          return toast.error('تراکنش دیگری وجود ندارد.', {
+            position: 'bottom-left'
+          })
+        } else {
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        }
+      })
+    }
+
+    getFromApi()
+  }
+
   return (
     <Fragment>
       <Card style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
@@ -403,14 +635,28 @@ const DataTableWithButtons = (props) => {
         <div className='react-dataTable react-dataTable-selectable-rows'>
           <DataTable
             columns={columns}
-            paginationDefaultPage={currentPage + 1}
-            paginationComponent={CustomPagination}
-            pagination
+            // paginationDefaultPage={currentPage + 1}
+            // paginationComponent={CustomPagination}
+            // pagination
+            // sortIcon={<ChevronDown size={10} />}
+            // selectableRowsComponent={BootstrapCheckbox}
             className='react-dataTable'
-            sortIcon={<ChevronDown size={10} />}
-            selectableRowsComponent={BootstrapCheckbox}
             data={ showData }
           />
+        </div>
+        <div style={{textAlign:'center'}}>
+          <Card onClick={LoadMore} style={{borderColor:'gray', borderWidth:'1px', borderStyle:'solid', width:'200px', cursor:'pointer', margin:'8px 0px', marginLeft:'auto', marginRight:'auto', height:'40px', transition:'0s'}} 
+            className = {!Loading ? 'p-2' : 'p-2 pt-3'}
+          >
+            {
+              Loading ? 
+                <LoadingButton/>
+              :
+                <span>
+                  نمایش بیشتر
+                </span>
+            }
+          </Card>
         </div>
       </Card>
     </Fragment>

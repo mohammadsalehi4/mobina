@@ -22,7 +22,7 @@ import Cookies from 'js-cookie'
 import { useSelector } from "react-redux"
 // eslint-disable-next-line no-duplicate-imports
 import { useDispatch } from "react-redux"
-import { Search, X } from 'react-feather'
+import { Eye, X } from 'react-feather'
 import {
   Input,
   InputGroup, InputGroupText, Modal, ModalBody
@@ -248,7 +248,7 @@ function Header() {
                     (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
                       <li id='MenuBottomItem7' class="menu-item thisNotActive">
                         <a class="menu-link" href='/minersupervisor'>
-                        <ion-icon name="diamond-outline"></ion-icon>
+                          <ion-icon name="eye-outline"></ion-icon>
                           <div data-i18n="Pages" className='vazir'>ناظر استخراج</div>
                         </a>
                       </li>

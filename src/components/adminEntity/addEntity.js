@@ -84,9 +84,13 @@ const AddEntity = () => {
 
             bodyFormData.append('name', Ename)
             bodyFormData.append('persian_name', name)
-            bodyFormData.append('web_site', website)
+            if (website !== null) {
+                bodyFormData.append('web_site', website)
+            }
             bodyFormData.append('type', type)
-            bodyFormData.append('establishment', getTime)
+            if (getTime !== null) {
+                bodyFormData.append('establishment', getTime)
+            }
             bodyFormData.append('fiat_support', fiatSupport)
             bodyFormData.append('private_coin', PrivateCoin)
             bodyFormData.append('supervisory_body', supervisor)
@@ -106,8 +110,9 @@ const AddEntity = () => {
                 }
             })
             .then((response) => {
+                console.log(response)
                 SetLoading(false)
-                if (response.status === 200) {
+                if (response.status === 200 || response.status === 226) {
                     SetStep(2)
                     setEntityId(response.data.id)
                     return toast.success('موجودیت با موفقیت ساخته شد.', {

@@ -8,7 +8,6 @@ import React, { useState, useEffect} from 'react'
 import { useDispatch } from 'react-redux'
 import {Col, Row, InputGroup, Input, InputGroupText} from 'reactstrap'
 import TokenInformation from '../../components/dashboard/TokenInformation'
-
 const WelcomePage = () => {
     const dispatch = useDispatch()
 
@@ -46,13 +45,13 @@ const WelcomePage = () => {
                     <Row className='m-3'>
                         <Col xl='2' lg='0'></Col>
                         <Col xl='4' lg='6' md='6'>
-                            <a href='/tax/list' style={{color:'inherit', textDecoration:'none'}}>
-                                <TokenInformation TokenImage='images/minerPeoformance.png' TokenTitle='مدیریت استخراج کنندگان' status='ورود به پنل' color1='primary' TokenDescription='در این بخش می‌توانید استخراج کننده جدید ثبت کنید و یا اطلاعات وارد شده را ویرایش کنید.'/>
+                            <a href='/minerusers' style={{color:'inherit', textDecoration:'none'}}>
+                                <TokenInformation TokenImage='images/minerPeoformance.png' TokenTitle='مدیریت استخراج کنندگان' status='ورود' color1='primary' TokenDescription='در این بخش می‌توانید استخراج کننده جدید ثبت کنید و یا اطلاعات وارد شده را ویرایش کنید.'/>
                             </a>
                         </Col>
                         <Col xl='4' lg='6' md='6'>
                             <a href='/tax/list' style={{color:'inherit', textDecoration:'none'}}>
-                                <TokenInformation TokenImage='images/minerManagement.png' TokenTitle='محاسبه کارآمدی استخراج کنندگان' status='ورود به پنل' color1='primary' TokenDescription='این بخش برای محاسبه‌ٔ عملکرد استخراج در یک بازه زمانی مشخص شده بر اساس اطلاعات ثبت شده در بخش مدیریت استخراج کنندگان است.'/>
+                                <TokenInformation TokenImage='images/minerManagement.png' TokenTitle='محاسبه کارآمدی استخراج کنندگان' status='ورود' color1='primary' TokenDescription='این بخش برای محاسبه‌ٔ عملکرد استخراج در یک بازه زمانی مشخص شده بر اساس اطلاعات ثبت شده در بخش مدیریت استخراج کنندگان است.'/>
                             </a>
                         </Col>
                         <Col xl='2' lg='0'></Col>
