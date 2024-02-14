@@ -99,7 +99,7 @@ const AddEntity = () => {
             if (licence !== 'noInfo') {
                 bodyFormData.append('licence', licence)
             }
-            bodyFormData.append('country', country)
+            bodyFormData.append('countries', country)
 
             axios.post(`${serverAddress}/entity/`, 
             bodyFormData,
@@ -189,13 +189,14 @@ const AddEntity = () => {
           }
         })
         .then((response) => {
+            console.log('countries')
             console.log(response)
           if (response.status === 200) {
             const getC = []
-            for (let i = 0; i < response.data.countries.length; i++) {
+            for (let i = 0; i < response.data.results.length; i++) {
                 getC.push({
-                    symbol:response.data.countries[i][0],
-                    name:response.data.countries[i][1]
+                    symbol:response.data.results[i].id,
+                    name:response.data.results[i].name
                 })
             }
             setCountries(getC)
