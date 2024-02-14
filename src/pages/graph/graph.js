@@ -152,9 +152,8 @@ const FuckingGraph = (props) => {
     dispatch({type:"BeGraphReload", value:!States.BeGraphReload})
   }, [States.mouseMode])
 
+  //set nodes data
   useEffect(() => {
-
-    //set nodes data
     if (States.GraphData.length > 0) {
       let AllNodes = []
       for (let i = 0; i < States.GraphData.length; i++) {
@@ -383,8 +382,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              // image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
-              image:`سسس`,
+              image:'images/location.png',
               label: showLabel
             }
           } else if (GraphData[i].group === 'mid') {
@@ -394,8 +392,7 @@ const FuckingGraph = (props) => {
               y: 800 - (100 * y),
               group: GraphData[i].group,
               address:GraphData[i].address,
-              // image:`https://panta-front.s3.ir-thr-at1.arvanstorage.ir/location.png?versionId=`,
-              image:`سسس`,
+              image:'images/location.png',
               label: GraphData[i].symbole
             }
           }
@@ -525,6 +522,7 @@ const FuckingGraph = (props) => {
       edges
     }
 
+    //استایل نود ها و یال ها
     const MouseModeOptions = {
       layout: {
         hierarchical: false
@@ -642,7 +640,6 @@ const FuckingGraph = (props) => {
           }
         }
     }
-
     const SingleOptions = {
       layout: {
         hierarchical: false
@@ -757,6 +754,8 @@ const FuckingGraph = (props) => {
         }
     }
     let network
+
+    //تغییر حالت موس
     if (mouseMode) {
       network = new Network(networkRef.current, data, MouseModeOptions)
     } else {
