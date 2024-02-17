@@ -76,7 +76,7 @@ const Main = () => {
                         } else if (Number(response.data.role.role_id) === 4) {
                             window.location.assign('/tax')
                         } else if (Number(response.data.role.role_id) === 5) {
-                            window.location.assign('/mining')
+                            window.location.assign('/miner')
                         }
                 } else {
                     SetLoading(false)

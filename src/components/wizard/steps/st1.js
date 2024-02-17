@@ -19,9 +19,12 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import LoadingButton from '../../loadinButton/LoadingButton'
+import { useParams } from "react-router-dom"
+
 const St1 = ({ stepper, type }) => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
+  const { minerid } = useParams()
 
   const [getImage, SetImage] = useState(null)
   const [Loading, SetLoading] = useState(false)
@@ -260,6 +263,14 @@ const St1 = ({ stepper, type }) => {
   useEffect(() => {
     dispatch({type:"miningMode", value:0})
   }, [])
+
+  useEffect(() => {
+    if (minerid !== undefined || typeof (minerid) === 'string') {
+      if (stepper !== null) {
+        stepper.next()
+      }
+    }
+  }, [stepper])
 
   return (
     <Fragment>

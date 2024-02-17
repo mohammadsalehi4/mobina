@@ -70,3 +70,13 @@ Input:focus + .input-group-text {
     background-color: #2FA3DD !important; 
     border-color: #2FA3DD !important;
 }
+
+.btn-primary:active {
+    background-color: #2FA3DD !important; 
+    border-color: #2FA3DD !important;
+}
+
+.btn-primary:focus {
+    background-color: #2FA3DD !important; 
+    border-color: #2FA3DD !important;
+}

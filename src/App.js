@@ -167,7 +167,13 @@ const App = () => {
             }
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
-                <Route path="/minerprofile"  element={<MinerProfile/>}/>
+                <Route path="/miner"  element={<MinerProfile/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
+                <Route path="/miner/:minerid"  element={<Mining/>}/>
               :
               null
             }
@@ -177,7 +183,6 @@ const App = () => {
               :
               null
             }
-
             {
               (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
                 <Route path="/minersupervisor"  element={<WelcomePage/>}/>

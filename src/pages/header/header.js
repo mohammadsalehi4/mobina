@@ -216,7 +216,7 @@ function Header() {
                   {
                     (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
                       <li id='MenuBottomItem3' class="menu-item thisNotActive">
-                        <a class="menu-link" href='/mining'>
+                        <a class="menu-link" href='/miner'>
                         <ion-icon name="diamond-outline"></ion-icon>
                           <div data-i18n="Pages" className='vazir'>استخراج</div>
                         </a>

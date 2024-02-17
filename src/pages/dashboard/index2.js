@@ -1162,6 +1162,10 @@ const EcommerceDashboard2 = () => {
     }
 
     const GetFromApi = () => {
+      console.log('hash')
+      console.log(hash)
+      console.log('network')
+      console.log(network)
       axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}&page_number=${1}&page_size=10`,
       {
         headers: {
@@ -1199,14 +1203,12 @@ const EcommerceDashboard2 = () => {
 
     const getFromDB = localStorage.getItem(hash)
     if (getFromDB !== null) {
-      console.log(JSON.parse(getFromDB).time)
-      console.log(Date.now() + 300000)
-      if (Date.now() <=  JSON.parse(getFromDB).time + 300000) {
+      // if (Date.now() <=  JSON.parse(getFromDB).time + 300000) {
+      if (false) {
         SetLoading(false)
         processData(JSON.parse(getFromDB).data)
       } else {
         localStorage.removeItem(hash)
-        
         SetLoading(true)
         GetFromApi()
       }

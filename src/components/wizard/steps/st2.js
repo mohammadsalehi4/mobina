@@ -18,7 +18,10 @@ import toast from 'react-hot-toast'
 import LoadingButton from '../../loadinButton/LoadingButton'
 import CardAction from '@components/card-actions'
 import './style.css'
+import { useParams } from "react-router-dom"
+
 const St2 = ({ stepper, type }) => {
+  const { minerid } = useParams()
   const States = useSelector(state => state)
   const [devices, SetDevices] = useState([])
   const [Addresses, SetAddresses] = useState([])
@@ -30,7 +33,7 @@ const St2 = ({ stepper, type }) => {
 
   useEffect(() => {
     SetLoaded(false)
-    if (States.miningMode === 1) {
+    if (States.miningMode === 1 || typeof (minerid) === 'string') {
       axios.get(`${serverAddress}/miners/devices/`,
       {
         headers: {
@@ -38,11 +41,12 @@ const St2 = ({ stepper, type }) => {
         }
       })
       .then((response) => {
+        console.log(response)
         const getDevices = []
         console.log(response.data.results)
         SetDevices(response.data.results)
         SetDefaultPower(Math.floor(response.data.results[0].hash_rate) / 1e12)
-        axios.get(`${serverAddress}/miners/miner-addresses/?UUID=${States.miningData.response.miner_uuid}`,
+        axios.get(`${serverAddress}/miners/miner-addresses/?UUID=${minerid === undefined ? (States.miningData.response.miner_uuid) : minerid}`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get('access')}`
@@ -50,6 +54,7 @@ const St2 = ({ stepper, type }) => {
         })
         .then((response) => {
           if (response.status === 200) {
+            console.log(response)
             const addressList = []
             for (let i = 0; i < response.data.results.length; i++) {
               addressList.push({
@@ -106,7 +111,7 @@ const St2 = ({ stepper, type }) => {
       network,
       daily_working_hours:DailyWork,
       status,
-      miner:States.miningData.response.miner_uuid,
+      miner: minerid === undefined ? (States.miningData.response.miner_uuid) : minerid,
       pool
     }
 
@@ -143,7 +148,11 @@ const St2 = ({ stepper, type }) => {
           toast.success('ماینر ها با موفقیت ثبت شدند.', {
             position: 'bottom-left'
           })
-          window.location.reload()
+          if (minerid === undefined) {
+            window.location.reload()
+          } else {
+            window.location.assign('/minerprofile')
+          }
         } else {
           toast.error('خطا در افزودن دستگاه ها', {
             position: 'bottom-left'
@@ -154,9 +163,16 @@ const St2 = ({ stepper, type }) => {
       .catch((err) => {
         SetLoading(false)
         console.log(err)
-        toast.error('خطا در افزودن دستگاه ها', {
-          position: 'bottom-left'
-        })
+        if (err.response.status === 406) {
+          toast.error('دستگاه‌ها قبلا اضافه شده‌اند', {
+            position: 'bottom-left'
+          })
+        } else {
+          toast.error('خطا در افزودن دستگاه ها', {
+            position: 'bottom-left'
+          })
+        }
+
       })
     } else {
       toast.error('دستگاهی افزوده نشده است!', {

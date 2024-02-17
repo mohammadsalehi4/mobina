@@ -762,6 +762,7 @@ const FuckingGraph = (props) => {
       network = new Network(networkRef.current, data, SingleOptions)
     }
 
+    //نمایش اطلاعات آدرس ها و تراکنش ها
     network.on("click", function(params) {
         const nodeId = params.nodes[0];
         if (nodeId) {
@@ -777,7 +778,6 @@ const FuckingGraph = (props) => {
           } 
         }
     })
-
     network.on("click", function(params) {
       if (params.nodes.length === 0 && params.edges.length === 0) {
         dispatch({type:"SETshowWalletData", value:false})
@@ -994,27 +994,8 @@ const FuckingGraph = (props) => {
     const originalPosition = network.getViewPosition();
     network.fit();
     setTimeout(() => {
-        const element = document.getElementById('myGraphDiv');
-        // const options = {
-        //   scale: 2, // میتوانید مقدار دیگری هم انتخاب کنید
-        //   logging: false, // غیرفعال کردن لاگ html2canvas
-        //   width: graphContainer.scrollWidth, // تنظیم عرض برابر با ابعاد محتوا
-        //   height: graphContainer.scrollHeight 
-        // };
-        // html2canvas(element, options).then(canvas => {
-        //     const image = canvas.toDataURL('image/png');
-        //     const link = document.createElement('a');
-        //     link.href = image;
-        //     link.download = 'full-graph-screenshot.png';
-        //     link.click();
-        //     network.moveTo({
-        //       position: originalPosition,
-        //       scale: originalScale
-        //     });
-        // });
         const myGraphDiv = document.getElementById('myGraphDiv');
         html2canvas(myGraphDiv, {
-          scale: 2, // میتوانید مقدار دیگری هم انتخاب کنید
           logging: false, // غیرفعال کردن لاگ html2canvas
           width: myGraphDiv.scrollWidth, // تنظیم عرض برابر با ابعاد محتوا
           height: myGraphDiv.scrollHeight // تنظیم ارتفاع برابر با ابعاد محتوا
@@ -1030,6 +1011,26 @@ const FuckingGraph = (props) => {
           });
           // انجام عملیات مورد نیاز با imgData
         });
+
+
+        // const canvas = document.getElementById('myGraphDiv');
+        // if (canvas) {
+        //     // تنظیم اندازه برای بهبود کیفیت
+        //     canvas.width = 2048; // افزایش عرض canvas
+        //     canvas.height = 2048; // افزایش ارتفاع canvas
+            
+        //     // رسم گراف با استفاده از APIهای گرافیکی (مانند WebGL یا 2D canvas API) با استفاده از ابعاد جدید
+
+        //     // تبدیل محتوای canvas به داده‌های تصویر در فرمت PNG با کیفیت بالاتر
+        //     const image = canvas.toDataURL('image/png', 1.0); // استفاده از کیفیت بالا برای فرمت‌هایی مانند JPEG
+
+        //     // ایجاد و دانلود تصویر
+        //     const link = document.createElement('a');
+        //     link.download = 'myGraphImage.png';
+        //     link.href = image;
+        //     link.click();
+        // }
+
         SetDownloadGraph(States.downloadGraph)
     }, 100);
   }
