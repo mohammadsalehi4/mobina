@@ -26,7 +26,7 @@ const MinerProfile = () => {
   
     useEffect(() => {
       dispatch({type:"SHOWNAVBAR"})
-      dispatch({type:"SETWITCHPAGE", value:4})
+      dispatch({type:"SETWITCHPAGE", value:3})
     }, [])
 
     useEffect(async () => {

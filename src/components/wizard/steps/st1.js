@@ -180,9 +180,23 @@ const St1 = ({ stepper, type }) => {
       .catch((err) => {
           SetLoading(false)
           console.log(err)
-          return toast.error('خطا در ساخت دارایی', {
+          if (err.response.data.error.fields.email !== undefined) {
+            toast.error('ایمیل خود را به درستی وارد کنید', {
+                position: 'bottom-left'
+            })
+          } else if (err.response.data.error.fields.national_code !== undefined) {
+            toast.error('کد ملی خود را به درستی وارد کنید', {
               position: 'bottom-left'
-          })
+            })
+          } else if (err.response.data.error.fields.interface_phone_number !== undefined) {
+            toast.error('شماره موبایل خود را به درستی وارد کنید', {
+              position: 'bottom-left'
+            })
+          } else {
+            return toast.error('خطا در ساخت دارایی', {
+                position: 'bottom-left'
+            })
+          }
       })
     }
   }

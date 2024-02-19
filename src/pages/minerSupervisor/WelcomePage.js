@@ -50,7 +50,7 @@ const WelcomePage = () => {
                             </a>
                         </Col>
                         <Col xl='4' lg='6' md='6'>
-                            <a href='/tax/list' style={{color:'inherit', textDecoration:'none'}}>
+                            <a href='/minerefficienty' style={{color:'inherit', textDecoration:'none'}}>
                                 <TokenInformation TokenImage='images/minerManagement.png' TokenTitle='محاسبه کارآمدی استخراج کنندگان' status='ورود' color1='primary' TokenDescription='این بخش برای محاسبه‌ٔ عملکرد استخراج در یک بازه زمانی مشخص شده بر اساس اطلاعات ثبت شده در بخش مدیریت استخراج کنندگان است.'/>
                             </a>
                         </Col>

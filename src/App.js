@@ -34,6 +34,8 @@ import MinerUsers from './pages/minerSupervisor/minerUsers/minerUsers'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import MinerProfile from './pages/mining/profile/minerprofile'
+import Minerefficienty from './pages/minerSupervisor/minerEfficienty/minerefficienty'
+import NewCalculate from './pages/minerSupervisor/minerEfficienty/newCalculate'
 const App = () => {
   const [Loading, SetLoading] = useState(false)
 
@@ -195,7 +197,18 @@ const App = () => {
               :
               null
             }
-
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                <Route path="/minerefficienty"  element={<Minerefficienty/>}/>
+              :
+              null
+            }
+            {
+              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                <Route path="/new_miner_calculate"  element={<NewCalculate/>}/>
+              :
+              null
+            }
             <Route path="/reports"  element={<Reports/>}/>
             <Route path="/reports/:id"  element={<ShowReport/>}/>
             {/* <Route path="/owner"  element={<Owner/>}/> */}

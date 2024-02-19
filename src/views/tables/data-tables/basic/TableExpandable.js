@@ -2,7 +2,23 @@
 import { useState } from 'react'
 
 // ** Table columns & Expandable Data
-import ExpandableTable, { data, columns } from '../data'
+const [data, SetData] = useState([])
+
+const ExpandableTable = () => {
+  return (
+    <div className='expandable-content p-2'>
+      <p>
+        <span className='fw-bold'>City:</span> 
+      </p>
+      <p>
+        <span className='fw-bold'>Experience:</span> 
+      </p>
+      <p className='m-0'>
+        <span className='fw-bold'>Post:</span> 
+      </p>
+    </div>
+  )
+}
 
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
@@ -12,38 +28,16 @@ import DataTable from 'react-data-table-component'
 // ** Reactstrap Imports
 import { Card, CardHeader, CardTitle } from 'reactstrap'
 
-const DataTableWithButtons = () => {
-  // ** State
-  const [currentPage, setCurrentPage] = useState(0)
-
-  // ** Function to handle filter
-  const handlePagination = page => {
-    setCurrentPage(page.selected)
+const columns = [
+  {
+    name: 'Email',
+    sortable: true,
+    minWidth: '250px',
+    selector: row => row.email
   }
+]
 
-  // ** Custom Pagination
-  const CustomPagination = () => (
-    <ReactPaginate
-      previousLabel={''}
-      nextLabel={''}
-      forcePage={currentPage}
-      onPageChange={page => handlePagination(page)}
-      pageCount={10}
-      breakLabel={'...'}
-      pageRangeDisplayed={2}
-      marginPagesDisplayed={2}
-      activeClassName='active'
-      pageClassName='page-item'
-      breakClassName='page-item'
-      nextLinkClassName='page-link'
-      pageLinkClassName='page-link'
-      breakLinkClassName='page-link'
-      previousLinkClassName='page-link'
-      nextClassName='page-item next-item'
-      previousClassName='page-item prev-item'
-      containerClassName={'pagination react-paginate separated-pagination pagination-sm justify-content-end pe-1'}
-    />
-  )
+const DataTableWithButtons = () => {
 
   return (
     <Card>
@@ -53,7 +47,6 @@ const DataTableWithButtons = () => {
       <div className='react-dataTable'>
         <DataTable
           noHeader
-          pagination
           selectableRows
           data={data}
           expandableRows
@@ -61,10 +54,7 @@ const DataTableWithButtons = () => {
           expandOnRowClicked
           className='react-dataTable'
           sortIcon={<ChevronDown size={10} />}
-          paginationComponent={CustomPagination}
-          paginationDefaultPage={currentPage + 1}
           expandableRowsComponent={ExpandableTable}
-          paginationRowsPerPageOptions={[10, 25, 50, 100]}
         />
       </div>
     </Card>

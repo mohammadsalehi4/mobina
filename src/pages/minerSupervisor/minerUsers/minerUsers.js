@@ -70,6 +70,7 @@ const MinerUsers = () => {
         })
         .then((response) => {
         SetLoading(false)
+        console.log('response')
         console.log(response)
           if (response.status === 200) {
             const getData = []
@@ -77,7 +78,7 @@ const MinerUsers = () => {
                 getData.push(
                     {
                         BrandName:'کوفت',
-                        name:`${response.data.results[i].interface_fname} ${response.data.results[i].interface_lname}` ,
+                        name:`${response.data.results[i].interface_fname} ${response.data.results[i].interface_lname}`,
                         phoneNumber: response.data.results[i].interface_phone_number,
                         Email: response.data.results[i].email,
                         website: 'کوفت'
