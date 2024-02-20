@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable prefer-const */
 /* eslint-disable no-duplicate-imports */
 /* eslint-disable multiline-ternary */
@@ -20,6 +21,7 @@ import { serverAddress } from '../../address'
 import { JalaliCalendar } from '../../processors/jalaliCalendar'
 import { GetMillisecond } from '../../processors/getMillisecond'
 import toast from 'react-hot-toast'
+import { selectThemeColors } from '@utils'
 
 const AddEntity = () => {
 
@@ -32,6 +34,9 @@ const AddEntity = () => {
     const [SelectedType, setSelectedType] = useState(1)
     const [SelectedCountry, setSelectedCountry] = useState('')
     const [EntityId, setEntityId] = useState(null)
+    const [CountryOptions, SetCountryOptions] = useState([])
+    const [selectedCoutries, SetselectedCoutries] = useState([])
+    const [selectedCurrencies, SetselectedCurrencies] = useState([])
 
     const addNewEntity = () => {
         let name = document.getElementById('name').value
@@ -69,50 +74,96 @@ const AddEntity = () => {
         if (legalName === '') {
             legalName = null
         }
+        if (licence === '') {
+            licence = null
+        }
         if (registerNumber === '') {
             registerNumber = null
         }
 
+        const countryList = []
+
+        const currencyList = []
+
+        for (let i = 0; i < selectedCoutries.length; i++) {
+            countryList.push(
+                selectedCoutries[i].value
+            )
+        }
+
+        for (let i = 0; i < selectedCurrencies.length; i++) {
+            currencyList.push(
+                selectedCurrencies[i].value
+            )
+        }
 
         if (error) {
-            return toast.error('مقادیر را به طور کامل وارد کنید.', {
+            return toast.error('وارد کردن نام انگلیسی الزامی است.', {
                 position: 'bottom-left'
             })
         } else {
             SetLoading(true)
-            const bodyFormData = new FormData()
+            console.log('result')
 
-            bodyFormData.append('name', Ename)
-            bodyFormData.append('persian_name', name)
+            const sendingData = {}
+
+            if (Ename !== null) {
+                sendingData.name = Ename
+            }
+            if (name !== null) {
+                sendingData.persian_name = name
+            }
             if (website !== null) {
-                bodyFormData.append('web_site', website)
+                sendingData.web_site = website
             }
-            bodyFormData.append('type', type)
+            if (type !== null) {
+                sendingData.type = type
+            }
             if (getTime !== null) {
-                bodyFormData.append('establishment', getTime)
+                sendingData.establishment = getTime
             }
-            bodyFormData.append('fiat_support', fiatSupport)
-            bodyFormData.append('private_coin', PrivateCoin)
-            bodyFormData.append('supervisory_body', supervisor)
-            bodyFormData.append('legal_name', legalName)
-            bodyFormData.append('registration_number', registerNumber)
-            if (licence !== 'noInfo') {
-                bodyFormData.append('licence', licence)
+            if (fiatSupport !== null) {
+                sendingData.fiat_support = fiatSupport
             }
-            bodyFormData.append('countries', country)
+            if (PrivateCoin !== null) {
+                sendingData.private_coin = PrivateCoin
+            }
+            if (supervisor !== null) {
+                sendingData.supervisory_body = supervisor
+            }
+            if (legalName !== null) {
+                sendingData.legal_name = legalName
+            }
+            if (registerNumber !== null) {
+                sendingData.registration_number = registerNumber
+            }
+            if (licence !== null) {
+                sendingData.licence = licence
+            }
+            if (document.getElementById('sanctionList').value !== '') {
+                sendingData.is_in_sanction_list = document.getElementById('sanctionList').value
+            }
+            if (countryList.length !== 0) {
+                sendingData.countries = countryList
+            }
+            if (currencyList.length !== 0) {
+                sendingData.currency = currencyList
+            }
+            console.log('sendingData')
+            console.log(sendingData)
 
             axios.post(`${serverAddress}/entity/`, 
-            bodyFormData,
+            sendingData,
             {
                 headers: {
                     Authorization: `Bearer ${Cookies.get('access')}`, 
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             })
             .then((response) => {
                 console.log(response)
                 SetLoading(false)
-                if (response.status === 200 || response.status === 226) {
+                if (response.status >= 200 && response.status < 300) {
                     SetStep(2)
                     setEntityId(response.data.id)
                     return toast.success('موجودیت با موفقیت ساخته شد.', {
@@ -134,9 +185,16 @@ const AddEntity = () => {
                   window.location.assign('/')
                 }
                 if (err.response.status === 400) {
-                    return toast.error('مقادیر را به طور کامل وارد کنید.', {
-                        position: 'bottom-left'
-                    })
+                    if (err.response.data.error.fields.web_site !== undefined) {
+                        return toast.error('آدرس سایت را به درستی وارد کنید.', {
+                            position: 'bottom-left'
+                        })
+                    } else if (err.response.data.error.fields.name !== undefined) {
+                        return toast.error('نام انگلیسی را به درستی وارد کنید.', {
+                            position: 'bottom-left'
+                        })
+                    }
+
                 }
             })
         }
@@ -196,10 +254,14 @@ const AddEntity = () => {
             for (let i = 0; i < response.data.results.length; i++) {
                 getC.push({
                     symbol:response.data.results[i].id,
-                    name:response.data.results[i].name
+                    name:response.data.results[i].name,
+                    label:response.data.results[i].persian_name,
+                    value:response.data.results[i].id,
+                    color: '#FF5630', 
+                    isFixed: false
                 })
             }
-            setCountries(getC)
+            SetCountryOptions(getC)
             setSelectedCountry(getC[0].symbol)
           }
         })
@@ -329,6 +391,22 @@ const AddEntity = () => {
         }
     }
 
+    const currencyOptions = [
+        { value: 1, label: 'بیت‌کوین', color: '#00B8D9', isFixed: true },
+        { value: 4, label: 'اتریوم', color: '#0052CC', isFixed: true },
+        { value: 5, label: 'بایننس‌اسمارت‌چین', color: '#5243AA', isFixed: true },
+        { value: 3, label: 'لایت‌کوین', color: '#FF5630', isFixed: false },
+        { value: 2, label: 'بیت‌کوین‌کش', color: '#FF5630', isFixed: false }
+    ]
+
+    const countryChange = (e) => {
+    SetselectedCoutries(e)
+    }
+
+    const CurrencyChange = (e) => {
+    SetselectedCurrencies(e)
+    }
+
   return (
     <>
         {
@@ -358,6 +436,41 @@ const AddEntity = () => {
 
                     <Col xl='4' lg='6' className='mt-3'>
                         <Label>
+                            لیست کشورها
+                        </Label>
+                        <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            closeMenuOnSelect={false}
+                            // components={animatedComponents}
+                            isMulti
+                            options={CountryOptions}
+                            className='react-select'
+                            classNamePrefix='select'
+                            onChange={countryChange}
+                        />
+                    </Col>
+
+                    <Col xl='4' lg='6' className='mt-3'>
+                        <Label>
+                            لیست ارزها
+                        </Label>
+                        <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            closeMenuOnSelect={false}
+                            // components={animatedComponents}
+                            isMulti
+                            options={currencyOptions}
+                            className='react-select'
+                            classNamePrefix='select'
+                            onChange={CurrencyChange}
+
+                        />
+                    </Col>
+
+                    <Col xl='4' lg='6' className='mt-3'>
+                        <Label>
                             نوع
                         </Label>
                         <select class="form-select" id='type' aria-label="Default select example" 
@@ -382,7 +495,7 @@ const AddEntity = () => {
                             مجوز
                         </Label>
                         <select class="form-select" id='licence' aria-label="Default select example" >
-                            <option selected value={'noInfo'}>بدون اطلاعات</option>
+                            <option selected value={''}>بدون اطلاعات</option>
                             <option value="complete">دارد</option>
                             <option value="dont_have">ندارد</option>
                         </select>
@@ -393,6 +506,18 @@ const AddEntity = () => {
                             پشتیبانی از فیات
                         </Label>
                         <select class="form-select" id='fiatSupport' aria-label="Default select example" >
+                            <option selected value={''}>بدون اطلاعات</option>
+                            <option value={true}>بلی</option>
+                            <option value={false}>خیر</option>
+                        </select>
+                            
+                    </Col>
+
+                    <Col xl='4' lg='6' className='mt-3'>
+                        <Label>
+                            جزو تحریم شده‌ها
+                        </Label>
+                        <select class="form-select" id='sanctionList' aria-label="Default select example" >
                             <option selected value={''}>بدون اطلاعات</option>
                             <option value={true}>بلی</option>
                             <option value={false}>خیر</option>
