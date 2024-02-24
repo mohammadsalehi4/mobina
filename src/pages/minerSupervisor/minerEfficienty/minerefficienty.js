@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 import { Calendar, CalendarProvider } from "zaman"
 import { ChevronDown, Eye, Trash2 } from 'react-feather'
-
+import GoalOverview from './GoalOverview'
 const Minerefficienty = () => {
     const dispatch = useDispatch()
     const [data, SetData] = useState([])
@@ -87,6 +87,7 @@ const Minerefficienty = () => {
           }
         })
         .then((response) => {
+            console.log('response')
             console.log(response)
             if (response.status === 200) {
                 const getData = []
@@ -97,6 +98,7 @@ const Minerefficienty = () => {
                             startDate: response.data.results[i].start_date,
                             endDate: response.data.results[i].end_date,
                             status: response.data.results[i].status,
+                            id: response.data.results[i].id,
                             data:response.data.results[i]
                         }
                     )
@@ -129,18 +131,10 @@ const Minerefficienty = () => {
         })
     }
 
-    const ExpandableTable = () => {
+    const ExpandableTable = (e) => {
         return (
             <div className='expandable-content p-2'>
-                <p>
-                    <span className='fw-bold'>City:</span> 
-                </p>
-                <p>
-                    <span className='fw-bold'>Experience:</span> 
-                </p>
-                <p className='m-0'>
-                    <span className='fw-bold'>Post:</span> 
-                </p>
+                <GoalOverview id={e.data.data.id}/>
             </div>
         )
     }

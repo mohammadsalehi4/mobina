@@ -682,7 +682,7 @@ const AddEntity = () => {
                         <Input id='BCH' type='textarea' />
                     </Col>
                     <Col xl='12' className='mt-3 mb-3'>
-                        <Button color='warning' style={{height:'36px', float:'left'}} onClick={ () => { addAllAddress() } }>
+                        <Button color='primary' style={{height:'36px', float:'left'}} onClick={ () => { addAllAddress() } }>
                             {
                                 Loading ? 
                                 <LoadingButton/>
