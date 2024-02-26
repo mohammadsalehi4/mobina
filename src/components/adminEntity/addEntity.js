@@ -50,35 +50,45 @@ const AddEntity = () => {
         let fiatSupport = document.getElementById('fiatSupport').value
         let PrivateCoin = document.getElementById('PrivateCoin').value
         let getTime
+        let error  = false
+
         if (EstablishmentDate !== '') {
             getTime = `${JalaliCalendar(EstablishmentDate).year}-${JalaliCalendar(EstablishmentDate).month}-${JalaliCalendar(EstablishmentDate).day}`
         } else {
             getTime = null
+            error = true
         }
         let country = SelectedCountry
 
-        let error  = false
 
         if (name === '') {
             name = null
+            error = true
+
         }
         if (Ename === '') {
             Ename = null
+            error = true
+
         }
         if (website === '') {
             website = null
+            error = true
         }
         if (supervisor === '') {
             supervisor = null
+            error = true
         }
         if (legalName === '') {
             legalName = null
+            error = true
         }
         if (licence === '') {
             licence = null
         }
         if (registerNumber === '') {
             registerNumber = null
+            error = true
         }
 
         const countryList = []
@@ -97,8 +107,15 @@ const AddEntity = () => {
             )
         }
 
+        if (currencyList.length === 0) {
+            error = true
+        }
+        if (countryList.length === 0) {
+            error = true
+        }
+
         if (error) {
-            return toast.error('وارد کردن نام انگلیسی الزامی است.', {
+            return toast.error('وارد کردن تمامی موارد الزامی است.', {
                 position: 'bottom-left'
             })
         } else {

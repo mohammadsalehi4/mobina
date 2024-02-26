@@ -1,3 +1,4 @@
+/* eslint-disable no-duplicate-imports */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable brace-style */
 /* eslint-disable multiline-ternary */
@@ -6,12 +7,15 @@
 // ** Third Party Components
 import { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
-import { CornerUpRight } from 'react-feather'
+import { CornerUpRight, Gift, CreditCard, Codesandbox, Zap, Info } from 'react-feather'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { serverAddress } from '../../../address'
 import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'reactstrap'
 import LocalLoading from '../../../components/localLoading/localLoading'
+import {Modal, ModalBody, ModalFooter, Input, Button}  from 'reactstrap'
+import NiceAddress2 from '../../../components/niceAddress2/niceAddress'
+import DataTable from 'react-data-table-component'
 import './style.css'
 const GoalOverview = props => {
 
@@ -29,6 +33,10 @@ const GoalOverview = props => {
   const [Addresses, SetAddresses] = useState([])
 
   const [Loading, SetLoading] = useState(true)
+
+  const [DeviceBox, SetDeviceBox] = useState(false)
+  const [TransactionBox, SetTransactionBox] = useState(false)
+  const [AddressesBox, SetAddressesBox] = useState(false)
 
   const options = {
       chart: {
@@ -138,6 +146,79 @@ const GoalOverview = props => {
 
     }, [, props.id])
 
+    const TransactionTable = [
+      {
+        name: 'تراکنش',
+        sortable: true,
+        minWidth: '160px',
+        maxWidth: '160px',
+        selector: row => row.hash,
+        cell : row => {
+          return (
+            <NiceAddress2 text={row.hash} number={6} />
+          )
+        }
+      },
+      {
+        name: 'تاریخ',
+        sortable: true,
+        minWidth: '200px',
+        maxWidth: '200px',
+        selector: row => row.date
+      },
+      {
+        name: 'حجم(BTC)',
+        sortable: true,
+        minWidth: '150px',
+        maxWidth: '150px',
+        selector: row => row.volume
+      }
+    ]
+
+    const AddressTable = [
+      {
+        name: 'آدرس',
+        sortable: true,
+        minWidth: '260px',
+        maxWidth: '260px',
+        selector: row => row.hash,
+        cell : row => {
+          return (
+            <NiceAddress2 text={row.hash} number={10} />
+          )
+        }
+      }
+    ]
+
+    const DeviceTable = [
+      {
+        name: 'تراکنش',
+        sortable: true,
+        minWidth: '160px',
+        maxWidth: '160px',
+        selector: row => row.hash,
+        cell : row => {
+          return (
+            <NiceAddress2 text={row.hash} number={6} />
+          )
+        }
+      },
+      {
+        name: 'تاریخ',
+        sortable: true,
+        minWidth: '200px',
+        maxWidth: '200px',
+        selector: row => row.date
+      },
+      {
+        name: 'حجم(BTC)',
+        sortable: true,
+        minWidth: '150px',
+        maxWidth: '150px',
+        selector: row => row.volume
+      }
+    ]
+
   return (
     <>
       {
@@ -166,18 +247,18 @@ const GoalOverview = props => {
                   <p style={{fontSize:'12px', marginTop:'0px'}}>تامین برق با نیروگاه سوخت فسیلی</p>
 
                   <p style={{fontSize:'12px', marginTop:'-12px'}}>
-                    <span  className='defaultCalculatingValuesMiner'>
-                      {Devices.length} دستگاه فعال
+                    <span  className='defaultCalculatingValuesMiner' onClick={ () => { SetDeviceBox(true) }}>
+                      {Devices.length} دستگاه فعال <Info size={13} style={{color:'blue'}} />
                     </span>
                   </p>
 
                   <p style={{fontSize:'12px', marginTop:'-12px'}}>
-                    <span className='defaultCalculatingValuesMiner'>{Addresses.length} آدرس پاداش</span>
+                    <span className='defaultCalculatingValuesMiner' onClick={ () => { SetAddressesBox(true) }}>{Addresses.length} آدرس پاداش <Info size={13} style={{color:'blue'}} /></span>
                   </p>
 
                   <p style={{fontSize:'12px', marginTop:'-12px'}}>
-                    <span className='defaultCalculatingValuesMiner'>
-                      {Transactions.length} تراکنش ورودی
+                    <span className='defaultCalculatingValuesMiner' onClick={ () => { SetTransactionBox(true) }}>
+                      {Transactions.length} تراکنش ورودی <Info size={13} style={{color:'blue'}} />
                     </span>
                   </p>
 
@@ -187,7 +268,7 @@ const GoalOverview = props => {
                 
                   <div style={{textAlign:'right'}} className='mt-2'>
                     <div style={{display:'inline-block'}}>
-                      <CornerUpRight size={33} style={{color:"red", background:"rgb(240,200,200)", marginLeft:"4px", marginTop:"-24px", padding:'4px', borderRadius:'8px'}} />
+                    <Codesandbox size={30} style={{fontWidth:'100', color:"rgb(255,100,100)", background:"rgb(240,220,220)", marginLeft:"4px", marginTop:"-24px", padding:'6px', borderRadius:'8px'}} />
                     </div>
                     <div style={{display:'inline-block'}}>
                       <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'هش ریت اسمی مرکز استخراج'}</p>
@@ -200,7 +281,7 @@ const GoalOverview = props => {
     
                   <div style={{textAlign:'right'}} className='mt-2'>
                     <div style={{display:'inline-block'}}>
-                      <CornerUpRight size={33} style={{color:"red", background:"rgb(240,200,200)", marginLeft:"4px", marginTop:"-24px", padding:'4px', borderRadius:'8px'}} />
+                      <CreditCard size={30} style={{fontWidth:'100', color:"rgb(0,255,0)", background:"rgb(220,255,220)", marginLeft:"4px", marginTop:"-24px", padding:'6px', borderRadius:'8px'}} />
                     </div>
                     <div style={{display:'inline-block'}}>
                       <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'پاداش دریافتی مرکز'}</p>
@@ -213,7 +294,7 @@ const GoalOverview = props => {
     
                   <div style={{textAlign:'right'}} className='mt-2'>
                     <div style={{display:'inline-block'}}>
-                      <CornerUpRight size={33} style={{color:"red", background:"rgb(240,200,200)", marginLeft:"4px", marginTop:"-24px", padding:'4px', borderRadius:'8px'}} />
+                      <CornerUpRight size={30} style={{fontWidth:'100', color:"rgb(100,100,255)", background:"rgb(220,220,240)", marginLeft:"4px", marginTop:"-24px", padding:'6px', borderRadius:'8px'}} />
                     </div>
                     <div style={{display:'inline-block'}}>
                       <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'هش ریت شبکه بیت‌کوین'}</p>
@@ -226,7 +307,7 @@ const GoalOverview = props => {
     
                   <div style={{textAlign:'right'}} className='mt-2'>
                     <div style={{display:'inline-block'}}>
-                      <CornerUpRight size={33} style={{color:"red", background:"rgb(240,200,200)", marginLeft:"4px", marginTop:"-24px", padding:'4px', borderRadius:'8px'}} />
+                      <Gift size={30} style={{fontWidth:'100', color:"#bf00ff", background:"#f2ccff", marginLeft:"4px", marginTop:"-24px", padding:'6px', borderRadius:'8px'}} />
                     </div>
                     <div style={{display:'inline-block'}}>
                       <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'پاداش اعطایی شبکه بیت‌کوین'}</p>
@@ -239,7 +320,7 @@ const GoalOverview = props => {
     
                   <div style={{textAlign:'right'}} className='mt-2'>
                     <div style={{display:'inline-block'}}>
-                      <CornerUpRight size={33} style={{color:"red", background:"rgb(240,200,200)", marginLeft:"4px", marginTop:"-24px", padding:'4px', borderRadius:'8px'}} />
+                      <Zap size={30} style={{fontWidth:'100', color:"#ffa31a", background:"#ffebcc", marginLeft:"4px", marginTop:"-24px", padding:'6px', borderRadius:'8px'}} />
                     </div>
                     <div style={{display:'inline-block'}}>
                       <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'برق مصرفی اسمی'}</p>
@@ -264,6 +345,61 @@ const GoalOverview = props => {
       }
 
     <hr/>
+    <Modal
+        isOpen={DeviceBox}
+        className='modal-dialog-centered'
+        toggle={ () => { SetDeviceBox(false) } }
+
+        modalClassName={'modal-danger'}
+      >
+        <ModalBody>
+            <h6>لیست دستگاه‌ها</h6>
+        </ModalBody>
+        <ModalFooter>
+            
+        </ModalFooter>
+      </Modal>
+
+      <Modal
+        isOpen={AddressesBox}
+        className='modal-dialog-centered'
+        toggle={ () => { SetAddressesBox(false) } }
+
+        modalClassName={'modal-danger'}
+      >
+        <ModalBody>
+            <h6>لیست آدرس‌ها</h6>
+            <DataTable
+            noHeader
+            data={Addresses}
+            columns={AddressTable}
+            className='react-dataTable'
+            />
+        </ModalBody>
+        <ModalFooter>
+            
+        </ModalFooter>
+      </Modal>
+
+      <Modal
+        isOpen={TransactionBox}
+        className='modal-dialog-centered'
+        toggle={ () => { SetTransactionBox(false) } }
+        modalClassName={'modal-danger'}
+      >
+        <ModalBody>
+            <h6>لیست تراکنش‌ها</h6>
+            <DataTable
+            noHeader
+            data={Transactions}
+            columns={TransactionTable}
+            className='react-dataTable'
+            />
+        </ModalBody>
+        <ModalFooter>
+            
+        </ModalFooter>
+      </Modal>
     </>
 
   )

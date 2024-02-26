@@ -77,11 +77,11 @@ const MinerUsers = () => {
             for (let i = 0; i < response.data.results.length; i++) {
                 getData.push(
                     {
-                        BrandName:'کوفت',
+                        BrandName:response.data.results[i].name_brand,
                         name:`${response.data.results[i].interface_fname} ${response.data.results[i].interface_lname}`,
                         phoneNumber: response.data.results[i].interface_phone_number,
                         Email: response.data.results[i].email,
-                        website: 'کوفت'
+                        website: response.data.results[i].website
                     }
                 )
             }
