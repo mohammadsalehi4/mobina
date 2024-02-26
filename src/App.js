@@ -36,6 +36,7 @@ import Spinner from '@components/spinner/Loading-spinner'
 import MinerProfile from './pages/mining/profile/minerprofile'
 import Minerefficienty from './pages/minerSupervisor/minerEfficienty/minerefficienty'
 import NewCalculate from './pages/minerSupervisor/minerEfficienty/newCalculate'
+import Footer from './pages/footer/footer'
 const App = () => {
   const [Loading, SetLoading] = useState(false)
 
@@ -216,6 +217,7 @@ const App = () => {
             <Route path="/demo"  element={<Demo/>}/>
             
           </Routes>
+          <Footer/>
     </div>
     </UILoader>
 

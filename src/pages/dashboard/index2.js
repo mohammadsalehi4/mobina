@@ -343,7 +343,6 @@ const EcommerceDashboard2 = () => {
     })
   }
   const AccountBaseTr =(data, symbole, name) => {
-    console.log(data)
     const blockNumber=data.blockNumber
     const address=data.hash
     const BlockDate=data.timestamp
@@ -423,6 +422,23 @@ const EcommerceDashboard2 = () => {
         }
       }
     }
+
+    console.log('processor')
+    console.log({
+      address,
+      blockNumber,
+      name,
+      image,
+      BlockDate,
+      symbole,
+      color,
+      TotalOutput,
+      TotalInput,
+      RiskScore,
+      transfers,
+      fee,
+      TotalAmount
+    })
 
     return ({
       address,
@@ -691,6 +707,70 @@ const EcommerceDashboard2 = () => {
               
               SetTrData(UTXOTr(GetData, 'BCH', 'بیت کوین کش'))
               dispatch({type:"networkName", value:'BCH'})
+
+              //labels
+              let labelText = null
+              let labelId = null
+              if (GetData.MainLabel) {
+                labelText = GetData.MainLabel.label
+                labelId = GetData.MainLabel.id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+    
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (GetData.MainTag) {
+                isTag = true
+                for (let i = 0; i <GetData.MainTag.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:GetData.MainTag[i].tag,
+                      tagId:GetData.MainTag[i].id
+                    }
+                  )
+                }
+              }
+    
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+    
+              SetMode(1)
+              SetLoading(false)
+            } else {
+              return toast.error('خطا در دریافت اطلاعات از سرور', {
+                position: 'bottom-left'
+              })
+            }
+
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
+        } else if (addressMode.data.network[0] === 'TRX') {
+          try {
+            const GetData = Account_transaction(addressMode.data.data, 'TRX', 1)
+
+
+            if (!GetData.isError) {
+                                          
+              //catch
+              saveToStorage(addressMode)
+              console.log("AccountBaseTr(GetData, 'TRX', 'ترون')")
+              console.log(AccountBaseTr(GetData, 'TRX', 'ترون'))
+              SetTrData(AccountBaseTr(GetData, 'TRX', 'ترون'))
+              dispatch({type:"networkName", value:'TRX'})
 
               //labels
               let labelText = null
@@ -1157,6 +1237,78 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
+        } else if (addressMode.data.network[0] === 'TRX') {
+          try {
+            SetAddress(hash)
+            SetLoading(false)
+            SetCoinData({
+              name:'ترون',
+              symbole:"TRX",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#627eea",
+              image:"TRX.png"
+            })
+
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.labels_tags.labels.length > 0) {
+              labelText = addressMode.data.data.labels_tags.labels[0].label
+              labelId = addressMode.data.data.labels_tags.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.labels_tags.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                    tagId:addressMode.data.data.labels_tags.tags[i].id
+                  }
+                )
+              }
+            }
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+
+            let isEntity = false
+            let EntityInfo = false
+            if (addressMode.data.data.entity !== null) {
+              isEntity = true
+              EntityInfo = addressMode.data.data.entity
+            }
+            SetEntity(
+              {
+                isEntity,
+                EntityInfo
+              }
+            )
+
+            SetAdData(AccountBaseAdd(Account_Address(addressMode.data.data, hash, 'TRX', 1000000000000000000), 'TRX'))
+            SetMode(2)
+          } catch (error) {
+            console.log(error)
+            SetLoading(false)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
         }
       }
     }
@@ -1226,6 +1378,8 @@ const EcommerceDashboard2 = () => {
         SelectProcessHandler('LTC')
       } else if (addressMode.data.network[index] === 'BCH') {
         SelectProcessHandler('BCH')
+      } else if (addressMode.data.network[index] === 'TRX') {
+        SelectProcessHandler('TRX')
       }
     } else if (addressMode.data.query === 'address') {
       if (addressMode.data.network[index] === 'BTC') {
@@ -1234,6 +1388,8 @@ const EcommerceDashboard2 = () => {
         SelectProcessHandler('LTC')
       } else if (addressMode.data.network[index] === 'BCH') {
         SelectProcessHandler('BCH')
+      } else if (addressMode.data.network[index] === 'TRX') {
+        SelectProcessHandler('TRX')
       }
     }
   }
@@ -1258,7 +1414,7 @@ const EcommerceDashboard2 = () => {
           } else if (addressMode.data.network.length > 1) {
             if (addressMode.data.network[0] === 'ETH' || addressMode.data.network[0] === 'BSC') {
               SetSelectToken(1)
-            } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH') {
+            } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH' || addressMode.data.network[0] === 'TRX') {
               SetSelectToken(2)
             }
           }
@@ -1432,6 +1588,13 @@ const EcommerceDashboard2 = () => {
                                       <img src='https://cryptologos.cc/logos/bitcoin-cash-bch-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                     </div>
 
+                                    <div onClick={ () => { SelectProcessHandler('TRX'), dispatch({type:"networkName", value:'BCH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                      <span>
+                                        TRX - ترون
+                                      </span>
+                                      <img src='https://cryptologos.cc/logos/tron-trx-logo.png?v=029' style={{width:'20px', float:'left'}} />
+                                    </div>
+
                                   </Card>
                                   :
                                     null
@@ -1473,7 +1636,7 @@ const EcommerceDashboard2 = () => {
                             <TokenInformation color1="warning" status="در حال توسعه" TokenImage={'https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=029'} TokenTitle={'دوج'} TokenDescription={'ابتدا به عنوان شوخی شروع شد اما طرفداران زیادی در فضای آنلاین به دست آورد.'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
-                            <TokenInformation color1="warning" status="در حال توسعه" TokenImage={'https://cryptologos.cc/logos/tron-trx-logo.png?v=029'} TokenTitle={'ترون'} TokenDescription={'شبکه بلاکچین ترون یک پلتفرم غیرمتمرکز است که بر روی به اشتراک‌گذاری محتوای دیجیتال و سرگرمی تمرکز دارد.'}/>
+                            <TokenInformation color1="success" status="توسعه یافته" TokenImage={'https://cryptologos.cc/logos/tron-trx-logo.png?v=029'} TokenTitle={'ترون'} TokenDescription={'شبکه بلاکچین ترون یک پلتفرم غیرمتمرکز است که بر روی به اشتراک‌گذاری محتوای دیجیتال و سرگرمی تمرکز دارد.'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
                             <TokenInformation color1="warning" status="در حال توسعه" TokenImage={'https://cryptologos.cc/logos/polygon-matic-logo.png?v=029'} TokenTitle={'متیک'} TokenDescription={'شبکه بلاکچین پلیگان یک پلتفرم قابل توسعه و همکاری‌پذیر است که برای اتصال و ساخت شبکه‌های بلاکچین سازگار با اتریوم طراحی شده است.'}/>
