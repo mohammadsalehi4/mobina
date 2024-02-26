@@ -37,7 +37,7 @@ const Radyabi = () => {
             } else {
                 if (response.data.network[0] === 'ETH' || response.data.network[0] === 'BSC') {
                     SetSelectToken(1)
-                } else if (response.data.network[0] === 'BTC' || response.data.network[0] === 'BCH') {
+                } else if (response.data.network[0] === 'BTC' || response.data.network[0] === 'BCH' || response.data.network[0] === 'TRX') {
                     SetSelectToken(2)
                 }
             }
@@ -149,6 +149,13 @@ const Radyabi = () => {
                                                 BCH - بیت‌کوین کش
                                             </span>
                                             <img src='https://cryptologos.cc/logos/bitcoin-cash-bch-logo.png?v=029' style={{width:'20px', float:'left'}} />
+                                        </div>
+
+                                        <div onClick={ () => { SetNetwork('TRX') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                            <span>
+                                                TRX - ترون
+                                            </span>
+                                            <img src='https://cryptologos.cc/logos/tron-trx-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                         </div>
                                     </Card>
                                 :

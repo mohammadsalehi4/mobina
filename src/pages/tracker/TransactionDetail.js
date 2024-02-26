@@ -250,6 +250,15 @@ const TransactionDetail1 = () => {
           SetDate(TrData.BlockDate)
           SetLoading(false)
           SetData(TrData)
+        } else if (network === 'TRX') {
+          const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'TRX', 1000000000000000000), 'TRX'))
+          SetIsGet(true)
+          SetValue(TrData.value)
+          SetSymbole(TrData.symbole)
+          SetFee(TrData.fee)
+          SetDate(TrData.BlockDate)
+          SetLoading(false)
+          SetData(TrData)
         } else if (network === 'BSC') {
           const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'BNB', 1000000000000000000), 'BNB'))
           SetIsGet(true)

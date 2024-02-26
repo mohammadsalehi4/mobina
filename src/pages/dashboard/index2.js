@@ -1248,8 +1248,8 @@ const EcommerceDashboard2 = () => {
               owner:"بدون اطلاعات",
               ownerMode:"بدون اطلاعات",
               website:"بدون اطلاعات",
-              color:"#627eea",
-              image:"TRX.png"
+              color:"#ff060a",
+              image:"https://cryptologos.cc/logos/tron-trx-logo.png?v=029"
             })
 
             //labels

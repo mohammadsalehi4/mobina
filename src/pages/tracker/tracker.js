@@ -497,6 +497,12 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXO_Address(hash, response.data.data, 'BCH', 1))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
+                        } else if (network === 'TRX') {
+                            dispatch({type:"Network", value:'TRX'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountAdd(Account_Address(response.data.data, hash, 'TRX', 1000000000000000000))})
+                            dispatch({type:"positionX", value:0})
+                            SetIsShow(true)
                         }
                     } else if (response.data.query === 'transaction') {
                         if (network === 'ETH') {
@@ -528,6 +534,12 @@ const Tracker = () => {
                             dispatch({type:"Network", value:'BCH'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOTr(UTXO_Transaction(response.data.data, 'BCH', 1))})
+                            dispatch({type:"positionX", value:320})
+                            SetIsShow(true)
+                        } else if (network === 'TRX') {
+                            dispatch({type:"Network", value:'TRX'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountTr(Account_transaction(response.data.data, 'TRX', 1000000000000000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         }

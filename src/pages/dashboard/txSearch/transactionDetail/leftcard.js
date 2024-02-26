@@ -48,7 +48,6 @@ const CardTransactions = (props) => {
     const States = useSelector(state => state)
     return (
       <div>
-
         <div className='row mt-3'>
           <div className='col-6'>
               <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'کارمزد'}</p>

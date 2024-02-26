@@ -174,6 +174,27 @@ const ShowEntity = () => {
         const BCHAddress = document.getElementById('BCH').value
         const mainBCH = BCHAddress.split('\n')
 
+        const MATICAddress = document.getElementById('MATIC').value
+        const mainMATIC = MATICAddress.split('\n')
+
+        const ETCAddress = document.getElementById('ETC').value
+        const mainETC = ETCAddress.split('\n')
+
+        const XRPAddress = document.getElementById('XRP').value
+        const mainXRP = XRPAddress.split('\n')
+
+        const XLMAddress = document.getElementById('XLM').value
+        const mainXLM = XLMAddress.split('\n')
+
+        const ADAAddress = document.getElementById('ADA').value
+        const mainADA = ADAAddress.split('\n')
+
+        const XRDAddress = document.getElementById('XRD').value
+        const mainXRD = XRDAddress.split('\n')
+
+        const TRXAddress = document.getElementById('TRX').value
+        const mainTRX = TRXAddress.split('\n')
+
         const array = []
 
         if (mainETH[0] !== '') {
@@ -226,6 +247,83 @@ const ShowEntity = () => {
                     {
                         name:mainBCH[i],
                         network:2
+                    }
+                )
+            }
+        }
+
+        if (mainMATIC[0] !== '') {
+            for (let i = 0; i < mainMATIC.length; i++) {
+                array.push(
+                    {
+                        name:mainMATIC[i],
+                        network:6
+                    }
+                )
+            }
+        }
+
+        if (mainETC[0] !== '') {
+            for (let i = 0; i < mainETC.length; i++) {
+                array.push(
+                    {
+                        name:mainETC[i],
+                        network:8
+                    }
+                )
+            }
+        }
+
+        if (mainXRP[0] !== '') {
+            for (let i = 0; i < mainXRP.length; i++) {
+                array.push(
+                    {
+                        name:mainXRP[i],
+                        network:9
+                    }
+                )
+            }
+        }
+
+        if (mainTRX[0] !== '') {
+            for (let i = 0; i < mainTRX.length; i++) {
+                array.push(
+                    {
+                        name:mainTRX[i],
+                        network:10
+                    }
+                )
+            }
+        }
+
+        if (mainXLM[0] !== '') {
+            for (let i = 0; i < mainXLM.length; i++) {
+                array.push(
+                    {
+                        name:mainXLM[i],
+                        network:11
+                    }
+                )
+            }
+        }
+
+        if (mainADA[0] !== '') {
+            for (let i = 0; i < mainADA.length; i++) {
+                array.push(
+                    {
+                        name:mainADA[i],
+                        network:12
+                    }
+                )
+            }
+        }
+
+        if (mainXRD[0] !== '') {
+            for (let i = 0; i < mainXRD.length; i++) {
+                array.push(
+                    {
+                        name:mainXRD[i],
+                        network:13
                     }
                 )
             }
@@ -590,6 +688,42 @@ const ShowEntity = () => {
                             BCH-بیت کوین کش
                         </Label>
                         <Input id='BCH' type='textarea' />
+                    </Col>
+                    <Col xl='12' className='mt-3'>
+                        <Label>
+                            MATIC-پالیگان
+                        </Label>
+                        <Input id='MATIC' type='textarea' />
+                    </Col>
+                    <Col xl='12' className='mt-3'>
+                        <Label>
+                            ETC-اتریوم کلاسیک
+                        </Label>
+                        <Input id='ETC' type='textarea' />
+                    </Col>
+                    <Col xl='12' className='mt-3'>
+                        <Label>
+                            XRP-اکس آر پی
+                        </Label>
+                        <Input id='XRP' type='textarea' />
+                    </Col>
+                    <Col xl='12' className='mt-3'>
+                        <Label>
+                            XLM-استلار
+                        </Label>
+                        <Input id='XLM' type='textarea' />
+                    </Col>
+                    <Col xl='12' className='mt-3'>
+                        <Label>
+                            ADA-کاردانو
+                        </Label>
+                        <Input id='ADA' type='textarea' />
+                    </Col>
+                    <Col xl='12' className='mt-3'>
+                        <Label>
+                            XRD-رادیکس
+                        </Label>
+                        <Input id='XRD' type='textarea' />
                     </Col>
                 </Row>
 
