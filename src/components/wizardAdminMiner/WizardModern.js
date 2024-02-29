@@ -1,15 +1,16 @@
+/* eslint-disable no-duplicate-imports */
 // ** React Imports
 import { useRef, useState } from 'react'
 
 import Wizard from '@components/wizard'
 
 // ** Steps
-import St3 from './steps/st3'
-import St2 from './steps/st2'
-import St1 from './steps/st1'
+import St2 from './steps/ad2'
+import St1 from './steps/ad1'
+import St0 from './steps/ad0'
 import { FileText, User, MapPin, Link } from 'react-feather'
 
-const WizardModern = () => {
+const AdminWizardModern = () => {
   // ** Ref
   const ref = useRef(null)
 
@@ -17,6 +18,13 @@ const WizardModern = () => {
   const [stepper, setStepper] = useState(null)
 
   const steps = [
+    {
+      id: 'step0',
+      title: 'انتخاب کاربر',
+      subtitle: 'اطلاعات کاربر',
+      icon: <FileText size={18} />,
+      content: <St0 stepper={stepper} type='wizard-modern'  style={{marginLeft:"5px"}} />
+    },
     {
       id: 'step1',
       title: 'استخراج کننده',
@@ -48,4 +56,4 @@ const WizardModern = () => {
   )
 }
 
-export default WizardModern
+export default AdminWizardModern

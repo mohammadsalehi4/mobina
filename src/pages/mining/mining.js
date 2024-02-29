@@ -1,9 +1,10 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect} from 'react'
 import WizardModern from '../../components/wizard/WizardModern'
 import { useDispatch } from 'react-redux'
 import Cookies from 'js-cookie'
-
+import AdminWizardModern from '../../components/wizardAdminMiner/WizardModern'
 import './mining.css'
 const Mining = () => {
     const dispatch = useDispatch()
@@ -34,7 +35,12 @@ const Mining = () => {
                 <div className='col-lg-1'>
                 </div>
                 <div className='col-lg-10 '  style={{background:"white"}}>
-                    <WizardModern/>
+                    {
+                        (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                            <AdminWizardModern/>
+                        :
+                            <WizardModern/>
+                    }
                 </div>
                 <div className='col-lg-1'>
                 </div>

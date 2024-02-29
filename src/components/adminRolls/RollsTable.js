@@ -46,7 +46,10 @@ const RollsTable = () => {
 
 
   const handleModal = () => setModal(!modal)
-  const handleEdit = () => setEdit(!Edit)
+  const handleEdit = () => {
+    alert('run')
+    setEdit(!Edit)
+  }
   const handleShow = () => setShow(!Show)
 
   const DeleteRole = (index) => {
@@ -153,6 +156,7 @@ const RollsTable = () => {
           }
         })
         .then((response) => {
+          console.log(response.data)
         setLoading(false)
         dispatch({type:"LOADINGEFFECT", value:false})
             if (response.data.results.length > 0) {

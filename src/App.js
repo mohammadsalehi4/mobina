@@ -81,7 +81,7 @@ const App = () => {
   return (
     <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
 
-    <div>
+    <div style={{minHeight:'100vh'}}>
           {
             States.showNavbar ? < Header/> : null
           }

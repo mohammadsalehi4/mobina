@@ -98,10 +98,52 @@ const initialState = {
     ProfileGraph:false,
 
     //network set
-    networkName:''
+    networkName:'',
+
+    //miner
+    userMinerId:null,
+    userMinerEmail:null,
+    userMinerinterface_fname:null,
+    userMinerinterface_lname:null,
+    userMinerinterface_phone_number:null
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'userMinerId') {
+        return {
+            ...state,
+            userMinerId:action.value
+        }
+    }
+
+    if (action.type === 'userMinerEmail') {
+        return {
+            ...state,
+            userMinerEmail:action.value
+        }
+    }
+
+    if (action.type === 'userMinerinterface_fname') {
+        return {
+            ...state,
+            userMinerinterface_fname:action.value
+        }
+    }
+
+    if (action.type === 'userMinerinterface_lname') {
+        return {
+            ...state,
+            userMinerinterface_lname:action.value
+        }
+    }
+
+    if (action.type === 'userMinerinterface_phone_number') {
+        return {
+            ...state,
+            userMinerinterface_phone_number:action.value
+        }
+    }
 
     if (action.type === 'paginationData') {
         return {
