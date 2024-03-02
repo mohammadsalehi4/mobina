@@ -35,6 +35,19 @@ const ShowEntity = () => {
     const [EntityDetail, setEntityDetail] = useState(null)
     const [Types, setTypes] = useState([])
 
+    const [ethAddress, SetethAddress] = useState('')
+    const [btcAddress, SetbtcAddress] = useState('')
+    const [BSCAddress, SetBSCAddress] = useState('')
+    const [LTCAddress, SetLTCAddress] = useState('')
+    const [BCHAddress, SetBCHAddress] = useState('')
+    const [MATICAddress, SetMATICAddress] = useState('')
+    const [ETCAddress, SetETCAddress] = useState('')
+    const [XRPAddress, SetXRPAddress] = useState('')
+    const [XLMAddress, SetXLMAddress] = useState('')
+    const [ADAAddress, SetADAAddress] = useState('')
+    const [XRDAddress, SetXRDAddress] = useState('')
+    const [TRXAddress, SetTRXAddress] = useState('')
+
         //get types
         useEffect(() => {
             axios.get(`${serverAddress}/entity/type/`, 
@@ -159,43 +172,33 @@ const ShowEntity = () => {
     ]
 
     const addAllAddress = () => {
-        const ethAddress = document.getElementById('ETH').value
         const mainETH = ethAddress.split('\n')
         
-        const btcAddress = document.getElementById('BTC').value
         const mainBTC = btcAddress.split('\n')
         
-        const BSCAddress = document.getElementById('BSC').value
         const mainBSC = BSCAddress.split('\n')
 
-        const LTCAddress = document.getElementById('LTC').value
         const mainLTC = LTCAddress.split('\n')
 
-        const BCHAddress = document.getElementById('BCH').value
         const mainBCH = BCHAddress.split('\n')
 
-        const MATICAddress = document.getElementById('MATIC').value
         const mainMATIC = MATICAddress.split('\n')
 
-        const ETCAddress = document.getElementById('ETC').value
         const mainETC = ETCAddress.split('\n')
 
-        const XRPAddress = document.getElementById('XRP').value
         const mainXRP = XRPAddress.split('\n')
 
-        const XLMAddress = document.getElementById('XLM').value
         const mainXLM = XLMAddress.split('\n')
 
-        const ADAAddress = document.getElementById('ADA').value
         const mainADA = ADAAddress.split('\n')
 
-        const XRDAddress = document.getElementById('XRD').value
         const mainXRD = XRDAddress.split('\n')
 
-        const TRXAddress = document.getElementById('TRX').value
         const mainTRX = TRXAddress.split('\n')
 
         const array = []
+
+        console.log(document.getElementById('BTC').value)
 
         if (mainETH[0] !== '') {
             for (let i = 0; i < mainETH.length; i++) {
@@ -363,6 +366,9 @@ const ShowEntity = () => {
                   window.location.assign('/')
                 }
             })
+        } else {
+            console.log('no')
+            console.log(array)
         }
     }
 
@@ -663,67 +669,67 @@ const ShowEntity = () => {
                         <Label>
                             ETH-اتریوم
                         </Label>
-                        <Input id='ETH' type='textarea' />
+                        <Input id='ETH' type='textarea' onChange={ (e) => { SetethAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             BTC-بیت کوین
                         </Label>
-                        <Input id='BTC' type='textarea' />
+                        <Input id='BTC' type='textarea' onChange={ (e) => { SetBTCValue(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             BSC-بایننس اسمارت چین
                         </Label>
-                        <Input id='BSC' type='textarea' />
+                        <Input id='BSC' type='textarea' onChange={ (e) => { SetBSCAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             LTC-لایت کوین
                         </Label>
-                        <Input id='LTC' type='textarea' />
+                        <Input id='LTC' type='textarea' onChange={ (e) => { SetLTCAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             BCH-بیت کوین کش
                         </Label>
-                        <Input id='BCH' type='textarea' />
+                        <Input id='BCH' type='textarea' onChange={ (e) => { SetBCHAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             MATIC-پالیگان
                         </Label>
-                        <Input id='MATIC' type='textarea' />
+                        <Input id='MATIC' type='textarea' onChange={ (e) => { SetMATICAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             ETC-اتریوم کلاسیک
                         </Label>
-                        <Input id='ETC' type='textarea' />
+                        <Input id='ETC' type='textarea' onChange={ (e) => { SetETCAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             XRP-اکس آر پی
                         </Label>
-                        <Input id='XRP' type='textarea' />
+                        <Input id='XRP' type='textarea' onChange={ (e) => { SetXRPAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             XLM-استلار
                         </Label>
-                        <Input id='XLM' type='textarea' />
+                        <Input id='XLM' type='textarea' onChange={ (e) => { SetXLMAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             ADA-کاردانو
                         </Label>
-                        <Input id='ADA' type='textarea' />
+                        <Input id='ADA' type='textarea' onChange={ (e) => { SetADAAddress(e.target.value) }}/>
                     </Col>
                     <Col xl='12' className='mt-3'>
                         <Label>
                             XRD-رادیکس
                         </Label>
-                        <Input id='XRD' type='textarea' />
+                        <Input id='XRD' type='textarea' onChange={ (e) => { SetXRDAddress(e.target.value) }}/>
                     </Col>
                 </Row>
 

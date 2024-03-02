@@ -672,7 +672,7 @@ const AddEntity = () => {
                         <Input id='supervisor'/>
                     </Col>
 
-                    <Col xl='4' lg='6' className='mt-3'>
+                    {/* <Col xl='4' lg='6' className='mt-3'>
                         <Label>
                             کشور
                         </Label>
@@ -691,7 +691,7 @@ const AddEntity = () => {
                                 })
                             }
                         </select>
-                    </Col>
+                    </Col> */}
 
                     <Col xl='4' lg='6' className='mt-3'>
                         <Label>
