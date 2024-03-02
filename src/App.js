@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 import jwt from 'jsonwebtoken'
 import Cookies from 'js-cookie'
 import EcommerceDashboard2 from '../src/pages/dashboard/index2'
@@ -77,147 +77,156 @@ const App = () => {
     return () => clearInterval(interval)
   }, [])
 
-
+  const location = useLocation()
+  const showFooter = location.pathname !== '/'
   return (
-    <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
 
-    <div style={{minHeight:'100vh'}}>
-          {
-            States.showNavbar ? < Header/> : null
-          }
-          <Routes>
-            <Route path="/" exact element={<Main/>}/>
-            <Route path="/recovery"  element={<Recovery/>}/>
-            <Route path="/profile"  element={<Profile/>}/>
+    <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
+    <div style={{display:'flex', flexDirection:'column'}}>
+      <div style={{minHeight:'100vh', flex:'1'}}>
             {
-              (Number(Cookies.get('roll')) === 2) ?
-                <Route path="/admin"  element={<Admin/>}/>
-              :
-              null
+              States.showNavbar ? < Header/> : null
             }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/researcher"  element={<EcommerceDashboard2/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/researcher/:hash"  element={<EcommerceDashboard2/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/researcher/:network/:hash"  element={<EcommerceDashboard2/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/tracker"  element={<Tracker/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/tracker/:network/:hash"  element={<Tracker/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/tracker/loadGraph/:network/:id"  element={<Tracker/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/folders"  element={<Folders/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                <Route path="/case"  element={<SingleCase/>}/>
-              :
-              null
-            }
-            <Route path="/newpassword/:username/:token"  element={<ChangePassword/>}/>
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
-                <Route path="/tax"  element={<MainTax/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
-                <Route path="/tax/management"  element={<Tax/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
-                <Route path="/tax/management/:id/:state"  element={<Tax/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
-                <Route path="/tax/list"  element={<ShowLastTaxes/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
-                <Route path="/miner"  element={<MinerProfile/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
-                <Route path="/miner/:minerid"  element={<Mining/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
-                <Route path="/mining"  element={<Mining/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
-                <Route path="/minersupervisor"  element={<WelcomePage/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
-                <Route path="/minerusers"  element={<MinerUsers/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
-                <Route path="/minerefficienty"  element={<Minerefficienty/>}/>
-              :
-              null
-            }
-            {
-              (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
-                <Route path="/new_miner_calculate"  element={<NewCalculate/>}/>
-              :
-              null
-            }
-            <Route path="/reports"  element={<Reports/>}/>
-            <Route path="/reports/:id"  element={<ShowReport/>}/>
-            {/* <Route path="/owner"  element={<Owner/>}/> */}
-            {/* <Route path="/entities"  element={<Entities/>}/> */}
-            <Route path="/demo"  element={<Demo/>}/>
-            
-          </Routes>
-          <Footer/>
+            <Routes >
+              <Route path="/" exact element={<Main/>}/>
+              <Route path="/recovery"  element={<Recovery/>}/>
+              <Route path="/profile"  element={<Profile/>}/>
+              {
+                (Number(Cookies.get('roll')) === 2) ?
+                  <Route path="/admin"  element={<Admin/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                  <Route path="/researcher"  element={<EcommerceDashboard2/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                  <Route path="/researcher/:hash"  element={<EcommerceDashboard2/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                  <Route path="/researcher/:network/:hash"  element={<EcommerceDashboard2/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                  <Route path="/tracker"  element={<Tracker/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                  <Route path="/tracker/:network/:hash"  element={<Tracker/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                  <Route path="/tracker/loadGraph/:network/:id"  element={<Tracker/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                  <Route path="/folders"  element={<Folders/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                  <Route path="/case"  element={<SingleCase/>}/>
+                :
+                null
+              }
+              <Route path="/newpassword/:username/:token"  element={<ChangePassword/>}/>
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
+                  <Route path="/tax"  element={<MainTax/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
+                  <Route path="/tax/management"  element={<Tax/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
+                  <Route path="/tax/management/:id/:state"  element={<Tax/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
+                  <Route path="/tax/list"  element={<ShowLastTaxes/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
+                  <Route path="/miner"  element={<MinerProfile/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
+                  <Route path="/miner/:minerid"  element={<Mining/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 5) ?
+                  <Route path="/mining"  element={<Mining/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                  <Route path="/minersupervisor"  element={<WelcomePage/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                  <Route path="/minerusers"  element={<MinerUsers/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                  <Route path="/minerefficienty"  element={<Minerefficienty/>}/>
+                :
+                null
+              }
+              {
+                (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
+                  <Route path="/new_miner_calculate"  element={<NewCalculate/>}/>
+                :
+                null
+              }
+              <Route path="/reports"  element={<Reports/>}/>
+              <Route path="/reports/:id"  element={<ShowReport/>}/>
+              {/* <Route path="/owner"  element={<Owner/>}/> */}
+              {/* <Route path="/entities"  element={<Entities/>}/> */}
+              <Route path="/demo"  element={<Demo/>}/>
+              
+            </Routes>
+      </div>
+      
+      {
+        showFooter ? 
+        <Footer/>
+        :
+        null
+      }
     </div>
     </UILoader>
 

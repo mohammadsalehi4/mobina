@@ -10,6 +10,7 @@ const Footer = () => {
             SetVersion(response.data.version_api.substring(2))
         })
     }, [])
+    
     return (
         <div style={{textAlign:'center', color:'rgb(200,200,200)', position:'absolute', width:'100%', bottom:'0px'}}>
             <span>
