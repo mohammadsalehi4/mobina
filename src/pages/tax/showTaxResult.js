@@ -221,7 +221,12 @@ const ShowTaxResult = ({ stepper }) => {
 
                 <Row>
                     <Col className='mt-3' style={{textAlign:'right'}}>
-                        <CountedTaxTable  data={data}/>
+                        {
+                            data ? 
+                            <CountedTaxTable  data={data}/>
+                            :
+                            null
+                        }
                         <br/>
                         <a className='m-0 mt-3' href={'/tax/list'}>
                         <button style={{background:"#01153a", color:"#dcdcdc", border:"none", borderRadius:"8px", padding:"7px 18px"}} className=''>
