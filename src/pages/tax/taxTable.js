@@ -196,8 +196,10 @@ const TaxTable = ({ stepper }) => {
       document.getElementById('TaxTrMode').style.color = 'red'
     }
 
-    const lastStartData = `${GetMillisecond(NewStartdate).year}-${GetMillisecond(NewStartdate).month}-${GetMillisecond(NewStartdate).day}`
-    const lastEndtData = `${GetMillisecond(NewEnddate).year}-${GetMillisecond(NewEnddate).month}-${GetMillisecond(NewEnddate).day}`
+    const lastStartData = NewStartdate
+    // const lastStartData = `${GetMillisecond(NewStartdate).year}-${GetMillisecond(NewStartdate).month}-${GetMillisecond(NewStartdate).day}`
+    const lastEndtData = NewEnddate
+    // const lastEndtData = `${GetMillisecond(NewEnddate).year}-${GetMillisecond(NewEnddate).month}-${GetMillisecond(NewEnddate).day}`
 
     const bodyFormData = new FormData()
 
@@ -217,7 +219,6 @@ const TaxTable = ({ stepper }) => {
 
     if (Valid) {
       SetLoading(true)
-
       axios.post(`${serverAddress}/taxing/operation/`, 
       bodyFormData,
       {
