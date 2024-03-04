@@ -83,11 +83,14 @@ const App = () => {
 
     <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>
     <div style={{display:'flex', flexDirection:'column'}}>
-      <div style={{minHeight:'100vh', flex:'1'}}>
+      <div style={{
+          minHeight: showFooter ? 'calc(100vh - 30px)' : '100vh',
+           flex:'1', 
+           marginBottom: showFooter ? '30px' : '0px'}}>
             {
               States.showNavbar ? < Header/> : null
             }
-            <Routes >
+            <Routes>
               <Route path="/" exact element={<Main/>}/>
               <Route path="/recovery"  element={<Recovery/>}/>
               <Route path="/profile"  element={<Profile/>}/>
@@ -223,7 +226,7 @@ const App = () => {
       
       {
         showFooter ? 
-        <Footer/>
+          <Footer/>
         :
         null
       }

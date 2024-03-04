@@ -173,7 +173,7 @@ const Admin = () => {
                             <AdminEvents/>
                         </TabPane>
                         <TabPane tabId='4'>
-                            <AdminReports/>
+                            <AdminReports/> 
                         </TabPane>
                         <TabPane tabId='5'>
                             <AdminPrices/>

@@ -105,8 +105,6 @@ const St1 = ({ stepper, type }) => {
     }
 
     extra_fields = JSON.stringify(extra_fields)
-    console.log('extra_fields')
-    console.log(extra_fields)
 
     const lines = reward_address.split('\n')
     const GetAddresses = []
@@ -120,8 +118,6 @@ const St1 = ({ stepper, type }) => {
     }
 
     const addresses = JSON.stringify(GetAddresses)
-    console.log('addresses')
-    console.log(addresses)
 
     console.log(lines)
     if (!check) {
@@ -160,11 +156,13 @@ const St1 = ({ stepper, type }) => {
       })
       .then((response) => {
       SetLoading(false)
-          console.log(response)
           if (response.status === 201) {
             dispatch({type:"miningMode", value:1})
-            
-            console.log(GetAddresses)
+            console.log({
+              response:response.data,
+              addresses:GetAddresses
+            })
+
             dispatch({type:"miningData", 
             value:
               {

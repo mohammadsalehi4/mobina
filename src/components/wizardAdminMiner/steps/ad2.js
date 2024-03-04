@@ -41,6 +41,7 @@ const St2 = ({ stepper, type }) => {
         }
       })
       .then((response) => {
+        console.log('Devices')
         console.log(response)
         const getDevices = []
         console.log(response.data.results)
@@ -99,36 +100,52 @@ const St2 = ({ stepper, type }) => {
     const pool = document.getElementById('pool').value
     const DailyWork = document.getElementById('DailyWork').value
     const status = document.getElementById('status').value
-    const network = document.getElementById('network').value
+    const network = Number(document.getElementById('network').value)
     const hashPower = document.getElementById('hashPower').value
-    const DeviceNumber = document.getElementById('DeviceNumber').value
+    const DeviceNumber = Number(document.getElementById('DeviceNumber').value)
 
     deviceName = devices.find(item => item.device_name === deviceName).id
     rewardAddress = Addresses.find(item => item.hash === rewardAddress).id
 
-    const newData = {
-      device:deviceName,
-      address:rewardAddress,
-      count:DeviceNumber,
-      power:Number(hashPower),
-      network,
-      daily_working_hours:DailyWork,
-      status,
-      miner: minerid === undefined ? (States.miningData.response.miner_uuid) : minerid,
-      pool
+    console.log(States.miningData)
+
+    try {
+      const newData = {
+        device:deviceName,
+        address:rewardAddress,
+        count:DeviceNumber,
+        power:Number(hashPower),
+        network,
+        daily_working_hours:DailyWork,
+        status,
+        miner: minerid === undefined ? (States.miningData.response.miner_uuid) : minerid,
+        pool
+      }
+
+      const getData = []
+  
+      for (let i = 0; i < Data.length; i++) {
+        getData.push(Data[i])
+      }
+  
+      getData.push(newData)
+
+      console.log('Devices Data')
+      console.log(getData)
+
+      SetData(getData)
+      Setreload(!reload)
+      document.getElementById('DeviceNumber').value = 0
+      document.getElementById('DailyWork').value = 0
+      SetDefaultPower(Math.floor(devices.find(item => item.device_name === document.getElementById('deviceName').value).hash_rate) / 1e12)
+      return toast.success('دستگاه با موفقیت اضافه شد', {
+        position: 'bottom-left'
+      })
+    } catch (error) {
+      console.log('error')
+      console.log(error)
     }
 
-    const getData = Data
-
-    getData.push(newData)
-    SetData(getData)
-    Setreload(!reload)
-    document.getElementById('DeviceNumber').value = 0
-    document.getElementById('DailyWork').value = 0
-    SetDefaultPower(Math.floor(devices.find(item => item.device_name === document.getElementById('deviceName').value).hash_rate) / 1e12)
-    return toast.success('دستگاه با موفقیت اضافه شد', {
-      position: 'bottom-left'
-    })
     
   }
 
@@ -146,7 +163,6 @@ const St2 = ({ stepper, type }) => {
       })
       .then((response) => {
         SetLoading(false)
-        console.log(response)
         if (response.status === 201) {
           toast.success('ماینر ها با موفقیت ثبت شدند.', {
             position: 'bottom-left'
@@ -154,7 +170,7 @@ const St2 = ({ stepper, type }) => {
           if (minerid === undefined) {
             window.location.reload()
           } else {
-            window.location.assign('/minerprofile')
+            window.location.assign('/miner')
           }
         } else {
           toast.error('خطا در افزودن دستگاه ها', {
@@ -198,7 +214,6 @@ const St2 = ({ stepper, type }) => {
         <Row id='miningStep2'>
         {
             Data.map((item, index) => {
-              console.log(item)
               return (
                 <CardAction title={devices.find(thisitem => thisitem.id === item.device).device_name} actions='collapse' onClick='collapse' >
                   <Row className='m-3'>

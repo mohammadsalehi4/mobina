@@ -48,7 +48,6 @@ const St0 = ({ stepper, type }) => {
       }
     })
     .then((response) => {
-      console.log(response)
       const getUsers = []
       for (let i = 0; i < response.data.results.length; i++) {
         if (response.data.results[i].role === 5) {
@@ -117,7 +116,7 @@ const St0 = ({ stepper, type }) => {
       }
     })
     .then((response) => {
-      console.log(response)
+
       dispatch({type:"userMinerId", value:response.data.id})
       dispatch({type:"userMinerEmail", value:email})
       dispatch({type:"userMinerinterface_fname", value:first_name})
@@ -146,7 +145,6 @@ const St0 = ({ stepper, type }) => {
             columns={basicColumns}
             className='react-dataTable'
             onRowClicked={(row) => {
-              console.log(row)
               dispatch({type:"userMinerId", value:row.id})
               dispatch({type:"userMinerEmail", value:row.email})
               dispatch({type:"userMinerinterface_fname", value:row.first_name})
