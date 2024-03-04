@@ -48,6 +48,8 @@ const St0 = ({ stepper, type }) => {
       }
     })
     .then((response) => {
+      console.log('users')
+      console.log(response)
       const getUsers = []
       for (let i = 0; i < response.data.results.length; i++) {
         if (response.data.results[i].role === 5) {
@@ -77,6 +79,13 @@ const St0 = ({ stepper, type }) => {
         maxWidth: '170px',
         minWidth: '170px',
         selector: row => row.last_name
+    },
+    {
+      name: 'نام کاربری',
+      sortable: true,
+      maxWidth: '150px',
+      minWidth: '150px',
+      selector: row => row.username
     },
     {
         name: 'ایمیل',
