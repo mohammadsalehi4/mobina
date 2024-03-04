@@ -196,9 +196,9 @@ const TaxTable = ({ stepper }) => {
       document.getElementById('TaxTrMode').style.color = 'red'
     }
 
-    const lastStartData = NewStartdate
+    const lastStartData = NewStartdate / 1000
     // const lastStartData = `${GetMillisecond(NewStartdate).year}-${GetMillisecond(NewStartdate).month}-${GetMillisecond(NewStartdate).day}`
-    const lastEndtData = NewEnddate
+    const lastEndtData = NewEnddate / 1000
     // const lastEndtData = `${GetMillisecond(NewEnddate).year}-${GetMillisecond(NewEnddate).month}-${GetMillisecond(NewEnddate).day}`
 
     const bodyFormData = new FormData()
