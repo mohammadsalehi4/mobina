@@ -13,13 +13,19 @@ import { digitsEnToFa } from 'persian-tools'
 import { CheckBox } from '@mui/icons-material'
 import LoadingButton from '../loadinButton/LoadingButton'
 
-const EditRoll = ({ open, handleModal, Roles, number, AllRoles }) => {
+const EditRoll = ({ open, handleModal, number, AllRoles }) => {
   const dispatch = useDispatch()
   const States = useSelector(state => state)
 
   const CloseBtn = <X className='cursor-pointer' size={15} onClick={handleModal} />
   const [accesses, SetAccesses] = useState([])
   const [Loading, SetLoading] = useState(false)
+  const [Roles, SetRoles] = useState(null)
+
+  useEffect(() => {
+    SetRoles(AllRoles.find(item => item.id === number))
+  }, [number])
+
   const submit = (event) => {
     if (Roles.name !== 'ادمین سیستم') {
       dispatch({type:"CustomLoading", value:true})

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { serverAddress } from '../../address'
 import Cookies from 'js-cookie'
-const ShowRoll = ({ open, handleModal, Roles, number }) => {
+const ShowRoll = ({ open, handleModal, number, AllRoles }) => {
   const dispatch = useDispatch()
 
   const [showData, SetshowData] = useState([])
@@ -17,11 +17,11 @@ const ShowRoll = ({ open, handleModal, Roles, number }) => {
 
   useEffect(() => {
     try {
-        SetshowData(Roles.access)
+        SetshowData(AllRoles.find(item => item.id === number).access)
     } catch (error) {
         
     }
-  }, [Roles])
+  }, [number])
 
 
   return (

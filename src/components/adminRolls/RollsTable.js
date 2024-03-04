@@ -47,7 +47,6 @@ const RollsTable = () => {
 
   const handleModal = () => setModal(!modal)
   const handleEdit = () => {
-    alert('run')
     setEdit(!Edit)
   }
   const handleShow = () => setShow(!Show)
@@ -156,7 +155,6 @@ const RollsTable = () => {
           }
         })
         .then((response) => {
-          console.log(response.data)
         setLoading(false)
         dispatch({type:"LOADINGEFFECT", value:false})
             if (response.data.results.length > 0) {
@@ -195,7 +193,7 @@ const RollsTable = () => {
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
           <CardTitle tag='h4' style={{width:'100%'}}>لیست نقش ها
             <ion-icon size={18} onClick={ () => { 
-              dispatch({type:"beLoad", value:!(States.beLoad)})
+              dispatch({type:"rollsBeload", value:!(States.rollsBeload)})
             }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
           </CardTitle>
         </CardHeader>
@@ -227,8 +225,8 @@ const RollsTable = () => {
       </Card>
 
       <AddNewModal AllRoles={Rolls} Roles={Rolls[number - 1]} open={modal} handleModal={handleModal} number={number} />
-      <EditRoll AllRoles={Rolls} Roles={Rolls[number - 1]} open={Edit} handleModal={handleEdit} number={number} />
-      <ShowRoll AllRoles={Rolls} Roles={Rolls[number - 1]} open={Show} handleModal={handleShow} number={number} />
+      <EditRoll AllRoles={Rolls} open={Edit} handleModal={handleEdit} number={number} />
+      <ShowRoll AllRoles={Rolls} open={Show} handleModal={handleShow} number={number} />
       
       <Modal
           isOpen={modal1 === 4}
