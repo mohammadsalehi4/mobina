@@ -10,6 +10,9 @@ export function RecognizeNetwork (id) {
             return ('اتریوم')
         } else if (id === 5) {
             return ('بایننس اسمارت چین')
+        } else if (id === 10) {
+            return ('ترون')
+
         } else { return (false) }
     } else if (typeof (id) === 'string') {
         if (id === 'بیت کوین') {
@@ -22,6 +25,8 @@ export function RecognizeNetwork (id) {
             return (4)
         } else if (id === 'بایننس اسمارت چین') {
             return (5)
+        } else if (id === 'ترون') {
+            return (10)
         } else { return (false) }
     } else {
         return (false)

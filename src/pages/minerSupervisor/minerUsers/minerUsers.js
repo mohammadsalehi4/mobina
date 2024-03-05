@@ -1,14 +1,19 @@
+/* eslint-disable prefer-template */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 // ** Table Columns
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import DataTable from 'react-data-table-component'
-import { Card, CardHeader, CardTitle, Row, Col} from 'reactstrap'
+import { Card, CardHeader, CardTitle, Row, Col, Button, Modal, ModalBody, ModalFooter} from 'reactstrap'
 import LocalLoading from '../../../components/localLoading/localLoading'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { serverAddress } from '../../../address'
+import { Trash2 } from 'react-feather'
+import toast from 'react-hot-toast'
+import LoadingButton from '../../../components/loadinButton/LoadingButton'
 
 const MinerUsers = () => {
     const dispatch = useDispatch()
@@ -17,6 +22,13 @@ const MinerUsers = () => {
         dispatch({type:"SHOWNAVBAR"})
         dispatch({type:"SETWITCHPAGE", value:7})
     }, [])
+
+    const [Data, SetData] = useState([])
+    const [Loading, SetLoading] = useState(false)
+    const [DeleteLoading, SetDeleteLoading] = useState(false)
+    const [DeleteBox, SetDeleteBox] = useState(false)
+    const [DeleteUUID, SetDeleteUUID] = useState(null)
+    const [Reload, SetReload] = useState(false)
 
     const basicColumns = [
         {
@@ -54,11 +66,19 @@ const MinerUsers = () => {
           selector: row => (
             row.website
           )
+        },
+        {
+          name: 'عملیات',
+          sortable: true,
+          minWidth: '160px',
+          maxWidth: '160px',
+          cell: row => {
+            return (
+              <Trash2 size={20} style={{cursor:'pointer'}} onClick={ () => { SetDeleteUUID(row.uuid), SetDeleteBox(true) } }/>
+            )
+          }
         }
     ]
-
-    const [Data, SetData] = useState([])
-    const [Loading, SetLoading] = useState(false)
 
     useEffect(() => {
         SetLoading(true)
@@ -81,7 +101,8 @@ const MinerUsers = () => {
                         name:`${response.data.results[i].interface_fname} ${response.data.results[i].interface_lname}`,
                         phoneNumber: response.data.results[i].interface_phone_number,
                         Email: response.data.results[i].email,
-                        website: response.data.results[i].website
+                        website: response.data.results[i].website,
+                        uuid: response.data.results[i].uuid
                     }
                 )
             }
@@ -111,7 +132,37 @@ const MinerUsers = () => {
               }
             } catch (error) {}
         })
-    }, [])
+    }, [, Reload])
+
+    const DeleteMiner = () => {
+      SetDeleteLoading(true)
+      axios.delete(serverAddress + `/miners/operation/${DeleteUUID}/`, 
+      {
+          headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`
+          }
+      }
+      )
+      .then((response) => {
+          SetDeleteLoading(false)
+          console.log(response)
+          if (response.status === 200) {
+            SetReload(!Reload)
+            SetDeleteBox(false)
+            return toast.success('استخراج کننده با موفقیت حذف شد', {
+              position: 'bottom-left'
+          })
+          }
+      })
+      .catch((err) => {
+          SetDeleteLoading(false)
+          SetLoading(false)
+          console.log(err)
+          return toast.error('خطا در پردازش', {
+              position: 'bottom-left'
+          })
+      })
+    }
 
     return (
         <div className='container-fluid mt-5'>
@@ -131,6 +182,11 @@ const MinerUsers = () => {
                             لیست استخراج کننده‌ها
                                 {/* <ion-icon size={18} onClick={ () => { 
                             }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon> */}
+                            <a href='/mining'>
+                              <Button color='primary' style={{float:'left'}}>
+                                  افزودن
+                              </Button>
+                            </a>
                         </CardTitle>
                         </CardHeader>
 
@@ -158,6 +214,30 @@ const MinerUsers = () => {
                 </Col>
                 <Col xl={{size:1}} lg={{size:0}} md={{size:0}}></Col>
             </Row>
+            <Modal
+                isOpen={DeleteBox}
+                className='modal-dialog-centered'
+                toggle={ () => { SetDeleteBox(false) } }
+                style={{maxWidth:'370px'}}
+                modalClassName={'modal-danger'}
+            >
+                <ModalBody>
+                    <h6>آیا از حذف استخراج کننده مطمئن هستید؟</h6>
+                    
+                </ModalBody>
+                <ModalFooter>
+                    <Button color='primary' onClick={ () => { DeleteMiner() } } style={{height:'40px'}}>
+                        {
+                          DeleteLoading ? 
+                            <LoadingButton/>
+                          :
+                          <span>
+                            حذف
+                          </span>
+                        }
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </div>
 
     )

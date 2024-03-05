@@ -41,11 +41,13 @@ const LoadingTax = ({ stepper }) => {
                         console.log('response')
                         console.log(response)
                       if (response.status === 200) {
+                        dispatch({type:"taxState", value:response.data.state})
                         if (response.data.state === 'in_progress') {
-                            
+
                         } else if (response.data.state === 'Ready_for_forgiveness') {
                             clearInterval(getData)
                             stepper.next()
+
                         } else if (response.data.state === "dont_have_tax") {
                             clearInterval(getData)
                             stepper.next()

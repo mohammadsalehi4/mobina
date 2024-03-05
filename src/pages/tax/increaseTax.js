@@ -79,10 +79,20 @@ const IncreaseTax = ({ stepper }) => {
         if (state === 'Done') {
           if (stepper !== null) {
             dispatch({type:"taxId", value:id})
+            dispatch({type:"taxData", value:1})
             stepper.next()
           }
         }
     }, [stepper])
+
+    useEffect(() => {
+        if (States.taxState === 'Done') {
+          if (stepper !== null) {
+            dispatch({type:"taxData", value:1})
+            stepper.next()
+          }
+        }
+    }, [States.taxState])
 
   return (
     <Card className='m-0 ' style={{boxShadow:'none', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}}>
