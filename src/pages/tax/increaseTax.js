@@ -25,8 +25,8 @@ const IncreaseTax = ({ stepper }) => {
     const [Loading, SetLoading] = useState(false)
 
     const Increase = () => {
-        const percent = document.getElementById('percent').value
-        const IncAmount = document.getElementById('IncAmount').value
+        const percent = Number(document.getElementById('percent').value)
+        const IncAmount = Number(document.getElementById('IncAmount').value)
 
         if (percent !== '' && IncAmount !== '') {
             const bodyFormData = new FormData()
@@ -34,7 +34,10 @@ const IncreaseTax = ({ stepper }) => {
             bodyFormData.append('forgiveness_precentage', percent)
             bodyFormData.append('forgiveness_mount', IncAmount)
             SetLoading(true)
-    
+            console.log('States.taxId')
+            console.log(States.taxId)
+            console.log(percent)
+            console.log(IncAmount)
             axios.put(`${serverAddress}/taxing/update/${States.taxId}/`, 
             bodyFormData,
             {

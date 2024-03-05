@@ -566,6 +566,7 @@ const AddEntity = () => {
                             closeMenuOnSelect={false}
                             // components={animatedComponents}
                             isMulti
+                            placeholder=''
                             options={CountryOptions}
                             className='react-select'
                             classNamePrefix='select'
@@ -582,6 +583,7 @@ const AddEntity = () => {
                             theme={selectThemeColors}
                             closeMenuOnSelect={false}
                             // components={animatedComponents}
+                            placeholder=''
                             isMulti
                             options={currencyOptions}
                             className='react-select'
@@ -600,7 +602,7 @@ const AddEntity = () => {
                                 setSelectedType(event.target.value)
                             } }
                         >
-                            <option value={null}>بدون اطلاعات</option>
+                            <option value={null}></option>
 
                             {
                                 Types.map((item, index) => {
@@ -617,7 +619,7 @@ const AddEntity = () => {
                             مجوز
                         </Label>
                         <select class="form-select" id='licence' aria-label="Default select example" >
-                            <option selected value={''}>بدون اطلاعات</option>
+                            <option selected value={''}></option>
                             <option value="complete">دارد</option>
                             <option value="dont_have">ندارد</option>
                         </select>
@@ -628,7 +630,7 @@ const AddEntity = () => {
                             پشتیبانی از فیات
                         </Label>
                         <select class="form-select" id='fiatSupport' aria-label="Default select example" >
-                            <option selected value={''}>بدون اطلاعات</option>
+                            <option selected value={''}></option>
                             <option value={true}>بلی</option>
                             <option value={false}>خیر</option>
                         </select>
@@ -640,7 +642,7 @@ const AddEntity = () => {
                             جزو تحریم شده‌ها
                         </Label>
                         <select class="form-select" id='sanctionList' aria-label="Default select example" >
-                            <option selected value={''}>بدون اطلاعات</option>
+                            <option selected value={''}></option>
                             <option value={true}>بلی</option>
                             <option value={false}>خیر</option>
                         </select>
@@ -652,7 +654,7 @@ const AddEntity = () => {
                             سکه خصوصی
                         </Label>
                         <select class="form-select" id='PrivateCoin' aria-label="Default select example" >
-                            <option selected value={''}>بدون اطلاعات</option>
+                            <option selected value={''}></option>
                             <option value={true}>بلی</option>
                             <option value={false}>خیر</option>
                         </select>
