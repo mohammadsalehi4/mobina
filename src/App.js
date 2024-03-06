@@ -78,7 +78,7 @@ const App = () => {
   }, [])
 
   const location = useLocation()
-  const showFooter = location.pathname !== '/'
+  const showFooter = location.pathname !== '/' && location.pathname !== '/recovery'
   return (
 
     <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>

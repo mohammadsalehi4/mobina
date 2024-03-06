@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-tabs */
 /* eslint-disable no-unused-vars */
 /* eslint-disable brace-style */
@@ -30,7 +31,7 @@ const Recovery = () => {
     const [Loading, SetLoading]=useState(false)
     
     const recaptchaRef = useRef()
-	const [recaptchaToken, setRecaptchaToken] = useState('')
+	const [recaptchaToken, setRecaptchaToken] = useState(null)
 	const [recaptchaLoad, setRecaptchaLoad] = useState(false)
     const recaptchaOnChange = token => {
 		setRecaptchaToken(token)
@@ -83,6 +84,10 @@ const Recovery = () => {
             })
         }
     }
+
+    const asyncScriptOnLoad = () => {
+		recaptchaRef.current.execute()
+	}
     
     return (
         <UILoader blocking={Loading} loader={<Spinner />}>
@@ -100,7 +105,12 @@ const Recovery = () => {
                                                 <label class="form-label gray" for="login_username">شماره موبایل</label>
                                                 <input class="form-control login_form gray " id="login_Number" type="text" name="login_Number" placeholder="شماره موبایل..." aria-describedby="login-email" autofocus="" tabindex="1" />
                                             </div>
-                                            <button class="btn  w-100 login_form mt-2" style={{background:"#01153a", color:"white"}} tabindex="4">بازیابی</button>
+                                            {
+                                                recaptchaToken !== null ? 
+                                                    <button class="btn  w-100 login_form mt-2" style={{background:"#01153a", color:"white"}} tabindex="4">بازیابی</button>
+                                                :
+                                                    <button class="btn  w-100 login_form mt-2" style={{background:"#01153a", color:"white"}} tabindex="4" disabled>بازیابی</button>
+                                            }
                                         </form>
                                         <div class="d-flex mt-2">
                                            <a href="/ " class='login_forgote_password_link ' style={{color:"#01153a"}}><small>بازگشت به صفحه اصلی</small></a>
@@ -114,6 +124,7 @@ const Recovery = () => {
                                         sitekey={'6LeMh0ApAAAAADLZc2OFx-POjZLkqtQmfIWvdJnj'}
                                         ref={recaptchaRef}
                                         onChange={recaptchaOnChange}
+                                        asyncScriptOnLoad={asyncScriptOnLoad}
                                     />
                                 </div>
                                 <div class="d-none d-lg-flex col-lg-8 align-items-center p-5" id='rightLoginBackground'>

@@ -822,6 +822,67 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
+        } else if (addressMode.data.network[0] === 'DOGE') {
+          try {
+            const GetData = UTXO_Transaction(addressMode.data.data, 'DOGE', 1)
+            if (!GetData.isError) {
+                                                        
+              //catch
+              saveToStorage(addressMode)
+              
+              SetTrData(UTXOTr(GetData, 'DOGE', 'دوج‌کوین'))
+              dispatch({type:"networkName", value:'DOGE'})
+  
+              //labels
+              let labelText = null
+              let labelId = null
+              if (GetData.MainLabel) {
+                labelText = GetData.MainLabel.label
+                labelId = GetData.MainLabel.id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+    
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (GetData.MainTag) {
+                isTag = true
+                for (let i = 0; i <GetData.MainTag.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:GetData.MainTag[i].tag,
+                      tagId:GetData.MainTag[i].id
+                    }
+                  )
+                }
+              }
+    
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+    
+              SetMode(1)
+              SetLoading(false)
+            } else {
+              return toast.error('خطا در دریافت اطلاعات از سرور', {
+                position: 'bottom-left'
+              })
+            }
+
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
         }
       } else if (addressMode.data.query === 'address') {
         SetToken(addressMode.data.network[0])
@@ -1309,6 +1370,93 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
+        } else if (addressMode.data.network[0] === 'DOGE') {
+          SetLoading(false)
+          dispatch({type:"networkName", value:'DOGE'})
+          try {
+            SetCoinData({
+              name:'دوج کوین',
+              symbole:"DOGE",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#dcc46c",
+              image:"DOGE.png"
+            })
+  
+            //get data from processor
+            const getData = UTXO_Address(hash, addressMode.data.data,  'DOGE', 1)
+
+            if (!getData.isError) {
+                            
+              //catch
+              saveToStorage(addressMode)
+              
+              //labels
+              let labelText = null
+              let labelId = null
+              if (getData.label) {
+                labelText = getData.label.label
+                labelId = getData.label.id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+    
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (getData.tag) {
+                isTag = true
+                for (let i = 0; i < getData.tag.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:getData.tag[i].tag,
+                      tagId:getData.tag[i].id
+                    }
+                  )
+                }
+              }
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+
+              //entity
+              let isEntity = false
+              let EntityInfo = false
+              if (getData.entity !== null) {
+                isEntity = true
+                EntityInfo = getData.entity
+              }
+              SetEntity(
+                {
+                  isEntity,
+                  EntityInfo
+                }
+              )
+              SetAdData(UTXOAdd(getData, 'DOGE'))
+              SetMode(2)
+              SetLoading(false)
+            } else {
+              SetLoading(false)
+              return toast.error('خطا در دریافت اطلاعات از سرور', {
+                position: 'bottom-left'
+              })
+            }
+          } catch (error) {
+            console.log(error)
+            SetLoading(false)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
         }
       }
     }
@@ -1380,6 +1528,8 @@ const EcommerceDashboard2 = () => {
         SelectProcessHandler('BCH')
       } else if (addressMode.data.network[index] === 'TRX') {
         SelectProcessHandler('TRX')
+      } else if (addressMode.data.network[index] === 'DOGE') {
+        SelectProcessHandler('DOGE')
       }
     } else if (addressMode.data.query === 'address') {
       if (addressMode.data.network[index] === 'BTC') {
@@ -1390,6 +1540,8 @@ const EcommerceDashboard2 = () => {
         SelectProcessHandler('BCH')
       } else if (addressMode.data.network[index] === 'TRX') {
         SelectProcessHandler('TRX')
+      } else if (addressMode.data.network[index] === 'DOGE') {
+        SelectProcessHandler('DOGE')
       }
     }
   }
@@ -1409,12 +1561,14 @@ const EcommerceDashboard2 = () => {
         .then((addressMode) => {
           console.log(addressMode)
           SetLoading(false)
+          console.log(addressMode.data.network)
+
           if (addressMode.data.network.length === 1) {
             processHandler(addressMode, 0)
           } else if (addressMode.data.network.length > 1) {
             if (addressMode.data.network[0] === 'ETH' || addressMode.data.network[0] === 'BSC') {
               SetSelectToken(1)
-            } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH' || addressMode.data.network[0] === 'TRX') {
+            } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH' || addressMode.data.network[0] === 'TRX'|| addressMode.data.network[0] === 'DOGE') {
               SetSelectToken(2)
             }
           }
@@ -1537,7 +1691,7 @@ const EcommerceDashboard2 = () => {
                                     نمونه کاوش:
                                     <span onClick={() => {
                                       document.getElementById("MainDashboardInputBox").focus()
-                                      document.getElementById('MainDashboardInputBox').value = 'bc1qjqnv9f8jkp6xvwhz90dunzwygw90uha26g6uvn' 
+                                      document.getElementById('MainDashboardInputBox').value = '14LjF6aGEB9nEjS1FEzkmn9hgJgajeuooL' 
                                     }} style={{display:'inline-block', marginLeft:'12px', marginRight:'12px', cursor:'pointer'}}>
                                         <ion-icon name="file-tray-stacked-outline"></ion-icon>
                                         {' '}
@@ -1545,7 +1699,7 @@ const EcommerceDashboard2 = () => {
                                     </span>
                                     <span onClick={() => {
                                       document.getElementById("MainDashboardInputBox").focus()
-                                      document.getElementById('MainDashboardInputBox').value = '0x8c48c71a4350ad550de40e72b58bd83606b66366be5c52298b4b8153f8a5bd58'
+                                      document.getElementById('MainDashboardInputBox').value = '0x5687e9fd18ee2f24961f074b48069cd4c1e9e1f5d844c3989229a48ca06a134b'
                                     }} style={{display:'inline-block', cursor:'pointer'}} >
                                         <ion-icon name="git-compare-outline"></ion-icon>
                                         {' '}
@@ -1588,11 +1742,18 @@ const EcommerceDashboard2 = () => {
                                       <img src='https://cryptologos.cc/logos/bitcoin-cash-bch-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                     </div>
 
-                                    <div onClick={ () => { SelectProcessHandler('TRX'), dispatch({type:"networkName", value:'BCH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                    <div onClick={ () => { SelectProcessHandler('TRX'), dispatch({type:"networkName", value:'TRX'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
                                       <span>
                                         TRX - ترون
                                       </span>
                                       <img src='https://cryptologos.cc/logos/tron-trx-logo.png?v=029' style={{width:'20px', float:'left'}} />
+                                    </div>
+
+                                    <div onClick={ () => { SelectProcessHandler('DOGE'), dispatch({type:"networkName", value:'DOGE'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                      <span>
+                                        DOGE - دوج‌کوین
+                                      </span>
+                                      <img src='https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                     </div>
 
                                   </Card>

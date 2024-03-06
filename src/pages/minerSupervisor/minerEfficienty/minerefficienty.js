@@ -150,7 +150,7 @@ const Minerefficienty = () => {
     >
       <Card>
         <CardHeader>
-            <CardTitle tag='h4'>محاسبات قبلی
+            <CardTitle tag='h4'>محاسبات
             </CardTitle>
             <a href='/new_miner_calculate'>
               <Button color='primary' style={{float:'left'}}>محاسبه جدید</Button>

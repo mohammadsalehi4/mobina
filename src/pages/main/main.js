@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-tabs */
 /* eslint-disable no-unused-vars */
 /* eslint-disable quote-props */
@@ -31,7 +32,7 @@ import ReCAPTCHA from 'react-google-recaptcha'
 
 const Main = () => {
     const recaptchaRef = useRef()
-	const [recaptchaToken, setRecaptchaToken] = useState('')
+	const [recaptchaToken, setRecaptchaToken] = useState(null)
 	const [recaptchaLoad, setRecaptchaLoad] = useState(false)
     const recaptchaOnChange = token => {
 		setRecaptchaToken(token)
@@ -183,7 +184,12 @@ const Main = () => {
                                                         <label for="remember_me" className='gray vazir'>به خاطر داشته باش</label>
                                                     </div>
                                                 </div>
-                                                <button class="btn  w-100 login_form" style={{background:'#01153a', color:"white"}} tabindex="4" onClick={login}>ورود</button>
+                                                {
+                                                    recaptchaToken !== null ? 
+                                                        <button class="btn  w-100 login_form" style={{background:'#01153a', color:"white"}} tabindex="4" onClick={login}>ورود</button>
+                                                    :
+                                                        <button class="btn  w-100 login_form" style={{background:'#01153a', color:"white"}} tabindex="4" disabled>ورود</button>
+                                                }
                                                 <ReCAPTCHA
                                                     style={{display: 'inline-block', fontFamily:'vazir'}}
                                                     theme="dark"
