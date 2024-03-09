@@ -155,6 +155,9 @@ const CurrencyDetail = () => {
         } else if (network === 'TRX') {
           SetData(AccountBaseAdd(Account_Address(response.data.data, address, 'TRX', 1000000000000000000), 'TRX'))
           SetLoading(false)
+        } else if (network === 'DOGE') {
+          SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'DOGE', 1)))
+          SetLoading(false)
         }
       } catch (error) {
         console.log(error)

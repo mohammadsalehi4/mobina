@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-duplicate-imports */
@@ -13,11 +14,13 @@ import toast from 'react-hot-toast'
 import { Calendar, CalendarProvider } from "zaman"
 import { ChevronDown, Eye, Trash2 } from 'react-feather'
 import GoalOverview from './GoalOverview'
+import LocalLoading from '../../../components/localLoading/localLoading'
 const Minerefficienty = () => {
     const dispatch = useDispatch()
     const [data, SetData] = useState([])
     const [daleteBox, SetDeleteBox] = useState(false)
     const [deleteId, SetDeleteId] = useState(null)
+    const [Loading, SetLoading] = useState(false)
 
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})
@@ -80,6 +83,7 @@ const Minerefficienty = () => {
     ]
 
     useEffect(() => {
+        SetLoading(true)
         axios.get(`${serverAddress}/miners/calculate/`,
         {
           headers: {
@@ -104,10 +108,11 @@ const Minerefficienty = () => {
                     )
                 }
                 SetData(getData)
+                SetLoading(false)
             }
         })
         .catch((err) => {
-            
+          SetLoading(false)
         })
     }, [])
 
@@ -158,16 +163,26 @@ const Minerefficienty = () => {
 
         </CardHeader>
         <div className='react-dataTable'>
-            <DataTable
-            noHeader
-            data={data}
-            expandableRows
-            columns={columns}
-            expandOnRowClicked
-            className='react-dataTable'
-            sortIcon={<ChevronDown size={10} />}
-            expandableRowsComponent={ExpandableTable}
-            />
+          {
+            !Loading ? 
+              data.length > 0 ? 
+
+              <DataTable
+                noHeader
+                data={data}
+                expandableRows
+                columns={columns}
+                expandOnRowClicked
+                className='react-dataTable'
+                sortIcon={<ChevronDown size={10} />}
+                expandableRowsComponent={ExpandableTable}
+              />
+              :
+              <p style={{textAlign:'center'}}>بدون محاسبات عملکرد استخراج</p>
+            :
+            <LocalLoading/>
+          }
+
         </div>
       </Card>
 

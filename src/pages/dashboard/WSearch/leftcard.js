@@ -87,7 +87,7 @@ const CardTransactions = (props) => {
               </div>
           </div>
           <div style={{ marginBottom:'-10px', textAlign:'right'}} className={` col-6`}>
-          <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'دریافت شده'}</p>
+            <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'دریافت شده'}</p>
               <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
                 {digitsEnToFa(props.data.InCome)}
                 <small> {props.data.symbole}</small>

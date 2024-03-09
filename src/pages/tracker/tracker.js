@@ -473,7 +473,7 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:AccountAdd(Account_Address(response.data.data, hash, 'ETH', 1000000000000000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
-                        } else if (network === 'BTC') {
+                        } else if (network === 'DOGE') {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXO_Address(hash, response.data.data, 'BTC', 100000000))})
@@ -503,6 +503,12 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:AccountAdd(Account_Address(response.data.data, hash, 'TRX', 1000000000000000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
+                        } else if (network === 'DOGE') {
+                            dispatch({type:"Network", value:'DOGE'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXO_Address(hash, response.data.data, 'DOGE', 100000000))})
+                            dispatch({type:"positionX", value:0})
+                            SetIsShow(true)
                         }
                     } else if (response.data.query === 'transaction') {
                         if (network === 'ETH') {
@@ -514,7 +520,6 @@ const Tracker = () => {
                         } else if (network === 'BTC') {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
-                            // UTXOTr(UTXO_Transaction(response.data.data, 'BTC', 100000000))
                             dispatch({type:"GRAPHDATA", value:UTXOTr(UTXO_Transaction(response.data.data, 'BTC', 100000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
@@ -542,6 +547,12 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:AccountTr(Account_transaction(response.data.data, 'TRX', 1000000000000000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
+                        } else if (network === 'DOGE') {
+                            dispatch({type:"Network", value:'DOGE'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:UTXOTr(UTXO_Transaction(response.data.data, 'DOGE', 100000000))})
+                            dispatch({type:"positionX", value:320})
+                            SetIsShow(true)
                         }
                     }
 
@@ -553,6 +564,7 @@ const Tracker = () => {
                 }
             })
             .catch((err) => {
+                console.log(err)
                 SetLoading(false)
                 try {
                     if (err.response.statusText === 'Unauthorized') {
@@ -566,7 +578,7 @@ const Tracker = () => {
                     Cookies.set('access', '')
                     window.location.assign('/')
                 } else if (err.response.status === 404) {
-                    return toast.error('سرور قطع می‌باشد!', {
+                    return toast.error('آدرس موردنظر یافت نشد!', {
                         position: 'bottom-left'
                     })
                 } else if (err.response.status >= 500) {

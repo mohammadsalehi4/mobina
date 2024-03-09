@@ -295,6 +295,15 @@ const TransactionDetail1 = () => {
           SetDate(TrData.BlockDate)
           SetLoading(false)
           SetData(TrData)
+        } else if (network === 'DOGE') {
+          const TrData = (UTXOTr(UTXO_Transaction(response.data.data, 'DOGE', 100000000)))
+          SetIsGet(true)
+          SetValue(TrData.value)
+          SetSymbole(TrData.symbole)
+          SetFee(TrData.fee)
+          SetDate(TrData.BlockDate)
+          SetLoading(false)
+          SetData(TrData)
         }
 
       } catch (error) {
