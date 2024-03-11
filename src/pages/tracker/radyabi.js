@@ -32,12 +32,16 @@ const Radyabi = () => {
         })
         .then((response) => {
             SetLoading(false)
+            console.log('radyabi')
+            console.log(response.data.network[0])
             if (response.data.network.length === 1) {
                 SetNetwork(response.data.network[0])
             } else {
-                if (response.data.network[0] === 'ETH' || response.data.network[0] === 'BSC') {
+
+                if (response.data.network[0] === 'ETH' || response.data.network[0] === 'BSC' || response.data.network[0] === 'MATIC') {
                     SetSelectToken(1)
-                } else if (response.data.network[0] === 'BTC' || response.data.network[0] === 'BCH' || response.data.network[0] === 'TRX') {
+                } 
+                if (response.data.network[0] === 'BTC' || response.data.network[0] === 'BCH' || response.data.network[0] === 'TRX' || response.data.network[0] === 'DOGE') {
                     SetSelectToken(2)
                 }
             }
@@ -56,6 +60,11 @@ const Radyabi = () => {
               Cookies.set('access', '')
               window.location.assign('/')
             }
+            if (err.response.status === 404) {
+                return toast.error('آدرس مورد نظر یافت نشد.', {
+                  position: 'bottom-left'
+                })
+              }
           } catch (error) {}
           try {
             if (err.response.data.detail === 'Not found.') {
@@ -132,6 +141,13 @@ const Radyabi = () => {
                                             BSC - بایننس اسمارت چین
                                         </span>
                                         <img src='https://cryptologos.cc/logos/bnb-bnb-logo.png?v=029' style={{width:'20px', float:'left'}} />
+                                    </div>
+
+                                    <div onClick={ () => { SetNetwork('MATIC') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                        <span>
+                                            MATIC - متیک
+                                        </span>
+                                        <img src='https://cryptologos.cc/logos/polygon-matic-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                     </div>
                                 </Card>
                                 :

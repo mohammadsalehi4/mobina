@@ -24,14 +24,6 @@ import {Col, Row, InputGroup, Input, InputGroupText, Card} from 'reactstrap'
 import InputPasswordToggle from '@components/input-password-toggle'
 import TokenInformation from '../../components/dashboard/TokenInformation'
 
-//processors
-import { UTXOTransaction } from '../../processors/UTXOTransaction'
-import { UTXOAddress } from '../../processors/UTXOAddress'
-import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
-import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
-import { BSCAddress } from '../../processors/BSCAddress'
-import { BSCTransaction } from '../../processors/BSCTransaction'
-
 //new processors
 import { UTXO_Address } from '../../newProcessors/UTXO_Address'
 import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
@@ -883,6 +875,55 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
+        } else if (addressMode.data.network[0] === 'MATIC') {
+          SetLoading(false)
+          try {
+            // SetTrData
+            SetTrData(AccountBaseTr(Account_transaction(addressMode.data.data, 'MATIC', 1000000000000000000), 'MATIC', 'متیک'))
+
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.labels_tags.labels.length > 0) {
+              labelText = addressMode.data.data.labels_tags.labels[0].label
+              labelId = addressMode.data.data.labels_tags.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.labels_tags.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                    tagId:addressMode.data.data.labels_tags.tags[i].id
+                  }
+                )
+              }
+            }
+  
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+  
+            SetMode(1)
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
         }
       } else if (addressMode.data.query === 'address') {
         SetToken(addressMode.data.network[0])
@@ -1457,6 +1498,78 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
+        } else if (addressMode.data.network[0] === 'MATIC') {
+          try {
+            SetAddress(hash)
+            SetLoading(false)
+            SetCoinData({
+              name:'متیک',
+              symbole:"MATIC",
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color:"#627eea",
+              image:"MATIC.png"
+            })
+
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.labels_tags.labels.length > 0) {
+              labelText = addressMode.data.data.labels_tags.labels[0].label
+              labelId = addressMode.data.data.labels_tags.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.labels_tags.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                    tagId:addressMode.data.data.labels_tags.tags[i].id
+                  }
+                )
+              }
+            }
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+
+            let isEntity = false
+            let EntityInfo = false
+            if (addressMode.data.data.entity !== null) {
+              isEntity = true
+              EntityInfo = addressMode.data.data.entity
+            }
+            SetEntity(
+              {
+                isEntity,
+                EntityInfo
+              }
+            )
+
+            SetAdData(AccountBaseAdd(Account_Address(addressMode.data.data, hash, 'MATIC', 1000000000000000000), 'MATIC'))
+            SetMode(2)
+          } catch (error) {
+            console.log(error)
+            SetLoading(false)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
         }
       }
     }
@@ -1489,6 +1602,11 @@ const EcommerceDashboard2 = () => {
             Cookies.set('refresh', '')
             Cookies.set('access', '')
             window.location.assign('/')
+          }
+          if (err.response.status === 404) {
+            return toast.error('آدرس مورد نظر یافت نشد.', {
+              position: 'bottom-left'
+            })
           }
         } catch (error) {}
         try {
@@ -1548,10 +1666,10 @@ const EcommerceDashboard2 = () => {
 
   useEffect(() => {
     if (hash !== undefined) {
-      if (network === undefined) {
+        SetAddress(hash)
+        if (network === undefined) {
         document.getElementById("MainDashboardInputBox").value=hash
         SetLoading(true)
-        SetAddress(hash)
         axios.get(`${serverAddress}/explorer/search/?query=${hash}`,
         {
           headers: {
@@ -1587,6 +1705,11 @@ const EcommerceDashboard2 = () => {
               Cookies.set('access', '')
               window.location.assign('/')
             }
+            if (err.response.status === 404) {
+              return toast.error('آدرس مورد نظر یافت نشد.', {
+                position: 'bottom-left'
+              })
+            }
           } catch (error) {}
           try {
             if (err.response.data.detail === 'Not found.') {
@@ -1597,8 +1720,8 @@ const EcommerceDashboard2 = () => {
           } catch (error) {}
         })
       } else {
-        dispatch({type:"networkName", value:network})
         SelectProcessHandler(network)
+        dispatch({type:"networkName", value:network})
       }
     }
   }, [])
@@ -1794,13 +1917,13 @@ const EcommerceDashboard2 = () => {
                             <TokenInformation color1="success" status="توسعه یافته" TokenImage={'https://cryptologos.cc/logos/bnb-bnb-logo.png?v=026'} TokenTitle={'بایننس اسمارت چین'} TokenDescription={'BSC یا زنجیره هوشمند بایننس یک پلتفرم بلاک چین است که توسط صرافی بایننس برای ایجاد و اجرای قراردادهای هوشمند ساخته شده است که اغلب به دلیل تراکنش های سریع و کارمزدهای پایین تر در مقایسه با اتریوم شناخته می شود.'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
-                            <TokenInformation color1="warning" status="در حال توسعه" TokenImage={'https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=029'} TokenTitle={'دوج'} TokenDescription={'ابتدا به عنوان شوخی شروع شد اما طرفداران زیادی در فضای آنلاین به دست آورد.'}/>
+                            <TokenInformation color1="success" status="توسعه یافته" TokenImage={'https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=029'} TokenTitle={'دوج'} TokenDescription={'ابتدا به عنوان شوخی شروع شد اما طرفداران زیادی در فضای آنلاین به دست آورد.'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
                             <TokenInformation color1="success" status="توسعه یافته" TokenImage={'https://cryptologos.cc/logos/tron-trx-logo.png?v=029'} TokenTitle={'ترون'} TokenDescription={'شبکه بلاکچین ترون یک پلتفرم غیرمتمرکز است که بر روی به اشتراک‌گذاری محتوای دیجیتال و سرگرمی تمرکز دارد.'}/>
                         </Col>
                         <Col xl='4' md='6' className='ps-4 pe-4' sm='12'>
-                            <TokenInformation color1="warning" status="در حال توسعه" TokenImage={'https://cryptologos.cc/logos/polygon-matic-logo.png?v=029'} TokenTitle={'متیک'} TokenDescription={'شبکه بلاکچین پلیگان یک پلتفرم قابل توسعه و همکاری‌پذیر است که برای اتصال و ساخت شبکه‌های بلاکچین سازگار با اتریوم طراحی شده است.'}/>
+                            <TokenInformation color1="success" status="توسعه یافته" TokenImage={'https://cryptologos.cc/logos/polygon-matic-logo.png?v=029'} TokenTitle={'متیک'} TokenDescription={'شبکه بلاکچین پلیگان یک پلتفرم قابل توسعه و همکاری‌پذیر است که برای اتصال و ساخت شبکه‌های بلاکچین سازگار با اتریوم طراحی شده است.'}/>
                         </Col>
                     </Row>
                 </Col>

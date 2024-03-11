@@ -73,52 +73,52 @@ export function Account_Address (data, address, symbole, decimal) {
                     }
                 )
             }
-            for (let j = 0; j < array[i].logs.length; j++) {
-                try {
-                    if (array[i].logs[j].from === address) {
-                        let Label = false
-                        // const GetLabel = array[i].logs[j].to.labels
-                        // if (GetLabel.length !== 0) {
-                        //     Label = array[i].logs[j].to.labels.label
-                        // }
-                        logs.outputs.push(
-                            {
-                                address: array[i].logs[j].to,
-                                symbole:array[i].logs[j].address.symbol,
-                                value: Number(array[i].logs[j].amount),
-                                ValueInDollar: 0,
-                                hash:array[i].hash,
-                                entity:null,
-                                blockNumber:array[i].blockNumber,
-                                timestamp:array[i].time,
-                                fee: Number(array[i].fee),
-                                Label
-                            }
-                        )
-                    } 
-                    if (array[i].logs[j].to === address) {
-                        let Label = false
-                        // const GetLabel = array[i].logs[j].from.labels
-                        // if (GetLabel.length !== 0) {
-                        //     Label = array[i].logs[j].from.labels.label
-                        // }
-                        logs.inputs.push(
-                            {
-                                address: array[i].logs[j].from,
-                                symbole:array[i].logs[j].address.symbol,
-                                value: Number(array[i].logs[j].amount),
-                                ValueInDollar: 0,
-                                hash:array[i].hash,
-                                entity:null,
-                                blockNumber:array[i].blockNumber,
-                                timestamp:array[i].time,
-                                fee: Number(array[i].fee),
-                                Label
-                            }
-                        )
-                    }
-                } catch (error) {}
-            }
+            // for (let j = 0; j < array[i].logs.length; j++) {
+            //     try {
+            //         if (array[i].logs[j].from === address) {
+            //             let Label = false
+            //             // const GetLabel = array[i].logs[j].to.labels
+            //             // if (GetLabel.length !== 0) {
+            //             //     Label = array[i].logs[j].to.labels.label
+            //             // }
+            //             logs.outputs.push(
+            //                 {
+            //                     address: array[i].logs[j].to,
+            //                     symbole:array[i].logs[j].address.symbol,
+            //                     value: Number(array[i].logs[j].amount),
+            //                     ValueInDollar: 0,
+            //                     hash:array[i].hash,
+            //                     entity:null,
+            //                     blockNumber:array[i].blockNumber,
+            //                     timestamp:array[i].time,
+            //                     fee: Number(array[i].fee),
+            //                     Label
+            //                 }
+            //             )
+            //         } 
+            //         if (array[i].logs[j].to === address) {
+            //             let Label = false
+            //             // const GetLabel = array[i].logs[j].from.labels
+            //             // if (GetLabel.length !== 0) {
+            //             //     Label = array[i].logs[j].from.labels.label
+            //             // }
+            //             logs.inputs.push(
+            //                 {
+            //                     address: array[i].logs[j].from,
+            //                     symbole:array[i].logs[j].address.symbol,
+            //                     value: Number(array[i].logs[j].amount),
+            //                     ValueInDollar: 0,
+            //                     hash:array[i].hash,
+            //                     entity:null,
+            //                     blockNumber:array[i].blockNumber,
+            //                     timestamp:array[i].time,
+            //                     fee: Number(array[i].fee),
+            //                     Label
+            //                 }
+            //             )
+            //         }
+            //     } catch (error) {}
+            // }
         }
     } catch (error) {
         isError = true

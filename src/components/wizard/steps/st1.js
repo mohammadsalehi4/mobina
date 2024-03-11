@@ -193,7 +193,7 @@ const St1 = ({ stepper, type }) => {
               position: 'bottom-left'
             })
           } else {
-            return toast.error('خطا در ساخت دارایی', {
+            return toast.error('خطا در ساخت استخراج‌کننده', {
                 position: 'bottom-left'
             })
           }

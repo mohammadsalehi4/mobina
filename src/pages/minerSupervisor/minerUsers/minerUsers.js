@@ -197,7 +197,7 @@ const MinerUsers = () => {
 
       return (
 
-          <div className='expandable-content p-2'>
+          <div className='expandable-content p-2' id='minerUser'>
               {
                 DeviceLoading ? 
                 <div className='mt-5'>

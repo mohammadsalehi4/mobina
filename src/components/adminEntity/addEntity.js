@@ -181,11 +181,18 @@ const AddEntity = () => {
                 console.log(response)
                 SetLoading(false)
                 if (response.status >= 200 && response.status < 300) {
-                    SetStep(2)
-                    setEntityId(response.data.id)
-                    return toast.success('موجودیت با موفقیت ساخته شد.', {
-                        position: 'bottom-left'
-                    })
+                    if (response.status === 226) {
+
+                        return toast.error('نام موجودیت تکراری است', {
+                            position: 'bottom-left'
+                        })
+                    } else {
+                        SetStep(2)
+                        setEntityId(response.data.id)
+                        return toast.success('موجودیت با موفقیت ساخته شد.', {
+                            position: 'bottom-left'
+                        })
+                    }
                 }                 
             })
             .catch((err) => {
@@ -673,27 +680,6 @@ const AddEntity = () => {
                         </Label>
                         <Input id='supervisor'/>
                     </Col>
-
-                    {/* <Col xl='4' lg='6' className='mt-3'>
-                        <Label>
-                            کشور
-                        </Label>
-                        <select style={{}} class="form-select" id='Roll_select_Options' aria-label="Default select example"
-                            onChange={(event) => {
-                                setSelectedCountry(event.target.value)
-                            }}
-                        >
-                            <option value={''}>بدون اطلاعات</option>
-
-                            {
-                                Countries.map((item, index) => {
-                                return (
-                                    <option key={index} value={`${item.symbol}`}>{item.name}</option>
-                                )
-                                })
-                            }
-                        </select>
-                    </Col> */}
 
                     <Col xl='4' lg='6' className='mt-3'>
                         <Label>

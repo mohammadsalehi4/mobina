@@ -304,6 +304,15 @@ const TransactionDetail1 = () => {
           SetDate(TrData.BlockDate)
           SetLoading(false)
           SetData(TrData)
+        } else if (network === 'MATIC') {
+          const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'MATIC', 1000000000000000000), 'MATIC'))
+          SetIsGet(true)
+          SetValue(TrData.value)
+          SetSymbole(TrData.symbole)
+          SetFee(TrData.fee)
+          SetDate(TrData.BlockDate)
+          SetLoading(false)
+          SetData(TrData)
         }
 
       } catch (error) {

@@ -530,30 +530,34 @@ const FuckingGraph = (props) => {
       physics: false,
 
       edges: {
-          
-          width:2,
-          border: {
-          
-          width: "Number",
-          style: "String"
-          },
-          smooth: {
+        width: 2,
+        border: {
+            width: "Number",
+            style: "String"
+        },
+        smooth: {
             type: 'cubicBezier',
-            forceDirection:'horizontal',
+            forceDirection: 'horizontal',
             roundness: 0.4
-          },
-          strokeWidth: 2,
-          arrows: {
-          to: {
-              enabled: true
-          }
-          },
-          font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
-          
-          color: {
-            color: '#344461'
-          },
-          fixed: true
+        },
+        strokeWidth: 2,
+        arrows: {
+            to: {
+                enabled: true
+            }
+        },
+        font: { 
+            size: 14, 
+            align: "middle", 
+            family: "Vazir", 
+            align: 'horizontal', 
+            background: "white"
+        },
+        color: {
+            color: '#344461',
+            highlight: '#344461' // اینجا رنگ یال‌ها را در زمان انتخاب شدن مشخص کنید.
+        },
+        fixed: true
       },
       nodes:{
           borderWidth:1,
@@ -647,30 +651,34 @@ const FuckingGraph = (props) => {
       physics: false,
 
       edges: {
-          color: "#000000",
-          width:2,
-          border: {
-          color: "String",
-          width: "Number",
-          style: "String"
-          },
-          smooth: {
+        width: 2,
+        border: {
+            width: "Number",
+            style: "String"
+        },
+        smooth: {
             type: 'cubicBezier',
-            forceDirection:'horizontal',
+            forceDirection: 'horizontal',
             roundness: 0.4
-          },
-          strokeWidth: 2,
-          arrows: {
-          to: {
-              enabled: true
-          }
-          },
-          font: { size: 14, align: "middle", family: "Vazir", align: 'horizontal', background:"white"},
-          color: "#344461",
-          color: {
-            color: '#344461' // رنگ با HEX
-          },
-          fixed: true
+        },
+        strokeWidth: 2,
+        arrows: {
+            to: {
+                enabled: true
+            }
+        },
+        font: { 
+            size: 14, 
+            align: "middle", 
+            family: "Vazir", 
+            align: 'horizontal', 
+            background: "white"
+        },
+        color: {
+            color: '#344461',
+            highlight: '#344461' // اینجا رنگ یال‌ها را در زمان انتخاب شدن مشخص کنید.
+        },
+        fixed: true
       },
       nodes:{
           borderWidth:1,

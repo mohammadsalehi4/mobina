@@ -84,7 +84,8 @@ const Tracker = () => {
 
     //processors
     const UTXOAdd = (data) => {
-
+        console.log('utxo')
+        console.log(data)
         let getEntity
         try {
             if (data.label) {
@@ -130,7 +131,11 @@ const Tracker = () => {
             mainAddress.inputs[0].value = parseFloat(data.inputs[0].value.toFixed(5))
             mainAddress.inputs[0].timeStamp = data.inputs[0].timestamp
             mainAddress.inputs[0].symbole = data.symbole
-            mainAddress.inputs[0].valueInDollar = parseFloat(data.inputs[0].ValueInDollar.toFixed(5))
+            try {
+                mainAddress.inputs[0].valueInDollar = parseFloat(data.inputs[0].ValueInDollar.toFixed(5))
+            } catch (error) {
+                mainAddress.inputs[0].valueInDollar = 0
+            }
             inputCheck = true
 
         }
@@ -140,7 +145,11 @@ const Tracker = () => {
             mainAddress.outputs[0].value = parseFloat(data.outputs[0].value.toFixed(5))
             mainAddress.outputs[0].timeStamp = data.outputs[0].timestamp
             mainAddress.outputs[0].symbole = data.symbole
-            mainAddress.outputs[0].valueInDollar = parseFloat(data.outputs[0].ValueInDollar.toFixed(5))
+            try {
+                mainAddress.outputs[0].valueInDollar = parseFloat(data.outputs[0].ValueInDollar.toFixed(5))
+            } catch (error) {
+                mainAddress.outputs[0].valueInDollar = parseFloat(0)
+            }
             outputCheck = true
         }
 
@@ -458,6 +467,7 @@ const Tracker = () => {
     useEffect(() => {
         if (hash !== undefined) {
             SetLoading(true)
+            
             axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}`,
             {
               headers: {
@@ -465,6 +475,8 @@ const Tracker = () => {
               }
             })
             .then((response) => {
+                console.log('response')
+                console.log(response)
                 try {
                     if (response.data.query === 'address') {
                         if (network === 'ETH') {
@@ -473,7 +485,7 @@ const Tracker = () => {
                             dispatch({type:"GRAPHDATA", value:AccountAdd(Account_Address(response.data.data, hash, 'ETH', 1000000000000000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
-                        } else if (network === 'DOGE') {
+                        } else if (network === 'BTC') {
                             dispatch({type:"Network", value:'BTC'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXO_Address(hash, response.data.data, 'BTC', 100000000))})
@@ -507,6 +519,12 @@ const Tracker = () => {
                             dispatch({type:"Network", value:'DOGE'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOAdd(UTXO_Address(hash, response.data.data, 'DOGE', 100000000))})
+                            dispatch({type:"positionX", value:0})
+                            SetIsShow(true)
+                        } else if (network === 'MATIC') {
+                            dispatch({type:"Network", value:'MATIC'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountAdd(Account_Address(response.data.data, hash, 'MATIC', 1000000000000000000))})
                             dispatch({type:"positionX", value:0})
                             SetIsShow(true)
                         }
@@ -551,6 +569,12 @@ const Tracker = () => {
                             dispatch({type:"Network", value:'DOGE'})
                             SetLoading(false)
                             dispatch({type:"GRAPHDATA", value:UTXOTr(UTXO_Transaction(response.data.data, 'DOGE', 100000000))})
+                            dispatch({type:"positionX", value:320})
+                            SetIsShow(true)
+                        } else if (network === 'MATIC') {
+                            dispatch({type:"Network", value:'MATIC'})
+                            SetLoading(false)
+                            dispatch({type:"GRAPHDATA", value:AccountTr(Account_transaction(response.data.data, 'MATIC', 1000000000000000000))})
                             dispatch({type:"positionX", value:320})
                             SetIsShow(true)
                         }

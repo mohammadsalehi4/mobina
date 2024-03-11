@@ -8,7 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 import './tracker.css'
 import NiceAddress2 from '../../components/niceAddress2/niceAddress'
-import CardAction from '@components/card-actions'
+import CardAction2 from '@components/card-actions/index2'
 import { digitsEnToFa } from 'persian-tools'
 import { useSelector, useDispatch } from "react-redux"
 import { CardBody, CardHeader, Row, Col, Table, Label, Modal, ModalBody, ModalFooter, Button, Input, InputGroup, InputGroupText } from 'reactstrap'
@@ -213,26 +213,13 @@ const VisualizationDetail = (props) => {
     <Fragment>
       <Row >
         <Col md='12' sm='12' id='visualisationDetailCol'>
-          <CardAction 
+          <CardAction2 
           title={BoxTitle} 
           actions='collapse' onClick='collapse' 
           >
           <CardBody className='pt-2'>
             <div className='container-fluid'>
               <div className='row'>
-                <div className='col-md-12'>
-                  {/* <form onSubmit={ (event) => { 
-                    event.preventDefault()
-                    window.location.assign(`/tracker/${document.getElementById('MainDashboardInputBox').value}`) 
-                  }}>
-                    <InputGroup id='MainDashboardInputGroup' className='input-group-merge m-0 mb-3' style={{direction:'ltr', borderColor:'red', width:'100%'}}>
-                      <InputGroupText id='MainDashboardInputSymbole' onClick={ () => { window.location.assign(`/tracker/${document.getElementById('MainDashboardInputBox').value}`) } }>
-                          <Search size={16} />
-                      </InputGroupText>
-                      <Input id='MainDashboardInputBox' placeholder='آدرس یا شناسه تراکنش' />
-                    </InputGroup>
-                  </form> */}
-                </div>
                 <hr/>
               </div>
               <div className='row'>
@@ -375,7 +362,7 @@ const VisualizationDetail = (props) => {
 
             </div>
           </CardBody>
-        </CardAction>
+        </CardAction2>
         </Col>
       </Row>
     </Fragment>
