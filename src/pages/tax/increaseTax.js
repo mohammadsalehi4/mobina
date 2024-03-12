@@ -34,10 +34,6 @@ const IncreaseTax = ({ stepper }) => {
             bodyFormData.append('forgiveness_precentage', percent)
             bodyFormData.append('forgiveness_mount', IncAmount)
             SetLoading(true)
-            console.log('States.taxId')
-            console.log(States.taxId)
-            console.log(percent)
-            console.log(IncAmount)
             axios.put(`${serverAddress}/taxing/update/${States.taxId}/`, 
             bodyFormData,
             {
@@ -82,6 +78,35 @@ const IncreaseTax = ({ stepper }) => {
             dispatch({type:"taxData", value:1})
             stepper.next()
           }
+        } else if (state === 'Ready_for_forgiveness') {
+            axios.get(`${serverAddress}/taxing/operation/${id}`, 
+            {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`
+                }
+            })
+            .then((response) => {
+                console.log(response)
+                if (response.status === 200) {
+                    console.log('response.data')
+                    console.log(response.data)
+                    dispatch({type:"taxAmount", value:Number(response.data.final_tax)})
+                }
+            })
+            .catch((err) => {
+                SetLoading(false)
+                console.log(err)
+                if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                }
+                if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                }
+            })
         }
     }, [stepper])
 

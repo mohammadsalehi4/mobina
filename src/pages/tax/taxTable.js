@@ -196,11 +196,14 @@ const TaxTable = ({ stepper }) => {
       document.getElementById('TaxTrMode').style.color = 'red'
     }
 
-    const lastStartData = NewStartdate / 1000
+    const lastStartData = Math.floor(NewStartdate / 1000)
     // const lastStartData = `${GetMillisecond(NewStartdate).year}-${GetMillisecond(NewStartdate).month}-${GetMillisecond(NewStartdate).day}`
-    const lastEndtData = NewEnddate / 1000
+    const lastEndtData = Math.floor(NewEnddate / 1000)
     // const lastEndtData = `${GetMillisecond(NewEnddate).year}-${GetMillisecond(NewEnddate).month}-${GetMillisecond(NewEnddate).day}`
 
+    console.log('lastStartData')
+    console.log(lastStartData)
+    console.log(lastEndtData)
     const bodyFormData = new FormData()
 
     bodyFormData.append('bussiness', JobName)
@@ -231,8 +234,8 @@ const TaxTable = ({ stepper }) => {
         SetLoading(false)
         console.log(response)
         if (response.status === 202) {
+          console.log('response.data')
           console.log(response.data)
-          // dispatch({type:"taxAmount", value:Number(response.data.price_without_forgiveness)})
           dispatch({type:"taxId", value:Number(response.data.instance_id)})
           dispatch({type:"taxLoading", value:!States.taxLoading})
           stepper.next()

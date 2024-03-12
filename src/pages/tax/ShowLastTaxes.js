@@ -176,7 +176,7 @@ const ShowLastTaxes = ({ stepper }) => {
                         date:`${JalaliCalendar(response.data[i].created_date).year}/${JalaliCalendar(response.data[i].created_date).month}/${JalaliCalendar(response.data[i].created_date).day}`,
                         startDate:`${JalaliCalendar(response.data[i].start_date_of_calculations).year}/${JalaliCalendar(response.data[i].start_date_of_calculations).month}/${JalaliCalendar(response.data[i].start_date_of_calculations).day}`,
                         endDate:`${JalaliCalendar(response.data[i].end_date_of_calculations).year}/${JalaliCalendar(response.data[i].end_date_of_calculations).month}/${JalaliCalendar(response.data[i].end_date_of_calculations).day}`,
-                        amount:Number(response.data[i].final_tax),
+                        amount:(Number(response.data[i].final_calcualation_price) !== 0 ? response.data[i].final_calcualation_price : response.data[i].final_tax),
                         id:response.data[i].id,
                         download_link:response.data[i].download_link
                     })

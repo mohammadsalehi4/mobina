@@ -41,6 +41,7 @@ const LoadingTax = ({ stepper }) => {
                         console.log('response')
                         console.log(response)
                       if (response.status === 200) {
+                        dispatch({type:"taxAmount", value:Number(response.data.final_tax)})
                         dispatch({type:"taxState", value:response.data.state})
                         if (response.data.state === 'in_progress') {
 

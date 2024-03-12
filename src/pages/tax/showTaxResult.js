@@ -7,7 +7,6 @@ import { Card, CardHeader, Row, CardBody, Col } from 'reactstrap'
 import { Input, Label, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap'
 import { ArrowLeft, ArrowRight, Check } from 'react-feather'
 import { WriteNumber } from '../../processors/PersianWriteNumber'
-import CountedTaxTable from './CountedTaxTable'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { serverAddress } from '../../address'
@@ -16,25 +15,42 @@ import Cookies from 'js-cookie'
 import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import {ArrowDownCircle, ArrowUpCircle, AlertOctagon, Calendar} from 'react-feather'
 import { RecognizeNetwork } from '../../processors/recognizeNetwork'
+import { ChevronDown } from 'react-feather'
+import DataTable from 'react-data-table-component'
+import ReactPaginate from 'react-paginate'
+
 const ShowTaxResult = ({ stepper }) => {
+    console.log(stepper)
     const dispatch = useDispatch()
     const States = useSelector(state => state)
     const [data, SetData] = useState(false)
     const [Networks, SetNetworks] = useState([])
+    const [TaxTransactions, SetTaxTransactions] = useState([])
+
     useEffect(() => {
         if (States.taxData === 1) {
             axios.get(`${serverAddress}/taxing/operation`, 
             {
                 headers: {
-                    Authorization: `Bearer ${Cookies.get('access')}`, 
-                    'Content-Type': 'multipart/form-data'
+                    Authorization: `Bearer ${Cookies.get('access')}` 
                 }
             })
             .then((response) => {
                 if (response.status === 200) {
                     SetData(response.data.find(item => item.id === States.taxId))
-                    console.log('response.data.find(item => item.id === States.taxId)')
-                    console.log(response.data.find(item => Number(item.id) === Number(States.taxId)))
+                    axios.get(`${serverAddress}/taxing/operation/${response.data.find(item => item.id === States.taxId).id}`, 
+                    {
+                        headers: {
+                            Authorization: `Bearer ${Cookies.get('access')}`
+                        }
+                    })
+                    .then((response2) => {
+                        console.log(response2.data.transactions)
+                        SetTaxTransactions(response2.data.transactions)
+                    })
+                    .catch((error2) => {
+
+                    })
                 }
             })
             .catch((err) => {
@@ -80,6 +96,80 @@ const ShowTaxResult = ({ stepper }) => {
           }
         })
     }, [])
+
+    const basicColumns = [
+        {
+          name: 'تراکنش',
+          maxWidth: '250px',
+          minWidth: '250px',
+          cell: row => {
+            return (
+              <NiceAddress2 text={row.hash} number={6}/>
+            )
+          }
+
+        },
+        {
+            name: 'تاریخ',
+            sortable: true,
+            maxWidth: '150px',
+            minWidth: '150px',
+            selector: row => row.date,
+            cell: row => digitsEnToFa(row.date)
+          },
+          {
+            name: 'حجم مبادله',
+            sortable: true,
+            maxWidth: '150px',
+            minWidth: '150px',
+            selector: row => row.volume,
+            cell: row => WriteNumber(row.volume)
+          },
+          {
+            name: 'ارزش (دلار)',
+            sortable: true,
+            maxWidth: '200px',
+            minWidth: '200px',
+            selector: row => row.usd,
+            cell: row => WriteNumber((row.dollar_price).toFixed(2))
+          },
+          {
+            name: 'ارزش (ریال)',
+            sortable: true,
+            maxWidth: '150px',
+            minWidth: '150px',
+            selector: row => row.irr,
+            cell: row => WriteNumber((row.dollar_price * row.rial_price).toFixed(0))
+          }
+    ]
+    const [currentPage, setCurrentPage] = useState(0)
+    const handlePagination = page => {
+      setCurrentPage(page.selected)
+    }
+    const CustomPagination = () => (
+      <ReactPaginate
+        nextLabel=''
+        breakLabel='...'
+        previousLabel=''
+        pageRangeDisplayed={2}
+        forcePage={(currentPage)}
+        marginPagesDisplayed={2}
+        activeClassName='active'
+        pageClassName='page-item'
+        breakClassName='page-item'
+        nextLinkClassName='page-link'
+        pageLinkClassName='page-link'
+        breakLinkClassName='page-link'
+        previousLinkClassName='page-link'
+        nextClassName='page-item next-item'
+        previousClassName='page-item prev-item'
+        pageCount={Math.ceil(TaxTransactions.length / 5) || 1}
+        onPageChange={page => handlePagination(page)}
+        containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-center pe-1 mt-3'
+      />
+    )
+
+
   return (
         <Card className='m-0 ShowLastTaxes' style={{boxShadow:'none', maxWidth:'100%', maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}} id='ShowTaxResult' >
             <CardHeader style={{ margin:'0px', paddingBottom:'0px', paddingTop:'16px'}}>
@@ -189,14 +279,14 @@ const ShowTaxResult = ({ stepper }) => {
                     <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'درصد بخشش'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                            {data.final_tax}
+                            {data.forgiveness_precentage}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
                     <Col xl='3' lg='4' md='6' sm='12' style={{textAlign:'right'}} className='mt-3'>
                         <p style={{display:"inline-block", color:"rgb(150,150,150)"}} className='transaction-title'>{'مبلغ بخشش'}</p>
                         <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                            {data.final_tax}
+                            {data.forgiveness_mount}
                             <ArrowUpCircle size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                         </div>
                     </Col>
@@ -223,7 +313,26 @@ const ShowTaxResult = ({ stepper }) => {
                     <Col className='mt-3' style={{textAlign:'right'}}>
                         {
                             data ? 
-                            <CountedTaxTable  data={data}/>
+                                <div  style={{borderRadius:'8px', marginTop:'80px', borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)", maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto'}} id='CountedTaxTable'>
+                                    <h6 style={{margin:'24px 32px'}}>تراکنش های محاسبه شده</h6>
+                                    {
+                                    TaxTransactions.length > 0 ?
+                                        <DataTable
+                                            noHeader
+                                            pagination
+                                            paginationPerPage={5}
+                                            data={TaxTransactions}
+                                            columns={basicColumns}
+                                            className='react-dataTable mt-3'
+                                            sortIcon={<ChevronDown size={10} />}
+                                            paginationComponent={CustomPagination}
+                                            paginationDefaultPage={currentPage + 1}
+                                        />
+                                    :
+                                        <p style={{textAlign:'center'}}>بدون اطلاعات</p>
+                                    }
+                            
+                                </div>
                             :
                             null
                         }
