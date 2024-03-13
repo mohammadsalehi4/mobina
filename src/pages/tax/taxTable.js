@@ -239,6 +239,10 @@ const TaxTable = ({ stepper }) => {
           dispatch({type:"taxId", value:Number(response.data.instance_id)})
           dispatch({type:"taxLoading", value:!States.taxLoading})
           stepper.next()
+        } else if (response.status === 202) {
+          return toast.error('آدرس مورد نظر پیدا نشد', {
+            position: 'bottom-left'
+          })
         }
       })
       .catch((err) => {

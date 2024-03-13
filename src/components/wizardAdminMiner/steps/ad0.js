@@ -109,7 +109,7 @@ const St0 = ({ stepper, type }) => {
     const last_name = document.getElementById('Lname').value
     const email = document.getElementById('email').value
     const phone_number = document.getElementById('number').value
-
+    SetLoading(true)
     axios.post(`${serverAddress}/accounts/register/`, 
     {
       username,
@@ -125,16 +125,41 @@ const St0 = ({ stepper, type }) => {
       }
     })
     .then((response) => {
+      SetLoading(false)
 
-      dispatch({type:"userMinerId", value:response.data.id})
-      dispatch({type:"userMinerEmail", value:email})
-      dispatch({type:"userMinerinterface_fname", value:first_name})
-      dispatch({type:"userMinerinterface_lname", value:last_name})
-      dispatch({type:"userMinerinterface_phone_number", value:phone_number})
-      stepper.next()
+      if (response.status === 201) {
+        dispatch({type:"userMinerId", value:response.data.id})
+        dispatch({type:"userMinerEmail", value:email})
+        dispatch({type:"userMinerinterface_fname", value:first_name})
+        dispatch({type:"userMinerinterface_lname", value:last_name})
+        dispatch({type:"userMinerinterface_phone_number", value:phone_number})
+        stepper.next()
+      }
     })
     .catch((err) => {
-      console.log(err)
+      SetLoading(false)
+
+      if (err.response.data.error.fields.phone_number[0] === 'user with this phone number already exists.') {
+        return toast.error('کاربری با این شماره موبایل وجود دارد.', {
+          position: 'bottom-left'
+        })
+      } else if (err.response.data.error.fields.phone_number !== undefined) {
+        return toast.error('شماره موبایل را به درستی وارد کنید', {
+          position: 'bottom-left'
+        })
+      } else if (err.response.data.error.fields.email !== undefined) {
+        return toast.error('ایمیل را به درستی وارد کنید', {
+          position: 'bottom-left'
+        })
+      } else if (err.response.data.error.fields.username !== undefined) {
+        return toast.error('نام کاربری وارد شده تکراری است', {
+          position: 'bottom-left'
+        })
+      } else {
+        return toast.error('ناموفق در پردازش', {
+          position: 'bottom-left'
+        })
+      }
     })
   }
 

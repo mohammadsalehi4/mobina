@@ -322,7 +322,7 @@ const MinerUsers = () => {
                     </Row>
                     {
                       DeviceData.length > 0 ? 
-                        <Card className='mt-3'>
+                        <Card className='mt-0 mb-0'>
                           {
                             DeviceData.map((item, index) => {
                               console.log(item)
@@ -332,7 +332,7 @@ const MinerUsers = () => {
                                 actions='collapse' onClick='collapse' 
                               >
                                 <div className='container-fluid pe-5 ps-5 pb-3'>
-                                  <Row>
+                                  <Row style={{marginTop:'-40px'}}>
                                     <Col xl='3' lg='4' md='6' className='mt-5'>
                                       <div style={{ marginBottom:'-10px', textAlign:'right'}}>
                                         <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'استخر'}</p>
@@ -420,6 +420,7 @@ const MinerUsers = () => {
                                           </div>
                                       </div>
                                     </Col>
+
                                   </Row>
                                 </div>
                                 </CardAction>

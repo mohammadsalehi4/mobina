@@ -2,13 +2,13 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Eye, Edit, PlusCircle } from 'react-feather'
+import { ChevronDown, Eye, X, PlusCircle } from 'react-feather'
 import { Card, CardHeader, CardTitle, Row, Col, UncontrolledTooltip, Modal, ModalBody, ModalFooter, Button, Label, Input, Nav,
     TabPane,
     NavItem,
-    TabContent} from 'reactstrap'
+    TabContent, InputGroup, InputGroupText} from 'reactstrap'
 import ReactPaginate from 'react-paginate'
 import LoadingButton from '../loadinButton/LoadingButton'
 import LegalDetail from './legalDetail'
@@ -26,7 +26,10 @@ const ShowEntity = () => {
     const dispatch = useDispatch()
     const States = useSelector(state => state)
 
+    const myInputRef = useRef(null)
+
     const [data, SetData] = useState([])
+    const [SearchedData, SetSearchedData] = useState([])
     const [EditBox, setEditBox] = useState(false)
     const [AddBox, setAddBox] = useState(false)
     const [ShowBox, setShowBox] = useState(false)
@@ -34,6 +37,7 @@ const ShowEntity = () => {
     const [AddLoading, setAddLoading] = useState(false)
     const [EntityDetail, setEntityDetail] = useState(null)
     const [Types, setTypes] = useState([])
+    const [IsSearch, setIsSearch] = useState(false)
 
     const [ethAddress, SetethAddress] = useState('')
     const [btcAddress, SetbtcAddress] = useState('')
@@ -48,51 +52,51 @@ const ShowEntity = () => {
     const [XRDAddress, SetXRDAddress] = useState('')
     const [TRXAddress, SetTRXAddress] = useState('')
 
-        //get types
-        useEffect(() => {
-            axios.get(`${serverAddress}/entity/type/`, 
-            {
-              headers: {
-                Authorization: `Bearer ${Cookies.get('access')}`
-              }
-            })
-            .then((response) => {
-              if (response.status === 200) {
-                const getType = []
-                for (let i = 0; i < response.data.types.length; i++) {
-                    getType.push({
-                        id:response.data.types[i].id,
-                        value:response.data.types[i].name,
-                        label:response.data.types[i].name
-                    })
-                }
-                console.log('getType')
-                console.log(getType)
-                setTypes(getType)
-              }
-            })
-            .catch((err) => {
-                console.log(err)
-              SetEditLoading(false)
-              if (err.response.status === 403) {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
-                window.location.assign('/')
-              }
-              if (err.response.status === 401) {
-                Cookies.set('refresh', '')
-                Cookies.set('access', '')
-                window.location.assign('/')
-              }
-            })
-        }, [])
+    //get types
+    useEffect(() => {
+        axios.get(`${serverAddress}/entity/type/`, 
+        {
+            headers: {
+            Authorization: `Bearer ${Cookies.get('access')}`
+            }
+        })
+        .then((response) => {
+            if (response.status === 200) {
+            const getType = []
+            for (let i = 0; i < response.data.types.length; i++) {
+                getType.push({
+                    id:response.data.types[i].id,
+                    value:response.data.types[i].name,
+                    label:response.data.types[i].name
+                })
+            }
+            console.log('getType')
+            console.log(getType)
+            setTypes(getType)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+            SetEditLoading(false)
+            if (err.response.status === 403) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+            }
+            if (err.response.status === 401) {
+            Cookies.set('refresh', '')
+            Cookies.set('access', '')
+            window.location.assign('/')
+            }
+        })
+    }, [])
 
     const basicColumns = [
         {
             name: 'نام',
             sortable: true,
-            maxWidth: '150px',
-            minWidth: '150px',
+            maxWidth: '250px',
+            minWidth: '250px',
             selector: row => row.name
         },
         {
@@ -407,7 +411,12 @@ const ShowEntity = () => {
 
     useEffect(() => {
         if (States.rollsLoading === 7) {
-            
+            document.getElementById('EntitySearch').focus()
+        }
+    }, [States.rollsLoading])
+
+    useEffect(() => {
+        if (States.rollsLoading === 7) {
             setLoading(true)
             axios.get(`${serverAddress}/entity/`, 
             {
@@ -451,13 +460,114 @@ const ShowEntity = () => {
         }
     }, [States.rollsLoading, States.EntityBeload])
 
+    const EntitySearch = (check) => {
+        const value = document.getElementById('EntitySearch').value
+        //form submit
+        if (value.length >= 3) {
+            if (check) {
+                setLoading(true)
+                
+                axios.get(`${serverAddress}/entity/search-entities/?search=${value}`, 
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`
+                  }
+                })
+                .then((response) => {
+                setLoading(false)
+    
+                  if (response.status === 200) {
+                    SetSearchedData(response.data)
+                    console.log(response.data)
+                  }
+                })
+                .catch((err) => {
+                  console.log(err)
+                setLoading(false)
+                  if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                  if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                })
+    
+            //onChange
+            } else {
+                setLoading(true)
+                axios.get(`${serverAddress}/entity/search-entities/?search=${value}`, 
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`
+                  }
+                })
+                .then((response) => {
+                setLoading(false)
+                if (response.status === 200) {
+                    SetSearchedData(response.data)
+                    console.log(response.data)
+                  }
+                })
+                .catch((err) => {
+                  console.log(err)
+                setLoading(false)
+                  
+                  if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                  if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                })
+            }
+            if (value.length !== 0) {
+                setIsSearch(true)
+            } else {
+                setIsSearch(false)
+                SetSearchedData([])
+            }
+        } else {
+            setIsSearch(false)
+            setLoading(false)
+            SetSearchedData([])
+        }
+
+    }
+
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
       <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
-        <CardTitle tag='h6' style={{width:'100%'}}>لیست موجودیت‌ها
-              <ion-icon size={18} onClick={ () => { 
+        <CardTitle tag='h6' style={{width:'100%'}} id='EntityListTable'>لیست موجودیت‌ها
+            
+            <ion-icon size={18} onClick={ () => { 
                 dispatch({type:"EntityBeload", value:!States.EntityBeload})
-            }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
+            }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-3px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
+            
+            <form style={{float:'left', display:'inline-block', width:'200px', marginLeft:'16px'}} onSubmit={ (e) => { e.preventDefault(), EntitySearch(true) }} >
+                <InputGroup id='MainDashboardInputGroup' className='input-group-merge mb-2' style={{direction:'ltr', borderColor:'red', width:'100%'}}>
+                    <InputGroupText id='MainDashboardInputSymbole' onClick={ () => {
+                        document.getElementById('EntitySearch').value = ''
+                        EntitySearch(false)
+                    }}>
+                        {
+                            document.getElementById('EntitySearch').value.length > 0 ?
+                                <X size={16} />
+                            :
+                                null
+                        }
+                    </InputGroupText>
+                    <Input ref={myInputRef} placeholder='جست‌وجو' id='EntitySearch' onChange={ () => { EntitySearch(false) }} />
+                </InputGroup>
+            </form>
+       
         </CardTitle>
       </CardHeader>
         <div className='react-dataTable'>
@@ -467,9 +577,10 @@ const ShowEntity = () => {
                     <LocalLoading/>
                 </div>
                 :
+
                 <DataTable
                     noHeader
-                    data={data}
+                    data={!IsSearch ? data : SearchedData}
                     columns={basicColumns}
                     pagination
                     className='react-dataTable'

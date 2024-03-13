@@ -43,3 +43,8 @@
     margin-right: 0px !important;
     text-align: center !important;
   }
+
+  #EntityListTable Input {
+    border: none !important;
+    padding-right: 16px;
+  }
