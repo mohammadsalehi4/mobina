@@ -38,6 +38,7 @@ const ShowEntity = () => {
     const [EntityDetail, setEntityDetail] = useState(null)
     const [Types, setTypes] = useState([])
     const [IsSearch, setIsSearch] = useState(false)
+    const [SearchNumber, setSearchNumber] = useState(0)
 
     const [ethAddress, SetethAddress] = useState('')
     const [btcAddress, SetbtcAddress] = useState('')
@@ -159,11 +160,6 @@ const ShowEntity = () => {
                         <UncontrolledTooltip placement='top' target={`Eye${row.id}`}>
                           مشاهده
                         </UncontrolledTooltip>
-
-                        {/* <Edit id={`Edit${row.id}`} style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setEditBox(true) } } />
-                        <UncontrolledTooltip placement='top' target={`Edit${row.id}`}>
-                          ویرایش
-                        </UncontrolledTooltip> */}
 
                         <PlusCircle id={`AddNew${row.id}`} style={{cursor:'pointer', marginRight:'16px'}} onClick={ () => { setEntityDetail(row.data), setAddBox(true) } }   />
                         <UncontrolledTooltip placement='top' target={`AddNew${row.id}`}>
@@ -428,6 +424,7 @@ const ShowEntity = () => {
                 setLoading(false)
                 const getData = []
                 if (response.status === 200) {
+                    console.log(response.data.results)
                     for (let i = 0; i < response.data.results.length; i++) {
                         getData.push(
                             {
@@ -477,8 +474,23 @@ const ShowEntity = () => {
                 setLoading(false)
     
                   if (response.status === 200) {
-                    SetSearchedData(response.data)
-                    console.log(response.data)
+                    const getData = []
+                    for (let i = 0; i < response.data.length; i++) {
+                        getData.push(
+                            {
+                                name:response.data[i].name,
+                                type:response.data[i].type,
+                                website:response.data[i].web_site,
+                                legal_name:response.data[i].legal_name,
+                                id:response.data[i].uuid,
+                                data:response.data[i]
+                            }
+                        )
+                    }
+                    
+                    SetSearchedData(getData)
+
+                    console.log(getData)
                   }
                 })
                 .catch((err) => {
@@ -508,8 +520,23 @@ const ShowEntity = () => {
                 .then((response) => {
                 setLoading(false)
                 if (response.status === 200) {
-                    SetSearchedData(response.data)
-                    console.log(response.data)
+                    const getData = []
+                    for (let i = 0; i < response.data.length; i++) {
+                        getData.push(
+                            {
+                                name:response.data[i].name,
+                                type:response.data[i].type,
+                                website:response.data[i].web_site,
+                                legal_name:response.data[i].legal_name,
+                                id:response.data[i].uuid,
+                                data:response.data[i]
+                            }
+                        )
+                    }
+                    
+                    SetSearchedData(getData)
+
+                    console.log(getData)
                   }
                 })
                 .catch((err) => {
@@ -558,13 +585,13 @@ const ShowEntity = () => {
                         EntitySearch(false)
                     }}>
                         {
-                            document.getElementById('EntitySearch').value.length > 0 ?
+                            SearchNumber > 0 ?
                                 <X size={16} />
                             :
                                 null
                         }
                     </InputGroupText>
-                    <Input ref={myInputRef} placeholder='جست‌وجو' id='EntitySearch' onChange={ () => { EntitySearch(false) }} />
+                    <Input ref={myInputRef} placeholder='جست‌وجو' id='EntitySearch' onChange={ (e) => { EntitySearch(false), setSearchNumber(e.target.value.length) }} />
                 </InputGroup>
             </form>
        
