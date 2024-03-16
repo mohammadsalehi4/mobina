@@ -490,7 +490,6 @@ const ShowEntity = () => {
                     
                     SetSearchedData(getData)
 
-                    console.log(getData)
                   }
                 })
                 .catch((err) => {
@@ -536,7 +535,6 @@ const ShowEntity = () => {
                     
                     SetSearchedData(getData)
 
-                    console.log(getData)
                   }
                 })
                 .catch((err) => {
@@ -568,6 +566,7 @@ const ShowEntity = () => {
         }
 
     }
+    
 
   return (
     <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>

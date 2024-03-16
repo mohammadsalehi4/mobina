@@ -1,9 +1,10 @@
+/* eslint-disable no-duplicate-imports */
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Eye, CameraOff } from 'react-feather'
+import { ChevronDown, Eye, CameraOff, X } from 'react-feather'
 import React, { useState, forwardRef, useEffect } from 'react'
 import {
     Card,
@@ -17,6 +18,10 @@ import {
     Label,
     Input
   } from 'reactstrap'
+  import { 
+    TabPane,
+    NavItem,
+    TabContent, InputGroup, InputGroupText} from 'reactstrap'
 import { digitsEnToFa } from 'persian-tools'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -27,7 +32,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import LocalLoading from '../localLoading/localLoading'
 import { Calendar, CalendarProvider } from "zaman"
 import { JalaliCalendar } from '../../processors/jalaliCalendar'
-
+import './style.css'
 function RecognizeNetwork (id) {
     if (typeof (id) === 'number') {
         if (id === 1) {
@@ -73,6 +78,9 @@ const ShowAssets = () => {
     const [deleteLoading, SetDeleteLoading] = useState(false)
     const [EditLoading, SetEditLoading] = useState(false)
     const [Loading, SetLoading] = useState(false)
+    const [IsSearch, setIsSearch] = useState(false)
+    const [SearchNumber, setSearchNumber] = useState(0)
+    const [SearchedData, SetSearchedData] = useState([])
 
     const [Gap, SetGap] = useState([])
     const [GapLoading, SetGapLoading] = useState(false)
@@ -500,13 +508,154 @@ const ShowAssets = () => {
         }
     }, [EditData])
 
+    const AssetsSearch = (check) => {
+        const value = document.getElementById('AssetsSearch').value
+        //form submit
+        if (value.length >= 3) {
+            if (check) {
+                SetLoading(true)
+                
+                axios.get(`${serverAddress}/explorer/search-assets/?search=${value}`, 
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`
+                  }
+                })
+                .then((response) => {
+                SetLoading(false)
+                console.log(response)
+    
+                  if (response.status === 200) {
+                    const getData = []
+                    
+                    for (let i = 0; i < response.data.length; i++) {
+                        getData.push(
+                            {
+                                id: response.data[i].id,
+                                symbol: response.data[i].symbol,
+                                persian_name: response.data[i].persian_name,
+                                name:  response.data[i].name,
+                                color: response.data[i].color,
+                                image: response.data[i].image,
+                                decimal_number: response.data[i].decimal_number,
+                                contract_address: response.data[i].contract_address,
+                                network: response.data[i].network,
+                                launch_date:response.data[i].launch_date
+                            }
+                        )
+                    }
+                    SetSearchedData(getData)
+
+                  }
+                })
+                .catch((err) => {
+                  console.log(err)
+                    SetLoading(false)
+                  if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                  if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                })
+    
+            //onChange
+            } else {
+                SetLoading(true)
+                axios.get(`${serverAddress}/explorer/search-assets/?search=${value}`, 
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get('access')}`
+                  }
+                })
+                .then((response) => {
+                    console.log(response)
+                SetLoading(false)
+                if (response.status === 200) {
+                    const getData = []
+                    for (let i = 0; i < response.data.length; i++) {
+                        getData.push(
+                            {
+                                id: response.data[i].id,
+                                symbol: response.data[i].symbol,
+                                persian_name: response.data[i].persian_name,
+                                name:  response.data[i].name,
+                                color: response.data[i].color,
+                                image: response.data[i].image,
+                                decimal_number: response.data[i].decimal_number,
+                                contract_address: response.data[i].contract_address,
+                                network: response.data[i].network,
+                                launch_date:response.data[i].launch_date
+                            }
+                        )
+                    }
+                    SetSearchedData(getData)
+
+                  }
+                })
+                .catch((err) => {
+                  console.log(err)
+                    SetLoading(false)
+                  
+                  if (err.response.status === 403) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                  if (err.response.status === 401) {
+                    Cookies.set('refresh', '')
+                    Cookies.set('access', '')
+                    window.location.assign('/')
+                  }
+                })
+            }
+            if (value.length !== 0) {
+                setIsSearch(true)
+            } else {
+                setIsSearch(false)
+                SetSearchedData([])
+            }
+        } else {
+            setIsSearch(false)
+            SetLoading(false)
+            SetSearchedData([])
+        }
+
+    }
+
+    useEffect(() => {
+        if (States.rollsLoading === 8) {
+            document.getElementById('AssetsSearch').focus()
+        }
+    }, [States.rollsLoading])
+
     return (
         <Card className='overflow-hidden' style={{margin:"0px", boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
-          <CardTitle tag='h6' style={{width:'100%'}}>لیست دارایی‌ها
+          <CardTitle id='AssetsListTable' tag='h6' style={{width:'100%'}}>لیست دارایی‌ها
           <ion-icon size={18} onClick={ () => { 
               dispatch({type:"AssetsBeload", value:!(States.AssetsBeload)})
-            }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-6px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
+            }} id="reLoadAdminPanelIcon" style={{float:'left', border:"none", padding:"8px 0px", borderRadius:"8px", fontSize:"25px", cursor:'pointer', transition: 'transform 0.3s', marginTop:'-3px'}} className='ms-2' name="refresh-circle-outline"></ion-icon>
+            <form style={{float:'left', display:'inline-block', width:'200px', marginLeft:'16px'}} onSubmit={ (e) => { e.preventDefault(), AssetsSearch(true) }} >
+                <InputGroup id='MainDashboardInputGroup' className='input-group-merge mb-2' style={{direction:'ltr', borderColor:'red', width:'100%'}}>
+                    <InputGroupText id='MainDashboardInputSymbole' onClick={ () => {
+                        document.getElementById('AssetsSearch').value = ''
+                        AssetsSearch(false)
+                    }}>
+                        {
+                            SearchNumber > 0 ?
+                                <X size={16} />
+                            :
+                                null
+                        }
+                    </InputGroupText>
+                    <Input placeholder='جست‌وجو' id='AssetsSearch' onChange={ (e) => { AssetsSearch(false), setSearchNumber(e.target.value.length) }} />
+                </InputGroup>
+            </form>
           </CardTitle>
         </CardHeader>
           <div className='react-dataTable'>
@@ -516,13 +665,15 @@ const ShowAssets = () => {
                         <LocalLoading/>
                     </div>
                 :
+
                     <DataTable
                         noHeader
-                        data={data}
+                        data={ IsSearch ? SearchedData : data}
                         columns={columns}
                         className='react-dataTable'
                         sortIcon={<ChevronDown size={10} />}
                     />
+                    
             }
           </div>
           <Modal
