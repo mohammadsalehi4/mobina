@@ -29,6 +29,7 @@ import { UTXO_Address } from '../../newProcessors/UTXO_Address'
 import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
 import { Account_Address } from '../../newProcessors/Account_Address'
 import { Account_transaction } from '../../newProcessors/Account_transaction'
+import { Account_Token_Address } from '../../newProcessors/Account_Token_Address'
 
 const EcommerceDashboard2 = () => {
   const { hash } = useParams()
@@ -40,6 +41,7 @@ const EcommerceDashboard2 = () => {
   const [mode, SetMode] = useState(0)
   const [trData, SetTrData] = useState({})
   const [adData, SetAdData] = useState({})
+  const [AdTokenData, SetAdTokenData] = useState({})
   const [Loading, SetLoading] = useState(false)
   const [address, SetAddress] = useState('0x62Dece3416741fcEECA25A50A584a37037eadc04')
   const [coinData, SetCoinData] = useState({})
@@ -47,7 +49,7 @@ const EcommerceDashboard2 = () => {
   const [TagData, SetTagData] = useState({})
   const [Entity, SetEntity] = useState({})
   const [SelectToken, SetSelectToken] = useState(0)
-  const [Token, SetToken] = useState(null)
+  const [TokenName, SetToken] = useState(null)
 
   const UTXOAdd =(getData, symbol) => {
     
@@ -144,7 +146,7 @@ const EcommerceDashboard2 = () => {
 
     return data
   }
-  const AccountBaseAdd =(getData, symbol) => {
+  const AccountBaseAdd =(getData, TokenData, symbol) => {
     let data = []
     for (let i = 0; i < getData.inputs.length; i++) {
       data.push({
@@ -176,32 +178,32 @@ const EcommerceDashboard2 = () => {
       })
     }
 
-    for (let i = 0; i < getData.logs.inputs.length; i++) {
+    for (let i = 0; i < TokenData.logs.inputs.length; i++) {
       data.push({
-        timeStamp:getData.logs.inputs[i].timestamp,
-        from:getData.logs.inputs[i].address,
-        to:getData.address,
-        gasUsed:getData.logs.inputs[i].fee,
+        timeStamp:TokenData.logs.inputs[i].timestamp,
+        from:TokenData.logs.inputs[i].address,
+        to:TokenData.address,
+        gasUsed:TokenData.logs.inputs[i].fee,
         gasPrice:1,
-        value:(Number(getData.logs.inputs[i].value)),
-        hash:getData.logs.inputs[i].hash,
-        currencyType:getData.logs.inputs[i].symbole,
-        Logo:`${getData.logs.inputs[i].symbole}.png`,
+        value:(Number(TokenData.logs.inputs[i].value)),
+        hash:TokenData.logs.inputs[i].hash,
+        currencyType:TokenData.logs.inputs[i].symbole,
+        Logo:`${TokenData.logs.inputs[i].symbole}.png`,
         Type:"token"
       })
     }
 
-    for (let i = 0; i < getData.logs.outputs.length; i++) {
+    for (let i = 0; i < TokenData.logs.outputs.length; i++) {
       data.push({
-        timeStamp:getData.logs.outputs[i].timestamp,
-        from:getData.address,
-        to:getData.logs.outputs[i].address,
-        gasUsed:getData.logs.outputs[i].fee,
+        timeStamp:TokenData.logs.outputs[i].timestamp,
+        from:TokenData.address,
+        to:TokenData.logs.outputs[i].address,
+        gasUsed:TokenData.logs.outputs[i].fee,
         gasPrice:1,
-        value:(Number(getData.logs.outputs[i].value)),
-        hash:getData.logs.outputs[i].hash,
-        currencyType:getData.logs.outputs[i].symbole,
-        Logo:`${getData.logs.outputs[i].symbole}.png`,
+        value:(Number(TokenData.logs.outputs[i].value)),
+        hash:TokenData.logs.outputs[i].hash,
+        currencyType:TokenData.logs.outputs[i].symbole,
+        Logo:`${TokenData.logs.outputs[i].symbole}.png`,
         Type:"token"
       })
     }
@@ -452,7 +454,7 @@ const EcommerceDashboard2 = () => {
   //we know network
   const SelectProcessHandler = (network) => {
 
-    const processData = (addressMode) => {
+    const processData = (addressMode, tokens) => {
 
       //save to local storage
       const saveToStorage = (data) => {
@@ -465,562 +467,27 @@ const EcommerceDashboard2 = () => {
         }
       }
 
-      if (addressMode.data.query === 'transaction') {
-        SetToken(addressMode.data.network[0])
-        if (addressMode.data.network[0] === 'ETH') {
+      const processAccountAddress = (symbol, PersianName, color, decimal) => {
+        try {
+          SetAddress(hash)
           SetLoading(false)
-          try {
-            // SetTrData
-            SetTrData(AccountBaseTr(Account_transaction(addressMode.data.data, 'ETH', 1000000000000000000), 'ETH', 'اتریوم'))
-
-            //labels
-            let labelText = null
-            let labelId = null
-            if (addressMode.data.data.labels_tags.labels.length > 0) {
-              labelText = addressMode.data.data.labels_tags.labels[0].label
-              labelId = addressMode.data.data.labels_tags.labels[0].id
-            }
-            SetLabelData(
-              {
-                labelText,
-                labelId
-              }
-            )
-  
-            //tags
-            let isTag = false
-            let TagInfo = []
-            if (addressMode.data.data.labels_tags.tags.length > 0) {
-              isTag = true
-              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
-                TagInfo.push(
-                  {
-                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
-                    tagId:addressMode.data.data.labels_tags.tags[i].id
-                  }
-                )
-              }
-            }
-  
-            SetTagData(
-              {
-                isTag,
-                TagInfo
-              }
-            )
-  
-            SetMode(1)
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'BSC') {
-          SetLoading(false)
-          try {
-            // SetTrData
-            SetTrData(AccountBaseTr(Account_transaction(addressMode.data.data, 'BSC', 1000000000000000000), 'BNB', 'بایننس اسمارت چین'))
-  
-            //labels
-            let labelText = null
-            let labelId = null
-            if (addressMode.data.data.tag_labels.labels.length > 0) {
-              labelText = addressMode.data.data.tag_labels.labels[0].label
-              labelId = addressMode.data.data.tag_labels.labels[0].id
-            }
-            SetLabelData(
-              {
-                labelText,
-                labelId
-              }
-            )
-  
-            //tags
-            let isTag = false
-            let TagInfo = []
-            if (addressMode.data.data.tag_labels.tags.length > 0) {
-              isTag = true
-              for (let i = 0; i < addressMode.data.data.tag_labels.tags.length; i++) {
-                TagInfo.push(
-                  {
-                    tagText:addressMode.data.data.tag_labels.tags[i].tag,
-                    tagId:addressMode.data.data.tag_labels.tags[i].id
-                  }
-                )
-              }
-            }
-  
-            SetTagData(
-              {
-                isTag,
-                TagInfo
-              }
-            )
-  
-            SetMode(1)
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'BTC') {
-          try {
-            const GetData = UTXO_Transaction(addressMode.data.data, 'BTC', 1)
-            if (!GetData.isError) {
-                                                        
-              //catch
-              saveToStorage(addressMode)
-              
-              SetTrData(UTXOTr(GetData, 'BTC', 'بیت‌کوین'))
-              dispatch({type:"networkName", value:'BTC'})
-  
-              //labels
-              let labelText = null
-              let labelId = null
-              if (GetData.MainLabel) {
-                labelText = GetData.MainLabel.label
-                labelId = GetData.MainLabel.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (GetData.MainTag) {
-                isTag = true
-                for (let i = 0; i <GetData.MainTag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:GetData.MainTag[i].tag,
-                      tagId:GetData.MainTag[i].id
-                    }
-                  )
-                }
-              }
-    
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-    
-              SetMode(1)
-              SetLoading(false)
-            } else {
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'LTC') {
-          try {
-            const GetData = UTXO_Transaction(addressMode.data.data, 'LTC', 1)
-            if (!GetData.isError) {
-                                                        
-              //catch
-              saveToStorage(addressMode)
-              
-              SetTrData(UTXOTr(GetData, 'LTC', 'لایت‌کوین'))
-              dispatch({type:"networkName", value:'LTC'})
-  
-              //labels
-              let labelText = null
-              let labelId = null
-              if (GetData.MainLabel) {
-                labelText = GetData.MainLabel.label
-                labelId = GetData.MainLabel.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (GetData.MainTag) {
-                isTag = true
-                for (let i = 0; i <GetData.MainTag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:GetData.MainTag[i].tag,
-                      tagId:GetData.MainTag[i].id
-                    }
-                  )
-                }
-              }
-    
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-    
-              SetMode(1)
-              SetLoading(false)
-            } else {
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'BCH') {
-          try {
-            const GetData = UTXO_Transaction(addressMode.data.data, 'BCH', 1)
-
-
-            if (!GetData.isError) {
-                                          
-              //catch
-              saveToStorage(addressMode)
-              
-              SetTrData(UTXOTr(GetData, 'BCH', 'بیت کوین کش'))
-              dispatch({type:"networkName", value:'BCH'})
-
-              //labels
-              let labelText = null
-              let labelId = null
-              if (GetData.MainLabel) {
-                labelText = GetData.MainLabel.label
-                labelId = GetData.MainLabel.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (GetData.MainTag) {
-                isTag = true
-                for (let i = 0; i <GetData.MainTag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:GetData.MainTag[i].tag,
-                      tagId:GetData.MainTag[i].id
-                    }
-                  )
-                }
-              }
-    
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-    
-              SetMode(1)
-              SetLoading(false)
-            } else {
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'TRX') {
-          try {
-            const GetData = Account_transaction(addressMode.data.data, 'TRX', 1)
-
-
-            if (!GetData.isError) {
-                                          
-              //catch
-              saveToStorage(addressMode)
-              console.log("AccountBaseTr(GetData, 'TRX', 'ترون')")
-              console.log(AccountBaseTr(GetData, 'TRX', 'ترون'))
-              SetTrData(AccountBaseTr(GetData, 'TRX', 'ترون'))
-              dispatch({type:"networkName", value:'TRX'})
-
-              //labels
-              let labelText = null
-              let labelId = null
-              if (GetData.MainLabel) {
-                labelText = GetData.MainLabel.label
-                labelId = GetData.MainLabel.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (GetData.MainTag) {
-                isTag = true
-                for (let i = 0; i <GetData.MainTag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:GetData.MainTag[i].tag,
-                      tagId:GetData.MainTag[i].id
-                    }
-                  )
-                }
-              }
-    
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-    
-              SetMode(1)
-              SetLoading(false)
-            } else {
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'DOGE') {
-          try {
-            const GetData = UTXO_Transaction(addressMode.data.data, 'DOGE', 1)
-            if (!GetData.isError) {
-                                                        
-              //catch
-              saveToStorage(addressMode)
-              
-              SetTrData(UTXOTr(GetData, 'DOGE', 'دوج‌کوین'))
-              dispatch({type:"networkName", value:'DOGE'})
-  
-              //labels
-              let labelText = null
-              let labelId = null
-              if (GetData.MainLabel) {
-                labelText = GetData.MainLabel.label
-                labelId = GetData.MainLabel.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (GetData.MainTag) {
-                isTag = true
-                for (let i = 0; i <GetData.MainTag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:GetData.MainTag[i].tag,
-                      tagId:GetData.MainTag[i].id
-                    }
-                  )
-                }
-              }
-    
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-    
-              SetMode(1)
-              SetLoading(false)
-            } else {
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        } else if (addressMode.data.network[0] === 'MATIC') {
-          SetLoading(false)
-          try {
-            // SetTrData
-            SetTrData(AccountBaseTr(Account_transaction(addressMode.data.data, 'MATIC', 1000000000000000000), 'MATIC', 'متیک'))
-
-            //labels
-            let labelText = null
-            let labelId = null
-            if (addressMode.data.data.labels_tags.labels.length > 0) {
-              labelText = addressMode.data.data.labels_tags.labels[0].label
-              labelId = addressMode.data.data.labels_tags.labels[0].id
-            }
-            SetLabelData(
-              {
-                labelText,
-                labelId
-              }
-            )
-  
-            //tags
-            let isTag = false
-            let TagInfo = []
-            if (addressMode.data.data.labels_tags.tags.length > 0) {
-              isTag = true
-              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
-                TagInfo.push(
-                  {
-                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
-                    tagId:addressMode.data.data.labels_tags.tags[i].id
-                  }
-                )
-              }
-            }
-  
-            SetTagData(
-              {
-                isTag,
-                TagInfo
-              }
-            )
-  
-            SetMode(1)
-          } catch (error) {
-            console.log(error)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
-        }
-      } else if (addressMode.data.query === 'address') {
-        SetToken(addressMode.data.network[0])
-        if (addressMode.data.network[0] === 'ETH') {
-            try {
-              SetAddress(hash)
-              SetLoading(false)
-              SetCoinData({
-                name:'اتریوم',
-                symbole:"ETH",
-                risk:"0%",
-                owner:"بدون اطلاعات",
-                ownerMode:"بدون اطلاعات",
-                website:"بدون اطلاعات",
-                color:"#627eea",
-                image:"ethereum.png"
-              })
-  
-              //labels
-              let labelText = null
-              let labelId = null
-              if (addressMode.data.data.labels_tags.labels.length > 0) {
-                labelText = addressMode.data.data.labels_tags.labels[0].label
-                labelId = addressMode.data.data.labels_tags.labels[0].id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (addressMode.data.data.labels_tags.tags.length > 0) {
-                isTag = true
-                for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:addressMode.data.data.labels_tags.tags[i].tag,
-                      tagId:addressMode.data.data.labels_tags.tags[i].id
-                    }
-                  )
-                }
-              }
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-
-              let isEntity = false
-              let EntityInfo = false
-              if (addressMode.data.data.entity !== null) {
-                isEntity = true
-                EntityInfo = addressMode.data.data.entity
-              }
-              SetEntity(
-                {
-                  isEntity,
-                  EntityInfo
-                }
-              )
-
-              SetAdData(AccountBaseAdd(Account_Address(addressMode.data.data, hash, 'ETH', 1000000000000000000), 'ETH'))
-              SetMode(2)
-            } catch (error) {
-              console.log(error)
-              SetLoading(false)
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-        } else if (addressMode.data.network[0] === 'BSC') {
-          
-          try {
-            SetAddress(hash)
-            SetLoading(false)
-            SetCoinData({
-              name:'بایننس اسمارت چین',
-              symbole:"BNB",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#f3ba2f",
-              image:"BNB.png"
+          SetCoinData({
+            name:PersianName,
+            symbole:symbol,
+            risk:"0%",
+            owner:"بدون اطلاعات",
+            ownerMode:"بدون اطلاعات",
+            website:"بدون اطلاعات",
+            color,
+            image:`${symbol}.png`
           })
 
           //labels
           let labelText = null
           let labelId = null
-          if (addressMode.data.data.tag_labels.labels.length > 0) {
-            labelText = addressMode.data.data.tag_labels.labels[0].label
-            labelId = addressMode.data.data.tag_labels.labels[0].id
+          if (addressMode.data.data.labels_tags.labels.length > 0) {
+            labelText = addressMode.data.data.labels_tags.labels[0].label
+            labelId = addressMode.data.data.labels_tags.labels[0].id
           }
           SetLabelData(
             {
@@ -1032,13 +499,13 @@ const EcommerceDashboard2 = () => {
           //tags
           let isTag = false
           let TagInfo = []
-          if (addressMode.data.data.tag_labels.tags.length > 0) {
+          if (addressMode.data.data.labels_tags.tags.length > 0) {
             isTag = true
-            for (let i = 0; i < addressMode.data.data.tag_labels.tags.length; i++) {
+            for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
               TagInfo.push(
                 {
-                  tagText:addressMode.data.data.tag_labels.tags[i].tag,
-                  tagId:addressMode.data.data.tag_labels.tags[i].id
+                  tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                  tagId:addressMode.data.data.labels_tags.tags[i].id
                 }
               )
             }
@@ -1049,12 +516,12 @@ const EcommerceDashboard2 = () => {
               TagInfo
             }
           )
-          
+
           let isEntity = false
           let EntityInfo = false
-          if (addressMode.data.data.tag_labels.entity !== null) {
+          if (addressMode.data.data.entity !== null) {
             isEntity = true
-            EntityInfo = addressMode.data.data.tag_labels.entity
+            EntityInfo = addressMode.data.data.entity
           }
           SetEntity(
             {
@@ -1063,8 +530,149 @@ const EcommerceDashboard2 = () => {
             }
           )
 
-            SetAdData(AccountBaseAdd(Account_Address(addressMode.data.data, hash, 'BNB', 1000000000000000000), 'BNB'))
-            SetMode(2)
+          const AccountAddress = Account_Address(addressMode.data.data, hash, symbol, decimal)
+          const AccountTokenAddress = Account_Token_Address(tokens.data.data, hash, symbol, decimal)
+          SetAdData(AccountBaseAdd(AccountAddress, AccountTokenAddress, symbol))
+
+          SetMode(2)
+        } catch (error) {
+          console.log(error)
+          SetLoading(false)
+          return toast.error('خطا در دریافت اطلاعات از سرور', {
+            position: 'bottom-left'
+          })
+        }
+      }
+      const processAccountTransaction = (symbol, decimal, PersianName) => {
+          SetLoading(false)
+          try {
+            // SetTrData
+            SetTrData(AccountBaseTr(Account_transaction(addressMode.data.data, symbol, decimal), symbol, PersianName))
+
+            //labels
+            let labelText = null
+            let labelId = null
+            if (addressMode.data.data.labels_tags.labels.length > 0) {
+              labelText = addressMode.data.data.labels_tags.labels[0].label
+              labelId = addressMode.data.data.labels_tags.labels[0].id
+            }
+            SetLabelData(
+              {
+                labelText,
+                labelId
+              }
+            )
+  
+            //tags
+            let isTag = false
+            let TagInfo = []
+            if (addressMode.data.data.labels_tags.tags.length > 0) {
+              isTag = true
+              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
+                TagInfo.push(
+                  {
+                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
+                    tagId:addressMode.data.data.labels_tags.tags[i].id
+                  }
+                )
+              }
+            }
+  
+            SetTagData(
+              {
+                isTag,
+                TagInfo
+              }
+            )
+  
+            SetMode(1)
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
+      }
+      const processUtxoAddress = (symbol, PersianName, color, decimal) => {
+          SetLoading(false)
+          dispatch({type:"networkName", value:symbol})
+          try {
+            SetCoinData({
+              name:PersianName,
+              symbole:symbol,
+              risk:"0%",
+              owner:"بدون اطلاعات",
+              ownerMode:"بدون اطلاعات",
+              website:"بدون اطلاعات",
+              color,
+              image:`${symbol}.png`
+            })
+  
+            //get data from processor
+            const getData = UTXO_Address(hash, addressMode.data.data,  symbol, decimal)
+
+            if (!getData.isError) {
+                            
+              //catch
+              saveToStorage(addressMode)
+              
+              //labels
+              let labelText = null
+              let labelId = null
+              if (getData.label) {
+                labelText = getData.label.label
+                labelId = getData.label.id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+    
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (getData.tag) {
+                isTag = true
+                for (let i = 0; i < getData.tag.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:getData.tag[i].tag,
+                      tagId:getData.tag[i].id
+                    }
+                  )
+                }
+              }
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+
+              //entity
+              let isEntity = false
+              let EntityInfo = false
+              if (getData.entity !== null) {
+                isEntity = true
+                EntityInfo = getData.entity
+              }
+              SetEntity(
+                {
+                  isEntity,
+                  EntityInfo
+                }
+              )
+              SetAdData(UTXOAdd(getData, symbol))
+              SetMode(2)
+              SetLoading(false)
+            } else {
+              SetLoading(false)
+              return toast.error('خطا در دریافت اطلاعات از سرور', {
+                position: 'bottom-left'
+              })
+            }
           } catch (error) {
             console.log(error)
             SetLoading(false)
@@ -1072,513 +680,115 @@ const EcommerceDashboard2 = () => {
               position: 'bottom-left'
             })
           }
+      }
+      const processUtxoTransaction = (symbol, decimal, PersianName) => {
+        try {
+            const GetData = UTXO_Transaction(addressMode.data.data, symbol, decimal)
+            if (!GetData.isError) {
+              console.log('GetData')                                   
+              console.log(GetData)                                   
+              //catch
+              saveToStorage(addressMode)
+              
+              SetTrData(UTXOTr(GetData, symbol, PersianName))
+              dispatch({type:"networkName", value:symbol})
+  
+              //labels
+              let labelText = null
+              let labelId = null
+              if (GetData.MainLabel) {
+                labelText = GetData.MainLabel.label
+                labelId = GetData.MainLabel.id
+              }
+              SetLabelData(
+                {
+                  labelText,
+                  labelId
+                }
+              )
+    
+              //tags
+              let isTag = false
+              let TagInfo = []
+              if (GetData.MainTag) {
+                isTag = true
+                for (let i = 0; i <GetData.MainTag.length; i++) {
+                  TagInfo.push(
+                    {
+                      tagText:GetData.MainTag[i].tag,
+                      tagId:GetData.MainTag[i].id
+                    }
+                  )
+                }
+              }
+    
+              SetTagData(
+                {
+                  isTag,
+                  TagInfo
+                }
+              )
+    
+              SetMode(1)
+              SetLoading(false)
+            } else {
+              console.log(GetData)
+              return toast.error('خطا در دریافت اطلاعات از سرور', {
+                position: 'bottom-left'
+              })
+            }
+
+          } catch (error) {
+            console.log(error)
+            return toast.error('خطا در دریافت اطلاعات از سرور', {
+              position: 'bottom-left'
+            })
+          }
+      }
+
+      if (addressMode.data.query === 'transaction') {
+        SetToken(addressMode.data.network[0])
+        if (addressMode.data.network[0] === 'ETH') {
+          processAccountTransaction('ETH', 1000000000000000000, 'اتریوم')
+        } else if (addressMode.data.network[0] === 'BSC') {
+          processAccountTransaction('BSC', 1000000000000000000, 'بایننس‌اسمارت‌چین')
         } else if (addressMode.data.network[0] === 'BTC') {
-          SetLoading(false)
-          dispatch({type:"networkName", value:'BTC'})
-          try {
-            SetCoinData({
-              name:'بیت کوین',
-              symbole:"BTC",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#f8a23a",
-              image:"bitcoin.png"
-            })
-  
-            //get data from processor
-            const getData = UTXO_Address(hash, addressMode.data.data,  'BTC', 1)
-
-            if (!getData.isError) {
-                            
-              //catch
-              saveToStorage(addressMode)
-              
-              //labels
-              let labelText = null
-              let labelId = null
-              if (getData.label) {
-                labelText = getData.label.label
-                labelId = getData.label.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (getData.tag) {
-                isTag = true
-                for (let i = 0; i < getData.tag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:getData.tag[i].tag,
-                      tagId:getData.tag[i].id
-                    }
-                  )
-                }
-              }
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-
-              //entity
-              let isEntity = false
-              let EntityInfo = false
-              if (getData.entity !== null) {
-                isEntity = true
-                EntityInfo = getData.entity
-              }
-              SetEntity(
-                {
-                  isEntity,
-                  EntityInfo
-                }
-              )
-              SetAdData(UTXOAdd(getData, 'BTC'))
-              SetMode(2)
-              SetLoading(false)
-            } else {
-              SetLoading(false)
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-          } catch (error) {
-            console.log(error)
-            SetLoading(false)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
+          processUtxoTransaction('BTC', 1, 'بیت‌کوین')
         } else if (addressMode.data.network[0] === 'LTC') {
-          SetLoading(false)
-          dispatch({type:"networkName", value:'LTC'})
-          try {
-            SetCoinData({
-              name:'لایت‌کوین',
-              symbole:"LTC",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#345d9d",
-              image:"LTC.png"
-            })
-  
-            //get data from processor
-            const getData = UTXO_Address(hash, addressMode.data.data,  'LTC', 1)
-
-            if (!getData.isError) {
-                            
-              //catch
-              saveToStorage(addressMode)
-
-              //labels
-              let labelText = null
-              let labelId = null
-              if (getData.label) {
-                labelText = getData.label.label
-                labelId = getData.label.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (getData.tag) {
-                isTag = true
-                for (let i = 0; i < getData.tag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:getData.tag[i].tag,
-                      tagId:getData.tag[i].id
-                    }
-                  )
-                }
-              }
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-
-              //entity
-              let isEntity = false
-              let EntityInfo = false
-              if (getData.entity !== null) {
-                isEntity = true
-                EntityInfo = getData.entity
-              }
-              SetEntity(
-                {
-                  isEntity,
-                  EntityInfo
-                }
-              )
-              SetAdData(UTXOAdd(getData, 'LTC'))
-              SetMode(2)
-              SetLoading(false)
-            } else {
-              SetLoading(false)
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-          } catch (error) {
-            console.log(error)
-            SetLoading(false)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
+          processUtxoTransaction('LTC', 1, 'لایت‌کوین')
         } else if (addressMode.data.network[0] === 'BCH') {
-          SetLoading(false)
-          dispatch({type:"networkName", value:'BCH'})
-          try {
-            SetCoinData({
-              name:'بیت کوین کش',
-              symbole:"BCH",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#8dc351",
-              image:"BCH.png"
-            })
-  
-            //get data from processor
-            const getData = UTXO_Address(hash, addressMode.data.data,  'BCH', 1)
-            
-            if (!getData.isError) {
-                            
-              //catch
-              saveToStorage(addressMode)
-
-              const savedData = {
-                address:hash,
-                data:getData,
-                nowTime:Date.now()
-              }
-
-              //labels
-              let labelText = null
-              let labelId = null
-              if (getData.label) {
-                labelText = getData.label.label
-                labelId = getData.label.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (getData.tag) {
-                isTag = true
-                for (let i = 0; i < getData.tag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:getData.tag[i].tag,
-                      tagId:getData.tag[i].id
-                    }
-                  )
-                }
-              }
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-
-              //entity
-              let isEntity = false
-              let EntityInfo = false
-              if (getData.entity !== null) {
-                isEntity = true
-                EntityInfo = getData.entity
-              }
-              SetEntity(
-                {
-                  isEntity,
-                  EntityInfo
-                }
-              )
-              SetAdData(UTXOAdd(getData, 'BCH'))
-              SetMode(2)
-              SetLoading(false)
-            } else {
-              SetLoading(false)
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-          } catch (error) {
-            console.log(error)
-            SetLoading(false)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
+          processUtxoTransaction('BCH', 1, 'بیت‌کوین‌کش')
         } else if (addressMode.data.network[0] === 'TRX') {
-          try {
-            SetAddress(hash)
-            SetLoading(false)
-            SetCoinData({
-              name:'ترون',
-              symbole:"TRX",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#ff060a",
-              image:"https://cryptologos.cc/logos/tron-trx-logo.png?v=029"
-            })
-
-            //labels
-            let labelText = null
-            let labelId = null
-            if (addressMode.data.data.labels_tags.labels.length > 0) {
-              labelText = addressMode.data.data.labels_tags.labels[0].label
-              labelId = addressMode.data.data.labels_tags.labels[0].id
-            }
-            SetLabelData(
-              {
-                labelText,
-                labelId
-              }
-            )
-  
-            //tags
-            let isTag = false
-            let TagInfo = []
-            if (addressMode.data.data.labels_tags.tags.length > 0) {
-              isTag = true
-              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
-                TagInfo.push(
-                  {
-                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
-                    tagId:addressMode.data.data.labels_tags.tags[i].id
-                  }
-                )
-              }
-            }
-            SetTagData(
-              {
-                isTag,
-                TagInfo
-              }
-            )
-
-            let isEntity = false
-            let EntityInfo = false
-            if (addressMode.data.data.entity !== null) {
-              isEntity = true
-              EntityInfo = addressMode.data.data.entity
-            }
-            SetEntity(
-              {
-                isEntity,
-                EntityInfo
-              }
-            )
-
-            SetAdData(AccountBaseAdd(Account_Address(addressMode.data.data, hash, 'TRX', 1000000000000000000), 'TRX'))
-            SetMode(2)
-          } catch (error) {
-            console.log(error)
-            SetLoading(false)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
+          processAccountTransaction('TRX', 1000000000000000000, 'ترون')
         } else if (addressMode.data.network[0] === 'DOGE') {
-          SetLoading(false)
-          dispatch({type:"networkName", value:'DOGE'})
-          try {
-            SetCoinData({
-              name:'دوج کوین',
-              symbole:"DOGE",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#dcc46c",
-              image:"DOGE.png"
-            })
-  
-            //get data from processor
-            const getData = UTXO_Address(hash, addressMode.data.data,  'DOGE', 1)
-
-            if (!getData.isError) {
-                            
-              //catch
-              saveToStorage(addressMode)
-              
-              //labels
-              let labelText = null
-              let labelId = null
-              if (getData.label) {
-                labelText = getData.label.label
-                labelId = getData.label.id
-              }
-              SetLabelData(
-                {
-                  labelText,
-                  labelId
-                }
-              )
-    
-              //tags
-              let isTag = false
-              let TagInfo = []
-              if (getData.tag) {
-                isTag = true
-                for (let i = 0; i < getData.tag.length; i++) {
-                  TagInfo.push(
-                    {
-                      tagText:getData.tag[i].tag,
-                      tagId:getData.tag[i].id
-                    }
-                  )
-                }
-              }
-              SetTagData(
-                {
-                  isTag,
-                  TagInfo
-                }
-              )
-
-              //entity
-              let isEntity = false
-              let EntityInfo = false
-              if (getData.entity !== null) {
-                isEntity = true
-                EntityInfo = getData.entity
-              }
-              SetEntity(
-                {
-                  isEntity,
-                  EntityInfo
-                }
-              )
-              SetAdData(UTXOAdd(getData, 'DOGE'))
-              SetMode(2)
-              SetLoading(false)
-            } else {
-              SetLoading(false)
-              return toast.error('خطا در دریافت اطلاعات از سرور', {
-                position: 'bottom-left'
-              })
-            }
-          } catch (error) {
-            console.log(error)
-            SetLoading(false)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
+          processUtxoTransaction('DOGE', 1, 'دوج‌کوین')
         } else if (addressMode.data.network[0] === 'MATIC') {
-          try {
-            SetAddress(hash)
-            SetLoading(false)
-            SetCoinData({
-              name:'متیک',
-              symbole:"MATIC",
-              risk:"0%",
-              owner:"بدون اطلاعات",
-              ownerMode:"بدون اطلاعات",
-              website:"بدون اطلاعات",
-              color:"#627eea",
-              image:"MATIC.png"
-            })
-
-            //labels
-            let labelText = null
-            let labelId = null
-            if (addressMode.data.data.labels_tags.labels.length > 0) {
-              labelText = addressMode.data.data.labels_tags.labels[0].label
-              labelId = addressMode.data.data.labels_tags.labels[0].id
-            }
-            SetLabelData(
-              {
-                labelText,
-                labelId
-              }
-            )
-  
-            //tags
-            let isTag = false
-            let TagInfo = []
-            if (addressMode.data.data.labels_tags.tags.length > 0) {
-              isTag = true
-              for (let i = 0; i < addressMode.data.data.labels_tags.tags.length; i++) {
-                TagInfo.push(
-                  {
-                    tagText:addressMode.data.data.labels_tags.tags[i].tag,
-                    tagId:addressMode.data.data.labels_tags.tags[i].id
-                  }
-                )
-              }
-            }
-            SetTagData(
-              {
-                isTag,
-                TagInfo
-              }
-            )
-
-            let isEntity = false
-            let EntityInfo = false
-            if (addressMode.data.data.entity !== null) {
-              isEntity = true
-              EntityInfo = addressMode.data.data.entity
-            }
-            SetEntity(
-              {
-                isEntity,
-                EntityInfo
-              }
-            )
-
-            SetAdData(AccountBaseAdd(Account_Address(addressMode.data.data, hash, 'MATIC', 1000000000000000000), 'MATIC'))
-            SetMode(2)
-          } catch (error) {
-            console.log(error)
-            SetLoading(false)
-            return toast.error('خطا در دریافت اطلاعات از سرور', {
-              position: 'bottom-left'
-            })
-          }
+          processAccountTransaction('MATIC', 1000000000000000000, 'متیک')
+        }
+      } else if (addressMode.data.query === 'address') {
+        SetToken(addressMode.data.network[0])
+        if (addressMode.data.network[0] === 'ETH') {
+          processAccountAddress('ETH', 'اتریوم', '#627eea', 1000000000000000000)
+        } else if (addressMode.data.network[0] === 'BSC') {
+          processAccountAddress('BSC', 'بایننس اسمارت چین', '#f3ba2f', 1000000000000000000)
+        } else if (addressMode.data.network[0] === 'BTC') {
+          processUtxoAddress('BTC', 'بیت‌کوین', "#f8a23a", 1)
+        } else if (addressMode.data.network[0] === 'LTC') {
+          processUtxoAddress('LTC', 'لایت‌کوین', "#345d9d", 1)
+        } else if (addressMode.data.network[0] === 'BCH') {
+          processUtxoAddress('BCH', 'بیت‌کوین‌کش', "#8dc351", 1)
+        } else if (addressMode.data.network[0] === 'TRX') {
+          processAccountAddress('TRX', 'ترون', '#ff060a', 1000000000000000000)
+        } else if (addressMode.data.network[0] === 'DOGE') {
+          processUtxoAddress('DOGE', 'دوج‌کوین', "#dcc46c", 1)
+        } else if (addressMode.data.network[0] === 'MATIC') {
+          processAccountAddress('MATIC', 'متیک', '#627eea', 1000000000000000000)
         }
       }
     }
 
     const GetFromApi = () => {
-      console.log('hash')
-      console.log(hash)
-      console.log('network')
-      console.log(network)
+
       axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}&page_number=${1}&page_size=10`,
       {
         headers: {
@@ -1586,8 +796,24 @@ const EcommerceDashboard2 = () => {
         }
       })
       .then((addressMode) => {
-        SetLoading(false)
-        processData(addressMode)
+        //is accountBase or not (for tokens)
+        if (network === 'ETH' || network === 'TRX' || network === 'BSC' || network === 'MATIC') {
+          axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}&type=token-20`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get('access')}`
+            }
+          })
+          .then((tokens) => {
+            processData(addressMode, tokens)
+          })
+          .catch((err) => {
+
+          })
+        } else {
+          SetLoading(false)
+          processData(addressMode, [])
+        }
       })
       .catch((err) => {
         SetLoading(false)
@@ -1636,34 +862,6 @@ const EcommerceDashboard2 = () => {
     }
   }
 
-  const processHandler = (addressMode, index) => {
-    if (addressMode.data.query === 'transaction') {
-      if (addressMode.data.network[index] === 'BTC') {
-        SelectProcessHandler('BTC')
-      } else if (addressMode.data.network[index] === 'LTC') {
-        SelectProcessHandler('LTC')
-      } else if (addressMode.data.network[index] === 'BCH') {
-        SelectProcessHandler('BCH')
-      } else if (addressMode.data.network[index] === 'TRX') {
-        SelectProcessHandler('TRX')
-      } else if (addressMode.data.network[index] === 'DOGE') {
-        SelectProcessHandler('DOGE')
-      }
-    } else if (addressMode.data.query === 'address') {
-      if (addressMode.data.network[index] === 'BTC') {
-        SelectProcessHandler('BTC')
-      } else if (addressMode.data.network[index] === 'LTC') {
-        SelectProcessHandler('LTC')
-      } else if (addressMode.data.network[index] === 'BCH') {
-        SelectProcessHandler('BCH')
-      } else if (addressMode.data.network[index] === 'TRX') {
-        SelectProcessHandler('TRX')
-      } else if (addressMode.data.network[index] === 'DOGE') {
-        SelectProcessHandler('DOGE')
-      }
-    }
-  }
-
   useEffect(() => {
     if (hash !== undefined) {
         SetAddress(hash)
@@ -1677,14 +875,11 @@ const EcommerceDashboard2 = () => {
           }
         })
         .then((addressMode) => {
-          console.log(addressMode)
           SetLoading(false)
-          console.log(addressMode.data.network)
-
-          if (addressMode.data.network.length === 1) {
-            processHandler(addressMode, 0)
-          } else if (addressMode.data.network.length > 1) {
-            if (addressMode.data.network[0] === 'ETH' || addressMode.data.network[0] === 'BSC') {
+          if (addressMode.data.network.length === 1 && addressMode.data.data.length > 0) {
+            SelectProcessHandler(addressMode.data.network[0])
+          } else if (addressMode.data.network.length > 1 || addressMode.data.data.length === 0) {
+            if (addressMode.data.network[0] === 'ETH' || addressMode.data.network[0] === 'BSC' || addressMode.data.network[0] === 'MATIC') {
               SetSelectToken(1)
             } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH' || addressMode.data.network[0] === 'TRX'|| addressMode.data.network[0] === 'DOGE') {
               SetSelectToken(2)
@@ -1779,7 +974,7 @@ const EcommerceDashboard2 = () => {
             mode === 0 ? 
               <Row>
                 <Col xl={{size:1}} lg={{size:1}} md={{size:0}} >
-                </Col>
+                </Col>      
 
                 <Col xl={{size:10}} lg={{size:10}} md={{size:12}}id='CenterDashboardBox'
                     style={{
@@ -1847,6 +1042,13 @@ const EcommerceDashboard2 = () => {
                                         <img src='https://cryptologos.cc/logos/bnb-bnb-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                       </div>
 
+                                      <div onClick={ () => { SelectProcessHandler('MATIC'), dispatch({type:"networkName", value:'MATIC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                        <span>
+                                          MATIC - متیک
+                                        </span>
+                                        <img src='https://cryptologos.cc/logos/polygon-matic-logo.png?v=029' style={{width:'20px', float:'left'}} />
+                                      </div>
+ 
                                     </Card>
                                   : SelectToken === 2 ?
                                   <Card id='SelectNetworkBox'>
@@ -1865,7 +1067,7 @@ const EcommerceDashboard2 = () => {
                                       <img src='https://cryptologos.cc/logos/bitcoin-cash-bch-logo.png?v=029' style={{width:'20px', float:'left'}} />
                                     </div>
 
-                                    <div onClick={ () => { SelectProcessHandler('TRX'), dispatch({type:"networkName", value:'TRX'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
+                                    <div onClick={ () => { dispatch({type:"networkName", value:'TRX'}), SelectProcessHandler('TRX') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
                                       <span>
                                         TRX - ترون
                                       </span>
@@ -1952,7 +1154,7 @@ const EcommerceDashboard2 = () => {
             }
             
             {
-                mode === 2 ? <Walletdetail Token={Token} labelData={labelData} Entity={Entity} TagData={TagData} data={adData} address={address} coinData={coinData}/> : null
+                mode === 2 ? <Walletdetail AdTokenData={AdTokenData} Token={TokenName} labelData={labelData} Entity={Entity} TagData={TagData} data={adData} address={address} coinData={coinData}/> : null
             }
             </Col>
             <Col xl={{size:2}} lg={{size:1}} md={{size:1}}>

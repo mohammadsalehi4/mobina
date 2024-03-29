@@ -59,6 +59,30 @@ const KeyboardNavigatableLinks = (props) => {
           logo:'https://cryptologos.cc/logos/bnb-bnb-logo.png?v=029'
         }
       )
+    } else if (index === 6 || index === 'MATIC') {
+      return (
+        {
+          network:'MATIC',
+          name:'متیک',
+          logo:'https://cryptologos.cc/logos/polygon-matic-logo.png?v=029'
+        }
+      )
+    } else if (index === 10 || index === 'TRX') {
+      return (
+        {
+          network:'TRX',
+          name:'ترون',
+          logo:'https://cryptologos.cc/logos/tron-trx-logo.png?v=029'
+        }
+      )
+    } else if (index === 15 || index === 'DOGE') {
+      return (
+        {
+          network:'DOGE',
+          name:'دوج‌کوین',
+          logo:'https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=029'
+        }
+      )
     }
   }
 

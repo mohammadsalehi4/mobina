@@ -1,38 +1,38 @@
 export function RecognizeNetwork (id) {
     if (typeof (id) === 'number') {
         if (id === 1) {
-            return ('بیت کوین')
+            return ('بیت‌کوین')
         } else if (id === 2) {
-            return ('بیت کوین کش')
+            return ('بیت‌کوین‌کش')
         } else if (id === 3) {
-            return ('لایت کوین')
+            return ('لایت‌کوین')
         } else if (id === 4) {
             return ('اتریوم')
         } else if (id === 5) {
-            return ('بایننس اسمارت چین')
+            return ('بایننس‌اسمارت‌چین')
         } else if (id === 10) {
             return ('ترون')
         } else if (id === 6) {
             return ('متیک')
         } else if (id === 15) {
-            return ('دوج کوین')
+            return ('دوج‌کوین')
         } else { return (false) }
     } else if (typeof (id) === 'string') {
-        if (id === 'بیت کوین') {
+        if (id === 'بیت‌کوین') {
             return (1)
-        } else if (id === 'بیت کوین کش') {
+        } else if (id === 'بیت‌کوین‌کش') {
             return (2)
-        } else if (id === 'لایت کوین') {
+        } else if (id === 'لایت‌کوین') {
             return (3)
         } else if (id === 'اتریوم') {
             return (4)
-        } else if (id === 'بایننس اسمارت چین') {
+        } else if (id === 'بایننس‌اسمارت‌چین') {
             return (5)
         } else if (id === 'ترون') {
             return (10)
         } else if (id === 'متیک') {
             return (6)
-        } else if (id === 'دوج کوین') {
+        } else if (id === 'دوج‌کوین') {
             return (15)
         } else { return (false) }
     } else {

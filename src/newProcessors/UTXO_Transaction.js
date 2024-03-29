@@ -16,13 +16,13 @@ export function UTXO_Transaction (array, symbole, decimal) {
     const GetMainLabel = array.label_tag.labels
     let MainLabel = false
     if (GetMainLabel.length !== 0) {
-        MainLabel = GetMainLabel[0].label
+        MainLabel = GetMainLabel[0]
     }
 
     const GetMainTag = array.label_tag.tags
     let MainTag = false
     if (GetMainTag.length !== 0) {
-        MainTag = GetMainLabel[0].tag
+        MainTag = GetMainTag
     }
     
     try {
@@ -129,6 +129,7 @@ export function UTXO_Transaction (array, symbole, decimal) {
     } catch (error) {
         isError = true,
         ErrorText = error
+        console.log(error)
     }
     if (isError) {
         return (

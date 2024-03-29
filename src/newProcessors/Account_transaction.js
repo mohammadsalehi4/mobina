@@ -28,8 +28,8 @@ export function Account_transaction (array, symbole, decimal) {
         ToLabel = GetToLabel[0].label
     }
 
-    const GetMainLabel = array.labels_tags.labels
     let MainLabel = false
+    const GetMainLabel = array.labels_tags.labels
     if (GetMainLabel.length !== 0) {
         MainLabel = GetMainLabel[0].label
     }

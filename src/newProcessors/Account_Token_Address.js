@@ -1,17 +1,17 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
-export function Account_Address (data, address, symbole, decimal) {
-
-    const inputs = []
-    const outputs = []
-
+export function Account_Token_Address (data, address, symbole, decimal) {
 
     let isError = false
     let ErrorText = ''
     const array = data.result
 
-    let mainLabel = false
+    const logs = {
+        inputs: [],
+        outputs: []
+    }
 
+    let mainLabel = false
     try {
         const mainGetLabel = data.labels_tags.labels
         if (mainGetLabel.length !== 0) {
@@ -21,60 +21,50 @@ export function Account_Address (data, address, symbole, decimal) {
         
     }
 
-
     const mainEntity = data.entity
 
-    try {
-        for (let i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
             if (array[i].from.address === address) {
-
-                const GetLabel = array[i].to.labels
                 let Label = false
+                const GetLabel = array[i].to.labels
                 if (GetLabel.length !== 0) {
-                    Label = array[i].to.labels[0].label
+                    Label = array[i].to.labels.label
                 }
-                
-                outputs.push(
+                logs.outputs.push(
                     {
                         address: array[i].to.address,
-                        symbole:'ETH',
-                        value: Number(array[i].value),
-                        ValueInDollar: Number(array[i].valueInDollar),
+                        symbole:array[i].symbol,
+                        value: Number(array[i].tokenValue),
+                        ValueInDollar: Number(array[i].ValueInDollor),
                         hash:array[i].hash,
-                        entity:array[i].to.entity,
-                        blockNumber:array[i].blockNumber,
+                        entity:null,
+                        blockNumber:0,
                         timestamp:array[i].time,
-                        fee: Number(array[i].fee),
+                        fee: 0,
                         Label
                     }
                 )
             } else if (array[i].to.address === address) {
-                const GetLabel = array[i].from.labels
                 let Label = false
+                const GetLabel = array[i].from.labels
                 if (GetLabel.length !== 0) {
-                    Label = array[i].from.labels[0].label
+                    Label = array[i].from.labels.label
                 }
-                inputs.push(
+                logs.inputs.push(
                     {
                         address: array[i].from.address,
-                        symbole:'ETH',
-                        value: Number(array[i].value),
-                        ValueInDollar: Number(array[i].valueInDollar),
+                        symbole:array[i].symbol,
+                        value: Number(array[i].tokenValue),
+                        ValueInDollar: Number(array[i].ValueInDollor),
                         hash:array[i].hash,
-                        entity:array[i].from.entity,
-                        blockNumber:array[i].blockNumber,
+                        entity:null,
+                        blockNumber:0,
                         timestamp:array[i].time,
-                        fee: Number(array[i].fee),
+                        fee: 0,
                         Label
                     }
                 )
             }
-        }
-    } catch (error) {
-        isError = true
-        ErrorText = error
-        console.log('error')
-        console.log(error)
     }
 
     if (isError) {
@@ -90,8 +80,7 @@ export function Account_Address (data, address, symbole, decimal) {
                 isError,
                 address,
                 symbole,
-                inputs,
-                outputs,
+                logs,
                 Label:mainLabel,
                 entity:mainEntity
             }
