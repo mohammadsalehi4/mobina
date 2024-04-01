@@ -17,10 +17,6 @@ import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import { useParams } from "react-router-dom"
 
-import { UTXOTransaction } from '../../processors/UTXOTransaction'
-import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
-import { BSCTransaction } from '../../processors/BSCTransaction'
-
 //new processors
 import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
 import { Account_transaction } from '../../newProcessors/Account_transaction'

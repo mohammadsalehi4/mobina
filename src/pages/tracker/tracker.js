@@ -24,13 +24,6 @@ import Spinner from '@components/spinner/Loading-spinner'
 import toast from 'react-hot-toast'
 import Mouse from './mouse'
 import Radyabi from './radyabi'
-//processors
-import { UTXOTransaction } from '../../processors/UTXOTransaction'
-import { UTXOAddress } from '../../processors/UTXOAddress'
-import { AccountBaseTransaction } from '../../processors/AccountBaseTransaction'
-import { AccountBaseAddress } from '../../processors/AccountBaseAddress'
-import { BSCTransaction } from '../../processors/BSCTransaction'
-import { BSCAddress } from '../../processors/BSCAddress'
 
 //new peocessors
 import { UTXO_Address } from '../../newProcessors/UTXO_Address'
@@ -173,44 +166,66 @@ const Tracker = () => {
                 }
             }
         }
-
-        const LeftAddress = {
-            address: newData.outputs[0].address,
-            symbole : newData.symbole,
-            Label : newData.Label,
-            inputs : [
-                {
-                    hash:newData.hash,
-                    value:parseFloat(newData.outputs[0].value.toFixed(5)),
-                    timeStamp:newData.time,
-                    symbole: newData.symbole,
-                    valueInDollar:parseFloat(newData.outputs[0].valueInDollar.toFixed(5))
-                }
-            ],
-            outputs : []
-        }
-        const RightAddress = {
-            address : newData.inputs[0].address,
-            symbole : newData.symbole,
-            Label : newData.Label,
-            inputs : [],
-            outputs : [
-                {
-                    hash:newData.hash,
-                    value:parseFloat(newData.inputs[0].value.toFixed(5)),
-                    timeStamp:newData.time,
-                    symbole: newData.symbole,
-                    valueInDollar:parseFloat(newData.inputs[0].valueInDollar.toFixed(5))
-                }
-            ]
+        let LeftAddress
+        if (newData.outputs.length > 0) {
+            LeftAddress = {
+                address: newData.outputs[0].address,
+                symbole : newData.symbole,
+                Label : newData.Label,
+                inputs : [
+                    {
+                        hash:newData.hash,
+                        value:parseFloat(newData.outputs[0].value.toFixed(5)),
+                        timeStamp:newData.time,
+                        symbole: newData.symbole,
+                        valueInDollar:parseFloat(newData.outputs[0].valueInDollar.toFixed(5))
+                    }
+                ],
+                outputs : []
+            }
         }
 
-        return (
-            [
-                LeftAddress,
-                RightAddress
-            ]
-        )
+
+        let RightAddress
+        if (newData.inputs.length > 0) {
+            RightAddress = {
+                address : newData.inputs[0].address,
+                symbole : newData.symbole,
+                Label : newData.Label,
+                inputs : [],
+                outputs : [
+                    {
+                        hash:newData.hash,
+                        value:parseFloat(newData.inputs[0].value.toFixed(5)),
+                        timeStamp:newData.time,
+                        symbole: newData.symbole,
+                        valueInDollar:parseFloat(newData.inputs[0].valueInDollar.toFixed(5))
+                    }
+                ]
+            }
+        }
+
+        if (newData.outputs.length > 0 && newData.inputs.length > 0) {
+            return (
+                [
+                    LeftAddress,
+                    RightAddress
+                ]
+            )
+        } else if (newData.outputs.length > 0) {
+            return (
+                [
+                    LeftAddress
+                ]
+            )
+        } else if (newData.inputs.length > 0) {
+            return (
+                [
+                    RightAddress
+                ]
+            )
+        }
+
     }
     const AccountAdd = (data) => {
         console.log('tracker')

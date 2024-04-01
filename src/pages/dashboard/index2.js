@@ -770,7 +770,7 @@ const EcommerceDashboard2 = () => {
         if (addressMode.data.network[0] === 'ETH') {
           processAccountAddress('ETH', 'اتریوم', '#627eea', 1000000000000000000)
         } else if (addressMode.data.network[0] === 'BSC') {
-          processAccountAddress('BSC', 'بایننس اسمارت چین', '#f3ba2f', 1000000000000000000)
+          processAccountAddress('BSC', 'بایننس‌اسمارت‌چین', '#f3ba2f', 1000000000000000000)
         } else if (addressMode.data.network[0] === 'BTC') {
           processUtxoAddress('BTC', 'بیت‌کوین', "#f8a23a", 1)
         } else if (addressMode.data.network[0] === 'LTC') {
