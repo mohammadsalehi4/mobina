@@ -11,17 +11,21 @@ import './radyabi.css'
 import UILoader from '@components/ui-loader'
 import Spinner from '@components/spinner/Loading-spinner'
 import toast from 'react-hot-toast'
+import NetworkSelection from '../../components/networkSelection/NetworkSelection'
 
 const Radyabi = () => {
 
     const [SelectToken, SetSelectToken] = useState(0)
     const [Network, SetNetwork] = useState('')
     const [Loading, SetLoading] = useState(0)
+    const [address, SetAddress] = useState('')
+    const [GivenNetworks, SetGivenNetworks] = useState([])
 
     const submit = (event) => {
 
         event.preventDefault()
         const hash = document.getElementById('MainDashboardInputBox').value
+        SetAddress(hash)
         document.getElementById('MainDashboardInputBox').blur()
         SetLoading(true)
         axios.get(`${serverAddress}/explorer/search/?query=${hash}`,
@@ -37,13 +41,8 @@ const Radyabi = () => {
             if (response.data.network.length === 1) {
                 SetNetwork(response.data.network[0])
             } else {
-
-                if (response.data.network[0] === 'ETH' || response.data.network[0] === 'BSC' || response.data.network[0] === 'MATIC') {
-                    SetSelectToken(1)
-                } 
-                if (response.data.network[0] === 'BTC' || response.data.network[0] === 'BCH' || response.data.network[0] === 'TRX' || response.data.network[0] === 'DOGE') {
-                    SetSelectToken(2)
-                }
+                SetGivenNetworks(response.data.network)
+                SetSelectToken(1)
             }
         })
         .catch((err) => {
@@ -128,52 +127,7 @@ const Radyabi = () => {
 
                             {
                                 SelectToken === 1 ? 
-                                <Card>
-                                    <div onClick={ () => { SetNetwork('ETH') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                        <span>
-                                            ETH - اتریوم
-                                        </span>
-                                        <img src='https://cryptologos.cc/logos/ethereum-eth-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                    </div>
-
-                                    <div onClick={ () => { SetNetwork('BSC') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                        <span>
-                                            BSC - بایننس اسمارت چین
-                                        </span>
-                                        <img src='https://cryptologos.cc/logos/bnb-bnb-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                    </div>
-
-                                    <div onClick={ () => { SetNetwork('MATIC') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                        <span>
-                                            MATIC - متیک
-                                        </span>
-                                        <img src='https://cryptologos.cc/logos/polygon-matic-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                    </div>
-                                </Card>
-                                :
-                                SelectToken === 2 ? 
-                                    <Card>
-                                        <div onClick={ () => { SetNetwork('BTC') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                            <span>
-                                                BTC - بیت‌کوین
-                                            </span>
-                                            <img src='https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                        </div>
-
-                                        <div onClick={ () => { SetNetwork('BCH') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                            <span>
-                                                BCH - بیت‌کوین کش
-                                            </span>
-                                            <img src='https://cryptologos.cc/logos/bitcoin-cash-bch-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                        </div>
-
-                                        <div onClick={ () => { SetNetwork('TRX') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                            <span>
-                                                TRX - ترون
-                                            </span>
-                                            <img src='https://cryptologos.cc/logos/tron-trx-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                        </div>
-                                    </Card>
+                                    <NetworkSelection  networks={GivenNetworks} type='tracker' address={address} />
                                 :
                                 null
                             }

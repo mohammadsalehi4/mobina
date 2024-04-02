@@ -23,6 +23,7 @@ import { useParams } from "react-router-dom"
 import {Col, Row, InputGroup, Input, InputGroupText, Card} from 'reactstrap'
 import InputPasswordToggle from '@components/input-password-toggle'
 import TokenInformation from '../../components/dashboard/TokenInformation'
+import NetworkSelection from '../../components/networkSelection/NetworkSelection'
 
 //new processors
 import { UTXO_Address } from '../../newProcessors/UTXO_Address'
@@ -50,6 +51,7 @@ const EcommerceDashboard2 = () => {
   const [Entity, SetEntity] = useState({})
   const [SelectToken, SetSelectToken] = useState(0)
   const [TokenName, SetToken] = useState(null)
+  const [GivenNetworks, SetGivenNetworks] = useState([])
 
   const UTXOAdd =(getData, symbol) => {
     
@@ -879,11 +881,8 @@ const EcommerceDashboard2 = () => {
           if (addressMode.data.network.length === 1 && addressMode.data.data.length > 0) {
             SelectProcessHandler(addressMode.data.network[0])
           } else if (addressMode.data.network.length > 1 || addressMode.data.data.length === 0) {
-            if (addressMode.data.network[0] === 'ETH' || addressMode.data.network[0] === 'BSC' || addressMode.data.network[0] === 'MATIC') {
-              SetSelectToken(1)
-            } else if (addressMode.data.network[0] === 'BTC' || addressMode.data.network[0] === 'BCH' || addressMode.data.network[0] === 'TRX'|| addressMode.data.network[0] === 'DOGE') {
-              SetSelectToken(2)
-            }
+            SetGivenNetworks(addressMode.data.network)
+            SetSelectToken(1)
           }
         })
         .catch((err) => {
@@ -1026,63 +1025,8 @@ const EcommerceDashboard2 = () => {
                                 </p>
                                 {
                                   SelectToken === 1 ? 
-                                    <Card id='SelectNetworkBox'>
-
-                                      <div onClick={ () => { SelectProcessHandler('ETH'), dispatch({type:"networkName", value:'ETH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                        <span>
-                                          ETH - اتریوم
-                                        </span>
-                                        <img src='https://cryptologos.cc/logos/ethereum-eth-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                      </div>
-
-                                      <div onClick={ () => { SelectProcessHandler('BSC'), dispatch({type:"networkName", value:'BSC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                        <span>
-                                          BSC - بایننس اسمارت چین
-                                        </span>
-                                        <img src='https://cryptologos.cc/logos/bnb-bnb-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                      </div>
-
-                                      <div onClick={ () => { SelectProcessHandler('MATIC'), dispatch({type:"networkName", value:'MATIC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                        <span>
-                                          MATIC - متیک
-                                        </span>
-                                        <img src='https://cryptologos.cc/logos/polygon-matic-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                      </div>
- 
-                                    </Card>
-                                  : SelectToken === 2 ?
-                                  <Card id='SelectNetworkBox'>
-
-                                    <div onClick={ () => { SelectProcessHandler('BTC'), dispatch({type:"networkName", value:'BTC'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                      <span>
-                                        BTC - بیت‌کوین
-                                      </span>
-                                      <img src='https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                    </div>
-
-                                    <div onClick={ () => { SelectProcessHandler('BCH'), dispatch({type:"networkName", value:'BCH'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                      <span>
-                                        BCH - بیت‌کوین کش
-                                      </span>
-                                      <img src='https://cryptologos.cc/logos/bitcoin-cash-bch-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                    </div>
-
-                                    <div onClick={ () => { dispatch({type:"networkName", value:'TRX'}), SelectProcessHandler('TRX') } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                      <span>
-                                        TRX - ترون
-                                      </span>
-                                      <img src='https://cryptologos.cc/logos/tron-trx-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                    </div>
-
-                                    <div onClick={ () => { SelectProcessHandler('DOGE'), dispatch({type:"networkName", value:'DOGE'}) } } className='m-1 p-2 selectNetworkBox' style={{borderRadius:'8px', transition:'0.2s', textAlign:'right'}}>
-                                      <span>
-                                        DOGE - دوج‌کوین
-                                      </span>
-                                      <img src='https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=029' style={{width:'20px', float:'left'}} />
-                                    </div>
-
-                                  </Card>
-                                  :
+                                    <NetworkSelection networks={GivenNetworks} type='researcher' address={address}/>
+                                  : 
                                     null
                                 }
 

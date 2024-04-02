@@ -370,11 +370,15 @@ const CardContentTypes = (props) => {
           </div>
         </div>
 
+
         <div className='row mt-3'>
           <div className='col-12'>
-          <button href='/' onClick={ () => { window.location.assign(`/tracker/${States.networkName}/${props.data.address}`) } } className='cardLink225' id='cardLink15' style={{color:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:'solid', background:'white', borderWidth:'1px'}}>
-            انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
-          </button>
+          <a href={`/tracker/${States.networkName}/${props.data.address}`}>
+            <button href='/' onClick={ () => { window.location.assign(`/tracker/${States.networkName}/${props.data.address}`) } } className='cardLink225' id='cardLink15' style={{color:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:'solid', background:'white', borderWidth:'1px'}}>
+              انتقال به ردیابی <ion-icon name="git-compare-outline"></ion-icon>
+            </button>
+          </a>
+
           <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink25' style={{background:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:'solid', borderWidth:'1px'}}>
             افزودن به پرونده <ion-icon name="alert-circle-outline"></ion-icon>
           </button>
