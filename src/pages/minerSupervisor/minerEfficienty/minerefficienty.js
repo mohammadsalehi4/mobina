@@ -21,7 +21,7 @@ const Minerefficienty = () => {
     const [daleteBox, SetDeleteBox] = useState(false)
     const [deleteId, SetDeleteId] = useState(null)
     const [Loading, SetLoading] = useState(false)
-
+    const [reLoad, SetReload] = useState(false)
     useEffect(() => {
         dispatch({type:"SHOWNAVBAR"})
         dispatch({type:"SETWITCHPAGE", value:7})
@@ -114,7 +114,7 @@ const Minerefficienty = () => {
         .catch((err) => {
           SetLoading(false)
         })
-    }, [])
+    }, [, reLoad])
 
     const deleteItem = () => {
         axios.delete(`${serverAddress}/miners/calculate/${deleteId}/`,
@@ -126,6 +126,7 @@ const Minerefficienty = () => {
         .then((response) => {
             if (response.status === 204) {
                 SetDeleteBox(false)
+                SetReload(!reLoad)
                 return toast.success('با موفقیت حذف شد', {
                     position: 'bottom-left'
                 })

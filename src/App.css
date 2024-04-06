@@ -80,3 +80,7 @@ Input:focus + .input-group-text {
     background-color: #2FA3DD !important; 
     border-color: #2FA3DD !important;
 }
+
+Input::placeholder {
+    padding-right: 4px;
+  }

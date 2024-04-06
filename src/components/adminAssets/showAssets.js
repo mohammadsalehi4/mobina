@@ -645,6 +645,7 @@ const ShowAssets = () => {
                     <InputGroupText id='MainDashboardInputSymbole' onClick={ () => {
                         document.getElementById('AssetsSearch').value = ''
                         AssetsSearch(false)
+                        setSearchNumber(0)
                     }}>
                         {
                             SearchNumber > 0 ?

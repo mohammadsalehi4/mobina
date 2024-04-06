@@ -285,6 +285,7 @@ const DataTablesBasic = () => {
                     <InputGroupText id='MainDashboardInputSymbole' onClick={ () => {
                         document.getElementById('UserSearch').value = ''
                         UserSearch(false)
+                        setSearchNumber(0)
                     }}>
                         {
                             SearchNumber > 0 ?

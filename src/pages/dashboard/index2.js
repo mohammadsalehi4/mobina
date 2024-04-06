@@ -21,7 +21,6 @@ import Cookies from 'js-cookie'
 import { Search } from 'react-feather'
 import { useParams } from "react-router-dom"
 import {Col, Row, InputGroup, Input, InputGroupText, Card} from 'reactstrap'
-import InputPasswordToggle from '@components/input-password-toggle'
 import TokenInformation from '../../components/dashboard/TokenInformation'
 import NetworkSelection from '../../components/networkSelection/NetworkSelection'
 
@@ -932,10 +931,6 @@ const EcommerceDashboard2 = () => {
   }, [])
 
   const myInputRef = useRef(null)
-
-  const focusInput = () => {
-    myInputRef.current.focus()
-  }
 
   //login check
   useEffect(() => {

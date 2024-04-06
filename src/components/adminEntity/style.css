@@ -48,3 +48,8 @@
     border: none !important;
     padding-right: 16px;
   }
+
+  #EntityListTable Input::placeholder {
+    padding-right: 4px;
+  }
+  

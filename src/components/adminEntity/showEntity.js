@@ -582,6 +582,7 @@ const ShowEntity = () => {
                     <InputGroupText id='MainDashboardInputSymbole' onClick={ () => {
                         document.getElementById('EntitySearch').value = ''
                         EntitySearch(false)
+                        setSearchNumber(0)
                     }}>
                         {
                             SearchNumber > 0 ?
