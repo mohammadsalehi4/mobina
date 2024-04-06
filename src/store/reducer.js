@@ -106,10 +106,23 @@ const initialState = {
     userMinerEmail:null,
     userMinerinterface_fname:null,
     userMinerinterface_lname:null,
-    userMinerinterface_phone_number:null
+    userMinerinterface_phone_number:null,
+
+    //pagination
+    AddressPagination:1,
+    TransactionInputPagination:1,
+    TransactionOutputPagination:1,
+    UTXOTransaction:1
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'AddressPagination') {
+        return {
+            ...state,
+            AddressPagination:action.value
+        }
+    }
 
     if (action.type === 'taxState') {
         return {

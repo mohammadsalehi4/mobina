@@ -52,6 +52,8 @@ const EcommerceDashboard2 = () => {
   const [TokenName, SetToken] = useState(null)
   const [GivenNetworks, SetGivenNetworks] = useState([])
 
+  const [AddressPaginationNumber, SetAddressPaginationNumber] = useState(States.AddressPagination)
+
   const UTXOAdd =(getData, symbol) => {
     
     let data=[]
@@ -948,18 +950,49 @@ const EcommerceDashboard2 = () => {
     }
   }, [])
 
-  //Load more
+  //load more for address
   useEffect(() => {
-    const getNewData = States.paginationData
-    const oldData = []
-    for (let i = 0; i < adData.length; i++) {
-      oldData.push(adData[i])
+    if (AddressPaginationNumber !== States.AddressPagination) {
+      SetLoading(true)
+      axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}&page_number=${States.AddressPagination}&page_size=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+        SetLoading(false)
+        if (response.status === 200) {
+          const getData = UTXO_Address(hash, response.data.data,  network, 1)
+          const newResults = UTXOAdd(getData, network)
+          const oldData = []
+          for (let i = 0; i < adData.length; i++) {
+            oldData.push(adData[i])
+          }
+          for (let i = 0; i < newResults.length; i++) {
+            oldData.push(newResults[i])
+          }
+          SetAdData(oldData)
+        }
+      })
+      .catch((err) => {
+        SetLoading(false)
+        console.log(err)
+        if (err.response.status === 404) {
+          return toast.error('تراکنش دیگری وجود ندارد.', {
+            position: 'bottom-left'
+          })
+        } else {
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        }
+        console.log(err)
+      })
+      SetAddressPaginationNumber(States.AddressPagination)
     }
-    for (let i = 0; i < getNewData.length; i++) {
-      oldData.push(getNewData[i])
-    }
-    SetAdData(oldData)
-  }, [States.LoadMore])
+
+  }, [States.AddressPagination])
 
   return (
     <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>

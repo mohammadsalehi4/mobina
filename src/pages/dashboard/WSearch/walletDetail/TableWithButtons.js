@@ -600,6 +600,12 @@ const DataTableWithButtons = (props) => {
     getFromApi()
   }
 
+  const LoadMore2 = () => {
+    let getPage = States.AddressPagination
+    getPage = getPage + 1
+    dispatch({type:"AddressPagination", value:getPage})
+  }
+
   return (
     <Fragment>
       <Card style={{boxShadow:"none", borderStyle:"solid", borderWidth:"1px", borderColor:"rgb(210,210,210)"}}>
@@ -649,7 +655,7 @@ const DataTableWithButtons = (props) => {
           />
         </div>
         <div style={{textAlign:'center'}}>
-          <Card onClick={LoadMore} style={{borderColor:'gray', borderWidth:'1px', borderStyle:'solid', width:'200px', cursor:'pointer', margin:'8px 0px', marginLeft:'auto', marginRight:'auto', height:'40px', transition:'0s'}} 
+          <Card onClick={LoadMore2} style={{borderColor:'gray', borderWidth:'1px', borderStyle:'solid', width:'200px', cursor:'pointer', margin:'8px 0px', marginLeft:'auto', marginRight:'auto', height:'40px', transition:'0s'}} 
             className = {!Loading ? 'p-2' : 'p-2 pt-3'}
           >
             {
