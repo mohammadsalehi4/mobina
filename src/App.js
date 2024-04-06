@@ -37,6 +37,7 @@ import MinerProfile from './pages/mining/profile/minerprofile'
 import Minerefficienty from './pages/minerSupervisor/minerEfficienty/minerefficienty'
 import NewCalculate from './pages/minerSupervisor/minerEfficienty/newCalculate'
 import Footer from './pages/footer/footer'
+import FirstPage from './pages/first_page/FirstPage'
 const App = () => {
   const [Loading, SetLoading] = useState(false)
 
@@ -94,6 +95,7 @@ const App = () => {
               <Route path="/" exact element={<Main/>}/>
               <Route path="/recovery"  element={<Recovery/>}/>
               <Route path="/profile"  element={<Profile/>}/>
+              <Route path="/home"  element={<FirstPage/>}/>
               {
                 (Number(Cookies.get('roll')) === 2) ?
                   <Route path="/admin"  element={<Admin/>}/>

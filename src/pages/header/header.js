@@ -66,7 +66,7 @@ function Header() {
 
   useEffect(() => {
     if (States.witchPage) {
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 9; i++) {
         try {
           document.getElementById(`MenuBottomItem${i}`).className = 'menu-item thisNotActive'
           document.getElementById(`MobileheaderLink${i + 1}`).className = 'menu-item thisNotActive'
@@ -170,8 +170,8 @@ function Header() {
               <div class="container-fluid d-flex h-100" style={{marginRight:"50px"}}>
                 <ul class="menu-inner">
 
-                  <li id='MenuBottomItem0' class="menu-item thisNotActive" style={{marginRight:"0px"}}>
-                    <a class="menu-link">
+                  <li id='MenuBottomItem9' class="menu-item thisNotActive" style={{marginRight:"0px"}}>
+                    <a class="menu-link" href='/home'>
                     <ion-icon name="home-outline"></ion-icon>
                       <div data-i18n="Dashboards" className='vazir'>داشبورد</div>
                     </a>

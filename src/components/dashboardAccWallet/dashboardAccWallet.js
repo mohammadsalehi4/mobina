@@ -131,7 +131,7 @@ const DashboardAccWallet = (props) => {
         } else {
           return (
             <div style={{direction:"ltr"}}>
-              <img style={{width:"30px", marginTop:"-4px"}} src={`../images/${row.currencyType}.png`}/>
+              <img style={{width:"30px", marginTop:"-4px"}} src={`../../images/${row.currencyType}.png`}/>
               <span className='ms-1'>{row.currencyType}</span>
             </div>
           )
