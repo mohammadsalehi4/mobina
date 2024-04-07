@@ -117,6 +117,20 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
 
+    if (action.type === 'TransactionInputPagination') {
+        return {
+            ...state,
+            TransactionInputPagination:action.value
+        }
+    }
+
+    if (action.type === 'TransactionOutputPagination') {
+        return {
+            ...state,
+            TransactionOutputPagination:action.value
+        }
+    }
+
     if (action.type === 'AddressPagination') {
         return {
             ...state,

@@ -24,6 +24,12 @@ export function UTXO_Transaction (array, symbole, decimal) {
     if (GetMainTag.length !== 0) {
         MainTag = GetMainTag
     }
+    let amountTransacted
+    try {
+        amountTransacted = array.amountTransacted
+    } catch (error) {
+        amountTransacted = 0
+    }
     
     try {
         
@@ -151,7 +157,8 @@ export function UTXO_Transaction (array, symbole, decimal) {
                 outputs,
                 symbole,
                 MainLabel,
-                MainTag
+                MainTag,
+                amountTransacted
             }
         )
     }

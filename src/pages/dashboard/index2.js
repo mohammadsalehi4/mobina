@@ -52,7 +52,10 @@ const EcommerceDashboard2 = () => {
   const [TokenName, SetToken] = useState(null)
   const [GivenNetworks, SetGivenNetworks] = useState([])
 
+  //pagination checking
   const [AddressPaginationNumber, SetAddressPaginationNumber] = useState(States.AddressPagination)
+  const [TransactionOutputPaginationNumber, SetTransactionOutputPaginationNumber] = useState(States.TransactionOutputPagination)
+  const [TransactionInputPaginationNumber, SetTransactionInputPaginationNumber] = useState(States.TransactionInputPagination)
 
   const UTXOAdd =(getData, symbol) => {
     
@@ -268,6 +271,9 @@ const EcommerceDashboard2 = () => {
         })
       }
     }
+    console.log('data')
+    console.log(data)
+    TotalAmount = Number(data.amountTransacted)
 
     const TotalOutput1=TotalOutput*CurrencyPrice
     const TotalOutput2=TotalOutput1*USDPrice
@@ -961,18 +967,26 @@ const EcommerceDashboard2 = () => {
         }
       })
       .then((response) => {
+        console.log('response')
+        console.log(response)
         SetLoading(false)
         if (response.status === 200) {
-          const getData = UTXO_Address(hash, response.data.data,  network, 1)
-          const newResults = UTXOAdd(getData, network)
-          const oldData = []
-          for (let i = 0; i < adData.length; i++) {
-            oldData.push(adData[i])
+          if (network === 'BTC' || network === 'DOGE' || network === 'LTC' || network === 'BCH') {
+            const getData = UTXO_Address(hash, response.data.data,  network, 1)
+            const newResults = UTXOAdd(getData, network)
+            const oldData = []
+            for (let i = 0; i < adData.length; i++) {
+              oldData.push(adData[i])
+            }
+            for (let i = 0; i < newResults.length; i++) {
+              oldData.push(newResults[i])
+            }
+            SetAdData(oldData)
+          } else if (network === 'ETH' || network === 'BSC' || network === 'TRX' || network === 'MATIC') {
+            return toast.error('اکانت بیس', {
+              position: 'bottom-left'
+            })
           }
-          for (let i = 0; i < newResults.length; i++) {
-            oldData.push(newResults[i])
-          }
-          SetAdData(oldData)
         }
       })
       .catch((err) => {
@@ -993,6 +1007,93 @@ const EcommerceDashboard2 = () => {
     }
 
   }, [States.AddressPagination])
+
+  //load more output for tr
+  useEffect(() => {
+    if (TransactionOutputPaginationNumber !== States.TransactionOutputPagination) {
+      SetLoading(true)
+      axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}&page_number=0&page_size=0&network=${network}&pageNumberFrom=${States.TransactionInputPagination}&pageSizeFrom=10&pageNumberTo=${States.TransactionOutputPagination}&pageSizeTo=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+        SetLoading(false)
+        const newData = UTXOTr(UTXO_Transaction(response.data.data, network, 1), network, 'بیت‌کوین').outputData
+        const lastData = trData
+        if (newData.length === 0) {
+          return toast.error('خروجی دیگری وجود ندارد.', {
+            position: 'bottom-left'
+          })
+        }
+        for (let i = 0; i < newData.length; i++) {
+          lastData.outputData.push(newData[i])
+        }
+        console.log(lastData)
+        SetTrData(lastData)
+      })
+      .catch((err) => {
+        SetLoading(false)
+        console.log(err)
+        if (err.response.status === 404) {
+          return toast.error('خروجی دیگری وجود ندارد.', {
+            position: 'bottom-left'
+          })
+        } else {
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        }
+        console.log(err)
+      })
+      SetTransactionOutputPaginationNumber(States.TransactionOutputPagination)
+    }
+  }, [States.TransactionOutputPagination])
+
+  //load more input for tr
+  useEffect(() => {
+    if (TransactionInputPaginationNumber !== States.TransactionInputPagination) {
+      SetLoading(true)
+      axios.get(`${serverAddress}/explorer/search/?query=${hash}&network=${network}&page_number=0&page_size=0&network=${network}&pageNumberFrom=${States.TransactionInputPagination}&pageSizeFrom=10&pageNumberTo=${States.TransactionOutputPagination}&pageSizeTo=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+        SetLoading(false)
+        const newData = UTXOTr(UTXO_Transaction(response.data.data, network, 1), network, 'بیت‌کوین').inputData
+        if (newData.length === 0) {
+          return toast.error('ورودی دیگری وجود ندارد.', {
+            position: 'bottom-left'
+          })
+        }
+        const lastData = trData
+        console.log(newData)
+        console.log(lastData)
+        for (let i = 0; i < newData.length; i++) {
+          lastData.inputData.push(newData[i])
+        }
+        console.log(lastData)
+        SetTrData(lastData)
+      })
+      .catch((err) => {
+        SetLoading(false)
+        console.log(err)
+        if (err.response.status === 404) {
+          return toast.error('ورودی دیگری وجود ندارد.', {
+            position: 'bottom-left'
+          })
+        } else {
+          return toast.error('خطا در پردازش', {
+            position: 'bottom-left'
+          })
+        }
+      })
+      SetTransactionInputPaginationNumber(States.TransactionInputPagination)
+    }
+  }, [States.TransactionInputPagination])
 
   return (
     <UILoader  blocking={Loading} loader={<Spinner />}  id="loadingElement" style={{height:"100vh", zIndex:"1000000000000000"}}>

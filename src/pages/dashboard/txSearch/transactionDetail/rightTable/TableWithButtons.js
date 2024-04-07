@@ -11,8 +11,7 @@ import {
 } from 'reactstrap'
 import { MainSiteGray } from '../../../../../../public/colors'
 import NiceAddress from '../../../../../components/niceAddress/niceAddress'
-import ReactPaginate from 'react-paginate'
-import moment from 'jalali-moment'
+import { useSelector, useDispatch } from "react-redux"
 
 const BootstrapCheckbox = forwardRef((props, ref) => (
   <div className='form-check'>
@@ -34,6 +33,8 @@ function formatNumber(num, index) {
 }
 
 const RightDataTableWithButtons = (props) => {
+  const States = useSelector(state => state)
+  const dispatch = useDispatch()
 
   const columns = [
     {
@@ -102,7 +103,6 @@ const RightDataTableWithButtons = (props) => {
   let filteredData = []
   useEffect(() => {
     filteredData = []
-    console.log(props.data.inputData)
     for (let i = 0; i < props.data.inputData.length; i++) {
       if (props.data.inputData[i]) {
         filteredData.push(props.data.inputData[i])
@@ -110,36 +110,13 @@ const RightDataTableWithButtons = (props) => {
     }
     SetShowData(filteredData)
 
-  }, [])
+  }, [props.data.inputData.length])
 
-  //pagination
-  const [currentPage, setCurrentPage] = useState(0)
-  const handlePagination = page => {
-    setCurrentPage(page.selected)
+  const LoadMore = () => {
+      let getPage = States.TransactionInputPagination
+      getPage = getPage + 1
+      dispatch({type:"TransactionInputPagination", value:getPage})
   }
-  const CustomPagination = () => (
-    
-    <ReactPaginate
-      nextLabel=''
-      breakLabel='...'
-      previousLabel=''
-      pageRangeDisplayed={2}
-      forcePage={(currentPage)}
-      marginPagesDisplayed={2}
-      activeClassName='active'
-      pageClassName='page-item'
-      breakClassName='page-item'
-      nextLinkClassName='page-link'
-      pageLinkClassName='page-link'
-      breakLinkClassName='page-link'
-      previousLinkClassName='page-link'
-      nextClassName='page-item next-item'
-      previousClassName='page-item prev-item'
-      pageCount={Math.ceil(showData.length / 10) || 1}
-      onPageChange={page => handlePagination(page)}
-      containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-center pe-1 mt-3'
-    />
-  )
 
   return (
     <Fragment >
@@ -154,12 +131,18 @@ const RightDataTableWithButtons = (props) => {
             sortIcon={<ChevronDown size={10} />}
             selectableRowsComponent={BootstrapCheckbox}
             data={ showData}
-            paginationDefaultPage={currentPage + 1}
-            paginationComponent={CustomPagination}
-            pagination
           />
         </div>
-
+        <div style={{textAlign:'center'}}>
+          <Card onClick={LoadMore} style={{borderColor:'gray', borderWidth:'1px', borderStyle:'solid', width:'200px', cursor:'pointer', margin:'8px 0px', marginLeft:'auto', marginRight:'auto', height:'40px', transition:'0s'}} 
+            className = 'p-2'
+            // className = {!Loading ? 'p-2' : 'p-2 pt-3'}
+          >
+            <span>
+              نمایش بیشتر
+            </span>
+          </Card>
+        </div>
       </Card>
     </Fragment>
   )
