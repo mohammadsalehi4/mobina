@@ -4,17 +4,17 @@ import { Fragment, useState, forwardRef } from 'react'
 import { digitsEnToFa } from 'persian-tools'
 import DataTable from 'react-data-table-component'
 import NiceAddress2 from '../../niceAddress2/niceAddress'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy, Plus, MoreVertical } from 'react-feather'
+import { ChevronDown, Share, Printer, FileText, File, Trash2, Copy, Plus, MoreVertical } from 'react-feather'
 import {
   Row,
-  Col,
+  Button,
   Card,
   Input,
   CardTitle,
   CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle, Badge,
+  Modal,
+  ModalBody,
+  ModalFooter, Badge,
   UncontrolledDropdown
 } from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../../public/colors'
@@ -70,183 +70,51 @@ const data = [
   }
 ]
 
-const columns = [
-  {
-    minWidth: '70px',
-    maxWidth: '70px',
-    selector: row => <ion-icon style={{background:"rgb(230,230,230)", padding:"8px", borderRadius:"4px", cursor:"pointer", fontSize:"18px", marginTop:"6px"}} name="git-network-outline"></ion-icon>
+const Visualizations = () => {
 
-  },
+  const [DeleteBox, SetDeleteBox] = useState(false)
+  const [DeleteLoading, SetDeleteLoading] = useState(false)
+
+  const columns = [
     {
-      name: <p style={{marginTop:"15px", margin:"0px"}}>نام</p>,
-      minWidth: '130px',
-      maxWidth: '130px',
-      selector: row => digitsEnToFa(row.Address)
-    },
-    {
-      name: 'ارز',
-      sortable: true,
-      minWidth: '60px',
-      maxWidth: '60px',
-      selector: row => row.currency
-    },
-    {
-      name: <p style={{marginTop:"15px", margin:"0px"}}>وضعیت</p>,
-      sortable: true,
-      minWidth: '130px',
-      maxWidth: '130px',
-      selector: row => row.Amount,
-      cell: row => (
-        <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 16px", borderRadius:"10px"}}>آماده بررسی</span>
-      )
-    },
+      minWidth: '90px',
+      maxWidth: '90px',
+      selector: row => <ion-icon style={{background:"rgb(230,230,230)", padding:"8px", borderRadius:"4px", cursor:"pointer", fontSize:"18px", marginTop:"6px"}} name="git-network-outline"></ion-icon>
   
-    {
-        name: <p style={{marginTop:"15px", margin:"0px"}}>آخرین تغییر</p>,
-        sortable: true,
-        minWidth: '110px',
-        maxWidth: '110px',
-        selector: row => row.Changes,
-        cell: row => (
-          <div>
-          <p style={{marginTop:"15px", margin:"0px", direction:"ltr"}}>
-              {digitsEnToFa(row.LastChangeDate)} 
-          </p>
-          <p style={{marginTop:"15px", margin:"0px", direction:"ltr"}}>
-              {digitsEnToFa(row.LastChangeTime)} 
-          </p>
-          </div>
-        )
     },
       {
-        name: 'ایجاد شده توسط',
-        sortable: true,
+        name: <p style={{marginTop:"15px", margin:"0px"}}>نام</p>,
         minWidth: '130px',
         maxWidth: '130px',
-        selector: row => row.age,
+        selector: row => digitsEnToFa(row.Address)
+      },
+      {
+        name: 'ارز',
+        sortable: true,
+        minWidth: '60px',
+        maxWidth: '60px',
+        selector: row => row.currency
+      },
+      {
+        name: <p style={{marginTop:"15px", margin:"0px"}}>توضیحات</p>,
+        sortable: true,
+        minWidth: '200px',
+        maxWidth: '200px',
+        selector: row => row.Amount,
         cell: row => (
-          <p style={{marginTop:"15px", margin:"0px", direction:"ltr", background:MainSiteyellow, color:"white", borderRadius:"50%", padding:"5px", marginRight:"20px"}}>
-              {row.MadeWith}
-          </p>
+          <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 16px", borderRadius:"10px"}}>آماده بررسی</span>
         )
       },
-    {
-        sortable: true,
-        minWidth: '20px',
-        maxWidth: '20px',
-        cell: row => (
-            <UncontrolledDropdown>
-            <DropdownToggle className='pe-1' tag='span' style={{cursor:"pointer"}}>
-              <MoreVertical size={15} />
-            </DropdownToggle>
-            <DropdownMenu end style={{zIndex:12}}>
-              <DropdownItem tag='a' href='/' className='w-100'>
-                <span className='align-middle ms-50'>Details</span>
-              </DropdownItem>
-              <DropdownItem tag='a' href='/' className='w-100'>
-                <span className='align-middle ms-50'>Archive</span>
-              </DropdownItem>
-              <DropdownItem tag='a' href='/' className='w-100'>
-                <span className='align-middle ms-50'>Delete</span>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        )
-      }
-]
-
-const Visualizations = () => {
-  const [modal, setModal] = useState(false)
-  const [searchValue, setSearchValue] = useState('')
-  const [filteredData, setFilteredData] = useState([])
-
-  const handleModal = () => setModal(!modal)
-
-  const handleFilter = e => {
-    const value = e.target.value
-    let updatedData = []
-    setSearchValue(value)
-
-    const status = {
-      1: { title: 'Current', color: 'light-primary' },
-      2: { title: 'Professional', color: 'light-success' },
-      3: { title: 'Rejected', color: 'light-danger' },
-      4: { title: 'Resigned', color: 'light-warning' },
-      5: { title: 'Applied', color: 'light-info' }
-    }
-
-    if (value.length) {
-      updatedData = data.filter(item => {
-        const startsWith =
-          item.full_name.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.post.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.email.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.age.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.salary.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.start_date.toLowerCase().startsWith(value.toLowerCase()) ||
-          status[item.status].title.toLowerCase().startsWith(value.toLowerCase())
-
-        const includes =
-          item.full_name.toLowerCase().includes(value.toLowerCase()) ||
-          item.post.toLowerCase().includes(value.toLowerCase()) ||
-          item.email.toLowerCase().includes(value.toLowerCase()) ||
-          item.age.toLowerCase().includes(value.toLowerCase()) ||
-          item.salary.toLowerCase().includes(value.toLowerCase()) ||
-          item.start_date.toLowerCase().includes(value.toLowerCase()) ||
-          status[item.status].title.toLowerCase().includes(value.toLowerCase())
-
-        if (startsWith) {
-          return startsWith
-        } else if (!startsWith && includes) {
-          return includes
-        } else return null
-      })
-      setFilteredData(updatedData)
-      setSearchValue(value)
-    }
-  }
-
-  function convertArrayOfObjectsToCSV(array) {
-    let result
-
-    const columnDelimiter = ','
-    const lineDelimiter = '\n'
-    const keys = Object.keys(data[0])
-
-    result = ''
-    result += keys.join(columnDelimiter)
-    result += lineDelimiter
-
-    array.forEach(item => {
-      let ctr = 0
-      keys.forEach(key => {
-        if (ctr > 0) result += columnDelimiter
-
-        result += item[key]
-
-        ctr++
-      })
-      result += lineDelimiter
-    })
-
-    return result
-  }
-
-  function downloadCSV(array) {
-    const link = document.createElement('a')
-    let csv = convertArrayOfObjectsToCSV(array)
-    if (csv === null) return
-
-    const filename = 'export.csv'
-
-    if (!csv.match(/^data:text\/csv/i)) {
-      csv = `data:text/csv;charset=utf-8,${csv}`
-    }
-
-    link.setAttribute('href', encodeURI(csv))
-    link.setAttribute('download', filename)
-    link.click()
-  }
+        {
+          name: <p style={{marginTop:"15px", margin:"0px"}}>عملیات</p>,
+          sortable: true,
+          minWidth: '120px',
+          maxWidth: '120px',
+          cell: row => (
+              <Trash2 onClick={ () => { SetDeleteBox(true) }} style={{cursor:'pointer'}}/>
+          )
+        }
+  ]
 
   return (
     <Fragment>
@@ -254,41 +122,42 @@ const Visualizations = () => {
         <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
           <CardTitle tag='h4'>ردیابی ها</CardTitle>
         </CardHeader>
-        <Row className='justify-content-end mx-0'>
-          <Col className='d-flex align-items-center justify-content-start mt-1' md='6' sm='12'>
-            <Input
-              className='dataTable-filter mb-50'
-              type='text'
-              bsSize='sm'
-              id='search-input'
-              value={searchValue}
-              placeholder='جست و جو...'
-              onChange={handleFilter}
-            />
-          </Col>
-          <Col className='d-flex align-items-center justify-content-end mt-2 mb-2' md='6' sm='12'>
-            <div className='d-flex mt-md-0 mt-1'>
-              <button style={{background:MainSiteOrange, color:"white", border:"none", padding:"8px 16px", borderRadius:"8px"}} color='primary' onClick={handleModal}>
-                <span className='align-middle ms-50'>افزودن مورد جدید</span>
-                <Plus size={15} />
-              </button>
-
-            </div>
-          </Col>
-        </Row>
         <div className='react-dataTable react-dataTable-selectable-rows'>
           <DataTable
             noHeader
-            selectableRows
             columns={columns}
             className='react-dataTable'
             direction='ltr'
             sortIcon={<ChevronDown size={10} />}
             selectableRowsComponent={BootstrapCheckbox}
-            data={searchValue.length ? filteredData : data}
+            data={ data}
           />
         </div>
       </Card>
+
+      <Modal
+        isOpen={DeleteBox}
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+        toggle={() => SetDeleteBox(false)}
+      >
+        <ModalBody>
+          <h6>آیا از حذف گراف ترسیم‌شده مورد نظر اطمینان دارید؟</h6>
+        </ModalBody>
+        <ModalFooter>
+
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
+          {
+              DeleteLoading ? 
+              <LoadingButton/>
+              :
+              <span>
+                حذف
+              </span>
+            }
+          </Button>
+        </ModalFooter>
+      </Modal>
     </Fragment>
   )
 }

@@ -33,34 +33,33 @@ const SingleCase = () => {
   }, [])
       
   return (
-    <div className='container-fluid mt-2' style={{boxSizing:"border-box", background:"rgb(240,240,240)"}}>
-        <div className='row'>
-            <div className='col-lg-6 mt-3'>
+    <div className='container-fluid mt-2'
+    style={{
+        textAlign: 'center', 
+        maxWidth: '1280px', 
+        marginLeft: 'auto', 
+        marginRight: 'auto'
+      }}
+    >
+        <div className='row' style={{textAlign:'right'}}>
+            <div className='col-xl-6 mt-3'>
                 <Cases/>
             </div>
-            <div className='col-lg-4 mt-3'>
-                <Settings/>
-            </div>
-            <div className='col-lg-2 mt-3'>
+            <div className='col-xl-6 mt-3'>
                 <Notes/>
             </div>
         </div>
-        <div className='row'>
+        <div className='row' style={{textAlign:'right'}}>
             <div className='col-lg-12 mt-3'>
                 <Addresses/>
             </div>
         </div>
-        <div className='row'>
-            <div className='col-lg-12 mt-3'>
+        <div className='row' style={{textAlign:'right'}}>
+            <div className='col-lg-6 mt-3'>
                 <Transactions/>
             </div>
-        </div>
-        <div className='row'>
-            <div className='col-lg-6 mt-3 mb-3'>
+            <div className='col-lg-6 mt-3'>
                 <Visualizations/>
-            </div>
-            <div className='col-lg-6 mt-3 mb-3'>
-                <Trackings/>
             </div>
         </div>
     </div>

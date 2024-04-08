@@ -146,7 +146,7 @@ const App = () => {
               }
               {
                 (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                  <Route path="/case"  element={<SingleCase/>}/>
+                  <Route path="/case/:uuid"  element={<SingleCase/>}/>
                 :
                 null
               }
