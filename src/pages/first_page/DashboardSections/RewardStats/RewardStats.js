@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 
-import { Col, Row } from 'react-bootstrap'
+import { Col, Row } from 'reactstrap'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import './RewardStats.css'

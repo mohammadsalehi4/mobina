@@ -3,7 +3,7 @@ import axios from 'axios'
 
 
 import './Chart.css'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'reactstrap'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 
