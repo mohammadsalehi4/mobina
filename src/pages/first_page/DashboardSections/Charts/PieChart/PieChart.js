@@ -49,7 +49,8 @@ const PieChartc = () => {
 
   const option = {
     tooltip: {
-      trigger: 'item'
+      trigger: 'item',
+      formatter: "{a} <br/>{b} : {c} ({d}%)"
     },
     // color: ['#b5179e', '#7209b7', '#1e4c83],
     series: [
@@ -69,10 +70,10 @@ const PieChartc = () => {
           }
         },
         label: {
-          alignTo: 'edge',
-          edgeDistance: 5,
+          // alignTo: 'edge',
+          edgeDistance: 40,
           color: '#9f9f9f',
-          fontSize: '14px',
+          fontSize: '15px',
           lineHeight: 20,
         },
       },

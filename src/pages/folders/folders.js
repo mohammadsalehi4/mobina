@@ -4,9 +4,7 @@ import React, {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux'
 import MainFolderTable from '../../components/folders/mainFolderTable'
 import Cookies from 'js-cookie'
-import axios from 'axios'
-import { serverAddress } from '../../address'
-import LocalLoading from '../../components/localLoading/localLoading'
+
 const Folders = () => {
     const dispatch = useDispatch()
     useEffect(() => {
@@ -30,37 +28,11 @@ const Folders = () => {
     }
   }, [])
 
-  const [Loading, SetLoading] = useState(false)
-  const [Data, SetData] = useState([])
-
-  useEffect(() => {
-    SetLoading(true)
-    axios.get(`${serverAddress}/case/management/`, 
-    {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('access')}`
-      }
-    })
-    .then((response) => {
-      SetLoading(false)
-      SetData(response.data)
-    })
-    .catch((err) => {
-      SetLoading(false)
-      console.log(err)
-    })
-  }, [])
-
   return (
     <div className='container-fluid'>
         <div className='row'>
             <div className='col-12 mt-4'>
-                {
-                    Loading ? 
-                     <LocalLoading/>
-                    :
-                     <MainFolderTable data={Data}/>
-                }
+                <MainFolderTable/>
             </div>
         </div>
     </div>

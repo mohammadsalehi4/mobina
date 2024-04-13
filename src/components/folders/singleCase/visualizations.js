@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import { Fragment, useState, forwardRef } from 'react'
+import { Fragment, useState, forwardRef, useEffect } from 'react'
 import { digitsEnToFa } from 'persian-tools'
 import DataTable from 'react-data-table-component'
 import NiceAddress2 from '../../niceAddress2/niceAddress'
@@ -18,63 +19,23 @@ import {
   UncontrolledDropdown
 } from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../../public/colors'
-
+import Cookies from 'js-cookie'
+import { serverAddress } from '../../../address'
+import { JalaliCalendar } from '../../../processors/jalaliCalendar'
+import LoadingButton from '../../loadinButton/LoadingButton'
+import axios from 'axios'
 const BootstrapCheckbox = forwardRef((props, ref) => (
   <div className='form-check'>
     <Input type='checkbox' ref={ref} {...props} />
   </div>
 ))
 
-const data = [
-  {
-    Address:"تحقیق و بررسی 1",
-    currency:"BTC",
-    Amount:"31.293122591",
-    USDAmount:"853,256.760",
-    Changes:"+9.27839201",
-    mode:"green",
-    risk:"80",
-    MadeWith:"م‌ص",
-    notifs:"آریان‌کوین",
-    LastChangeDate:"1402/02/03",
-    LastChangeTime:"13:29",
-    Status:"open"
-  },
-  {
-    Address:"تحقیق و بررسی 2",
-    currency:"BTC",
-    Amount:"31.293122591",
-    USDAmount:"853,256.760",
-    Changes:"-122.39201",
-    mode:"red",
-    risk:"30",
-    MadeWith:"س‌ق",
-    notifs:"آریان‌کوین",
-    LastChangeDate:"1400/12/04",
-    LastChangeTime:"19:34",
-    Status:"done"
-  },
-  {
-    Address:"تحقیق و بررسی 3",
-    currency:"BTC",
-    Amount:"31.293122591",
-    USDAmount:"853,256.760",
-    Changes:"+1,200.3602",
-    mode:"green",
-    risk:"50",
-    MadeWith:"ک‌ت",
-    notifs:"آریان‌کوین",
-    LastChangeDate:"1402/02/03",
-    LastChangeTime:"13:29",
-    Status:"ongoing"
-  }
-]
-
-const Visualizations = () => {
+const Visualizations = (props) => {
 
   const [DeleteBox, SetDeleteBox] = useState(false)
+  const [DeleteId, SetDeleteId] = useState(false)
   const [DeleteLoading, SetDeleteLoading] = useState(false)
-
+  const [data, SetData] = useState([])
   const columns = [
     {
       minWidth: '90px',
@@ -86,14 +47,14 @@ const Visualizations = () => {
         name: <p style={{marginTop:"15px", margin:"0px"}}>نام</p>,
         minWidth: '130px',
         maxWidth: '130px',
-        selector: row => digitsEnToFa(row.Address)
+        selector: row => digitsEnToFa(row.graph_detail.GraphName)
       },
       {
         name: 'ارز',
         sortable: true,
         minWidth: '60px',
         maxWidth: '60px',
-        selector: row => row.currency
+        selector: row => row.graph_detail.networkName
       },
       {
         name: <p style={{marginTop:"15px", margin:"0px"}}>توضیحات</p>,
@@ -102,7 +63,7 @@ const Visualizations = () => {
         maxWidth: '200px',
         selector: row => row.Amount,
         cell: row => (
-          <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 16px", borderRadius:"10px"}}>آماده بررسی</span>
+          <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 16px", borderRadius:"10px"}}>{row.graph_detail.GraphDescription}</span>
         )
       },
         {
@@ -111,10 +72,35 @@ const Visualizations = () => {
           minWidth: '120px',
           maxWidth: '120px',
           cell: row => (
-              <Trash2 onClick={ () => { SetDeleteBox(true) }} style={{cursor:'pointer'}}/>
+              <Trash2 onClick={ () => { SetDeleteId(row.id), SetDeleteBox(true) }} style={{cursor:'pointer'}}/>
           )
         }
   ]
+
+  useEffect(() => {
+    if (props.Data.graphs.length > 0) {
+      SetData(props.Data.graphs)
+    }
+  }, [props.Data.graphs.length])
+
+  const deleteGraph = () => {
+    SetDeleteLoading(true)
+    axios.delete(`${serverAddress}/case/graph-list/${DeleteId}`, 
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('access')}`
+      }
+    })
+    .then((response) => {
+      console.log(response)
+        if (response.status === 204) {
+          window.location.reload()
+        }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
 
   return (
     <Fragment>
@@ -123,7 +109,9 @@ const Visualizations = () => {
           <CardTitle tag='h4'>ردیابی ها</CardTitle>
         </CardHeader>
         <div className='react-dataTable react-dataTable-selectable-rows'>
-          <DataTable
+          {
+            data.length !== 0 ?
+            <DataTable
             noHeader
             columns={columns}
             className='react-dataTable'
@@ -132,6 +120,10 @@ const Visualizations = () => {
             selectableRowsComponent={BootstrapCheckbox}
             data={ data}
           />
+          :
+          <p style={{textAlign:'center'}} className='pt-5'>بدون گراف ذخیره شده</p>
+          }
+
         </div>
       </Card>
 
@@ -146,7 +138,7 @@ const Visualizations = () => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteGraph() } }>
           {
               DeleteLoading ? 
               <LoadingButton/>

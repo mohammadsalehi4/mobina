@@ -1,19 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Edit, Info} from 'react-feather' 
 import { digitsEnToFa } from 'persian-tools'
+import { JalaliCalendar } from '../../../processors/jalaliCalendar'
+const Cases = (props) => {
+  const [Risk, SetRisk] = useState(0)
 
-const Cases = () => {
+  useEffect(() => {
+    let sum = 0
+    for (let i = 0; i < props.Data.addresses.length; i++) {
+      sum = sum + props.Data.addresses[i].risk
+    }
+    sum = sum / props.Data.addresses.length
+    SetRisk(sum)
+  }, [props.Data.addresses.length])
+
   return (
     <div className='container-fluid' style={{borderRadius:"8px", background:"white", borderStyle:"solid", borderWidth:"2px", borderColor:"rgb(210,210,210)"}}>
         <div className='row mt-3'>
           <div className='col-6'>
-            <p style={{fontWeight:"bold"}}>
-              پرونده خیلی مهم
+            <p style={{fontWeight:"bold", fontSize:'18px'}}>
+              {props.Data.case_info.name}
               <Edit style={{marginRight:"8px", cursor:"pointer"}}/>
             </p>
           </div>
           <div className='col-6' style={{textAlign:"left"}}>
-            <small  style={{color:'rgb(150,150,150)'}}>ساخته شده در {digitsEnToFa("1402/02/03")}</small>
+            <small  style={{color:'rgb(150,150,150)'}}>ساخته شده در {digitsEnToFa(`${JalaliCalendar(new Date(props.Data.case_info.created_time).getTime()).day}-${JalaliCalendar(new Date(props.Data.case_info.created_time).getTime()).month}-${JalaliCalendar(new Date(props.Data.case_info.created_time).getTime()).year}`)}</small>
           </div>
         </div>
         <div className='row'>
@@ -24,7 +35,7 @@ const Cases = () => {
                 <p>آدرس ها</p>
               </div>
               <div className='col-6'>
-                <p>{digitsEnToFa(7)}</p>
+                <p>{((props.Data.addresses.length))}</p>
               </div>
             </div>
 
@@ -33,16 +44,7 @@ const Cases = () => {
                 <p>تراکنش ها</p>
               </div>
               <div className='col-6'>
-                <p>{digitsEnToFa(3)}</p>
-              </div>
-            </div>
-
-            <div className='row'>
-              <div className='col-6'>
-                <p>کاوش ها</p>
-              </div>
-              <div className='col-6'>
-                <p>{digitsEnToFa(2)}</p>
+                <p>{(props.Data.transactions.length)}</p>
               </div>
             </div>
 
@@ -51,7 +53,7 @@ const Cases = () => {
                 <p>ترسیم شده</p>
               </div>
               <div className='col-6'>
-                <p>{digitsEnToFa(3)}</p>
+                <p>{(props.Data.graphs.length)}</p>
               </div>
             </div>
 
@@ -68,7 +70,7 @@ const Cases = () => {
                 </p>
               </div>
               <div className='col-6'>
-                <small className='ms-1'>{digitsEnToFa("13:50 1402/04/12 ")}</small>
+              <span className='d-block text-truncate'>{digitsEnToFa(`${JalaliCalendar(new Date(props.Data.case_info.modified_time).getTime()).hour}:${JalaliCalendar(new Date(props.Data.case_info.modified_time).getTime()).minute} ${JalaliCalendar(new Date(props.Data.case_info.modified_time).getTime()).year}-${JalaliCalendar(new Date(props.Data.case_info.modified_time).getTime()).month}-${JalaliCalendar(new Date(props.Data.case_info.modified_time).getTime()).day} `)}</span>
               </div>
             </div>
 
@@ -77,7 +79,7 @@ const Cases = () => {
                 <p>ساخته شده توسط</p>
               </div>
               <div className='col-6'>
-                <p>من</p>
+                <p>{props.Data.case_info.user}</p>
               </div>
             </div>
 
@@ -90,7 +92,7 @@ const Cases = () => {
               </div>
               <div className='col-6'>
                 <p style={{color:"green"}}>
-                  {digitsEnToFa("20%")}
+                  {Risk !== 0 ? digitsEnToFa(Risk) : 'بدون ریسک'}
                 </p>
               </div>
             </div>

@@ -1,55 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 
-// import React, { useState } from 'react'
-
-import './Entities.css'
 import { Row, Col } from 'react-bootstrap'
 
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import imgCard from '../../images/blockchain (3).png'
+import imgCard from '../../images/crypto-wallet.png'
 
+import '../Entities/Entities.css'
 
-
-const Entities = () => {
-
-    const [entities, setEntities] = useState([])
-    const [IranianEntities, setIranianEntities] = useState([])
-    const [scamEntities, setScamEntities] = useState([])
-    const [sanctionEntities, setSanctionEntities] = useState([])
-    const [assetCount, setAssetCount] = useState([])
-
-
-    useEffect(() => {
-        const request = async () => {
-            const { data } = await axios.get('https://api.pantachain.com/entity/entity-dashboard')
-            setEntities(data.entities_info.count_of_entities)
-            setIranianEntities(data.entities_info.iranian_entities)
-            setScamEntities(data.entities_info.scam_entities)
-            setSanctionEntities(data.entities_info.sanction_entities)
-            setAssetCount(data.asset_count)
-        }
-        request()
-    }, [])
-
-    // console.log(assetCount)
-
-
-
-
+const Addresses = () => {
+    
     return (
-        <div className='mt-3 entities'>
+        <div className='mt-5'>
             <Row className='g-3'>
 
-                <Col lg={6} xl={8}>
+                <Col lg={6} xl={8} className='order-1 order-lg-2'>
                     <Card style={{}}>
                         <CardContent>
                             <div className='d-flex justify-content-between'>
                                 <p className='entities-text'>محدودیت‌ها در یک نگاه</p>
                                 <p className='small-text-entities'>
-                                    
-                                    در لحظه
+                                   
+                                در لحظه
                                     
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 20 20" style={{paddingRight:'5px'}}>
                                         <g fill="currentColor" fillRule="evenodd" clipRule="evenodd">
@@ -113,8 +85,8 @@ c-65 132 -128 164 -412 207 -113 17 -650 98 -1193 181 -543 82 -1009 150
 
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='number-entities' style={{ fontSize: '18px' }}>{entities / 1000}<span>k</span></span>
-                                        <span className='small-text-entities'>  کل موجودیت ها</span>
+                                        <span className='number-entities' style={{ fontSize: '18px' }}>9457k</span>
+                                        <span className='small-text-entities'>  کل آدرس‌ها</span>
                                     </div>
                                 </div>
                                 <div xl={3} className='d-flex p-3 p-lg-1' style={{ marginLeft: '13px' }}>
@@ -170,8 +142,8 @@ c0 131 -42 179 -204 231 -77 25 -109 41 -137 68 -54 52 -221 339 -213 365 3
 
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='number-entities'>{IranianEntities}<span>k</span></span>
-                                        <span className='small-text-entities'>   موجودیت‌های ایرانی </span>
+                                        <span className='number-entities'>9457k</span>
+                                        <span className='small-text-entities'>   آدرس‌های ایرانی </span>
                                     </div>
                                 </div>
                                 <div xl={3} className='d-flex p-3 p-lg-1'>
@@ -228,8 +200,8 @@ m704 -1152 c157 -50 282 -115 347 -178 53 -51 55 -56 50 -92 -13 -80 -164
 
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='number-entities'>{scamEntities / 1000}<span>k</span></span>
-                                        <span className='small-text-entities'> موجودیت‌های کلاهبرداری </span>
+                                        <span className='number-entities'>9457k</span>
+                                        <span className='small-text-entities'> آدرس‌های کلاهبرداری </span>
                                     </div>
                                 </div>
                                 <div xl={3} className='d-flex p-3 p-lg-1'>
@@ -283,8 +255,8 @@ m143 -263 c49 -246 -65 -486 -283 -593 -88 -43 -157 -60 -245 -60 -50 0 -121
 
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='number-entities'>{sanctionEntities}<span>k</span></span>
-                                        <span className='small-text-entities'> موجودیت‌های تحریمی </span>
+                                        <span className='number-entities'>9457k</span>
+                                        <span className='small-text-entities'> آدرس‌های تحریمی </span>
                                     </div>
                                 </div>
                             </div>
@@ -293,7 +265,7 @@ m143 -263 c49 -246 -65 -486 -283 -593 -88 -43 -157 -60 -245 -60 -50 0 -121
                     </Card>
                 </Col>
 
-                <Col lg={6} xl={4}>
+                <Col lg={6} xl={4} className='order-2 order-lg-1'>
                     <Card style={{}}>
                         <CardContent className='pb-0'>
                             <div className='d-flex flex-wrap justify-content-between network-entiti'>
@@ -305,7 +277,7 @@ m143 -263 c49 -246 -65 -486 -283 -593 -88 -43 -157 -60 -245 -60 -50 0 -121
                                     <p className='entities-text'>
                                         8 شبکه
                                     </p>
-                                    <p className='small-text-entities'>{assetCount} توکن پشتیبانی شده</p>
+                                    <p className='small-text-entities'>135513 توکن پشتیبانی شده</p>
                                 </div>
                                 <img src={imgCard} alt='img' className='img-entities' />
                             </div>
@@ -313,10 +285,9 @@ m143 -263 c49 -246 -65 -486 -283 -593 -88 -43 -157 -60 -245 -60 -50 0 -121
                         </CardContent>
                     </Card>
                 </Col>
-
             </Row>
         </div>
     )
 }
 
-export default Entities
+export default Addresses

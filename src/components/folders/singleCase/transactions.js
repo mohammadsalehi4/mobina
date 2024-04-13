@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import { Fragment, useState, forwardRef } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { digitsEnToFa } from 'persian-tools'
 import DataTable from 'react-data-table-component'
 import NiceAddress2 from '../../niceAddress2/niceAddress'
@@ -18,7 +19,10 @@ import {
   UncontrolledDropdown
 } from 'reactstrap'
 import { MainSiteLightGreen, MainSiteOrange, MainSiteyellow } from '../../../../public/colors'
-
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { serverAddress } from '../../../address'
+import { JalaliCalendar } from '../../../processors/jalaliCalendar'
 const data = [
   {
     Address:"5407317937e50337c72187b13d14eca1e2f77e439436c616e64d128dcd4dc721",
@@ -64,9 +68,11 @@ const data = [
   }
 ]
 
-const Transactions = () => {
+const Transactions = (props) => {
   const [DeleteBox, SetDeleteBox] = useState(false)
+  const [DeleteId, SetDeleteId] = useState(false)
   const [DeleteLoading, SetDeleteLoading] = useState(false)
+  const [data, SetData] = useState([])
 
   const columns = [
 
@@ -74,10 +80,10 @@ const Transactions = () => {
       name: <p style={{marginTop:"15px", margin:"0px"}}>آدرس</p>,
       minWidth: '200px',
       maxWidth: '200px',
-      sortable: row => row.Address,
+      sortable: row => row.hash,
       cell: row => (
         <div className='d-flex mt-1'>
-            <span className='d-block fw-bold text-truncate'>{<NiceAddress2 text={row.Address} number={8} />}</span>
+            <span className='d-block fw-bold text-truncate'>{<NiceAddress2 text={row.hash} number={8} />}</span>
         </div>
       )
     },
@@ -86,14 +92,11 @@ const Transactions = () => {
       sortable: true,
       minWidth: '150px',
       maxWidth: '150px',
-      selector: row => row.Amount,
+      selector: row => row.volume,
       cell: row => (
         <div>
         <p style={{marginTop:"15px", margin:"0px", direction:"ltr"}}>
-            {digitsEnToFa(row.Amount)} <small>{row.currency}</small>
-        </p>
-        <p style={{marginTop:"15px", margin:"0px", direction:"ltr"}}>
-            {digitsEnToFa(row.USDAmount)} <small>USD</small>
+            {digitsEnToFa(Number(row.volume).toFixed(5))} <small>{row.network_symbol}</small>
         </p>
         </div>
 
@@ -107,8 +110,8 @@ const Transactions = () => {
         cell: row => (
           <div className='d-flex'>
             <div className='user-info text-truncate ms-1'>
-              <span className='d-block fw-bold text-truncate'>{digitsEnToFa(row.LastChangeDate)}</span>
-              <small>{digitsEnToFa(row.LastChangeTime)}</small>
+              <span className='d-block fw-bold text-truncate'>{digitsEnToFa(`${JalaliCalendar(new Date(row.date_created).getTime()).year}-${JalaliCalendar(new Date(row.date_created).getTime()).month}-${JalaliCalendar(new Date(row.date_created).getTime()).day}`)}</span>
+              <small>{digitsEnToFa(`${JalaliCalendar(new Date(row.date_created).getTime()).hour}:${JalaliCalendar(new Date(row.date_created).getTime()).minute}`)}</small>
             </div>
           </div>
         )
@@ -119,10 +122,34 @@ const Transactions = () => {
         minWidth: '120px',
         maxWidth: '120px',
         cell: row => (
-          <Trash2 onClick={ () => { SetDeleteBox(true) }} style={{cursor:'pointer'}}/>
+          <Trash2 onClick={ () => { SetDeleteId(row.id), SetDeleteBox(true) }} style={{cursor:'pointer'}}/>
         )
       }
 ]
+
+useEffect(() => {
+  if (props.Data.transactions.length > 0) {
+    SetData(props.Data.transactions)
+  }
+}, [props.Data.transactions.length])
+
+const deleteTransaction = () => {
+  SetDeleteLoading(true)
+  axios.delete(`${serverAddress}/case/transaction-list/${DeleteId}`, 
+  {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('access')}`
+    }
+  })
+  .then((response) => {
+      if (response.status === 204) {
+        window.location.reload()
+      }
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+}
 
   return (
     <Fragment>
@@ -131,14 +158,20 @@ const Transactions = () => {
           <CardTitle tag='h4'>لیست تراکنش ها</CardTitle>
         </CardHeader>
         <div className='react-dataTable react-dataTable-selectable-rows'>
-          <DataTable
-            noHeader
-            columns={columns}
-            className='react-dataTable'
-            direction='ltr'
-            sortIcon={<ChevronDown size={10} />}
-            data={data}
-          />
+          {
+            data.length > 0 ?
+              <DataTable
+                noHeader
+                columns={columns}
+                className='react-dataTable'
+                direction='ltr'
+                sortIcon={<ChevronDown size={10} />}
+                data={data}
+              />
+          :
+            <p style={{textAlign:'center'}} className='pt-5'>بدون تراکنش ذخیره شده</p>
+          }
+
         </div>
       </Card>
 
@@ -153,7 +186,7 @@ const Transactions = () => {
         </ModalBody>
         <ModalFooter>
 
-          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteLabel() } }>
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { deleteTransaction() } }>
           {
               DeleteLoading ? 
               <LoadingButton/>
