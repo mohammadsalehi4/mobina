@@ -31,7 +31,7 @@ const FirstPage = () => {
       <Entities />
       <SlidBox />
       <RewardStats />
-      <Chart />
+      {/* <Chart /> */}
     </div>
   )
 }
