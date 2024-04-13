@@ -28,11 +28,12 @@ const CardTransactions = (props) => {
       let first = props.transactions[0].Date
       let last = props.transactions[0].Date
       for (let i = 0; i < props.transactions.length; i++) {
-        if (props.transactions[i].Date < first) {
+        console.log(props.transactions[i].Date)
+        if (props.transactions[i].Date < first && props.transactions[i].Date !== null) {
           first = props.transactions[i].Date
         }
   
-        if (props.transactions[i].Date > last) {
+        if (props.transactions[i].Date > last && props.transactions[i].Date !== null) {
           last = props.transactions[i].Date
         }
       }

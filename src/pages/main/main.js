@@ -73,7 +73,7 @@ const Main = () => {
                       Cookies.set('name', response.data.user_firstname)
                       Cookies.set('lastname', response.data.user_lastname)
                         if (Number(response.data.role.role_id) === 2 || Number(response.data.role.role_id) === 3) {
-                            window.location.assign('/researcher')
+                            window.location.assign('/home')
                         } else if (Number(response.data.role.role_id) === 4) {
                             window.location.assign('/tax')
                         } else if (Number(response.data.role.role_id) === 5) {

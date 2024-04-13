@@ -1,17 +1,37 @@
-import React, {useState, useEffect} from 'react'
+/* eslint-disable no-unused-vars */
+// import Container from 'postcss/lib/container'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import Entities from './DashboardSections/Entities/Entities'
+import SlidBox from './DashboardSections/box/SlidBox'
+import RewardStats from './DashboardSections/RewardStats/RewardStats'
+import Chart from './DashboardSections/Charts/Chart'
 
 const FirstPage = () => {
   const States = useSelector(state => state)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch({type:"SHOWNAVBAR"})
-    dispatch({type:"SETWITCHPAGE", value:9})
+    dispatch({ type: "SHOWNAVBAR" })
+    dispatch({ type: "SETWITCHPAGE", value: 9 })
   }, [])
 
   return (
-    <div>FirstPage</div>
+    <div className='container-fluid'
+      style={{
+        // textAlign: 'center', 
+        maxWidth: '1280px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        fontFamily:'vazir'
+      }}
+    >
+      <Entities />
+      <SlidBox />
+      <RewardStats />
+      <Chart />
+    </div>
   )
 }
 

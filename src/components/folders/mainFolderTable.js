@@ -1,6 +1,6 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable no-unused-vars */
-import { Fragment, useState, forwardRef } from 'react'
+import { Fragment, useState, forwardRef, useEffect } from 'react'
 import { digitsEnToFa } from 'persian-tools'
 import AddNewModal from './AddNewModal'
 import DataTable from 'react-data-table-component'
@@ -25,54 +25,11 @@ const BootstrapCheckbox = forwardRef((props, ref) => (
   </div>
 ))
 
-const data = [
-  {
-    name:"کیس کلاهبرداری",
-    currency:"BTC",
-    Amount:"31.2931291",
-    mode:"green",
-    notifs:"متعادل",
-    LastChangeTime:"13:29",
-    LastChangeDate:'1403-02-03',
-    Status:"open",
-    AddressNumber:3,
-    TransactionNumber:4,
-    GraphNumber:5
-  },
-  {
-    name:"کیس کلاهبرداری",
-    currency:"BTC",
-    Amount:"31.2931291",
-    mode:"green",
-    notifs:"متعادل",
-    LastChangeTime:"13:29",
-    LastChangeDate:'1403-02-03',
-    Status:"open",
-    AddressNumber:3,
-    TransactionNumber:4,
-    GraphNumber:5
-  },
-  {
-    name:"کیس کلاهبرداری",
-    currency:"BTC",
-    Amount:"31.2931291",
-    mode:"green",
-    notifs:"متعادل",
-    LastChangeTime:"13:29",
-    LastChangeDate:'1403-02-03',
-    Status:"open",
-    AddressNumber:3,
-    TransactionNumber:4,
-    GraphNumber:5
-  }
-]
-
-const MainFolderTable = () => {
+const MainFolderTable = (props) => {
   const [modal, setModal] = useState(false)
-  const [searchValue, setSearchValue] = useState('')
-  const [filteredData, setFilteredData] = useState([])
   const [DeleteBox, SetDeleteBox] = useState(false)
   const [DeleteLoading, SetDeleteLoading] = useState(false)
+  const [data, SetData] = useState([])
   const handleModal = () => setModal(!modal)
 
   const columns = [
@@ -155,12 +112,12 @@ const MainFolderTable = () => {
         sortable: true,
         minWidth: '150px',
         maxWidth: '150px',
-        selector: row => row.age,
+        selector: row => row.last_modified,
         cell: row => (
           <div className='d-flex'>
             <div className='user-info text-truncate ms-1' style={{textAlign:'left'}}>
-              <span className='d-block fw-bold text-truncate'>{row.LastChangeDate}</span>
-              <span className='d-block fw-bold text-truncate'>{row.LastChangeTime}</span>
+              <span className='d-block fw-bold text-truncate'>{Date(row.last_modified).year}</span>
+              {/* <span className='d-block fw-bold text-truncate'>{row.last_modified}</span> */}
             </div>
           </div>
         )
@@ -170,16 +127,16 @@ const MainFolderTable = () => {
       name: 'وضعیت',
       minWidth: '120px',
       maxWidth: '120px',
-      sortable: row => row.Status.title,
+      sortable: row => row.status,
       cell: row => {
         return (
-                row.Status === "done" ?
+                row.status === "done" ?
                     <span style={{fontSize:"12px", background:"rgb(255, 176, 176)", color:"red", padding:"2px 6px", borderRadius:"10px"}}>بسته</span>
                 :
-                    row.Status === "ongoing" ?
+                    row.status === "ongoing" ?
                         <span style={{fontSize:"12px", background:"rgb(176, 204, 255)", color:"blue", padding:"2px 6px", borderRadius:"10px"}}>در حال بررسی</span>
                     :
-                        row.Status === "open" ?
+                        row.status === "open" ?
                             <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 16px", borderRadius:"10px"}}>باز</span>
                         :
                             <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 6px", borderRadius:"10px"}}>نمیدونم</span>
@@ -197,91 +154,12 @@ const MainFolderTable = () => {
       }
   ]
 
-  const handleFilter = e => {
-    const value = e.target.value
-    let updatedData = []
-    setSearchValue(value)
-
-    const status = {
-      1: { title: 'Current', color: 'light-primary' },
-      2: { title: 'Professional', color: 'light-success' },
-      3: { title: 'Rejected', color: 'light-danger' },
-      4: { title: 'Resigned', color: 'light-warning' },
-      5: { title: 'Applied', color: 'light-info' }
+  useEffect(() => {
+    if (props.data.length > 0) {
+      SetData(props.data)
+      console.log(props.data)
     }
-
-    if (value.length) {
-      updatedData = data.filter(item => {
-        const startsWith =
-          item.full_name.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.post.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.email.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.age.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.salary.toLowerCase().startsWith(value.toLowerCase()) ||
-          item.start_date.toLowerCase().startsWith(value.toLowerCase()) ||
-          status[item.status].title.toLowerCase().startsWith(value.toLowerCase())
-
-        const includes =
-          item.full_name.toLowerCase().includes(value.toLowerCase()) ||
-          item.post.toLowerCase().includes(value.toLowerCase()) ||
-          item.email.toLowerCase().includes(value.toLowerCase()) ||
-          item.age.toLowerCase().includes(value.toLowerCase()) ||
-          item.salary.toLowerCase().includes(value.toLowerCase()) ||
-          item.start_date.toLowerCase().includes(value.toLowerCase()) ||
-          status[item.status].title.toLowerCase().includes(value.toLowerCase())
-
-        if (startsWith) {
-          return startsWith
-        } else if (!startsWith && includes) {
-          return includes
-        } else return null
-      })
-      setFilteredData(updatedData)
-      setSearchValue(value)
-    }
-  }
-
-  function convertArrayOfObjectsToCSV(array) {
-    let result
-
-    const columnDelimiter = ','
-    const lineDelimiter = '\n'
-    const keys = Object.keys(data[0])
-
-    result = ''
-    result += keys.join(columnDelimiter)
-    result += lineDelimiter
-
-    array.forEach(item => {
-      let ctr = 0
-      keys.forEach(key => {
-        if (ctr > 0) result += columnDelimiter
-
-        result += item[key]
-
-        ctr++
-      })
-      result += lineDelimiter
-    })
-
-    return result
-  }
-
-  function downloadCSV(array) {
-    const link = document.createElement('a')
-    let csv = convertArrayOfObjectsToCSV(array)
-    if (csv === null) return
-
-    const filename = 'export.csv'
-
-    if (!csv.match(/^data:text\/csv/i)) {
-      csv = `data:text/csv;charset=utf-8,${csv}`
-    }
-
-    link.setAttribute('href', encodeURI(csv))
-    link.setAttribute('download', filename)
-    link.click()
-  }
+  }, [props.data.length])
 
   return (
     <Fragment>
@@ -302,15 +180,21 @@ const MainFolderTable = () => {
         </CardHeader>
 
         <div className='react-dataTable react-dataTable-selectable-rows'>
-          <DataTable
+          {
+            data.length !== 0 ? 
+            <DataTable
             noHeader
             selectableRows
             columns={columns}
             className='react-dataTable'
             sortIcon={<ChevronDown size={10} />}
             selectableRowsComponent={BootstrapCheckbox}
-            data={searchValue.length ? filteredData : data}
+            data={data}
           />
+          :
+          <p style={{textAlign:'center'}} className='mt-3'>بدون پرونده ذخیره شده</p>
+          }
+
         </div>
       </Card>
       <Modal

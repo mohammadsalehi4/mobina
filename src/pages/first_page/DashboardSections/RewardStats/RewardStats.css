@@ -1,0 +1,30 @@
+.border-body-text{
+    border-right: 2px solid rgba(123, 122, 124, 0.42);
+    padding-right: 30px;
+    margin-right: 6px;
+}
+
+.price{
+    color:#3bcc49 ;
+    font-weight: 600;
+}
+.text-span{
+    color:  rgba(41, 40, 40, 0.712);
+    font-size: 16px;
+    font-weight: 600;
+}
+.header-item{
+    font-weight: 600;
+    color:  rgba(47, 43, 61, 0.68);
+}
+
+.text-body-item{
+    margin: 0;
+}
+
+.circle{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #0f3e69;
+}

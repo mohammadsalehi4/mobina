@@ -267,10 +267,13 @@ const DataTableWithButtons = (props) => {
         return (
           <div>
             {
+              row.Date !== null ?
               States.jalaliCalendar ? 
                 <p style={{marginTop:"20px"}}>{digitsEnToFa(getMyTime(row.Date).hour+':'+getMyTime(row.Date).minute+' - '+moment(getMyTime(row.Date).year+'-'+getMyTime(row.Date).month+'-'+getMyTime(row.Date).day, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))}</p>
               :
                 <p style={{marginTop:"20px"}}>{digitsEnToFa(getMyTime(row.Date).hour+':'+getMyTime(row.Date).minute+' - '+getMyTime(row.Date).year+'/'+getMyTime(row.Date).month+'/'+getMyTime(row.Date).day)}</p>
+              :
+              <p style={{marginTop:"20px"}}>_</p>
             }
           </div>
         )
@@ -580,11 +583,6 @@ const DataTableWithButtons = (props) => {
         <div className='react-dataTable react-dataTable-selectable-rows'>
           <DataTable
             columns={columns}
-            // paginationDefaultPage={currentPage + 1}
-            // paginationComponent={CustomPagination}
-            // pagination
-            // sortIcon={<ChevronDown size={10} />}
-            // selectableRowsComponent={BootstrapCheckbox}
             className='react-dataTable'
             data={ showData }
           />
