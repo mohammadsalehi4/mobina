@@ -45,15 +45,15 @@ const CardContentTypes = (props) => {
   const [TagValues, setTagValues] = useState([])
   const [TagId, setTagId] = useState([])
   const [AddTagModal, setAddTagModal] = useState(false)
-  const [CaseModal, setCaseModal] = useState(false)
   const [AddLabelModal, setAddLabelModal] = useState(false)
   const [DeleteLabelModal, setDeleteLabelModal] = useState(false)
   const [DeleteTagModal, setDeleteTagModal] = useState(false)
   const [DeleteTagText, setDeleteTagText] = useState('')
   const [TagList, setAddTagList] = useState(false)
-  const [CaseList, setAddCaseList] = useState(false)
   const [SelectedTag, setSelectedTag] = useState(false)
   const [SelectedCase, setSelectedCase] = useState(false)
+  const [CaseModal, setCaseModal] = useState(false)
+  const [CaseList, setAddCaseList] = useState(false)
   const [Loading, setLoading] = useState(false)
 
   const getTagList = () => {

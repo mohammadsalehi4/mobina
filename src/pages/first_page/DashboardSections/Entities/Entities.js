@@ -4,13 +4,11 @@ import axios from 'axios'
 // import React, { useState } from 'react'
 
 import './Entities.css'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'reactstrap'
 
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import imgCard from '../../images/blockchain (3).png'
-
-
 
 const Entities = () => {
 

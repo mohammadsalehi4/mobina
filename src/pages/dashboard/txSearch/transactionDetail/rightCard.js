@@ -55,6 +55,9 @@ const CardContentTypes = (props) => {
   const [TagList, setAddTagList] = useState(false)
   const [SelectedTag, setSelectedTag] = useState(false)
   const [Loading, setLoading] = useState(false)
+  const [SelectedCase, setSelectedCase] = useState(false)
+  const [CaseModal, setCaseModal] = useState(false)
+  const [CaseList, setAddCaseList] = useState(false)
 
   const getTagList = () => {
     axios.get(serverAddress + "/address-labels/tag/", 
@@ -287,10 +290,35 @@ const CardContentTypes = (props) => {
     getTagList()
   }, [, props.labelData, props.TagData])
 
+    //case
+    useEffect(() => {
+      axios.get(`${serverAddress}/case/management/`, 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+          setAddCaseList(response.data)
+          console.log('response.data')
+          console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }, [])
+
   const [LastTagSelected, SetLastTagSelected] = useState(false)
   const handleDelete = () => {
     SetLastTagSelected(false)
     setSelectedTag(false)
+  }
+
+  const [LastCaseSelected, SetLastCaseSelected] = useState(false)
+  const [LastCaseId, SetLastCaseId] = useState(null)
+  const handleCase = () => {
+    SetLastCaseSelected(false)
+    setSelectedCase(false)
   }
 
   function formatNumber(num, index) {
@@ -379,12 +407,10 @@ const CardContentTypes = (props) => {
             </button>
           </a>
 
-          <button href='/' onClick={e => e.preventDefault()} className='cardLink225' id='cardLink25' style={{background:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:'solid', borderWidth:'1px'}}>
+          <button href='/' onClick={() => { setCaseModal(true) }} className='cardLink225' id='cardLink25' style={{background:MainSiteyellow, borderColor:MainSiteyellow, borderStyle:'solid', borderWidth:'1px'}}>
             افزودن به پرونده <ion-icon name="alert-circle-outline"></ion-icon>
           </button>
-          <UncontrolledTooltip placement='top' target={`cardLink25`}>
-            در نسخه دمو قابل انجام نیست!
-          </UncontrolledTooltip>
+
           </div>
         </div>
 
@@ -482,6 +508,150 @@ const CardContentTypes = (props) => {
             }
             SetLastTagSelected(false)
             setAddTagModal(false) 
+          } }>
+            {
+              Loading ? 
+              <LoadingButton/>
+              :
+              <span>
+            افزودن
+              </span>
+            }
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      {/* پرونده */}
+      <Modal
+        isOpen={CaseModal}
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+        toggle={() => setCaseModal(!CaseModal)}
+        
+      >
+        <ModalBody>
+          <h6>پرونده مورد نظر خود را بسازید یا از لیست زیر انتخاب کنید.</h6>
+          {
+            !LastCaseSelected ? 
+              <form onSubmit={ (e) => {
+                e.preventDefault()
+                if (LastCaseSelected) {
+                  GetTag(SelectedCase)
+                } else {
+                  GetTag(document.getElementById('CreateNewTagInput').value)
+                }
+                SetLastCaseSelected(false)
+                setCaseModal(false)   
+              } }>
+                <Input id='CreateNewCaseInput' placeholder='نام پرونده' />
+                <Input id='CreateNewCaseNote' type='textarea' className='mt-3' placeholder='توضیحات'/>
+              </form>
+            :
+              <Chip label={SelectedCase} onDelete={handleCase} style={{direction:'ltr'}} />
+          }
+          {
+            CaseList === false ? 
+              <p>در حال دریافت اطلاعات...</p>
+            :
+            CaseList.length === 0 ? 
+              <p>بدون پرونده ذخیره شده</p>
+            :
+              <>
+                <p className='mt-3'>
+                  لیست پرونده های ساخته شده
+                </p>
+                {
+                  CaseList.map((item, index) => {
+                    return (
+                      <div style={{ marginTop:'4px'}}>
+                        <Chip label={item.name} style={{direction:'ltr', cursor:'pointer'}} onClick={ () => { SetLastCaseSelected(true), setSelectedCase(item.name), SetLastCaseId(item.id) } }/>
+                      </div>
+                    )
+                  })
+                }
+              </>
+
+          }
+        </ModalBody>
+        <ModalFooter>
+
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { 
+            if (LastCaseSelected) {
+                axios.post(serverAddress + "/case/transaction-list/", 
+                {
+                    hash: props.data.address,
+                    case: LastCaseId,
+                    network: RecognizeNetwork(props.data.name)
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${Cookies.get('access')}`
+                    }
+                }
+              )
+              .then((response) => {
+                  console.log(response)
+                  if (response.status === 201) {
+                    return toast.success('به پرونده افزوده شد', {
+                      position: 'bottom-left'
+                    })
+                  }
+              })
+              .catch((err) => {
+                  console.log(err)
+                  return toast.error('خطا در پردازش', {
+                    position: 'bottom-left'
+                  })
+              })
+            } else {
+              axios.post(`${serverAddress}/case/management/`, 
+              {
+                name:document.getElementById('CreateNewCaseInput').value,
+                note_detail:document.getElementById('CreateNewCaseNote').value
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${Cookies.get('access')}`
+                }
+              })
+              .then((response) => {
+                if (response.status === 201) {
+                  console.log(response)
+                  axios.post(serverAddress + "/case/transaction-list/", 
+                  {
+                      hash: props.data.address,
+                      case: response.data.id,
+                      network: RecognizeNetwork(props.data.name)
+                  },
+                  {
+                      headers: {
+                          Authorization: `Bearer ${Cookies.get('access')}`
+                      }
+                  }
+                )
+                .then((response2) => {
+                    console.log(response2)
+                    if (response2.status === 201) {
+                      return toast.success('به پرونده افزوده شد', {
+                        position: 'bottom-left'
+                      })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                    return toast.error('خطا در پردازش', {
+                      position: 'bottom-left'
+                    })
+                })
+                }
+              })
+              .catch((err) => {
+                SetAddLoading(false)
+                console.log(err)
+              })
+            }
+            SetLastCaseSelected(false)
+            setCaseModal(false) 
           } }>
             {
               Loading ? 
