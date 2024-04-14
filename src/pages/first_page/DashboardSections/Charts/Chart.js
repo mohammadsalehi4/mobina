@@ -8,8 +8,8 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 
 
-import PieChart from './PieChart/PieChart'
-import LinearChart from './LinearChart/LinearChart'
+// import PieChart from './PieChart/PieChart'
+// import LinearChart from './LinearChart/LinearChart'
 
 
 const Chart = () => {
@@ -223,7 +223,7 @@ const Chart = () => {
 
       </Row>
 
-      <Row className='g-3' style={{ paddingBottom: '100px'}}>
+      {/* <Row className='g-3' style={{ paddingBottom: '100px'}}>
 
         <Col xl={6}>
           {<LinearChart />}
@@ -234,7 +234,7 @@ const Chart = () => {
         </Col>
 
 
-      </Row>
+      </Row> */}
 
     </div>
   )

@@ -75,7 +75,7 @@ const RewardStats = () => {
                             <CardContent className='body-item'>
                                 <p className='circle' style={{ background: '#e76f51' }}></p>
                                 <div className='border-body-text'>
-                                    <p className=' header-item'>پاداش ماینتر ها</p>
+                                    <p className=' header-item'>پاداش ماینر ها</p>
                                     <p className='fs-1 text-body-item'> {digitsEnToFa(minersReward)} <span className='text-span'>بیت کویین</span></p>
                                     <p className='price py-1'> {digitsEnToFa(minersRewardUSD)} دلار</p>
                                 </div>
