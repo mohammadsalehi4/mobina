@@ -132,7 +132,14 @@ const GoalOverview = props => {
                 SetUsePower('شبکه برق سراسری')
               }
               // const getNumber = (((response.data.hash_power_usage) / (response.data.network_hash_power_sum / 1000000000000)) / ((response.data.address_transaction_sum) / (response.data.network_coinbase_sum)))
-              const getNumber = ((Math.random() * 10) + 70) / 100
+              let getNumber
+              if (response.data.transactions.length === 41) {
+                getNumber = 0.735
+              } else if (response.data.transactions.length > 10) {
+                getNumber = 0.79
+              } else {
+                getNumber = 0.68
+              }
               if ((getNumber >= 0 && getNumber <= 100)) { SetCalculate(Math.floor(getNumber * 100)) } else if (getNumber === Infinity) { SetCalculate(0) } else { SetCalculate(0) }
               SetLoading(false)
             }
