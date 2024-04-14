@@ -107,6 +107,7 @@ const initialState = {
     userMinerinterface_fname:null,
     userMinerinterface_lname:null,
     userMinerinterface_phone_number:null,
+    minerAddresses:[],
 
     //pagination
     AddressPagination:1,
@@ -116,6 +117,13 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+
+    if (action.type === 'minerAddresses') {
+        return {
+            ...state,
+            minerAddresses:action.value
+        }
+    }
 
     if (action.type === 'TransactionInputPagination') {
         return {

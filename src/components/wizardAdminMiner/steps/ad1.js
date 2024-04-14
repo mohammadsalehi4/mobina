@@ -116,6 +116,7 @@ const St1 = ({ stepper, type }) => {
         }
       )
     }
+    console.log(GetAddresses)
 
     const addresses = JSON.stringify(GetAddresses)
 
@@ -126,6 +127,9 @@ const St1 = ({ stepper, type }) => {
         position: 'bottom-left'
       })
     } else {
+      
+      dispatch({type:"minerAddresses", value:GetAddresses})
+
       const bodyFormData = new FormData()
       bodyFormData.append('operating_license_number', operating_license_number)
       bodyFormData.append('license_number', license_number)

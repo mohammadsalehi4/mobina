@@ -114,9 +114,9 @@ const GoalOverview = props => {
             console.log('response')
             console.log(response)
             if (response.status === 200) {
-              Sethash_power_usage(response.data.hash_power_usage)
+              Sethash_power_usage(response.data.hash_power_usage * 2511258)
               Setaddress_transaction_sum(response.data.address_transaction_sum)
-              Setnetwork_hash_power_sum(response.data.network_hash_power_sum)
+              Setnetwork_hash_power_sum(response.data.network_hash_power_sum / 1000000000000)
               Setnetwork_coinbase_sum(response.data.network_coinbase_sum)
               Setpower(response.data.power)
               SetLogo(response.data.miner.logo)
@@ -131,7 +131,7 @@ const GoalOverview = props => {
               } else if (response.data.electricity_supply === "nationalـpowerـgrid") {
                 SetUsePower('شبکه برق سراسری')
               }
-              const getNumber = (((response.data.hash_power_usage) / (response.data.network_hash_power_sum)) / ((response.data.address_transaction_sum) / (response.data.network_coinbase_sum)))
+              const getNumber = (((response.data.hash_power_usage * 2511258) / (response.data.network_hash_power_sum / 1000000000000)) / ((response.data.address_transaction_sum) / (response.data.network_coinbase_sum)))
               console.log('getNumber')
               console.log(getNumber)
               if ((getNumber >= 0 && getNumber <= 100)) { SetCalculate(Math.floor(getNumber * 100)) } else if (getNumber === Infinity) { SetCalculate(0) } else { SetCalculate(0) }

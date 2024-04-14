@@ -25,6 +25,7 @@ const St0 = ({ stepper, type }) => {
   const dispatch = useDispatch()
   const { minerid } = useParams()
 
+  
   const [Loading, SetLoading] = useState(false)
   const [UserLoading, SetUserLoading] = useState(false)
   const [AddUserBox, SetAddUserBox] = useState(false)
