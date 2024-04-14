@@ -341,6 +341,8 @@ const TaxTable = ({ stepper }) => {
             <Label for='deposit'  className=' me-1'>واریز</Label>
             <Input type='radio' name='transferType' id='withdraw'  value='withdraw' className='me-5'  onChange={ () => { document.getElementById('withdraw').style.color = 'rgb(100,100,100)' } }/>
             <Label for='withdraw'  className=' me-1'>برداشت</Label>
+            <Input type='radio' name='transferType' id='both'  value='both' className='me-5'  onChange={ () => { document.getElementById('withdraw').style.color = 'rgb(100,100,100)' } }/>
+            <Label for='withdraw'  className=' me-1'>هردو</Label>
           </Col>
 
           <Col xl='6' lg='6' className='mt-3' style={{textAlign:'right'}}>

@@ -885,6 +885,8 @@ const EcommerceDashboard2 = () => {
         })
         .then((addressMode) => {
           SetLoading(false)
+          console.log('addressMode')
+          console.log(addressMode)
           if (addressMode.data.network.length === 1 && addressMode.data.data.length > 0) {
             SelectProcessHandler(addressMode.data.network[0])
           } else if (addressMode.data.network.length > 1 || addressMode.data.data.length === 0) {

@@ -119,6 +119,14 @@ const NewCalculate = () => {
 
         if (!check) {
             SetLoading(true)
+            console.log(
+                {
+                    start_date: String(Date.parse(StartMillisecond) / 1000),
+                    end_date: String(Date.parse(EndMillisecond) / 1000),
+                    miner: minerSelected,
+                    devices: selectedDevice
+                }
+            )
             axios.post(serverAddress + "/miners/calculate/", 
             {
                 start_date: String(Date.parse(StartMillisecond) / 1000),
@@ -136,7 +144,7 @@ const NewCalculate = () => {
                 SetLoading(false)
                 console.log(response)
                 if (response.status === 201) {
-                    window.location.assign('/minerefficienty')
+                    // window.location.assign('/minerefficienty')
                     return toast.success('محاسبه در حال انجام است', {
                         position: 'bottom-left'
                     })

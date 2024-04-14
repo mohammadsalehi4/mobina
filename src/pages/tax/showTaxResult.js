@@ -18,7 +18,7 @@ import { RecognizeNetwork } from '../../processors/recognizeNetwork'
 import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import ReactPaginate from 'react-paginate'
-
+import LocalLoading from '../../components/localLoading/localLoading'
 const ShowTaxResult = ({ stepper }) => {
     console.log(stepper)
     const dispatch = useDispatch()
@@ -306,7 +306,9 @@ const ShowTaxResult = ({ stepper }) => {
 
                 </Row>
                 :
-                null
+                <div className='mt-5'>
+                    <LocalLoading/>
+                </div>
                 }
 
                 <Row>
