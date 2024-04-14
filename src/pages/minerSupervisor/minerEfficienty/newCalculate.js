@@ -144,7 +144,7 @@ const NewCalculate = () => {
                 SetLoading(false)
                 console.log(response)
                 if (response.status === 201) {
-                    // window.location.assign('/minerefficienty')
+                    window.location.assign('/minerefficienty')
                     return toast.success('محاسبه در حال انجام است', {
                         position: 'bottom-left'
                     })
