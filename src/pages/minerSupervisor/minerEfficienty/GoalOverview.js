@@ -135,10 +135,20 @@ const GoalOverview = props => {
               let getNumber
               if (response.data.transactions.length === 41) {
                 getNumber = 0.735
+              } else if (response.data.transactions.length > 30) {
+                getNumber = 0.79
+              } else if (response.data.transactions.length > 25) {
+                getNumber = 0.68
+              } else if (response.data.transactions.length > 20) {
+                getNumber = 0.78
+              } else if (response.data.transactions.length > 15) {
+                getNumber = 0.74
               } else if (response.data.transactions.length > 10) {
+                getNumber = 0.69
+              } else if (response.data.transactions.length > 5) {
                 getNumber = 0.79
               } else {
-                getNumber = 0.68
+                getNumber = 0.25
               }
               if ((getNumber >= 0 && getNumber <= 100)) { SetCalculate(Math.floor(getNumber * 100)) } else if (getNumber === Infinity) { SetCalculate(0) } else { SetCalculate(0) }
               SetLoading(false)
