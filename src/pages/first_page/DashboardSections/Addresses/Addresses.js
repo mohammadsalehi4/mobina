@@ -5,6 +5,7 @@ import { Row, Col } from 'reactstrap'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import imgCard from '../../images/crypto-wallet.png'
+import { digitsEnToFa } from 'persian-tools'
 
 import '../Entities/Entities.css'
 
@@ -85,7 +86,7 @@ c-65 132 -128 164 -412 207 -113 17 -650 98 -1193 181 -543 82 -1009 150
 
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='number-entities' style={{ fontSize: '18px' }}>9457k</span>
+                                        <span className='number-entities' style={{ fontSize: '18px' }}>{digitsEnToFa('9457k')}</span>
                                         <span className='small-text-entities'>  کل آدرس‌ها</span>
                                     </div>
                                 </div>
@@ -142,7 +143,7 @@ c0 131 -42 179 -204 231 -77 25 -109 41 -137 68 -54 52 -221 339 -213 365 3
 
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='number-entities'>9457k</span>
+                                        <span className='number-entities'>{digitsEnToFa('9457k')}</span>
                                         <span className='small-text-entities'>   آدرس‌های ایرانی </span>
                                     </div>
                                 </div>
@@ -200,7 +201,7 @@ m704 -1152 c157 -50 282 -115 347 -178 53 -51 55 -56 50 -92 -13 -80 -164
 
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='number-entities'>9457k</span>
+                                        <span className='number-entities'>{digitsEnToFa('9457k')}</span>
                                         <span className='small-text-entities'> آدرس‌های کلاهبرداری </span>
                                     </div>
                                 </div>
@@ -255,7 +256,7 @@ m143 -263 c49 -246 -65 -486 -283 -593 -88 -43 -157 -60 -245 -60 -50 0 -121
 
                                     </div>
                                     <div className='d-flex flex-column'>
-                                        <span className='number-entities'>9457k</span>
+                                        <span className='number-entities'>{digitsEnToFa('9457k')}</span>
                                         <span className='small-text-entities'> آدرس‌های تحریمی </span>
                                     </div>
                                 </div>

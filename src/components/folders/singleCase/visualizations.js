@@ -40,31 +40,31 @@ const Visualizations = (props) => {
     {
       minWidth: '90px',
       maxWidth: '90px',
-      selector: row => <ion-icon style={{background:"rgb(230,230,230)", padding:"8px", borderRadius:"4px", cursor:"pointer", fontSize:"18px", marginTop:"6px"}} name="git-network-outline"></ion-icon>
-  
+      cell: row => (
+        <a href={`/tracker/loadGraph/${row.graph_detail.network}/${row.graph_detail.id}`} style={{textDecoration:'none', color:'inherit'}}>
+          <ion-icon style={{background:"rgb(230,230,230)", padding:"8px", borderRadius:"4px", cursor:"pointer", fontSize:"18px", marginTop:"6px"}} name="git-network-outline"></ion-icon>
+        </a>
+      )
     },
       {
         name: <p style={{marginTop:"15px", margin:"0px"}}>نام</p>,
         minWidth: '130px',
         maxWidth: '130px',
-        selector: row => digitsEnToFa(row.graph_detail.GraphName)
+        selector: row => digitsEnToFa(row.graph_detail.name)
       },
       {
         name: 'ارز',
         sortable: true,
-        minWidth: '60px',
-        maxWidth: '60px',
-        selector: row => row.graph_detail.networkName
+        minWidth: '120px',
+        maxWidth: '120px',
+        selector: row => row.graph_detail.network
       },
       {
         name: <p style={{marginTop:"15px", margin:"0px"}}>توضیحات</p>,
         sortable: true,
-        minWidth: '200px',
-        maxWidth: '200px',
-        selector: row => row.Amount,
-        cell: row => (
-          <span style={{fontSize:"12px", background:"rgb(191, 255, 176)", color:"green", padding:"2px 16px", borderRadius:"10px"}}>{row.graph_detail.GraphDescription}</span>
-        )
+        minWidth: '140px',
+        maxWidth: '140px',
+        selector: row => row.graph_detail.Description
       },
         {
           name: <p style={{marginTop:"15px", margin:"0px"}}>عملیات</p>,
@@ -79,6 +79,8 @@ const Visualizations = (props) => {
 
   useEffect(() => {
     if (props.Data.graphs.length > 0) {
+      console.log('props.Data.graphs')
+      console.log(props.Data.graphs)
       SetData(props.Data.graphs)
     }
   }, [props.Data.graphs.length])

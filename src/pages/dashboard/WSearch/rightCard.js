@@ -579,6 +579,13 @@ const CardContentTypes = (props) => {
 
           <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { 
             if (LastCaseSelected) {
+                console.log(
+                  {
+                    address_hash: props.data.address,
+                    case: LastCaseId,
+                    network: RecognizeNetwork(props.data.name)
+                  }
+                )
                 axios.post(serverAddress + "/case/address-list/", 
                 {
                     address_hash: props.data.address,
@@ -619,6 +626,13 @@ const CardContentTypes = (props) => {
               .then((response) => {
                 if (response.status === 201) {
                   console.log(response)
+                  console.log(
+                    {
+                      address_hash: props.data.address,
+                      case: response.data.id,
+                      network: RecognizeNetwork(props.data.name)
+                    }
+                  )
                   axios.post(serverAddress + "/case/address-list/", 
                   {
                       address_hash: props.data.address,

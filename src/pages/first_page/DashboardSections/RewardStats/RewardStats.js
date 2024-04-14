@@ -6,7 +6,7 @@ import { Col, Row } from 'reactstrap'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import './RewardStats.css'
-
+import { digitsEnToFa } from 'persian-tools'
 
 const RewardStats = () => {
 
@@ -76,8 +76,8 @@ const RewardStats = () => {
                                 <p className='circle' style={{ background: '#e76f51' }}></p>
                                 <div className='border-body-text'>
                                     <p className=' header-item'>پاداش ماینتر ها</p>
-                                    <p className='fs-1 text-body-item'> {minersReward} <span className='text-span'>بیت کویین</span></p>
-                                    <p className='price py-1'> {minersRewardUSD} دلار</p>
+                                    <p className='fs-1 text-body-item'> {digitsEnToFa(minersReward)} <span className='text-span'>بیت کویین</span></p>
+                                    <p className='price py-1'> {digitsEnToFa(minersRewardUSD)} دلار</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -89,8 +89,8 @@ const RewardStats = () => {
                                 <p className='circle' style={{ background: '#f4a261' }}></p>
                                 <div className='border-body-text'>
                                     <p className=' header-item'> میانگین هزینه های بلوک </p>
-                                    <p className='fs-1 text-body-item'>{avgBlockFees} <span className='text-span text-start'>بیت کویین / بلاک</span> </p>
-                                    <p className='price py-1'> {avgBlockFeesUSDShow} دلار</p>
+                                    <p className='fs-1 text-body-item'>{digitsEnToFa(avgBlockFees)} <span className='text-span text-start'>بیت کویین / بلاک</span> </p>
+                                    <p className='price py-1'> {digitsEnToFa(avgBlockFeesUSDShow)} دلار</p>
                                 </div>
 
                             </CardContent>
@@ -104,8 +104,8 @@ const RewardStats = () => {
                                 <p className='circle' style={{ background: '#e9c46a' }}></p>
                                 <div className='border-body-text'>
                                     <p className=' header-item'>میانگین هزینه تراکنش</p>
-                                    <p className='fs-1 text-body-item'>{avgTxFee}k  <span className='text-span'>ساتوشی/تراکنش</span>   </p>
-                                    <p className='price py-1'> {avgTxFeeUSDShow} دلار</p>
+                                    <p className='fs-1 text-body-item'>{digitsEnToFa(avgTxFee)}k  <span className='text-span'>ساتوشی/تراکنش</span>   </p>
+                                    <p className='price py-1'> {digitsEnToFa(avgTxFeeUSDShow)} دلار</p>
                                 </div>
 
                             </CardContent>

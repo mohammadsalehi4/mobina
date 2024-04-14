@@ -1,3 +1,6 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable prefer-template */
 /* eslint-disable prefer-const */
 /* eslint-disable multiline-ternary */
 /* eslint-disable array-bracket-spacing */
@@ -18,7 +21,8 @@ import { serverAddress } from '../../address'
 import toast from 'react-hot-toast'
 import LoadingButton from '../../components/loadinButton/LoadingButton'
 import { useParams } from "react-router-dom"
-import { Trash2 } from 'react-feather'
+import { Trash2, Folder } from 'react-feather'
+import Chip from '@mui/material/Chip'
 
 const VisualizationDetail = (props) => {
   const dispatch = useDispatch()
@@ -30,6 +34,10 @@ const VisualizationDetail = (props) => {
   const [ Loading , SetLoading] = useState(false)
   const [ Name , SetName] = useState(props.GraphName)
   const [ Description , SetDescription] = useState(props.GraphDescription)
+  const [SelectedCase, setSelectedCase] = useState(false)
+  const [CaseModal, setCaseModal] = useState(false)
+  const [CaseList, setAddCaseList] = useState(false)
+
   const { id } = useParams()
   const { network } = useParams()
 
@@ -208,6 +216,31 @@ const VisualizationDetail = (props) => {
     } else { SetAddress(false) }
   }, [,props.hash])
 
+    //case
+    useEffect(() => {
+      axios.get(`${serverAddress}/case/management/`, 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('access')}`
+        }
+      })
+      .then((response) => {
+          setAddCaseList(response.data)
+          console.log('response.data')
+          console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }, [])
+
+  const [LastCaseSelected, SetLastCaseSelected] = useState(false)
+  const [LastCaseId, SetLastCaseId] = useState(null)
+  const handleCase = () => {
+    SetLastCaseSelected(false)
+    setSelectedCase(false)
+  }
+
   return (
     <div id="visualizationDetail">
     <Fragment>
@@ -352,12 +385,25 @@ const VisualizationDetail = (props) => {
               </div>
               <hr/>
               <div className='row'>
-                <div className='col-md-12'>
-                  <Button.Ripple outline color='secondary' onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } className="p-2">
+                {
+                  id !== undefined ? 
+                  <div className='col-md-12'>
+                  <Button.Ripple outline color='secondary' onClick={ () => { setCaseModal(!CaseModal) } } className="p-2">
+                    <Folder size={18} onClick={ () => { setCaseModal(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'15px', marginLeft:'12px', cursor:'pointer', color:'gray'}} name="save-outline"/>
+                    <span className='align-middle ms-25' style={{color:'gray', fontSize:'13px'}}>افزودن به پرونده</span>
+                  </Button.Ripple>
+                </div>
+                :
+                null
+                }
+
+                <div className='col-md-6'>
+                  <Button.Ripple outline color='secondary' onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } className="p-2 mt-3">
                     <ion-icon onClick={ () => { SetOpenSaveBox(!OpenSaveBox) } } title={'ذخیره'} style={{fontSize:'20px', marginLeft:'12px', cursor:'pointer', color:'gray'}} name="save-outline"></ion-icon>
                     <span className='align-middle ms-25' style={{color:'gray', fontSize:'13px'}}>ذخیره</span>
                   </Button.Ripple>
                 </div>
+
               </div>
 
             </div>
@@ -423,6 +469,169 @@ const VisualizationDetail = (props) => {
 
       </ModalFooter>
     </Modal>
+
+      {/* پرونده */}
+      <Modal
+        isOpen={CaseModal}
+        className='modal-dialog-centered'
+        modalClassName={'modal-danger'}
+        toggle={() => setCaseModal(!CaseModal)}
+        
+      >
+        <ModalBody>
+          <h6>پرونده مورد نظر خود را بسازید یا از لیست زیر انتخاب کنید.</h6>
+          {
+            !LastCaseSelected ? 
+              <form onSubmit={ (e) => {
+                e.preventDefault()
+                if (LastCaseSelected) {
+                  GetTag(SelectedCase)
+                } else {
+                  GetTag(document.getElementById('CreateNewTagInput').value)
+                }
+                SetLastCaseSelected(false)
+                setCaseModal(false)   
+              } }>
+                <Input id='CreateNewCaseInput' placeholder='نام پرونده' />
+                <Input id='CreateNewCaseNote' type='textarea' className='mt-3' placeholder='توضیحات'/>
+              </form>
+            :
+              <Chip label={SelectedCase} onDelete={handleCase} style={{direction:'ltr'}} />
+          }
+          {
+            CaseList === false ? 
+              <p>در حال دریافت اطلاعات...</p>
+            :
+            CaseList.length === 0 ? 
+              <p>بدون پرونده ذخیره شده</p>
+            :
+              <>
+                <p className='mt-3'>
+                  لیست پرونده های ساخته شده
+                </p>
+                {
+                  CaseList.map((item, index) => {
+                    return (
+                      <div style={{ marginTop:'4px'}}>
+                        <Chip label={item.name} style={{direction:'ltr', cursor:'pointer'}} onClick={ () => { SetLastCaseSelected(true), setSelectedCase(item.name), SetLastCaseId(item.id) } }/>
+                      </div>
+                    )
+                  })
+                }
+              </>
+
+          }
+        </ModalBody>
+        <ModalFooter>
+
+          <Button color={'primary'} style={{height:'37px', width:'80px'}} onClick={ () => { 
+            if (LastCaseSelected) {
+                axios.post(serverAddress + "/case/graph-list/", 
+                {
+                    graph_detail: {
+                      id:id,
+                      network:network,
+                      name:Name,
+                      Description:Description
+                    },
+                    case: LastCaseId
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${Cookies.get('access')}`
+                    }
+                }
+              )
+              .then((response) => {
+                  console.log(response)
+                  if (response.status === 201) {
+                    return toast.success('به پرونده افزوده شد', {
+                      position: 'bottom-left'
+                    })
+                  }
+              })
+              .catch((err) => {
+                  console.log(err)
+                  return toast.error('خطا در پردازش', {
+                    position: 'bottom-left'
+                  })
+              })
+            } else {
+              axios.post(`${serverAddress}/case/management/`, 
+              {
+                name:document.getElementById('CreateNewCaseInput').value,
+                note_detail:document.getElementById('CreateNewCaseNote').value
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${Cookies.get('access')}`
+                }
+              })
+              .then((response) => {
+                if (response.status === 201) {
+                  console.log(response)
+                  console.log(
+                    {
+                      graph_detail: {
+                        id:id,
+                        network:network,
+                        name:Name,
+                        Description:Description
+                      },
+                      case: response.data.id
+                  }
+                  )
+                  axios.post(serverAddress + "/case/graph-list/", 
+                  {
+                      graph_detail: {
+                        id:id,
+                        network:network,
+                        name:Name,
+                        Description:Description
+                      },
+                      case: response.data.id
+                  },
+                  {
+                      headers: {
+                          Authorization: `Bearer ${Cookies.get('access')}`
+                      }
+                  }
+                )
+                .then((response2) => {
+                    console.log(response2)
+                    if (response2.status === 201) {
+                      return toast.success('به پرونده افزوده شد', {
+                        position: 'bottom-left'
+                      })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                    return toast.error('خطا در پردازش', {
+                      position: 'bottom-left'
+                    })
+                })
+                }
+              })
+              .catch((err) => {
+                SetAddLoading(false)
+                console.log(err)
+              })
+            }
+            SetLastCaseSelected(false)
+            setCaseModal(false) 
+          } }>
+            {
+              Loading ? 
+              <LoadingButton/>
+              :
+              <span>
+            افزودن
+              </span>
+            }
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
     
   )
