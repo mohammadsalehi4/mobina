@@ -887,12 +887,34 @@ const EcommerceDashboard2 = () => {
           SetLoading(false)
           console.log('addressMode')
           console.log(addressMode)
-          if (addressMode.data.network.length === 1 && (addressMode.data.data.result.length > 0 || addressMode.data.data.length > 0)) {
-            SelectProcessHandler(addressMode.data.network[0])
-          } else if (addressMode.data.network.length > 1 || addressMode.data.data.length === 0) {
-            SetGivenNetworks(addressMode.data.network)
-            SetSelectToken(1)
+          try {
+            if (addressMode.data.network.length === 1 && (addressMode.data.data.result.length > 0)) {
+              SelectProcessHandler(addressMode.data.network[0])
+            } else if (addressMode.data.network.length > 1 || addressMode.data.data.length === 0) {
+              SetGivenNetworks(addressMode.data.network)
+              SetSelectToken(1)
+            }
+          } catch (error) {
+            if (addressMode.data.query === "transaction") {
+              try {
+                if (addressMode.data.network.length === 1 && addressMode.data.data) {
+                  SelectProcessHandler(addressMode.data.network[0])
+                } else if (addressMode.data.network.length > 1 || addressMode.data.data.length === 0) {
+                  SetGivenNetworks(addressMode.data.network)
+                  SetSelectToken(1)
+                }
+              } catch (error) {
+                return toast.error('آدرس مورد نظر یافت نشد.', {
+                  position: 'bottom-left'
+                })
+              }
+            } else {
+              return toast.error('آدرس مورد نظر یافت نشد.', {
+                position: 'bottom-left'
+              })
+            }
           }
+
         })
         .catch((err) => {
           SetLoading(false)
