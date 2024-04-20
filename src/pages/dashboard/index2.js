@@ -758,9 +758,9 @@ const EcommerceDashboard2 = () => {
       if (addressMode.data.query === 'transaction') {
         SetToken(addressMode.data.network[0])
         if (addressMode.data.network[0] === 'ETH') {
-          processAccountTransaction('ETH', 1000000000000000000, 'اتریوم')
+          processAccountTransaction('ETH', 1, 'اتریوم')
         } else if (addressMode.data.network[0] === 'BSC') {
-          processAccountTransaction('BSC', 1000000000000000000, 'بایننس‌اسمارت‌چین')
+          processAccountTransaction('BSC', 1, 'بایننس‌اسمارت‌چین')
         } else if (addressMode.data.network[0] === 'BTC') {
           processUtxoTransaction('BTC', 1, 'بیت‌کوین')
         } else if (addressMode.data.network[0] === 'LTC') {
@@ -768,18 +768,18 @@ const EcommerceDashboard2 = () => {
         } else if (addressMode.data.network[0] === 'BCH') {
           processUtxoTransaction('BCH', 1, 'بیت‌کوین‌کش')
         } else if (addressMode.data.network[0] === 'TRX') {
-          processAccountTransaction('TRX', 1000000000000000000, 'ترون')
+          processAccountTransaction('TRX', 1, 'ترون')
         } else if (addressMode.data.network[0] === 'DOGE') {
           processUtxoTransaction('DOGE', 1, 'دوج‌کوین')
         } else if (addressMode.data.network[0] === 'MATIC') {
-          processAccountTransaction('MATIC', 1000000000000000000, 'متیک')
+          processAccountTransaction('MATIC', 1, 'متیک')
         }
       } else if (addressMode.data.query === 'address') {
         SetToken(addressMode.data.network[0])
         if (addressMode.data.network[0] === 'ETH') {
-          processAccountAddress('ETH', 'اتریوم', '#627eea', 1000000000000000000)
+          processAccountAddress('ETH', 'اتریوم', '#627eea', 1)
         } else if (addressMode.data.network[0] === 'BSC') {
-          processAccountAddress('BSC', 'بایننس‌اسمارت‌چین', '#f3ba2f', 1000000000000000000)
+          processAccountAddress('BSC', 'بایننس‌اسمارت‌چین', '#f3ba2f', 1)
         } else if (addressMode.data.network[0] === 'BTC') {
           processUtxoAddress('BTC', 'بیت‌کوین', "#f8a23a", 1)
         } else if (addressMode.data.network[0] === 'LTC') {
@@ -787,11 +787,11 @@ const EcommerceDashboard2 = () => {
         } else if (addressMode.data.network[0] === 'BCH') {
           processUtxoAddress('BCH', 'بیت‌کوین‌کش', "#8dc351", 1)
         } else if (addressMode.data.network[0] === 'TRX') {
-          processAccountAddress('TRX', 'ترون', '#ff060a', 1000000000000000000)
+          processAccountAddress('TRX', 'ترون', '#ff060a', 1)
         } else if (addressMode.data.network[0] === 'DOGE') {
           processUtxoAddress('DOGE', 'دوج‌کوین', "#dcc46c", 1)
         } else if (addressMode.data.network[0] === 'MATIC') {
-          processAccountAddress('MATIC', 'متیک', '#627eea', 1000000000000000000)
+          processAccountAddress('MATIC', 'متیک', '#627eea', 1)
         }
       }
     }

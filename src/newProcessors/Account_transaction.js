@@ -39,7 +39,7 @@ export function Account_transaction (array, symbole, decimal) {
             if (typeof (array.logs[i].symbol) === 'string') {
                 logs.push({
                     symbole: array.logs[i].symbol,
-                    value: Number(array.logs[i].tokenValue) / Math.pow(10, array.logs[i].deciaml),
+                    value: Number(array.logs[i].tokenValue),
                     from: array.logs[i].from.address, 
                     to: array.logs[i].to.address
                 })
