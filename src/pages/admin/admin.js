@@ -29,7 +29,7 @@ const Admin = () => {
 
   useEffect(() => {
     for (let i = 1; i <= 8; i++) {
-        if (i !== 3) {
+        if (i !== 3 && i !== 5) {
             document.getElementById(`Link${i}`).className = 'NotActiveAdmin'
         }
     }
@@ -117,7 +117,7 @@ const Admin = () => {
                                 <span className='align-middle'>مقالات</span>
                             </a>
                         </NavItem>
-                        <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
+                        {/* <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
                             <a
                                 id='Link5'
                                 active={active === '5'}
@@ -127,7 +127,7 @@ const Admin = () => {
                                 }}>
                                 <span className='align-middle'>قیمت‌ها</span>
                             </a>
-                        </NavItem>
+                        </NavItem> */}
                         <NavItem className="NavItem" style={{marginTop:"16px", marginBottom:"10px"}}>
                             <a
                                 id='Link6'
@@ -175,9 +175,9 @@ const Admin = () => {
                         <TabPane tabId='4'>
                             <AdminReports/> 
                         </TabPane>
-                        <TabPane tabId='5'>
+                        {/* <TabPane tabId='5'>
                             <AdminPrices/>
-                        </TabPane>
+                        </TabPane> */}
                         <TabPane tabId='6'>
                             <AdminTax/>
                         </TabPane>
