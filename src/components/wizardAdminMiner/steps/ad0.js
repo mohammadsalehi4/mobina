@@ -189,8 +189,8 @@ const St0 = ({ stepper, type }) => {
             }}
           />
         </div>
-
       }
+      
         <Button color='primary' className='mt-3' onClick={ () => { SetAddUserBox(true) }}>افزودن کاربر جدید</Button>
           <Card style={{
             display:AddUserBox ? 'block' : 'none'

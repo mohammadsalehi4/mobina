@@ -48,7 +48,10 @@ const St2 = ({ stepper, type }) => {
       .then((response) => {
         SetDevices(response.data.results)
         SetDefaultPower(Math.floor(response.data.results[0].hash_rate) / 1e12)
-        axios.get(`${serverAddress}/miners/miner-addresses/`,
+        const UUID  = (minerid === undefined ? (States.miningData.response.miner_uuid) : minerid)
+        console.log('UUID')
+        console.log(UUID)
+        axios.get(`${serverAddress}/miners/miner-addresses/?UUID=${UUID}`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get('access')}`
@@ -56,6 +59,8 @@ const St2 = ({ stepper, type }) => {
         })
         .then((response) => {
           if (response.status === 200) {
+            console.log('response.data')
+            console.log(response.data)
             const addressList = []
             for (let i = 0; i < response.data.results.length; i++) {
               addressList.push({
