@@ -79,7 +79,8 @@ const TransactionDetail1 = () => {
   }
 
   const UTXOTr = (data) => {
-
+    console.log('transaction data')
+    console.log(data)
     const blockNumber = data.blockNumber
     const address = data.hash
     const BlockDate = data.time
@@ -100,7 +101,8 @@ const TransactionDetail1 = () => {
       inputAddresses.push(
         {
           address:data.inputs[i].address,
-          Label:data.inputs[i].Label,
+
+          Label:data.inputs[i].Label ? data.inputs[i].Label : data.inputs[i].entity !== null ? data.inputs[i].entity.name : data.inputs[i].Label,
           value:data.inputs[i].value,
           symbole:data.symbole,
           show:false,
@@ -114,7 +116,7 @@ const TransactionDetail1 = () => {
         {
           address:data.outputs[i].address,
           value:data.outputs[i].value,
-          Label:data.outputs[i].Label,
+          Label:data.outputs[i].Label ? data.outputs[i].Label : data.outputs[i].entity !== null ? data.outputs[i].entity.name : data.outputs[i].Label,
           symbole:data.symbole,
           show:false,
           valueInDollar:data.outputs[i].valueInDollar
