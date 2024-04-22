@@ -37,7 +37,7 @@ export function Account_Address (data, address, symbole, decimal) {
                 outputs.push(
                     {
                         address: array[i].to.address,
-                        symbole:'ETH',
+                        symbole,
                         value: Number(array[i].value),
                         ValueInDollar: Number(array[i].valueInDollar),
                         hash:array[i].hash,
@@ -57,7 +57,7 @@ export function Account_Address (data, address, symbole, decimal) {
                 inputs.push(
                     {
                         address: array[i].from.address,
-                        symbole:'ETH',
+                        symbole,
                         value: Number(array[i].value),
                         ValueInDollar: Number(array[i].valueInDollar),
                         hash:array[i].hash,
