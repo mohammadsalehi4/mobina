@@ -30,7 +30,6 @@ const TransactionTablleWithCheckbox2 = (props) => {
   const [data, SetData] = useState({})
   const [Reload, SetReload] = useState(false)
 
-  
   useEffect(() => {
     const a = []
     for (let i = 0; i < props.data.outputAddresses.length; i++) {
@@ -73,7 +72,7 @@ const TransactionTablleWithCheckbox2 = (props) => {
     if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
       getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).inputs.push({
         hash:props.data.address,
-        symbole:props.data.symbole,
+        symbole:row.currencyType,
         timeStamp:props.data.BlockDate,
         value:parseFloat(Number(row.amount).toFixed(5)).toString(),
         valueInDollar:(row.amount)

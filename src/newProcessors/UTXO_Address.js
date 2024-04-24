@@ -3,8 +3,6 @@
 /* eslint-disable comma-dangle */
 export function UTXO_Address (address, data, symbole, decimal) {
 
-    console.log(data)
-    
     let isError = false
     let ErrorText = ''
 
@@ -88,20 +86,6 @@ export function UTXO_Address (address, data, symbole, decimal) {
         isError = true
         ErrorText = error
     }
-
-    console.log('ssss')
-    console.log(
-        {
-            isError,
-            address,
-            symbole,
-            inputs,
-            outputs,
-            label:mainLabel,
-            tag:maintag,
-            entity:mainEntity
-        }
-    )
 
     return (
         {

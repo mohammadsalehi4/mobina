@@ -81,7 +81,7 @@ const  WalletDetailTableBottom = (props) => {
             getGraph[i].inputs.push({
               hash:row.hash,
               symbole:row.symbole,
-              value:row.amount.toFixed(5),
+              value:parseFloat(row.amount.toFixed(5)).toString(),
               timeStamp:row.time,
               valueInDollar:row.valueInDollar
             })
@@ -93,7 +93,7 @@ const  WalletDetailTableBottom = (props) => {
               getGraph[i].outputs.push({
                 hash:row.hash,
                 symbole:row.symbole,
-                value:row.senderAmount.toFixed(5),
+                value:parseFloat(row.senderAmount.toFixed(5)).toString(),
                 timeStamp:row.time,
                 valueInDollar:row.valueInDollar
               })
@@ -109,7 +109,7 @@ const  WalletDetailTableBottom = (props) => {
             getGraph[i].outputs.push({
               hash:row.hash,
               symbole:row.symbole,
-              value:row.amount.toFixed(5),
+              value:parseFloat(row.amount.toFixed(5)).toString(),
               timeStamp:row.time,
               valueInDollar:row.valueInDollar
             })
@@ -121,7 +121,7 @@ const  WalletDetailTableBottom = (props) => {
               getGraph[i].inputs.push({
                 hash:row.hash,
                 symbole:row.symbole,
-                value:row.reciverAmount.toFixed(5),
+                value:parseFloat(row.reciverAmount.toFixed(5)).toString(),
                 timeStamp:row.time,
                 valueInDollar:row.valueInDollar
               })

@@ -25,7 +25,7 @@ const Profile = () => {
   
     useEffect(() => {
       dispatch({type:"SHOWNAVBAR"})
-      dispatch({type:"SETWITCHPAGE", value:7})
+      dispatch({type:"SETWITCHPAGE", value:20})
     }, [])
 
     useEffect(async () => {

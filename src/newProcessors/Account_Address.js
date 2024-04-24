@@ -1,10 +1,9 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 export function Account_Address (data, address, symbole, decimal) {
-
+    
     const inputs = []
     const outputs = []
-
 
     let isError = false
     let ErrorText = ''
@@ -73,8 +72,6 @@ export function Account_Address (data, address, symbole, decimal) {
     } catch (error) {
         isError = true
         ErrorText = error
-        console.log('error')
-        console.log(error)
     }
 
     if (isError) {

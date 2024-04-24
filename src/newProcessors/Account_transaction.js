@@ -1,9 +1,6 @@
 /* eslint-disable no-unused-vars */
 export function Account_transaction (array, symbole, decimal) {
 
-    console.log('array')
-    console.log(array)
-
     const hash = array.hash
     const blockNumber = array.blockNumber
     const timestamp = array.time
@@ -41,7 +38,11 @@ export function Account_transaction (array, symbole, decimal) {
                     symbole: array.logs[i].symbol,
                     value: Number(array.logs[i].tokenValue),
                     from: array.logs[i].from.address, 
-                    to: array.logs[i].to.address
+                    to: array.logs[i].to.address,
+                    ToEntity:array.logs[i].to.entity,
+                    FromEntity:array.logs[i].from.entity,
+                    ToLabel:array.logs[i].to.labels.length !== 0 ? array.logs[i].to.labels[0].label : false,
+                    FromLabel:array.logs[i].from.labels.length !== 0 ? array.logs[i].from.labels[0].label : false
                 })
             }
         } catch (error) {

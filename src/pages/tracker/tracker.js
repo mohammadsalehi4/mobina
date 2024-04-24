@@ -30,6 +30,7 @@ import { UTXO_Address } from '../../newProcessors/UTXO_Address'
 import { UTXO_Transaction } from '../../newProcessors/UTXO_Transaction'
 import { Account_Address } from '../../newProcessors/Account_Address'
 import { Account_transaction } from '../../newProcessors/Account_transaction'
+import { Account_Token_Address } from '../../newProcessors/Account_Token_Address'
 
 const Tracker = () => {
     const { hash } = useParams()
@@ -228,7 +229,7 @@ const Tracker = () => {
 
     }
     const AccountAdd = (data) => {
-        console.log('tracker')
+        console.log('AccountAdd tracker')
         console.log(data)
 
         const mainAddress = {
@@ -436,7 +437,7 @@ const Tracker = () => {
         }
     }
     const AccountTr = (data) => {
-        console.log('tracker')
+        console.log('AccountTr tracker')
         console.log(data)
         const LeftAddress = {
             address: data.to,

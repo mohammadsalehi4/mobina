@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Switch from '../../components/switch/switch'
 import TransactionTablleWithCheckbox from '../../components/TransactionDetailTable/transactionTablleWithCheckbox'
 import TransactionTablleWithCheckbox2 from '../../components/TransactionDetailTableOut/transactionTablleWithCheckbox'
+
 import NiceAddress2 from '../../components/niceAddress2/niceAddress'
 import { digitsEnToFa } from 'persian-tools'
 import { serverAddress } from '../../address'
@@ -96,29 +97,37 @@ const TransactionDetail1 = () => {
     const outputAddresses = []
 
     for (let i = 0; i < data.inputs.length; i++) {
-      inputAddresses.push(
-        {
-          address:data.inputs[i].address,
-          Label:data.inputs[i].Label ? data.inputs[i].Label : data.inputs[i].entity !== null ? data.inputs[i].entity.name : data.inputs[i].Label,
-          value:data.inputs[i].value,
-          symbole:data.symbole,
-          show:false,
-          valueInDollar:data.inputs[i].valueInDollar
+      try {
+        if (typeof (data.inputs[i].address) === 'string' || typeof (data.inputs[i].value) === 'number' || typeof (data.symbole) === 'string' || typeof (data.inputs[i].valueInDollar) === 'number') {
+          inputAddresses.push(
+            {
+              address:data.inputs[i].address,
+              Label:data.inputs[i].Label ? data.inputs[i].Label : data.inputs[i].entity !== null ? data.inputs[i].entity.name : data.inputs[i].Label,
+              value:data.inputs[i].value,
+              symbole:data.symbole,
+              show:false,
+              valueInDollar:data.inputs[i].valueInDollar
+            }
+          )
         }
-      )
+      } catch (error) {}
     }
 
     for (let i = 0; i < data.outputs.length; i++) {
-      outputAddresses.push(
-        {
-          address:data.outputs[i].address,
-          value:data.outputs[i].value,
-          Label:data.outputs[i].Label ? data.outputs[i].Label : data.outputs[i].entity !== null ? data.outputs[i].entity.name : data.outputs[i].Label,
-          symbole:data.symbole,
-          show:false,
-          valueInDollar:data.outputs[i].valueInDollar
+      try {
+        if (typeof (data.outputs[i].address) === 'string' || typeof (data.outputs[i].value) === 'number' || typeof (data.symbole) === 'string' || typeof (data.outputs[i].valueInDollar) === 'number') {
+          outputAddresses.push(
+            {
+              address:data.outputs[i].address,
+              value:data.outputs[i].value,
+              Label:data.outputs[i].Label ? data.outputs[i].Label : data.outputs[i].entity !== null ? data.outputs[i].entity.name : data.outputs[i].Label,
+              symbole:data.symbole,
+              show:false,
+              valueInDollar:data.outputs[i].valueInDollar
+            }
+          )
         }
-      )
+      } catch (error) {}
     }
 
     for (let i = 0; i < inputAddresses.length; i++) {
@@ -156,9 +165,6 @@ const TransactionDetail1 = () => {
 
   const AccountBaseTr = (data, symbole) => {
 
-    console.log('AccountBase Data')
-    console.log(data)
-
     const blockNumber = data.blockNumber
     const address = data.hash
     const BlockDate = data.timestamp
@@ -174,27 +180,71 @@ const TransactionDetail1 = () => {
     const inputAddresses = []
     const outputAddresses = []
 
-    inputAddresses.push(
-      {
-        address:data.from,
-        value:data.value,
-        Label: data.FromLabel ? data.FromLabel : data.FromEntity !== null ? data.FromEntity.name : data.FromLabel,
-        symbole:data.symbole,
-        show:false,
-        valueInDollar:data.valueInDollar
-      }
-    )
+    for (let i = 0; i < data.logs.length; i++) {
+      try {
+        if (typeof (data.logs[i].from) === 'string' || typeof (data.logs[i].value) === 'number' || typeof (data.logs[i].symbole) === 'string') {
+          inputAddresses.push(
+            {
+              address:data.logs[i].from,
+              value:data.logs[i].value,
+              Label: data.logs[i].FromLabel ? data.logs[i].FromLabel : data.logs[i].FromEntity !== null ? data.logs[i].FromEntity.name : data.logs[i].FromLabel,
+              symbole:data.logs[i].symbole,
+              show:false,
+              valueInDollar:0
+            }
+          )
+        }
+      } catch (error) {}
 
-    outputAddresses.push(
-      {
-        address:data.to,
-        value:data.value,
-        Label: data.ToLabel ? data.ToLabel : data.ToEntity !== null ? data.ToEntity.name : data.ToLabel,
-        symbole:data.symbole,
-        show:false,
-        valueInDollar:data.valueInDollar
-      }
-    )
+      try {
+        if (typeof (data.logs[i].to) === 'string' || typeof (data.logs[i].value) === 'number' || typeof (data.logs[i].symbole) === 'string') {
+          outputAddresses.push(
+            {
+              address:data.logs[i].to,
+              value:data.logs[i].value,
+              Label: data.logs[i].ToLabel ? data.logs[i].ToLabel : data.logs[i].ToEntity !== null ? data.logs[i].ToEntity.name : data.logs[i].ToLabel,
+              symbole:data.logs[i].symbole,
+              show:false,
+              valueInDollar:0
+            }
+          )
+        }
+      } catch (error) {}
+    }
+
+    if (inputAddresses.some(item => item.address === data.from) === false) {
+      try {
+        if (typeof (data.from) === 'string' || typeof (data.value) === 'number' || typeof (data.valueInDollar) === 'number' || typeof (data.symbole) === 'string') {
+          inputAddresses.push(
+            {
+              address:data.from,
+              value:data.value,
+              Label: data.FromLabel ? data.FromLabel : data.FromEntity !== null ? data.FromEntity.name : data.FromLabel,
+              symbole:data.symbole,
+              show:false,
+              valueInDollar:data.valueInDollar
+            }
+          )
+        }
+      } catch (error) {}
+    }
+
+    if (outputAddresses.some(item => item.address === data.to) === false) {
+      try {
+        if (typeof (data.to) === 'string' || typeof (data.value) === 'number' || typeof (data.valueInDollar) === 'number' || typeof (data.symbole) === 'string') {
+          outputAddresses.push(
+            {
+              address:data.to,
+              value:data.value,
+              Label: data.ToLabel ? data.ToLabel : data.ToEntity !== null ? data.ToEntity.name : data.ToLabel,
+              symbole:data.symbole,
+              show:false,
+              valueInDollar:data.valueInDollar
+            }
+          )
+        }
+      } catch (error) {}
+    }
 
     for (let i = 0; i < inputAddresses.length; i++) {
       value = value + inputAddresses[i].value
@@ -234,81 +284,24 @@ const TransactionDetail1 = () => {
     }
 
     const ProcessGetData = (response) => {
+
       try {
 
-        if (network === 'ETH') {
-          const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'ETH', 1000000000000000000), 'ETH'))
-          SetIsGet(true)
-          SetValue(TrData.value)
-          SetSymbole(TrData.symbole)
-          SetFee(TrData.fee)
-          SetDate(TrData.BlockDate)
-          SetLoading(false)
-          SetData(TrData)
-        } else if (network === 'TRX') {
-          const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'TRX', 1000000000000000000), 'TRX'))
-          SetIsGet(true)
-          SetValue(TrData.value)
-          SetSymbole(TrData.symbole)
-          SetFee(TrData.fee)
-          SetDate(TrData.BlockDate)
-          SetLoading(false)
-          SetData(TrData)
-        } else if (network === 'BSC') {
-          const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'BNB', 1000000000000000000), 'BNB'))
-          SetIsGet(true)
-          SetValue(TrData.value)
-          SetSymbole(TrData.symbole)
-          SetFee(TrData.fee)
-          SetDate(TrData.BlockDate)
-          SetLoading(false)
-          SetData(TrData)
-        } else if (network === 'BTC') {
-          const TrData = (UTXOTr(UTXO_Transaction(response.data.data, 'BTC', 100000000)))
-          SetIsGet(true)
-          SetValue(TrData.value)
-          SetSymbole(TrData.symbole)
-          SetFee(TrData.fee)
-          SetDate(TrData.BlockDate)
-          SetLoading(false)
-          SetData(TrData)
-        } else if (network === 'LTC') {
-          const TrData = (UTXOTr(UTXO_Transaction(response.data.data, 'LTC', 1)))
-          SetIsGet(true)
-          SetValue(Number(TrData.value))
-          SetSymbole(TrData.symbole)
-          SetFee(Number(TrData.fee))
-          SetDate(TrData.BlockDate)
-          SetLoading(false)
-          SetData(TrData)
-        } else if (network === 'BCH') {
-          const TrData = (UTXOTr(UTXO_Transaction(response.data.data, 'BCH', 1)))
-          SetIsGet(true)
-          SetValue(Number(TrData.value))
-          SetSymbole(TrData.symbole)
-          SetFee(Number(TrData.fee))
-          SetDate(TrData.BlockDate)
-          SetLoading(false)
-          SetData(TrData)
-        } else if (network === 'DOGE') {
-          const TrData = (UTXOTr(UTXO_Transaction(response.data.data, 'DOGE', 100000000)))
-          SetIsGet(true)
-          SetValue(TrData.value)
-          SetSymbole(TrData.symbole)
-          SetFee(TrData.fee)
-          SetDate(TrData.BlockDate)
-          SetLoading(false)
-          SetData(TrData)
-        } else if (network === 'MATIC') {
-          const TrData = (AccountBaseTr(Account_transaction(response.data.data, 'MATIC', 1000000000000000000), 'MATIC'))
-          SetIsGet(true)
-          SetValue(TrData.value)
-          SetSymbole(TrData.symbole)
-          SetFee(TrData.fee)
-          SetDate(TrData.BlockDate)
-          SetLoading(false)
-          SetData(TrData)
+        let TrData
+
+        if (network === 'ETH' || network === 'TRX' || network === 'BSC' || network === 'MATIC') {
+          TrData = (AccountBaseTr(Account_transaction(response.data.data, network, 1), network))
+        } else if (network === 'BTC' || network === 'LTC' || network === 'BCH' || network === 'DOGE') {
+          TrData = (UTXOTr(UTXO_Transaction(response.data.data, network, 1)))
         }
+
+        SetIsGet(true)
+        SetValue(Number(TrData.value))
+        SetSymbole(TrData.symbole)
+        SetFee(Number(TrData.fee))
+        SetDate(TrData.BlockDate)
+        SetLoading(false)
+        SetData(TrData)
 
       } catch (error) {
         console.log(error)
@@ -327,7 +320,7 @@ const TransactionDetail1 = () => {
         }
       })
       .then((response) => {
-        saveToStorage(response)
+        // saveToStorage(response)
         ProcessGetData(response)
       })
       .catch((err) => {
@@ -484,8 +477,8 @@ const TransactionDetail1 = () => {
             {
               !Loading1 ? 
               <>
-                <TransactionTablleWithCheckbox data={Data} address={States.WDetail} />
-                <TransactionTablleWithCheckbox2 data={Data} address={States.WDetail} />
+                <TransactionTablleWithCheckbox data={Data} address={States.WDetail} network={network} />
+                <TransactionTablleWithCheckbox2 data={Data} address={States.WDetail} network={network} />
               </>
               :
               <div className='mt-3' style={{textAlign:'center'}}>

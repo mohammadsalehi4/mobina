@@ -73,7 +73,7 @@ const TransactionTablleWithCheckbox = (props) => {
     if (getData.some(item => (item.address).toUpperCase() === (row.address).toUpperCase())) {
       getData.find(item => (item.address).toUpperCase() === (row.address).toUpperCase()).outputs.push({
         hash:props.data.address,
-        symbole:props.data.symbole,
+        symbole:(props.network === 'ETH' || props.network === 'TRX' || props.network === 'MATIC' || props.network === 'BSC') ? props.data.symbole : row.currencyType,
         timeStamp:props.data.BlockDate,
         value:parseFloat(Number(row.amount).toFixed(5)).toString(),
         valueInDollar:(row.amount)
@@ -148,14 +148,6 @@ const TransactionTablleWithCheckbox = (props) => {
                 SetReload(!Reload)
               }
             }>y</ion-icon>
-
-            // <Input id={row.hash} onChange={(event) => { 
-            //   if (event.target.checked) {
-            //     addSelectedData(row)
-            //   } else {
-            //     removeSelectedData(row)
-            //   }
-            // }} defaultChecked type='checkbox'/>
           )
         } else {
             return (
@@ -164,14 +156,6 @@ const TransactionTablleWithCheckbox = (props) => {
                 addSelectedData(row)
                 SetReload(!Reload)
               } }>no</ion-icon>
-
-              // <Input id={row.hash} onChange={(event) => { 
-              //   if (event.target.checked) {
-              //     addSelectedData(row)
-              //   } else {
-              //     removeSelectedData(row)
-              //   }
-              // }}  type='checkbox'/>
           )
         }
 

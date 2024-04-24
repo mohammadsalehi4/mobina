@@ -28,6 +28,7 @@ import LoadingButton from '../../components/loadinButton/LoadingButton'
 //new processors
 import { UTXO_Address } from '../../newProcessors/UTXO_Address'
 import { Account_Address } from '../../newProcessors/Account_Address'
+import { Account_Token_Address } from '../../newProcessors/Account_Token_Address'
 
 const CurrencyDetail = () => {
   const States = useSelector(state => state)
@@ -44,36 +45,93 @@ const CurrencyDetail = () => {
   const [Pagination, SetPagination] = useState(1)
   const [Data, SetData] = useState({})
 
-  const AccountBaseAdd = (getData, symbole) => {
+  const AccountBaseAdd = (getData, getTokenData, symbole) => {
 
     const inputs=[]
     const outputs=[]
+
+    for (let i = 0; i < getTokenData.logs.inputs.length; i++) {
+      try {
+        if (getTokenData.logs.inputs[i].symbole === 'USDT') {
+          if (typeof (getTokenData.logs.inputs[i].address) === 'string' || typeof (getTokenData.logs.inputs[i].hash) === 'string' || typeof (getTokenData.logs.inputs[i].timestamp) === 'number' || typeof (getTokenData.logs.inputs[i].value) === 'number' || typeof (getTokenData.logs.inputs[i].symbole) === 'string' || typeof (getTokenData.logs.inputs[i].ValueInDollar) === 'number') {
+            inputs.push({
+              address:getTokenData.logs.inputs[i].address,
+              hash:getTokenData.logs.inputs[i].hash,
+              Label:getTokenData.logs.inputs[i].Label,
+              date:getTokenData.logs.inputs[i].timestamp,
+              time:getTokenData.logs.inputs[i].timestamp,
+              amount:parseFloat(getTokenData.logs.inputs[i].value.toFixed(5)),
+              reciverAmount:parseFloat(getTokenData.logs.inputs[i].value.toFixed(5)),
+              currencyType:getTokenData.logs.inputs[i].symbole,
+              valueInDollar:getTokenData.logs.inputs[i].ValueInDollar
+            })
+          }
+        }
+      } catch (error) {}
+
+    }
+
+    for (let i = 0; i < getTokenData.logs.outputs.length; i++) {
+      try {
+        if (getTokenData.logs.outputs[i].symbole === 'USDT') {
+          if (typeof (getTokenData.logs.outputs[i].address) === 'string' || typeof (getTokenData.logs.outputs[i].hash) === 'string' || typeof (getTokenData.logs.outputs[i].timestamp) === 'number' || typeof (getTokenData.logs.outputs[i].value) === 'number' || typeof (getTokenData.logs.outputs[i].symbole) === 'string' || typeof (getTokenData.logs.outputs[i].ValueInDollar) === 'number') {
+            outputs.push({
+              address:getTokenData.logs.outputs[i].address,
+              hash:getTokenData.logs.outputs[i].hash,
+              Label:getTokenData.logs.outputs[i].Label,
+              date:getTokenData.logs.outputs[i].timestamp,
+              time:getTokenData.logs.outputs[i].timestamp,
+              amount:parseFloat(getTokenData.logs.outputs[i].value.toFixed(5)),
+              reciverAmount:parseFloat(getTokenData.logs.outputs[i].value.toFixed(5)),
+              currencyType:getTokenData.logs.outputs[i].symbole,
+              valueInDollar:getTokenData.logs.outputs[i].ValueInDollar
+            })
+          }
+        }
+      } catch (error) {}
+
+    }
+
     for (let i = 0; i < getData.inputs.length; i++) {
-      inputs.push({
-        address:getData.inputs[i].address,
-        hash:getData.inputs[i].hash,
-        Label:getData.inputs[i].Label,
-        date:getData.inputs[i].timestamp,
-        time:getData.inputs[i].timestamp,
-        amount:parseFloat(getData.inputs[i].value.toFixed(5)),
-        senderAmount:parseFloat(getData.inputs[i].value.toFixed(5)),
-        currencyType:getData.symbole,
-        valueInDollar:getData.inputs[i].ValueInDollar
-      })
+      try {
+        if (inputs.some(item => item.hash === getData.inputs[i].hash) === false) {
+          if (typeof (getData.inputs[i].address) === 'string' || typeof (getData.inputs[i].hash) === 'string' || typeof (getData.inputs[i].timestamp) === 'number' || typeof (getData.inputs[i].value) === 'number' || typeof (getData.symbole) === 'string' || typeof (getData.inputs[i].ValueInDollar) === 'number') {
+            inputs.push({
+              address:getData.inputs[i].address,
+              hash:getData.inputs[i].hash,
+              Label:getData.inputs[i].Label,
+              date:getData.inputs[i].timestamp,
+              time:getData.inputs[i].timestamp,
+              amount:parseFloat(getData.inputs[i].value.toFixed(5)),
+              senderAmount:parseFloat(getData.inputs[i].value.toFixed(5)),
+              currencyType:getData.symbole,
+              valueInDollar:getData.inputs[i].ValueInDollar
+            })
+          }
+        }
+      } catch (error) {}
+
     }
 
     for (let i = 0; i < getData.outputs.length; i++) {
-      outputs.push({
-        address:getData.outputs[i].address,
-        hash:getData.outputs[i].hash,
-        Label:getData.outputs[i].Label,
-        date:getData.outputs[i].timestamp,
-        time:getData.outputs[i].timestamp,
-        amount:parseFloat(getData.outputs[i].value.toFixed(5)),
-        reciverAmount:parseFloat(getData.outputs[i].value.toFixed(5)),
-        currencyType:getData.symbole,
-        valueInDollar:getData.outputs[i].ValueInDollar
-      })
+      try {
+        if (outputs.some(item => item.hash === getData.outputs[i].hash) === false) {
+          if (typeof (getData.outputs[i].address) === 'string' || typeof (getData.outputs[i].hash) === 'string' || typeof (getData.outputs[i].timestamp) === 'number' || typeof (getData.outputs[i].value) === 'number' || typeof (getData.symbole) === 'string' || typeof (getData.outputs[i].ValueInDollar) === 'number') {
+            outputs.push({
+              address:getData.outputs[i].address,
+              hash:getData.outputs[i].hash,
+              Label:getData.outputs[i].Label,
+              date:getData.outputs[i].timestamp,
+              time:getData.outputs[i].timestamp,
+              amount:parseFloat(getData.outputs[i].value.toFixed(5)),
+              reciverAmount:parseFloat(getData.outputs[i].value.toFixed(5)),
+              currencyType:getData.symbole,
+              valueInDollar:getData.outputs[i].ValueInDollar
+            })
+          }
+        }
+      } catch (error) {}
+
     }
     
     return {
@@ -87,25 +145,34 @@ const CurrencyDetail = () => {
     const inputs = []
     const outputs = []
     for (let j = 0; j < data.inputs.length; j++) {
-      inputs.push({
-        hash:data.inputs[j].hash,
-        date:data.inputs[j].timestamp,
-        time:data.inputs[j].timestamp,
-        amount:parseFloat(data.inputs[j].value.toFixed(5)),
-        currencyType:data.symbole,
-        valueInDollar:data.inputs[j].ValueInDollar
-      })
+      try {
+        if (typeof (data.inputs[j].hash) === 'string' || typeof (data.inputs[j].timestamp) === 'number' || typeof (data.inputs[j].value) === 'number' || typeof (data.symbole) === 'string' || typeof (data.inputs[j].ValueInDollar) === 'number') {
+          inputs.push({
+            hash:data.inputs[j].hash,
+            date:data.inputs[j].timestamp,
+            time:data.inputs[j].timestamp,
+            amount:parseFloat(data.inputs[j].value.toFixed(5)),
+            currencyType:data.symbole,
+            valueInDollar:data.inputs[j].ValueInDollar
+          })
+        }
+      } catch (error) {}
+
     }
 
     for (let j = 0; j < data.outputs.length; j++) {
-      outputs.push({
-        hash:data.outputs[j].hash,
-        date:data.outputs[j].timestamp,
-        time:data.outputs[j].timestamp,
-        amount:parseFloat(data.outputs[j].value.toFixed(5)),
-        currencyType:data.symbole,
-        valueInDollar:data.outputs[j].ValueInDollar
-      })
+      try {
+        if (typeof (data.outputs[j].hash) === 'string' || typeof (data.outputs[j].timestamp) === 'number' || typeof (data.outputs[j].value) === 'number' || typeof (data.symbole) === 'string' || typeof (data.outputs[j].ValueInDollar) === 'number') {
+          outputs.push({
+            hash:data.outputs[j].hash,
+            date:data.outputs[j].timestamp,
+            time:data.outputs[j].timestamp,
+            amount:parseFloat(data.outputs[j].value.toFixed(5)),
+            currencyType:data.symbole,
+            valueInDollar:data.outputs[j].ValueInDollar
+          })
+        }
+      } catch (error) {}
     }
 
     return (
@@ -135,31 +202,17 @@ const CurrencyDetail = () => {
       }
     }
 
-    const processGetData = (response) => {
+    const processGetData = (response, token_response) => {
       try {
-        if (network === 'ETH') {
-          SetData(AccountBaseAdd(Account_Address(response.data.data, address, 'ETH', 1000000000000000000), 'ETH'))
+        if (network === 'ETH' || network === 'BSC' || network === 'TRX' || network === 'MATIC') {
+
+          const getAccountAddress = Account_Address(response.data.data, address, network==='BSC' ? 'BNB' : network, 1)
+          const AccountTokenAddress = Account_Token_Address(token_response.data.data, address, network, 1)
+
+          SetData(AccountBaseAdd(getAccountAddress, AccountTokenAddress,  network==='BSC' ? 'BNB' : network))
           SetLoading(false)
-        } else if (network === 'BSC') {
-          SetData(AccountBaseAdd(Account_Address(response.data.data, address, 'BNB', 1000000000000000000), 'BNB'))
-          SetLoading(false)
-        } else if (network === 'BTC') {
-          SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BTC', 100000000)))
-          SetLoading(false)
-        } else if (network === 'LTC') {
-          SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'LTC', 1)))
-          SetLoading(false)
-        } else if (network === 'BCH') {
-          SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'BCH', 1)))
-          SetLoading(false)
-        } else if (network === 'TRX') {
-          SetData(AccountBaseAdd(Account_Address(response.data.data, address, 'TRX', 1000000000000000000), 'TRX'))
-          SetLoading(false)
-        } else if (network === 'DOGE') {
-          SetData(UTXOAdd(UTXO_Address(address, response.data.data, 'DOGE', 1)))
-          SetLoading(false)
-        } else if (network === 'MATIC') {
-          SetData(AccountBaseAdd(Account_Address(response.data.data, address, 'MATIC', 1000000000000000000), 'MATIC'))
+        } else if (network === 'BTC' || network === 'LTC' || network === 'BCH' || network === 'DOGE') {
+          SetData(UTXOAdd(UTXO_Address(address, response.data.data, network, 1)))
           SetLoading(false)
         }
       } catch (error) {
@@ -182,8 +235,52 @@ const CurrencyDetail = () => {
       .then((response) => {
         SetError(false)
         if (response.status === 200) {
-          saveToStorage(response)
-          processGetData(response)
+          if (response.data.network[0] === 'ETH' || response.data.network[0] === 'BSC' || response.data.network[0] === 'MATIC' || response.data.network[0] === 'TRX') {
+            axios.get(`${serverAddress}/explorer/search/?query=${address}&network=${network}&type=token-20`,
+            {
+              headers: {
+                Authorization: `Bearer ${Cookies.get('access')}`
+              }
+            })
+            .then((token_response) => {
+              // saveToStorage(response)
+              processGetData(response, token_response)
+            })
+            .catch((err) => {
+              SetError(true)
+              console.log(err)
+              SetLoading(false)
+              if (err.response.status === 403) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+              if (err.response.status === 401) {
+                Cookies.set('refresh', '')
+                Cookies.set('access', '')
+                window.location.assign('/')
+              }
+              try {
+                  if (err.response.statusText === 'Unauthorized') {
+                      Cookies.set('refresh', '')
+                      Cookies.set('access', '')
+                      window.location.assign('/')
+                  } else {
+                      return toast.error('خطا در دریافت اطلاعات', {
+                          position: 'bottom-left'
+                      })
+                  }
+              } catch (error) {
+                
+                  return toast.error('خطا در دریافت اطلاعات', {
+                      position: 'bottom-left'
+                  })
+              }
+            })
+          } else {
+            // saveToStorage(response)
+            processGetData(response, [])
+          }
         } else if (response.status === 404) {
           return toast.error('آدرس مورد نظر یافت نشد!', {
             position: 'bottom-left'
@@ -286,7 +383,9 @@ const CurrencyDetail = () => {
         let firstActivity = Data.inputs[0].date
         let lastActivity = 0
         for (let i = 0; i < Data.inputs.length; i++) {
-          inputs = inputs + Data.inputs[i].amount
+          if (Data.inputs[i].currencyType === network) {
+            inputs = inputs + Data.inputs[i].amount
+          }
           if (Data.inputs[i].date > lastActivity) {
             lastActivity = Data.inputs[i].date
           }
@@ -295,7 +394,9 @@ const CurrencyDetail = () => {
           }
         }
         for (let i = 0; i < Data.outputs.length; i++) {
-          outputs = outputs + Data.outputs[i].amount
+          if (Data.outputs[i].currencyType === network) {
+            outputs = outputs + Data.outputs[i].amount
+          }
           if (Data.outputs[i].date > lastActivity) {
             lastActivity = Data.outputs[i].date
           }
@@ -303,8 +404,8 @@ const CurrencyDetail = () => {
             firstActivity = Data.outputs[i].date
           }
         }
-        SetTotalInput(inputs)
-        SetTotalOutput(outputs)
+        SetTotalInput(outputs)
+        SetTotalOutput(inputs)
         SetTotalHolding(String(inputs - outputs))
         SetTotalTransactions(Data.inputs.length + Data.outputs.length)
         firstActivity = `${getMyTime(firstActivity).year}/${Number(getMyTime(firstActivity).month)}/${getMyTime(firstActivity).day}`
@@ -414,7 +515,7 @@ const CurrencyDetail = () => {
                       <div className='col-6' style={{textAlign:'right'}}>
                           <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'ارسال شده'}</p>
                           <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                            {digitsEnToFa(TotalInput.toFixed(5))}
+                            {digitsEnToFa(parseFloat(Number(TotalInput).toFixed(5)).toString())}
                             <small> {Data.symbole}</small>
                             <CornerUpRight size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                           </div>
@@ -422,7 +523,7 @@ const CurrencyDetail = () => {
                       <div style={{ marginBottom:'-10px', textAlign:'right'}} className={` col-6`}>
                       <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'دریافت شده'}</p>
                           <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                            {digitsEnToFa(TotalOutput.toFixed(5))}
+                            {digitsEnToFa(parseFloat(Number(TotalOutput).toFixed(5)).toString())}
                             <small> {Data.symbole}</small>
                             <CornerLeftDown size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px"}} />
                           </div>
@@ -433,7 +534,7 @@ const CurrencyDetail = () => {
                       <div className='col-6' style={{textAlign:'right'}}>
                           <p style={{display:"inline-block", color:"rgb(150,150,150)", textAlign:'right'}} className='transaction-title'>{'موجودی'}</p>
                           <div style={{direction:"ltr", textAlign:"right", marginTop:'-10px'}} className={` amountOption`}>
-                            {digitsEnToFa(TotalHolding)}
+                            {digitsEnToFa(parseFloat(Number(TotalHolding).toFixed(5)).toString())}
                             <small> {Data.symbole}</small>
                             <Crop size={15} style={{color:"rgb(150,150,150)", marginLeft:"4px", marginTop:"-6px", transform:"rotate(90deg)"}} />
                           </div>
