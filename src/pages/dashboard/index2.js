@@ -542,6 +542,7 @@ const EcommerceDashboard2 = () => {
           const AccountAddress = Account_Address(addressMode.data.data, hash, symbol, decimal)
           const AccountTokenAddress = Account_Token_Address(tokens.data.data, hash, symbol, decimal)
           SetAdData(AccountBaseAdd(AccountAddress, AccountTokenAddress, symbol))
+          dispatch({type:"networkName", value:symbol})
 
           SetMode(2)
         } catch (error) {
@@ -593,6 +594,7 @@ const EcommerceDashboard2 = () => {
                 TagInfo
               }
             )
+            dispatch({type:"networkName", value:symbol})
   
             SetMode(1)
           } catch (error) {
@@ -674,6 +676,8 @@ const EcommerceDashboard2 = () => {
                 }
               )
               SetAdData(UTXOAdd(getData, symbol))
+              dispatch({type:"networkName", value:symbol})
+
               SetMode(2)
               SetLoading(false)
             } else {
@@ -754,6 +758,7 @@ const EcommerceDashboard2 = () => {
             })
           }
       }
+
 
       if (addressMode.data.query === 'transaction') {
         SetToken(addressMode.data.network[0])
@@ -885,8 +890,6 @@ const EcommerceDashboard2 = () => {
         })
         .then((addressMode) => {
           SetLoading(false)
-          console.log('addressMode')
-          console.log(addressMode)
           if (addressMode.data.query === "address") {
             try {
               if (addressMode.data.network.length === 1 && (addressMode.data.data.result.length > 0)) {
