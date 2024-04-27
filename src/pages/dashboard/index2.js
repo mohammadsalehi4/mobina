@@ -1014,7 +1014,7 @@ const EcommerceDashboard2 = () => {
             }
             SetAdData(oldData)
           } else if (network === 'ETH' || network === 'BSC' || network === 'TRX' || network === 'MATIC') {
-            return toast.error('اکانت بیس', {
+            return toast.error('پشتیبانی نمی‌شود', {
               position: 'bottom-left'
             })
           }

@@ -256,6 +256,13 @@ function Header() {
                     </a>
                   </li>
 
+                  <li id='MenuBottomItem8' class="menu-item thisNotActive">
+                    <a class="menu-link" href='/entity'>
+                    <ion-icon name="reader-outline"></ion-icon>
+                      <div data-i18n="Forms" className='vazir'>موجودیت‌ها</div>
+                    </a>
+                  </li>
+
                 </ul>
               </div>
             </aside>

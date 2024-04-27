@@ -38,7 +38,7 @@ const ProfileHeader = (props) => {
                   </span>
                   <span className='profileHeaderSpan profileHeaderSpan3'>
                     <Server className='ms-1' size={15} />
-                    آیپی  {`${props.ip}`}
+                    آیپی  {`${Cookies.get('ip')}`}
                   </span>
                 </p>
               </Col>

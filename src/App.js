@@ -38,6 +38,7 @@ import Minerefficienty from './pages/minerSupervisor/minerEfficienty/minereffici
 import NewCalculate from './pages/minerSupervisor/minerEfficienty/newCalculate'
 import Footer from './pages/footer/footer'
 import FirstPage from './pages/first_page/FirstPage'
+import Entity from './pages/entity/entity'
 const App = () => {
   const [Loading, SetLoading] = useState(false)
 
@@ -219,10 +220,7 @@ const App = () => {
               }
               <Route path="/reports"  element={<Reports/>}/>
               <Route path="/reports/:id"  element={<ShowReport/>}/>
-              {/* <Route path="/owner"  element={<Owner/>}/> */}
-              {/* <Route path="/entities"  element={<Entities/>}/> */}
-              <Route path="/demo"  element={<Demo/>}/>
-              
+              <Route path="/entity"  element={<Entity/>}/>
             </Routes>
       </div>
       
