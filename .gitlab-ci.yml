@@ -3,7 +3,7 @@ stages:
   - deploy
     
 variables:
-  FRONT_VERSION: v0.0.1
+  FRONT_VERSION: vm1.1.0
 
 build_front:
   stage: build
