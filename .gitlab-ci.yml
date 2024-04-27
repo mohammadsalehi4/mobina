@@ -38,8 +38,15 @@ deploy_front:
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - echo $IMAGE_NAME
-    - docker compose -f docker-compose.yml up -d
+  - echo $IMAGE_NAME
+  - docker pull $IMAGE_NAME
+  - docker-compose -f docker-compose.yml up -d
+  - docker exec -it frontend-react-app-1 bash -c " \
+    export NODE_OPTIONS='--max-old-space-size=8192' && \
+    npm run build && \
+    npm run preview \
+    "
+    
   tags:
-    - app3
+    - app2
   when: manual
