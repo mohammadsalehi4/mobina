@@ -237,6 +237,13 @@ function Header() {
                       null
                   }
 
+                  <li id='MenuBottomItem5' class="menu-item thisNotActive">
+                    <a class="menu-link" href='/reports'>
+                    <ion-icon name="reader-outline"></ion-icon>
+                      <div data-i18n="Forms" className='vazir'>مقالات</div>
+                    </a>
+                  </li>
+
                   {
                     (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 4) ?
                       <li id='MenuBottomItem4' class="menu-item thisNotActive">
@@ -248,13 +255,6 @@ function Header() {
                     :
                       null
                   }
-
-                  <li id='MenuBottomItem5' class="menu-item thisNotActive">
-                    <a class="menu-link" href='/reports'>
-                    <ion-icon name="reader-outline"></ion-icon>
-                      <div data-i18n="Forms" className='vazir'>مقالات</div>
-                    </a>
-                  </li>
 
                 </ul>
               </div>
