@@ -12,7 +12,7 @@ build_front:
     IMAGE_NAME: $CI_REGISTRY_IMAGE/panta_front:$CI_COMMIT_TAG
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
+  script: 
     - echo $IMAGE_NAME
     - docker build . -f Dockerfile --tag $IMAGE_NAME
     - docker push $IMAGE_NAME
@@ -45,5 +45,5 @@ deploy_front:
 
     
   tags:
-    - app2
+    - app3
   when: manual
