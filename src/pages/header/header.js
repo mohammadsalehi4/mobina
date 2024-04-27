@@ -202,18 +202,6 @@ function Header() {
                   }
 
                   {
-                    (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
-                      <li id='MenuBottomItem6' class="menu-item thisNotActive">
-                        <a class="menu-link" href='/folders'>
-                        <ion-icon name="folder-open-outline"></ion-icon>
-                          <div data-i18n="Forms" className='vazir'>پرونده‌ها</div>
-                        </a>
-                      </li>
-                    :
-                      null
-                  }
-
-                  {
                     (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 6) ?
                       <li id='MenuBottomItem7' class="menu-item thisNotActive">
                         <a class="menu-link" href='/minersupervisor'>
@@ -255,6 +243,18 @@ function Header() {
                       <div data-i18n="Forms" className='vazir'>مقالات</div>
                     </a>
                   </li>
+
+                  {
+                    (Number(Cookies.get('roll')) === 2 || Number(Cookies.get('roll')) === 3) ?
+                      <li id='MenuBottomItem6' class="menu-item thisNotActive">
+                        <a class="menu-link" href='/folders'>
+                        <ion-icon name="folder-open-outline"></ion-icon>
+                          <div data-i18n="Forms" className='vazir'>پرونده‌ها</div>
+                        </a>
+                      </li>
+                    :
+                      null
+                  }
 
                 </ul>
               </div>
