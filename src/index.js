@@ -4,12 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 
-import ability from './configs/acl/ability'
-import { AbilityContext } from './utility/context/Can'
-import { ThemeContext } from './utility/context/ThemeColors'
-
 // ** ThemeConfig
-import themeConfig from './configs/themeConfig'
 import { Toaster } from 'react-hot-toast'
 import './configs/i18n'
 import './@fake-db'
@@ -21,8 +16,6 @@ import './@core/assets/fonts/feather/iconfont.css'
 import './@core/scss/core.scss'
 import './@core/components/ripple-button'
 import './assets/scss/style.scss'
-import Spinner from './@core/components/spinner/Fallback-spinner'
-import * as serviceWorker from './serviceWorker'
 import App from './App'
 
 import reducer from './store/reducer'
@@ -33,26 +26,11 @@ const store = createStore(reducer)
 const container = document.getElementById('root')
 const root = createRoot(container)
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/serviceWorker.js')
-      .then(registration => console.log('ServiceWorker registered:', registration))
-      .catch(error => console.error('ServiceWorker registration failed:', error))
-  })
-}
-
 
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <Suspense fallback={<Spinner />}>
-        <AbilityContext.Provider value={ability}>
-          <ThemeContext>
             <App />
-            <Toaster position={themeConfig.layout.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
-          </ThemeContext>
-        </AbilityContext.Provider>
-      </Suspense>
     </Provider>
   </BrowserRouter>
 )

@@ -1,8 +1,0 @@
-#AssetsListTable Input {
-    border: none !important;
-    padding-right: 16px;
-}
-
-#AssetsListTable Input::placeholder {
-  padding-right: 4px;
-}

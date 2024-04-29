@@ -1,8 +1,0 @@
-#niceAddress:hover div{
-    transform: translateY(1px);
-    transition: linear;
-}
-#niceAddress div{
-    transform: translateY(3px);
-    transition: linear;
-}
